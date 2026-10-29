@@ -57,7 +57,7 @@ Keep the initial seven docs, working title, owner preferences and idea archive. 
 
 **Exit / owner gate:** We can point to a composition and a representative 1–2-minute experience that feels like *this game*, explain why the protagonist is or isn't on screen, and state how item/document inspection works at a conceptual level. No code required.
 
-**Immediate next action:** Draft the short reception vignette and comparative visual screen briefs/mockups. The first experiment should be evocative but cheap to revise.
+**Immediate next action:** Review the [written M1 A/B/C screen concepts](07_M1_WRITTEN_SCREEN_CONCEPTS.md). The common vignette is the mistaken restroom inquiry at reception; 16:9 outer canvas with an approximately 4:3 stage, a framed pixel NPC portrait, and hybrid choice presentation. After owner annotations, prepare original *visual* mockups for comparison. The first experiment should be evocative but cheap to revise.
 
 ### M2 — Underlying truth and story spine
 **Question:** What is the technology *actually doing*, and why does an ordinary nobody end up investigating it?

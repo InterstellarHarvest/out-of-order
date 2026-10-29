@@ -16,6 +16,12 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 | NPC dialogue UI | King's Quest VI-like scene with an inset, framed, more detailed speaker portrait | Layout specifics to explore |
 | On-screen protagonist | Skeptical about a visible protagonist sprite | **Undecided**, not a ban |
 | 'Cards' | Physical board-game reference for items/checks, not default digital card battler | Inventory format open |
+| Initial motive | Earlier incidents lead the ordinary protagonist to enter the institution solely to find the bathroom | Receptionist's bureaucratic misassignment begins the larger story |
+| Running joke | Continually interrupted before reaching a bathroom | Promising comic motif; frequency/payoff not locked |
+| Presentation | 16:9 outer screen, 4:3-ish main illustrated area with useful space for UI | Layout concept exploration |
+| Choices | Hybrid: clear prominent main choices; subtler secondary actions | Exact styling undecided |
+| Interaction focus | True CYOA / branching illustrated story; not predominantly classic point-and-click | Secondary inspection or interaction may exist |
+| Design process | Written A/B/C concepts first, owner notes, then original visual mockups | No implementation authorization |
 | Development planning | A flexible pathway through first release, with reviewable major milestones | Approved to **plan**, not authorization to implement |
 
 ## B. Favored proposals, NOT decisions
@@ -47,4 +53,4 @@ Formal design bible, story canon, world map, technical architecture, engine, art
 ## E. Process for later changes
 Record an owner decision in this table only when explicitly stated or clearly agreed. Mark new assistant pitches as proposals, not locked decisions. If a favored premise is displaced, move its rationale to the idea archive. Every draft may be revised; preserve the historical conceptual record.
 
-Next appropriate activity is **M1 visual/interaction concept exploration**, not beginning code.
+Next appropriate activity is **reviewing [M1's A/B/C written screen concepts](07_M1_WRITTEN_SCREEN_CONCEPTS.md)** and gathering owner notes before generating original visual mockups, not beginning code.

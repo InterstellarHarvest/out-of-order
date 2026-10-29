@@ -11,6 +11,11 @@ An ordinary individual arrives on a mundane errand. A clerical or identity mix-u
 
 Earlier prototype opening: a receptionist declares that the player is the appointed 'Special Examiner, Office of Unverified Conditions'; protests are treated as an administrative difficulty rather than grounds for release. The title, office, and exact dialogue are placeholders.
 
+## Proposed opening motive: the bathroom detour (owner preference, 2026-10-29)
+The protagonist is an ordinary person with an ordinary bodily need: after **a couple of earlier, unrelated scenes/events**, they enter the facility **only to ask where the bathroom is**. The receptionist somehow converts this innocent request into a mistaken official role assignment through bureaucratic nonsense. The prior scenes don't belong in the initial M1 demo—start the visual comparison at reception.
+
+The protagonist's repeated inability to actually use a bathroom may become a **running gag**: new paperwork, diversions, assignments, mistaken authority, and unexpected crises constantly intrude. Tentative flavor, not locked comic frequency. Consider keeping the initial innocent purpose alive without relying on a literal bodily-needs timer or turning every scene into the same joke. No special destiny or hidden qualifications are implied.
+
 ## Leading mystery: The Exchange
 Humanity perfected a ubiquitous system publicly understood as near-instant transport of matter. It underlies logistics, manufacturing, supply chains, medicine, passenger travel, and possibly the visible optimism of modern life. Reliable outcomes seem to confirm the prevailing explanation.
 

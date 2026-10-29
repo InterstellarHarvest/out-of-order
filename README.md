@@ -24,6 +24,7 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 5. [Idea archive: alternatives and discarded directions](docs/04_IDEA_ARCHIVE.md)
 6. [Decision register and unresolved questions](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md)
 7. **[Living roadmap — milestones through first release](docs/06_LIVING_ROADMAP.md)**
+8. **[M1 written screen concepts (A/B/C), for owner notes](docs/07_M1_WRITTEN_SCREEN_CONCEPTS.md)**
 
 ## Working rules
 
