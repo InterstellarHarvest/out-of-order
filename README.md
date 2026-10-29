@@ -26,6 +26,7 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 7. **[Living roadmap — milestones through first release](docs/06_LIVING_ROADMAP.md)**
 8. **[M1 written screen concepts (A/B/C), for owner notes](docs/07_M1_WRITTEN_SCREEN_CONCEPTS.md)**
 9. **[Classic game UI study and C+ proposed layout rules](docs/08_M1_CLASSIC_UI_REFERENCES_AND_C_PLUS.md)**
+10. **[M1 visual review 01: preferred style and corrected 16:9 geometry](docs/09_M1_VISUAL_REVIEW_01.md)**
 
 ## Working rules
 
