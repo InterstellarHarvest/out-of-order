@@ -23,6 +23,7 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 4. [Interaction and narrative system possibilities](docs/03_INTERACTION_NOTES.md)
 5. [Idea archive: alternatives and discarded directions](docs/04_IDEA_ARCHIVE.md)
 6. [Decision register and unresolved questions](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md)
+7. **[Living roadmap — milestones through first release](docs/06_LIVING_ROADMAP.md)**
 
 ## Working rules
 
@@ -31,6 +32,6 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 - Preserve previous ideas, including those we move away from; don't silently delete history.
 - No implementation, technical commitments, final character cast, plot locks, or art asset generation until specifically requested.
 - External games and films are **creative references**, not sources of artwork, dialogue, characters, or other assets to copy.
-- Avoid prematurely inventing a production roadmap, milestone schedule, or QA bureaucracy.
+- Keep the roadmap at the milestone/decision level. Avoid premature estimates, fixed deadlines and production bureaucracy.
 
 Last conceptual checkpoint: 2026-10-29.

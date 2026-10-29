@@ -16,6 +16,7 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 | NPC dialogue UI | King's Quest VI-like scene with an inset, framed, more detailed speaker portrait | Layout specifics to explore |
 | On-screen protagonist | Skeptical about a visible protagonist sprite | **Undecided**, not a ban |
 | 'Cards' | Physical board-game reference for items/checks, not default digital card battler | Inventory format open |
+| Development planning | A flexible pathway through first release, with reviewable major milestones | Approved to **plan**, not authorization to implement |
 
 ## B. Favored proposals, NOT decisions
 - A city such as Meridian grew from a grand scientific exposition.
@@ -24,6 +25,7 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 - Miss Voss, Dr. Rook, Marta Bell, Director Havel and Penny Vale as supporting character sketches.
 - Braided branching story, repeated places with changed significance, and action-risk checks.
 - Candidate UI scenes: framed background, NPC portrait inset, compact contextual choices.
+- The [living roadmap](06_LIVING_ROADMAP.md) proposes M1 as the next milestone: compare scene layouts, portraits and viewpoint using a tiny vignette. This sequence is **advice** and can change.
 
 ## C. High-priority unresolved creative questions
 1. **What is an Exchange?** What exactly counts as equivalent? Where are counterpart objects? What happens to originals? What constraints are knowable?
@@ -40,9 +42,9 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 12. **What is the proof of fun?** A scene, branching vignette, portrait interaction, or mystery situation—after creative selection.
 
 ## D. Explicitly deferred
-Formal design bible, story canon, world map, technical architecture, engine, art pipeline, scene production, implementation, deadlines, milestone program, production QA.
+Formal design bible, story canon, world map, technical architecture, engine, art pipeline, scene production, implementation, deadlines, production QA. **A provisional milestone roadmap is now authorized and documented; actual production remains deferred.**
 
 ## E. Process for later changes
 Record an owner decision in this table only when explicitly stated or clearly agreed. Mark new assistant pitches as proposals, not locked decisions. If a favored premise is displaced, move its rationale to the idea archive. Every draft may be revised; preserve the historical conceptual record.
 
-Next appropriate activity is **visual/interaction concept exploration**, not beginning code.
+Next appropriate activity is **M1 visual/interaction concept exploration**, not beginning code.
