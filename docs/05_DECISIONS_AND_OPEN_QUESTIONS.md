@@ -22,6 +22,8 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 | Choices | Hybrid: clear prominent main choices; subtler secondary actions | Exact styling undecided |
 | Interaction focus | True CYOA / branching illustrated story; not predominantly classic point-and-click | Secondary inspection or interaction may exist |
 | Design process | Written A/B/C concepts first, owner notes, then original visual mockups | No implementation authorization |
+| M1 concept preference | **Concept C contextual rail** + **Concept B's larger detailed speaking portrait** | Owner's favored composite, not final visual lock |
+| UI design goal | Preventing both vacant and overloaded states via consistent structure | Mode/space budgeting still to be evaluated in mockups |
 | Development planning | A flexible pathway through first release, with reviewable major milestones | Approved to **plan**, not authorization to implement |
 
 ## B. Favored proposals, NOT decisions
@@ -53,4 +55,4 @@ Formal design bible, story canon, world map, technical architecture, engine, art
 ## E. Process for later changes
 Record an owner decision in this table only when explicitly stated or clearly agreed. Mark new assistant pitches as proposals, not locked decisions. If a favored premise is displaced, move its rationale to the idea archive. Every draft may be revised; preserve the historical conceptual record.
 
-Next appropriate activity is **reviewing [M1's A/B/C written screen concepts](07_M1_WRITTEN_SCREEN_CONCEPTS.md)** and gathering owner notes before generating original visual mockups, not beginning code.
+The owner has reviewed A/B/C and **favors C with B's larger NPC portrait**. Current next activity: review [classic interface precedents and C+ layout principles](08_M1_CLASSIC_UI_REFERENCES_AND_C_PLUS.md), then prepare original scene/portrait/choice-state visual mockups for approval. Do not begin gameplay code.
