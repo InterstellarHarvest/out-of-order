@@ -32,6 +32,7 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 13. **[M1 interaction and art-density stress tests](docs/12_M1_INTERACTION_STRESS_TESTS.md)**
 14. **[M1 Interaction Decisions 01 — scroll, object inspection, objectives, frame themes](docs/13_M1_INTERACTION_DECISIONS_01.md)**
 15. **[M1 frame refinement 03 — rail scrollbar, one-slot inventory movement and local lab validation](docs/15_M1_FRAME_REFINEMENT_03.md)**
+16. **[M1 Frame Weight and Inventory Correction — latest owner review](docs/16_M1_FRAME_WEIGHT_AND_INVENTORY_CORRECTION.md)**
 15. **[M1 visual stress test review — 6/7/8 slots, scroll devices and pixel detail](docs/14_M1_DETAIL_CONTROLS_REVIEW.md)**
 
 ## Working rules

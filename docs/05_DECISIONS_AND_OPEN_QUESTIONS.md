@@ -70,6 +70,9 @@ Three comparison sheets and a design-only offline lab v3 were generated for revi
 ## M1 selected interaction refinement — 2026-10-30
 The owner chose **7 visible inventory slots** with **one-slot-per-arrow** movement, a full-height **far-right story-rail mechanical scroll channel** with an idle centered indicator and proportional active thumb, and a high-detail right-rail item inspection replacing NPC content. There is no fixed 3- or 4-choice limit. Frame themes stay universal except for genuinely different settings. The lab v3 was built and smoke-tested as a self-contained design-only HTML ZIP delivered in chat; it is **not yet in the GitHub repository**. Details: [M1 refinement 03](15_M1_FRAME_REFINEMENT_03.md). These owner decisions supersede old full-page inventory paging or choices-inset scrollbar suggestions.
 
+## Latest M1 visual correction — 2026-10-30
+The owner requests **no lettering printed on the decorative frame itself** (distinct functional story text/buttons remain), **seven unnumbered inventory slots** with obvious **single-step left/right arrows**, and a physically **separate objective panel** rather than a single fused inventory/footer. Frame thickness should be a **medium** between bulky prior treatment and the latest too-thin version, showing absurd, slightly irrational engineering without consuming scene/portrait space. The scroller starts **below the portrait** and ends **above the three small utility buttons**; its reserved footprint remains. See [M1 visual correction 16](16_M1_FRAME_WEIGHT_AND_INVENTORY_CORRECTION.md).
+
 ## D. Explicitly deferred
 Formal design bible, story canon, world map, technical architecture, engine, art pipeline, scene production, implementation, deadlines, production QA. **A provisional milestone roadmap is now authorized and documented; actual production remains deferred.**
 
