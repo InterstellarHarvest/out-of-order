@@ -1,6 +1,6 @@
 # M1 — CANONICAL UI DESIGN CONTRACT
 **Status: OWNER LOCK — use this as the ONLY authoritative design spec for all M1 visual mockups.**
-**Date:** October 30, 2026 · **Revision: v1.1 — owner-selected footer and dialogue layout**
+**Date:** October 30, 2026 · **Revision: v1.2 — frame-only mockups and square-slot footer sizing**
 **Applies to:** The Acceptable Error (working title), CYOA interactive-story presentation.
 **Scope:** Locked layout, interaction mechanics, and design constraints; NOT final art assets, exact runtime resolution, color palette, character art, or authorization for gameplay implementation.
 
@@ -25,7 +25,7 @@ Any future assistant/image/implementation must use THIS document as first refere
 - **Whole game viewport:** exactly 16:9; artwork is NOT a two-panel sheet that adds width beyond the viewport.
 - **Upper/main area:** ~90% screen height; **illustrated scene LEFT about 70% of width**, contextual rail RIGHT about 30% width. Main illustrated composition remains roughly 4:3 within its allotted region. Do not silently widen the rail or shrink stage to fit ornament.
 - **No top title/header/banner bar.** Thin perimeter framework is allowed and should not steal a meaningful band of height.
-- **Bottom footer:** ~10% screen height. LEFT: a **compact seven-slot inventory** with integrated small one-item arrows (start by testing ~40–44% of overall width). MIDDLE: a **physically separate, wider objective panel** (~33–36%), with a functional 'CURRENT OBJECTIVE' label built as a replaceable plaque/content layer. RIGHT: **three utility/action buttons** (~18–23%); no separate decorative-only end-cap or location thumbnail. Visible seams/gaps distinguish the three housings. These are *study* widths, not pixel-locked runtime proportions; do not steal height or widen the rail to fit them.
+- **Bottom footer:** HEIGHT IS SET BY THE HEIGHT OF ONE SQUARE INVENTORY SLOT PLUS PHYSICAL FRAME BEZELS/PADDING, not by a free-standing arbitrary percentage; ~10–12% is an output, not a target. LEFT: a **compact seven-slot inventory** with integrated small one-item arrows (start by testing ~40–44% of overall width). MIDDLE: a **physically separate, wider objective panel** (~33–36%), with a functional 'CURRENT OBJECTIVE' label built as a replaceable plaque/content layer. RIGHT: **three utility/action buttons** (~18–23%); no separate decorative-only end-cap or location thumbnail. Visible seams/gaps distinguish the three housings. These are *study* widths, not pixel-locked runtime proportions; do not steal height or widen the rail to fit them.
 - **The scene and portrait bounds NEVER move or resize** for dialogue, overflow, item inspection, notes, or location changes.
 - **Portrait and immediately following SPEECH BOX both fill the SAME full available right-rail interior width** (apart from thin outer-border padding). No right-side strip, scroll gutter, miniature plaque or bolt panel taking away portrait or speech width. ONLY the choice list, below speech, reserves space for the scroll indicator.
 - **CRITICAL PORTRAIT FRAME PROPORTIONS — OWNER REPEATED CORRECTION:** both LEFT and RIGHT portrait borders must be **equally THIN and simple**. Do not copy, continue, extend, echo, or visually compensate for the scrollbar track that starts BELOW the portrait; the scrollbar and portrait frame are **completely separate constructions**. No thick right-hand column/bulkhead, no big matching vertical tubing/panel, no fake inactive track beside the face. Thin portrait border should be comparable in weight to the thin top/bottom portrait trim, and should preserve almost all available rail width for the character. A practical *mockup comparison* is ~4–8 rendered pixels of border per side in a 1600px wide visual, rather than dozens; exact sprite logical pixels to be decided by art tests.
@@ -41,7 +41,7 @@ Any future assistant/image/implementation must use THIS document as first refere
 - **No extra title tabs or location/NPC plaques baked into frame.** Genuine functional labels inside content/buttons are allowed.
 
 ## C. Bottom strip — hard interaction rules
-- **Exactly 7 unnumbered visible SQUARE item slots**. Compact, with crisp lower-resolution item mini-sprites; never slot index numbers. Seven directly inset square boxes belong to a single simple inventory housing—**no ornate second frame around the slots and no stretched/tall inventory band**.
+- **Exactly 7 unnumbered visible SQUARE item slots**. These square cells set the working footer height; allow a slim upper/lower rim but no tall surplus hardware. Compact, with crisp lower-resolution item mini-sprites; never slot index numbers. Seven directly inset square boxes belong to a single simple inventory housing—**no ornate second frame around the slots and no stretched/tall inventory band**.
 - Two **small, subdued left/right navigation arrows** are physically integrated into the inventory HOUSING at its far left/far right, **visually different from the item slots**. They must be **noticeably SMALLER than a normal inventory cell** in both icon and clickable-housing outline; prefer little inset mechanical keys, tabs, or rocker glyphs in the existing outer rim. **DO NOT render enormous arrow plates, tall triangular buttons, or half-item cells**. Navigation must remain easy to recognize/click, so a small-looking arrow can have a larger invisible hit target. Both discreet housings remain present even when inactive.
 - **Each arrow press slides item viewport by ONE inventory item**, never a 7-item page.
 - Selecting a slot **changes right rail to item inspection**, not the illustrated scene. The inspected item gets an independently authored, high-detail pixel-art close-up, analogous to an NPC portrait. Context-sensitive actions can enable/disable; a clear Return restores conversation and choice-scroll state.
@@ -58,6 +58,15 @@ Any future assistant/image/implementation must use THIS document as first refere
 - Crisp low-res scene with independently more detailed close-up portraits and inspected items; frame/functional text are sharply authored at a related finer pixel tier, but never vector-clean or blurred. **Exact grid sizes are still OPEN** for real source-art tests.
 - **English-only text** in visual mockups. Film *Brazil* refers to the Gilliam movie, **not** the country or Portuguese language.
 
+## D2. M1 FRAME-ONLY VISUAL STUDY MODE (OWNER-SELECTED, mandatory until superseded)
+For subsequent frame-design mockups, **DO NOT populate the scene, NPC portrait, item inventory, dialogue or choices** with game images, NPC sprites, prop icons, fake game text, signage, speeches, or narrative content. Keep all these apertures as deliberate empty neutral placeholders to isolate the **authored pixel-art hardware around them**. 
+- Scene = empty rectangular matte; portrait = empty rectangular matte (no character head); item slots = seven EMPTY squares; dialogue and choice surfaces = empty rectangles; objective body = EMPTY.
+- The only permitted visible text is functional UI labeling: a small **CURRENT OBJECTIVE** label and the 3 utility buttons (e.g. INSPECT, NOTES, JOURNAL), optionally icons instead of/in addition to labels. No debug annotations or explanatory heading inside the 16:9 frame. If making a comparison sheet, variant names belong OUTSIDE the individual 16:9 game frames.
+- Keep an identical underlying geometry in all variant studies. Change only the way the **sprite-built frame hardware** is colored, aged, manufactured, repaired, sculpted and assembled.
+- **Footer height rule:** the square inventory cell defines usable footer height; frame top/bottom rim and padding are minimal additions. For one 1600×900 concept example, a ~80px square cell plus ~20px combined physical enclosure gives ~100px (11.1%) footer. This is illustrative, not a final art/screen-resolution lock. Any changed slot size must propagate to all footer components, not leave a random empty band.
+- Portrait and speech still each fill the full right-rail width; only the choices reserve a narrow non-arrow scrollbar track below speech. The 3 utility controls remain in footer right. Each inventory arrow stays a tiny separate inset in the shared inventory housing, not an eighth cell.
+- Preserve moderately imperfect Brazil-like 1960s bureaucratic hardware; do NOT compensate for blank game content by adding screens, gauges, random ornaments, labels, character silhouettes or simulated objects INSIDE empty apertures. The point of this round is FRAME PIXEL ART only.
+
 ## E. Mandatory preflight for every future mockup (FAIL / REVISE if ANY item fails)
 1. Is the *whole image* a single 16:9 gameplay frame?
 2. Is the scene still near 70% of the upper width, right rail near 30%, with no top header?
@@ -72,6 +81,8 @@ Any future assistant/image/implementation must use THIS document as first refere
 11. Are all three utility buttons in the BOTTOM-RIGHT footer, **not beneath choices**, while the increased choice area remains scrollable?
 12. Do visuals retain consistent crisp pixel-art density tiers and English-only functional text?
 13. Is the overall scene-first CYOA presentation preserved (not a walkabout or deck battler)?
+14. In FRAME-ONLY studies, are scene, portrait, dialogue, choices, item squares and objective body completely EMPTY, with only functional objective/utility labels?
+15. Does the footer height follow one SQUARE inventory slot plus minimal frame padding, rather than a tall arbitrary bottom band?
 
 If an image generator fails an exact detail, label the result **FAILED VISUAL STUDY** rather than silently treating it as a new approved design. Do not reset rules in future prompts to accommodate a wrong image.
 

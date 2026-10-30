@@ -19,7 +19,7 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 16:9 · upper 70% scene / 30% rail · 7 unnumbered inventory slots with separate one-slot arrow controls · right-rail scroll indicator **without arrow buttons** strictly below portrait/above utilities · portrait fills entire rail width · distinct objective housing · decorative right end-cap · no decorative frame text · nothing enters scene or portrait apertures · medium-thickness, slightly absurd 1960s-future hardware.
 
-**Current amendment:** [M1 Layout Decision 20 — speech width, choice scrollbar, compact inventory and footer utilities](docs/20_M1_LAYOUT_FOOTER_AND_DIALOGUE_REVISION.md). The amended canonical contract incorporates these changes directly.
+**Current amendment:** [M1 Layout Decision 20 — speech width, choice scrollbar, compact inventory and footer utilities](docs/20_M1_LAYOUT_FOOTER_AND_DIALOGUE_REVISION.md). **Latest mockup mode:** [Frame-only review and inventory-sized footer](docs/21_M1_FRAME_ONLY_REVIEW.md), included in canonical contract v1.2. The next mockups show NO game imagery or narrative text.
 
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
