@@ -28,6 +28,11 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 | M1 portrait feedback | Variant 3's portrait fills the window width, unlike the others' extra add-ons | Prefer large full-width portrait |
 | Reusable UI | Avoid permanent frame ornaments specific to one location or speaking NPC | Prefer a general/reusable frame architecture |
 | Location-specific frame themes | Possibly vary sprite-built UI skin between major environments (e.g. spacecraft) | Owner suggestion under consideration, **not locked** |
+| Layout partial lock | 16:9; no top header; 70% scene region / 30% contextual story rail; global bottom strip | For next concept art; sizing reference, not runtime pixels |
+| Conversation hierarchy | Full-width large NPC portrait, readable dialogue, story choices, **three utility buttons directly underneath** | Fixed location, variable content |
+| Global bottom strip | Wide inventory left, compact contextual objective center-right, decorative frame end-cap far-right | No thumbnail/location information in end-cap |
+| Language | **English only** in all mockup dialogue, signs, labels and documents | Brazil = Gilliam film aesthetic, not Portuguese |
+| UI off-ness | Frames and buttons visibly slightly irrational and physically reworked, not sleek or perfectly symmetrical | Real controls remain readable and predictable |
 | Development planning | A flexible pathway through first release, with reviewable major milestones | Approved to **plan**, not authorization to implement |
 
 ## B. Favored proposals, NOT decisions
@@ -59,4 +64,4 @@ Formal design bible, story canon, world map, technical architecture, engine, art
 ## E. Process for later changes
 Record an owner decision in this table only when explicitly stated or clearly agreed. Mark new assistant pitches as proposals, not locked decisions. If a favored premise is displaced, move its rationale to the idea archive. Every draft may be revised; preserve the historical conceptual record.
 
-The owner favors C+ and has supplied later variant feedback: **Variant 2 for absurdist environment detail, Variant 3 for a full-width portrait**, and concern about UI ornaments tied to one NPC/location. Review [M1 Visual Review 02](10_M1_VISUAL_REVIEW_02.md) before further design. A reusable interface shell with optional environmental sprite skins is an unapproved experiment, not a production requirement. Do not begin gameplay code.
+The owner has directed a **partial layout lock** in [M1 Layout v0.3](11_M1_PARTIAL_LAYOUT_LOCK.md): 16:9, no top information banner, original ~70/30 scene/rail split, full-width portrait, story choices with three utility buttons beneath, and a bottom strip of wide inventory + contextual objective + **purely decorative** frame end-cap. All visible mockup text must be **English**. Preserve slightly absurdist hardware and world architecture. Only visual style and fine fit remain to be tested; no production authorization.
