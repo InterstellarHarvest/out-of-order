@@ -67,6 +67,9 @@ The owner selected **scrollable dialogue with a styled mechanical controller and
 ## M1 visual review ready — 2026-10-30
 Three comparison sheets and a design-only offline lab v3 were generated for review. They hold the existing C+ geometry while testing **6/7/8 visible inventory slots**, **rocker/thumbwheel/elevator choice scrolling**, and **coarse scene vs finer portrait/frame detail**. Browser checks passed as described in [M1 Detail & Controls Review](14_M1_DETAIL_CONTROLS_REVIEW.md). They do **not** constitute a final visual or code lock.
 
+## M1 selected interaction refinement — 2026-10-30
+The owner chose **7 visible inventory slots** with **one-slot-per-arrow** movement, a full-height **far-right story-rail mechanical scroll channel** with an idle centered indicator and proportional active thumb, and a high-detail right-rail item inspection replacing NPC content. There is no fixed 3- or 4-choice limit. Frame themes stay universal except for genuinely different settings. The lab v3 was built and smoke-tested as a self-contained design-only HTML ZIP delivered in chat; it is **not yet in the GitHub repository**. Details: [M1 refinement 03](15_M1_FRAME_REFINEMENT_03.md). These owner decisions supersede old full-page inventory paging or choices-inset scrollbar suggestions.
+
 ## D. Explicitly deferred
 Formal design bible, story canon, world map, technical architecture, engine, art pipeline, scene production, implementation, deadlines, production QA. **A provisional milestone roadmap is now authorized and documented; actual production remains deferred.**
 
