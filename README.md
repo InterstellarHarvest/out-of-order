@@ -25,6 +25,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 - [M1 Canonical UI Design Contract](docs/17_M1_CANONICAL_UI_DESIGN_CONTRACT.md)
 - [M1 historical exploration and review documents](docs/) (07–16, retained, superseded on conflicts).
 
+[Visual QA of post-lock mockups (not yet approved)](docs/18_M1_VISUAL_QA_AFTER_LOCK.md)
+
 ## Working rules
 - Owner-selected design decisions take precedence over assistant speculation; the canonical UI contract is currently LOCKED.
 - Preserve rejected/superseded ideas in history, but never resurface their instructions as active requirements.
