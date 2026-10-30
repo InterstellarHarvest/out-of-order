@@ -21,6 +21,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 **Current amendment:** [M1 Layout Decision 20 — speech width, choice scrollbar, compact inventory and footer utilities](docs/20_M1_LAYOUT_FOOTER_AND_DIALOGUE_REVISION.md). **Latest mockup mode:** [Frame-only review and inventory-sized footer](docs/21_M1_FRAME_ONLY_REVIEW.md), included in canonical contract v1.2. The next mockups show NO game imagery or narrative text.
 
+**Frame-art status:** Three owner-accepted starting templates (not final visual lock); see [M1 Frame Art Starting Templates and Round 2](docs/22_M1_FRAME_ART_STARTING_TEMPLATES.md).
+
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
 - [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)
