@@ -64,6 +64,9 @@ The owner wants to test inventory item count and paging arrows, Fallout 1/2-styl
 ## M1 interaction owner decisions — 2026-10-30
 The owner selected **scrollable dialogue with a styled mechanical controller and permanently reserved controller width** (no layout shift), **higher-detail item closeups within the right rail**, **satirical/context-responsive objectives**, and **one default reusable frame with visual alternatives only for radically different settings** such as a spacecraft—not individual rooms. See [M1 Interaction Decisions 01](13_M1_INTERACTION_DECISIONS_01.md). These supersede tentative behavior options in the M1 stress-test document; inventory slot count and exact detail densities remain open.
 
+## M1 visual review ready — 2026-10-30
+Three comparison sheets and a design-only offline lab v3 were generated for review. They hold the existing C+ geometry while testing **6/7/8 visible inventory slots**, **rocker/thumbwheel/elevator choice scrolling**, and **coarse scene vs finer portrait/frame detail**. Browser checks passed as described in [M1 Detail & Controls Review](14_M1_DETAIL_CONTROLS_REVIEW.md). They do **not** constitute a final visual or code lock.
+
 ## D. Explicitly deferred
 Formal design bible, story canon, world map, technical architecture, engine, art pipeline, scene production, implementation, deadlines, production QA. **A provisional milestone roadmap is now authorized and documented; actual production remains deferred.**
 
