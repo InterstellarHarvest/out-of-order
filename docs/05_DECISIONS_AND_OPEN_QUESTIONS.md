@@ -61,6 +61,9 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 ## M1 behavioral tests to resolve before the final art lock (2026-10-29)
 The owner wants to test inventory item count and paging arrows, Fallout 1/2-style deep dialogue response lists rather than a forced cap of three, in-place item inspection and closing/restoring conversation, and a scene/portrait/frame pixel-density hierarchy informed by Trans-plant's higher-detail painted menu. Those are **open**; the proposed test is 7 visible slots, 3 visible choice rows with scrolling for more, right-rail item details, and higher density portrait/frame sprites. See [M1 interaction stress tests](12_M1_INTERACTION_STRESS_TESTS.md).
 
+## M1 interaction owner decisions — 2026-10-30
+The owner selected **scrollable dialogue with a styled mechanical controller and permanently reserved controller width** (no layout shift), **higher-detail item closeups within the right rail**, **satirical/context-responsive objectives**, and **one default reusable frame with visual alternatives only for radically different settings** such as a spacecraft—not individual rooms. See [M1 Interaction Decisions 01](13_M1_INTERACTION_DECISIONS_01.md). These supersede tentative behavior options in the M1 stress-test document; inventory slot count and exact detail densities remain open.
+
 ## D. Explicitly deferred
 Formal design bible, story canon, world map, technical architecture, engine, art pipeline, scene production, implementation, deadlines, production QA. **A provisional milestone roadmap is now authorized and documented; actual production remains deferred.**
 

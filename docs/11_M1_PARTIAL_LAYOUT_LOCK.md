@@ -63,3 +63,6 @@ Then, reusing the *identical scene/rail/footer geometry*, compare 2–3 **genuin
 - Whether the player character appears anywhere; currently omitted in these mockups for clarity.
 
 **Approval line:** owner has directed enough layout details to hold the structure steady in concept art. This is a partial lock; production UI code and assets are not authorized.
+
+## Behavior update — 2026-10-30
+The owner chose an in-world **choice-list scrollbar with reserved width even when inactive**, independently authored **detailed item closeups in the right rail**, **responsive/satirical objective text**, and a **single default frame with optional major-setting skins only**. These are documented in [M1 Interaction Decisions 01](13_M1_INTERACTION_DECISIONS_01.md); the 70/30, 10% footer, no-top-banner and utility-button geometry remain unchanged.

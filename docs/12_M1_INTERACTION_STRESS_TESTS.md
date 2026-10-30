@@ -1,5 +1,5 @@
 # M1 — Interaction stress tests and pixel-density hierarchy
-Status: UI design hypotheses and mockup briefs, NOT production implementation or final lock.
+Status: earlier UI design tests, preserved as history. The four follow-up interaction choices were settled in [M1 Interaction Decisions 01](13_M1_INTERACTION_DECISIONS_01.md). No game implementation.
 Date: 2026-10-29. Baseline: [partial layout lock](11_M1_PARTIAL_LAYOUT_LOCK.md).
 
 ## Goal
