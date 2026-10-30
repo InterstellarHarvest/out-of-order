@@ -15,7 +15,7 @@ The intended visual language is bright, chunky, true low-resolution pixel art in
 
 The inspiration from *Choose Your Own Adventure: House of Danger* concerns consequential choices, occasional chance, and useful acquired objects—not a deck-building, combat-card, or roguelike card-game interface.
 ## CURRENT APPROVED M1 LAYOUT / UI — START HERE
-**[M1 Canonical UI Design Contract (owner-locked 2026-10-30)](docs/17_M1_CANONICAL_UI_DESIGN_CONTRACT.md)** is the sole governing source for mockups and visual review. Older interface documents are historical notes and MUST NOT override this contract.
+**[M1 Canonical UI Design Contract (owner-locked 2026-10-30)](docs/17_M1_CANONICAL_UI_DESIGN_CONTRACT.md)** is the sole governing source for mockups and visual review. The [portrait-border and inventory-arrow precision note](docs/19_M1_PORTRAIT_AND_ARROW_PRECISION.md) clarifies two repeatedly missed proportions. Older interface documents are historical notes and MUST NOT override this contract.
 
 16:9 · upper 70% scene / 30% rail · 7 unnumbered inventory slots with separate one-slot arrow controls · right-rail scroll indicator **without arrow buttons** strictly below portrait/above utilities · portrait fills entire rail width · distinct objective housing · decorative right end-cap · no decorative frame text · nothing enters scene or portrait apertures · medium-thickness, slightly absurd 1960s-future hardware.
 

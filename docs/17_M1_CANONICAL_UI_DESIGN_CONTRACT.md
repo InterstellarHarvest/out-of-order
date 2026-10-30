@@ -25,6 +25,7 @@ Any future assistant/image/implementation must use THIS document as first refere
 - **Bottom footer:** ~10% screen height, with **7-slot inventory and integrated arrow controls at left** (~48% overall width), a **physically distinct short objective housing in middle** (~27%), and **purely decorative machine-frame end-cap at far right** (~25%). The objective and inventory must have a visible gap/joint separating their housings; do not fuse them into one undifferentiated strip.
 - **The scene and portrait bounds NEVER move or resize** for dialogue, overflow, item inspection, notes, or location changes.
 - **Portrait fills the WHOLE available right-rail interior width** (apart from thin outer-border padding). No right-side strip, scroll-gutter continuation, miniature plaque or bolt panel taking away portrait width.
+- **CRITICAL PORTRAIT FRAME PROPORTIONS — OWNER REPEATED CORRECTION:** both LEFT and RIGHT portrait borders must be **equally THIN and simple**. Do not copy, continue, extend, echo, or visually compensate for the scrollbar track that starts BELOW the portrait; the scrollbar and portrait frame are **completely separate constructions**. No thick right-hand column/bulkhead, no big matching vertical tubing/panel, no fake inactive track beside the face. Thin portrait border should be comparable in weight to the thin top/bottom portrait trim, and should preserve almost all available rail width for the character. A practical *mockup comparison* is ~4–8 rendered pixels of border per side in a 1600px wide visual, rather than dozens; exact sprite logical pixels to be decided by art tests.
 
 ## B. Right rail — hard interaction rules
 - **Portrait** top of right rail: substantial, high-detail independently authored pixel portrait of speaker. Full width, without inset extra modules; no decorative object crosses into image aperture.
@@ -38,7 +39,7 @@ Any future assistant/image/implementation must use THIS document as first refere
 
 ## C. Bottom strip — hard interaction rules
 - **Exactly 7 unnumbered visible item slots**. Low-res crisp item mini-sprites; never slot index numbers.
-- Two **obvious left/right navigation arrows** are physically integrated into the inventory HOUSING at its far left/far right, **visually different from the item slots**. They look like machine controls, not 'half inventory items', item thumbnails, or eighth/ninth slots. Both housings remain present even when inactive.
+- Two **small, subdued left/right navigation arrows** are physically integrated into the inventory HOUSING at its far left/far right, **visually different from the item slots**. They must be **noticeably SMALLER than a normal inventory cell** in both icon and clickable-housing outline; prefer little inset mechanical keys, tabs, or rocker glyphs in the existing outer rim. **DO NOT render enormous arrow plates, tall triangular buttons, or half-item cells**. Navigation must remain easy to recognize/click, so a small-looking arrow can have a larger invisible hit target. Both discreet housings remain present even when inactive.
 - **Each arrow press slides item viewport by ONE inventory item**, never a 7-item page.
 - Selecting a slot **changes right rail to item inspection**, not the illustrated scene. The inspected item gets an independently authored, high-detail pixel-art close-up, analogous to an NPC portrait. Context-sensitive actions can enable/disable; a clear Return restores conversation and choice-scroll state.
 - **Objective** is a separate physical inset/panel with concise, useful, context-responsive text and occasional dry satire. Text is narrative UI content, not ornamental frame lettering.
@@ -57,10 +58,10 @@ Any future assistant/image/implementation must use THIS document as first refere
 ## E. Mandatory preflight for every future mockup (FAIL / REVISE if ANY item fails)
 1. Is the *whole image* a single 16:9 gameplay frame?
 2. Is the scene still near 70% of the upper width, right rail near 30%, with no top header?
-3. Is the portrait full width—with **NO** right-edge gutter or unrelated module next to it?
-4. Does the scrollbar begin strictly below portrait, stop above utility buttons, and contain **NO ARROWS**?
+3. Is the portrait FULL WIDTH with **slender, matched left/right borders** and NO heavy right-side column, fake scrollbar continuation, bezel compensation or unrelated module beside it?
+4. Does the scrollbar begin strictly BELOW the portrait in its own entirely independent rail segment, stop above utility buttons, and contain **NO ARROWS**, without influencing the portrait frame thickness?
 5. Does the scrollbar have its permanently reserved track and one centered idle / proportional active thumb?
-6. Do all 7 slots have **NO numbers**, with clear independent **housing-integrated** arrows at both strip ends?
+6. Do all 7 slots have **NO numbers**, with **small, subdued, rim-integrated** arrows at both ends, visually MUCH smaller than an item slot (never arrow-shaped item-sized plates)?
 7. Is objective separate from inventory, and is far-right end-cap decoration-only?
 8. Is there **NO** lettering/numbering on any FRAME/hardware piece?
 9. Is the scene/portrait/content aperture completely clear of pipes, cables, bolts or ornamental intrusions?
