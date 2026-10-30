@@ -58,6 +58,9 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 11. **What does the title mean?** 'The Acceptable Error' is evocative but provisional.
 12. **What is the proof of fun?** A scene, branching vignette, portrait interaction, or mystery situation—after creative selection.
 
+## M1 behavioral tests to resolve before the final art lock (2026-10-29)
+The owner wants to test inventory item count and paging arrows, Fallout 1/2-style deep dialogue response lists rather than a forced cap of three, in-place item inspection and closing/restoring conversation, and a scene/portrait/frame pixel-density hierarchy informed by Trans-plant's higher-detail painted menu. Those are **open**; the proposed test is 7 visible slots, 3 visible choice rows with scrolling for more, right-rail item details, and higher density portrait/frame sprites. See [M1 interaction stress tests](12_M1_INTERACTION_STRESS_TESTS.md).
+
 ## D. Explicitly deferred
 Formal design bible, story canon, world map, technical architecture, engine, art pipeline, scene production, implementation, deadlines, production QA. **A provisional milestone roadmap is now authorized and documented; actual production remains deferred.**
 

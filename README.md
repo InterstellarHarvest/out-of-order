@@ -29,6 +29,7 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 10. **[M1 visual review 01: preferred style and corrected 16:9 geometry](docs/09_M1_VISUAL_REVIEW_01.md)**
 11. **[M1 visual review 02: absurdist scene, full-width portrait and reusable UI](docs/10_M1_VISUAL_REVIEW_02.md)**
 12. **[M1 partial layout lock — correct geometry, English-only text, footer and UI eccentricity](docs/11_M1_PARTIAL_LAYOUT_LOCK.md)**
+13. **[M1 interaction and art-density stress tests](docs/12_M1_INTERACTION_STRESS_TESTS.md)**
 
 ## Working rules
 
