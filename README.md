@@ -25,6 +25,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 **Latest art correction:** The multi-colored, random hardware treatment was rejected; [return to older favored manufactured frame styles](docs/23_M1_RETURN_TO_OLDER_FRAME_STYLES.md), keeping the current frame-only geometry. 
 
+**Current visual direction (owner-selected):** [A / Civic Enamel as master frame, B / Institutional Hardware speech-box style only](docs/24_M1_A_BASE_B_DIALOGUE_SELECTION.md). Art direction selection, not final frame source-art lock.
+
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
 - [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)

@@ -86,6 +86,9 @@ For subsequent frame-design mockups, **DO NOT populate the scene, NPC portrait, 
 
 If an image generator fails an exact detail, label the result **FAILED VISUAL STUDY** rather than silently treating it as a new approved design. Do not reset rules in future prompts to accommodate a wrong image.
 
+## E2. Owner's preferred frame style blend — 2026-10-30
+For future M1 visual mockups, use **A / Civic Enamel** from the older-style-reset round as the predominant and defining hardware/material design. Use **B / Institutional Hardware** only for the **spoken-dialogue cream inset panel directly below the portrait**: comparatively simple flat institutional inset, tiny corner rivets, restrained bordering, minimal ornamental bevel. Do NOT bring B's surrounding scroller or body frame. Keep portrait and speech both full-width; choice-only scroll rail begins below the speech box. Keep the entire frame-only blank-content comparison rule. See [owner selection 24](24_M1_A_BASE_B_DIALOGUE_SELECTION.md).
+
 ## F. What is genuinely NOT locked
 - Final pixel source resolutions, exact numerical frame widths in production, fonts, palette, invented brand/agency identities, final portrait/art, exact scroll thumb tactile styling within the constraints, number of alternate environment skins, and full game narrative.
 - Gameplay code, final art production and overall game release schedule await separate authorizations.
