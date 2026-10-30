@@ -24,6 +24,10 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 | Design process | Written A/B/C concepts first, owner notes, then original visual mockups | No implementation authorization |
 | M1 concept preference | **Concept C contextual rail** + **Concept B's larger detailed speaking portrait** | Owner's favored composite, not final visual lock |
 | UI design goal | Preventing both vacant and overloaded states via consistent structure | Mode/space budgeting still to be evaluated in mockups |
+| M1 variant feedback | Variant 2 is the strongest for inventive absurdist future **scene** details | Scene preference, not whole-screen approval |
+| M1 portrait feedback | Variant 3's portrait fills the window width, unlike the others' extra add-ons | Prefer large full-width portrait |
+| Reusable UI | Avoid permanent frame ornaments specific to one location or speaking NPC | Prefer a general/reusable frame architecture |
+| Location-specific frame themes | Possibly vary sprite-built UI skin between major environments (e.g. spacecraft) | Owner suggestion under consideration, **not locked** |
 | Development planning | A flexible pathway through first release, with reviewable major milestones | Approved to **plan**, not authorization to implement |
 
 ## B. Favored proposals, NOT decisions
@@ -55,4 +59,4 @@ Formal design bible, story canon, world map, technical architecture, engine, art
 ## E. Process for later changes
 Record an owner decision in this table only when explicitly stated or clearly agreed. Mark new assistant pitches as proposals, not locked decisions. If a favored premise is displaced, move its rationale to the idea archive. Every draft may be revised; preserve the historical conceptual record.
 
-The owner has reviewed A/B/C and **favors C with B's larger NPC portrait**. Current next activity: review [classic interface precedents and C+ layout principles](08_M1_CLASSIC_UI_REFERENCES_AND_C_PLUS.md), then prepare original scene/portrait/choice-state visual mockups for approval. Do not begin gameplay code.
+The owner favors C+ and has supplied later variant feedback: **Variant 2 for absurdist environment detail, Variant 3 for a full-width portrait**, and concern about UI ornaments tied to one NPC/location. Review [M1 Visual Review 02](10_M1_VISUAL_REVIEW_02.md) before further design. A reusable interface shell with optional environmental sprite skins is an unapproved experiment, not a production requirement. Do not begin gameplay code.
