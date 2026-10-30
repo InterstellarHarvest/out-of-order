@@ -1,3 +1,5 @@
+> **HISTORICAL / SUPERSEDED WHEN CONFLICTING:** Use the [M1 CANONICAL UI DESIGN CONTRACT](17_M1_CANONICAL_UI_DESIGN_CONTRACT.md) for all current geometry, scrollbar, inventory, frame and visual rules. This document is retained to preserve design history; its conflicting instructions are NOT binding.
+
 # M1 Visual Feedback — Frame Weight, Unnumbered Inventory and Separate Objective
 **Owner review:** 2026-10-30.  
 **Status:** Corrections selected; not a final art asset or gameplay implementation lock.

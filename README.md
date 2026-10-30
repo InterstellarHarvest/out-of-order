@@ -14,34 +14,22 @@ An ordinary person, inadvertently granted inappropriate authority through coinci
 The intended visual language is bright, chunky, true low-resolution pixel art inspired by the richer 16- to early-32-bit era, shown at integer scale. A King's Quest VI-style composed scene and separately framed, more detailed NPC speaking portraits are an important UI reference. The playable protagonist's on-screen representation is **undecided**.
 
 The inspiration from *Choose Your Own Adventure: House of Danger* concerns consequential choices, occasional chance, and useful acquired objects—not a deck-building, combat-card, or roguelike card-game interface.
+## CURRENT APPROVED M1 LAYOUT / UI — START HERE
+**[M1 Canonical UI Design Contract (owner-locked 2026-10-30)](docs/17_M1_CANONICAL_UI_DESIGN_CONTRACT.md)** is the sole governing source for mockups and visual review. Older interface documents are historical notes and MUST NOT override this contract.
 
-## Notebook index
+16:9 · upper 70% scene / 30% rail · 7 unnumbered inventory slots with separate one-slot arrow controls · right-rail scroll indicator **without arrow buttons** strictly below portrait/above utilities · portrait fills entire rail width · distinct objective housing · decorative right end-cap · no decorative frame text · nothing enters scene or portrait apertures · medium-thickness, slightly absurd 1960s-future hardware.
 
-1. [Creative brief and guiding principles](docs/00_CREATIVE_BRIEF.md)
-2. [World, story, and Exchange possibilities](docs/01_WORLD_AND_STORY.md)
-3. [Visual identity and interface alternatives](docs/02_VISUAL_UI_EXPLORATION.md)
-4. [Interaction and narrative system possibilities](docs/03_INTERACTION_NOTES.md)
-5. [Idea archive: alternatives and discarded directions](docs/04_IDEA_ARCHIVE.md)
-6. [Decision register and unresolved questions](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md)
-7. **[Living roadmap — milestones through first release](docs/06_LIVING_ROADMAP.md)**
-8. **[M1 written screen concepts (A/B/C), for owner notes](docs/07_M1_WRITTEN_SCREEN_CONCEPTS.md)**
-9. **[Classic game UI study and C+ proposed layout rules](docs/08_M1_CLASSIC_UI_REFERENCES_AND_C_PLUS.md)**
-10. **[M1 visual review 01: preferred style and corrected 16:9 geometry](docs/09_M1_VISUAL_REVIEW_01.md)**
-11. **[M1 visual review 02: absurdist scene, full-width portrait and reusable UI](docs/10_M1_VISUAL_REVIEW_02.md)**
-12. **[M1 partial layout lock — correct geometry, English-only text, footer and UI eccentricity](docs/11_M1_PARTIAL_LAYOUT_LOCK.md)**
-13. **[M1 interaction and art-density stress tests](docs/12_M1_INTERACTION_STRESS_TESTS.md)**
-14. **[M1 Interaction Decisions 01 — scroll, object inspection, objectives, frame themes](docs/13_M1_INTERACTION_DECISIONS_01.md)**
-15. **[M1 frame refinement 03 — rail scrollbar, one-slot inventory movement and local lab validation](docs/15_M1_FRAME_REFINEMENT_03.md)**
-16. **[M1 Frame Weight and Inventory Correction — latest owner review](docs/16_M1_FRAME_WEIGHT_AND_INVENTORY_CORRECTION.md)**
-15. **[M1 visual stress test review — 6/7/8 slots, scroll devices and pixel detail](docs/14_M1_DETAIL_CONTROLS_REVIEW.md)**
+## Project documents
+- [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
+- [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)
+- [M1 Canonical UI Design Contract](docs/17_M1_CANONICAL_UI_DESIGN_CONTRACT.md)
+- [M1 historical exploration and review documents](docs/) (07–16, retained, superseded on conflicts).
 
 ## Working rules
+- Owner-selected design decisions take precedence over assistant speculation; the canonical UI contract is currently LOCKED.
+- Preserve rejected/superseded ideas in history, but never resurface their instructions as active requirements.
+- Do not begin game implementation without authorization; static visual design studies and design-only HTML labs may support reviews.
+- References to existing media are inspirations, not materials for copying.
+- Keep milestone plan flexible and the story premise provisional.
 
-- **User-expressed preferences take precedence** over older notes. A proposed direction is not a requirement merely because it appears here.
-- Separate **selected direction**, **favored hypothesis**, **unresolved question**, and **parked idea**.
-- Preserve previous ideas, including those we move away from; don't silently delete history.
-- No implementation, technical commitments, final character cast, plot locks, or art asset generation until specifically requested.
-- External games and films are **creative references**, not sources of artwork, dialogue, characters, or other assets to copy.
-- Keep the roadmap at the milestone/decision level. Avoid premature estimates, fixed deadlines and production bureaucracy.
-
-Last conceptual checkpoint: 2026-10-29.
+Design checkpoint: October 30, 2026.

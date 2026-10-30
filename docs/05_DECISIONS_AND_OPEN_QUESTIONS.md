@@ -1,3 +1,5 @@
+> **LATEST / HIGHEST DESIGN AUTHORITY:** See [M1 CANONICAL UI DESIGN CONTRACT](17_M1_CANONICAL_UI_DESIGN_CONTRACT.md), owner-locked Oct 30, 2026. Any earlier contradictory UI notes in this file are now superseded; consult the contract rather than old snapshots.
+
 # Decision register and open questions
 Updated 2026-10-29. This file deliberately separates intent from authority.
 

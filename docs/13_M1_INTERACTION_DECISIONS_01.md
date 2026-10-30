@@ -1,3 +1,5 @@
+> **HISTORICAL / SUPERSEDED WHEN CONFLICTING:** Use the [M1 CANONICAL UI DESIGN CONTRACT](17_M1_CANONICAL_UI_DESIGN_CONTRACT.md) for all current geometry, scrollbar, inventory, frame and visual rules. This document is retained to preserve design history; its conflicting instructions are NOT binding.
+
 # M1 — Interaction Decisions 01
 **Status:** OWNER-SELECTED interaction behavior for further C+ visual design (not a completed art lock or game implementation).
 **Date:** 2026-10-30.
