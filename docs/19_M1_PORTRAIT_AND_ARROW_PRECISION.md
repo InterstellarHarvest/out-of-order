@@ -1,3 +1,5 @@
+> **HISTORICAL PROPORTIONS NOTE:** Updated [M1 canonical contract v1.1](17_M1_CANONICAL_UI_DESIGN_CONTRACT.md) overrides earlier three-button and footer placement in this document. Current layout: inventory LEFT, objective MIDDLE, utilities FOOTER RIGHT; portrait and speech full width, scroller CHOICES ONLY.
+
 # M1 Precision Correction — portrait border and inventory arrow sizing
 Date: 2026-10-30
 Status: Owner-locked corrections; no new layout or styling decisions.

@@ -1,3 +1,5 @@
+> **LATEST M1 OWNER REVISION (2026-10-30):** [Canonical UI contract v1.1](17_M1_CANONICAL_UI_DESIGN_CONTRACT.md) moves the three utility controls into the FOOTER RIGHT, puts compact 7-square-slot inventory LEFT, objective MIDDLE, and limits the scrollbar to the CHOICES only, strictly below **both** the full-width portrait and same-width speech box. See [Layout Decision 20](20_M1_LAYOUT_FOOTER_AND_DIALOGUE_REVISION.md). Older notes below about bottom-right decoration and utility row beneath choices are superseded.
+
 > **LATEST / HIGHEST DESIGN AUTHORITY:** See [M1 CANONICAL UI DESIGN CONTRACT](17_M1_CANONICAL_UI_DESIGN_CONTRACT.md), owner-locked Oct 30, 2026. Any earlier contradictory UI notes in this file are now superseded; consult the contract rather than old snapshots.
 
 # Decision register and open questions
