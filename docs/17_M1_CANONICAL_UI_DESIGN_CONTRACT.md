@@ -115,6 +115,9 @@ See [production delta 31](31_M1_PRODUCTION_UI_DELTA_PIXEL_TEXT_STAINED_CHOICES.m
 - No hover sprite/state for these controls at present.
 See [correction 33](33_M1_FONT_AND_TRUE_BUTTON_PRESS_CORRECTION.md).
 
+## E7. Dynamic component art lock — 2026-10-31
+The owner approved the component sheet identified by SHA-256 `8c7b2703d12c228128d543b3c058ad0045ecc851a6fca10cf754fe0094580f67` and directed that these pixel designs be used precisely in the UI. Choice frames/stains, single slot, narrow rivet-free arrows, full-body raised/recessed inventory + utility button depth, and the selected bitmap text look are LOCKED. Production sizes/hashes and v6 behavior are in [doc 34](34_M1_DYNAMIC_COMPONENT_ART_LOCK.md) and `design/ui_locked_component_contract_v1.json`. Do not reinterpret these during integration.
+
 ## F. What is genuinely NOT locked
 - Final pixel source resolutions, exact numerical frame widths in production, fonts, palette, invented brand/agency identities, final portrait/art, exact scroll thumb tactile styling within the constraints, number of alternate environment skins, and full game narrative.
 - Gameplay code, final art production and overall game release schedule await separate authorizations.

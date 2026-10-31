@@ -34,3 +34,7 @@ Produce a focused button study showing:
 using identical colors/materials between states and only 3D shading/position differences.
 
 Do not regenerate the full UI or change any locked geometry while solving this.
+
+
+## OWNER ART LOCK — 2026-10-31
+The subsequent component sheet is approved. The font correction and true full-body press treatment are no longer open exploration: use the exact approved component language and hashes in [doc 34](34_M1_DYNAMIC_COMPONENT_ART_LOCK.md). No hover sprites. UP and DOWN/PRESSED retain the same palette; depth comes from the entire bevel/shadow construction.

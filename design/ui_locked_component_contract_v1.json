@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "status": "owner_locked",
+  "source_sheet": {
+    "file": "a_polished_high_detail_ui_mockup_in_pixel_art_sty.png",
+    "sha256": "8c7b2703d12c228128d543b3c058ad0045ecc851a6fca10cf754fe0094580f67"
+  },
+  "geometry": {
+    "choice_width": 548,
+    "choice_heights": {
+      "one": 80,
+      "two": 108,
+      "three": 136,
+      "four": 164
+    },
+    "inventory_slot": [
+      96,
+      96
+    ],
+    "inventory_gap": 6,
+    "inventory_pitch": 102,
+    "inventory_visible": 7,
+    "inventory_arrow": [
+      56,
+      112
+    ],
+    "utility_button": [
+      144,
+      128
+    ]
+  },
+  "interaction": {
+    "choice_hover_sprite": false,
+    "button_hover_sprite": false,
+    "choice_pressed_offset": [
+      3,
+      3
+    ],
+    "physical_button_states": [
+      "up",
+      "down"
+    ],
+    "pressed_color_change": false
+  },
+  "assets": {
+    "choice_1line_a.png": "b7055d622440459f86d398c2df896cf235a700896f02cf417dede64d0ea03a32",
+    "choice_1line_b.png": "efeac4cc0995b3451d75ae9a0f8868a762d73e17aa540a4d613bf72665ed1daa",
+    "choice_1line_c.png": "45ba7472db8414fff649e63c079de15c19b0805a4dc302cd17cf529d2ca2b032",
+    "choice_2line_a.png": "bdb8fa8174cd4a10b7887d0fbb2fbff04039d2ea53e8d51fed3d5402bae1ac19",
+    "choice_2line_b.png": "e28807c219b7050e6ca3e51aa3b7f30b60e75d2d1b34ef67acac8ee23c71a86a",
+    "choice_2line_c.png": "fe4515f89ed32e7c0fce2985de1ce6a4f151e872a894d36914d1e0e679798b04",
+    "choice_3line_a.png": "99273ec85f2cbdc7bfdca9a5166caf9a57d1801c637ca2ab64b2d19ee4544ed1",
+    "choice_3line_b.png": "c1b738f93d86215a5f630c4abc882d15c1f0c523dd5210061bc40985d967d7ec",
+    "choice_3line_c.png": "7332aec95bf9324c1ca0860acb644edf997141e53aef9ec2d727d16cb9c52c5a",
+    "choice_4line_a.png": "dceed817b68f6743e1f6c3adeb142f23e1d6a70b33ef8f2eadbf3e72d79eabe1",
+    "choice_4line_b.png": "35ec68778d0b6d6bc8b6b81159ff0a1181ba9a638607f8ffe2d7c5428e7e3315",
+    "choice_4line_c.png": "ccbd909258540beb703933809ccd611366506c712343e9ca4ff66b14b36c95b4",
+    "inventory_slot.png": "d15e280bd586ef2498eb5b9e6ffc9d239390505bbfe0a3d5033f31e8f25edcc8",
+    "inv_left_up.png": "497253c9dc14fc820ff9a1caa626895a4083049d270d091cc7161d2eb731a2cc",
+    "inv_left_down.png": "25d19b3d321438da451bb2586b417fb7c55abd80f68eeca328d9f3bf9c7ec655",
+    "inv_right_up.png": "71e2ada9849bcf423fd64d64c02e54b81f63b8673d5a5d0c4505f5b372666752",
+    "inv_right_down.png": "a5c6f912df989b581f9972141f938833d7a04219fcd7394c9f57f52db5928b28",
+    "utility_button_up.png": "057bc0f6021b3b5d5f34f3bb1d3fa6cc72c125042f96040e76360e0f83de06cd",
+    "utility_button_down.png": "05974aa834c3437ffd2954ba852b838347d423870ee44eed710890c1442d009b",
+    "locked_pixel_font_atlas_dark.png": "592c656b4d4d5bc2b0ae4cd204d40b89c8878df021797255b88b48f5fce18fa1",
+    "locked_pixel_font_atlas_light.png": "664480a3ada9cee638feadd46deb85e07558d8630687a8657a4cfb1b2b9ca6e6",
+    "locked_pixel_font_atlas.json": "8c942ed820752663a0fac4e19b43b51147795a8c324f02e0e7393a9c9975f34e"
+  },
+  "chat_artifacts": {
+    "component_bundle": {
+      "file": "CYOA_M1_locked_components_v1.zip",
+      "sha256": "58c71b660f87a83400c80d0e75c2037af67827b00e2f4918cff794500050f302"
+    },
+    "runtime_lab": {
+      "file": "CYOA_M1_runtime_lab_v6.zip",
+      "sha256": "4e9fb20cbcdc22d31fbcd45547a0bd396b1d7f9638c3579b6367ab1284c76630"
+    }
+  }
+}
