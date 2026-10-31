@@ -212,3 +212,7 @@ Then generate/cut the reusable assets against those exact rectangles and verify 
 
 ## 13. Measurement / extraction checkpoint
 Exact source/reference crop coordinates and initial production geometry are captured in [M1 Asset Extraction and Geometry v1](29_M1_ASSET_EXTRACTION_AND_GEOMETRY_V1.md) with machine-readable manifest at ../design/ui_asset_extraction_manifest_v1.json. The 548×348 choice viewport resolves to 80/108/136/164 px card heights with 12 px gaps; final typography still requires validation.
+
+
+## 14. Runtime lab validation
+The locked geometry and interaction behaviors were exercised in an in-memory Chromium design lab with zero page errors. Results and the machine-readable sprite/state contract are in [M1 Runtime Lab Validation + Sprite Contract v1](30_M1_RUNTIME_LAB_VALIDATION.md) and ../design/ui_sprite_contract_v1.json. Typography remains the next visual/metric validation and must not force a geometry redesign merely to accommodate a placeholder font.

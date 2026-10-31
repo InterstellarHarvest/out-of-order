@@ -37,6 +37,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 **Asset extraction/geometry checkpoint:** [M1 Asset Extraction and Geometry v1](docs/29_M1_ASSET_EXTRACTION_AND_GEOMETRY_V1.md).
 
+**Runtime validation:** [M1 Runtime Lab Validation + Sprite Contract v1](docs/30_M1_RUNTIME_LAB_VALIDATION.md).
+
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
 - [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)
