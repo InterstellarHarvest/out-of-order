@@ -45,6 +45,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 **Latest production UI delta:** [Pixel text, stained choice variants, speech overflow gutter, and spaced seven-slot inventory](docs/31_M1_PRODUCTION_UI_DELTA_PIXEL_TEXT_STAINED_CHOICES.md).
 
+**Assetized UI assembly checkpoint:** [M1 Modular Shell + Assetized UI Assembly v1](docs/32_M1_MODULAR_SHELL_AND_ASSETIZED_UI_V1.md) — static shell, dynamic sprite decomposition, v5 lab validation, and remaining visual gates.
+
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
 - [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)

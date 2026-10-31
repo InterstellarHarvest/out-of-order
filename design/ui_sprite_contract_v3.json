@@ -1,0 +1,208 @@
+{
+  "version": 3,
+  "canvas": {
+    "display": [
+      1920,
+      1080
+    ],
+    "logical": [
+      960,
+      540
+    ]
+  },
+  "choice_cards": {
+    "display_width": 548,
+    "logical_width": 274,
+    "gap_display": 12,
+    "gap_logical": 6,
+    "heights_display": {
+      "one_line": 80,
+      "two_line": 108,
+      "three_line": 136,
+      "four_line": 164
+    },
+    "heights_logical": {
+      "one_line": 40,
+      "two_line": 54,
+      "three_line": 68,
+      "four_line": 82
+    },
+    "rivets": false,
+    "states": [
+      "idle",
+      "hover_focus",
+      "pressed",
+      "disabled_if_needed"
+    ],
+    "pressed_offset_display": [
+      3,
+      3
+    ],
+    "pressed_offset_logical_note": "Implement as 1–2 logical px after visual test; 3 display px is current lab proof.",
+    "hover_moves": false,
+    "surface_variants": [
+      "a",
+      "b",
+      "c"
+    ],
+    "variant_rule": "subtle stain/wear only; identical geometry; stable deterministic assignment"
+  },
+  "choice_scroll": {
+    "track_in_static_shell": true,
+    "arrows": false,
+    "thumb_asset": "choice_scroll_thumb",
+    "thumb_mode": "capped/stretchable center",
+    "no_overflow": "fill entire usable track",
+    "overflow": "height proportional to viewport/content; position proportional to scroll progress"
+  },
+  "npc_speech": {
+    "panel_asset": "speech_panel",
+    "keeps_rivets": true,
+    "typewriter": true,
+    "click_during_typewriter": "reveal current speech immediately",
+    "overflow_thumb": {
+      "visible_only_on_overflow": true,
+      "shape": "small thin rounded rectangle",
+      "color": "dark contrasting",
+      "fade": true,
+      "arrows": false
+    }
+  },
+  "inventory": {
+    "visible_slots": 7,
+    "slot_asset_count": 1,
+    "slot_pitch_display": 102,
+    "slot_pitch_logical": 51,
+    "slot_target_display": [
+      102,
+      102
+    ],
+    "move_per_press_slots": 1,
+    "animation": {
+      "duration_ms_candidate": 190,
+      "overshoot_display_px": 2,
+      "style": "restrained slide with tiny settle"
+    },
+    "nav_buttons": {
+      "left_and_right_separate": true,
+      "states": [
+        "idle",
+        "hover",
+        "pressed",
+        "disabled"
+      ],
+      "visible_canvas_candidate_display": [
+        48,
+        64
+      ],
+      "pressed_motion": "down into housing; shadow/highlight change",
+      "hover_moves": false
+    },
+    "slot_sprite": {
+      "count_visible": 7,
+      "display_size": [
+        96,
+        96
+      ],
+      "logical_size": [
+        48,
+        48
+      ],
+      "gap_display": 6,
+      "gap_logical": 3,
+      "pitch_display": 102,
+      "pitch_logical": 51,
+      "variants": 1
+    },
+    "six_slot_fallback": "allowed by owner only if later authored art demonstrates spacing failure; not currently needed"
+  },
+  "utility_buttons": {
+    "count": 3,
+    "strategy": "one generic 9-slice/capped button family with code labels",
+    "states": [
+      "idle",
+      "hover",
+      "pressed",
+      "disabled"
+    ],
+    "pressed_motion": "down into panel; shadow/highlight change",
+    "hover_moves": false,
+    "labels": [
+      "INSPECT",
+      "NOTES",
+      "JOURNAL"
+    ]
+  },
+  "objective": {
+    "plaque_in_static_shell": true,
+    "body_backing_in_static_shell": true,
+    "text_code_rendered": true
+  },
+  "text_rendering": {
+    "direction": "condensed institutional",
+    "hard_pixel_edges": true,
+    "smoothing": false,
+    "logical_grid_rendering": true,
+    "display_upscale": "nearest-neighbor integer scale",
+    "subpixel_positioning": false
+  },
+  "npc_speech_overflow": {
+    "position_candidate_display": {
+      "x": 1899,
+      "width": 8,
+      "vertical_track_approx": [
+        365,
+        493
+      ]
+    },
+    "alignment": "same x-band as the right-side speech rivets, vertically between them",
+    "text_gutter_reserved": true,
+    "appearance": "small thin dark contrasting rounded rectangle; fades in only on overflow"
+  },
+  "static_shell": {
+    "derivative": "CYOA_M1_ui_shell_modular_v3.png",
+    "sha256": "2f536729c1e56ae974412bd9b9743f120729093104c927fc692debd256a90932",
+    "canonical_source_untouched": true,
+    "unexpected_pixel_changes_outside_allowed_masks": 0,
+    "dynamic_regions_removed": [
+      "speech_panel",
+      "choice_cards",
+      "inventory_slots",
+      "inventory_left_button",
+      "inventory_right_button",
+      "utility_inspect",
+      "utility_notes",
+      "utility_journal",
+      "choice_scroll_thumb_only"
+    ]
+  },
+  "speech_panel": {
+    "sprite_size": [
+      609,
+      191
+    ],
+    "keeps_rivets": true,
+    "sha256": "fede8520c49d8a8aa87dcfaca5e9595e5748d85eee270048f6f8c0b931e8e189"
+  },
+  "validation_v5": {
+    "page_errors": 0,
+    "choice_viewport": [
+      548,
+      348
+    ],
+    "no_overflow_choice_thumb_height": 345,
+    "overflow_choice_thumb_sample_height": 214,
+    "speech_overflow_x": 1899,
+    "inventory_slot": [
+      96,
+      96
+    ],
+    "inventory_gap": 6,
+    "inventory_pitch": 102,
+    "one_press_translation": -102,
+    "choice_pressed_offset": [
+      3,
+      3
+    ]
+  }
+}

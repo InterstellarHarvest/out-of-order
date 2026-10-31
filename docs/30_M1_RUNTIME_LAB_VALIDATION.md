@@ -35,3 +35,7 @@ See design/ui_sprite_contract_v1.json.
 
 ## v5 corrections queued after owner review
 The v4 lab's CSS-generated touching inventory boxes, speech overflow x-position, smoothed text surrogate, and single generic choice-card surface are superseded. v5 must use 7 spaced 96×96 slot sprites at 6px gaps, far-right speech rivet gutter, hard-edged condensed institutional text rendering, and A/B/C stained choice sprites.
+
+
+## v5 validation — 2026-10-31
+v5 now runs against modular shell v3 + separate speech/choice/slot/button/thumb assets. In-memory Chromium validation: 0 page errors; speech overflow x1899 and fades in on overflow; inventory 96px slots with 6px gap and -102px single-step movement; player choice press +3/+3; full no-overflow player thumb = 345px; utility controls use sprite states and hard-edge code labels. See [M1 Modular Shell + Assetized UI Assembly v1](32_M1_MODULAR_SHELL_AND_ASSETIZED_UI_V1.md).
