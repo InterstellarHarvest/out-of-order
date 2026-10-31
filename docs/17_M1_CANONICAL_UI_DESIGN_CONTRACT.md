@@ -89,6 +89,9 @@ If an image generator fails an exact detail, label the result **FAILED VISUAL ST
 ## E2. Owner's preferred frame style blend — 2026-10-30
 For future M1 visual mockups, use **A / Civic Enamel** from the older-style-reset round as the predominant and defining hardware/material design. Use **B / Institutional Hardware** only for the **spoken-dialogue cream inset panel directly below the portrait**: comparatively simple flat institutional inset, tiny corner rivets, restrained bordering, minimal ornamental bevel. Do NOT bring B's surrounding scroller or body frame. Keep portrait and speech both full-width; choice-only scroll rail begins below the speech box. Keep the entire frame-only blank-content comparison rule. See [owner selection 24](24_M1_A_BASE_B_DIALOGUE_SELECTION.md).
 
+## E3. Owner final frame candidate — authoritative visual reference
+As of 2026-10-30, the owner-supplied `layout final.png` is the authoritative M1 frame/layout image. Dimensions **1672×941**; SHA-256 **f5d2fb6672f9fdb4d2991a620f73de61485492c463364d8dd46f978ad55c359b**. Do not regenerate the frame for small revisions; preserve this composition and edit surgically only when owner requests. See [doc 25](25_M1_OWNER_FINAL_FRAME_AND_DIALOGUE_CHOICES.md).
+
 ## F. What is genuinely NOT locked
 - Final pixel source resolutions, exact numerical frame widths in production, fonts, palette, invented brand/agency identities, final portrait/art, exact scroll thumb tactile styling within the constraints, number of alternate environment skins, and full game narrative.
 - Gameplay code, final art production and overall game release schedule await separate authorizations.
