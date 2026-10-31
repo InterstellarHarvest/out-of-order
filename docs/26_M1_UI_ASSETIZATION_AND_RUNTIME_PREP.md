@@ -1,7 +1,7 @@
 # M1 — UI Assetization and Runtime Interaction Prep
 **Date:** 2026-10-30  
 **Status:** OWNER-SELECTED production-prep decisions. This document translates the locked M1 frame into reusable sprite/runtime responsibilities. It does **not** authorize gameplay implementation yet.
-**Governing visual:** owner-supplied `layout final.png`, 1672×941, SHA-256 `f5d2fb6672f9fdb4d2991a620f73de61485492c463364d8dd46f978ad55c359b`.
+**Governing visual:** owner-supplied `layout final.png`, 1920×1080, SHA-256 `374d83a217c0b9ec1d682ac9b464be9a870bb131384c35300eced9b8a67014b3`.
 
 ## 1. Production architecture
 Use three layers:

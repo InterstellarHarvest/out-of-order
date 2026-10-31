@@ -7,7 +7,7 @@ Owner supplied `layout final.png` and stated: **"this is what should use."**
 
 Reference properties:
 - Dimensions: **1672 × 941** (16:9-class aspect, ~1.777)
-- SHA-256 of uploaded PNG: **f5d2fb6672f9fdb4d2991a620f73de61485492c463364d8dd46f978ad55c359b**
+- SHA-256 of uploaded PNG: **374d83a217c0b9ec1d682ac9b464be9a870bb131384c35300eced9b8a67014b3**
 - This exact uploaded image is the visual reference for M1 frame/layout going forward. **Do not regenerate or reinterpret the frame to make small changes.**
 - The magenta regions are alpha-mask placeholders for the scene and portrait apertures.
 - The frame layout, inventory, objective label plate, footer utility positions, portrait/speech relationship, and choice-only scrollbar architecture are fixed unless the owner explicitly reopens them.
