@@ -29,6 +29,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 **Authoritative owner frame candidate:** [M1 Final Frame Candidate + Dialogue Choice Proposal](docs/25_M1_OWNER_FINAL_FRAME_AND_DIALOGUE_CHOICES.md) — exact uploaded PNG identity recorded by dimensions and SHA-256; future frame work must preserve it.
 
+**Production-prep UI spec:** [M1 UI Assetization and Runtime Interaction Prep](docs/26_M1_UI_ASSETIZATION_AND_RUNTIME_PREP.md) — reusable sprites, choice sizing, both scrollbar behaviors, typewriter dialogue, pressed states, and inventory animation.
+
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
 - [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)

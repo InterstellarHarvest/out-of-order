@@ -95,9 +95,9 @@ NPC speech keeps the pale cream speech panel. Player choices use a related but d
 
 Selection/hover/focus should change fill/border treatment without changing card size. Disabled conditional choices, if ever used, remain legible and visibly unavailable; avoid hiding them unless story logic specifically requires secrecy.
 
-## Decisions still awaiting owner lock
-1. Approve the variable-height ratios / "three 2-line choices" baseline.
-2. Approve **full-track thumb when no scrolling** versus hidden thumb.
-3. Later: exact font, line-height, and pixel dimensions after typography testing.
+## OWNER LOCK — 2026-10-30
+The owner approved both pending decisions:
+1. **Three 2-line choices** is the baseline visible capacity; 1/2/3/4-line cards use variable heights rather than font shrinking.
+2. The player-choice scrollbar thumb **fills the entire track when no scrolling is needed** and shrinks/moves proportionally when overflow exists.
 
-Once 1–2 are approved, add them to the canonical contract and treat dialogue geometry as M1-locked.
+Additional owner-selected interaction/asset decisions are recorded in [M1 UI Assetization and Runtime Interaction Prep](26_M1_UI_ASSETIZATION_AND_RUNTIME_PREP.md): no rivets on player choices, speech box keeps rivets, NPC typewriter + click-to-reveal, subtle speech overflow thumb, pressed offsets for choices, chunky pushed inventory/utility buttons, one inventory-slot sprite only, and stretchable/capped choice-scroll thumb.

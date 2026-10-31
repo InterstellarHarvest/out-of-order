@@ -92,6 +92,16 @@ For future M1 visual mockups, use **A / Civic Enamel** from the older-style-rese
 ## E3. Owner final frame candidate — authoritative visual reference
 As of 2026-10-30, the owner-supplied `layout final.png` is the authoritative M1 frame/layout image. Dimensions **1672×941**; SHA-256 **f5d2fb6672f9fdb4d2991a620f73de61485492c463364d8dd46f978ad55c359b**. Do not regenerate the frame for small revisions; preserve this composition and edit surgically only when owner requests. See [doc 25](25_M1_OWNER_FINAL_FRAME_AND_DIALOGUE_CHOICES.md).
 
+## E4. Locked dialogue sizing and dynamic UI asset rules — 2026-10-30
+- Player-choice viewport fits **three 2-line choices** without scrolling; 1/2/3/4-line response cards vary in height and never shrink the font to fit.
+- Player-choice cards have **no rivets**; NPC speech panel retains its rivets.
+- Choice hover does not move; click/press shifts the card subtly right/down.
+- Player-choice scroll thumb fills the entire track when no overflow and shrinks/positions proportionally when overflow exists; track is shell art, thumb is capped/stretchable, **no arrows**.
+- NPC speech uses typewriter reveal; click/tap finishes current reveal instantly. Overflow gets a small dark rounded thumb fading in inside the speech box between the right-side rivets.
+- Inventory uses **one slot sprite only**. Left/right arrow controls require distinct chunky pressed-state art and move the visible inventory by one item; inventory row slides with restrained weight/settle.
+- Utility buttons use the same chunky press-down physical language, preferably one generic sprite family with code labels.
+See [M1 UI Assetization and Runtime Interaction Prep](26_M1_UI_ASSETIZATION_AND_RUNTIME_PREP.md).
+
 ## F. What is genuinely NOT locked
 - Final pixel source resolutions, exact numerical frame widths in production, fonts, palette, invented brand/agency identities, final portrait/art, exact scroll thumb tactile styling within the constraints, number of alternate environment skins, and full game narrative.
 - Gameplay code, final art production and overall game release schedule await separate authorizations.
