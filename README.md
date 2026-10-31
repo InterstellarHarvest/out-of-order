@@ -47,6 +47,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 **Assetized UI assembly checkpoint:** [M1 Modular Shell + Assetized UI Assembly v1](docs/32_M1_MODULAR_SHELL_AND_ASSETIZED_UI_V1.md) — static shell, dynamic sprite decomposition, v5 lab validation, and remaining visual gates.
 
+**Latest correction:** [Font lock + true physical button press](docs/33_M1_FONT_AND_TRUE_BUTTON_PRESS_CORRECTION.md) — preserve the thin readable pixel font from the owner screenshot; pressed states change depth/shading only, never color.
+
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
 - [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)

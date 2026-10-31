@@ -109,6 +109,12 @@ See [M1 UI Assetization and Runtime Interaction Prep](26_M1_UI_ASSETIZATION_AND_
 - Inventory remains **7 visible slots** because measured spacing fits: 96×96 display px slot, 6px gap, 102px pitch (48/3/51 logical). Six slots remain a fallback only if later authored art proves the seven-slot fit unusable.
 See [production delta 31](31_M1_PRODUCTION_UI_DELTA_PIXEL_TEXT_STAINED_CHOICES.md).
 
+## E6. Font lock and true physical press — 2026-10-31
+- Code-rendered text must match the **thin, readable condensed institutional pixel face** shown in the owner's `image(4).png` choice-card mockup; later heavier/bolder prototype fonts are rejected.
+- Inventory and utility pressed states use **identical colors/materials** to idle. The entire button body changes from raised to recessed through inverted/compressed bevel lighting and a slight inward translation; no hue/saturation/fill change and no inner-face-only fake press.
+- No hover sprite/state for these controls at present.
+See [correction 33](33_M1_FONT_AND_TRUE_BUTTON_PRESS_CORRECTION.md).
+
 ## F. What is genuinely NOT locked
 - Final pixel source resolutions, exact numerical frame widths in production, fonts, palette, invented brand/agency identities, final portrait/art, exact scroll thumb tactile styling within the constraints, number of alternate environment skins, and full game narrative.
 - Gameplay code, final art production and overall game release schedule await separate authorizations.

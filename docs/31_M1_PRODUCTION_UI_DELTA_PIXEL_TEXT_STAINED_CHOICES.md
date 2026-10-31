@@ -16,3 +16,7 @@
 - Produce a component-only review sheet; do not regenerate the whole frame.
 - Update sprite contract and geometry metadata.
 - Continue until a genuinely subjective visual choice remains.
+
+
+## OWNER CORRECTION — 2026-10-31
+The text face is now visually locked to the owner's attached `image(4).png` mockup: thin, narrow, readable institutional pixel lettering. The later heavy/blocky generated fonts are rejected. Button pressed-state art must preserve the exact idle palette and change only full-body depth/shading/position; no color change. See [correction 33](33_M1_FONT_AND_TRUE_BUTTON_PRESS_CORRECTION.md).
