@@ -32,3 +32,6 @@ See design/ui_sprite_contract_v1.json.
 2. Produce final sprite canvas specifications and 9-slice/cap rules.
 3. Prepare art briefs for rivet-free choice cards, one inventory slot, physical arrow button states, generic utility button states, choice scrollbar thumb, and NPC speech overflow thumb.
 4. Stop for owner review only when the typography/art treatment becomes a genuinely visual choice rather than a technical constraint.
+
+## v5 corrections queued after owner review
+The v4 lab's CSS-generated touching inventory boxes, speech overflow x-position, smoothed text surrogate, and single generic choice-card surface are superseded. v5 must use 7 spaced 96×96 slot sprites at 6px gaps, far-right speech rivet gutter, hard-edged condensed institutional text rendering, and A/B/C stained choice sprites.

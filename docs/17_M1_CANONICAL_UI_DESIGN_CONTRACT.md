@@ -102,6 +102,13 @@ As of 2026-10-30, the owner-supplied `layout final.png` is the authoritative M1 
 - Utility buttons use the same chunky press-down physical language, preferably one generic sprite family with code labels.
 See [M1 UI Assetization and Runtime Interaction Prep](26_M1_UI_ASSETIZATION_AND_RUNTIME_PREP.md).
 
+## E5. Pixel text and stained choice sprites — 2026-10-31
+- Runtime/code text direction is **condensed institutional**, rendered with hard chunky pixel edges on the logical grid; no smoothed/subpixel browser appearance.
+- NPC speech overflow thumb occupies the far-right internal gutter **between the two right-side rivets**, outside the text safe area.
+- Player choice sprites have no rivets and use **three subtle stain/wear variants per 1/2/3/4-line height**; dimensions and border geometry stay identical.
+- Inventory remains **7 visible slots** because measured spacing fits: 96×96 display px slot, 6px gap, 102px pitch (48/3/51 logical). Six slots remain a fallback only if later authored art proves the seven-slot fit unusable.
+See [production delta 31](31_M1_PRODUCTION_UI_DELTA_PIXEL_TEXT_STAINED_CHOICES.md).
+
 ## F. What is genuinely NOT locked
 - Final pixel source resolutions, exact numerical frame widths in production, fonts, palette, invented brand/agency identities, final portrait/art, exact scroll thumb tactile styling within the constraints, number of alternate environment skins, and full game narrative.
 - Gameplay code, final art production and overall game release schedule await separate authorizations.

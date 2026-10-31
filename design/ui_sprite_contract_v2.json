@@ -40,12 +40,12 @@
     ],
     "pressed_offset_logical_note": "Implement as 1–2 logical px after visual test; 3 display px is current lab proof.",
     "hover_moves": false,
-    "text_safe_inset_display": {
-      "left": 24,
-      "right": 24
-    },
-    "vertical_alignment": "center text block in fixed card height",
-    "border_art_rule": "rivet-free; preserve institutional inset feel"
+    "surface_variants": [
+      "a",
+      "b",
+      "c"
+    ],
+    "variant_rule": "subtle stain/wear only; identical geometry; stable deterministic assignment"
   },
   "choice_scroll": {
     "track_in_static_shell": true,
@@ -53,16 +53,7 @@
     "thumb_asset": "choice_scroll_thumb",
     "thumb_mode": "capped/stretchable center",
     "no_overflow": "fill entire usable track",
-    "overflow": "height proportional to viewport/content; position proportional to scroll progress",
-    "usable_track_display": {
-      "x": 1880,
-      "y": 532,
-      "width": 18,
-      "height": 322
-    },
-    "thumb_visible_width_candidate": 18,
-    "cap_height_candidate_display": 12,
-    "note": "Track is shell art; thumb overlays inside the dark usable channel. Full no-overflow thumb fills y532..853."
+    "overflow": "height proportional to viewport/content; position proportional to scroll progress"
   },
   "npc_speech": {
     "panel_asset": "speech_panel",
@@ -75,28 +66,6 @@
       "color": "dark contrasting",
       "fade": true,
       "arrows": false
-    },
-    "panel_reference_xywh": [
-      1308,
-      332,
-      609,
-      191
-    ],
-    "text_safe_area_display": {
-      "x": 1342,
-      "y": 370,
-      "width": 520,
-      "height": 124
-    },
-    "overflow_thumb_zone_display": {
-      "x": 1880,
-      "y": 366,
-      "width": 18,
-      "height": 126
-    },
-    "metric_candidate": {
-      "font_size": 24,
-      "line_height": 30
     }
   },
   "inventory": {
@@ -129,38 +98,23 @@
       "pressed_motion": "down into housing; shadow/highlight change",
       "hover_moves": false
     },
-    "slot_runtime_origin_display": [
-      75,
-      928
-    ],
-    "slot_canvas_display": [
-      102,
-      102
-    ],
-    "slot_positions_x_display": [
-      75,
-      177,
-      279,
-      381,
-      483,
-      585,
-      687
-    ],
-    "nav_button_face_candidate_display": {
-      "size": [
+    "slot_sprite": {
+      "count_visible": 7,
+      "display_size": [
+        96,
+        96
+      ],
+      "logical_size": [
         48,
-        64
+        48
       ],
-      "left_xy": [
-        25,
-        945
-      ],
-      "right_xy": [
-        789,
-        945
-      ]
+      "gap_display": 6,
+      "gap_logical": 3,
+      "pitch_display": 102,
+      "pitch_logical": 51,
+      "variants": 1
     },
-    "note": "Housing remains in shell; final button canvases may include transparent padding while visible face stays compact."
+    "six_slot_fallback": "allowed by owner only if later authored art demonstrates spacing failure; not currently needed"
   },
   "utility_buttons": {
     "count": 3,
@@ -177,48 +131,32 @@
       "INSPECT",
       "NOTES",
       "JOURNAL"
-    ],
-    "fill_reference_rects_display": {
-      "inspect": [
-        1487,
-        932,
-        121,
-        104
-      ],
-      "notes": [
-        1625,
-        932,
-        123,
-        104
-      ],
-      "journal": [
-        1767,
-        932,
-        121,
-        103
-      ]
-    },
-    "generic_art_candidate_display": [
-      122,
-      104
-    ],
-    "implementation": "prefer 9-slice or capped generic body so 1–2 px bay-width differences do not require unique art"
+    ]
   },
   "objective": {
     "plaque_in_static_shell": true,
     "body_backing_in_static_shell": true,
-    "text_code_rendered": true,
-    "text_safe_area_display": [
-      855,
-      930,
-      577,
-      118
-    ]
+    "text_code_rendered": true
   },
-  "typography_metric_surrogate": {
-    "status": "technical surrogate only; visual font not owner-locked",
-    "display_font_size_candidate": 22,
-    "display_line_height_candidate": 26,
-    "note": "Do not change geometry to fit this surrogate. Final condensed/pixel-appropriate font may differ."
+  "text_rendering": {
+    "direction": "condensed institutional",
+    "hard_pixel_edges": true,
+    "smoothing": false,
+    "logical_grid_rendering": true,
+    "display_upscale": "nearest-neighbor integer scale",
+    "subpixel_positioning": false
+  },
+  "npc_speech_overflow": {
+    "position_candidate_display": {
+      "x": 1899,
+      "width": 8,
+      "vertical_track_approx": [
+        365,
+        493
+      ]
+    },
+    "alignment": "same x-band as the right-side speech rivets, vertically between them",
+    "text_gutter_reserved": true,
+    "appearance": "small thin dark contrasting rounded rectangle; fades in only on overflow"
   }
 }

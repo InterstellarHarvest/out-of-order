@@ -216,3 +216,11 @@ Exact source/reference crop coordinates and initial production geometry are capt
 
 ## 14. Runtime lab validation
 The locked geometry and interaction behaviors were exercised in an in-memory Chromium design lab with zero page errors. Results and the machine-readable sprite/state contract are in [M1 Runtime Lab Validation + Sprite Contract v1](30_M1_RUNTIME_LAB_VALIDATION.md) and ../design/ui_sprite_contract_v1.json. Typography remains the next visual/metric validation and must not force a geometry redesign merely to accommodate a placeholder font.
+
+
+## 15. Owner refinement — 2026-10-31
+- Choice sprites: **3 stain/wear variants per height (A/B/C)**; prior "no variants" guidance is superseded. Keep variants subtle and geometrically identical.
+- Runtime text: **condensed institutional** direction selected; must be hard-edged pixel rendering, no smoothing/subpixel placement.
+- Speech overflow thumb: move into the far-right gutter aligned between the two right-side rivets; reserve that gutter from text.
+- Inventory: retain 7 visible slots. Use 96×96 display sprites with 6px gaps (102px pitch), rather than the prior runtime lab's touching generated boxes. Six is fallback only if later art proves necessary.
+See [production delta 31](31_M1_PRODUCTION_UI_DELTA_PIXEL_TEXT_STAINED_CHOICES.md).
