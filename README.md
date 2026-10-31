@@ -41,6 +41,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 **Component art brief:** [M1 Component Art Brief and Slice Rules v1](docs/31_M1_COMPONENT_ART_BRIEF.md).
 
+**Pending typography review:** [M1 Typography + Choice Card Study 01](docs/32_M1_TYPOGRAPHY_CHOICE_STUDY_01.md).
+
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
 - [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)
