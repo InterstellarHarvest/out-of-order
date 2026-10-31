@@ -1,0 +1,204 @@
+{
+  "canonical_source": {
+    "name": "layout final(1).png",
+    "size": [
+      1920,
+      1080
+    ],
+    "sha256": "374d83a217c0b9ec1d682ac9b464be9a870bb131384c35300eced9b8a67014b3"
+  },
+  "transparent_shell_derivative": {
+    "name": "CYOA_M1_ui_shell_magenta_transparent_v1.png",
+    "changed_pixels": 1152881,
+    "unexpected_pixel_changes": 0,
+    "rule": "only pixels with R>=220, B>=220, G<=70, alpha>0 have alpha set to 0; RGB preserved"
+  },
+  "reference_crops": {
+    "speech_panel_reference": {
+      "rect_xyxy": [
+        1308,
+        332,
+        1917,
+        523
+      ],
+      "size": [
+        609,
+        191
+      ],
+      "sha256": "fede8520c49d8a8aa87dcfaca5e9595e5748d85eee270048f6f8c0b931e8e189"
+    },
+    "choice_1_reference": {
+      "rect_xyxy": [
+        1314,
+        524,
+        1862,
+        636
+      ],
+      "size": [
+        548,
+        112
+      ],
+      "sha256": "dc5af500d60bb3b72cf7539bcda3f40fb5a872685c40c92e8e3a2291f5ed3143"
+    },
+    "choice_2_reference": {
+      "rect_xyxy": [
+        1314,
+        637,
+        1862,
+        748
+      ],
+      "size": [
+        548,
+        111
+      ],
+      "sha256": "fda1ac903435774ff7b867741fc8c6d74772e331ffbb272663bbc9dd65b522f5"
+    },
+    "choice_3_reference": {
+      "rect_xyxy": [
+        1314,
+        749,
+        1862,
+        870
+      ],
+      "size": [
+        548,
+        121
+      ],
+      "sha256": "915652d5bac123c23a6bb74db62819a96669d62f9050cb50f11aca7ceb6db77a"
+    },
+    "choice_scroll_reference": {
+      "rect_xyxy": [
+        1865,
+        522,
+        1911,
+        870
+      ],
+      "size": [
+        46,
+        348
+      ],
+      "sha256": "a99983e042387a7d0e6158aa764dcbb1e402e0573eb61daf07e5492abbff2dc6"
+    },
+    "inventory_slot_reference": {
+      "rect_xyxy": [
+        72,
+        920,
+        181,
+        1042
+      ],
+      "size": [
+        109,
+        122
+      ],
+      "sha256": "fcc56b006ba152bbd9a9b95c184175c17b7faf0b9e35d2f019ead658f3dc85ed"
+    },
+    "inventory_left_button_reference": {
+      "rect_xyxy": [
+        20,
+        916,
+        75,
+        1044
+      ],
+      "size": [
+        55,
+        128
+      ],
+      "sha256": "ba9c39305d88ee8c065403d480b11b7991a2db07eaf6a17cebe999e3c8d3a108"
+    },
+    "inventory_right_button_reference": {
+      "rect_xyxy": [
+        785,
+        916,
+        841,
+        1044
+      ],
+      "size": [
+        56,
+        128
+      ],
+      "sha256": "060070d722830c6fb613de2d6088295f516c262da0d7684519e69e833f7f99f8"
+    },
+    "objective_reference": {
+      "rect_xyxy": [
+        828,
+        889,
+        1459,
+        1058
+      ],
+      "size": [
+        631,
+        169
+      ],
+      "sha256": "646005313b8be1106ad2b1afa69a1d7308ce72eb60700242bbdd09b7d20296a7"
+    },
+    "utility_inspect_reference": {
+      "rect_xyxy": [
+        1473,
+        915,
+        1616,
+        1046
+      ],
+      "size": [
+        143,
+        131
+      ],
+      "sha256": "edfea96614ebbedfd540794f38518a34cb53707d6568e8f63ae9e7a0f2895002"
+    },
+    "utility_notes_reference": {
+      "rect_xyxy": [
+        1617,
+        915,
+        1761,
+        1046
+      ],
+      "size": [
+        144,
+        131
+      ],
+      "sha256": "90f00cfd61be7a1a9826e36c3f2069a7dfa8a30ba8606452648441f1e82056f4"
+    },
+    "utility_journal_reference": {
+      "rect_xyxy": [
+        1762,
+        915,
+        1904,
+        1046
+      ],
+      "size": [
+        142,
+        131
+      ],
+      "sha256": "1c3c4cd18a971113ed519d0a693a7b28dfc2a6c1a1b248327b4c09f631458008"
+    }
+  },
+  "runtime_geometry": {
+    "choice_zone_xywh": [
+      1314,
+      522,
+      548,
+      348
+    ],
+    "choice_card_width_px": 548,
+    "choice_gap_px": 12,
+    "choice_card_heights_px": {
+      "one_line": 80,
+      "two_line": 108,
+      "three_line": 136,
+      "four_line": 164
+    },
+    "choice_fit_check": "3*108 + 2*12 = 348",
+    "inventory_slot_pitch_px": 102,
+    "inventory_visible_count": 7,
+    "logical_960x540": {
+      "choice_card_width": 274,
+      "choice_gap": 6,
+      "choice_card_heights": {
+        "one_line": 40,
+        "two_line": 54,
+        "three_line": 68,
+        "four_line": 82
+      },
+      "inventory_slot_pitch": 51
+    }
+  }
+}

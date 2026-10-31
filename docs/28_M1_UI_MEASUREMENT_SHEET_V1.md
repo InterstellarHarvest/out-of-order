@@ -36,3 +36,7 @@ These proposed regions are deliberately separated from exact-detected areas. Bef
 The canonical source is a 1920×1080 visual master. Current details do not all prove exact 2× logical-grid alignment. Production sprites should be deliberately authored/cleaned against the chosen 960×540 logical art grid instead of resampling the whole master.
 
 Machine-readable map: [`ui_regions_v1.json`](../design/ui_regions_v1.json)
+
+
+## Production geometry follow-up
+A later non-destructive crop pass establishes choice geometry x1314 y522 w548 h348, with 80/108/136/164 px 1–4 line cards and 12 px gaps. See [M1 Asset Extraction and Geometry v1](29_M1_ASSET_EXTRACTION_AND_GEOMETRY_V1.md). This supersedes the earlier provisional 556×346 choice-zone estimate for implementation prep.

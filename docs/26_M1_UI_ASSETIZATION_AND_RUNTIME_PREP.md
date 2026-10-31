@@ -208,3 +208,7 @@ Before any implementation, make an **extraction/measurement sheet** from the aut
 - internal NPC speech overflow-scroll zone.
 
 Then generate/cut the reusable assets against those exact rectangles and verify a reconstruction can reproduce the authoritative frame without drift.
+
+
+## 13. Measurement / extraction checkpoint
+Exact source/reference crop coordinates and initial production geometry are captured in [M1 Asset Extraction and Geometry v1](29_M1_ASSET_EXTRACTION_AND_GEOMETRY_V1.md) with machine-readable manifest at ../design/ui_asset_extraction_manifest_v1.json. The 548×348 choice viewport resolves to 80/108/136/164 px card heights with 12 px gaps; final typography still requires validation.
