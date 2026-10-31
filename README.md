@@ -33,6 +33,8 @@ The inspiration from *Choose Your Own Adventure: House of Danger* concerns conse
 
 **Canonical measurement source:** [1920×1080 RGBA source identity and preservation rule](docs/27_M1_CANONICAL_1920_SOURCE.md).
 
+**Measurement map:** [M1 UI Measurement Sheet v1](docs/28_M1_UI_MEASUREMENT_SHEET_V1.md) + [machine-readable regions](design/ui_regions_v1.json).
+
 ## Project documents
 - [Creative brief](docs/00_CREATIVE_BRIEF.md) · [World and story](docs/01_WORLD_AND_STORY.md) · [Visual explorations](docs/02_VISUAL_UI_EXPLORATION.md) · [Interaction brainstorming](docs/03_INTERACTION_NOTES.md)
 - [Idea archive](docs/04_IDEA_ARCHIVE.md) · [Decision register](docs/05_DECISIONS_AND_OPEN_QUESTIONS.md) · [Living roadmap](docs/06_LIVING_ROADMAP.md)

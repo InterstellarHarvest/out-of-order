@@ -1,0 +1,183 @@
+{
+  "source_file": "layout final(1).png",
+  "source_size": [
+    1920,
+    1080
+  ],
+  "source_sha256": "374d83a217c0b9ec1d682ac9b464be9a870bb131384c35300eced9b8a67014b3",
+  "coordinate_origin": "top-left",
+  "coordinate_units": "1920x1080 source pixels",
+  "regions": {
+    "canvas": {
+      "rect": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "status": "exact"
+    },
+    "scene_aperture_magenta_bbox": {
+      "rect": [
+        30,
+        44,
+        1256,
+        823
+      ],
+      "status": "exact-detected"
+    },
+    "portrait_aperture_magenta_bbox": {
+      "rect": [
+        1331,
+        42,
+        566,
+        280
+      ],
+      "status": "exact-detected"
+    },
+    "npc_speech_fill": {
+      "rect": [
+        1317,
+        348,
+        591,
+        168
+      ],
+      "status": "exact-detected-fill"
+    },
+    "choice_fill_1_current": {
+      "rect": [
+        1325,
+        533,
+        532,
+        93
+      ],
+      "status": "exact-detected-fill"
+    },
+    "choice_fill_2_current": {
+      "rect": [
+        1326,
+        646,
+        531,
+        92
+      ],
+      "status": "exact-detected-fill"
+    },
+    "choice_fill_3_current": {
+      "rect": [
+        1326,
+        759,
+        532,
+        99
+      ],
+      "status": "exact-detected-fill"
+    },
+    "choice_cards_runtime_zone": {
+      "rect": [
+        1312,
+        522,
+        556,
+        346
+      ],
+      "status": "proposed-production-zone"
+    },
+    "choice_scroll_track_zone": {
+      "rect": [
+        1871,
+        523,
+        37,
+        345
+      ],
+      "status": "proposed-production-zone"
+    },
+    "choice_scroll_thumb_current": {
+      "rect": [
+        1874,
+        614,
+        27,
+        146
+      ],
+      "status": "exact-detected-current-thumb"
+    },
+    "inventory_slot_1_component": {
+      "rect": [
+        75,
+        926,
+        102,
+        112
+      ],
+      "status": "proposed-component-crop"
+    },
+    "inventory_slots_strip": {
+      "rect": [
+        75,
+        926,
+        714,
+        112
+      ],
+      "status": "proposed-production-zone"
+    },
+    "inventory_left_button": {
+      "rect": [
+        25,
+        926,
+        48,
+        112
+      ],
+      "status": "proposed-component-crop"
+    },
+    "inventory_right_button": {
+      "rect": [
+        789,
+        926,
+        48,
+        112
+      ],
+      "status": "proposed-component-crop"
+    },
+    "objective_text_safe_area": {
+      "rect": [
+        855,
+        930,
+        577,
+        118
+      ],
+      "status": "exact-detected-dark-fill-approx-safe"
+    },
+    "utility_inspect_fill": {
+      "rect": [
+        1487,
+        932,
+        121,
+        104
+      ],
+      "status": "exact-detected-fill"
+    },
+    "utility_notes_fill": {
+      "rect": [
+        1625,
+        932,
+        123,
+        104
+      ],
+      "status": "exact-detected-fill"
+    },
+    "utility_journal_fill": {
+      "rect": [
+        1767,
+        932,
+        121,
+        103
+      ],
+      "status": "exact-detected-fill"
+    },
+    "npc_speech_overflow_thumb_zone": {
+      "rect": [
+        1880,
+        366,
+        18,
+        126
+      ],
+      "status": "proposed-safe-zone"
+    }
+  }
+}
