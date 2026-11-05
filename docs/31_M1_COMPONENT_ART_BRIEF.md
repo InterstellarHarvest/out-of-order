@@ -1,4 +1,16 @@
 # M1 Component Art Brief and Slice Rules v1
+
+## 0. 2026-11-05 interaction supersession
+
+`docs/45_M1_OWNER_DIRECTION_INTERACTION_AND_DIALOGUE_FLOW.md` is authoritative for current interaction behavior. In particular:
+
+- no hover border, outline, glow, fill or brightening;
+- choice cards are dialogue lines and do not use the old push-button press treatment;
+- the current default hover treatment is Nothing; a separately approved physical marker may be tested only when explicitly selected;
+- utility hover uses a separate tooltip rather than changing the button face.
+
+Older hover/press bullets below remain only as historical art-brief context.
+
 **Date:** 2026-10-30  
 **Status:** Technical art brief derived from locked M1 geometry. Final component artwork and final font remain visual-review items.
 

@@ -1,4 +1,11 @@
 # CYOA — living path to a finished game
+
+## 2026-11-05 milestone-numbering override
+
+The original roadmap below remains useful as historical planning logic, but its milestone numbering is no longer authoritative. M1 has completed the player-experience/UI work. The owner has now authorized **M2 — Reception Vertical Slice**, defined by `docs/47_M2_RECEPTION_VERTICAL_SLICE_CHARTER.md`.
+
+The old table's labels such as “M2 — Mystery logic” and “M5 — Playable vertical slice” should therefore be read as conceptual gates, not current project milestone names. Mystery-truth work is still required before a full story is authored; it is simply not the next numbered implementation milestone.
+
 **Working title:** *The Acceptable Error* · **Roadmap version:** 0.1 · **2026-10-29**  
 **Purpose:** Give creative decisions an order, prevent uncontrolled scope, and identify what has to be demonstrated before the next commitment. **This is not an implementation order or locked design bible.**
 
@@ -124,6 +131,9 @@ Keep the initial seven docs, working title, owner preferences and idea archive. 
 - If the art mockup works but interaction is boring, return to M3; if no coherent Exchange logic survives, return to M2; if code/engine blocks visual quality, revisit M4; if the full game balloons, cut in M6/M7 rather than delaying release indefinitely.
 
 ## Our current decision
-M0 is done. **M1 is the next creative milestone.** We should explore the screen/viewpoint/portrait/interaction experience with an intentionally tiny and reusable narrative vignette. We are **not** starting implementation by adopting this roadmap.
+
+M0 and M1 are complete enough to proceed. **M2 — Reception Vertical Slice is authorized** under `docs/47_M2_RECEPTION_VERTICAL_SLICE_CHARTER.md`.
+
+This authorization is intentionally bounded: build the reception slice on the proven M1 web/lab behavior; do not interpret it as authority for full-game production, a general-purpose engine, or a complete mystery/story lock.
 
 Roadmap maintenance: Update this file when an owner-reviewed milestone changes or closes; put rationale and superseded options into the idea archive. Do not turn conceptual tasks into implementation without explicit authorization.

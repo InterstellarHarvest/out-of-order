@@ -1,4 +1,17 @@
 # M1 — UI Assetization and Runtime Interaction Prep
+
+## 0. 2026-11-05 hover/choice interaction supersession
+
+The owner interaction rules in `docs/45_M1_OWNER_DIRECTION_INTERACTION_AND_DIALOGUE_FLOW.md` supersede older hover/press language in this document:
+
+- Hover must **never** add a border, outline, glow, fill, brightening or other web-style highlight to a control.
+- Choice cards are dialogue lines, not push-buttons; they use the approved physical send/slide turn flow rather than a button press treatment.
+- Utility-button hover may show its separate tooltip, but the button art itself does not change on hover.
+- Inventory-arrow hover does not require a separate visual state.
+- Keyboard focus remains required. Any visible focus treatment must be an owner-approved physical cue that does not contradict the rule above.
+
+Sections below are retained as historical production-prep notes where they conflict with this supersession.
+
 **Date:** 2026-10-30  
 **Status:** OWNER-SELECTED production-prep decisions. This document translates the locked M1 frame into reusable sprite/runtime responsibilities. It does **not** authorize gameplay implementation yet.
 **Governing visual:** owner-supplied `layout final.png`, 1920×1080, SHA-256 `374d83a217c0b9ec1d682ac9b464be9a870bb131384c35300eced9b8a67014b3`.

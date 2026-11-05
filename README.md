@@ -2,8 +2,8 @@
 
 **Working game title:** *The Acceptable Error* (provisional)  
 **Repository name:** `CYOA` (temporary)  
-**Phase:** Creative exploration / preproduction notes only  
-**Status:** No game code, game assets, engine selection, or implementation authorization.
+**Phase:** M2 — Reception vertical slice  
+**Status:** Bounded game implementation is authorized for the reception slice defined in `docs/47_M2_RECEPTION_VERTICAL_SLICE_CHARTER.md`. This does not authorize full-game production or an engine rewrite.
 
 This repository preserves ideas and decisions for a possible retro-futuristic, branching pulp adventure. It is deliberately a **notebook, not a locked game-design bible**. Rejected and superseded ideas are kept because they may become useful later.
 
@@ -33,7 +33,11 @@ docs/  design/                    design notes, decisions, contracts
 
 **Masters never go into git:** PSDs, font files and anything in a `source/` or `originals/` folder stay local (see `.gitignore`). Everything before this layout, including candidate art and the sprite package's build history, is kept in the `archive/*` tags.
 
-## CURRENT APPROVED M1 LAYOUT / UI — START HERE
+## CURRENT M2 AUTHORITY — START HERE
+
+**M2 is authorized:** [Reception Vertical Slice Charter](docs/47_M2_RECEPTION_VERTICAL_SLICE_CHARTER.md). M1's approved UI, assets and interaction rules remain the foundation; [docs/45](docs/45_M1_OWNER_DIRECTION_INTERACTION_AND_DIALOGUE_FLOW.md) governs interaction details. The old roadmap's milestone numbering is historical where it conflicts with this charter.
+
+## APPROVED M1 LAYOUT / UI
 **[M1 Canonical UI Design Contract (owner-locked 2026-10-30)](docs/17_M1_CANONICAL_UI_DESIGN_CONTRACT.md)** is the sole governing source for mockups and visual review. The [portrait-border and inventory-arrow precision note](docs/19_M1_PORTRAIT_AND_ARROW_PRECISION.md) clarifies two repeatedly missed proportions. Older interface documents are historical notes and MUST NOT override this contract.
 
 16:9 · upper 70% scene / 30% rail · 7 unnumbered inventory slots with separate one-slot arrow controls · right-rail scroll indicator **without arrow buttons** strictly below portrait/above utilities · portrait fills entire rail width · distinct objective housing · decorative right end-cap · no decorative frame text · nothing enters scene or portrait apertures · medium-thickness, slightly absurd 1960s-future hardware.
@@ -81,7 +85,7 @@ docs/  design/                    design notes, decisions, contracts
 ## Working rules
 - Owner-selected design decisions take precedence over assistant speculation; the canonical UI contract is currently LOCKED.
 - Preserve rejected/superseded ideas in history, but never resurface their instructions as active requirements.
-- Do not begin game implementation without authorization; static visual design studies and design-only HTML labs may support reviews.
+- Bounded implementation of the M2 reception vertical slice is authorized by `docs/47`. Do not expand that authorization into full-game production, unrelated systems, or an engine rewrite.
 - References to existing media are inspirations, not materials for copying.
 - Keep milestone plan flexible and the story premise provisional.
 
