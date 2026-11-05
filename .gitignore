@@ -1,0 +1,9 @@
+# Masters and originals stay local only (owner rule): never commit them.
+*.psd
+*.ttf
+*.otf
+source/
+originals/
+
+# OS and editor junk
+.DS_Store

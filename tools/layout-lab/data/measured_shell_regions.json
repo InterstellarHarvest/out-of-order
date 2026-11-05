@@ -1,0 +1,525 @@
+{
+  "schema": "m1-measured-shell-regions-v1",
+  "note": "Measured from the bytes of layout-final.png by scripts/measure_shell.py. Older figures in docs/28-29 were taken from an earlier source PNG.",
+  "shell": {
+    "path": "art/ui/shell/layout-final.png",
+    "width": 1920,
+    "height": 1080,
+    "mode": "RGBA",
+    "sha256": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6",
+    "git_blob": "1849c8ec192cd639dd8550de0dcdda1aa88d2e4f",
+    "alpha": {
+      "transparent": 1162132,
+      "opaque": 879691,
+      "partial": 31777
+    }
+  },
+  "regions": {
+    "sceneAperture": {
+      "rect": [
+        32,
+        44,
+        1255,
+        822
+      ]
+    },
+    "portraitAperture": {
+      "rect": [
+        1333,
+        44,
+        564,
+        278
+      ]
+    },
+    "inventoryBay": {
+      "floor": [
+        23,
+        920,
+        814,
+        126
+      ],
+      "clear": [
+        70,
+        921,
+        731,
+        123
+      ],
+      "clearBandH124": [
+        70,
+        921,
+        410,
+        124
+      ],
+      "clearBandH113": [
+        42,
+        931,
+        774,
+        113
+      ],
+      "clearBandH80": [
+        23,
+        944,
+        813,
+        80
+      ],
+      "note": "floor = dark bay between frame lines at the bay centre. clear = largest rectangle free of corner plates. clearBandHn = widest clear rectangle of that height."
+    },
+    "objectivePlaque": {
+      "opening": [
+        884,
+        897,
+        273,
+        38
+      ],
+      "centerX2": 2041,
+      "note": "Narrowest dark opening across the text band (rows 905-925), so text never meets the bolts. centerX2 is twice the centre in edge coordinates."
+    },
+    "objectivePanel": {
+      "floor": [
+        855,
+        925,
+        590,
+        121
+      ],
+      "clearBelowPlaque": [
+        859,
+        943,
+        582,
+        103
+      ]
+    },
+    "utilityBay": {
+      "floor": [
+        1472,
+        918,
+        426,
+        138
+      ],
+      "clear": [
+        1487,
+        920,
+        397,
+        127
+      ],
+      "clearBandH114": [
+        1474,
+        930,
+        421,
+        114
+      ],
+      "clearBandH103": [
+        1473,
+        932,
+        424,
+        103
+      ]
+    },
+    "choicePanel": {
+      "outer": [
+        1316,
+        525,
+        548,
+        338
+      ],
+      "freeVertical": [
+        521,
+        875
+      ],
+      "note": "freeVertical is the inclusive y range between the speech panel's lower edge and the frame strip below; cards may overhang the panel into it."
+    },
+    "choiceTrack": {
+      "channel": [
+        1878,
+        536,
+        23,
+        316
+      ],
+      "channelFullWidthRows": [
+        542,
+        845
+      ],
+      "housingX": [
+        1872,
+        1906
+      ],
+      "usableHalfScale": {
+        "x": 1880,
+        "width": 20,
+        "y": 536,
+        "height": 316,
+        "note": "Topmost and bottommost rows at which the 0.5x capped thumb stays inside the chamfered channel."
+      }
+    },
+    "speechPanel": {
+      "outer": [
+        1316,
+        344,
+        598,
+        176
+      ],
+      "parchment": [
+        1323,
+        349,
+        586,
+        167
+      ],
+      "indicatorGutterX": [
+        1899,
+        1906
+      ],
+      "note": "This shell has no rivets on the speech panel. The gutter band is the x1899-1906 band from docs/31 and docs/34."
+    }
+  },
+  "sprites": {
+    "utility_a_up": {
+      "size": [
+        243,
+        205
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        242,
+        204
+      ],
+      "alpha_ge_128": [
+        2,
+        2,
+        237,
+        204
+      ],
+      "alpha_255": [
+        5,
+        5,
+        233,
+        199
+      ]
+    },
+    "utility_a_down": {
+      "size": [
+        243,
+        205
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        242,
+        204
+      ],
+      "alpha_ge_128": [
+        4,
+        3,
+        237,
+        204
+      ],
+      "alpha_255": [
+        5,
+        5,
+        233,
+        199
+      ]
+    },
+    "utility_b_up": {
+      "size": [
+        243,
+        205
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        242,
+        204
+      ],
+      "alpha_ge_128": [
+        2,
+        2,
+        237,
+        204
+      ],
+      "alpha_255": [
+        5,
+        5,
+        233,
+        199
+      ]
+    },
+    "utility_b_down": {
+      "size": [
+        243,
+        205
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        242,
+        204
+      ],
+      "alpha_ge_128": [
+        4,
+        3,
+        237,
+        204
+      ],
+      "alpha_255": [
+        5,
+        5,
+        233,
+        199
+      ]
+    },
+    "utility_c_up": {
+      "size": [
+        243,
+        205
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        242,
+        204
+      ],
+      "alpha_ge_128": [
+        2,
+        2,
+        237,
+        204
+      ],
+      "alpha_255": [
+        5,
+        5,
+        233,
+        199
+      ]
+    },
+    "utility_c_down": {
+      "size": [
+        243,
+        205
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        242,
+        204
+      ],
+      "alpha_ge_128": [
+        4,
+        3,
+        237,
+        204
+      ],
+      "alpha_255": [
+        5,
+        5,
+        233,
+        199
+      ]
+    },
+    "inv_left_up": {
+      "size": [
+        83,
+        128
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        82,
+        127
+      ],
+      "alpha_ge_128": [
+        5,
+        2,
+        81,
+        121
+      ],
+      "alpha_255": [
+        10,
+        5,
+        78,
+        117
+      ]
+    },
+    "inv_left_down": {
+      "size": [
+        83,
+        128
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        82,
+        127
+      ],
+      "alpha_ge_128": [
+        8,
+        8,
+        76,
+        120
+      ],
+      "alpha_255": [
+        8,
+        8,
+        76,
+        120
+      ]
+    },
+    "inv_right_up": {
+      "size": [
+        83,
+        128
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        82,
+        127
+      ],
+      "alpha_ge_128": [
+        1,
+        2,
+        77,
+        121
+      ],
+      "alpha_255": [
+        4,
+        5,
+        72,
+        117
+      ]
+    },
+    "inv_right_down": {
+      "size": [
+        83,
+        128
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        82,
+        127
+      ],
+      "alpha_ge_128": [
+        6,
+        8,
+        74,
+        120
+      ],
+      "alpha_255": [
+        6,
+        8,
+        74,
+        120
+      ]
+    },
+    "choice_scroll_thumb_top": {
+      "size": [
+        40,
+        21
+      ],
+      "alpha_gt_0": [
+        0,
+        1,
+        39,
+        20
+      ],
+      "alpha_ge_128": [
+        1,
+        1,
+        38,
+        20
+      ],
+      "alpha_255": [
+        1,
+        1,
+        38,
+        20
+      ]
+    },
+    "choice_scroll_thumb_middle": {
+      "size": [
+        40,
+        1
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        39,
+        0
+      ],
+      "alpha_ge_128": [
+        1,
+        0,
+        38,
+        0
+      ],
+      "alpha_255": [
+        1,
+        0,
+        38,
+        0
+      ]
+    },
+    "choice_scroll_thumb_bottom": {
+      "size": [
+        40,
+        21
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        39,
+        19
+      ],
+      "alpha_ge_128": [
+        1,
+        0,
+        38,
+        19
+      ],
+      "alpha_255": [
+        1,
+        0,
+        38,
+        19
+      ]
+    },
+    "inventory_slot": {
+      "size": [
+        96,
+        96
+      ],
+      "alpha_gt_0": [
+        0,
+        0,
+        95,
+        95
+      ],
+      "alpha_ge_128": [
+        0,
+        0,
+        95,
+        95
+      ],
+      "alpha_255": [
+        0,
+        0,
+        95,
+        95
+      ]
+    }
+  },
+  "pressTravel": {
+    "inv_left": [
+      -2,
+      3
+    ],
+    "inv_right": [
+      2,
+      3
+    ],
+    "utility_a": [
+      0,
+      0
+    ]
+  }
+}

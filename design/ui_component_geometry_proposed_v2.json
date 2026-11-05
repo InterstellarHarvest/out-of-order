@@ -1,0 +1,78 @@
+{
+  "schema": "m1-ui-geometry-proposal-v2",
+  "status": "PROPOSED_NOT_APPROVED",
+  "date": "2026-11-01",
+  "doesNotReplace": "design/ui_locked_component_contract_v1.json",
+  "note": "Additive proposal for owner review. The v1 contract stays locked and untouched. Nothing here is a production coordinate until the owner approves it. Live values are in tools/m1-ui-placement-lab/data/placement.default.json.",
+  "shell": {
+    "path": "layout-final.png",
+    "gitBlob": "1849c8ec192cd639dd8550de0dcdda1aa88d2e4f"
+  },
+  "spritePackage": "review/m1-ui-shell-v2/approved_sprite_package/v1",
+  "measuredBy": "tools/m1-ui-placement-lab/scripts/measure_shell.py",
+  "controls": {
+    "utilityButton": {
+      "v1Contract": [144, 128],
+      "nativeV5": [243, 205],
+      "nativeFits": false,
+      "proposedDisplay": [135, 114],
+      "proposedScale": 0.5556,
+      "alternativeDisplay": [122, 103],
+      "alternativeScale": 0.5,
+      "proposedX": [1478, 1617, 1756],
+      "proposedY": 930,
+      "proposedGap": 4,
+      "pressedLabelOffset": [2, 2],
+      "decision": "OPEN"
+    },
+    "inventoryArrow": {
+      "v1Contract": [56, 112],
+      "nativeV5": [83, 128],
+      "nativeFitsWithSevenSlots": false,
+      "nativeFitsWithSixSlots": true,
+      "proposedDisplayWithSevenSlots": [52, 80],
+      "proposedScaleWithSevenSlots": 0.625,
+      "decision": "OPEN"
+    },
+    "inventorySlot": {
+      "native": [96, 96],
+      "pitch": 102,
+      "sevenSlotX": 76,
+      "sixSlotX": 127,
+      "y": 935,
+      "v1Note": "v1 records 7 visible at pitch 102. Earlier assemblies used x75 and y932; the measured bay centres the row at x76 and y935.",
+      "decision": "OPEN"
+    },
+    "choiceScrollThumb": {
+      "v1Contract": null,
+      "nativeV5Width": 40,
+      "nativeFits": false,
+      "proposedDisplayWidth": 20,
+      "proposedCapHeight": 10,
+      "proposedScale": 0.5,
+      "proposedX": 1880,
+      "track": { "x": 1880, "y": 537, "width": 20, "height": 314 },
+      "decision": "OPEN"
+    },
+    "choiceViewport": {
+      "cardWidth": 548,
+      "cardHeights": [80, 108, 136, 164],
+      "gap": 12,
+      "proposedRect": [1316, 522, 548, 348],
+      "earlierRect": [1314, 522, 548, 348],
+      "decision": "OPEN"
+    },
+    "objective": {
+      "plaqueOpening": [884, 897, 273, 38],
+      "titlePosition": [903, 907],
+      "bodyPosition": [895, 960],
+      "bodyWidth": 520,
+      "decision": "OPEN"
+    },
+    "speech": {
+      "textRect": [1342, 360, 540, 144],
+      "indicatorTrack": [1899, 366, 8, 126],
+      "decision": "OPEN"
+    }
+  }
+}

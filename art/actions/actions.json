@@ -1,0 +1,153 @@
+{
+  "note": "Final 96x96 action sprites, owner picks 2026-11-04. Source cutouts (512px) stay local in art/actions/source/, never in git. Batches: archive/art/action-buttons-v5-cutouts, design/The Acceptable Error - Action Buttons/<batch>/.",
+  "actions": {
+    "inspect": [
+      {
+        "file": "inspect.png",
+        "from": "v4/magnifier.png",
+        "sha256": "59277944a8a6febe2c1600a172d8c9b6da89663e5dd93e7224b352cc4616aa2d"
+      }
+    ],
+    "notes": [
+      {
+        "file": "notes.png",
+        "from": "v5/typewriter.png",
+        "sha256": "177c359f17709f882b3a28132b5e238a1bdf96ff0d4218095dc9ccefce7f0e16"
+      }
+    ],
+    "journal": [
+      {
+        "file": "journal.png",
+        "from": "v3/file_drawer.png",
+        "sha256": "8c9c0b28edd1a491fa4b93e393dd0d709eb836d108b61e476cc744107b9dd23c"
+      }
+    ],
+    "read": [
+      {
+        "file": "read.png",
+        "from": "v5/read.png",
+        "sha256": "4140822370e7cf3baf4c8a977423736034735ae811d3051796cd737f67796cf3"
+      }
+    ],
+    "use": [
+      {
+        "file": "use.png",
+        "from": "v5/keys2.png",
+        "sha256": "9e2b7d73ab5da8849e815e2affc5c9c2af449f1c223e0b8c3c3ea8f6336f1d32"
+      }
+    ],
+    "show": [
+      {
+        "file": "show_badge.png",
+        "from": "v5/badge.png",
+        "sha256": "95b2810105f9926aa587d8e4d28ee5f413d01cc111a17ba5ff26d99ba888da22",
+        "variant": "by context"
+      },
+      {
+        "file": "show_id.png",
+        "from": "v3/id_card.png",
+        "sha256": "bdc22ecddb92caafb0bb34b21003c446fce9c5532456d924eff18a2b45515433",
+        "variant": "by context"
+      }
+    ],
+    "return": [
+      {
+        "file": "return.png",
+        "from": "v5/return2.png",
+        "sha256": "c6f89a2de84ebe1e9152c46e4ae521903cdbfaaf8ec61860f6f4d76ffa1d78d4"
+      }
+    ],
+    "wait": [
+      {
+        "file": "wait_1.png",
+        "from": "v4/ticket.png",
+        "sha256": "20075439c60d9906f5df16ee0071834fc6761ba45ba73a69beec69b06687f9da",
+        "variant": "picked at random"
+      },
+      {
+        "file": "wait_2.png",
+        "from": "v3/ticket.png",
+        "sha256": "255e7e868a1c8d4294b647c7cab9c5c375f7482c48ba704bad73e56df43ef1a5",
+        "variant": "picked at random"
+      }
+    ],
+    "call": [
+      {
+        "file": "call.png",
+        "from": "v4/phone.png",
+        "sha256": "57d7868fa30e68e54b669779d42bafb2a7b5b4d8454c212b75ba45a36b0f6eb5"
+      }
+    ],
+    "stamp": [
+      {
+        "file": "stamp.png",
+        "from": "v4/stamp_wood_clean.png",
+        "sha256": "b94939a4279c3de94f124f8a5cb99c43638028b0ba20a066bb627e493ddaeb87"
+      }
+    ],
+    "ring": [
+      {
+        "file": "ring.png",
+        "from": "v3/bell.png",
+        "sha256": "25eaa9fd8d502210c4cc5932d234ae3e2872757d63b41de0982b73f8e1bafd49"
+      }
+    ],
+    "submit": [
+      {
+        "file": "submit.png",
+        "from": "v5/form27b6.png",
+        "sha256": "6a6e9be1b00f162f917aa1742e470a1649455b079f708da1a5e5720219cb47be"
+      }
+    ],
+    "pull": [
+      {
+        "file": "pull.png",
+        "from": "v4/lever.png",
+        "sha256": "e965ee7d9efb1495fad42b13713d47be8ab49cb8ae3f70b4e28de3a9e4c53aac"
+      }
+    ],
+    "leave": [
+      {
+        "file": "leave.png",
+        "from": "v3/exit.png",
+        "sha256": "737b5a69e514be0f92c440175906404c22472a31c80cde9472b7b7430c6964b7"
+      }
+    ],
+    "listen": [
+      {
+        "file": "listen.png",
+        "from": "v5/headphone.png",
+        "sha256": "6770ca46b2833c757a2a69affb95a7967d26fb9a80ebe68f39c7c7261571ec8d"
+      }
+    ],
+    "talk": [
+      {
+        "file": "talk_mic.png",
+        "from": "v3/mic.png",
+        "sha256": "52f97a919e928d08c80ea7d5ac17039065c5f0130e8cfcd4ea04a7c7f96fe6ac",
+        "variant": "by context"
+      },
+      {
+        "file": "talk_intercom.png",
+        "from": "v5/intercom.png",
+        "sha256": "1eb027e2376b11374e5e4e6595527494b0b31a68c17e1d8d9bd932d2ff96dbc0",
+        "variant": "by context"
+      }
+    ],
+    "watch": [
+      {
+        "file": "watch.png",
+        "from": "v4/camera.png",
+        "sha256": "81d2cf0fdc147a96d37843388aedbc0b907a31073033001cee20e21edc7d7130"
+      }
+    ],
+    "bribe": [
+      {
+        "file": "bribe.png",
+        "from": "v5/bribe2.png",
+        "sha256": "15994ac260d922d45b7491caf3c0e8764424cdb4aa46401eb612d10951e7513c",
+        "edit": "'100' replaced with a plain oval seal (2026-11-04)"
+      }
+    ]
+  }
+}

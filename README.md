@@ -14,6 +14,25 @@ An ordinary person, inadvertently granted inappropriate authority through coinci
 The intended visual language is bright, chunky, true low-resolution pixel art inspired by the richer 16- to early-32-bit era, shown at integer scale. A King's Quest VI-style composed scene and separately framed, more detailed NPC speaking portraits are an important UI reference. The playable protagonist's on-screen representation is **undecided**.
 
 The inspiration from *Choose Your Own Adventure: House of Danger* concerns consequential choices, occasional chance, and useful acquired objects—not a deck-building, combat-card, or roguelike card-game interface.
+## Repository layout
+
+```
+art/
+  ui/
+    shell/layout-final.png        1920x1080 canonical shell (pinned by hash)
+    m1_approved_sprite_sheet.*    approved sprite package v1: atlas, manifest, JS manifest
+    sprites/                      the package's sprites (choice_cards, controls, fonts, inventory)
+    fonts/                        chosen baked faces, with licences/
+  actions/                        final 96x96 action-button sprites, named by action; actions.json
+  items/                          inventory items: <item>_slot.png (96x96) and <item>_inspect.png
+  portraits/                      later
+  scenes/<location>/<scene>/      later, e.g. conference_hall/reception (chapter folders may come)
+tools/layout-lab/                 the placement lab; open index.html locally (see its README)
+docs/  design/                    design notes, decisions, contracts
+```
+
+**Masters never go into git:** PSDs, font files and anything in a `source/` or `originals/` folder stay local (see `.gitignore`). Everything before this layout, including candidate art and the sprite package's build history, is kept in the `archive/*` tags.
+
 ## CURRENT APPROVED M1 LAYOUT / UI — START HERE
 **[M1 Canonical UI Design Contract (owner-locked 2026-10-30)](docs/17_M1_CANONICAL_UI_DESIGN_CONTRACT.md)** is the sole governing source for mockups and visual review. The [portrait-border and inventory-arrow precision note](docs/19_M1_PORTRAIT_AND_ARROW_PRECISION.md) clarifies two repeatedly missed proportions. Older interface documents are historical notes and MUST NOT override this contract.
 

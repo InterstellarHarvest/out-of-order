@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>CYOA M1 Pixel Placement Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<div id="app">
+  <main id="viewport" aria-label="Stage">
+    <div id="stageFrame">
+      <div id="stage" data-backdrop="dark">
+        <img id="shell" src="../../art/ui/shell/layout-final.png" width="1920" height="1080" alt="Canonical shell" draggable="false">
+        <div id="grid" class="tool" hidden></div>
+        <div id="guides" class="tool" hidden></div>
+        <div id="warningMarks" class="tool"></div>
+        <div id="selection" class="tool" hidden><span id="selectionTag"></span></div>
+      </div>
+    </div>
+  </main>
+
+  <aside id="sidebar" aria-label="Placement tools">
+    <header>
+      <h1>M1 Pixel Placement Lab</h1>
+      <p class="status">Developer tool. Nothing here is approved geometry.</p>
+    </header>
+
+    <section class="bar">
+      <div class="seg" role="group" aria-label="Stage mode">
+        <button id="modeInteract" type="button">Interact</button>
+        <button id="modePosition" type="button">Position</button>
+      </div>
+      <div class="seg" role="group" aria-label="View">
+        <button id="viewFit" type="button">Fit</button>
+        <button id="view1x" type="button">1:1</button>
+      </div>
+      <button id="cleanReview" type="button" title="Hide all tooling. Esc returns.">Clean Review</button>
+    </section>
+    <section class="bar">
+      <label><input id="toggleGrid" type="checkbox"> Grid</label>
+      <label><input id="toggleGuides" type="checkbox"> Measured bays</label>
+      <label><input id="toggleOutline" type="checkbox" checked> Outline</label>
+      <label><input id="toggleWarnings" type="checkbox" checked> Overflow warnings</label>
+      <label>Backdrop
+        <select id="backdrop">
+          <option value="dark">Dark</option>
+          <option value="black">Black</option>
+          <option value="checker">Checker</option>
+          <option value="magenta">Magenta</option>
+        </select>
+      </label>
+    </section>
+    <p id="viewNote" class="note"></p>
+
+    <section id="saveBar">
+      <p id="saveState" data-state="baseline" role="status"></p>
+      <div class="row">
+        <button id="saveSnapshot" type="button" class="primary">Save Layout Snapshot</button>
+        <button id="resetAll" type="button">Reset everything</button>
+        <button id="undoReset" type="button" hidden>Undo reset</button>
+      </div>
+    </section>
+
+    <section id="liveTuning" aria-label="Live Tuning">
+      <h2>Live Tuning</h2>
+      <div id="warningsList" hidden></div>
+      <div id="tuningGroups"></div>
+    </section>
+
+    <details>
+      <summary>Placement JSON</summary>
+      <div class="row">
+        <button id="copyJson" type="button">Copy</button>
+        <button id="downloadJson" type="button">Download</button>
+        <button id="importJson" type="button">Import</button>
+      </div>
+      <input id="importFile" type="file" accept="application/json,.json" hidden>
+      <textarea id="jsonBox" rows="5" spellcheck="false" placeholder="Paste placement JSON here, then press Import. With this box empty, Import opens a file."></textarea>
+    </details>
+    <p id="jsonStatus" class="note" role="status"></p>
+
+    <details id="advancedTools">
+      <summary>Advanced</summary>
+
+      <details>
+        <summary>Compare and demonstrate</summary>
+        <div id="demos"></div>
+      </details>
+
+      <details id="inspectorBox">
+        <summary>Component Inspector</summary>
+        <div id="tree"></div>
+        <div id="inspector"></div>
+      </details>
+
+      <details>
+        <summary>Fit report</summary>
+        <div id="fitReport"></div>
+      </details>
+    </details>
+  </aside>
+</div>
+<button id="exitClean" type="button" hidden>Exit Clean Review (Esc)</button>
+
+<script src="../../art/ui/m1_approved_sprite_sheet.manifest.js"></script>
+<script src="js/samples.js"></script>
+<script src="data/lab_data.js"></script>
+<script src="js/core.js"></script>
+<script src="js/stage.js"></script>
+<script src="js/inspector.js"></script>
+<script src="js/tuning.js"></script>
+<script src="js/snapshot.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

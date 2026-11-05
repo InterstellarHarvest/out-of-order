@@ -1,0 +1,98 @@
+{
+  "schema": "m1-ui-placement-compare-presets-v1",
+  "note": "Starting points and display-scale experiments for the lab's buttons. None of these are approved values.",
+  "arrows": {
+    "fit": {
+      "label": "Fit 52x80 (0.625)",
+      "left": {
+        "x": 23,
+        "y": 944,
+        "scale": 0.625
+      },
+      "right": {
+        "x": 785,
+        "y": 944,
+        "scale": 0.625
+      }
+    },
+    "native": {
+      "label": "Native 83x128",
+      "left": {
+        "x": 42,
+        "y": 922,
+        "scale": 1
+      },
+      "right": {
+        "x": 736,
+        "y": 922,
+        "scale": 1
+      }
+    }
+  },
+  "utility": {
+    "fit": {
+      "label": "Fit 135x114 (0.5556)",
+      "scale": 0.5556,
+      "y": 930,
+      "x": [
+        1478,
+        1617,
+        1756
+      ]
+    },
+    "half": {
+      "label": "Half 122x103 (0.5)",
+      "scale": 0.5,
+      "y": 932,
+      "x": [
+        1486,
+        1623,
+        1760
+      ]
+    },
+    "native": {
+      "label": "Native 243x205",
+      "scale": 1,
+      "y": 851,
+      "x": [
+        1472,
+        1715,
+        1958
+      ]
+    }
+  },
+  "thumb": {
+    "fit": {
+      "label": "Fit 20px (0.5)",
+      "x": 1880,
+      "scale": 0.5
+    },
+    "native": {
+      "label": "Native 40px",
+      "x": 1870,
+      "scale": 1
+    }
+  },
+  "inventoryStarters": {
+    "six-small-wide": {
+      "label": "6 slots · Small arrows · Wider spacing",
+      "slotCount": 6,
+      "gap": 6,
+      "arrowWidth": 44,
+      "y": 949,
+      "leftX": 34,
+      "rightX": 782,
+      "symmetric": true
+    },
+    "seven-baseline": {
+      "label": "7 slots · Baseline layout",
+      "slotCount": 7,
+      "gap": 6,
+      "arrowWidth": 52,
+      "y": 944,
+      "leftX": 23,
+      "rightX": 785,
+      "symmetric": false
+    }
+  }
+}
