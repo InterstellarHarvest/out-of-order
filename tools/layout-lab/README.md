@@ -95,6 +95,6 @@ The suite was also run once against a scratch copy with nine deliberate faults: 
 
 ## What it never changes
 
-The sprite package corrected a stray black line on `choice_2line_c` and `choice_4line_b` on 2026-11-02 (see the package README). Placements saved before that refer to the earlier atlas hash; they still import and are moved to the current one.
+The sprite package corrected a stray black line on `choice_2line_c` and `choice_4line_b` on 2026-11-02 (see the package README), and stray pixels in rows 0–1 of `choice_1line_a`, `choice_1line_b`, `choice_2line_a`, `choice_2line_b`, `choice_3line_b` and `choice_4line_a` on 2026-11-05 (PMO ruling `docs/49` §2.7; before/after hashes in each sprite's `correction` entry in the manifest). Placements saved before either refer to an earlier atlas hash; they still import and are moved to the current one.
 
 The lab only reads `layout-final.png`, the sprite package, the locked ZIP and the V5 sources. Display scaling happens at display time: no resized image is written into the repository. Sprites never exceed native size on the sliders, and the slot stays 96×96. Hover never adds a border, outline, glow or highlight: an element shows interaction by physically changing. The obsolete 364×78 font atlas is never requested, and QA fails if it is.

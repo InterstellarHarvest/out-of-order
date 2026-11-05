@@ -7,7 +7,7 @@
   var PACKAGE_ROOT = '../../art/ui/';
   var STORAGE_KEY = 'm1-ui-placement-lab/v1';
   var EXPORT_KEY = STORAGE_KEY + ':exported';
-  var PREVIOUS_ATLASES = ['25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee'];
+  var PREVIOUS_ATLASES = ['25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee', 'bf636c757c30fa33b45f8ae370374d0349fb615a0d64a23cde873099b64a7013'];
 
   // QA pins a baseline of its own, so its expectations do not move each time the owner's
   // defaults change. Nothing else sets this.
@@ -397,8 +397,8 @@
     if (!value.shell || value.shell.gitBlob !== lab.baseline.shell.gitBlob) {
       throw new Error('This placement was made for a different shell.');
     }
-    // Saved before the stray-line correction to two choice cards. Nothing else in the package
-    // changed, so those placements still apply.
+    // Saved before a stray-pixel correction to choice cards (two cards 2026-11-02, six more
+    // 2026-11-05). Nothing else in the package changed, so those placements still apply.
     if (value.spritePackage && PREVIOUS_ATLASES.indexOf(value.spritePackage.atlasSha256) !== -1) {
       value.spritePackage.atlasSha256 = lab.baseline.spritePackage.atlasSha256;
     }

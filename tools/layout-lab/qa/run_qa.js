@@ -77,7 +77,8 @@ function staticChecks() {
   const strays = onDisk('sprites').filter((f) => !listed.has(f));
   check(b, 'the sprite package holds no unlisted files', strays.length === 0, strays);
   const corrected = Object.keys(sheet.sprites).filter((n) => sheet.sprites[n].correction).sort();
-  check(b, 'manifest records the correction on exactly the two cards', corrected.join() === 'choice_2line_c,choice_4line_b', corrected);
+  check(b, 'manifest records the correction on exactly the eight corrected cards', corrected.join()
+    === 'choice_1line_a,choice_1line_b,choice_2line_a,choice_2line_b,choice_2line_c,choice_3line_b,choice_4line_a,choice_4line_b', corrected);
 
   const bundle = fs.readFileSync(path.join(LAB, 'data/lab_data.js'), 'utf8').replace(/^[^]*?window\.M1_LAB_DATA = /, '').replace(/;\s*$/, '');
   const data = JSON.parse(bundle);
@@ -2117,7 +2118,10 @@ async function shippedDefaults(name, base) {
         rows.push(opaque);
       }
       const detached = rows.some((opaque, y) => !opaque && rows.slice(0, y).some(Boolean));
-      out.push({ name, width: canvas.width, height: canvas.height, detached, bad });
+      // A top row with only scattered pixels above a full outline row is stray, not outline.
+      const counts = [0, 1, 2].map((y) => { let n = 0; for (let x = 0; x < img.width; x++) if (a[(y * img.width + x) * 4 + 3] > 0) n++; return n; });
+      const sparse = [0, 1].some((y) => counts[y] > 0 && counts[y] < img.width / 2);
+      out.push({ name, width: canvas.width, height: canvas.height, detached, sparse, bad });
     });
     return out;
   }, [width, percent]);
@@ -2129,9 +2133,13 @@ async function shippedDefaults(name, base) {
   }
   const stray = (await art(532)).filter((k) => k.detached).map((k) => k.name);
   c('no card sprite has a stray line detached from its top', stray.length === 0, stray);
-  const older = await page.evaluate((text) => { const s = JSON.parse(text); return M1Lab.importText(JSON.stringify(s)); },
-    JSON.stringify(Object.assign({}, shipped, { spritePackage: Object.assign({}, shipped.spritePackage, { atlasSha256: '25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee' }) })));
-  c('a placement saved before the card correction still imports', older === true && JSON.parse(await page.evaluate(() => M1Lab.exportJson())).spritePackage.atlasSha256 === shipped.spritePackage.atlasSha256);
+  const scattered = (await art(532)).filter((k) => k.sparse).map((k) => k.name);
+  c('no card sprite has scattered stray pixels above its outline', scattered.length === 0, scattered);
+  for (const atlas of ['25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee', 'bf636c757c30fa33b45f8ae370374d0349fb615a0d64a23cde873099b64a7013']) {
+    const older = await page.evaluate((text) => { const s = JSON.parse(text); return M1Lab.importText(JSON.stringify(s)); },
+      JSON.stringify(Object.assign({}, shipped, { spritePackage: Object.assign({}, shipped.spritePackage, { atlasSha256: atlas }) })));
+    c('a placement saved before the card correction (atlas ' + atlas.slice(0, 8) + ') still imports', older === true && JSON.parse(await page.evaluate(() => M1Lab.exportJson())).spritePackage.atlasSha256 === shipped.spritePackage.atlasSha256);
+  }
   await browser.close();
 }
 

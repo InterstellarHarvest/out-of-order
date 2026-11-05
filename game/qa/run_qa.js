@@ -20,6 +20,13 @@ const START_SHA = '5d42b524e8499c7ef3da724ba02f439c1cc660ff'; // main when M2 be
 const SHELL_PATH = 'art/ui/shell/layout-final.png';
 const SHELL_SHA256 = '813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6';
 const PASS_PATH = 'art/items/bathroom_pass_slot.png';
+// The PMO-authorised maintenance change (docs/49 section 2.7).
+const CLEANED = ['choice_1line_a', 'choice_1line_b', 'choice_2line_a', 'choice_2line_b', 'choice_3line_b', 'choice_4line_a'];
+const MAINTENANCE = CLEANED.map((n) => `art/ui/sprites/choice_cards/${n}.png`).concat([
+  'art/ui/m1_approved_sprite_sheet.png', 'art/ui/m1_approved_sprite_sheet.json', 'art/ui/m1_approved_sprite_sheet.manifest.js',
+  'tools/layout-lab/data/placement.default.json', 'tools/layout-lab/data/lab_data.js', 'tools/layout-lab/data/snapshot_assets.js',
+  'tools/layout-lab/qa/fixtures/placement.qa_baseline.json', 'tools/layout-lab/js/core.js', 'tools/layout-lab/qa/run_qa.js',
+  'tools/layout-lab/README.md']);
 
 const content = require('../content/reception.js');
 const Rules = require('../js/rules.js');
@@ -38,17 +45,25 @@ const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8'
 // Static checks ------------------------------------------------------------------------------
 function staticChecks() {
   const b = 'static';
-  // M1 is untouched: every committed byte of art/, design/, the lab and the M1 docs is as it was
-  // on main when M2 began, and nothing in the working tree differs from that either.
-  // New M2 notes may be added under docs/; nothing existing may change, and nothing may be added
-  // to art/, design/ or the lab.
+  // M1 is untouched since M2 began, except the one maintenance change the PMO authorised in
+  // docs/49 section 2.7: six choice cards lose their stray rows-0-1 pixels, with the atlas, manifest
+  // and lab pins that follow from that. New M2 notes may be added under docs/.
   const protectedPaths = ['art', 'design', 'tools/layout-lab', 'README.md', 'docs'];
-  const committed = git('diff', '--name-only', '--diff-filter=MDRTC', START_SHA, 'HEAD', '--', ...protectedPaths);
-  check(b, 'M1 art, design, lab and docs are unchanged since the M2 start commit', committed === '', committed);
-  const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, 'HEAD', '--', 'art', 'design', 'tools/layout-lab');
+  const changedSinceStart = git('diff', '--name-only', '--diff-filter=MDRTC', START_SHA, '--', ...protectedPaths).split('\n').filter(Boolean);
+  const outside = changedSinceStart.filter((f) => !MAINTENANCE.includes(f));
+  check(b, 'M1 art, design, lab and docs are unchanged since M2 began, apart from the authorised card cleanup', outside.length === 0, outside);
+  const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, '--', 'art', 'design', 'tools/layout-lab');
   check(b, 'no file was added to art/, design/ or the lab (placeholders are drawn at runtime)', added === '', added);
   const working = git('status', '--porcelain', '--', ...protectedPaths).split('\n').filter((l) => l && !/^\?\? docs\//.test(l)).join('\n');
   check(b, 'no uncommitted change to M1 art, design, lab or docs', working === '', working);
+  const blobSha = (rev, f) => sha256(execFileSync('git', ['show', `${rev}:${f}`], { cwd: ROOT }));
+  const cardFix = Object.keys(sheet.sprites).filter((n) => sheet.sprites[n].correction && /2026-11-05/.test(sheet.sprites[n].approval_basis));
+  check(b, 'exactly the six documented cards carry the 2026-11-05 correction', cardFix.sort().join() === CLEANED.join(), cardFix);
+  const before = CLEANED.filter((n) => sheet.sprites[n].correction.source_sha256 !== blobSha(START_SHA, 'art/ui/' + sheet.sprites[n].package_path));
+  check(b, 'each corrected card records its exact before-hash', before.length === 0, before);
+  const untouched = Object.keys(sheet.sprites).filter((n) => !CLEANED.includes(n)
+    && sha256(fs.readFileSync(path.join(ROOT, 'art/ui', sheet.sprites[n].package_path))) !== blobSha(START_SHA, 'art/ui/' + sheet.sprites[n].package_path));
+  check(b, 'the other 23 package sprites are byte-identical to the M2 start', untouched.length === 0, untouched);
   check(b, 'shell SHA-256 unchanged', sha256(fs.readFileSync(path.join(ROOT, SHELL_PATH))) === SHELL_SHA256);
   const bad = Object.keys(sheet.sprites).filter((n) => sha256(fs.readFileSync(path.join(ROOT, 'art/ui', sheet.sprites[n].package_path))) !== sheet.sprites[n].sha256);
   check(b, 'all 29 approved package sprites match their manifest hashes', Object.keys(sheet.sprites).length === 29 && bad.length === 0, bad);
@@ -196,6 +211,32 @@ async function suite(name, base, requests) {
       return kids.indexOf(document.getElementById('scene')) < shell && kids.indexOf(document.getElementById('portrait')) < shell;
     }));
   c('placeholders are labelled as placeholders', await page.evaluate(() => ['scene', 'portrait'].every((id) => /COMMISSIONED|PORTRAIT/.test(document.getElementById(id).dataset.placeholder))));
+  const cleanup = await page.evaluate(async (pairs) => {
+    const load = (src) => new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.src = src; });
+    const px = (img) => { const c2 = document.createElement('canvas'); c2.width = img.width; c2.height = img.height; const x = c2.getContext('2d'); x.drawImage(img, 0, 0); return x.getImageData(0, 0, img.width, img.height).data; };
+    const out = [];
+    for (const [name, oldUrl, newUrl] of pairs) {
+      const a = px(await load(oldUrl));
+      const b2 = px(await load(newUrl));
+      const w = (await load(newUrl)).width;
+      let below = 0;
+      let top = 0;
+      let removed = 0;
+      for (let i = 0; i < b2.length; i += 4) {
+        const row = Math.floor(i / 4 / w);
+        if (row >= 2) { for (let k = 0; k < 4; k++) if (a[i + k] !== b2[i + k]) { below++; break; } } else {
+          if (b2[i + 3] !== 0) top++;
+          if (a[i + 3] !== 0) removed++;
+        }
+      }
+      out.push({ name, below, top, removed });
+    }
+    return out;
+  }, CLEANED.map((n) => [n, 'data:image/png;base64,' + execFileSync('git', ['show', `${START_SHA}:art/ui/sprites/choice_cards/${n}.png`], { cwd: ROOT }).toString('base64'),
+    '/art/ui/sprites/choice_cards/' + n + '.png']));
+  c('card cleanup: rows 2 and below are pixel-identical to the approved originals', cleanup.every((k) => k.below === 0), cleanup);
+  c('card cleanup: rows 0-1 of the six cards are now empty, and only stray pixels were removed', cleanup.every((k) => k.top === 0 && k.removed > 0)
+    && cleanup.reduce((n, k) => n + k.removed, 0) === 588, cleanup);
   c('pixel art renders without smoothing', await page.evaluate(() => Array.from(document.querySelectorAll('#stage img, #stage canvas'))
     .every((e) => /pixelated|crisp-edges/.test(getComputedStyle(e).imageRendering))));
   c('utility buttons show the owner\'s glyphs in conversation', JSON.stringify(await page.$$eval('.utility', (bs) => bs.map((b) => b.dataset.action)))

@@ -4,7 +4,7 @@ window.M1_SPRITE_SHEET = {
   "package_status": "APPROVED_PACKAGE",
   "runtime_integrated": false,
   "image": "m1_approved_sprite_sheet.png",
-  "image_sha256": "bf636c757c30fa33b45f8ae370374d0349fb615a0d64a23cde873099b64a7013",
+  "image_sha256": "1c5990ba16a88c4986709187628d7ba81460c985bcd0b290c83cdca540bd8d2e",
   "width": 1676,
   "height": 1163,
   "margin": 8,
@@ -59,13 +59,22 @@ window.M1_SPRITE_SHEET = {
       "subgroup": "1-line cards",
       "state": "a",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_1line_a.png",
       "package_path": "sprites/choice_cards/choice_1line_a.png",
-      "sha256": "b7055d622440459f86d398c2df896cf235a700896f02cf417dede64d0ea03a32",
-      "rgba_sha256": "5ec65006760dd292f7659f9d55fce67076d63598be2a66c62dbf9efc0d6d1c58"
+      "sha256": "5736d1ac0417ea723846bbb021044e0ba3e3389b1d9d3a27b7425697379e76f6",
+      "rgba_sha256": "258facc3042f63cc6c2194466036764a437624fe775d20a5ccff1a71f49085b0",
+      "correction": {
+        "rows_cleared": [
+          0,
+          1
+        ],
+        "pixels_cleared": 72,
+        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
+        "source_sha256": "b7055d622440459f86d398c2df896cf235a700896f02cf417dede64d0ea03a32"
+      }
     },
     "choice_1line_b": {
       "x": 564,
@@ -76,13 +85,22 @@ window.M1_SPRITE_SHEET = {
       "subgroup": "1-line cards",
       "state": "b",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_1line_b.png",
       "package_path": "sprites/choice_cards/choice_1line_b.png",
-      "sha256": "efeac4cc0995b3451d75ae9a0f8868a762d73e17aa540a4d613bf72665ed1daa",
-      "rgba_sha256": "68a70175b0cc6baa7a237eec8719b3522fb4f68d97d5dd344cab8480ee7fa501"
+      "sha256": "5ca0fff158e52867c2141bed92db806747a103073f3cae2eccb95fcdb43234e6",
+      "rgba_sha256": "d6342e668d3a41d87d330259155c53d68ef7d1c59cfcb21fd3fce5f8f3380a63",
+      "correction": {
+        "rows_cleared": [
+          0,
+          1
+        ],
+        "pixels_cleared": 268,
+        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
+        "source_sha256": "efeac4cc0995b3451d75ae9a0f8868a762d73e17aa540a4d613bf72665ed1daa"
+      }
     },
     "choice_1line_c": {
       "x": 1120,
@@ -110,13 +128,22 @@ window.M1_SPRITE_SHEET = {
       "subgroup": "2-line cards",
       "state": "a",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_2line_a.png",
       "package_path": "sprites/choice_cards/choice_2line_a.png",
-      "sha256": "bdb8fa8174cd4a10b7887d0fbb2fbff04039d2ea53e8d51fed3d5402bae1ac19",
-      "rgba_sha256": "9fed734ad584c17af5d7ea3e29c9645f781d6e056e6404478ece1cf6fbc76af2"
+      "sha256": "04c016bafa1628a45f3dea688e6628bc0418df453ba0cb03a53f9293fd3fe7fe",
+      "rgba_sha256": "f98eb541d6c068d8b384c706bb70abe3c5a6bd99379cc7492a21f24c28a5deee",
+      "correction": {
+        "rows_cleared": [
+          0,
+          1
+        ],
+        "pixels_cleared": 44,
+        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
+        "source_sha256": "bdb8fa8174cd4a10b7887d0fbb2fbff04039d2ea53e8d51fed3d5402bae1ac19"
+      }
     },
     "choice_2line_b": {
       "x": 564,
@@ -127,13 +154,22 @@ window.M1_SPRITE_SHEET = {
       "subgroup": "2-line cards",
       "state": "b",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_2line_b.png",
       "package_path": "sprites/choice_cards/choice_2line_b.png",
-      "sha256": "e28807c219b7050e6ca3e51aa3b7f30b60e75d2d1b34ef67acac8ee23c71a86a",
-      "rgba_sha256": "b7c751c626316b50dfdc9f9c2b8cade9f4e314a628704f1a35b1d764d9f6e749"
+      "sha256": "78201b4d27723e70aae5974fce65e3ae6e5290640e55a253dd9d10169a07c6a4",
+      "rgba_sha256": "14eb91926ae01e2d718a66401c46e426b507aa21899c9288b057c6d85619fe23",
+      "correction": {
+        "rows_cleared": [
+          0,
+          1
+        ],
+        "pixels_cleared": 4,
+        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
+        "source_sha256": "e28807c219b7050e6ca3e51aa3b7f30b60e75d2d1b34ef67acac8ee23c71a86a"
+      }
     },
     "choice_2line_c": {
       "x": 1120,
@@ -186,13 +222,22 @@ window.M1_SPRITE_SHEET = {
       "subgroup": "3-line cards",
       "state": "b",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_3line_b.png",
       "package_path": "sprites/choice_cards/choice_3line_b.png",
-      "sha256": "c1b738f93d86215a5f630c4abc882d15c1f0c523dd5210061bc40985d967d7ec",
-      "rgba_sha256": "5837cb05a518fc53d5ba1700224cb3f76b99783e57b2060e54584917886c0ee5"
+      "sha256": "1655afe8625e44d4db9e85d5f9c0fa5135ccb0fb4b9f2972d2dedb076a49e070",
+      "rgba_sha256": "ae3cba5ffe1108ecf83bd5f8341bb3c50bb3155099045dd106fc1f16af363325",
+      "correction": {
+        "rows_cleared": [
+          0,
+          1
+        ],
+        "pixels_cleared": 112,
+        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
+        "source_sha256": "c1b738f93d86215a5f630c4abc882d15c1f0c523dd5210061bc40985d967d7ec"
+      }
     },
     "choice_3line_c": {
       "x": 1120,
@@ -220,13 +265,22 @@ window.M1_SPRITE_SHEET = {
       "subgroup": "4-line cards",
       "state": "a",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_4line_a.png",
       "package_path": "sprites/choice_cards/choice_4line_a.png",
-      "sha256": "dceed817b68f6743e1f6c3adeb142f23e1d6a70b33ef8f2eadbf3e72d79eabe1",
-      "rgba_sha256": "4033c9f90b0aeb4ef7863a8e7020cc50bdf26069ddec2af789fcc203073a29b8"
+      "sha256": "af2cc48d35c71931350803a8c7af9c96d9a9553a7d36772a84a68a1dd2fbd4db",
+      "rgba_sha256": "910ef613cf4cf57e52c88f3c44dee2c261e64433d49cfc92f112a3846808f5ee",
+      "correction": {
+        "rows_cleared": [
+          0,
+          1
+        ],
+        "pixels_cleared": 88,
+        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
+        "source_sha256": "dceed817b68f6743e1f6c3adeb142f23e1d6a70b33ef8f2eadbf3e72d79eabe1"
+      }
     },
     "choice_4line_b": {
       "x": 564,
