@@ -1,0 +1,74 @@
+/* The reception slice. Everything on the stage is placed in whole 1920x1080 shell pixels; the
+   only transform is the fit-to-window scale on #stage. No element changes on hover: no border,
+   outline, glow, fill or brightness. Interaction is shown physically (sprites press, cards move). */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+#stageFrame { position: relative; overflow: hidden; }
+#stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  overflow: clip;
+  background: #0e1b20;
+  transform-origin: 0 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#stage img, #stage canvas { image-rendering: crisp-edges; image-rendering: pixelated; display: block; }
+#shell { left: 0; top: 0; pointer-events: none; }
+
+.aperture, .layer, .slot, .hit, .hit-area, .inv-window, .tooltip, .sprite-abs { position: absolute; }
+.layer { left: 0; top: 0; width: 0; height: 0; }
+.inv-window { overflow: hidden; overflow: clip; }
+.sprite { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.sprite-abs { pointer-events: none; }
+.glyph, .card-text, #inspectText { position: absolute; pointer-events: none; }
+
+/* Controls carry no browser chrome at all, in any state. */
+.hit, .hit-area, .overlay {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  box-shadow: none;
+  filter: none;
+  cursor: pointer;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hit:focus, .hit-area:focus, .overlay:focus, .hit:focus-visible, .hit-area:focus-visible { outline: none; }
+.overlay { cursor: default; }
+#choiceViewport { overflow: hidden; overflow: clip; cursor: default; }
+#objectiveTitle, #objectiveBody { cursor: default; pointer-events: none; }
+.hit[aria-disabled=true] { cursor: default; }
+
+/* Keyboard focus on a choice is shown physically: the card's text slides 8px right, like a
+   line being picked up. Never on pointer hover (owner rule, docs/45 section 1). */
+.choice:focus-visible .card-text { transform: translateX(8px); }
+
+.speech-indicator {
+  position: absolute;
+  background: #25363a;
+  box-shadow: inset 0 0 0 1px #06191c;
+  clip-path: polygon(1px 0, calc(100% - 1px) 0, 100% 1px, 100% calc(100% - 1px), calc(100% - 1px) 100%, 1px 100%, 0 calc(100% - 1px), 0 1px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .15s linear, visibility .15s linear;
+}
+.speech-indicator.on { opacity: 1; visibility: visible; }
+
+/* Temporary tooltip box. Its final treatment is owed art (docs/47 section 6); only its face is decided. */
+.tooltip {
+  background: #1d2a2e;
+  border: 2px solid #0b1416;
+  box-shadow: inset 0 0 0 1px #5d7a72;
+  pointer-events: none;
+}
+.tooltip canvas { position: absolute; }

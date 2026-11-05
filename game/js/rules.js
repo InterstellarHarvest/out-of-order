@@ -147,6 +147,11 @@
     return pick(content.items[id].description, state);
   }
 
+  // The FILES view: every case-file entry whose condition holds.
+  function files(content, state) {
+    return (content.files || []).filter(function (f) { return test(f.if, state); }).map(function (f) { return f.text; });
+  }
+
   // Route validation ------------------------------------------------------------------------
   // Walks every state the slice can reach (it is small) and reports anything that is not an
   // intentional continuation: dead ends, missing targets, unreachable nodes, choices or text
@@ -207,6 +212,10 @@
       checkText('item ' + id + ' name', item.name);
       checkField('item ' + id + ' description', item.description);
       if (item.read) checkEffects('item ' + id + ' read', item.read.effects);
+    });
+    (content.files || []).forEach(function (f, i) {
+      checkText('files[' + i + ']', f.text);
+      checkCond('files[' + i + ']', f.if);
     });
     var endings = ids.filter(function (id) { return nodes[id].end; });
     if (!endings.length) errors.push('no node is marked end: true');
@@ -280,6 +289,7 @@
       used.nodes[s.node] = true;
       // The variant the player heard on arrival is decided by the state at arrival, which is this one.
       used.variants['node ' + s.node + ' npc[' + variantIndex(n.npc, s) + ']'] = true;
+      (content.files || []).forEach(function (f, i) { if (test(f.if, s)) used.variants['files[' + i + ']'] = true; });
       var avail = choices(content, s);
       if (!avail.length) errors.push('dead end: no choice is available at ' + s.node + ' with state ' + key(s));
       avail.forEach(function (c) {
@@ -329,6 +339,8 @@
       if (Array.isArray(d)) d.forEach(function (v, i) { if (!used.variants['item ' + id + ' description[' + i + ']']) errors.push('description variant never seen: ' + id + '[' + i + ']'); });
     });
 
+    (content.files || []).forEach(function (f, i) { if (!used.variants['files[' + i + ']']) errors.push('case-file entry never shown: files[' + i + ']'); });
+
     // From every reachable state an ending must still be reachable.
     var canFinish = {};
     restartFrom.forEach(function (k) { canFinish[k] = true; });
@@ -370,6 +382,7 @@
     inspect: inspect,
     itemAction: itemAction,
     description: description,
+    files: files,
     validate: validate,
     clone: clone
   };

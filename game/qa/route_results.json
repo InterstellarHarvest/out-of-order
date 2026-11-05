@@ -61,8 +61,8 @@
       "name": "validator rejects: a node whose only choice is conditional and can fail",
       "ok": true,
       "detail": [
-        "dead end: no choice is available at door with state [\"door\",{\"blunt\":false,\"approach\":\"cooperated\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]]]",
-        "dead end: no choice is available at door with state [\"door\",{\"blunt\":false,\"approach\":\"practical\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]]]"
+        "dead end: no choice is available at door with state [\"door\",{\"appointed\":true,\"blunt\":false,\"approach\":\"cooperated\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]]]",
+        "dead end: no choice is available at door with state [\"door\",{\"appointed\":true,\"blunt\":false,\"approach\":\"practical\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]]]"
       ]
     },
     {

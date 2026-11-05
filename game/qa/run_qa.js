@@ -1,0 +1,549 @@
+#!/usr/bin/env node
+// Browser QA for the reception slice (Playwright). From the repository root:
+//   NODE_PATH="$(npm root -g)" node game/qa/run_qa.js
+// QA_BROWSERS=chromium,firefox (the default) picks the browsers. A browser that cannot launch is
+// recorded as a failure, never skipped silently.
+// A pass shows the slice behaves as specified. It is not visual or narrative approval.
+'use strict';
+
+const crypto = require('crypto');
+const fs = require('fs');
+const http = require('http');
+const path = require('path');
+const { execFileSync } = require('child_process');
+const playwright = require('playwright');
+
+const ROOT = path.resolve(__dirname, '../..');
+const GAME_URL = 'game/index.html?qa';
+const SHOTS = path.join(__dirname, 'screenshots');
+const START_SHA = '5d42b524e8499c7ef3da724ba02f439c1cc660ff'; // main when M2 began
+const SHELL_PATH = 'art/ui/shell/layout-final.png';
+const SHELL_SHA256 = '813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6';
+const PASS_PATH = 'art/items/bathroom_pass_slot.png';
+
+const content = require('../content/reception.js');
+const Rules = require('../js/rules.js');
+const sheet = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/m1_approved_sprite_sheet.json')));
+const actions = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/actions/actions.json')));
+const labDefaults = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/layout-lab/data/placement.default.json')));
+
+const results = [];
+function check(browser, name, ok, detail) {
+  results.push({ browser, name, ok: !!ok, detail: detail === undefined ? undefined : detail });
+  if (!ok) console.log(`FAIL [${browser}] ${name}`, detail === undefined ? '' : JSON.stringify(detail).slice(0, 400));
+}
+const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
+const git = (...args) => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
+
+// Static checks ------------------------------------------------------------------------------
+function staticChecks() {
+  const b = 'static';
+  // M1 is untouched: every committed byte of art/, design/, the lab and the M1 docs is as it was
+  // on main when M2 began, and nothing in the working tree differs from that either.
+  // New M2 notes may be added under docs/; nothing existing may change, and nothing may be added
+  // to art/, design/ or the lab.
+  const protectedPaths = ['art', 'design', 'tools/layout-lab', 'README.md', 'docs'];
+  const committed = git('diff', '--name-only', '--diff-filter=MDRTC', START_SHA, 'HEAD', '--', ...protectedPaths);
+  check(b, 'M1 art, design, lab and docs are unchanged since the M2 start commit', committed === '', committed);
+  const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, 'HEAD', '--', 'art', 'design', 'tools/layout-lab');
+  check(b, 'no file was added to art/, design/ or the lab (placeholders are drawn at runtime)', added === '', added);
+  const working = git('status', '--porcelain', '--', ...protectedPaths).split('\n').filter((l) => l && !/^\?\? docs\//.test(l)).join('\n');
+  check(b, 'no uncommitted change to M1 art, design, lab or docs', working === '', working);
+  check(b, 'shell SHA-256 unchanged', sha256(fs.readFileSync(path.join(ROOT, SHELL_PATH))) === SHELL_SHA256);
+  const bad = Object.keys(sheet.sprites).filter((n) => sha256(fs.readFileSync(path.join(ROOT, 'art/ui', sheet.sprites[n].package_path))) !== sheet.sprites[n].sha256);
+  check(b, 'all 29 approved package sprites match their manifest hashes', Object.keys(sheet.sprites).length === 29 && bad.length === 0, bad);
+  check(b, 'approved atlas matches its manifest hash', sha256(fs.readFileSync(path.join(ROOT, 'art/ui', sheet.image))) === sheet.image_sha256);
+  const glyphBad = [];
+  Object.values(actions.actions).flat().forEach((a) => {
+    if (sha256(fs.readFileSync(path.join(ROOT, 'art/actions', a.file))) !== a.sha256) glyphBad.push(a.file);
+  });
+  check(b, 'all action glyphs match actions.json hashes', glyphBad.length === 0, glyphBad);
+  check(b, 'bathroom pass slot art is byte-identical to the M2 start commit',
+    git('rev-parse', `${START_SHA}:${PASS_PATH}`) === git('hash-object', PASS_PATH));
+  check(b, 'the locked geometry contract is unchanged', git('rev-parse', `${START_SHA}:design/ui_locked_component_contract_v1.json`)
+    === git('hash-object', 'design/ui_locked_component_contract_v1.json'));
+  const route = Rules.validate(content, Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping));
+  check(b, 'route validation passes', route.ok, route.errors);
+  const css = fs.readFileSync(path.join(ROOT, 'game/game.css'), 'utf8');
+  check(b, 'the slice stylesheet has no :hover rule', !/:hover/.test(css));
+  const js = ['stage.js', 'flow.js', 'main.js', 'pixeltext.js', 'placeholders.js'].map((f) => fs.readFileSync(path.join(ROOT, 'game/js', f), 'utf8')).join('\n');
+  check(b, 'presentation code holds no narrative text of its own', !/EXAMINER|BATHROOM|RECEPTIONIST:/.test(js.replace(/RECEPTIONIST PORTRAIT|THE RECEPTIONIST\.|RECEPTION SCENE|RECEPTION LOBBY[^']*|EXAMINERS DOOR BEHIND THE DESK/g, '')));
+}
+
+// Server ---------------------------------------------------------------------------------------
+function startServer(requests) {
+  const types = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.png': 'image/png', '.json': 'application/json' };
+  const server = http.createServer((req, res) => {
+    const rel = decodeURIComponent(req.url.split('?')[0]);
+    const file = path.normalize(path.join(ROOT, rel));
+    requests.push(rel);
+    if (!file.startsWith(ROOT) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) {
+      res.writeHead(404).end();
+      return;
+    }
+    res.writeHead(200, { 'content-type': types[path.extname(file)] || 'application/octet-stream', 'cache-control': 'no-store' });
+    fs.createReadStream(file).pipe(res);
+  });
+  return new Promise((resolve) => server.listen(0, '127.0.0.1', () => resolve(server)));
+}
+
+// Page helpers ---------------------------------------------------------------------------------
+async function openGame(browser, base, opts = {}) {
+  const context = await browser.newContext({ viewport: { width: 1920, height: 1080 }, deviceScaleFactor: 1 });
+  const page = await context.newPage();
+  const errors = [];
+  const bodies = {};
+  page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
+  page.on('pageerror', (e) => errors.push(String(e)));
+  page.on('requestfailed', (r) => errors.push('failed ' + r.url()));
+  if (opts.hashes) {
+    page.on('response', async (r) => {
+      if (/\.png$/.test(r.url())) {
+        try { bodies[new URL(r.url()).pathname.slice(1)] = sha256(await r.body()); } catch (e) { /* ignore */ }
+      }
+    });
+  }
+  await page.addInitScript(() => {
+    window.__phases = [];
+    document.addEventListener('DOMContentLoaded', () => {
+      new MutationObserver(() => {
+        const p = document.body.dataset.phase;
+        const last = window.__phases[window.__phases.length - 1];
+        if (!last || last.p !== p) window.__phases.push({ p, t: performance.now() });
+      }).observe(document.body, { attributes: true, attributeFilter: ['data-phase'] });
+    });
+  });
+  await page.goto(base + '/' + GAME_URL);
+  await page.waitForFunction(() => document.body.dataset.ready, null, { timeout: 15000 });
+  return { page, context, errors, bodies };
+}
+
+const phase = (page) => page.evaluate(() => document.body.dataset.phase);
+const waitPhase = (page, p, timeout = 10000) => page.waitForFunction((x) => document.body.dataset.phase === x, p, { timeout });
+const game = (page, fn, arg) => page.evaluate(fn, arg);
+
+async function skipToChoices(page) {
+  if ((await phase(page)) === 'typing') await page.click('#speechText');
+  await waitPhase(page, 'choosing');
+}
+
+async function chooseById(page, id) {
+  await skipToChoices(page);
+  const index = await game(page, (x) => window.CYOA_GAME.ui.cards.findIndex((c) => c.id === x), id);
+  if (index < 0) throw new Error('choice not offered: ' + id + ' at ' + (await game(page, () => window.CYOA_GAME.state.node)));
+  await game(page, (i) => window.CYOA_GAME.focusCard(i), index);
+  await page.click(`#choiceViewport button[data-index="${index}"]`);
+  await waitPhase(page, 'typing');
+}
+
+async function play(page, ids) {
+  for (const id of ids) await chooseById(page, id);
+}
+
+async function shot(page, name, clip) {
+  await page.screenshot({ path: path.join(SHOTS, name), clip });
+}
+
+async function restart(page) {
+  await page.reload();
+  await page.waitForFunction(() => document.body.dataset.ready);
+}
+
+// Style snapshot for the hover rule: everything that would show a web-style hover.
+async function lookOf(page, sel) {
+  return page.$eval(sel, (e) => {
+    const s = getComputedStyle(e);
+    const own = ['outline-style', 'outline-width', 'outline-color', 'border-top-width', 'border-top-color', 'box-shadow', 'filter', 'background-color', 'background-image', 'opacity', 'transform']
+      .map((k) => k + ':' + s.getPropertyValue(k)).join(';');
+    const kids = Array.from(e.querySelectorAll('*')).map((k) => {
+      const c = getComputedStyle(k);
+      return [c.filter, c.opacity, c.transform, c.boxShadow, c.outlineStyle, c.left, c.top].join(',');
+    }).join('|');
+    return own + '#' + kids;
+  });
+}
+
+// The suite ------------------------------------------------------------------------------------
+async function suite(name, base, requests) {
+  const browser = await playwright[name].launch();
+  const c = (n, ok, d) => check(name, n, ok, d);
+  const { page, context, errors, bodies } = await openGame(browser, base, { hashes: true });
+
+  // Load, assets, geometry -----------------------------------------------------------------
+  c('page loads ready', (await page.evaluate(() => document.body.dataset.ready)) === 'true');
+  c('obsolete 364x78 font atlas is never requested', !requests.some((r) => /locked_pixel_font_atlas\.png$/.test(r)));
+  c('served shell bytes are canonical', bodies[SHELL_PATH] === SHELL_SHA256, bodies[SHELL_PATH]);
+  const served = Object.keys(sheet.sprites).filter((n) => n !== 'locked_pixel_font_atlas' && bodies['art/ui/' + sheet.sprites[n].package_path]);
+  const servedBad = served.filter((n) => bodies['art/ui/' + sheet.sprites[n].package_path] !== sheet.sprites[n].sha256);
+  c('served package sprites match manifest hashes', served.length >= 20 && servedBad.length === 0, { served: served.length, servedBad });
+  const glyphBad = ['inspect', 'notes', 'files'].filter((g) => bodies['art/actions/' + g + '.png'] !== actions.actions[g][0].sha256);
+  c('served action glyphs match actions.json', glyphBad.length === 0, glyphBad);
+  c('served bathroom pass bytes match the repository', bodies[PASS_PATH] === sha256(fs.readFileSync(path.join(ROOT, PASS_PATH))));
+  const rect = (sel) => page.$eval(sel, (e) => [parseInt(e.style.left), parseInt(e.style.top), parseInt(e.style.width), parseInt(e.style.height)]);
+  const vp = labDefaults.choices.viewport;
+  c('choice viewport uses the lab working geometry', JSON.stringify(await rect('#choiceViewport')) === JSON.stringify([vp.x, vp.y, vp.width, vp.height]));
+  const st = labDefaults.speech.text;
+  c('dialogue box uses the lab working geometry', JSON.stringify(await rect('#speechText')) === JSON.stringify([st.x, st.y, st.width, st.height]));
+  const ub = labDefaults.utility.buttons.map((u) => [u.x, u.y, u.displayWidth, u.displayHeight]);
+  c('utility buttons use the lab working geometry', JSON.stringify(await Promise.all([0, 1, 2].map((i) => rect('#util-' + i)))) === JSON.stringify(ub));
+  const measured = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/layout-lab/data/measured_shell_regions.json'))).regions;
+  c('scene placeholder fills the scene aperture exactly', JSON.stringify(await rect('#scene')) === JSON.stringify(measured.sceneAperture.rect));
+  c('portrait placeholder fills the portrait aperture exactly', JSON.stringify(await rect('#portrait')) === JSON.stringify(measured.portraitAperture.rect));
+  c('scene and portrait sit beneath the shell, so no frame pixel is covered',
+    await page.evaluate(() => {
+      const kids = Array.from(document.getElementById('stage').children);
+      const shell = kids.indexOf(document.getElementById('shell'));
+      return kids.indexOf(document.getElementById('scene')) < shell && kids.indexOf(document.getElementById('portrait')) < shell;
+    }));
+  c('placeholders are labelled as placeholders', await page.evaluate(() => ['scene', 'portrait'].every((id) => /COMMISSIONED|PORTRAIT/.test(document.getElementById(id).dataset.placeholder))));
+  c('pixel art renders without smoothing', await page.evaluate(() => Array.from(document.querySelectorAll('#stage img, #stage canvas'))
+    .every((e) => /pixelated|crisp-edges/.test(getComputedStyle(e).imageRendering))));
+  c('utility buttons show the owner\'s glyphs in conversation', JSON.stringify(await page.$$eval('.utility', (bs) => bs.map((b) => b.dataset.action)))
+    === JSON.stringify(['inspect', 'notes', 'files']));
+
+  // Every authored card fits the four card sizes.
+  const tooLong = await game(page, (all) => all.filter((t) => window.CYOA_GAME.layoutCards([{ id: 'x', text: t }])[0].overflowLines > 0),
+    Object.values(content.nodes).flatMap((n) => n.choices.map((ch) => ch.text)));
+  c('every authored choice fits on a card (four lines at most)', tooLong.length === 0, tooLong);
+
+  // Opening turn: typewriter, beat, arrival ---------------------------------------------------
+  c('the slice opens with the receptionist typing', (await phase(page)) === 'typing' && (await page.$eval('#speechText', (e) => e.dataset.typing)) === 'true');
+  c('no choice is on show while the NPC types', (await page.$$eval('#choiceViewport .choice', (bs) => bs.filter((b) => b.style.display !== 'none').length)) === 0);
+  const r0 = await game(page, () => window.CYOA_GAME.ui.speech.revealed);
+  await page.waitForTimeout(300);
+  const r1 = await game(page, () => window.CYOA_GAME.ui.speech.revealed);
+  c('the NPC line types character by character', r1 > r0 && r1 < (await game(page, () => window.CYOA_GAME.ui.speech.lines.reduce((n, l) => n + l.text.length, 0))), { r0, r1 });
+  await shot(page, '01_opening_typing.png');
+  await waitPhase(page, 'choosing', 15000);
+  const log = await page.evaluate(() => window.__phases.map((x) => x.p));
+  c('turn order: typing, beat, cards arrive, then choosing', log.slice(-4).join() === 'typing,beat,arriving,choosing', log);
+  const times = await page.evaluate(() => window.__phases.slice(-4).map((x) => x.t));
+  c('a short beat (150-350ms) between the line and the cards', times[2] - times[1] >= 150 && times[2] - times[1] <= 350, times[2] - times[1]);
+  c('keyboard focus lands on the first choice', await page.evaluate(() => document.activeElement && document.activeElement.dataset.index === '0'));
+  c('the thumb appears once the cards have arrived', await page.$eval('#choiceThumb', (e) => e.style.display !== 'none'));
+  c('opening offers the bathroom request', (await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.id))).includes('ask-politely'));
+  c('no hidden pointer target: cards are real buttons', (await page.$$eval('#choiceViewport .choice', (bs) => bs.filter((b) => b.tagName === 'BUTTON').length)) >= 2);
+
+  // Keyboard navigation and send ------------------------------------------------------------
+  await page.keyboard.press('ArrowDown');
+  c('ArrowDown moves focus to the next choice', await page.evaluate(() => document.activeElement.dataset.index === '1'));
+  await page.keyboard.press('ArrowUp');
+  c('ArrowUp moves focus back', await page.evaluate(() => document.activeElement.dataset.index === '0'));
+  c('focus by keyboard is shown physically (the line slides), never with an outline', await page.evaluate(() => {
+    const b = document.activeElement;
+    const s = getComputedStyle(b);
+    return s.outlineStyle === 'none' && /matrix|translate/.test(getComputedStyle(b.querySelector('.card-text')).transform);
+  }));
+  // Sample every frame of the send in the page itself.
+  await page.evaluate(() => {
+    window.__send = [];
+    const t0 = performance.now();
+    (function loop() {
+      const row = Array.from(document.querySelectorAll('#choiceViewport .choice')).map((b) => [b.style.display, parseInt(b.style.left), parseInt(b.style.top)]);
+      window.__send.push({ t: performance.now() - t0, p: document.body.dataset.phase, row });
+      if (performance.now() - t0 < 1500) requestAnimationFrame(loop);
+    })();
+  });
+  const sendStart = await page.evaluate(() => performance.now());
+  await page.keyboard.press('Enter');
+  await waitPhase(page, 'sending', 2000);
+  // Rapid input while cards move: every further click and key is ignored.
+  const before = await game(page, () => window.CYOA_GAME.state.transcript.length);
+  for (let i = 0; i < 6; i++) await page.mouse.click(1600, 640);
+  await page.keyboard.press('Enter');
+  await page.waitForTimeout(250);
+  await shot(page, '02_send_in_flight.png');
+  await waitPhase(page, 'reply-beat', 3000);
+  const allFrames = await page.evaluate(() => window.__send);
+  const frames = allFrames.filter((f) => f.p === 'sending').map((f) => f.row);
+  c('the other card slides away to the right', frames.some((f) => f[1] && f[1][0] !== 'none' && f[1][1] > 0) && frames.some((f) => f[1] && f[1][0] === 'none'), frames.length);
+  c('the chosen card rises until it disappears behind the divider', frames.some((f) => f[0][0] !== 'none' && f[0][2] < 0) && allFrames[allFrames.length - 1].row[0][0] === 'none', frames.map((f) => f[0][2]));
+  c('the chosen card waits for the others before it rises', frames.slice(0, 3).every((f) => f[0][2] === 0));
+  const atBeat = await game(page, () => {
+    const s = window.CYOA_GAME.ui.speech;
+    return { last: s.parts[s.parts.length - 1], typing: s.typing, cards: window.CYOA_GAME.ui.cards.length,
+      whole: s.revealed === s.lines.reduce((n, l) => n + l.text.length, 0) };
+  });
+  c('the player\'s line is shown whole, not typed', atBeat.whole && !atBeat.typing, atBeat);
+  c('the player\'s line is in the dialogue box at once, in the Choices face', atBeat.last.role === 'choices' && atBeat.last.text === 'WHERE IS THE BATHROOM, PLEASE?', atBeat.last);
+  c('the choice panel is empty while waiting for the reply', atBeat.cards === 0);
+  c('input during the send was ignored (one player line only)', (await game(page, () => window.CYOA_GAME.state.transcript.length)) === before);
+  const beatStart = await page.evaluate(() => window.__phases[window.__phases.length - 1].t);
+  await shot(page, '03_player_line_before_reply.png');
+  await waitPhase(page, 'typing', 3000);
+  const beatEnd = await page.evaluate(() => window.__phases[window.__phases.length - 1].t);
+  c('a beat (about 400ms) before the reply types', beatEnd - beatStart >= 350 && beatEnd - beatStart <= 700, beatEnd - beatStart);
+  const reply = await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0]);
+  c('the reply types below in the Dialogue face', reply.role === 'dialogue' && /EXAMINER/.test(reply.text), reply);
+  c('the whole send took a sensible time', beatEnd - sendStart < 2500, beatEnd - sendStart);
+
+  // Skip typing ---------------------------------------------------------------------------
+  await page.click('#speechText');
+  c('clicking the dialogue finishes the line at once', (await page.$eval('#speechText', (e) => e.dataset.typing)) === 'false'
+    && (await game(page, () => { const s = window.CYOA_GAME.ui.speech; return s.revealed === s.lines.reduce((n, l) => n + l.text.length, 0); })));
+  c('after a skip, the cards follow after the beat (not at once)', ['beat', 'arriving'].includes(await phase(page)));
+  // Rapid input while cards arrive.
+  const nodeBefore = await game(page, () => window.CYOA_GAME.state.node);
+  await page.waitForFunction(() => document.body.dataset.phase === 'arriving');
+  c('the thumb stays hidden while cards arrive', await page.$eval('#choiceThumb', (e) => e.style.display === 'none'));
+  for (let i = 0; i < 5; i++) await page.mouse.click(1600, 560);
+  c('clicks on arriving cards are ignored', (await game(page, () => window.CYOA_GAME.state.node)) === nodeBefore
+    && (await game(page, () => window.CYOA_GAME.state.transcript.length)) === before + 1);
+  await waitPhase(page, 'choosing');
+
+  // Choice overflow, independence from speech overflow, reset to top -------------------------
+  const ov = await game(page, () => ({ max: window.CYOA_GAME.choiceMaxScroll(), thumb: window.CYOA_GAME.thumbMetrics() }));
+  c('the misassignment\'s three choices overflow the box', ov.max > 0 && ov.thumb.overflow, ov);
+  await shot(page, '04_choices_overflow_and_history.png');
+  const speechScroll0 = await game(page, () => window.CYOA_GAME.ui.speech.scrollLine);
+  await page.mouse.move(1600, 700);
+  await page.mouse.wheel(0, 200);
+  await page.waitForTimeout(50);
+  const afterWheel = await game(page, () => ({ c: window.CYOA_GAME.ui.choiceScroll, s: window.CYOA_GAME.ui.speech.scrollLine }));
+  c('the wheel scrolls the choices', afterWheel.c > 0, afterWheel);
+  c('scrolling choices leaves the dialogue where it was', afterWheel.s === speechScroll0, afterWheel);
+  const thumbMoved = await game(page, () => window.CYOA_GAME.thumbMetrics().y);
+  c('the thumb tracks the choice scroll', thumbMoved > labDefaults.scrollbar.track.y, thumbMoved);
+  await page.mouse.move(1600, 420);
+  for (let i = 0; i < 12; i++) await page.mouse.wheel(0, -100);
+  await page.waitForTimeout(50);
+  const afterSpeech = await game(page, () => ({ c: window.CYOA_GAME.ui.choiceScroll, s: window.CYOA_GAME.ui.speech.scrollLine }));
+  c('dialogue scroll-back reaches the first line', afterSpeech.s === 0, afterSpeech);
+  c('scrolling the dialogue leaves the choices where they were', afterSpeech.c === afterWheel.c, afterSpeech);
+  await shot(page, '05_dialogue_scrolled_back.png');
+  // Keyboard reaches an overflowed card and scrolls to it.
+  await game(page, () => window.CYOA_GAME.focusCard(0));
+  await page.keyboard.press('End');
+  const endState = await game(page, () => ({ idx: document.activeElement.dataset.index, scroll: window.CYOA_GAME.ui.choiceScroll, max: window.CYOA_GAME.choiceMaxScroll() }));
+  c('End focuses the last card and scrolls it into view', endState.idx === '2' && endState.scroll === endState.max, endState);
+  await page.keyboard.press('Enter');
+  await waitPhase(page, 'typing');
+  await page.click('#speechText');
+  await waitPhase(page, 'choosing');
+  c('a new choice set starts at the top', (await game(page, () => window.CYOA_GAME.ui.choiceScroll)) === 0);
+  c('the third card took the practical route', (await game(page, () => window.CYOA_GAME.state.flags.approach)) === 'practical');
+  c('a single choice still arrives as a card', (await game(page, () => window.CYOA_GAME.ui.cards.length)) === 1);
+
+  // Item: issued, inspected, read, shown ------------------------------------------------------
+  await chooseById(page, 'ask-key');
+  c('the key enters the inventory when the receptionist issues it', JSON.stringify(await game(page, () => window.CYOA_GAME.state.inventory)) === '["wc_key"]');
+  c('the slot shows the approved bathroom pass art', await page.$eval('#invWindow .slot[data-item="wc_key"] img.item-art', (i) => /bathroom_pass_slot\.png$/.test(i.src) && i.naturalWidth === 96));
+  await page.click('#invWindow .slot[data-item="wc_key"]');
+  c('the inventory is ignored while the NPC is typing', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  await skipToChoices(page);
+  c('before reading: only the blind confirmation is offered', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.id))) === '["confirm-unread"]');
+  await page.click('#invWindow .slot[data-item="wc_key"]');
+  const insp = await game(page, () => ({ open: !!window.CYOA_GAME.ui.inspector, acts: window.CYOA_GAME.utilityActions().map((a) => a.action + ':' + a.enabled) }));
+  c('clicking the item opens the inspector', insp.open);
+  c('the buttons become READ, SHOW (disabled), RETURN', JSON.stringify(insp.acts) === '["read:true","show:false","return:true"]', insp.acts);
+  c('the disabled button shows no glyph', await page.$eval('#util-1 .glyph', (g) => g.style.display === 'none'));
+  c('the choice cards give way to the item text', (await page.$$eval('#choiceViewport .choice', (bs) => bs.filter((b) => b.style.display !== 'none').length)) === 0
+    && (await page.$eval('#inspectText', (e) => e.style.display !== 'none')));
+  c('the inspector column and X are drawn over the portrait and dialogue (placeholder)', await page.evaluate(() => {
+    const art = document.getElementById('inspectArt');
+    return art.style.display !== 'none' && parseInt(art.style.top) === 44 && parseInt(art.style.height) === 476 && document.getElementById('inspectClose').offsetWidth === 44;
+  }));
+  c('the item is marked inspected', (await game(page, () => window.CYOA_GAME.state.items.wc_key)).includes('inspected'));
+  await shot(page, '06_inspector_before_read.png');
+  await page.hover('#util-1');
+  c('a disabled button explains itself in its tooltip', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW: NOT NOW');
+  await page.click('#util-1', { force: true }); // aria-disabled: Playwright would otherwise refuse
+  c('pressing the disabled button does not press', (await page.$eval('#util-1', (b) => b.dataset.state)) === 'up');
+  c('pressing the disabled button does nothing', (await phase(page)) === 'choosing' && !!(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  await page.click('#util-0');
+  c('READ reveals the tag', /4:52/.test(await page.$eval('#inspectText', (e) => e.dataset.key)));
+  c('after READ, SHOW is enabled here', (await game(page, () => window.CYOA_GAME.utilityActions()[1])).enabled === true);
+  await shot(page, '07_inspector_after_read.png');
+  await page.keyboard.press('Escape');
+  await waitPhase(page, 'choosing');
+  c('closing the inspector brings a new set reflecting the tag', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.id))) === '["confirm-read","question-tag"]');
+  await shot(page, '08_choices_changed_by_item.png');
+  // Re-open with INSPECT, close with X, then SHOW.
+  await page.click('#util-0');
+  c('INSPECT opens the held item', !!(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  await page.click('#inspectClose');
+  c('the X closes the inspector', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  await page.click('#invWindow .slot[data-item="wc_key"]');
+  const transcriptBeforeShow = await game(page, () => window.CYOA_GAME.state.transcript.length);
+  await page.click('#util-1');
+  await waitPhase(page, 'reply-beat', 3000);
+  c('SHOW speaks the player\'s line as a turn', (await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text)) === '[HOLD UP THE TAG.] THIS SAYS I ALREADY RETURNED THE KEY. AT 4:52.');
+  await waitPhase(page, 'typing');
+  c('SHOW leads to the receptionist\'s answer about the tag', (await game(page, () => window.CYOA_GAME.state.node)) === 'tag_question'
+    && (await game(page, () => window.CYOA_GAME.state.transcript.length)) === transcriptBeforeShow + 2);
+  await play(page, ['onward-tag']);
+  await skipToChoices(page);
+  c('the practical route gets its own send-off line', /PLEASE DO NOT CONFUSE THEM/.test(await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text)));
+  await page.click('#invWindow .slot[data-item="wc_key"]');
+  c('at the door the middle button becomes USE', (await game(page, () => window.CYOA_GAME.utilityActions()[1].action)) === 'use');
+  await page.click('#util-1');
+  await waitPhase(page, 'typing');
+  c('USE on the key opens the door', (await game(page, () => window.CYOA_GAME.state.node)) === 'door');
+  c('the closing line remembers the tag', /SEE YOU AT 4:52/.test(await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text)));
+
+  // Transcript: NOTES and FILES ---------------------------------------------------------------
+  await page.click('#util-1');
+  c('NOTES opens the transcript over the scene', (await page.$eval('#overlay', (e) => e.style.display !== 'none')) && (await page.$eval('#overlay canvas', (c2) => c2.dataset.kind)) === 'notes');
+  const notesText = await page.$eval('#overlay canvas', (c2) => c2.dataset.text);
+  c('the transcript holds both speakers\' lines', /YOU:/.test(notesText) && /RECEPTIONIST:/.test(notesText) && /WHERE IS THE BATHROOM, PLEASE\?/.test(notesText));
+  c('the transcript opens at its latest lines', (await page.$eval('#overlay canvas', (c2) => c2.dataset.scroll)) === String(await game(page, () => window.CYOA_GAME.overlayMaxScroll())));
+  await page.mouse.move(600, 400);
+  for (let i = 0; i < 40; i++) await page.mouse.wheel(0, -100);
+  await page.waitForTimeout(50);
+  c('the transcript scrolls back to the start', (await page.$eval('#overlay canvas', (c2) => c2.dataset.scroll)) === '0');
+  await shot(page, '09_notes_transcript.png');
+  await page.click('#util-2');
+  c('FILES shows the case file', (await page.$eval('#overlay canvas', (c2) => c2.dataset.kind)) === 'files'
+    && /APPOINTMENT: EXAMINER/.test(await page.$eval('#overlay canvas', (c2) => c2.dataset.text))
+    && /RETURNED AT 4:52/.test(await page.$eval('#overlay canvas', (c2) => c2.dataset.text)));
+  await shot(page, '10_files_case_file.png');
+  await page.keyboard.press('Escape');
+  c('Esc closes the overlay', await page.$eval('#overlay', (e) => e.style.display === 'none'));
+  c('the conversation carried on underneath', ['typing', 'beat', 'arriving', 'choosing'].includes(await phase(page)));
+
+  // Ending and restart ---------------------------------------------------------------------
+  await play(page, ['enter-corridor']);
+  await skipToChoices(page);
+  c('the ending offers one card: BEGIN AGAIN', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.text))) === '["BEGIN AGAIN."]');
+  c('the ending objective points beyond reception', /ROOM FOUR/.test(await page.$eval('#objectiveBody', (e) => e.dataset.text)));
+  await shot(page, '11_ending.png');
+  await chooseById(page, 'restart');
+  c('BEGIN AGAIN restarts the slice cleanly', (await game(page, () => window.CYOA_GAME.state.node)) === 'opening'
+    && (await game(page, () => window.CYOA_GAME.state.transcript.length)) === 1
+    && (await game(page, () => window.CYOA_GAME.state.inventory.length)) === 0
+    && (await game(page, () => window.CYOA_GAME.ui.speech.parts.length)) === 1);
+
+  // Replay: a materially different consequence -------------------------------------------------
+  await play(page, ['ask-politely', 'correct', 'rule', 'sigh', 'ask-key', 'confirm-unread', 'onward-blind']);
+  await skipToChoices(page);
+  const disputedLine = await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text);
+  c('replay: correcting the mistake changes the later send-off', /YOUR DISPUTE IS ALREADY ON THE DESK/.test(disputedLine), disputedLine);
+  c('replay: a blind confirmation gets its own answer', (await game(page, () => window.CYOA_GAME.state.transcript.map((t) => t.text).join('\n'))).includes('NOBODY EVER READS THE TAG'));
+  c('replay: protest is offered (not yet used)', (await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.id))).includes('protest'));
+  await shot(page, '12_send_off_after_dispute.png');
+  await play(page, ['protest', 'to-door', 'unlock-after']);
+  await skipToChoices(page);
+  c('replay: without the tag, the closing line differs', /YOU HAVE ALWAYS BEEN HERE/.test(await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text)));
+
+  // Inventory: one item per press, with weight ------------------------------------------------
+  await game(page, () => window.CYOA_GAME.debug.addItems(8));
+  const invCount = await game(page, () => window.CYOA_GAME.state.inventory.length);
+  c('QA overflow items fill the inventory past one row', invCount === 9, invCount);
+  const firstShown = () => page.$$eval('#invWindow .slot', (ss) => ss.filter((s) => s.style.display !== 'none').map((s) => [Number(s.dataset.index), parseInt(s.style.left)]));
+  await page.mouse.move(805, 982);
+  await page.mouse.down();
+  c('the right arrow presses (DOWN sprite) while held', (await page.$eval('#inv-right', (b) => b.dataset.state)) === 'down');
+  await page.mouse.up();
+  c('the right arrow comes back up', (await page.$eval('#inv-right', (b) => b.dataset.state)) === 'up');
+  c('one press moves the strip by exactly one item', (await game(page, () => window.CYOA_GAME.ui.inv.start)) === 1);
+  const slideFrames = [];
+  for (let i = 0; i < 6; i++) { slideFrames.push(await firstShown()); await page.waitForTimeout(30); }
+  await page.waitForTimeout(400);
+  const rest = await firstShown();
+  c('the strip slides rather than jumping', slideFrames.some((f) => JSON.stringify(f) !== JSON.stringify(rest)), { first: slideFrames[0], rest });
+  c('at rest, six slots show items 2-7', rest.length === 6 && rest[0][0] === 1 && rest[5][0] === 6, rest);
+  await page.click('#inv-left');
+  await page.waitForTimeout(400);
+  c('the left arrow steps back one item', (await game(page, () => window.CYOA_GAME.ui.inv.start)) === 0);
+  for (let i = 0; i < 10; i++) await page.click('#inv-right');
+  c('the strip stops at the last item', (await game(page, () => window.CYOA_GAME.ui.inv.start)) === 3);
+  await page.waitForTimeout(400);
+  await shot(page, '13_inventory_overflow_qa_items.png', { x: 0, y: 900, width: 860, height: 180 });
+
+  // Hover never changes a control ------------------------------------------------------------
+  const hoverTargets = ['#util-0', '#util-1', '#util-2', '#inv-left', '#inv-right', '#invWindow .slot[data-index="4"]', '#choiceViewport .choice[data-index="0"]'];
+  await page.mouse.move(600, 400);
+  const changed = [];
+  const decorated = [];
+  for (const sel of hoverTargets) {
+    const box = await page.$eval(sel, (e) => { const r = e.getBoundingClientRect(); return { x: Math.round(r.x), y: Math.round(r.y), width: Math.round(r.width), height: Math.round(r.height) }; });
+    const idleLook = await lookOf(page, sel);
+    const idlePx = await page.screenshot({ clip: box });
+    await page.hover(sel);
+    await page.waitForTimeout(80);
+    const hoverLook = await lookOf(page, sel);
+    const hoverPx = await page.screenshot({ clip: box });
+    if (idleLook !== hoverLook || !idlePx.equals(hoverPx)) changed.push(sel);
+    // Absolute, not only relative: a hovered control carries no web-style decoration at all.
+    const deco = await page.$eval(sel, (e) => [e].concat(Array.from(e.querySelectorAll('*'))).map((n) => {
+      const st2 = getComputedStyle(n);
+      return [st2.filter, st2.outlineStyle, st2.boxShadow, st2.opacity, n === e ? st2.backgroundColor : 'rgba(0, 0, 0, 0)', st2.backgroundImage].join(',');
+    }).filter((v) => v !== 'none,none,none,1,rgba(0, 0, 0, 0),none'));
+    if (deco.length) decorated.push([sel, deco]);
+    await page.mouse.move(600, 400);
+  }
+  c('hover adds no border, outline, glow, fill or brightening to any control (styles and pixels)', changed.length === 0, changed);
+  c('a hovered control has no filter, outline, shadow, fill or opacity at all', decorated.length === 0, decorated);
+  c('no stylesheet on the page has a :hover rule', await page.evaluate(() => Array.from(document.styleSheets).every((s) => Array.from(s.cssRules).every((r) => !/:hover/.test(r.cssText)))));
+  await page.hover('#util-1');
+  c('hovering a utility shows a separate tooltip naming it', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'NOTES');
+
+  c('no console errors or failed requests', errors.length === 0, errors);
+  await context.close();
+
+  // file:// -----------------------------------------------------------------------------------
+  const fctx = await browser.newContext({ viewport: { width: 1280, height: 720 } });
+  const fpage = await fctx.newPage();
+  const ferr = [];
+  fpage.on('pageerror', (e) => ferr.push(String(e)));
+  fpage.on('requestfailed', (r) => ferr.push('failed ' + r.url()));
+  await fpage.goto('file://' + path.join(ROOT, 'game/index.html'));
+  await fpage.waitForFunction(() => document.body.dataset.ready, null, { timeout: 15000 });
+  c('opens from file:// with no server', (await fpage.evaluate(() => document.body.dataset.ready)) === 'true', ferr);
+  c('fits a smaller window by scaling the whole stage', await fpage.evaluate(() => /scale\(0\.66/.test(document.getElementById('stage').style.transform)));
+  await fpage.click('#speechText');
+  await fpage.waitForFunction(() => document.body.dataset.phase === 'choosing');
+  await fpage.click('#choiceViewport .choice[data-index="0"]');
+  await fpage.waitForFunction(() => document.body.dataset.phase === 'typing');
+  c('a scaled stage still takes clicks on the right card', (await fpage.evaluate(() => window.CYOA_GAME.state.transcript[1].text)) === 'WHERE IS THE BATHROOM, PLEASE?');
+  c('no errors from file://', ferr.length === 0, ferr);
+  await fctx.close();
+  const version = browser.version();
+  await browser.close();
+  return version;
+}
+
+(async () => {
+  fs.mkdirSync(SHOTS, { recursive: true });
+  staticChecks();
+  const requests = [];
+  const server = await startServer(requests);
+  const base = `http://127.0.0.1:${server.address().port}`;
+  const versions = {};
+  for (const name of (process.env.QA_BROWSERS || 'chromium,firefox').split(',')) {
+    try {
+      versions[name] = await suite(name, base, requests);
+    } catch (err) {
+      versions[name] = 'NOT RUN: ' + String(err.message).split('\n')[0];
+      console.log(err.stack.split('\n').slice(0, 6).join('\n'));
+      check(name, 'browser suite ran to completion', false, versions[name]);
+    }
+  }
+  server.close();
+  const passed = results.filter((r) => r.ok).length;
+  const failed = results.filter((r) => !r.ok);
+  const byBrowser = {};
+  results.forEach((r) => {
+    byBrowser[r.browser] = byBrowser[r.browser] || { total: 0, passed: 0 };
+    byBrowser[r.browser].total++;
+    if (r.ok) byBrowser[r.browser].passed++;
+  });
+  fs.writeFileSync(path.join(__dirname, 'qa_results.json'), JSON.stringify({
+    schema: 'cyoa-m2-reception-qa-v1',
+    note: 'Technical checks only. A pass is not visual or narrative approval.',
+    startingCommit: START_SHA,
+    browsers: versions,
+    playwright: require('playwright/package.json').version,
+    total: results.length,
+    passed,
+    failed: failed.length,
+    byBrowser,
+    failures: failed,
+    checks: results
+  }, null, 2) + '\n');
+  console.log(`${passed}/${results.length} passed`, JSON.stringify(byBrowser));
+  process.exit(failed.length ? 1 : 0);
+})().catch((err) => {
+  console.error(err);
+  process.exit(2);
+});

@@ -1,0 +1,992 @@
+// Presentation: builds the 1920x1080 stage and draws it from G.ui (presentation state) and
+// G.state (narrative state). It never decides what happens next; game/js/flow.js does.
+// Card motion, inventory weight, the speech box and the thumb are ported from
+// tools/layout-lab/js/stage.js, which stays as it is.
+(function () {
+  'use strict';
+
+  var G = window.CYOA_GAME;
+  var T = G.text;
+  var L = G.layout;
+  var P = G.placeholders;
+  var R = G.measured.regions;
+  var stage;
+  var els = (G.els = { slots: [], cards: [], utility: [] });
+  var SPARE = 3; // slots sliding in or out beyond those on show
+  var CAP_ROWS = 20;
+  var THUMB_INSPECTOR = 'inspector';
+
+  var ui = (G.ui = {
+    speech: { parts: [], lines: [], key: '', base: 0, revealed: 0, typing: false, typeStart: 0, scrollLine: 0, newRow: 0 },
+    cards: [], // the choice set on show, laid out
+    motion: null, // { kind: 'in' | 'send' | 'clear', start, index, vanishedAt }
+    choiceScroll: 0,
+    thumbOn: false,
+    inv: { start: 0, slide: null },
+    pressed: {},
+    inspector: null, // { id, scroll }
+    overlay: null, // 'notes' | 'files'
+    overlayScroll: 0,
+    tooltip: null
+  });
+
+  // DOM helpers ---------------------------------------------------------------------------
+  function el(tag, cls, parent, attrs) {
+    var node = document.createElement(tag);
+    if (cls) node.className = cls;
+    Object.keys(attrs || {}).forEach(function (k) { node.setAttribute(k, attrs[k]); });
+    if (parent) parent.appendChild(node);
+    return node;
+  }
+  function place(node, x, y, w, h) {
+    node.style.left = x + 'px';
+    node.style.top = y + 'px';
+    if (w !== undefined) {
+      node.style.width = w + 'px';
+      node.style.height = h + 'px';
+    }
+  }
+  function show(node, on) {
+    node.style.display = on ? '' : 'none';
+  }
+  function clamp(v, lo, hi) {
+    return Math.min(Math.max(v, lo), hi);
+  }
+  G.clamp = clamp;
+
+  // Physical press: down on press, up on release, activate only if released on the control.
+  function bindPress(node, id, onChange, onActivate, enabled) {
+    function set(down) {
+      if (!!ui.pressed[id] === down) return;
+      if (down) ui.pressed[id] = true;
+      else delete ui.pressed[id];
+      onChange();
+    }
+    node.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0 || (enabled && !enabled())) return;
+      node.setPointerCapture(e.pointerId);
+      set(true);
+    });
+    node.addEventListener('pointerup', function (e) {
+      if (!ui.pressed[id]) return;
+      var r = node.getBoundingClientRect();
+      var inside = e.clientX >= r.left && e.clientX < r.right && e.clientY >= r.top && e.clientY < r.bottom;
+      set(false);
+      if (inside) onActivate();
+    });
+    node.addEventListener('pointercancel', function () { set(false); });
+    node.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      e.preventDefault();
+      if (!e.repeat && (!enabled || enabled())) set(true);
+    });
+    node.addEventListener('keyup', function (e) {
+      if ((e.key !== 'Enter' && e.key !== ' ') || !ui.pressed[id]) return;
+      set(false);
+      onActivate();
+    });
+    node.addEventListener('blur', function () { set(false); });
+  }
+
+  // Scene and portrait placeholders ------------------------------------------------------
+  function buildApertures() {
+    var sc = R.sceneAperture.rect;
+    els.scene = el('canvas', 'aperture', stage, { id: 'scene', 'aria-label': 'Reception scene (placeholder)' });
+    place(els.scene, sc[0], sc[1], sc[2], sc[3]);
+    P.panel(els.scene, sc[2], sc[3], 'RECEPTION SCENE - ART NOT YET COMMISSIONED', [
+      'TO BE DRAWN: THE RECEPTION LOBBY. COUNTER, RECEPTIONIST, TICKET MACHINE, DIRECTORY BOARD, THE LOCKED EXAMINERS DOOR BEHIND THE DESK.'
+    ]);
+    var pr = R.portraitAperture.rect;
+    els.portrait = el('canvas', 'aperture', stage, { id: 'portrait', 'aria-label': 'Receptionist portrait (placeholder)' });
+    place(els.portrait, pr[0], pr[1], pr[2], pr[3]);
+    P.panel(els.portrait, pr[2], pr[3], 'RECEPTIONIST PORTRAIT', ['NOW SPEAKING: THE RECEPTIONIST.', 'PORTRAIT ART NOT YET COMMISSIONED.']);
+    els.overlay = el('div', 'aperture overlay', stage, { id: 'overlay', tabindex: '-1' });
+    place(els.overlay, sc[0], sc[1], sc[2], sc[3]);
+    els.overlayCanvas = el('canvas', '', els.overlay, { 'aria-hidden': 'true' });
+    show(els.overlay, false);
+    els.overlay.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      G.setOverlayScroll(ui.overlayScroll + 3 * Math.sign(e.deltaY));
+    }, { passive: false });
+    els.overlay.addEventListener('keydown', function (e) {
+      var keys = { ArrowDown: 1, ArrowUp: -1, PageDown: 10, PageUp: -10 };
+      if (!(e.key in keys)) return;
+      e.preventDefault();
+      G.setOverlayScroll(ui.overlayScroll + keys[e.key]);
+    });
+  }
+
+  // NPC speech and history ----------------------------------------------------------------
+  // Every line of the conversation stays in the box: the player's in the Choices face, the
+  // receptionist's in the Dialogue face, with the speaker gap where the speaker changes.
+  function S() {
+    return L.speech.text;
+  }
+
+  function speakerGap(lines, start, i) {
+    return i > start && lines[i].role !== lines[i - 1].role ? S().speakerGap : 0;
+  }
+
+  function linesFrom(start) {
+    var t = S();
+    var lines = ui.speech.lines;
+    var n = 0;
+    for (var y = 0, i = start; i < lines.length; i++) {
+      y += speakerGap(lines, start, i);
+      if (y + t.lineHeight > t.height) break;
+      y += t.lineHeight;
+      n++;
+    }
+    return i >= lines.length ? n : Math.max(1, n);
+  }
+
+  function speechMaxScroll() {
+    var start = 0;
+    while (start < ui.speech.lines.length - 1 && start + linesFrom(start) < ui.speech.lines.length) start++;
+    return start;
+  }
+  G.speechMaxScroll = speechMaxScroll;
+
+  function charsBefore(lines, row) {
+    var n = 0;
+    for (var i = 0; i < row; i++) n += lines[i].text.length;
+    return n;
+  }
+
+  function rewrap() {
+    var s = ui.speech;
+    var width = S().width;
+    s.lines = [];
+    s.parts.forEach(function (p, pi) {
+      T.wrap(p.text, width, p.role).forEach(function (text) { s.lines.push({ text: text, role: p.role, part: pi }); });
+    });
+  }
+
+  // Adds a line to the history. NPC lines type; the player's line is there at once.
+  G.addSpeech = function (text, who) {
+    var s = ui.speech;
+    s.parts.push({ text: text, role: who === 'player' ? 'choices' : 'dialogue' });
+    rewrap();
+    var first = 0;
+    while (first < s.lines.length && s.lines[first].part !== s.parts.length - 1) first++;
+    s.newRow = first;
+    s.base = charsBefore(s.lines, first);
+    if (who === 'player') {
+      s.typing = false;
+      s.revealed = charsBefore(s.lines, s.lines.length);
+      s.scrollLine = speechMaxScroll();
+    } else {
+      s.typing = true;
+      s.typeStart = performance.now();
+      s.revealed = s.base;
+    }
+    renderSpeech();
+  };
+
+  G.clearSpeech = function () {
+    ui.speech = { parts: [], lines: [], key: '', base: 0, revealed: 0, typing: false, typeStart: 0, scrollLine: 0, newRow: 0 };
+    renderSpeech();
+  };
+
+  // Called every frame while typing. Returns true when the line has finished.
+  G.typeTick = function (now) {
+    var s = ui.speech;
+    if (!s.typing) return true;
+    var total = charsBefore(s.lines, s.lines.length);
+    s.revealed = Math.min(total, s.base + Math.floor(((now - s.typeStart) * S().charsPerSecond) / 1000));
+    // Follow the newest row while typing.
+    var row = 0;
+    for (var chars = 0; row < s.lines.length; row++) {
+      chars += s.lines[row].text.length;
+      if (chars >= s.revealed) break;
+    }
+    var top = s.scrollLine;
+    while (row >= top + linesFrom(top)) top++;
+    s.scrollLine = clamp(top, 0, speechMaxScroll());
+    if (s.revealed >= total) s.typing = false;
+    renderSpeech();
+    return !s.typing;
+  };
+
+  // Click to finish: the whole line appears, scrolled so its first row is in view.
+  G.finishTyping = function () {
+    var s = ui.speech;
+    s.typing = false;
+    s.revealed = charsBefore(s.lines, s.lines.length);
+    var lead = s.newRow > 0 && s.lines[s.newRow - 1].role !== s.lines[s.newRow].role ? s.newRow - 1 : s.newRow;
+    s.scrollLine = clamp(Math.min(lead, speechMaxScroll()), 0, speechMaxScroll());
+    if (s.newRow + linesFrom(s.newRow) > s.lines.length) s.scrollLine = speechMaxScroll();
+    renderSpeech();
+  };
+
+  G.setSpeechScroll = function (line) {
+    ui.speech.scrollLine = clamp(line, 0, speechMaxScroll());
+    renderSpeech();
+  };
+
+  function buildSpeech() {
+    var t = S();
+    els.speech = el('div', 'hit-area', stage, { id: 'speechText', tabindex: '0', role: 'log', 'aria-label': 'Dialogue. Click to finish the line; scroll to read back.' });
+    els.speechCanvas = el('canvas', '', els.speech, { 'aria-hidden': 'true' });
+    els.indicator = el('div', 'speech-indicator', stage, { id: 'speechIndicator' });
+    place(els.speech, t.x, t.y, t.width, t.height);
+    els.speech.addEventListener('click', function () { G.flow.skip(); });
+    els.speech.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      G.setSpeechScroll(ui.speech.scrollLine + Math.sign(e.deltaY));
+    }, { passive: false });
+    els.speech.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowDown') G.setSpeechScroll(ui.speech.scrollLine + 1);
+      else if (e.key === 'ArrowUp') G.setSpeechScroll(ui.speech.scrollLine - 1);
+      else if (e.key === 'Enter' || e.key === ' ') G.flow.skip();
+      else return;
+      e.preventDefault();
+    });
+  }
+
+  function renderSpeech() {
+    var t = S();
+    var s = ui.speech;
+    s.scrollLine = clamp(s.scrollLine, 0, speechMaxScroll());
+    var view = linesFrom(s.scrollLine);
+    var shown = s.lines.slice(s.scrollLine, s.scrollLine + view).map(function (line, i) {
+      return { text: line.text, role: line.role, gap: speakerGap(s.lines, s.scrollLine, s.scrollLine + i) };
+    });
+    var budget = s.typing ? s.revealed - charsBefore(s.lines, s.scrollLine) : undefined;
+    T.draw(els.speechCanvas, shown, t.font, t.lineHeight, t.width, t.height, budget, 'dialogue');
+    place(els.speechCanvas, 0, 0, t.width, t.height);
+    els.speech.dataset.lines = s.lines.length;
+    els.speech.dataset.scroll = s.scrollLine;
+    els.speech.dataset.typing = s.typing ? 'true' : 'false';
+    els.speech.setAttribute('aria-label', s.parts.length ? s.parts[s.parts.length - 1].text : 'Dialogue');
+
+    var ind = L.speech.indicator;
+    var max = speechMaxScroll();
+    var needed = max > 0 && !s.typing;
+    els.indicator.classList.toggle('on', needed);
+    var h = clamp(Math.round((ind.height * view) / (s.lines.length || 1)), 12, ind.height);
+    var y = ind.y + (max ? Math.round(((ind.height - h) * s.scrollLine) / max) : 0);
+    place(els.indicator, ind.x, y, ind.width, h);
+  }
+
+  // Choices -------------------------------------------------------------------------------
+  function C() {
+    return L.choices;
+  }
+
+  // Lays out a choice set: one card per choice, the card sprite chosen by its wrapped lines.
+  G.layoutCards = function (list) {
+    var c = C();
+    var y = 0;
+    return list.map(function (choice, i) {
+      var wrapped = T.wrap(choice.text, c.text.maxWidth, 'choices');
+      var lines = clamp(wrapped.length, 1, 4);
+      var card = {
+        index: i,
+        id: choice.id,
+        text: choice.text,
+        wrapped: wrapped.slice(0, 4),
+        overflowLines: Math.max(0, wrapped.length - 4),
+        lines: lines,
+        sprite: 'choice_' + lines + 'line_' + 'abc'[i % 3],
+        height: c.cardHeights[lines],
+        y: y
+      };
+      y += card.height + c.gap;
+      return card;
+    });
+  };
+
+  function contentHeight(cards) {
+    if (!cards.length) return 0;
+    var last = cards[cards.length - 1];
+    return last.y + last.height;
+  }
+
+  function choiceMaxScroll() {
+    return Math.max(0, contentHeight(ui.cards) - C().viewport.height);
+  }
+  G.choiceMaxScroll = choiceMaxScroll;
+
+  G.setChoiceScroll = function (v) {
+    ui.choiceScroll = clamp(Math.round(v), 0, choiceMaxScroll());
+    renderChoices(performance.now());
+  };
+
+  G.setChoices = function (list, motion) {
+    ui.cards = G.layoutCards(list);
+    ui.choiceScroll = 0;
+    ui.motion = motion || null;
+    ui.thumbOn = false;
+    renderChoices(performance.now());
+  };
+
+  function buildChoices() {
+    var vp = C().viewport;
+    els.viewport = el('div', 'hit-area', stage, { id: 'choiceViewport', role: 'group', 'aria-label': 'What you can say' });
+    place(els.viewport, vp.x, vp.y, vp.width, vp.height);
+    els.viewport.addEventListener('wheel', function (e) {
+      e.preventDefault();
+      if (ui.inspector) G.setInspectorScroll(ui.inspector.scroll + Math.sign(e.deltaY) * 24);
+      else G.setChoiceScroll(ui.choiceScroll + Math.sign(e.deltaY) * 28);
+    }, { passive: false });
+    els.inspectText = el('canvas', '', els.viewport, { id: 'inspectText', 'aria-hidden': 'true' });
+    show(els.inspectText, false);
+  }
+
+  function focusCard(i) {
+    var card = ui.cards[i];
+    if (!card) return;
+    var vp = C().viewport;
+    if (card.y < ui.choiceScroll) G.setChoiceScroll(card.y);
+    else if (card.y + card.height > ui.choiceScroll + vp.height) G.setChoiceScroll(card.y + card.height - vp.height);
+    els.cards[i].node.focus({ preventScroll: true });
+  }
+  G.focusCard = focusCard;
+
+  function makeCard(i) {
+    var btn = el('button', 'hit choice', els.viewport, { type: 'button', 'data-index': i });
+    var parts = {
+      node: btn,
+      art: el('canvas', 'sprite', btn, { 'aria-hidden': 'true' }),
+      text: el('canvas', 'card-text', btn, { 'aria-hidden': 'true' })
+    };
+    // A choice is a spoken line, not a push-button: it never presses. It is taken on click,
+    // Enter or Space, and only while the flow is waiting for a choice.
+    btn.addEventListener('click', function () { G.flow.choose(Number(btn.dataset.index)); });
+    btn.addEventListener('keydown', function (e) {
+      var idx = Number(btn.dataset.index);
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        if (G.flow.phase === 'choosing') focusCard(clamp(idx + (e.key === 'ArrowDown' ? 1 : -1), 0, ui.cards.length - 1));
+      } else if (e.key === 'Home' || e.key === 'End') {
+        e.preventDefault();
+        if (G.flow.phase === 'choosing') focusCard(e.key === 'Home' ? 0 : ui.cards.length - 1);
+      }
+    });
+    els.cards[i] = parts;
+    return parts;
+  }
+
+  function drawCardArt(canvas, sprite, width, height) {
+    var img = G.image(sprite);
+    var w = img.width;
+    var h = img.height;
+    var cw = Math.min(width, w);
+    var ch = Math.min(height, h);
+    var left = Math.ceil(cw / 2);
+    var right = cw - left;
+    var top = Math.ceil(ch / 2);
+    var bottom = ch - top;
+    canvas.width = cw;
+    canvas.height = ch;
+    var ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(img, 0, 0, left, top, 0, 0, left, top);
+    ctx.drawImage(img, w - right, 0, right, top, left, 0, right, top);
+    ctx.drawImage(img, 0, h - bottom, left, bottom, 0, top, left, bottom);
+    ctx.drawImage(img, w - right, h - bottom, right, bottom, left, top, right, bottom);
+  }
+
+  var STAGGER = 40;
+
+  // How far each card is from rest. `away` 0..1 slides right (out or in), `rise` 0..1 is the
+  // chosen card sending behind the divider. Returns null for a card that is gone.
+  function cardMotion(i, now) {
+    var f = C().feedback;
+    var m = ui.motion;
+    var move = Math.max(1, f.awayMs);
+    if (!m) return { away: 0, rise: 0 };
+    var t = now - m.start;
+    if (m.kind === 'in') {
+      var u = clamp((t - i * STAGGER) / move, 0, 1);
+      return { away: 1 - u, rise: 0, entering: true };
+    }
+    if (m.kind === 'clear') return { away: clamp(t / move, 0, 1), rise: 0 };
+    // send
+    if (i !== m.index) return { away: clamp(t / move, 0, 1), rise: 0 };
+    if (m.vanishedAt) return null;
+    return { away: 0, rise: clamp((t - move - f.send.delayMs) / Math.max(1, f.send.durationMs), 0, 1) };
+  }
+
+  // When the current motion is over. For a send, the moment the chosen card vanishes.
+  G.motionDone = function (now) {
+    var m = ui.motion;
+    if (!m) return true;
+    var f = C().feedback;
+    var move = Math.max(1, f.awayMs);
+    var t = now - m.start;
+    if (m.kind === 'in') return t >= move + STAGGER * Math.max(0, ui.cards.length - 1);
+    if (m.kind === 'clear') return t >= move;
+    return !!m.vanishedAt;
+  };
+
+  function renderChoices(now) {
+    var c = C();
+    var vp = c.viewport;
+    var f = c.feedback;
+    var m = ui.motion;
+    var inspecting = !!ui.inspector;
+    ui.choiceScroll = clamp(ui.choiceScroll, 0, choiceMaxScroll());
+    els.cards.forEach(function (parts, i) { if (i >= ui.cards.length) show(parts.node, false); });
+    ui.cards.forEach(function (card, i) {
+      var parts = els.cards[i] || makeCard(i);
+      var mo = cardMotion(i, now);
+      var top = card.y - ui.choiceScroll;
+      var away = 0;
+      var rise = 0;
+      if (mo) {
+        // Ease: arriving decelerates into place; leaving starts fast, as in the lab.
+        var eased = mo.entering ? mo.away * mo.away : 1 - (1 - mo.away) * (1 - mo.away);
+        away = mo.away ? Math.round((eased * c.cardWidth) / 2) * 2 : 0;
+        if (mo.rise) rise = Math.round((Math.pow(mo.rise, f.send.pull) * (top - f.send.edgeOffset + card.height)) / 2) * 2;
+      }
+      var edge = f.send.edgeOffset;
+      var sending = m && m.kind === 'send' && i === m.index;
+      var gone = !mo || (sending && rise > 0 && top - rise + card.height <= edge);
+      if (sending && gone && !m.vanishedAt) m.vanishedAt = now;
+      var on = !inspecting && !gone && top < vp.height && top + card.height > 0 && away < c.cardWidth;
+      show(parts.node, on);
+      parts.node.dataset.index = i;
+      parts.node.dataset.choice = card.id;
+      parts.node.dataset.sprite = card.sprite;
+      parts.node.setAttribute('aria-label', card.text);
+      parts.node.tabIndex = G.flow && G.flow.phase === 'choosing' ? 0 : -1;
+      place(parts.node, away, top - rise, c.cardWidth, card.height);
+      var clipTop = sending ? Math.max(0, edge - (top - rise)) : Math.max(0, -top);
+      var clipBottom = Math.max(0, top - rise + card.height - vp.height);
+      parts.node.style.clipPath = clipTop || clipBottom || away ? 'inset(' + clipTop + 'px ' + away + 'px ' + clipBottom + 'px 0)' : '';
+      var artKey = card.sprite + '|' + c.cardWidth + '|' + card.height;
+      if (parts.artKey !== artKey) {
+        drawCardArt(parts.art, card.sprite, c.cardWidth, card.height);
+        parts.artKey = artKey;
+      }
+      var lh = c.text.lineHeight;
+      var textH = card.wrapped.length * lh;
+      var textTop = Math.max(6, Math.floor((card.height - textH) / 2)) + c.text.offsetY;
+      var key = card.text + '|' + card.lines;
+      if (parts.key !== key) {
+        T.draw(parts.text, card.wrapped, c.text.font, lh, c.text.maxWidth, textH + 8, undefined, 'choices');
+        parts.key = key;
+      }
+      place(parts.text, c.text.offsetX, textTop, c.text.maxWidth, textH + 8);
+    });
+    renderThumb();
+  }
+  G.renderChoices = renderChoices;
+
+  // Scrollbar thumb -----------------------------------------------------------------------
+  // The same thumb serves the choices and, while inspecting, the item's description.
+  function scrollModel() {
+    if (ui.inspector) return { total: ui.inspector.height, scroll: ui.inspector.scroll, max: inspectorMaxScroll() };
+    return { total: contentHeight(ui.cards), scroll: ui.choiceScroll, max: choiceMaxScroll() };
+  }
+
+  G.thumbMetrics = function () {
+    var sb = L.scrollbar;
+    var vp = C().viewport;
+    var m = scrollModel();
+    var minH = Math.max(sb.thumb.minHeight, sb.thumb.capHeight * 2);
+    var height = m.max === 0 ? sb.track.height : clamp(Math.round((sb.track.height * vp.height) / m.total), minH, sb.track.height);
+    var y = sb.track.y + (m.max === 0 ? 0 : Math.round(((sb.track.height - height) * m.scroll) / m.max));
+    return { x: sb.thumb.x, y: y, width: sb.thumb.displayWidth, height: height, overflow: m.max > 0 };
+  };
+
+  function buildThumb() {
+    els.thumb = el('canvas', 'hit-area', stage, { id: 'choiceThumb' });
+    var drag = null;
+    els.thumb.addEventListener('pointerdown', function (e) {
+      if (!G.thumbMetrics().overflow) return;
+      els.thumb.setPointerCapture(e.pointerId);
+      drag = { y: e.clientY, scroll: scrollModel().scroll };
+    });
+    els.thumb.addEventListener('pointermove', function (e) {
+      if (!drag) return;
+      var m = G.thumbMetrics();
+      var range = L.scrollbar.track.height - m.height;
+      var d = (e.clientY - drag.y) / G.viewScale();
+      var next = drag.scroll + (range ? (d * scrollModel().max) / range : 0);
+      if (ui.inspector) G.setInspectorScroll(next);
+      else G.setChoiceScroll(next);
+    });
+    els.thumb.addEventListener('pointerup', function () { drag = null; });
+    els.thumb.addEventListener('pointercancel', function () { drag = null; });
+  }
+
+  function renderThumb() {
+    var t = L.scrollbar.thumb;
+    var m = G.thumbMetrics();
+    var on = ui.thumbOn || !!ui.inspector;
+    show(els.thumb, on);
+    els.thumb.dataset.overflow = m.overflow ? 'true' : 'false';
+    if (!on) return;
+    var key = [m.y, m.height, m.width].join('|');
+    place(els.thumb, m.x, m.y, m.width, m.height);
+    if (els.thumb.dataset.key === key) return;
+    els.thumb.dataset.key = key;
+    els.thumb.width = m.width;
+    els.thumb.height = m.height;
+    var ctx = els.thumb.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    blit(ctx, G.image('choice_scroll_thumb_top'), 1, CAP_ROWS, 0, t.capHeight, m.width);
+    blit(ctx, G.image('choice_scroll_thumb_middle'), 0, 1, t.capHeight, 1, m.width);
+    for (var y = t.capHeight + 1; y < m.height - t.capHeight; y++) ctx.drawImage(els.thumb, 0, t.capHeight, m.width, 1, 0, y, m.width, 1);
+    blit(ctx, G.image('choice_scroll_thumb_bottom'), 0, CAP_ROWS, m.height - t.capHeight, t.capHeight, m.width);
+  }
+
+  // Pixel-centre nearest sampling, so Chromium and Firefox choose the same source pixels.
+  function blit(ctx, img, srcY, srcRows, dstY, dstRows, dstCols) {
+    for (var row = 0; row < dstRows; row++) {
+      var sy = srcY + Math.floor(((row + 0.5) * srcRows) / dstRows);
+      for (var col = 0; col < dstCols; col++) {
+        var sx = Math.floor(((col + 0.5) * img.width) / dstCols);
+        ctx.drawImage(img, sx, sy, 1, 1, col, dstY + row, 1, 1);
+      }
+    }
+  }
+
+  // Inventory -----------------------------------------------------------------------------
+  function INV() {
+    return L.inventory;
+  }
+
+  function buildInventory() {
+    var layer = el('div', 'layer', stage, { id: 'layer-inventory' });
+    els.invWindow = el('div', 'inv-window', layer, { id: 'invWindow', role: 'group', 'aria-label': 'Inventory' });
+    for (var i = 0; i < 7 + SPARE; i++) {
+      var slot = el('button', 'hit slot', els.invWindow, { type: 'button', 'data-slot': i });
+      el('img', 'sprite', slot, { src: G.spriteUrl('inventory_slot'), alt: '', draggable: 'false' });
+      var art = el('img', 'sprite item-art', slot, { alt: '', draggable: 'false' });
+      var stand = el('canvas', 'sprite item-art', slot, { 'aria-hidden': 'true' });
+      els.slots.push({ node: slot, art: art, stand: stand });
+      slot.addEventListener('click', function (e) {
+        var id = e.currentTarget.dataset.item;
+        if (id) G.flow.toggleInspect(id);
+      });
+    }
+    ['left', 'right'].forEach(function (side) {
+      var id = 'inv-' + side;
+      var btn = el('button', 'hit arrow', layer, { id: id, type: 'button', 'aria-label': (side === 'left' ? 'Previous' : 'Next') + ' inventory item' });
+      el('img', 'sprite', btn, { alt: '', draggable: 'false' });
+      els[id] = btn;
+      bindPress(btn, id, renderInventory, function () { G.stepInventory(side === 'left' ? -1 : 1); });
+    });
+  }
+
+  function itemCount() {
+    return G.state ? G.state.inventory.length : 0;
+  }
+
+  function maxInvStart() {
+    return Math.max(0, itemCount() - INV().slotCount);
+  }
+
+  G.stepInventory = function (direction) {
+    var inv = INV();
+    var before = ui.inv.start;
+    ui.inv.start = clamp(before + direction * inv.stepPerPress, 0, maxInvStart());
+    var moved = ui.inv.start - before;
+    if (moved && inv.motion.slide) {
+      var limit = 2 * inv.pitch;
+      ui.inv.slide = { from: clamp(slideShift(performance.now()) + moved * inv.pitch, -limit, limit), start: performance.now() };
+    }
+    renderInventory();
+  };
+
+  function slideCurve(elapsed, from, m) {
+    var u = elapsed / Math.max(1, m.durationMs);
+    if (u <= 0) return from;
+    if (u >= 1) return 0;
+    var sign = from < 0 ? -1 : 1;
+    var past = -sign * m.overshoot;
+    var back = sign * m.settle;
+    if (u < 0.6) {
+      var q = 1 - u / 0.6;
+      return past + (from - past) * q * q * q;
+    }
+    if (u < 0.85) return past + ((back - past) * (u - 0.6)) / 0.25;
+    return (back * (1 - u)) / 0.15;
+  }
+
+  function slideShift(now) {
+    var s = ui.inv.slide;
+    return s ? Math.round(slideCurve(now - s.start, s.from, INV().motion)) : 0;
+  }
+
+  function slotShift(now, row, last) {
+    var s = ui.inv.slide;
+    var m = INV().motion;
+    var order = s.from > 0 ? row : last - row;
+    return Math.round(slideCurve(now - s.start - clamp(order, 0, last) * m.lagMs, s.from, m));
+  }
+
+  G.inventoryBusy = function (now) {
+    var s = ui.inv.slide;
+    var m = INV().motion;
+    if (s && now - s.start >= m.durationMs + m.lagMs * (INV().slotCount - 1)) ui.inv.slide = null;
+    return !!ui.inv.slide;
+  };
+
+  function renderArrow(id, comp) {
+    var node = els[id];
+    var down = !!ui.pressed[id];
+    place(node, comp.x, comp.y, comp.displayWidth, comp.displayHeight);
+    node.dataset.state = down ? 'down' : 'up';
+    var img = node.firstChild;
+    var src = G.spriteUrl(comp.spriteFamily + (down ? '_down' : '_up'));
+    if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+  }
+
+  function renderInventory() {
+    var inv = INV();
+    var layout = inv.slotLayouts[inv.slotCount];
+    var count = inv.slotCount;
+    var width = (count - 1) * inv.pitch + inv.slotSize[0];
+    var pad = inv.motion.overshoot + inv.motion.settle;
+    var left = Math.max(pad, layout.x - (inv.leftArrow.x + inv.leftArrow.displayWidth));
+    var right = Math.max(pad, inv.rightArrow.x - (layout.x + width));
+    var now = performance.now();
+    var sliding = !!ui.inv.slide;
+    var items = G.state ? G.state.inventory : [];
+    ui.inv.start = clamp(ui.inv.start, 0, maxInvStart());
+    place(els.invWindow, layout.x - left, layout.y, left + width + right, inv.slotSize[1]);
+    // Every slot position shows its slot; the strip is as long as the items, at least a row.
+    var length = Math.max(count, items.length);
+    var used = 0;
+    var first = sliding ? -SPARE : 0;
+    var last = sliding ? count + SPARE - 1 : count - 1;
+    for (var row = first; row <= last && used < els.slots.length; row++) {
+      var index = ui.inv.start + row;
+      if (index < 0 || index >= length) continue;
+      var x = left + row * inv.pitch + (sliding ? slotShift(now, row, count - 1) : 0);
+      if (x + inv.slotSize[0] <= 0 || x >= left + width + right) continue;
+      var slot = els.slots[used++];
+      var id = items[index];
+      show(slot.node, true);
+      place(slot.node, x, 0, inv.slotSize[0], inv.slotSize[1]);
+      slot.node.dataset.index = index;
+      slot.node.dataset.item = id || '';
+      slot.node.tabIndex = id ? 0 : -1;
+      slot.node.setAttribute('aria-label', id ? G.content.items[id].name : 'Empty slot');
+      slot.node.dataset.open = ui.inspector && ui.inspector.id === id ? 'true' : 'false';
+      var def = id && G.content.items[id];
+      var src = def && def.slotArt ? G.url(def.slotArt) : '';
+      show(slot.art, !!src);
+      if (src && slot.art.getAttribute('src') !== src) slot.art.setAttribute('src', src);
+      show(slot.stand, !!def && !src);
+      if (def && !src && slot.stand.dataset.item !== id) {
+        P.slotItem(slot.stand, def.name);
+        slot.stand.dataset.item = id;
+      }
+    }
+    els.slots.slice(used).forEach(function (s) { show(s.node, false); });
+    renderArrow('inv-left', inv.leftArrow);
+    renderArrow('inv-right', inv.rightArrow);
+  }
+  G.renderInventory = renderInventory;
+
+  // Utility buttons -----------------------------------------------------------------------
+  // Three physical buttons. In conversation: INSPECT, NOTES, FILES. While inspecting an item:
+  // READ, SHOW or USE (whichever this moment allows), RETURN. A button with nothing to do here
+  // is blank and does not press.
+  function utilityActions() {
+    if (ui.inspector) {
+      var acts = G.rules.itemActions(G.content, G.state, ui.inspector.id);
+      var mid = acts.use ? { action: 'use', glyph: 'use', label: 'USE', enabled: true }
+        : { action: 'show', glyph: 'show_badge', label: 'SHOW', enabled: !!acts.show };
+      if (G.flow.phase !== 'choosing') mid.enabled = false;
+      return [
+        { action: 'read', glyph: 'read', label: 'READ', enabled: acts.read },
+        mid,
+        { action: 'return', glyph: 'return', label: 'RETURN', enabled: true }
+      ];
+    }
+    return [
+      { action: 'inspect', glyph: 'inspect', label: 'INSPECT', enabled: true },
+      { action: 'notes', glyph: 'notes', label: 'NOTES', enabled: true },
+      { action: 'files', glyph: 'files', label: 'FILES', enabled: true }
+    ];
+  }
+  G.utilityActions = utilityActions;
+
+  function buildUtility() {
+    var layer = el('div', 'layer', stage, { id: 'layer-utility' });
+    L.utility.buttons.forEach(function (comp, i) {
+      var id = 'util-' + i;
+      var btn = el('button', 'hit utility', layer, { id: id, type: 'button' });
+      var parts = {
+        node: btn,
+        img: el('img', 'sprite', btn, { alt: '', draggable: 'false' }),
+        glyph: el('img', 'glyph', btn, { alt: '', draggable: 'false' })
+      };
+      els.utility[i] = parts;
+      bindPress(btn, id, renderUtility, function () {
+        var a = utilityActions()[i];
+        if (a.enabled) G.flow.utility(a.action);
+      }, function () { return utilityActions()[i].enabled; });
+      btn.addEventListener('pointerenter', function () { G.showTooltip(i); });
+      btn.addEventListener('pointerleave', function () { G.hideTooltip(i); });
+      btn.addEventListener('focus', function () { G.showTooltip(i); });
+      btn.addEventListener('blur', function () { G.hideTooltip(i); });
+    });
+    els.tooltip = el('div', 'tooltip', stage, { id: 'tooltip', role: 'tooltip' });
+    els.tooltipText = el('canvas', '', els.tooltip, { 'aria-hidden': 'true' });
+    show(els.tooltip, false);
+  }
+
+  function renderUtility() {
+    var u = L.utility;
+    var acts = utilityActions();
+    u.buttons.forEach(function (comp, i) {
+      var id = 'util-' + i;
+      var parts = els.utility[i];
+      var a = acts[i];
+      var down = !!ui.pressed[id];
+      place(parts.node, comp.x, comp.y, comp.displayWidth, comp.displayHeight);
+      parts.node.dataset.state = down ? 'down' : 'up';
+      parts.node.dataset.action = a.action;
+      parts.node.setAttribute('aria-label', a.label);
+      parts.node.setAttribute('aria-disabled', a.enabled ? 'false' : 'true');
+      var src = G.spriteUrl(comp.spriteFamily + (down ? '_down' : '_up'));
+      if (parts.img.getAttribute('src') !== src) parts.img.setAttribute('src', src);
+      show(parts.glyph, a.enabled);
+      var gsrc = G.glyphUrl(a.glyph);
+      if (parts.glyph.getAttribute('src') !== gsrc) parts.glyph.setAttribute('src', gsrc);
+      var size = G.glyphSize(a.glyph);
+      var d = down ? u.pressedLabelOffset : { dx: 0, dy: 0 };
+      place(parts.glyph, Math.floor((comp.displayWidth - size[0]) / 2) + comp.labelOffset.dx + d.dx,
+        Math.floor((comp.displayHeight - size[1]) / 2) + comp.labelOffset.dy + d.dy, size[0], size[1]);
+    });
+    if (ui.tooltip) G.showTooltip(ui.tooltip.index, ui.tooltip.text);
+  }
+  G.renderUtility = renderUtility;
+
+  // Tooltip: a separate element beside the button. The button itself never changes on hover.
+  // Its box is a temporary treatment; only its face (Press Start 2P 2x, the Labels role) is chosen.
+  G.showTooltip = function (i, text) {
+    var a = utilityActions()[i];
+    var label = text || (a.enabled ? a.label : a.label + ': NOT NOW');
+    ui.tooltip = { index: i, text: text };
+    var size = T.label(els.tooltipText, label, 'light', 'labels');
+    var comp = L.utility.buttons[i];
+    var w = size[0] + 20;
+    var h = size[1] + 14;
+    var x = clamp(comp.x + Math.floor((comp.displayWidth - w) / 2), 8, 1920 - 8 - w);
+    place(els.tooltip, x, comp.y - h - 4, w, h);
+    place(els.tooltipText, 10, 7, size[0], size[1]);
+    els.tooltip.dataset.text = label;
+    show(els.tooltip, true);
+  };
+  G.hideTooltip = function (i) {
+    if (ui.tooltip && (i === undefined || ui.tooltip.index === i)) {
+      ui.tooltip = null;
+      show(els.tooltip, false);
+    }
+  };
+
+  // Item inspector ------------------------------------------------------------------------
+  // docs/45 section 7: the portrait window grows down to the dialogue box's bottom edge and the
+  // item fills it; the choices box holds the item's text; the buttons change; an X closes it.
+  // The column overlay, the inspect art and the X are placeholders until the owner's art exists.
+  var INSPECT_RECT = [1333, 44, 564, 476];
+  var COLUMN_RECT = [1316, 28, 598, 497];
+  var CLOSE = 44;
+
+  function buildInspector() {
+    els.inspector = el('div', 'layer', stage, { id: 'inspector' });
+    els.inspectColumn = el('canvas', 'sprite-abs', els.inspector, { 'aria-hidden': 'true' });
+    place(els.inspectColumn, COLUMN_RECT[0], COLUMN_RECT[1], COLUMN_RECT[2], COLUMN_RECT[3]);
+    els.inspectArt = el('canvas', 'sprite-abs', els.inspector, { id: 'inspectArt', 'aria-hidden': 'true' });
+    place(els.inspectArt, INSPECT_RECT[0], INSPECT_RECT[1], INSPECT_RECT[2], INSPECT_RECT[3]);
+    els.inspectClose = el('button', 'hit', els.inspector, { id: 'inspectClose', type: 'button', 'aria-label': 'Close the item' });
+    els.inspectCloseArt = el('canvas', 'sprite', els.inspectClose, { 'aria-hidden': 'true' });
+    place(els.inspectClose, INSPECT_RECT[0] + INSPECT_RECT[2] - CLOSE - 8, INSPECT_RECT[1] + 8, CLOSE, CLOSE);
+    bindPress(els.inspectClose, 'inspect-close', renderInspector, function () { G.flow.closeInspector(); });
+    show(els.inspector, false);
+  }
+
+  function inspectorLines() {
+    var id = ui.inspector.id;
+    var width = C().viewport.width - C().text.offsetX - 24;
+    var lines = [{ text: G.content.items[id].name, role: 'labels' }];
+    T.wrap(G.rules.description(G.content, G.state, id), width, 'dialogue').forEach(function (t, i) {
+      lines.push({ text: t, role: 'dialogue', gap: i === 0 ? 10 : 0 });
+    });
+    return lines;
+  }
+
+  function inspectorMaxScroll() {
+    return Math.max(0, ui.inspector.height - C().viewport.height);
+  }
+
+  G.setInspectorScroll = function (v) {
+    if (!ui.inspector) return;
+    ui.inspector.scroll = clamp(Math.round(v), 0, inspectorMaxScroll());
+    renderInspector();
+    renderThumb();
+  };
+
+  function renderInspector() {
+    var on = !!ui.inspector;
+    show(els.inspector, on);
+    show(els.inspectText, on);
+    if (!on) return;
+    var id = ui.inspector.id;
+    if (els.inspectColumn.dataset.done !== '1') {
+      P.panel(els.inspectColumn, COLUMN_RECT[2], COLUMN_RECT[3], 'INSPECTOR COLUMN OVERLAY', []);
+      els.inspectColumn.dataset.done = '1';
+    }
+    if (els.inspectArt.dataset.item !== id) {
+      var def = G.content.items[id];
+      P.inspectArt(els.inspectArt, INSPECT_RECT[2], INSPECT_RECT[3], def.slotArt ? G.image('item:' + id) : null, def.name + ' - INSPECT ART NOT YET APPROVED');
+      els.inspectArt.dataset.item = id;
+    }
+    var down = !!ui.pressed['inspect-close'];
+    if (els.inspectClose.dataset.state !== (down ? 'down' : 'up')) {
+      P.closeButton(els.inspectCloseArt, CLOSE, down);
+      els.inspectClose.dataset.state = down ? 'down' : 'up';
+    }
+    var lines = inspectorLines();
+    var lh = 24;
+    var gaps = lines.reduce(function (n, l) { return n + (l.gap || 0); }, 0);
+    ui.inspector.height = lines.length * lh + gaps + 24;
+    ui.inspector.scroll = clamp(ui.inspector.scroll, 0, inspectorMaxScroll());
+    var vp = C().viewport;
+    var key = JSON.stringify(lines);
+    if (els.inspectText.dataset.key !== key) {
+      T.draw(els.inspectText, lines, 'light', lh, vp.width - C().text.offsetX - 24, ui.inspector.height, undefined, 'dialogue');
+      els.inspectText.dataset.key = key;
+    }
+    els.inspectText.dataset.item = id;
+    place(els.inspectText, C().text.offsetX, 12 - ui.inspector.scroll, vp.width - C().text.offsetX - 24, ui.inspector.height);
+  }
+  G.renderInspector = renderInspector;
+
+  // NOTES (transcript) and FILES (case file) ---------------------------------------------
+  // Shown over the scene window, which they never leave. The panel treatment is a placeholder.
+  function overlayLines() {
+    var width = R.sceneAperture.rect[2] - 96;
+    var lines = [];
+    function add(text, role, gap) {
+      T.wrap(text, width, role).forEach(function (t, i) { lines.push({ text: t, role: role, gap: i === 0 ? gap || 0 : 0 }); });
+    }
+    if (ui.overlay === 'notes') {
+      add('NOTES: EVERYTHING SAID AT RECEPTION', 'labels');
+      G.state.transcript.forEach(function (line, i) {
+        add(line.who === 'npc' ? G.content.speaker + ':' : 'YOU:', 'labels', i === 0 ? 18 : 14);
+        add(line.text, line.who === 'npc' ? 'dialogue' : 'choices', 4);
+      });
+    } else {
+      add('FILES: YOUR CASE FILE', 'labels');
+      G.rules.files(G.content, G.state).forEach(function (t) { add(t, 'dialogue', 16); });
+    }
+    return lines;
+  }
+
+  function overlayView(lines) {
+    // How many rows fit from `start`, with gaps.
+    var h = R.sceneAperture.rect[3] - 64 - 40;
+    return function (start) {
+      var y = 0;
+      var n = 0;
+      for (var i = start; i < lines.length; i++) {
+        y += (i > start ? lines[i].gap || 0 : 0) + 26;
+        if (y > h) break;
+        n++;
+      }
+      return Math.max(1, n);
+    };
+  }
+
+  function overlayMax(lines) {
+    var fit = overlayView(lines);
+    var s = 0;
+    while (s < lines.length - 1 && s + fit(s) < lines.length) s++;
+    return s;
+  }
+
+  G.setOverlayScroll = function (v) {
+    if (!ui.overlay) return;
+    ui.overlayScroll = clamp(v, 0, overlayMax(overlayLines()));
+    renderOverlay();
+  };
+
+  G.overlayMaxScroll = function () {
+    return ui.overlay ? overlayMax(overlayLines()) : 0;
+  };
+
+  function renderOverlay() {
+    show(els.overlay, !!ui.overlay);
+    if (!ui.overlay) return;
+    var sc = R.sceneAperture.rect;
+    var lines = overlayLines();
+    ui.overlayScroll = clamp(ui.overlayScroll, 0, overlayMax(lines));
+    var fit = overlayView(lines)(ui.overlayScroll);
+    var shown = lines.slice(ui.overlayScroll, ui.overlayScroll + fit);
+    var c = els.overlayCanvas;
+    P.panel(c, sc[2], sc[3], ui.overlay === 'notes' ? 'NOTES PANEL TREATMENT' : 'FILES PANEL TREATMENT', []);
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = '#1f2426';
+    ctx.fillRect(32, 96, sc[2] - 64, sc[3] - 128);
+    var text = document.createElement('canvas');
+    T.draw(text, shown.map(function (l, i) { return { text: l.text, role: l.role, gap: i ? l.gap : 0 }; }), 'light', 26, sc[2] - 96, sc[3] - 160, undefined, 'dialogue');
+    ctx.drawImage(text, 48, 116);
+    c.dataset.kind = ui.overlay;
+    c.dataset.lines = lines.length;
+    c.dataset.scroll = ui.overlayScroll;
+    c.dataset.text = lines.map(function (l) { return l.text; }).join('\n');
+    els.overlay.setAttribute('aria-label', ui.overlay === 'notes' ? 'Notes: transcript' : 'Files: case file');
+  }
+  G.renderOverlay = renderOverlay;
+
+  // Objective -----------------------------------------------------------------------------
+  function buildObjective() {
+    els.objTitle = el('canvas', 'hit-area', stage, { id: 'objectiveTitle', 'aria-hidden': 'true' });
+    els.objBody = el('canvas', 'hit-area', stage, { id: 'objectiveBody', role: 'status' });
+  }
+
+  function renderObjective() {
+    var title = L.objective.title;
+    var body = L.objective.body;
+    var lh = T.lineHeight('objective');
+    var ink = Math.max(1, T.inkWidth(title.text, 'objective'));
+    var x = title.centered ? title.plaque.x + Math.floor((title.plaque.width - ink) / 2) + title.alignOffsetX : title.x;
+    T.draw(els.objTitle, [title.text], title.font, lh, ink, lh, undefined, 'objective');
+    place(els.objTitle, x, title.y, ink, lh);
+    var text = (G.state && G.state.objective) || '';
+    if (els.objBody.dataset.text === text) return;
+    var lines = T.wrap(text, body.width, 'objective');
+    var h = Math.max(1, lines.length * body.lineHeight);
+    T.draw(els.objBody, lines, body.font, body.lineHeight, body.width, h, undefined, 'objective');
+    place(els.objBody, body.x, body.y, body.width, h);
+    els.objBody.dataset.text = text;
+    els.objBody.dataset.lines = lines.length;
+    els.objBody.setAttribute('aria-label', 'Objective: ' + text);
+  }
+
+  // ---------------------------------------------------------------------------------------
+  G.renderAll = function () {
+    var now = performance.now();
+    renderSpeech();
+    renderChoices(now);
+    renderInventory();
+    renderUtility();
+    renderInspector();
+    renderOverlay();
+    renderObjective();
+  };
+
+  G.buildStage = function () {
+    stage = document.getElementById('stage');
+    buildApertures();
+    var shell = el('img', '', stage, { id: 'shell', src: G.url('art/ui/shell/layout-final.png'), width: '1920', height: '1080', alt: '', draggable: 'false' });
+    shell.style.position = 'absolute';
+    buildSpeech();
+    buildChoices();
+    buildThumb();
+    buildInventory();
+    buildUtility();
+    buildObjective();
+    buildInspector();
+  };
+})();

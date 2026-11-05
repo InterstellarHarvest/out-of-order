@@ -21,6 +21,7 @@
     // The whole of the slice's state. Nothing else is persisted between turns.
     initialState: {
       flags: {
+        appointed: false, // reception has made you the Examiner
         blunt: false, // asked for the bathroom curtly in the opening
         approach: '', // 'corrected' | 'cooperated' | 'practical': the first real decision
         disputeFiled: false, // filed a dispute against your own appointment
@@ -46,6 +47,15 @@
       }
     },
 
+    // FILES shows every entry whose condition holds, in this order: the player's case file.
+    files: [
+      { if: { notFlag: 'appointed' }, text: 'VISITOR. PURPOSE OF VISIT: TO ASK WHERE THE BATHROOM IS.' },
+      { if: { flag: 'appointed' }, text: 'APPOINTMENT: EXAMINER, OFFICE OF UNVERIFIED CONDITIONS. EFFECTIVE: THIS MORNING. APPOINTED BY: RECEPTION.' },
+      { if: { flag: 'disputeFiled' }, text: 'DISPUTE AGAINST APPOINTMENT: RECEIVED. REVIEWING OFFICER: THE EXAMINER.' },
+      { if: { has: 'wc_key' }, text: 'ISSUED: ONE FACILITIES KEY, EXAMINERS PATTERN. SIGNED FOR.' },
+      { if: { flag: 'tagQuestioned' }, text: 'KEY RECORDED AS RETURNED AT 4:52 TODAY. NO DISCREPANCY NOTED.' }
+    ],
+
     // Each node: what the receptionist says on arrival (first matching variant), what entering it
     // changes, the objective it sets, the choices it offers, and what holding up or using an item
     // does here. A node with no `use`/`show` entry for an item leaves that action disabled.
@@ -60,6 +70,7 @@
       },
 
       misassign: {
+        effects: { set: { appointed: true } },
         objective: 'FIND THE BATHROOM. YOU HAVE ALSO, APPARENTLY, BEEN APPOINTED.',
         npc: [
           { if: { flag: 'blunt' }, text: 'URGENCY NOTED. [STAMP.] THE FACILITIES ARE NOT A PUBLIC LOCATION. THEIR WHEREABOUTS ARE RELEASED TO PERSONNEL ONLY, AND ONLY PERSONNEL WOULD THINK TO ASK. YOU ASKED. SO: WELCOME, EXAMINER. OFFICE OF UNVERIFIED CONDITIONS. YOU ARE EXPECTED.' },

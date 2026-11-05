@@ -1,0 +1,821 @@
+{
+  "schema": "cyoa-m2-reception-qa-v1",
+  "note": "Technical checks only. A pass is not visual or narrative approval.",
+  "startingCommit": "5d42b524e8499c7ef3da724ba02f439c1cc660ff",
+  "browsers": {
+    "chromium": "153.0.8010.12"
+  },
+  "playwright": "1.63.0",
+  "total": 119,
+  "passed": 119,
+  "failed": 0,
+  "byBrowser": {
+    "static": {
+      "total": 12,
+      "passed": 12
+    },
+    "chromium": {
+      "total": 107,
+      "passed": 107
+    }
+  },
+  "failures": [],
+  "checks": [
+    {
+      "browser": "static",
+      "name": "M1 art, design, lab and docs are unchanged since the M2 start commit",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "browser": "static",
+      "name": "no file was added to art/, design/ or the lab (placeholders are drawn at runtime)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "browser": "static",
+      "name": "no uncommitted change to M1 art, design, lab or docs",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "browser": "static",
+      "name": "shell SHA-256 unchanged",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "all 29 approved package sprites match their manifest hashes",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "approved atlas matches its manifest hash",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "all action glyphs match actions.json hashes",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "bathroom pass slot art is byte-identical to the M2 start commit",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "the locked geometry contract is unchanged",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "route validation passes",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "the slice stylesheet has no :hover rule",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "presentation code holds no narrative text of its own",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "page loads ready",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "obsolete 364x78 font atlas is never requested",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "served shell bytes are canonical",
+      "ok": true,
+      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+    },
+    {
+      "browser": "chromium",
+      "name": "served package sprites match manifest hashes",
+      "ok": true,
+      "detail": {
+        "served": 28,
+        "servedBad": []
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "served action glyphs match actions.json",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "served bathroom pass bytes match the repository",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "choice viewport uses the lab working geometry",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "dialogue box uses the lab working geometry",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "utility buttons use the lab working geometry",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "scene placeholder fills the scene aperture exactly",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "portrait placeholder fills the portrait aperture exactly",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "scene and portrait sit beneath the shell, so no frame pixel is covered",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "placeholders are labelled as placeholders",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "pixel art renders without smoothing",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "utility buttons show the owner's glyphs in conversation",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "every authored choice fits on a card (four lines at most)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "the slice opens with the receptionist typing",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "no choice is on show while the NPC types",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the NPC line types character by character",
+      "ok": true,
+      "detail": {
+        "r0": 6,
+        "r1": 18
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "turn order: typing, beat, cards arrive, then choosing",
+      "ok": true,
+      "detail": [
+        "typing",
+        "beat",
+        "arriving",
+        "choosing"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "a short beat (150-350ms) between the line and the cards",
+      "ok": true,
+      "detail": 218.60000000009313
+    },
+    {
+      "browser": "chromium",
+      "name": "keyboard focus lands on the first choice",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the thumb appears once the cards have arrived",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "opening offers the bathroom request",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "no hidden pointer target: cards are real buttons",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "ArrowDown moves focus to the next choice",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "ArrowUp moves focus back",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "focus by keyboard is shown physically (the line slides), never with an outline",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the other card slides away to the right",
+      "ok": true,
+      "detail": 31
+    },
+    {
+      "browser": "chromium",
+      "name": "the chosen card rises until it disappears behind the divider",
+      "ok": true,
+      "detail": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -2,
+        -4,
+        -6,
+        -8,
+        -12,
+        -18,
+        -24,
+        -30,
+        -36,
+        -44,
+        -54,
+        -62,
+        -72
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the chosen card waits for the others before it rises",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the player's line is shown whole, not typed",
+      "ok": true,
+      "detail": {
+        "last": {
+          "text": "WHERE IS THE BATHROOM, PLEASE?",
+          "role": "choices"
+        },
+        "typing": false,
+        "cards": 0,
+        "whole": true
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the player's line is in the dialogue box at once, in the Choices face",
+      "ok": true,
+      "detail": {
+        "text": "WHERE IS THE BATHROOM, PLEASE?",
+        "role": "choices"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the choice panel is empty while waiting for the reply",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "input during the send was ignored (one player line only)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "a beat (about 400ms) before the reply types",
+      "ok": true,
+      "detail": 418.19999999995343
+    },
+    {
+      "browser": "chromium",
+      "name": "the reply types below in the Dialogue face",
+      "ok": true,
+      "detail": {
+        "text": "ONE MOMENT. [STAMP.] THE FACILITIES ARE NOT A PUBLIC LOCATION. THEIR WHEREABOUTS ARE RELEASED TO PERSONNEL ONLY, AND ONLY PERSONNEL WOULD THINK TO ASK. YOU ASKED. SO: WELCOME, EXAMINER. OFFICE OF UNVERIFIED CONDITIONS. YOU ARE EXPECTED.",
+        "role": "dialogue"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the whole send took a sensible time",
+      "ok": true,
+      "detail": 950.6000000000931
+    },
+    {
+      "browser": "chromium",
+      "name": "clicking the dialogue finishes the line at once",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "after a skip, the cards follow after the beat (not at once)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the thumb stays hidden while cards arrive",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "clicks on arriving cards are ignored",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the misassignment's three choices overflow the box",
+      "ok": true,
+      "detail": {
+        "max": 28,
+        "thumb": {
+          "x": 1880,
+          "y": 539,
+          "width": 20,
+          "height": 288,
+          "overflow": true
+        }
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the wheel scrolls the choices",
+      "ok": true,
+      "detail": {
+        "c": 28,
+        "s": 3
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "scrolling choices leaves the dialogue where it was",
+      "ok": true,
+      "detail": {
+        "c": 28,
+        "s": 3
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the thumb tracks the choice scroll",
+      "ok": true,
+      "detail": 563
+    },
+    {
+      "browser": "chromium",
+      "name": "dialogue scroll-back reaches the first line",
+      "ok": true,
+      "detail": {
+        "c": 28,
+        "s": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "scrolling the dialogue leaves the choices where they were",
+      "ok": true,
+      "detail": {
+        "c": 28,
+        "s": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "End focuses the last card and scrolls it into view",
+      "ok": true,
+      "detail": {
+        "idx": "2",
+        "scroll": 28,
+        "max": 28
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "a new choice set starts at the top",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the third card took the practical route",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "a single choice still arrives as a card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the key enters the inventory when the receptionist issues it",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the slot shows the approved bathroom pass art",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the inventory is ignored while the NPC is typing",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "before reading: only the blind confirmation is offered",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "clicking the item opens the inspector",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the buttons become READ, SHOW (disabled), RETURN",
+      "ok": true,
+      "detail": [
+        "read:true",
+        "show:false",
+        "return:true"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the disabled button shows no glyph",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the choice cards give way to the item text",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the inspector column and X are drawn over the portrait and dialogue (placeholder)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the item is marked inspected",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "a disabled button explains itself in its tooltip",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "pressing the disabled button does not press",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "pressing the disabled button does nothing",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "READ reveals the tag",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "after READ, SHOW is enabled here",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "closing the inspector brings a new set reflecting the tag",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "INSPECT opens the held item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the X closes the inspector",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "SHOW speaks the player's line as a turn",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "SHOW leads to the receptionist's answer about the tag",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the practical route gets its own send-off line",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "at the door the middle button becomes USE",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "USE on the key opens the door",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the closing line remembers the tag",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "NOTES opens the transcript over the scene",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the transcript holds both speakers' lines",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the transcript opens at its latest lines",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the transcript scrolls back to the start",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "FILES shows the case file",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Esc closes the overlay",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the conversation carried on underneath",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the ending offers one card: BEGIN AGAIN",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the ending objective points beyond reception",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "BEGIN AGAIN restarts the slice cleanly",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "replay: correcting the mistake changes the later send-off",
+      "ok": true,
+      "detail": "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR IS THE FIRST ON THE LEFT. YOUR DISPUTE IS ALREADY ON THE DESK. IT ARRIVED BEFORE YOU DID. MOST THINGS DO."
+    },
+    {
+      "browser": "chromium",
+      "name": "replay: a blind confirmation gets its own answer",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "replay: protest is offered (not yet used)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "replay: without the tag, the closing line differs",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "QA overflow items fill the inventory past one row",
+      "ok": true,
+      "detail": 9
+    },
+    {
+      "browser": "chromium",
+      "name": "the right arrow presses (DOWN sprite) while held",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the right arrow comes back up",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "one press moves the strip by exactly one item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the strip slides rather than jumping",
+      "ok": true,
+      "detail": {
+        "first": [
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            117
+          ],
+          [
+            2,
+            237
+          ],
+          [
+            3,
+            357
+          ],
+          [
+            4,
+            478
+          ],
+          [
+            5,
+            594
+          ]
+        ],
+        "rest": [
+          [
+            1,
+            14
+          ],
+          [
+            2,
+            130
+          ],
+          [
+            3,
+            246
+          ],
+          [
+            4,
+            362
+          ],
+          [
+            5,
+            478
+          ],
+          [
+            6,
+            594
+          ]
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "at rest, six slots show items 2-7",
+      "ok": true,
+      "detail": [
+        [
+          1,
+          14
+        ],
+        [
+          2,
+          130
+        ],
+        [
+          3,
+          246
+        ],
+        [
+          4,
+          362
+        ],
+        [
+          5,
+          478
+        ],
+        [
+          6,
+          594
+        ]
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the left arrow steps back one item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the strip stops at the last item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "hover adds no border, outline, glow, fill or brightening to any control (styles and pixels)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "a hovered control has no filter, outline, shadow, fill or opacity at all",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "no stylesheet on the page has a :hover rule",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "hovering a utility shows a separate tooltip naming it",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "opens from file:// with no server",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "fits a smaller window by scaling the whole stage",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "a scaled stage still takes clicks on the right card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "no errors from file://",
+      "ok": true,
+      "detail": []
+    }
+  ]
+}
