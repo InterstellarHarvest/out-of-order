@@ -15,9 +15,9 @@
         "sha256": "177c359f17709f882b3a28132b5e238a1bdf96ff0d4218095dc9ccefce7f0e16"
       }
     ],
-    "journal": [
+    "files": [
       {
-        "file": "journal.png",
+        "file": "files.png",
         "from": "v3/file_drawer.png",
         "sha256": "8c9c0b28edd1a491fa4b93e393dd0d709eb836d108b61e476cc744107b9dd23c"
       }
@@ -59,16 +59,23 @@
     ],
     "wait": [
       {
-        "file": "wait_1.png",
+        "file": "wait.png",
+        "from": "v5/wait.png",
+        "sha256": "5398292efa348b8692efd2b30c8027b2834d23e82ab3f8290d7a76d5e182af9e"
+      }
+    ],
+    "ticket": [
+      {
+        "file": "ticket_1.png",
         "from": "v4/ticket.png",
         "sha256": "20075439c60d9906f5df16ee0071834fc6761ba45ba73a69beec69b06687f9da",
-        "variant": "picked at random"
+        "variant": "picked at random; use to be decided"
       },
       {
-        "file": "wait_2.png",
+        "file": "ticket_2.png",
         "from": "v3/ticket.png",
         "sha256": "255e7e868a1c8d4294b647c7cab9c5c375f7482c48ba704bad73e56df43ef1a5",
-        "variant": "picked at random"
+        "variant": "picked at random; use to be decided"
       }
     ],
     "call": [

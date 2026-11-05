@@ -130,8 +130,8 @@ window.M1_LAB_DATA = {
     },
     {
      "id": "journal",
-     "label": "JOURNAL",
-     "glyph": "journal",
+     "label": "FILES",
+     "glyph": "files",
      "spriteFamily": "utility_c",
      "x": 1756,
      "y": 930,
@@ -3632,6 +3632,14 @@ window.M1_LAB_DATA = {
    ],
    "label": "call"
   },
+  "files": {
+   "file": "../../art/actions/files.png",
+   "size": [
+    96,
+    96
+   ],
+   "label": "files"
+  },
   "inspect": {
    "file": "../../art/actions/inspect.png",
    "size": [
@@ -3639,14 +3647,6 @@ window.M1_LAB_DATA = {
     96
    ],
    "label": "inspect"
-  },
-  "journal": {
-   "file": "../../art/actions/journal.png",
-   "size": [
-    96,
-    96
-   ],
-   "label": "journal"
   },
   "leave": {
    "file": "../../art/actions/leave.png",
@@ -3752,6 +3752,22 @@ window.M1_LAB_DATA = {
    ],
    "label": "talk mic"
   },
+  "ticket_1": {
+   "file": "../../art/actions/ticket_1.png",
+   "size": [
+    96,
+    96
+   ],
+   "label": "ticket 1"
+  },
+  "ticket_2": {
+   "file": "../../art/actions/ticket_2.png",
+   "size": [
+    96,
+    96
+   ],
+   "label": "ticket 2"
+  },
   "use": {
    "file": "../../art/actions/use.png",
    "size": [
@@ -3760,21 +3776,13 @@ window.M1_LAB_DATA = {
    ],
    "label": "use"
   },
-  "wait_1": {
-   "file": "../../art/actions/wait_1.png",
+  "wait": {
+   "file": "../../art/actions/wait.png",
    "size": [
     96,
     96
    ],
-   "label": "wait 1"
-  },
-  "wait_2": {
-   "file": "../../art/actions/wait_2.png",
-   "size": [
-    96,
-    96
-   ],
-   "label": "wait 2"
+   "label": "wait"
   },
   "watch": {
    "file": "../../art/actions/watch.png",

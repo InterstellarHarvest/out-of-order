@@ -93,7 +93,7 @@ The owner finds the locked font too thin in places: some letters are hard to rea
   - Press Start 2P 2× is too wide for the current labels.
 - **Tinting:** baked faces are white and are tinted at draw time. A third ink, for example to mark the player's lines, therefore costs no new art.
 
-## 6. Action-button tooltips (owner direction, 2026-11-04, not built)
+## 6. Action-button tooltips (owner direction, 2026-11-04; deferred except the font)
 
 - **Each action button gets a hover tooltip** with the action's name in a word or two, such as INSPECT, READ or SHOW. A player moving quickly toward a choice should know at once what a glyph does.
 - **Simple, styled after the UI frame** (its colours and materials) but **not pixel art.**
@@ -119,6 +119,7 @@ Clicking an inventory item switches the right column at once, with no animation:
 
 **Art (owner, later, with ChatGPT/Codex when the inventory items are made):**
 
+- Not needed until the first inventory items are made (owner, 2026-11-04).
 - A second right column for inspector mode, drawn as a **transparent PNG at exactly 1920×1080** with only the new column painted, laid over the main shell.
 - PNG rather than JPG. It needs transparency and lossless pixels, and a mostly empty PNG compresses small.
 - The close button's up and down sprites.
@@ -152,12 +153,13 @@ Clicking an inventory item switches the right column at once, with no animation:
 |---|---|---|
 | INSPECT | `inspect.png` | v4 magnifier |
 | NOTES | `notes.png` | v5 typewriter |
-| JOURNAL (may be renamed, e.g. FILES) | `journal.png` | v3 file_drawer |
+| FILES (was JOURNAL; label changed 2026-11-04) | `files.png` | v3 file_drawer |
 | READ | `read.png` | v5 read |
 | USE | `use.png` | v5 keys2 |
 | SHOW | `show_badge.png`, `show_id.png` | v5 badge, v3 id_card |
 | RETURN | `return.png` | v5 return2 (does not suit "go back") |
-| WAIT | `wait_1.png`, `wait_2.png` (picked at random) | v4 ticket, v3 ticket (an hourglass may read better) |
+| WAIT | `wait.png` | v5 wait: a monitor showing an hourglass (2026-11-04) |
+| TICKET (use to be decided) | `ticket_1.png`, `ticket_2.png` (picked at random) | v4 ticket, v3 ticket |
 | CALL | `call.png` | v4 phone |
 | STAMP | `stamp.png` | v4 stamp_wood_clean |
 | RING | `ring.png` | v3 bell |

@@ -105,7 +105,7 @@
       {
         "id": "journal",
         "label": "JOURNAL",
-        "glyph": "journal",
+        "glyph": "files",
         "spriteFamily": "utility_c",
         "x": 1756,
         "y": 930,

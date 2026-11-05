@@ -107,7 +107,7 @@ function staticChecks() {
   check(b, 'obsolete atlas absent from snapshot bundle', !assets.locked_pixel_font_atlas);
   const glyphNames = Object.keys(data.actionGlyphs);
   const glyphBad = glyphNames.filter((n) => bytesOf(assets['glyph:' + n]) !== sha256(fs.readFileSync(path.join(LAB, data.actionGlyphs[n].file))));
-  check(b, 'snapshot bundle holds the exact candidate glyph bytes', glyphNames.length === 21 && glyphBad.length === 0
+  check(b, 'snapshot bundle holds the exact candidate glyph bytes', glyphNames.length === 22 && glyphBad.length === 0
     && Object.keys(assets).filter((n) => n.startsWith('glyph:')).length === glyphNames.length, glyphBad);
   check(b, 'glyph list holds current files only, no saved versions or sheet', glyphNames.every((n) => !/_v\d+$/.test(n) && !n.startsWith('_')), glyphNames);
   const glyphSizes = glyphNames.filter((n) => fs.readFileSync(path.join(LAB, data.actionGlyphs[n].file)).readUInt32BE(16) !== data.actionGlyphs[n].size[0]);
@@ -1983,9 +1983,9 @@ async function actionGlyphs(page, name, c) {
   const warned = await page.$$eval('#warningsList [data-warning]', (w) => w.map((e) => e.dataset.warning));
   c('glyph mode at baseline raises no warnings', warned.length === 0, warned);
 
-  await page.selectOption('[data-tune="util.notes.glyph"] select', 'wait_1');
+  await page.selectOption('[data-tune="util.notes.glyph"] select', 'ticket_1');
   s = await state();
-  c('a button\'s glyph menu changes only that button', s[1].glyph === 'wait_1' && s[1].src === glyphs.wait_1.file && s[0].glyph === baseline.utility.buttons[0].glyph && s[2].glyph === baseline.utility.buttons[2].glyph, s);
+  c('a button\'s glyph menu changes only that button', s[1].glyph === 'ticket_1' && s[1].src === glyphs.ticket_1.file && s[0].glyph === baseline.utility.buttons[0].glyph && s[2].glyph === baseline.utility.buttons[2].glyph, s);
   const options = await page.$$eval('[data-tune="util.inspect.glyph"] option', (o) => o.map((x) => x.value));
   c('glyph menus list every candidate', JSON.stringify(options) === JSON.stringify(Object.keys(glyphs)), options);
 
@@ -2036,7 +2036,7 @@ async function actionGlyphs(page, name, c) {
   c('the snapshot paints each glyph with its exact pixels', snap.length === 3 && snap.every((g) => g.opaque > 500 && g.bad === 0), snap);
 
   const saved = await page.evaluate(() => JSON.parse(M1Lab.exportJson()).utility);
-  c('the export records glyph mode and each button\'s glyph', saved.show === 'glyph' && saved.buttons[1].glyph === 'wait_1');
+  c('the export records glyph mode and each button\'s glyph', saved.show === 'glyph' && saved.buttons[1].glyph === 'ticket_1');
   const odd = await page.evaluate(() => {
     const v = JSON.parse(M1Lab.exportJson());
     v.utility.buttons[0].glyph = 'teapot';
