@@ -1,0 +1,229 @@
+{
+  "schema": "cyoa-m2-route-validation-v1",
+  "stats": {
+    "nodes": 15,
+    "choices": 23,
+    "reachableStates": 449,
+    "endings": 1,
+    "endingStates": 96
+  },
+  "total": 36,
+  "passed": 36,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "route validation: every reachable state has an intentional continuation",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "route validation explored more than one state",
+      "ok": true,
+      "detail": {
+        "nodes": 15,
+        "choices": 23,
+        "reachableStates": 449,
+        "endings": 1,
+        "endingStates": 96
+      }
+    },
+    {
+      "name": "validator rejects: a choice leading to a missing node",
+      "ok": true,
+      "detail": [
+        "node dispute choice rule: leads to missing node nowhere"
+      ]
+    },
+    {
+      "name": "validator rejects: a node with no choices",
+      "ok": true,
+      "detail": [
+        "node ruling: has no choices (every node needs at least a CONTINUE-style card)"
+      ]
+    },
+    {
+      "name": "validator rejects: a node nobody can reach",
+      "ok": true,
+      "detail": [
+        "unreachable node: orphan",
+        "choice never available: orphan:x"
+      ]
+    },
+    {
+      "name": "validator rejects: a choice whose condition can never hold",
+      "ok": true,
+      "detail": [
+        "choice never available: issue:confirm-read",
+        "unreachable node: confirm_read"
+      ]
+    },
+    {
+      "name": "validator rejects: a node whose only choice is conditional and can fail",
+      "ok": true,
+      "detail": [
+        "dead end: no choice is available at door with state [\"door\",{\"blunt\":false,\"approach\":\"cooperated\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]]]",
+        "dead end: no choice is available at door with state [\"door\",{\"blunt\":false,\"approach\":\"practical\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]]]"
+      ]
+    },
+    {
+      "name": "validator rejects: a loop with no way out",
+      "ok": true,
+      "detail": [
+        "unreachable node: ending",
+        "choice never available: ending:restart"
+      ]
+    },
+    {
+      "name": "validator rejects: a typo in a flag name",
+      "ok": true,
+      "detail": [
+        "node ruling effects: sets unknown flag disputFiled"
+      ]
+    },
+    {
+      "name": "validator rejects: a character the fonts cannot draw",
+      "ok": true,
+      "detail": [
+        "node opening npc: characters the fonts cannot draw: —"
+      ]
+    },
+    {
+      "name": "validator rejects: an NPC line whose last variant is conditional",
+      "ok": true,
+      "detail": [
+        "node facilities npc: last variant must have no condition, so something is always said"
+      ]
+    },
+    {
+      "name": "validator rejects: restart outside an ending",
+      "ok": true,
+      "detail": [
+        "node ruling choice sigh: restart is only allowed on an end node"
+      ]
+    },
+    {
+      "name": "validator rejects: no ending at all",
+      "ok": true,
+      "detail": [
+        "no node is marked end: true",
+        "node ending choice restart: restart is only allowed on an end node"
+      ]
+    },
+    {
+      "name": "opening offers the bathroom request",
+      "ok": true,
+      "detail": [
+        "ask-politely",
+        "ask-bluntly"
+      ]
+    },
+    {
+      "name": "the misassignment offers correct / cooperate / practical",
+      "ok": true,
+      "detail": [
+        "correct",
+        "cooperate",
+        "practical"
+      ]
+    },
+    {
+      "name": "the misassignment converts the request into an appointment",
+      "ok": true
+    },
+    {
+      "name": "a blunt request changes her reply",
+      "ok": true
+    },
+    {
+      "name": "the send-off line differs for each opening decision",
+      "ok": true,
+      "detail": [
+        "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR IS THE FIRST ON THE LEFT. YOUR DISPUTE IS ALREADY ON THE DESK. IT ARRIVED BEFORE YOU DID. MOST THINGS DO.",
+        "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR IS THE FIRST ON THE LEFT. YOUR PREDECESSOR LEFT EVERYTHING EXACTLY AS IT WAS. SO DID THE ONE BEFORE.",
+        "THE EXAMINERS DOOR, BEHIND ME. THE FACILITIES ARE THE SECOND DOOR. ROOM FOUR IS THE FIRST. PLEASE DO NOT CONFUSE THEM. THE LAST EXAMINER DID."
+      ]
+    },
+    {
+      "name": "a filed dispute is remembered at the send-off",
+      "ok": true
+    },
+    {
+      "name": "the key is issued into the inventory",
+      "ok": true
+    },
+    {
+      "name": "before reading the tag: only the blind confirmation",
+      "ok": true,
+      "detail": [
+        "confirm-unread"
+      ]
+    },
+    {
+      "name": "before reading the tag: SHOW is disabled",
+      "ok": true
+    },
+    {
+      "name": "the tag description is withheld until READ",
+      "ok": true
+    },
+    {
+      "name": "READ reveals the tag",
+      "ok": true
+    },
+    {
+      "name": "after reading the tag: the tag question appears",
+      "ok": true,
+      "detail": [
+        "confirm-read",
+        "question-tag"
+      ]
+    },
+    {
+      "name": "after reading the tag: SHOW is enabled here",
+      "ok": true
+    },
+    {
+      "name": "USE is not available at the desk yet",
+      "ok": true
+    },
+    {
+      "name": "SHOW on the key reaches the tag question",
+      "ok": true
+    },
+    {
+      "name": "USE is available at the door",
+      "ok": true
+    },
+    {
+      "name": "USE on the key opens the door",
+      "ok": true
+    },
+    {
+      "name": "the closing line changes when the tag was questioned",
+      "ok": true
+    },
+    {
+      "name": "blind confirmation gets its own reply",
+      "ok": true
+    },
+    {
+      "name": "the ending offers a single restart card",
+      "ok": true,
+      "detail": [
+        "restart"
+      ]
+    },
+    {
+      "name": "the transcript records both speakers in order",
+      "ok": true
+    },
+    {
+      "name": "a protest can be made once only",
+      "ok": true
+    },
+    {
+      "name": "after protesting, the door is still reachable by card and by USE",
+      "ok": true
+    }
+  ]
+}
