@@ -6,26 +6,26 @@
     "chromium": "153.0.8010.12"
   },
   "playwright": "1.63.0",
-  "total": 119,
-  "passed": 119,
+  "total": 137,
+  "passed": 137,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 12,
-      "passed": 12
+      "total": 15,
+      "passed": 15
     },
     "chromium": {
-      "total": 107,
-      "passed": 107
+      "total": 122,
+      "passed": 122
     }
   },
   "failures": [],
   "checks": [
     {
       "browser": "static",
-      "name": "M1 art, design, lab and docs are unchanged since the M2 start commit",
+      "name": "M1 art, design, lab and docs are unchanged since M2 began, apart from the authorised card cleanup",
       "ok": true,
-      "detail": ""
+      "detail": []
     },
     {
       "browser": "static",
@@ -38,6 +38,31 @@
       "name": "no uncommitted change to M1 art, design, lab or docs",
       "ok": true,
       "detail": ""
+    },
+    {
+      "browser": "static",
+      "name": "exactly the six documented cards carry the 2026-11-05 correction",
+      "ok": true,
+      "detail": [
+        "choice_1line_a",
+        "choice_1line_b",
+        "choice_2line_a",
+        "choice_2line_b",
+        "choice_3line_b",
+        "choice_4line_a"
+      ]
+    },
+    {
+      "browser": "static",
+      "name": "each corrected card records its exact before-hash",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "the other 23 package sprites are byte-identical to the M2 start",
+      "ok": true,
+      "detail": []
     },
     {
       "browser": "static",
@@ -160,12 +185,118 @@
     },
     {
       "browser": "chromium",
+      "name": "card cleanup: rows 2 and below are pixel-identical to the approved originals",
+      "ok": true,
+      "detail": [
+        {
+          "name": "choice_1line_a",
+          "below": 0,
+          "top": 0,
+          "removed": 72
+        },
+        {
+          "name": "choice_1line_b",
+          "below": 0,
+          "top": 0,
+          "removed": 268
+        },
+        {
+          "name": "choice_2line_a",
+          "below": 0,
+          "top": 0,
+          "removed": 44
+        },
+        {
+          "name": "choice_2line_b",
+          "below": 0,
+          "top": 0,
+          "removed": 4
+        },
+        {
+          "name": "choice_3line_b",
+          "below": 0,
+          "top": 0,
+          "removed": 112
+        },
+        {
+          "name": "choice_4line_a",
+          "below": 0,
+          "top": 0,
+          "removed": 88
+        }
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "card cleanup: rows 0-1 of the six cards are now empty, and only stray pixels were removed",
+      "ok": true,
+      "detail": [
+        {
+          "name": "choice_1line_a",
+          "below": 0,
+          "top": 0,
+          "removed": 72
+        },
+        {
+          "name": "choice_1line_b",
+          "below": 0,
+          "top": 0,
+          "removed": 268
+        },
+        {
+          "name": "choice_2line_a",
+          "below": 0,
+          "top": 0,
+          "removed": 44
+        },
+        {
+          "name": "choice_2line_b",
+          "below": 0,
+          "top": 0,
+          "removed": 4
+        },
+        {
+          "name": "choice_3line_b",
+          "below": 0,
+          "top": 0,
+          "removed": 112
+        },
+        {
+          "name": "choice_4line_a",
+          "below": 0,
+          "top": 0,
+          "removed": 88
+        }
+      ]
+    },
+    {
+      "browser": "chromium",
       "name": "pixel art renders without smoothing",
       "ok": true
     },
     {
       "browser": "chromium",
       "name": "utility buttons show the owner's glyphs in conversation",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "INSPECT is inactive while nothing is held",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "an inactive button keeps its glyph, in the inactive treatment",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the inactive button's tooltip says why",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "an inactive button does not press",
       "ok": true
     },
     {
@@ -189,8 +320,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 6,
-        "r1": 18
+        "r0": 13,
+        "r1": 25
       }
     },
     {
@@ -208,7 +339,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 218.60000000009313
+      "detail": 218.70000000006985
     },
     {
       "browser": "chromium",
@@ -242,7 +373,39 @@
     },
     {
       "browser": "chromium",
-      "name": "focus by keyboard is shown physically (the line slides), never with an outline",
+      "name": "keyboard focus brings out the brass tab on the focused card only",
+      "ok": true,
+      "detail": {
+        "marker": "out",
+        "clip": "",
+        "outline": "none",
+        "w": "535px",
+        "h": "79px",
+        "textLeft": "29px",
+        "textTransform": "none",
+        "tab": "http://127.0.0.1:41561/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "others": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the tab changes no card geometry, text position or outline",
+      "ok": true,
+      "detail": {
+        "marker": "out",
+        "clip": "",
+        "outline": "none",
+        "w": "535px",
+        "h": "79px",
+        "textLeft": "29px",
+        "textTransform": "none",
+        "tab": "http://127.0.0.1:41561/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "others": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "mouse hover over another card brings out no tab",
       "ok": true
     },
     {
@@ -274,19 +437,19 @@
         0,
         0,
         0,
+        0,
         -2,
         -4,
-        -6,
         -8,
         -12,
-        -18,
-        -24,
-        -30,
-        -36,
-        -44,
-        -54,
-        -62,
-        -72
+        -16,
+        -20,
+        -26,
+        -34,
+        -42,
+        -50,
+        -58,
+        -68
       ]
     },
     {
@@ -331,7 +494,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.19999999995343
+      "detail": 411.79999999993015
     },
     {
       "browser": "chromium",
@@ -346,7 +509,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 950.6000000000931
+      "detail": 961.4000000000233
     },
     {
       "browser": "chromium",
@@ -467,6 +630,11 @@
     },
     {
       "browser": "chromium",
+      "name": "focus that follows a mouse action shows no tab",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
       "name": "before reading: only the blind confirmation is offered",
       "ok": true
     },
@@ -487,7 +655,7 @@
     },
     {
       "browser": "chromium",
-      "name": "the disabled button shows no glyph",
+      "name": "the unavailable SHOW keeps its glyph, unlit",
       "ok": true
     },
     {
@@ -687,7 +855,7 @@
           ],
           [
             3,
-            357
+            358
           ],
           [
             4,
@@ -765,6 +933,42 @@
     {
       "browser": "chromium",
       "name": "the strip stops at the last item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "with several items and none selected, INSPECT is inactive",
+      "ok": true,
+      "detail": [
+        null,
+        null,
+        "<button class=\"hit arrow\" id=\"inv-right\" type=\"button\" aria-label=\"Next inventor"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "focusing a slot selects its item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "INSPECT opens the selected item, not the leftmost one",
+      "ok": true,
+      "detail": "qa_item_6"
+    },
+    {
+      "browser": "chromium",
+      "name": "clicking a slot selects and opens its item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "INSPECT then reopens the last selected item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "an item with nothing to read shows READ unlit",
       "ok": true
     },
     {

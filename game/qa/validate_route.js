@@ -95,7 +95,11 @@ check('USE is available at the door', !!Rules.itemActions(content, shown.s, 'wc_
 const usedKey = play(['ask-politely', 'practical', 'ask-key', 'read:wc_key', 'show:wc_key', 'onward-tag', 'use:wc_key']);
 const unread = play(['ask-politely', 'practical', 'ask-key', 'confirm-unread', 'onward-blind', 'unlock']);
 check('USE on the key opens the door', 'door' in usedKey.heard);
-check('the closing line changes when the tag was questioned', usedKey.heard.door !== unread.heard.door && /4:52/.test(usedKey.heard.door));
+check('the closing line changes when the tag was questioned', usedKey.heard.door !== unread.heard.door && /ACCORDING TO THE RECORD YOU ALREADY HAVE/.test(usedKey.heard.door));
+// docs/49 section 2.8: the contradiction stays, but nobody explains or predicts it.
+const allLines = JSON.stringify(content);
+check('no line predicts or explains the 4:52 record', !/UNTIL 4:52|SEE YOU AT 4:52|ALWAYS COME BACK/.test(allLines));
+check('the 4:52 contradiction is still on the tag and in the record', /RETURNED: TODAY, 4:52/.test(allLines) && /RETURNED AT 4:52/.test(shown.heard.tag_question));
 check('blind confirmation gets its own reply', /NOBODY EVER READS THE TAG/.test(unread.heard.confirm_blind));
 
 const ending = play(['ask-politely', 'practical', 'ask-key', 'confirm-unread', 'onward-blind', 'unlock', 'enter-corridor']);

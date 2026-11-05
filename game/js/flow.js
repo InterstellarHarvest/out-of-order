@@ -43,6 +43,7 @@
     G.ui.inv.start = 0;
     G.ui.inv.slide = null;
     G.ui.inspector = null;
+    G.ui.selected = null;
     G.ui.overlay = null;
     G.hideTooltip();
     G.clearSpeech();
@@ -162,8 +163,8 @@
     }
     if (action === 'inspect') {
       if (F.phase !== 'choosing') return;
-      if (!G.state.inventory.length) G.showTooltip(0, 'NOTHING TO INSPECT YET');
-      else openInspector(G.state.inventory[G.ui.inv.start]);
+      var id = G.selectedItem();
+      if (id) openInspector(id);
       return;
     }
     if (action === 'read') {
@@ -176,7 +177,11 @@
   };
 
   // Frame loop ---------------------------------------------------------------------------------
+  var lastFrame = 0;
   function tick(now) {
+    var dt = lastFrame ? now - lastFrame : 16;
+    lastFrame = now;
+    if (G.markerTick(dt)) G.renderChoices(now);
     if (F.phase === 'typing' && G.typeTick(now)) afterTyping();
     if (timer && now >= timer.at) {
       var fn = timer.fn;

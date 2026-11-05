@@ -242,6 +242,17 @@ async function suite(name, base, requests) {
   c('utility buttons show the owner\'s glyphs in conversation', JSON.stringify(await page.$$eval('.utility', (bs) => bs.map((b) => b.dataset.action)))
     === JSON.stringify(['inspect', 'notes', 'files']));
 
+  // With nothing held, INSPECT keeps its glyph, unlit, does not press, and says why.
+  c('INSPECT is inactive while nothing is held', (await page.$eval('#util-0', (b) => [b.dataset.glyph, b.getAttribute('aria-disabled')].join())) === 'inactive,true');
+  c('an inactive button keeps its glyph, in the inactive treatment', await page.$eval('#util-0', (b) => b.querySelector('img.glyph').style.display === 'none'
+    && b.querySelector('canvas.glyph').style.display !== 'none' && b.querySelector('canvas.glyph').width === 96));
+  await page.hover('#util-0');
+  c('the inactive button\'s tooltip says why', (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'INSPECT - NO ITEMS');
+  await page.mouse.down();
+  c('an inactive button does not press', (await page.$eval('#util-0', (b) => b.dataset.state)) === 'up');
+  await page.mouse.up();
+  await page.mouse.move(600, 400);
+
   // Every authored card fits the four card sizes.
   const tooLong = await game(page, (all) => all.filter((t) => window.CYOA_GAME.layoutCards([{ id: 'x', text: t }])[0].overflowLines > 0),
     Object.values(content.nodes).flatMap((n) => n.choices.map((ch) => ch.text)));
@@ -270,11 +281,22 @@ async function suite(name, base, requests) {
   c('ArrowDown moves focus to the next choice', await page.evaluate(() => document.activeElement.dataset.index === '1'));
   await page.keyboard.press('ArrowUp');
   c('ArrowUp moves focus back', await page.evaluate(() => document.activeElement.dataset.index === '0'));
-  c('focus by keyboard is shown physically (the line slides), never with an outline', await page.evaluate(() => {
+  await page.waitForTimeout(200);
+  const focusLook = await page.evaluate(() => {
     const b = document.activeElement;
-    const s = getComputedStyle(b);
-    return s.outlineStyle === 'none' && /matrix|translate/.test(getComputedStyle(b.querySelector('.card-text')).transform);
-  }));
+    const clip = b.querySelector('.marker-clip');
+    const text = b.querySelector('.card-text');
+    return { marker: b.dataset.marker, clip: clip.style.display, outline: getComputedStyle(b).outlineStyle,
+      w: b.style.width, h: b.style.height, textLeft: text.style.left, textTransform: getComputedStyle(text).transform,
+      tab: clip.querySelector('img').src, others: Array.from(document.querySelectorAll('#choiceViewport .choice')).filter((x) => x !== b && x.dataset.marker !== 'in').length };
+  });
+  c('keyboard focus brings out the brass tab on the focused card only', focusLook.marker === 'out' && focusLook.clip !== 'none' && focusLook.others === 0
+    && /choice_marker_tab\.png$/.test(focusLook.tab), focusLook);
+  c('the tab changes no card geometry, text position or outline', focusLook.outline === 'none' && focusLook.w === labDefaults.choices.cardWidth + 'px'
+    && focusLook.textLeft === labDefaults.choices.text.offsetX + 'px' && focusLook.textTransform === 'none', focusLook);
+  await page.hover('#choiceViewport .choice[data-index="1"]');
+  await page.waitForTimeout(150);
+  c('mouse hover over another card brings out no tab', (await page.$eval('#choiceViewport .choice[data-index="1"]', (b) => b.dataset.marker)) === 'in');
   // Sample every frame of the send in the page itself.
   await page.evaluate(() => {
     window.__send = [];
@@ -372,12 +394,15 @@ async function suite(name, base, requests) {
   await page.click('#invWindow .slot[data-item="wc_key"]');
   c('the inventory is ignored while the NPC is typing', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
   await skipToChoices(page);
+  await page.waitForTimeout(150);
+  c('focus that follows a mouse action shows no tab', await page.evaluate(() => document.activeElement.dataset.index === '0' && document.activeElement.dataset.marker === 'in'));
   c('before reading: only the blind confirmation is offered', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.id))) === '["confirm-unread"]');
   await page.click('#invWindow .slot[data-item="wc_key"]');
   const insp = await game(page, () => ({ open: !!window.CYOA_GAME.ui.inspector, acts: window.CYOA_GAME.utilityActions().map((a) => a.action + ':' + a.enabled) }));
   c('clicking the item opens the inspector', insp.open);
   c('the buttons become READ, SHOW (disabled), RETURN', JSON.stringify(insp.acts) === '["read:true","show:false","return:true"]', insp.acts);
-  c('the disabled button shows no glyph', await page.$eval('#util-1 .glyph', (g) => g.style.display === 'none'));
+  c('the unavailable SHOW keeps its glyph, unlit', await page.$eval('#util-1', (b) => b.dataset.glyph === 'inactive'
+    && b.querySelector('img.glyph').style.display === 'none' && b.querySelector('canvas.glyph').style.display !== 'none'));
   c('the choice cards give way to the item text', (await page.$$eval('#choiceViewport .choice', (bs) => bs.filter((b) => b.style.display !== 'none').length)) === 0
     && (await page.$eval('#inspectText', (e) => e.style.display !== 'none')));
   c('the inspector column and X are drawn over the portrait and dialogue (placeholder)', await page.evaluate(() => {
@@ -387,7 +412,7 @@ async function suite(name, base, requests) {
   c('the item is marked inspected', (await game(page, () => window.CYOA_GAME.state.items.wc_key)).includes('inspected'));
   await shot(page, '06_inspector_before_read.png');
   await page.hover('#util-1');
-  c('a disabled button explains itself in its tooltip', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW: NOT NOW');
+  c('a disabled button explains itself in its tooltip', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW - NOT AVAILABLE HERE');
   await page.click('#util-1', { force: true }); // aria-disabled: Playwright would otherwise refuse
   c('pressing the disabled button does not press', (await page.$eval('#util-1', (b) => b.dataset.state)) === 'up');
   c('pressing the disabled button does nothing', (await phase(page)) === 'choosing' && !!(await game(page, () => window.CYOA_GAME.ui.inspector)));
@@ -401,7 +426,7 @@ async function suite(name, base, requests) {
   await shot(page, '08_choices_changed_by_item.png');
   // Re-open with INSPECT, close with X, then SHOW.
   await page.click('#util-0');
-  c('INSPECT opens the held item', !!(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  c('INSPECT opens the held item', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === 'wc_key');
   await page.click('#inspectClose');
   c('the X closes the inspector', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
   await page.click('#invWindow .slot[data-item="wc_key"]');
@@ -420,7 +445,7 @@ async function suite(name, base, requests) {
   await page.click('#util-1');
   await waitPhase(page, 'typing');
   c('USE on the key opens the door', (await game(page, () => window.CYOA_GAME.state.node)) === 'door');
-  c('the closing line remembers the tag', /SEE YOU AT 4:52/.test(await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text)));
+  c('the closing line remembers the tag', /ACCORDING TO THE RECORD YOU ALREADY HAVE/.test(await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text)));
 
   // Transcript: NOTES and FILES ---------------------------------------------------------------
   await page.click('#util-1');
@@ -490,6 +515,25 @@ async function suite(name, base, requests) {
   c('the strip stops at the last item', (await game(page, () => window.CYOA_GAME.ui.inv.start)) === 3);
   await page.waitForTimeout(400);
   await shot(page, '13_inventory_overflow_qa_items.png', { x: 0, y: 900, width: 860, height: 180 });
+  // INSPECT acts on the selected item, never on whichever slot happens to be leftmost.
+  const sel0 = await game(page, () => [window.CYOA_GAME.selectedItem(), window.CYOA_GAME.ui.selected, document.activeElement.outerHTML.slice(0, 80)]);
+  c('with several items and none selected, INSPECT is inactive', (await page.$eval('#util-0', (b) => b.dataset.glyph)) === 'inactive'
+    && sel0[0] === null, sel0);
+  await page.focus('#invWindow .slot[data-index="6"]');
+  const focusedItem = await page.$eval('#invWindow .slot[data-index="6"]', (sl) => sl.dataset.item);
+  c('focusing a slot selects its item', (await game(page, () => window.CYOA_GAME.selectedItem())) === focusedItem && (await page.$eval('#util-0', (b) => b.dataset.glyph)) === 'on');
+  await page.click('#util-0');
+  c('INSPECT opens the selected item, not the leftmost one', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === focusedItem
+    && focusedItem !== (await page.$eval('#invWindow .slot[data-index="3"]', (sl) => sl.dataset.item)), focusedItem);
+  await page.keyboard.press('Escape');
+  await page.click('#invWindow .slot[data-index="4"]');
+  const clickedItem = await page.$eval('#invWindow .slot[data-index="4"]', (sl) => sl.dataset.item);
+  c('clicking a slot selects and opens its item', (await game(page, () => window.CYOA_GAME.ui.inspector.id)) === clickedItem && (await game(page, () => window.CYOA_GAME.selectedItem())) === clickedItem);
+  await page.keyboard.press('Escape');
+  await page.click('#util-0');
+  c('INSPECT then reopens the last selected item', (await game(page, () => window.CYOA_GAME.ui.inspector.id)) === clickedItem);
+  c('an item with nothing to read shows READ unlit', (await page.$eval('#util-0', (b) => b.dataset.glyph)) === 'inactive');
+  await page.keyboard.press('Escape');
 
   // Hover never changes a control ------------------------------------------------------------
   const hoverTargets = ['#util-0', '#util-1', '#util-2', '#inv-left', '#inv-right', '#invWindow .slot[data-index="4"]', '#choiceViewport .choice[data-index="0"]'];

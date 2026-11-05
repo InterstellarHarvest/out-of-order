@@ -19,7 +19,9 @@ then open <http://localhost:8137/game/index.html>.
 
 - Click the dialogue box (or press Enter/Space) to finish a line. Scroll it to read back.
 - Pick a card by clicking it, or with the arrow keys and Enter. Scroll long choice lists with the wheel or the thumb.
-- Click the item in the inventory (or INSPECT) to inspect it. READ, SHOW/USE and RETURN replace the buttons there; X or Esc closes.
+- Click an item in the inventory to inspect it; clicking or focusing an item also selects it, and INSPECT opens the selected item (or the only one held). READ, SHOW/USE and RETURN replace the buttons there; X or Esc closes.
+- A button whose action is not available here keeps its glyph unlit, does not press, and its tooltip says why.
+- Keyboard focus on a choice brings out the brass tab at the card's left edge; the mouse never does.
 - NOTES shows everything said so far; FILES shows your case file. Press the button again or Esc to close.
 
 ## Files
@@ -109,5 +111,5 @@ The whole of the narrative state, in `G.state`:
 | `objective` | current objective text |
 | `transcript` | every line said, `{ who: 'npc' | 'player', text }` (NOTES) |
 
-Presentation state (scroll positions, card motion, pressed buttons, which overlay is open) lives in
+Presentation state (scroll positions, card motion, pressed buttons, the selected inventory item, which overlay is open) lives in
 `G.ui` and never affects the story.

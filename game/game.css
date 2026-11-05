@@ -49,9 +49,10 @@ body { background: #000; overflow: hidden; display: flex; align-items: center; j
 #objectiveTitle, #objectiveBody { cursor: default; pointer-events: none; }
 .hit[aria-disabled=true] { cursor: default; }
 
-/* Keyboard focus on a choice is shown physically: the card's text slides 8px right, like a
-   line being picked up. Never on pointer hover (owner rule, docs/45 section 1). */
-.choice:focus-visible .card-text { transform: translateX(8px); }
+/* Keyboard focus on a choice is shown by the brass tab sliding out (js/stage.js); never on
+   pointer hover (docs/45 section 1, docs/49 section 2.2). */
+.marker-clip { position: absolute; overflow: hidden; overflow: clip; pointer-events: none; }
+.card-marker { position: absolute; pointer-events: none; }
 
 .speech-indicator {
   position: absolute;

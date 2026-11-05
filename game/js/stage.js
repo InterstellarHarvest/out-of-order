@@ -15,6 +15,11 @@
   var SPARE = 3; // slots sliding in or out beyond those on show
   var CAP_ROWS = 20;
   var THUMB_INSPECTOR = 'inspector';
+  // The owner-approved 14x12 brass tab (docs/45 section 1), here for keyboard focus only:
+  // mouse hover stays Nothing (docs/49 section 2.2).
+  var MARKER_SRC = 'art/ui/sprites/choice_cards/choice_marker_tab.png';
+  var MARKER_SIZE = [14, 12];
+  var MARKER_PIXEL = 2; // drawn on a 2px grid, so it travels on that grid
 
   var ui = (G.ui = {
     speech: { parts: [], lines: [], key: '', base: 0, revealed: 0, typing: false, typeStart: 0, scrollLine: 0, newRow: 0 },
@@ -25,6 +30,7 @@
     inv: { start: 0, slide: null },
     pressed: {},
     inspector: null, // { id, scroll }
+    selected: null, // the inventory item last clicked or focused (UI only; INSPECT acts on it)
     overlay: null, // 'notes' | 'files'
     overlayScroll: 0,
     tooltip: null
@@ -349,8 +355,15 @@
     var parts = {
       node: btn,
       art: el('canvas', 'sprite', btn, { 'aria-hidden': 'true' }),
-      text: el('canvas', 'card-text', btn, { 'aria-hidden': 'true' })
+      text: el('canvas', 'card-text', btn, { 'aria-hidden': 'true' }),
+      markerClip: el('div', 'marker-clip', btn),
+      markerOut: 0,
+      keyFocus: false
     };
+    parts.marker = el('img', 'card-marker', parts.markerClip, { src: G.url(MARKER_SRC), alt: '', draggable: 'false' });
+    // Focus reached from the keyboard shows the tab; focus from a click or tap does not.
+    btn.addEventListener('focus', function () { parts.keyFocus = btn.matches(':focus-visible'); });
+    btn.addEventListener('blur', function () { parts.keyFocus = false; });
     // A choice is a spoken line, not a push-button: it never presses. It is taken on click,
     // Enter or Space, and only while the flow is waiting for a choice.
     btn.addEventListener('click', function () { G.flow.choose(Number(btn.dataset.index)); });
@@ -470,10 +483,40 @@
         parts.key = key;
       }
       place(parts.text, c.text.offsetX, textTop, c.text.maxWidth, textH + 8);
+      renderMarker(parts, card);
     });
     renderThumb();
   }
   G.renderChoices = renderChoices;
+
+  // Slides out from under the card's left frame in steps of the sprite's own pixels. It sits in the
+  // card's left margin, so the card's size and its text never move.
+  function renderMarker(parts, card) {
+    var m = C().feedback.marker;
+    var on = parts.markerOut > 0;
+    show(parts.markerClip, on);
+    parts.node.dataset.marker = on ? (parts.markerOut >= 1 ? 'out' : 'moving') : 'in';
+    if (!on) return;
+    var hidden = m.clipX - MARKER_SIZE[0];
+    var left = m.x - Math.round(((1 - parts.markerOut) * (m.x - hidden)) / MARKER_PIXEL) * MARKER_PIXEL;
+    var y = Math.floor((card.height - MARKER_SIZE[1]) / 2) + m.y;
+    place(parts.markerClip, m.clipX, y, Math.max(0, m.x + MARKER_SIZE[0] - m.clipX), MARKER_SIZE[1]);
+    place(parts.marker, left - m.clipX, 0, MARKER_SIZE[0], MARKER_SIZE[1]);
+  }
+
+  // Moves each tab toward out (keyboard focus while choosing) or in. Returns true while moving.
+  G.markerTick = function (dt) {
+    var busy = false;
+    var travel = Math.max(1, C().feedback.marker.travelMs);
+    els.cards.forEach(function (parts, i) {
+      var want = parts.keyFocus && G.flow.phase === 'choosing' && i < ui.cards.length ? 1 : 0;
+      if (parts.markerOut === want) return;
+      var step = dt / travel;
+      parts.markerOut = want ? Math.min(1, parts.markerOut + step) : Math.max(0, parts.markerOut - step);
+      busy = true;
+    });
+    return busy;
+  };
 
   // Scrollbar thumb -----------------------------------------------------------------------
   // The same thumb serves the choices and, while inspecting, the item's description.
@@ -561,7 +604,13 @@
       els.slots.push({ node: slot, art: art, stand: stand });
       slot.addEventListener('click', function (e) {
         var id = e.currentTarget.dataset.item;
-        if (id) G.flow.toggleInspect(id);
+        if (!id) return;
+        G.selectItem(id);
+        G.flow.toggleInspect(id);
+      });
+      slot.addEventListener('focus', function (e) {
+        var id = e.currentTarget.dataset.item;
+        if (id) G.selectItem(id);
       });
     }
     ['left', 'right'].forEach(function (side) {
@@ -669,6 +718,7 @@
       slot.node.tabIndex = id ? 0 : -1;
       slot.node.setAttribute('aria-label', id ? G.content.items[id].name : 'Empty slot');
       slot.node.dataset.open = ui.inspector && ui.inspector.id === id ? 'true' : 'false';
+      slot.node.dataset.selected = id && G.selectedItem() === id ? 'true' : 'false';
       var def = id && G.content.items[id];
       var src = def && def.slotArt ? G.url(def.slotArt) : '';
       show(slot.art, !!src);
@@ -685,24 +735,38 @@
   }
   G.renderInventory = renderInventory;
 
+  // The item INSPECT acts on: the one last clicked or focused, or the only one held.
+  G.selectItem = function (id) {
+    ui.selected = id;
+    renderInventory();
+    renderUtility();
+  };
+  G.selectedItem = function () {
+    var inv = G.state ? G.state.inventory : [];
+    if (ui.selected && inv.indexOf(ui.selected) !== -1) return ui.selected;
+    return inv.length === 1 ? inv[0] : null;
+  };
+
   // Utility buttons -----------------------------------------------------------------------
   // Three physical buttons. In conversation: INSPECT, NOTES, FILES. While inspecting an item:
-  // READ, SHOW or USE (whichever this moment allows), RETURN. A button with nothing to do here
-  // is blank and does not press.
+  // READ, SHOW or USE (whichever this moment allows), RETURN. An action that belongs here but
+  // cannot be taken now keeps its glyph in an inactive treatment, does not press, and its tooltip
+  // says why (docs/49 section 2.1). Hover never changes any of this.
   function utilityActions() {
     if (ui.inspector) {
       var acts = G.rules.itemActions(G.content, G.state, ui.inspector.id);
       var mid = acts.use ? { action: 'use', glyph: 'use', label: 'USE', enabled: true }
-        : { action: 'show', glyph: 'show_badge', label: 'SHOW', enabled: !!acts.show };
+        : { action: 'show', glyph: 'show_badge', label: 'SHOW', enabled: !!acts.show, why: 'NOT AVAILABLE HERE' };
       if (G.flow.phase !== 'choosing') mid.enabled = false;
       return [
-        { action: 'read', glyph: 'read', label: 'READ', enabled: acts.read },
+        { action: 'read', glyph: 'read', label: 'READ', enabled: acts.read, why: 'NOTHING TO READ' },
         mid,
         { action: 'return', glyph: 'return', label: 'RETURN', enabled: true }
       ];
     }
+    var held = !!G.selectedItem();
     return [
-      { action: 'inspect', glyph: 'inspect', label: 'INSPECT', enabled: true },
+      { action: 'inspect', glyph: 'inspect', label: 'INSPECT', enabled: held, why: G.state && G.state.inventory.length ? 'SELECT AN ITEM' : 'NO ITEMS' },
       { action: 'notes', glyph: 'notes', label: 'NOTES', enabled: true },
       { action: 'files', glyph: 'files', label: 'FILES', enabled: true }
     ];
@@ -717,7 +781,8 @@
       var parts = {
         node: btn,
         img: el('img', 'sprite', btn, { alt: '', draggable: 'false' }),
-        glyph: el('img', 'glyph', btn, { alt: '', draggable: 'false' })
+        glyph: el('img', 'glyph', btn, { alt: '', draggable: 'false' }),
+        glyphOff: el('canvas', 'glyph', btn, { 'aria-hidden': 'true' })
       };
       els.utility[i] = parts;
       bindPress(btn, id, renderUtility, function () {
@@ -749,23 +814,53 @@
       parts.node.setAttribute('aria-disabled', a.enabled ? 'false' : 'true');
       var src = G.spriteUrl(comp.spriteFamily + (down ? '_down' : '_up'));
       if (parts.img.getAttribute('src') !== src) parts.img.setAttribute('src', src);
+      parts.node.dataset.glyph = a.enabled ? 'on' : 'inactive';
       show(parts.glyph, a.enabled);
+      show(parts.glyphOff, !a.enabled);
       var gsrc = G.glyphUrl(a.glyph);
       if (parts.glyph.getAttribute('src') !== gsrc) parts.glyph.setAttribute('src', gsrc);
+      if (!a.enabled && parts.glyphOff.dataset.glyph !== a.glyph) {
+        inactiveGlyph(parts.glyphOff, a.glyph);
+        parts.glyphOff.dataset.glyph = a.glyph;
+      }
       var size = G.glyphSize(a.glyph);
       var d = down ? u.pressedLabelOffset : { dx: 0, dy: 0 };
-      place(parts.glyph, Math.floor((comp.displayWidth - size[0]) / 2) + comp.labelOffset.dx + d.dx,
-        Math.floor((comp.displayHeight - size[1]) / 2) + comp.labelOffset.dy + d.dy, size[0], size[1]);
+      var gx = Math.floor((comp.displayWidth - size[0]) / 2) + comp.labelOffset.dx + d.dx;
+      var gy = Math.floor((comp.displayHeight - size[1]) / 2) + comp.labelOffset.dy + d.dy;
+      place(parts.glyph, gx, gy, size[0], size[1]);
+      place(parts.glyphOff, gx, gy, size[0], size[1]);
     });
     if (ui.tooltip) G.showTooltip(ui.tooltip.index, ui.tooltip.text);
   }
   G.renderUtility = renderUtility;
 
+  // The inactive treatment: the same glyph, desaturated and darkened, as if unlit. Composited
+  // once per glyph from the approved file with no pixel readback (file:// pages cannot read a
+  // canvas back), no CSS filter, and nothing that depends on hover. Temporary until the owner
+  // chooses a treatment.
+  function inactiveGlyph(canvas, name) {
+    var img = G.image('glyph:' + name);
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(img, 0, 0);
+    ctx.globalCompositeOperation = 'saturation';
+    ctx.fillStyle = '#808080';
+    ctx.fillRect(0, 0, img.width, img.height);
+    ctx.globalCompositeOperation = 'destination-in';
+    ctx.drawImage(img, 0, 0);
+    ctx.globalCompositeOperation = 'source-atop';
+    ctx.fillStyle = 'rgba(14, 20, 22, 0.6)';
+    ctx.fillRect(0, 0, img.width, img.height);
+    ctx.globalCompositeOperation = 'source-over';
+  }
+
   // Tooltip: a separate element beside the button. The button itself never changes on hover.
   // Its box is a temporary treatment; only its face (Press Start 2P 2x, the Labels role) is chosen.
   G.showTooltip = function (i, text) {
     var a = utilityActions()[i];
-    var label = text || (a.enabled ? a.label : a.label + ': NOT NOW');
+    var label = text || (a.enabled ? a.label : a.label + ' - ' + (a.why || 'NOT AVAILABLE HERE'));
     ui.tooltip = { index: i, text: text };
     var size = T.label(els.tooltipText, label, 'light', 'labels');
     var comp = L.utility.buttons[i];
