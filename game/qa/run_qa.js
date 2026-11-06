@@ -217,6 +217,7 @@ async function suite(name, base, requests) {
   // Load, assets, geometry -----------------------------------------------------------------
   c('page loads ready', (await page.evaluate(() => document.body.dataset.ready)) === 'true');
   c('obsolete 364x78 font atlas is never requested', !requests.some((r) => /locked_pixel_font_atlas\.png$/.test(r)));
+  c('neither the brass tab nor the RETURN glyph is ever requested', !requests.some((r) => /choice_marker_tab\.png$|\/return\.png$/.test(r)), requests.filter((r) => /marker|return/.test(r)));
   c('served shell bytes are canonical', bodies[SHELL_PATH] === SHELL_SHA256, bodies[SHELL_PATH]);
   const served = Object.keys(sheet.sprites).filter((n) => n !== 'locked_pixel_font_atlas' && bodies['art/ui/' + sheet.sprites[n].package_path]);
   const servedBad = served.filter((n) => bodies['art/ui/' + sheet.sprites[n].package_path] !== sheet.sprites[n].sha256);
@@ -353,21 +354,26 @@ async function suite(name, base, requests) {
   await page.keyboard.press('ArrowUp');
   c('ArrowUp moves focus back', await page.evaluate(() => document.activeElement.dataset.index === '0'));
   await page.waitForTimeout(200);
+  // Owner ruling after the playtest (docs/53): no brass tab, and nothing else in its place.
+  const noMarker = () => page.evaluate(() => ({
+    els: document.querySelectorAll('#stage .marker-clip, #stage .card-marker, #stage img[src*="choice_marker_tab"]').length,
+    attrs: Array.from(document.querySelectorAll('#choiceViewport .choice')).filter((b) => 'marker' in b.dataset).length
+  }));
   const focusLook = await page.evaluate(() => {
     const b = document.activeElement;
-    const clip = b.querySelector('.marker-clip');
     const text = b.querySelector('.card-text');
-    return { marker: b.dataset.marker, clip: clip.style.display, outline: getComputedStyle(b).outlineStyle,
-      w: b.style.width, h: b.style.height, textLeft: text.style.left, textTransform: getComputedStyle(text).transform,
-      tab: clip.querySelector('img').src, others: Array.from(document.querySelectorAll('#choiceViewport .choice')).filter((x) => x !== b && x.dataset.marker !== 'in').length };
+    const st = getComputedStyle(b);
+    return { outline: st.outlineStyle, shadow: st.boxShadow, filter: st.filter, bg: st.backgroundColor, w: b.style.width, kids: b.children.length,
+      textLeft: text.style.left, textTransform: getComputedStyle(text).transform };
   });
-  c('keyboard focus brings out the brass tab on the focused card only', focusLook.marker === 'out' && focusLook.clip !== 'none' && focusLook.others === 0
-    && /choice_marker_tab\.png$/.test(focusLook.tab), focusLook);
-  c('the tab changes no card geometry, text position or outline', focusLook.outline === 'none' && focusLook.w === labDefaults.choices.cardWidth + 'px'
+  const marker = await noMarker();
+  c('keyboard focus shows no brass tab or any marker element', marker.els === 0 && marker.attrs === 0, marker);
+  c('keyboard focus adds no outline, shadow, filter, fill, shift or extra element', focusLook.outline === 'none' && focusLook.shadow === 'none'
+    && focusLook.filter === 'none' && focusLook.bg === 'rgba(0, 0, 0, 0)' && focusLook.kids === 2 && focusLook.w === labDefaults.choices.cardWidth + 'px'
     && focusLook.textLeft === labDefaults.choices.text.offsetX + 'px' && focusLook.textTransform === 'none', focusLook);
   await page.hover('#choiceViewport .choice[data-index="1"]');
   await page.waitForTimeout(150);
-  c('mouse hover over another card brings out no tab', (await page.$eval('#choiceViewport .choice[data-index="1"]', (b) => b.dataset.marker)) === 'in');
+  c('mouse hover over another card brings out no marker', (await noMarker()).els === 0);
   // Sample every frame of the send in the page itself.
   await page.evaluate(() => {
     window.__send = [];
@@ -459,19 +465,68 @@ async function suite(name, base, requests) {
   c('a single choice still arrives as a card', (await game(page, () => window.CYOA_GAME.ui.cards.length)) === 1);
 
   // Item: issued, inspected, read, shown ------------------------------------------------------
+  c('no item-received slip before any item is granted', (await page.$eval('#itemNotice', (e) => e.style.display)) === 'none'
+    && (await game(page, () => window.CYOA_GAME.ui.noticeLog.length)) === 0);
   await chooseById(page, 'ask-key');
   c('the key enters the inventory when the receptionist issues it', JSON.stringify(await game(page, () => window.CYOA_GAME.state.inventory)) === '["wc_key"]');
+  const notice = await page.$eval('#itemNotice', (e) => ({ shown: e.style.display !== 'none', item: e.dataset.item, text: e.dataset.text, label: e.getAttribute('aria-label'),
+    role: e.getAttribute('role'), live: e.getAttribute('aria-live'), x: parseInt(e.style.left), y: parseInt(e.style.top), w: parseInt(e.style.width), h: parseInt(e.style.height) }));
+  c('an item-received slip appears the moment the key is granted', notice.shown && notice.item === 'wc_key' && (await phase(page)) === 'typing', notice);
+  c('the slip names the item: ITEM RECEIVED: FACILITIES KEY', notice.text === 'ITEM RECEIVED: FACILITIES KEY' && notice.label === notice.text
+    && notice.role === 'status' && notice.live === 'polite', notice);
+  const sceneRect = measured.sceneAperture.rect;
+  const overlaps = await page.evaluate((n) => ['#choiceViewport', '#speechText', '#invWindow', '#layer-utility .utility'].filter((sel) => Array.from(document.querySelectorAll(sel)).some((e) => {
+    const r = e.getBoundingClientRect();
+    const s = document.getElementById('stage').getBoundingClientRect();
+    const k = 1920 / s.width;
+    const x = (r.left - s.left) * k; const y = (r.top - s.top) * k; const w = r.width * k; const h = r.height * k;
+    return x < n.x + n.w && n.x < x + w && y < n.y + n.h && n.y < y + h;
+  })), notice);
+  c('the slip sits inside the scene window, clear of the dialogue, choices, inventory and buttons',
+    notice.x >= sceneRect[0] && notice.y >= sceneRect[1] && notice.x + notice.w <= sceneRect[0] + sceneRect[2] && notice.y + notice.h <= sceneRect[1] + sceneRect[3]
+    && overlaps.length === 0, overlaps);
+  const slip = await page.evaluate(() => {
+    const cv = document.querySelector('#itemNotice canvas');
+    const d = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data;
+    let soft = 0;
+    for (let i = 3; i < d.length; i += 4) if (d[i] !== 0 && d[i] !== 255) soft++;
+    const icon = cv.getContext('2d').getImageData(10, 10, 96, 96).data;
+    let iconInk = 0;
+    for (let i = 0; i < icon.length; i += 4) if (icon[i] < 150 && icon[i + 3] === 255) iconInk++;
+    return { soft, iconInk, w: cv.width, h: cv.height, smoothing: getComputedStyle(cv).imageRendering };
+  });
+  c('the slip carries the item\'s slot art, drawn crisp at 1:1 with hard alpha', slip.soft === 0 && slip.iconInk > 200 && slip.w === notice.w && /pixelated|crisp-edges/.test(slip.smoothing), slip);
+  await shot(page, '05b_item_received.png');
+  await page.click('#itemNotice');
+  c('clicking the slip dismisses it early', (await page.$eval('#itemNotice', (e) => e.style.display)) === 'none' && !(await game(page, () => window.CYOA_GAME.ui.notice)));
   c('the slot shows the approved bathroom pass art', await page.$eval('#invWindow .slot[data-item="wc_key"] img.item-art', (i) => /bathroom_pass_slot\.png$/.test(i.src) && i.naturalWidth === 96));
   await page.click('#invWindow .slot[data-item="wc_key"]');
   c('the inventory is ignored while the NPC is typing', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
   await skipToChoices(page);
   await page.waitForTimeout(150);
-  c('focus that follows a mouse action shows no tab', await page.evaluate(() => document.activeElement.dataset.index === '0' && document.activeElement.dataset.marker === 'in'));
+  c('focus that follows a mouse action shows no marker', await page.evaluate(() => document.activeElement.dataset.index === '0') && (await noMarker()).els === 0);
   c('before reading: only the blind confirmation is offered', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.id))) === '["confirm-unread"]');
   await page.click('#invWindow .slot[data-item="wc_key"]');
   const insp = await game(page, () => ({ open: !!window.CYOA_GAME.ui.inspector, acts: window.CYOA_GAME.utilityActions().map((a) => a.action + ':' + a.enabled) }));
   c('clicking the item opens the inspector', insp.open);
-  c('the buttons become READ, SHOW (disabled), RETURN', JSON.stringify(insp.acts) === '["read:true","show:false","return:true"]', insp.acts);
+  c('the buttons become READ, SHOW (disabled) and a blank; RETURN is gone', JSON.stringify(insp.acts) === '["read:true","show:false","none:false"]', insp.acts);
+  const blank = await page.$eval('#util-2', (b) => ({ glyph: b.dataset.glyph, on: b.querySelector('img.glyph').style.display, off: b.querySelector('canvas.glyph').style.display,
+    tab: b.tabIndex, disabled: b.getAttribute('aria-disabled'), action: b.dataset.action }));
+  c('the third button is bare: no glyph, not focusable, inactive', blank.glyph === 'none' && blank.on === 'none' && blank.off === 'none' && blank.tab === -1
+    && blank.disabled === 'true' && blank.action === 'none', blank);
+  await page.hover('#util-2');
+  c('the bare button shows no tooltip', (await page.$eval('#tooltip', (t) => t.style.display)) === 'none');
+  await page.click('#util-2', { force: true });
+  c('the bare button neither presses nor closes the item', (await page.$eval('#util-2', (b) => b.dataset.state)) === 'up' && !!(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  await page.mouse.move(600, 400);
+  const ink = await page.evaluate(() => {
+    const cv = document.getElementById('inspectText');
+    const d = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data;
+    const seen = {};
+    for (let i = 0; i < d.length; i += 4) if (d[i + 3]) seen[[d[i], d[i + 1], d[i + 2], d[i + 3]].join()] = (seen[[d[i], d[i + 1], d[i + 2], d[i + 3]].join()] || 0) + 1;
+    return seen;
+  });
+  c('the item name and description are in dark ink (#203037), hard-edged, nothing light', Object.keys(ink).length === 1 && Object.keys(ink)[0] === '32,48,55,255', ink);
   c('the unavailable SHOW keeps its glyph, unlit', await page.$eval('#util-1', (b) => b.dataset.glyph === 'inactive'
     && b.querySelector('img.glyph').style.display === 'none' && b.querySelector('canvas.glyph').style.display !== 'none'));
   c('the choice cards give way to the item text', (await page.$$eval('#choiceViewport .choice', (bs) => bs.filter((b) => b.style.display !== 'none').length)) === 0
@@ -509,7 +564,13 @@ async function suite(name, base, requests) {
   c('INSPECT opens the held item', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === 'wc_key');
   await page.click('#inspectClose');
   c('the X closes the inspector', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  const isOpen = () => game(page, () => !!window.CYOA_GAME.ui.inspector);
   await page.click('#invWindow .slot[data-item="wc_key"]');
+  const open1 = await isOpen();
+  await page.click('#invWindow .slot[data-item="wc_key"]');
+  const closed1 = !(await isOpen());
+  await page.click('#invWindow .slot[data-item="wc_key"]');
+  c('clicking the inspected item again closes it, and again reopens it', open1 && closed1 && (await isOpen()), { open1, closed1 });
   const transcriptBeforeShow = await game(page, () => window.CYOA_GAME.state.transcript.length);
   await page.click('#util-1');
   await waitPhase(page, 'reply-beat', 3000);
@@ -526,6 +587,21 @@ async function suite(name, base, requests) {
   await waitPhase(page, 'typing');
   c('USE on the key opens the door', (await game(page, () => window.CYOA_GAME.state.node)) === 'door');
   c('the closing line remembers the tag', /ACCORDING TO THE RECORD YOU ALREADY HAVE/.test(await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text)));
+  c('INSPECT, READ, SHOW and USE never re-announce the key', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.noticeLog)) === '["wc_key"]'
+    && (await page.$eval('#itemNotice', (e) => e.style.display)) === 'none');
+  // The slip goes by itself: time one through the same path a grant takes.
+  const timed = await page.evaluate(() => new Promise((res) => {
+    const G = window.CYOA_GAME;
+    const t0 = performance.now();
+    G.notifyItem('wc_key');
+    const shown = document.getElementById('itemNotice').style.display !== 'none';
+    (function poll() {
+      if (document.getElementById('itemNotice').style.display === 'none') return res({ shown, ms: Math.round(performance.now() - t0) });
+      if (performance.now() - t0 > 8000) return res({ shown, ms: -1 });
+      requestAnimationFrame(poll);
+    })();
+  }));
+  c('an unclicked slip dismisses itself after about 3.6 s', timed.shown && timed.ms >= 3500 && timed.ms < 4500, timed);
 
   // Transcript: NOTES and FILES ---------------------------------------------------------------
   await page.click('#util-1');

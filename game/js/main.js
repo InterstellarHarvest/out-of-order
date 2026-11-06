@@ -29,6 +29,7 @@
           G.content.items[id] = { name: 'QA ' + i, slotArt: null, description: 'QA OVERFLOW ITEM ' + i + '. NOT PART OF THE SLICE.' };
           if (G.state.inventory.indexOf(id) === -1) G.state.inventory.push(id);
         }
+        G.flow.syncInventory();
         G.renderAll();
       }
     };
@@ -39,7 +40,7 @@
     .map(function (id) { return { name: 'item:' + id, url: G.url(G.content.items[id].slotArt) }; });
 
   // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front.
-  ['inspect', 'notes', 'files', 'read', 'use', 'show_badge', 'return'].forEach(function (g) {
+  ['inspect', 'notes', 'files', 'read', 'use', 'show_badge'].forEach(function (g) {
     items.push({ name: 'glyph:' + g, url: G.glyphUrl(g) });
   });
 

@@ -21,6 +21,19 @@
   var timer = null;
   var pending = null;
   var sliding = false;
+  var known = []; // the inventory as last announced, so only new items get an item-received slip
+
+  // Announce every item that has entered the inventory since the last look. Called after each
+  // rules step; READ, SHOW, USE and INSPECT add nothing, so they never announce.
+  function announceNew() {
+    var inv = G.state.inventory;
+    inv.forEach(function (id) { if (known.indexOf(id) === -1) G.notifyItem(id); });
+    known = inv.slice();
+  }
+  // QA only: take the inventory as it stands without announcing (debug.addItems).
+  F.syncInventory = function () {
+    known = G.state.inventory.slice();
+  };
 
   function setPhase(p) {
     F.phase = p;
@@ -39,6 +52,8 @@
   F.begin = function () {
     timer = null;
     pending = null;
+    known = content.initialState.inventory.slice();
+    G.clearNotices();
     G.state = Rules.start(content);
     G.ui.inv.start = 0;
     G.ui.inv.slide = null;
@@ -51,6 +66,7 @@
     G.addSpeech(lastLine(), 'npc');
     setPhase('typing');
     G.renderAll();
+    announceNew();
     G.els.speech.focus({ preventScroll: true });
   };
 
@@ -84,6 +100,7 @@
     var card = G.ui.cards[index];
     if (!card) return;
     pending = Rules.choose(content, G.state, card.id);
+    announceNew();
     G.ui.thumbOn = false;
     G.ui.motion = { kind: 'send', index: index, start: performance.now() };
     setPhase('sending');
@@ -109,6 +126,7 @@
     G.addSpeech(Rules.enter(content, G.state, p.to), 'npc');
     setPhase('typing');
     G.renderAll();
+    announceNew();
   }
 
   // Items -------------------------------------------------------------------------------------
@@ -120,6 +138,7 @@
 
   function openInspector(id) {
     Rules.inspect(content, G.state, id);
+    announceNew();
     G.ui.inspector = { id: id, scroll: 0, height: 0 };
     G.hideTooltip();
     G.renderAll();
@@ -146,6 +165,7 @@
   function itemSpoken(kind) {
     if (F.phase !== 'choosing' || !G.ui.inspector) return;
     pending = Rules.itemAction(content, G.state, G.ui.inspector.id, kind);
+    announceNew();
     G.ui.inspector = null;
     G.ui.thumbOn = false;
     G.ui.motion = { kind: 'clear', start: performance.now() };
@@ -169,19 +189,16 @@
     }
     if (action === 'read') {
       Rules.itemAction(content, G.state, G.ui.inspector.id, 'read');
+      announceNew();
       G.renderAll();
       return;
     }
     if (action === 'show' || action === 'use') return itemSpoken(action);
-    if (action === 'return') F.closeInspector();
   };
 
   // Frame loop ---------------------------------------------------------------------------------
-  var lastFrame = 0;
   function tick(now) {
-    var dt = lastFrame ? now - lastFrame : 16;
-    lastFrame = now;
-    if (G.markerTick(dt)) G.renderChoices(now);
+    G.noticeTick(now);
     if (F.phase === 'typing' && G.typeTick(now)) afterTyping();
     if (timer && now >= timer.at) {
       var fn = timer.fn;

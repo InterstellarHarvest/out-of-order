@@ -15,11 +15,9 @@
   var SPARE = 3; // slots sliding in or out beyond those on show
   var CAP_ROWS = 20;
   var THUMB_INSPECTOR = 'inspector';
-  // The owner-approved 14x12 brass tab (docs/45 section 1), here for keyboard focus only:
-  // mouse hover stays Nothing (docs/49 section 2.2).
-  var MARKER_SRC = 'art/ui/sprites/choice_cards/choice_marker_tab.png';
-  var MARKER_SIZE = [14, 12];
-  var MARKER_PIXEL = 2; // drawn on a 2px grid, so it travels on that grid
+  // Choices carry no focus or hover marker of any kind (owner ruling after the playtest, docs/53):
+  // keyboard navigation still moves real focus between the cards, unseen.
+  var NOTICE_MS = 3600; // how long an item-received slip stays up unless clicked away
 
   var ui = (G.ui = {
     speech: { parts: [], lines: [], key: '', base: 0, revealed: 0, typing: false, typeStart: 0, scrollLine: 0, newRow: 0 },
@@ -33,7 +31,10 @@
     selected: null, // the inventory item last clicked or focused (UI only; INSPECT acts on it)
     overlay: null, // 'notes' | 'files'
     overlayScroll: 0,
-    tooltip: null
+    tooltip: null,
+    notice: null, // { id, until }: the item-received slip on show
+    noticeQueue: [], // items received while a slip was already up
+    noticeLog: [] // every item announced since load, in order (read by QA)
   });
 
   // DOM helpers ---------------------------------------------------------------------------
@@ -355,15 +356,8 @@
     var parts = {
       node: btn,
       art: el('canvas', 'sprite', btn, { 'aria-hidden': 'true' }),
-      text: el('canvas', 'card-text', btn, { 'aria-hidden': 'true' }),
-      markerClip: el('div', 'marker-clip', btn),
-      markerOut: 0,
-      keyFocus: false
+      text: el('canvas', 'card-text', btn, { 'aria-hidden': 'true' })
     };
-    parts.marker = el('img', 'card-marker', parts.markerClip, { src: G.url(MARKER_SRC), alt: '', draggable: 'false' });
-    // Focus reached from the keyboard shows the tab; focus from a click or tap does not.
-    btn.addEventListener('focus', function () { parts.keyFocus = btn.matches(':focus-visible'); });
-    btn.addEventListener('blur', function () { parts.keyFocus = false; });
     // A choice is a spoken line, not a push-button: it never presses. It is taken on click,
     // Enter or Space, and only while the flow is waiting for a choice.
     btn.addEventListener('click', function () { G.flow.choose(Number(btn.dataset.index)); });
@@ -483,40 +477,10 @@
         parts.key = key;
       }
       place(parts.text, c.text.offsetX, textTop, c.text.maxWidth, textH + 8);
-      renderMarker(parts, card);
     });
     renderThumb();
   }
   G.renderChoices = renderChoices;
-
-  // Slides out from under the card's left frame in steps of the sprite's own pixels. It sits in the
-  // card's left margin, so the card's size and its text never move.
-  function renderMarker(parts, card) {
-    var m = C().feedback.marker;
-    var on = parts.markerOut > 0;
-    show(parts.markerClip, on);
-    parts.node.dataset.marker = on ? (parts.markerOut >= 1 ? 'out' : 'moving') : 'in';
-    if (!on) return;
-    var hidden = m.clipX - MARKER_SIZE[0];
-    var left = m.x - Math.round(((1 - parts.markerOut) * (m.x - hidden)) / MARKER_PIXEL) * MARKER_PIXEL;
-    var y = Math.floor((card.height - MARKER_SIZE[1]) / 2) + m.y;
-    place(parts.markerClip, m.clipX, y, Math.max(0, m.x + MARKER_SIZE[0] - m.clipX), MARKER_SIZE[1]);
-    place(parts.marker, left - m.clipX, 0, MARKER_SIZE[0], MARKER_SIZE[1]);
-  }
-
-  // Moves each tab toward out (keyboard focus while choosing) or in. Returns true while moving.
-  G.markerTick = function (dt) {
-    var busy = false;
-    var travel = Math.max(1, C().feedback.marker.travelMs);
-    els.cards.forEach(function (parts, i) {
-      var want = parts.keyFocus && G.flow.phase === 'choosing' && i < ui.cards.length ? 1 : 0;
-      if (parts.markerOut === want) return;
-      var step = dt / travel;
-      parts.markerOut = want ? Math.min(1, parts.markerOut + step) : Math.max(0, parts.markerOut - step);
-      busy = true;
-    });
-    return busy;
-  };
 
   // Scrollbar thumb -----------------------------------------------------------------------
   // The same thumb serves the choices and, while inspecting, the item's description.
@@ -749,7 +713,8 @@
 
   // Utility buttons -----------------------------------------------------------------------
   // Three physical buttons. In conversation: INSPECT, NOTES, FILES. While inspecting an item:
-  // READ, SHOW or USE (whichever this moment allows), RETURN. An action that belongs here but
+  // READ, SHOW or USE (whichever this moment allows), and a blank third button: the X, Escape and
+  // a second click on the item close the inspector, so no button does (docs/53). An action that belongs here but
   // cannot be taken now keeps its glyph in an inactive treatment, does not press, and its tooltip
   // says why (docs/49 section 2.1). Hover never changes any of this.
   function utilityActions() {
@@ -761,7 +726,7 @@
       return [
         { action: 'read', glyph: 'read', label: 'READ', enabled: acts.read, why: 'NOTHING TO READ' },
         mid,
-        { action: 'return', glyph: 'return', label: 'RETURN', enabled: true }
+        { action: 'none', glyph: null, label: '', enabled: false, blank: true }
       ];
     }
     var held = !!G.selectedItem();
@@ -810,11 +775,18 @@
       place(parts.node, comp.x, comp.y, comp.displayWidth, comp.displayHeight);
       parts.node.dataset.state = down ? 'down' : 'up';
       parts.node.dataset.action = a.action;
-      parts.node.setAttribute('aria-label', a.label);
+      parts.node.setAttribute('aria-label', a.blank ? 'No action' : a.label);
       parts.node.setAttribute('aria-disabled', a.enabled ? 'false' : 'true');
+      parts.node.tabIndex = a.blank ? -1 : 0;
       var src = G.spriteUrl(comp.spriteFamily + (down ? '_down' : '_up'));
       if (parts.img.getAttribute('src') !== src) parts.img.setAttribute('src', src);
-      parts.node.dataset.glyph = a.enabled ? 'on' : 'inactive';
+      // A blank button is the bare physical button: no glyph, no tooltip, it never presses.
+      parts.node.dataset.glyph = a.blank ? 'none' : a.enabled ? 'on' : 'inactive';
+      if (a.blank) {
+        show(parts.glyph, false);
+        show(parts.glyphOff, false);
+        return;
+      }
       show(parts.glyph, a.enabled);
       show(parts.glyphOff, !a.enabled);
       var gsrc = G.glyphUrl(a.glyph);
@@ -860,6 +832,7 @@
   // Its box is a temporary treatment; only its face (Press Start 2P 2x, the Labels role) is chosen.
   G.showTooltip = function (i, text) {
     var a = utilityActions()[i];
+    if (a.blank) return G.hideTooltip();
     var label = text || (a.enabled ? a.label : a.label + ' - ' + (a.why || 'NOT AVAILABLE HERE'));
     ui.tooltip = { index: i, text: text };
     var size = T.label(els.tooltipText, label, 'light', 'labels');
@@ -916,9 +889,10 @@
   function inspectorLines() {
     var id = ui.inspector.id;
     var width = C().viewport.width - C().text.offsetX - 24;
-    var lines = [{ text: G.content.items[id].name, role: 'labels' }];
+    // Dark ink: the item text sits on the light choices panel (docs/53). Dialogue keeps its own ink.
+    var lines = [{ text: G.content.items[id].name, role: 'labels', ink: 'dark' }];
     T.wrap(G.rules.description(G.content, G.state, id), width, 'dialogue').forEach(function (t, i) {
-      lines.push({ text: t, role: 'dialogue', gap: i === 0 ? 10 : 0 });
+      lines.push({ text: t, role: 'dialogue', ink: 'dark', gap: i === 0 ? 10 : 0 });
     });
     return lines;
   }
@@ -958,7 +932,7 @@
     var vp = C().viewport;
     var key = JSON.stringify(lines);
     if (els.inspectText.dataset.key !== key) {
-      T.draw(els.inspectText, lines, 'light', lh, vp.width - C().text.offsetX - 24, ui.inspector.height, undefined, 'dialogue');
+      T.draw(els.inspectText, lines, 'dark', lh, vp.width - C().text.offsetX - 24, ui.inspector.height, undefined, 'dialogue');
       els.inspectText.dataset.key = key;
     }
     els.inspectText.dataset.item = id;
@@ -1069,6 +1043,84 @@
   }
 
   // ---------------------------------------------------------------------------------------
+  // Item received ---------------------------------------------------------------------------
+  // A slip that says an item was just added: label, item name and its slot art. It sits in the
+  // scene window just above the inventory, clear of the dialogue and the choices, and goes by
+  // itself after NOTICE_MS or at a click. PROVISIONAL treatment, drawn in code until the owner
+  // approves art for it (docs/53): parchment, dark outline with stepped corners, locked fonts.
+  var NOTICE_RECT = [56, 738, 560, 116];
+  var NOTICE_INK = '#203037';
+  var NOTICE_PAPER = '#e4d0a9';
+  var NOTICE_RULE = '#b9a57e';
+
+  function buildNotice() {
+    els.notice = el('div', 'notice', stage, { id: 'itemNotice', role: 'status', 'aria-live': 'polite' });
+    els.noticeArt = el('canvas', 'sprite', els.notice, { 'aria-hidden': 'true' });
+    place(els.notice, NOTICE_RECT[0], NOTICE_RECT[1], NOTICE_RECT[2], NOTICE_RECT[3]);
+    els.notice.addEventListener('click', function () { G.dismissNotice(); });
+    show(els.notice, false);
+  }
+
+  function drawNotice(canvas, id) {
+    var w = NOTICE_RECT[2];
+    var h = NOTICE_RECT[3];
+    canvas.width = w;
+    canvas.height = h;
+    var ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.fillStyle = NOTICE_INK;
+    ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = NOTICE_PAPER;
+    ctx.fillRect(2, 2, w - 4, h - 4);
+    // Stepped (2px) corners, like the cards' chamfers.
+    [[0, 0], [w - 2, 0], [0, h - 2], [w - 2, h - 2]].forEach(function (c) { ctx.clearRect(c[0], c[1], 2, 2); });
+    ctx.fillStyle = NOTICE_INK;
+    [[2, 2], [w - 4, 2], [2, h - 4], [w - 4, h - 4]].forEach(function (c) { ctx.fillRect(c[0], c[1], 2, 2); });
+    // The item in its own ruled box, then the words.
+    ctx.fillRect(116, 2, 2, h - 4);
+    var art = G.content.items[id].slotArt ? G.image('item:' + id) : null;
+    if (art) ctx.drawImage(art, 10, 10, 96, 96);
+    var label = document.createElement('canvas');
+    var ls = T.label(label, 'ITEM RECEIVED', 'dark', 'labels');
+    ctx.drawImage(label, 134, 20);
+    ctx.fillStyle = NOTICE_RULE;
+    ctx.fillRect(134, 22 + ls[1], w - 134 - 18, 2);
+    var name = document.createElement('canvas');
+    T.label(name, G.content.items[id].name, 'dark', 'choices');
+    ctx.drawImage(name, 134, 36 + ls[1]);
+  }
+
+  function showNextNotice(now) {
+    var id = ui.noticeQueue.shift();
+    ui.notice = id ? { id: id, until: now + NOTICE_MS } : null;
+    show(els.notice, !!id);
+    if (!id) return;
+    drawNotice(els.noticeArt, id);
+    var text = 'ITEM RECEIVED: ' + G.content.items[id].name;
+    els.notice.dataset.item = id;
+    els.notice.dataset.text = text;
+    els.notice.setAttribute('aria-label', text);
+  }
+
+  G.notifyItem = function (id) {
+    ui.noticeLog.push(id);
+    ui.noticeQueue.push(id);
+    if (!ui.notice) showNextNotice(performance.now());
+  };
+  G.dismissNotice = function () {
+    if (!ui.notice) return;
+    ui.notice = null;
+    showNextNotice(performance.now());
+  };
+  G.clearNotices = function () {
+    ui.noticeQueue = [];
+    ui.notice = null;
+    if (els.notice) show(els.notice, false);
+  };
+  G.noticeTick = function (now) {
+    if (ui.notice && now >= ui.notice.until) G.dismissNotice();
+  };
+
   G.renderAll = function () {
     var now = performance.now();
     renderSpeech();
@@ -1092,5 +1144,6 @@
     buildUtility();
     buildObjective();
     buildInspector();
+    buildNotice();
   };
 })();

@@ -49,10 +49,10 @@ body { background: #000; overflow: hidden; display: flex; align-items: center; j
 #objectiveTitle, #objectiveBody { cursor: default; pointer-events: none; }
 .hit[aria-disabled=true] { cursor: default; }
 
-/* Keyboard focus on a choice is shown by the brass tab sliding out (js/stage.js); never on
-   pointer hover (docs/45 section 1, docs/49 section 2.2). */
-.marker-clip { position: absolute; overflow: hidden; overflow: clip; pointer-events: none; }
-.card-marker { position: absolute; pointer-events: none; }
+/* Choices show no focus or hover marker of any kind (docs/53). */
+
+/* Item-received slip (js/stage.js). PROVISIONAL, drawn in code until approved art exists. */
+.notice { position: absolute; cursor: pointer; }
 
 .speech-indicator {
   position: absolute;

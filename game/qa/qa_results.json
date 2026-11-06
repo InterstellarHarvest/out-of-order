@@ -7,21 +7,21 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 264,
-  "passed": 264,
+  "total": 300,
+  "passed": 300,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 16,
-      "passed": 16
+      "total": 18,
+      "passed": 18
     },
     "chromium": {
-      "total": 124,
-      "passed": 124
+      "total": 141,
+      "passed": 141
     },
     "firefox": {
-      "total": 124,
-      "passed": 124
+      "total": 141,
+      "passed": 141
     }
   },
   "failures": [],
@@ -52,7 +52,7 @@
     },
     {
       "browser": "static",
-      "name": "exactly the ten edited cards record the 2026-11-05 owner edit",
+      "name": "exactly the ten edited cards and three font atlases record an owner edit",
       "ok": true,
       "detail": [
         "choice_1line_a",
@@ -64,20 +64,37 @@
         "choice_3line_c",
         "choice_4line_a",
         "choice_4line_b",
-        "choice_4line_c"
+        "choice_4line_c",
+        "locked_pixel_font_atlas",
+        "locked_pixel_font_atlas_dark",
+        "locked_pixel_font_atlas_light"
       ]
     },
     {
       "browser": "static",
-      "name": "each edited card records its exact before- and after-hash",
+      "name": "each owner-edited sprite records its exact before- and after-hash",
       "ok": true,
       "detail": []
     },
     {
       "browser": "static",
-      "name": "the other 19 package sprites are byte-identical to the M2 start",
+      "name": "the other 16 package sprites are byte-identical to the M2 start",
       "ok": true,
       "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "glyph JSON matches its manifest hash and records the box fit against the M2 start",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "only the colon and l glyph boxes changed, same characters and advances",
+      "ok": true,
+      "detail": [
+        ":",
+        "l"
+      ]
     },
     {
       "browser": "static",
@@ -136,6 +153,12 @@
       "browser": "chromium",
       "name": "obsolete 364x78 font atlas is never requested",
       "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "neither the brass tab nor the RETURN glyph is ever requested",
+      "ok": true,
+      "detail": []
     },
     {
       "browser": "chromium",
@@ -508,6 +531,55 @@
     },
     {
       "browser": "chromium",
+      "name": "font edit: one ink colour per atlas (#203037 dark, #f1d898 light), no soft alpha",
+      "ok": true,
+      "detail": {
+        "dark": {
+          "inks": [
+            "32,48,55"
+          ],
+          "soft": 0,
+          "outside": 0
+        },
+        "light": {
+          "inks": [
+            "241,216,152"
+          ],
+          "soft": 0,
+          "outside": 0
+        },
+        "sameShape": true
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "font edit: dark and light atlases carry identical glyph shapes",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "font edit: every inked pixel lies inside its glyph box",
+      "ok": true,
+      "detail": {
+        "dark": {
+          "inks": [
+            "32,48,55"
+          ],
+          "soft": 0,
+          "outside": 0
+        },
+        "light": {
+          "inks": [
+            "241,216,152"
+          ],
+          "soft": 0,
+          "outside": 0
+        },
+        "sameShape": true
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "pixel art renders without smoothing",
       "ok": true
     },
@@ -557,8 +629,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 14,
-        "r1": 26
+        "r0": 13,
+        "r1": 25
       }
     },
     {
@@ -576,7 +648,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 218.5
+      "detail": 218.79999995231628
     },
     {
       "browser": "chromium",
@@ -610,39 +682,31 @@
     },
     {
       "browser": "chromium",
-      "name": "keyboard focus brings out the brass tab on the focused card only",
+      "name": "keyboard focus shows no brass tab or any marker element",
       "ok": true,
       "detail": {
-        "marker": "out",
-        "clip": "",
-        "outline": "none",
-        "w": "535px",
-        "h": "79px",
-        "textLeft": "29px",
-        "textTransform": "none",
-        "tab": "http://127.0.0.1:57887/art/ui/sprites/choice_cards/choice_marker_tab.png",
-        "others": 0
+        "els": 0,
+        "attrs": 0
       }
     },
     {
       "browser": "chromium",
-      "name": "the tab changes no card geometry, text position or outline",
+      "name": "keyboard focus adds no outline, shadow, filter, fill, shift or extra element",
       "ok": true,
       "detail": {
-        "marker": "out",
-        "clip": "",
         "outline": "none",
+        "shadow": "none",
+        "filter": "none",
+        "bg": "rgba(0, 0, 0, 0)",
         "w": "535px",
-        "h": "79px",
+        "kids": 2,
         "textLeft": "29px",
-        "textTransform": "none",
-        "tab": "http://127.0.0.1:57887/art/ui/sprites/choice_cards/choice_marker_tab.png",
-        "others": 0
+        "textTransform": "none"
       }
     },
     {
       "browser": "chromium",
-      "name": "mouse hover over another card brings out no tab",
+      "name": "mouse hover over another card brings out no marker",
       "ok": true
     },
     {
@@ -681,7 +745,7 @@
         -12,
         -18,
         -22,
-        -28,
+        -30,
         -36,
         -44,
         -52,
@@ -731,7 +795,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 417.7999999523163
+      "detail": 420.09999990463257
     },
     {
       "browser": "chromium",
@@ -746,7 +810,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 945.3999998569489
+      "detail": 949.9000000953674
     },
     {
       "browser": "chromium",
@@ -852,7 +916,69 @@
     },
     {
       "browser": "chromium",
+      "name": "no item-received slip before any item is granted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
       "name": "the key enters the inventory when the receptionist issues it",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "an item-received slip appears the moment the key is granted",
+      "ok": true,
+      "detail": {
+        "shown": true,
+        "item": "wc_key",
+        "text": "ITEM RECEIVED: FACILITIES KEY",
+        "label": "ITEM RECEIVED: FACILITIES KEY",
+        "role": "status",
+        "live": "polite",
+        "x": 56,
+        "y": 738,
+        "w": 560,
+        "h": 116
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the slip names the item: ITEM RECEIVED: FACILITIES KEY",
+      "ok": true,
+      "detail": {
+        "shown": true,
+        "item": "wc_key",
+        "text": "ITEM RECEIVED: FACILITIES KEY",
+        "label": "ITEM RECEIVED: FACILITIES KEY",
+        "role": "status",
+        "live": "polite",
+        "x": 56,
+        "y": 738,
+        "w": 560,
+        "h": 116
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the slip sits inside the scene window, clear of the dialogue, choices, inventory and buttons",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "the slip carries the item's slot art, drawn crisp at 1:1 with hard alpha",
+      "ok": true,
+      "detail": {
+        "soft": 0,
+        "iconInk": 2821,
+        "w": 560,
+        "h": 116,
+        "smoothing": "pixelated"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "clicking the slip dismisses it early",
       "ok": true
     },
     {
@@ -867,7 +993,7 @@
     },
     {
       "browser": "chromium",
-      "name": "focus that follows a mouse action shows no tab",
+      "name": "focus that follows a mouse action shows no marker",
       "ok": true
     },
     {
@@ -882,13 +1008,44 @@
     },
     {
       "browser": "chromium",
-      "name": "the buttons become READ, SHOW (disabled), RETURN",
+      "name": "the buttons become READ, SHOW (disabled) and a blank; RETURN is gone",
       "ok": true,
       "detail": [
         "read:true",
         "show:false",
-        "return:true"
+        "none:false"
       ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the third button is bare: no glyph, not focusable, inactive",
+      "ok": true,
+      "detail": {
+        "glyph": "none",
+        "on": "none",
+        "off": "none",
+        "tab": -1,
+        "disabled": "true",
+        "action": "none"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the bare button shows no tooltip",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the bare button neither presses nor closes the item",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the item name and description are in dark ink (#203037), hard-edged, nothing light",
+      "ok": true,
+      "detail": {
+        "32,48,55,255": 8253
+      }
     },
     {
       "browser": "chromium",
@@ -952,6 +1109,15 @@
     },
     {
       "browser": "chromium",
+      "name": "clicking the inspected item again closes it, and again reopens it",
+      "ok": true,
+      "detail": {
+        "open1": true,
+        "closed1": true
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "SHOW speaks the player's line as a turn",
       "ok": true
     },
@@ -979,6 +1145,20 @@
       "browser": "chromium",
       "name": "the closing line remembers the tag",
       "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "INSPECT, READ, SHOW and USE never re-announce the key",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "an unclicked slip dismisses itself after about 3.6 s",
+      "ok": true,
+      "detail": {
+        "shown": true,
+        "ms": 3607
+      }
     },
     {
       "browser": "chromium",
@@ -1270,6 +1450,12 @@
     },
     {
       "browser": "firefox",
+      "name": "neither the brass tab nor the RETURN glyph is ever requested",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
       "name": "served shell bytes are canonical",
       "ok": true,
       "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
@@ -1639,6 +1825,55 @@
     },
     {
       "browser": "firefox",
+      "name": "font edit: one ink colour per atlas (#203037 dark, #f1d898 light), no soft alpha",
+      "ok": true,
+      "detail": {
+        "dark": {
+          "inks": [
+            "32,48,55"
+          ],
+          "soft": 0,
+          "outside": 0
+        },
+        "light": {
+          "inks": [
+            "241,216,152"
+          ],
+          "soft": 0,
+          "outside": 0
+        },
+        "sameShape": true
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "font edit: dark and light atlases carry identical glyph shapes",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "font edit: every inked pixel lies inside its glyph box",
+      "ok": true,
+      "detail": {
+        "dark": {
+          "inks": [
+            "32,48,55"
+          ],
+          "soft": 0,
+          "outside": 0
+        },
+        "light": {
+          "inks": [
+            "241,216,152"
+          ],
+          "soft": 0,
+          "outside": 0
+        },
+        "sameShape": true
+      }
+    },
+    {
+      "browser": "firefox",
       "name": "pixel art renders without smoothing",
       "ok": true
     },
@@ -1688,8 +1923,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 16,
-        "r1": 28
+        "r0": 18,
+        "r1": 30
       }
     },
     {
@@ -1707,7 +1942,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217
+      "detail": 219
     },
     {
       "browser": "firefox",
@@ -1741,39 +1976,31 @@
     },
     {
       "browser": "firefox",
-      "name": "keyboard focus brings out the brass tab on the focused card only",
+      "name": "keyboard focus shows no brass tab or any marker element",
       "ok": true,
       "detail": {
-        "marker": "out",
-        "clip": "",
-        "outline": "none",
-        "w": "535px",
-        "h": "79px",
-        "textLeft": "29px",
-        "textTransform": "none",
-        "tab": "http://127.0.0.1:57887/art/ui/sprites/choice_cards/choice_marker_tab.png",
-        "others": 0
+        "els": 0,
+        "attrs": 0
       }
     },
     {
       "browser": "firefox",
-      "name": "the tab changes no card geometry, text position or outline",
+      "name": "keyboard focus adds no outline, shadow, filter, fill, shift or extra element",
       "ok": true,
       "detail": {
-        "marker": "out",
-        "clip": "",
         "outline": "none",
+        "shadow": "none",
+        "filter": "none",
+        "bg": "rgba(0, 0, 0, 0)",
         "w": "535px",
-        "h": "79px",
+        "kids": 2,
         "textLeft": "29px",
-        "textTransform": "none",
-        "tab": "http://127.0.0.1:57887/art/ui/sprites/choice_cards/choice_marker_tab.png",
-        "others": 0
+        "textTransform": "none"
       }
     },
     {
       "browser": "firefox",
-      "name": "mouse hover over another card brings out no tab",
+      "name": "mouse hover over another card brings out no marker",
       "ok": true
     },
     {
@@ -1807,18 +2034,18 @@
         0,
         0,
         -2,
-        -2,
+        -4,
         -6,
-        -8,
-        -12,
-        -18,
-        -24,
-        -30,
-        -36,
-        -44,
-        -52,
-        -62,
-        -72
+        -10,
+        -14,
+        -20,
+        -26,
+        -32,
+        -40,
+        -48,
+        -56,
+        -66,
+        -76
       ]
     },
     {
@@ -1863,7 +2090,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 417
+      "detail": 419
     },
     {
       "browser": "firefox",
@@ -1878,7 +2105,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 947
+      "detail": 956
     },
     {
       "browser": "firefox",
@@ -1984,7 +2211,69 @@
     },
     {
       "browser": "firefox",
+      "name": "no item-received slip before any item is granted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
       "name": "the key enters the inventory when the receptionist issues it",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "an item-received slip appears the moment the key is granted",
+      "ok": true,
+      "detail": {
+        "shown": true,
+        "item": "wc_key",
+        "text": "ITEM RECEIVED: FACILITIES KEY",
+        "label": "ITEM RECEIVED: FACILITIES KEY",
+        "role": "status",
+        "live": "polite",
+        "x": 56,
+        "y": 738,
+        "w": 560,
+        "h": 116
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the slip names the item: ITEM RECEIVED: FACILITIES KEY",
+      "ok": true,
+      "detail": {
+        "shown": true,
+        "item": "wc_key",
+        "text": "ITEM RECEIVED: FACILITIES KEY",
+        "label": "ITEM RECEIVED: FACILITIES KEY",
+        "role": "status",
+        "live": "polite",
+        "x": 56,
+        "y": 738,
+        "w": 560,
+        "h": 116
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the slip sits inside the scene window, clear of the dialogue, choices, inventory and buttons",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "the slip carries the item's slot art, drawn crisp at 1:1 with hard alpha",
+      "ok": true,
+      "detail": {
+        "soft": 0,
+        "iconInk": 2821,
+        "w": 560,
+        "h": 116,
+        "smoothing": "pixelated"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "clicking the slip dismisses it early",
       "ok": true
     },
     {
@@ -1999,7 +2288,7 @@
     },
     {
       "browser": "firefox",
-      "name": "focus that follows a mouse action shows no tab",
+      "name": "focus that follows a mouse action shows no marker",
       "ok": true
     },
     {
@@ -2014,13 +2303,44 @@
     },
     {
       "browser": "firefox",
-      "name": "the buttons become READ, SHOW (disabled), RETURN",
+      "name": "the buttons become READ, SHOW (disabled) and a blank; RETURN is gone",
       "ok": true,
       "detail": [
         "read:true",
         "show:false",
-        "return:true"
+        "none:false"
       ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the third button is bare: no glyph, not focusable, inactive",
+      "ok": true,
+      "detail": {
+        "glyph": "none",
+        "on": "none",
+        "off": "none",
+        "tab": -1,
+        "disabled": "true",
+        "action": "none"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the bare button shows no tooltip",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the bare button neither presses nor closes the item",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the item name and description are in dark ink (#203037), hard-edged, nothing light",
+      "ok": true,
+      "detail": {
+        "32,48,55,255": 8253
+      }
     },
     {
       "browser": "firefox",
@@ -2084,6 +2404,15 @@
     },
     {
       "browser": "firefox",
+      "name": "clicking the inspected item again closes it, and again reopens it",
+      "ok": true,
+      "detail": {
+        "open1": true,
+        "closed1": true
+      }
+    },
+    {
+      "browser": "firefox",
       "name": "SHOW speaks the player's line as a turn",
       "ok": true
     },
@@ -2111,6 +2440,20 @@
       "browser": "firefox",
       "name": "the closing line remembers the tag",
       "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "INSPECT, READ, SHOW and USE never re-announce the key",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "an unclicked slip dismisses itself after about 3.6 s",
+      "ok": true,
+      "detail": {
+        "shown": true,
+        "ms": 3606
+      }
     },
     {
       "browser": "firefox",
