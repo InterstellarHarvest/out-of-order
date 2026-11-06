@@ -20,6 +20,10 @@ const START_SHA = '5d42b524e8499c7ef3da724ba02f439c1cc660ff'; // main when M2 be
 const SHELL_PATH = 'art/ui/shell/layout-final.png';
 const SHELL_SHA256 = '813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6';
 const PASS_PATH = 'art/items/bathroom_pass_slot.png';
+// New owner art added on this branch, pinned by hash.
+const OWNER_ART = {
+  'art/ui/shell/item-overlay.png': '4566079c985b7efaeeba0140dd5c6b8b8b371713391604118e3de123738a8dfb' // inspector column, 1920x1080
+};
 // The one change to M1 art since M2 began: the owner's hand edit of ten choice-card outlines
 // (2026-11-05), which superseded the PMO-authorised rows-0-1 cleanup (docs/49 section 2.7).
 const CLEANED = ['choice_1line_a', 'choice_1line_b', 'choice_2line_a', 'choice_2line_b', 'choice_2line_c', 'choice_3line_b',
@@ -55,8 +59,13 @@ function staticChecks() {
   // The lab's own regenerated QA results and screenshots are output, not M1 source.
   const outside = changedSinceStart.filter((f) => !MAINTENANCE.includes(f) && !/^tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(f));
   check(b, 'M1 art, design, lab and docs are unchanged since M2 began, apart from the owner\'s card-outline edit', outside.length === 0, outside);
-  const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, '--', 'art', 'design', 'tools/layout-lab');
-  check(b, 'no file was added to art/, design/ or the lab (placeholders are drawn at runtime)', added === '', added);
+  // The only art added since M2 began: the owner's item-inspector column overlay (docs/45 section 7),
+  // pinned by hash. Placeholders are drawn at runtime.
+  const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, '--', 'art', 'design', 'tools/layout-lab').split('\n').filter(Boolean);
+  const unexpected = added.filter((f) => !(f in OWNER_ART));
+  check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art', unexpected.length === 0, unexpected);
+  const ownerArtBad = Object.keys(OWNER_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== OWNER_ART[f]);
+  check(b, 'the owner\'s added art matches its pinned hash', ownerArtBad.length === 0, ownerArtBad);
   const working = git('status', '--porcelain', '--', ...protectedPaths).split('\n')
     .filter((l) => l && !/^\?\? docs\//.test(l) && !/tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(l)).join('\n');
   check(b, 'no uncommitted change to M1 art, design, lab or docs', working === '', working);
