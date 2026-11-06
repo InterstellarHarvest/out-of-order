@@ -428,7 +428,7 @@ async function suite(name, base, requests) {
     && b.querySelector('img.glyph').style.display === 'none' && b.querySelector('canvas.glyph').style.display !== 'none'));
   c('the choice cards give way to the item text', (await page.$$eval('#choiceViewport .choice', (bs) => bs.filter((b) => b.style.display !== 'none').length)) === 0
     && (await page.$eval('#inspectText', (e) => e.style.display !== 'none')));
-  c('the owner item-column overlay replaces the portrait/dialogue shell in inspector mode', await page.evaluate(() => {
+  c('the owner item-column overlay replaces the portrait/dialogue shell in inspector mode, drawn over the inspect art', await page.evaluate(() => {
     const col = document.getElementById('inspectColumn');
     const art = document.getElementById('inspectArt');
     return col && col.tagName === 'IMG'
@@ -436,7 +436,9 @@ async function suite(name, base, requests) {
       && parseInt(col.style.left) === 0 && parseInt(col.style.top) === 0
       && parseInt(col.style.width) === 1920 && parseInt(col.style.height) === 1080
       && art.style.display !== 'none'
-      && parseInt(art.style.top) === 44 && parseInt(art.style.height) === 476
+      && parseInt(art.style.left) === 1331 && parseInt(art.style.top) === 50
+      && parseInt(art.style.width) === 565 && parseInt(art.style.height) === 451
+      && (art.compareDocumentPosition(col) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0
       && document.getElementById('inspectClose').offsetWidth === 44;
   }));
   c('the item is marked inspected', (await game(page, () => window.CYOA_GAME.state.items.wc_key)).includes('inspected'));

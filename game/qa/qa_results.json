@@ -557,8 +557,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 12,
-        "r1": 24
+        "r0": 14,
+        "r1": 26
       }
     },
     {
@@ -576,7 +576,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 219.90000009536743
+      "detail": 218.5
     },
     {
       "browser": "chromium",
@@ -620,7 +620,7 @@
         "h": "79px",
         "textLeft": "29px",
         "textTransform": "none",
-        "tab": "http://127.0.0.1:65450/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "tab": "http://127.0.0.1:57887/art/ui/sprites/choice_cards/choice_marker_tab.png",
         "others": 0
       }
     },
@@ -636,7 +636,7 @@
         "h": "79px",
         "textLeft": "29px",
         "textTransform": "none",
-        "tab": "http://127.0.0.1:65450/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "tab": "http://127.0.0.1:57887/art/ui/sprites/choice_cards/choice_marker_tab.png",
         "others": 0
       }
     },
@@ -674,19 +674,19 @@
         0,
         0,
         0,
-        0,
         -2,
-        -4,
+        -2,
+        -6,
         -8,
         -12,
-        -16,
+        -18,
         -22,
         -28,
         -36,
-        -42,
+        -44,
         -52,
-        -60,
-        -70
+        -62,
+        -72
       ]
     },
     {
@@ -731,7 +731,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.39999985694885
+      "detail": 417.7999999523163
     },
     {
       "browser": "chromium",
@@ -746,7 +746,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 946.5999999046326
+      "detail": 945.3999998569489
     },
     {
       "browser": "chromium",
@@ -902,7 +902,7 @@
     },
     {
       "browser": "chromium",
-      "name": "the inspector column and X are drawn over the portrait and dialogue (placeholder)",
+      "name": "the owner item-column overlay replaces the portrait/dialogue shell in inspector mode, drawn over the inspect art",
       "ok": true
     },
     {
@@ -1688,8 +1688,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 15,
-        "r1": 27
+        "r0": 16,
+        "r1": 28
       }
     },
     {
@@ -1707,7 +1707,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 221
+      "detail": 217
     },
     {
       "browser": "firefox",
@@ -1751,7 +1751,7 @@
         "h": "79px",
         "textLeft": "29px",
         "textTransform": "none",
-        "tab": "http://127.0.0.1:65450/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "tab": "http://127.0.0.1:57887/art/ui/sprites/choice_cards/choice_marker_tab.png",
         "others": 0
       }
     },
@@ -1767,7 +1767,7 @@
         "h": "79px",
         "textLeft": "29px",
         "textTransform": "none",
-        "tab": "http://127.0.0.1:65450/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "tab": "http://127.0.0.1:57887/art/ui/sprites/choice_cards/choice_marker_tab.png",
         "others": 0
       }
     },
@@ -1807,18 +1807,18 @@
         0,
         0,
         -2,
-        -4,
+        -2,
         -6,
-        -10,
-        -14,
-        -20,
-        -26,
-        -32,
-        -40,
-        -48,
-        -58,
-        -68,
-        -78
+        -8,
+        -12,
+        -18,
+        -24,
+        -30,
+        -36,
+        -44,
+        -52,
+        -62,
+        -72
       ]
     },
     {
@@ -1863,7 +1863,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 421
+      "detail": 417
     },
     {
       "browser": "firefox",
@@ -1878,7 +1878,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 962
+      "detail": 947
     },
     {
       "browser": "firefox",
@@ -2034,7 +2034,7 @@
     },
     {
       "browser": "firefox",
-      "name": "the inspector column and X are drawn over the portrait and dialogue (placeholder)",
+      "name": "the owner item-column overlay replaces the portrait/dialogue shell in inspector mode, drawn over the inspect art",
       "ok": true
     },
     {

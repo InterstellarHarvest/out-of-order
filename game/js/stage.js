@@ -884,11 +884,16 @@
   // item fills it; the choices box holds the item's text; the buttons change; an X closes it.
   // The owner-provided item column overlay is production art. Item inspect art and the X
   // remain placeholders until their own approved assets exist.
-  var INSPECT_RECT = [1333, 44, 564, 476];
+  // The overlay's see-through window is hand-drawn (about x1332-1894, y51-499). The art fills a
+  // rectangle just inside the frame and sits UNDER the overlay, so the frame's ragged inner edge
+  // always wins and no rail is overpainted.
+  var INSPECT_RECT = [1331, 50, 565, 451];
   var CLOSE = 44;
 
   function buildInspector() {
     els.inspector = el('div', 'layer', stage, { id: 'inspector' });
+    els.inspectArt = el('canvas', 'sprite-abs', els.inspector, { id: 'inspectArt', 'aria-hidden': 'true' });
+    place(els.inspectArt, INSPECT_RECT[0], INSPECT_RECT[1], INSPECT_RECT[2], INSPECT_RECT[3]);
     // Full-canvas RGBA overlay: transparent everywhere except the replacement right-column frame.
     // Keep it at 1:1 stage coordinates; never crop/rescale it into the old placeholder rectangle.
     els.inspectColumn = el('img', 'sprite-abs', els.inspector, {
@@ -901,8 +906,6 @@
       'aria-hidden': 'true'
     });
     place(els.inspectColumn, 0, 0, 1920, 1080);
-    els.inspectArt = el('canvas', 'sprite-abs', els.inspector, { id: 'inspectArt', 'aria-hidden': 'true' });
-    place(els.inspectArt, INSPECT_RECT[0], INSPECT_RECT[1], INSPECT_RECT[2], INSPECT_RECT[3]);
     els.inspectClose = el('button', 'hit', els.inspector, { id: 'inspectClose', type: 'button', 'aria-label': 'Close the item' });
     els.inspectCloseArt = el('canvas', 'sprite', els.inspectClose, { 'aria-hidden': 'true' });
     place(els.inspectClose, INSPECT_RECT[0] + INSPECT_RECT[2] - CLOSE - 8, INSPECT_RECT[1] + 8, CLOSE, CLOSE);
