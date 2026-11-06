@@ -3,11 +3,12 @@
   "note": "Technical checks only. A pass is not visual or narrative approval.",
   "startingCommit": "5d42b524e8499c7ef3da724ba02f439c1cc660ff",
   "browsers": {
-    "chromium": "153.0.8010.12"
+    "chromium": "147.0.7727.15",
+    "firefox": "148.0.2"
   },
-  "playwright": "1.63.0",
-  "total": 137,
-  "passed": 137,
+  "playwright": "1.59.1",
+  "total": 263,
+  "passed": 263,
   "failed": 0,
   "byBrowser": {
     "static": {
@@ -15,15 +16,19 @@
       "passed": 15
     },
     "chromium": {
-      "total": 122,
-      "passed": 122
+      "total": 124,
+      "passed": 124
+    },
+    "firefox": {
+      "total": 124,
+      "passed": 124
     }
   },
   "failures": [],
   "checks": [
     {
       "browser": "static",
-      "name": "M1 art, design, lab and docs are unchanged since M2 began, apart from the authorised card cleanup",
+      "name": "M1 art, design, lab and docs are unchanged since M2 began, apart from the owner's card-outline edit",
       "ok": true,
       "detail": []
     },
@@ -41,26 +46,30 @@
     },
     {
       "browser": "static",
-      "name": "exactly the six documented cards carry the 2026-11-05 correction",
+      "name": "exactly the ten edited cards record the 2026-11-05 owner edit",
       "ok": true,
       "detail": [
         "choice_1line_a",
         "choice_1line_b",
         "choice_2line_a",
         "choice_2line_b",
+        "choice_2line_c",
         "choice_3line_b",
-        "choice_4line_a"
+        "choice_3line_c",
+        "choice_4line_a",
+        "choice_4line_b",
+        "choice_4line_c"
       ]
     },
     {
       "browser": "static",
-      "name": "each corrected card records its exact before-hash",
+      "name": "each edited card records its exact before- and after-hash",
       "ok": true,
       "detail": []
     },
     {
       "browser": "static",
-      "name": "the other 23 package sprites are byte-identical to the M2 start",
+      "name": "the other 19 package sprites are byte-identical to the M2 start",
       "ok": true,
       "detail": []
     },
@@ -185,87 +194,309 @@
     },
     {
       "browser": "chromium",
-      "name": "card cleanup: rows 2 and below are pixel-identical to the approved originals",
+      "name": "card edit: each of the ten cards visibly changed",
       "ok": true,
       "detail": [
         {
           "name": "choice_1line_a",
-          "below": 0,
-          "top": 0,
-          "removed": 72
+          "changed": 80,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_1line_b",
-          "below": 0,
-          "top": 0,
-          "removed": 268
+          "changed": 920,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_2line_a",
-          "below": 0,
-          "top": 0,
-          "removed": 44
+          "changed": 50,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_2line_b",
-          "below": 0,
-          "top": 0,
-          "removed": 4
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_c",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_3line_b",
-          "below": 0,
-          "top": 0,
-          "removed": 112
+          "changed": 112,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_c",
+          "changed": 54,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_4line_a",
-          "below": 0,
-          "top": 0,
-          "removed": 88
+          "changed": 96,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_b",
+          "changed": 1690,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_c",
+          "changed": 336,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         }
       ]
     },
     {
       "browser": "chromium",
-      "name": "card cleanup: rows 0-1 of the six cards are now empty, and only stray pixels were removed",
+      "name": "card edit: changes stay on the outline, within 8px of the card edge",
       "ok": true,
       "detail": [
         {
           "name": "choice_1line_a",
-          "below": 0,
-          "top": 0,
-          "removed": 72
+          "changed": 80,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_1line_b",
-          "below": 0,
-          "top": 0,
-          "removed": 268
+          "changed": 920,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_2line_a",
-          "below": 0,
-          "top": 0,
-          "removed": 44
+          "changed": 50,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_2line_b",
-          "below": 0,
-          "top": 0,
-          "removed": 4
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_c",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_3line_b",
-          "below": 0,
-          "top": 0,
-          "removed": 112
+          "changed": 112,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_c",
+          "changed": 54,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         },
         {
           "name": "choice_4line_a",
-          "below": 0,
-          "top": 0,
-          "removed": 88
+          "changed": 96,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_b",
+          "changed": 1690,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_c",
+          "changed": 336,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        }
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "card edit: every change removes a pixel or paints it outline-dark; no parchment pixel repainted",
+      "ok": true,
+      "detail": [
+        {
+          "name": "choice_1line_a",
+          "changed": 80,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_1line_b",
+          "changed": 920,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_a",
+          "changed": 50,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_b",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_c",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_b",
+          "changed": 112,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_c",
+          "changed": 54,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_a",
+          "changed": 96,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_b",
+          "changed": 1690,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_c",
+          "changed": 336,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        }
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "card edit: no soft (partial-alpha) pixels",
+      "ok": true,
+      "detail": [
+        {
+          "name": "choice_1line_a",
+          "changed": 80,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_1line_b",
+          "changed": 920,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_a",
+          "changed": 50,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_b",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_c",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_b",
+          "changed": 112,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_c",
+          "changed": 54,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_a",
+          "changed": 96,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_b",
+          "changed": 1690,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_c",
+          "changed": 336,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
         }
       ]
     },
@@ -320,8 +551,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 13,
-        "r1": 25
+        "r0": 19,
+        "r1": 31
       }
     },
     {
@@ -339,7 +570,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 218.70000000006985
+      "detail": 218.29999995231628
     },
     {
       "browser": "chromium",
@@ -383,7 +614,7 @@
         "h": "79px",
         "textLeft": "29px",
         "textTransform": "none",
-        "tab": "http://127.0.0.1:41561/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "tab": "http://127.0.0.1:63629/art/ui/sprites/choice_cards/choice_marker_tab.png",
         "others": 0
       }
     },
@@ -399,7 +630,7 @@
         "h": "79px",
         "textLeft": "29px",
         "textTransform": "none",
-        "tab": "http://127.0.0.1:41561/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "tab": "http://127.0.0.1:63629/art/ui/sprites/choice_cards/choice_marker_tab.png",
         "others": 0
       }
     },
@@ -443,13 +674,13 @@
         -8,
         -12,
         -16,
-        -20,
-        -26,
+        -22,
+        -28,
         -34,
         -42,
-        -50,
-        -58,
-        -68
+        -52,
+        -60,
+        -70
       ]
     },
     {
@@ -494,7 +725,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 411.79999999993015
+      "detail": 417.5
     },
     {
       "browser": "chromium",
@@ -509,7 +740,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 961.4000000000233
+      "detail": 944
     },
     {
       "browser": "chromium",
@@ -843,19 +1074,19 @@
         "first": [
           [
             0,
-            1
+            14
           ],
           [
             1,
-            117
+            130
           ],
           [
             2,
-            237
+            246
           ],
           [
             3,
-            358
+            362
           ],
           [
             4,
@@ -1017,6 +1248,1137 @@
     },
     {
       "browser": "chromium",
+      "name": "no errors from file://",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "page loads ready",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "obsolete 364x78 font atlas is never requested",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "served shell bytes are canonical",
+      "ok": true,
+      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+    },
+    {
+      "browser": "firefox",
+      "name": "served package sprites match manifest hashes",
+      "ok": true,
+      "detail": {
+        "served": 28,
+        "servedBad": []
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "served action glyphs match actions.json",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "served bathroom pass bytes match the repository",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "choice viewport uses the lab working geometry",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "dialogue box uses the lab working geometry",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "utility buttons use the lab working geometry",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "scene placeholder fills the scene aperture exactly",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "portrait placeholder fills the portrait aperture exactly",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "scene and portrait sit beneath the shell, so no frame pixel is covered",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "placeholders are labelled as placeholders",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "card edit: each of the ten cards visibly changed",
+      "ok": true,
+      "detail": [
+        {
+          "name": "choice_1line_a",
+          "changed": 80,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_1line_b",
+          "changed": 920,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_a",
+          "changed": 50,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_b",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_c",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_b",
+          "changed": 112,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_c",
+          "changed": 54,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_a",
+          "changed": 96,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_b",
+          "changed": 1690,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_c",
+          "changed": 336,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "card edit: changes stay on the outline, within 8px of the card edge",
+      "ok": true,
+      "detail": [
+        {
+          "name": "choice_1line_a",
+          "changed": 80,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_1line_b",
+          "changed": 920,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_a",
+          "changed": 50,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_b",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_c",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_b",
+          "changed": 112,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_c",
+          "changed": 54,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_a",
+          "changed": 96,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_b",
+          "changed": 1690,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_c",
+          "changed": 336,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "card edit: every change removes a pixel or paints it outline-dark; no parchment pixel repainted",
+      "ok": true,
+      "detail": [
+        {
+          "name": "choice_1line_a",
+          "changed": 80,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_1line_b",
+          "changed": 920,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_a",
+          "changed": 50,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_b",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_c",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_b",
+          "changed": 112,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_c",
+          "changed": 54,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_a",
+          "changed": 96,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_b",
+          "changed": 1690,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_c",
+          "changed": 336,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "card edit: no soft (partial-alpha) pixels",
+      "ok": true,
+      "detail": [
+        {
+          "name": "choice_1line_a",
+          "changed": 80,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_1line_b",
+          "changed": 920,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_a",
+          "changed": 50,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_b",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_2line_c",
+          "changed": 4,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_b",
+          "changed": 112,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_3line_c",
+          "changed": 54,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_a",
+          "changed": 96,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_b",
+          "changed": 1690,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        },
+        {
+          "name": "choice_4line_c",
+          "changed": 336,
+          "parchment": 0,
+          "deep": 0,
+          "soft": 0
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "pixel art renders without smoothing",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "utility buttons show the owner's glyphs in conversation",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "INSPECT is inactive while nothing is held",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "an inactive button keeps its glyph, in the inactive treatment",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the inactive button's tooltip says why",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "an inactive button does not press",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "every authored choice fits on a card (four lines at most)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "the slice opens with the receptionist typing",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "no choice is on show while the NPC types",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the NPC line types character by character",
+      "ok": true,
+      "detail": {
+        "r0": 22,
+        "r1": 34
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "turn order: typing, beat, cards arrive, then choosing",
+      "ok": true,
+      "detail": [
+        "typing",
+        "beat",
+        "arriving",
+        "choosing"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "a short beat (150-350ms) between the line and the cards",
+      "ok": true,
+      "detail": 221
+    },
+    {
+      "browser": "firefox",
+      "name": "keyboard focus lands on the first choice",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the thumb appears once the cards have arrived",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "opening offers the bathroom request",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "no hidden pointer target: cards are real buttons",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "ArrowDown moves focus to the next choice",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "ArrowUp moves focus back",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "keyboard focus brings out the brass tab on the focused card only",
+      "ok": true,
+      "detail": {
+        "marker": "out",
+        "clip": "",
+        "outline": "none",
+        "w": "535px",
+        "h": "79px",
+        "textLeft": "29px",
+        "textTransform": "none",
+        "tab": "http://127.0.0.1:63629/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "others": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the tab changes no card geometry, text position or outline",
+      "ok": true,
+      "detail": {
+        "marker": "out",
+        "clip": "",
+        "outline": "none",
+        "w": "535px",
+        "h": "79px",
+        "textLeft": "29px",
+        "textTransform": "none",
+        "tab": "http://127.0.0.1:63629/art/ui/sprites/choice_cards/choice_marker_tab.png",
+        "others": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "mouse hover over another card brings out no tab",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the other card slides away to the right",
+      "ok": true,
+      "detail": 31
+    },
+    {
+      "browser": "firefox",
+      "name": "the chosen card rises until it disappears behind the divider",
+      "ok": true,
+      "detail": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        -2,
+        -4,
+        -6,
+        -14,
+        -18,
+        -24,
+        -30,
+        -38,
+        -46,
+        -54,
+        -64,
+        -74
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the chosen card waits for the others before it rises",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the player's line is shown whole, not typed",
+      "ok": true,
+      "detail": {
+        "last": {
+          "text": "WHERE IS THE BATHROOM, PLEASE?",
+          "role": "choices"
+        },
+        "typing": false,
+        "cards": 0,
+        "whole": true
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the player's line is in the dialogue box at once, in the Choices face",
+      "ok": true,
+      "detail": {
+        "text": "WHERE IS THE BATHROOM, PLEASE?",
+        "role": "choices"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the choice panel is empty while waiting for the reply",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "input during the send was ignored (one player line only)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "a beat (about 400ms) before the reply types",
+      "ok": true,
+      "detail": 418
+    },
+    {
+      "browser": "firefox",
+      "name": "the reply types below in the Dialogue face",
+      "ok": true,
+      "detail": {
+        "text": "ONE MOMENT. [STAMP.] THE FACILITIES ARE NOT A PUBLIC LOCATION. THEIR WHEREABOUTS ARE RELEASED TO PERSONNEL ONLY, AND ONLY PERSONNEL WOULD THINK TO ASK. YOU ASKED. SO: WELCOME, EXAMINER. OFFICE OF UNVERIFIED CONDITIONS. YOU ARE EXPECTED.",
+        "role": "dialogue"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the whole send took a sensible time",
+      "ok": true,
+      "detail": 956
+    },
+    {
+      "browser": "firefox",
+      "name": "clicking the dialogue finishes the line at once",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "after a skip, the cards follow after the beat (not at once)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the thumb stays hidden while cards arrive",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "clicks on arriving cards are ignored",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the misassignment's three choices overflow the box",
+      "ok": true,
+      "detail": {
+        "max": 28,
+        "thumb": {
+          "x": 1880,
+          "y": 539,
+          "width": 20,
+          "height": 288,
+          "overflow": true
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the wheel scrolls the choices",
+      "ok": true,
+      "detail": {
+        "c": 28,
+        "s": 3
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "scrolling choices leaves the dialogue where it was",
+      "ok": true,
+      "detail": {
+        "c": 28,
+        "s": 3
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the thumb tracks the choice scroll",
+      "ok": true,
+      "detail": 563
+    },
+    {
+      "browser": "firefox",
+      "name": "dialogue scroll-back reaches the first line",
+      "ok": true,
+      "detail": {
+        "c": 28,
+        "s": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "scrolling the dialogue leaves the choices where they were",
+      "ok": true,
+      "detail": {
+        "c": 28,
+        "s": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "End focuses the last card and scrolls it into view",
+      "ok": true,
+      "detail": {
+        "idx": "2",
+        "scroll": 28,
+        "max": 28
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "a new choice set starts at the top",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the third card took the practical route",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "a single choice still arrives as a card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the key enters the inventory when the receptionist issues it",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the slot shows the approved bathroom pass art",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the inventory is ignored while the NPC is typing",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "focus that follows a mouse action shows no tab",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "before reading: only the blind confirmation is offered",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "clicking the item opens the inspector",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the buttons become READ, SHOW (disabled), RETURN",
+      "ok": true,
+      "detail": [
+        "read:true",
+        "show:false",
+        "return:true"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the unavailable SHOW keeps its glyph, unlit",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the choice cards give way to the item text",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the inspector column and X are drawn over the portrait and dialogue (placeholder)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the item is marked inspected",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "a disabled button explains itself in its tooltip",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "pressing the disabled button does not press",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "pressing the disabled button does nothing",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "READ reveals the tag",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "after READ, SHOW is enabled here",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "closing the inspector brings a new set reflecting the tag",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "INSPECT opens the held item",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the X closes the inspector",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "SHOW speaks the player's line as a turn",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "SHOW leads to the receptionist's answer about the tag",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the practical route gets its own send-off line",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "at the door the middle button becomes USE",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "USE on the key opens the door",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the closing line remembers the tag",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "NOTES opens the transcript over the scene",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the transcript holds both speakers' lines",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the transcript opens at its latest lines",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the transcript scrolls back to the start",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "FILES shows the case file",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Esc closes the overlay",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the conversation carried on underneath",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the ending offers one card: BEGIN AGAIN",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the ending objective points beyond reception",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "BEGIN AGAIN restarts the slice cleanly",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "replay: correcting the mistake changes the later send-off",
+      "ok": true,
+      "detail": "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR IS THE FIRST ON THE LEFT. YOUR DISPUTE IS ALREADY ON THE DESK. IT ARRIVED BEFORE YOU DID. MOST THINGS DO."
+    },
+    {
+      "browser": "firefox",
+      "name": "replay: a blind confirmation gets its own answer",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "replay: protest is offered (not yet used)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "replay: without the tag, the closing line differs",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "QA overflow items fill the inventory past one row",
+      "ok": true,
+      "detail": 9
+    },
+    {
+      "browser": "firefox",
+      "name": "the right arrow presses (DOWN sprite) while held",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the right arrow comes back up",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "one press moves the strip by exactly one item",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the strip slides rather than jumping",
+      "ok": true,
+      "detail": {
+        "first": [
+          [
+            0,
+            -3
+          ],
+          [
+            1,
+            113
+          ],
+          [
+            2,
+            233
+          ],
+          [
+            3,
+            353
+          ],
+          [
+            4,
+            474
+          ],
+          [
+            5,
+            594
+          ]
+        ],
+        "rest": [
+          [
+            1,
+            14
+          ],
+          [
+            2,
+            130
+          ],
+          [
+            3,
+            246
+          ],
+          [
+            4,
+            362
+          ],
+          [
+            5,
+            478
+          ],
+          [
+            6,
+            594
+          ]
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "at rest, six slots show items 2-7",
+      "ok": true,
+      "detail": [
+        [
+          1,
+          14
+        ],
+        [
+          2,
+          130
+        ],
+        [
+          3,
+          246
+        ],
+        [
+          4,
+          362
+        ],
+        [
+          5,
+          478
+        ],
+        [
+          6,
+          594
+        ]
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the left arrow steps back one item",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the strip stops at the last item",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "with several items and none selected, INSPECT is inactive",
+      "ok": true,
+      "detail": [
+        null,
+        null,
+        "<button class=\"hit arrow\" id=\"inv-right\" type=\"button\" aria-label=\"Next inventor"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "focusing a slot selects its item",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "INSPECT opens the selected item, not the leftmost one",
+      "ok": true,
+      "detail": "qa_item_6"
+    },
+    {
+      "browser": "firefox",
+      "name": "clicking a slot selects and opens its item",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "INSPECT then reopens the last selected item",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "an item with nothing to read shows READ unlit",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "hover adds no border, outline, glow, fill or brightening to any control (styles and pixels)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "a hovered control has no filter, outline, shadow, fill or opacity at all",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "no stylesheet on the page has a :hover rule",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "hovering a utility shows a separate tooltip naming it",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "no console errors or failed requests",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "opens from file:// with no server",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "fits a smaller window by scaling the whole stage",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "a scaled stage still takes clicks on the right card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
       "name": "no errors from file://",
       "ok": true,
       "detail": []
