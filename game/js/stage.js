@@ -882,15 +882,25 @@
   // Item inspector ------------------------------------------------------------------------
   // docs/45 section 7: the portrait window grows down to the dialogue box's bottom edge and the
   // item fills it; the choices box holds the item's text; the buttons change; an X closes it.
-  // The column overlay, the inspect art and the X are placeholders until the owner's art exists.
+  // The owner-provided item column overlay is production art. Item inspect art and the X
+  // remain placeholders until their own approved assets exist.
   var INSPECT_RECT = [1333, 44, 564, 476];
-  var COLUMN_RECT = [1316, 28, 598, 497];
   var CLOSE = 44;
 
   function buildInspector() {
     els.inspector = el('div', 'layer', stage, { id: 'inspector' });
-    els.inspectColumn = el('canvas', 'sprite-abs', els.inspector, { 'aria-hidden': 'true' });
-    place(els.inspectColumn, COLUMN_RECT[0], COLUMN_RECT[1], COLUMN_RECT[2], COLUMN_RECT[3]);
+    // Full-canvas RGBA overlay: transparent everywhere except the replacement right-column frame.
+    // Keep it at 1:1 stage coordinates; never crop/rescale it into the old placeholder rectangle.
+    els.inspectColumn = el('img', 'sprite-abs', els.inspector, {
+      id: 'inspectColumn',
+      src: G.url('art/ui/shell/item-overlay.png'),
+      width: '1920',
+      height: '1080',
+      alt: '',
+      draggable: 'false',
+      'aria-hidden': 'true'
+    });
+    place(els.inspectColumn, 0, 0, 1920, 1080);
     els.inspectArt = el('canvas', 'sprite-abs', els.inspector, { id: 'inspectArt', 'aria-hidden': 'true' });
     place(els.inspectArt, INSPECT_RECT[0], INSPECT_RECT[1], INSPECT_RECT[2], INSPECT_RECT[3]);
     els.inspectClose = el('button', 'hit', els.inspector, { id: 'inspectClose', type: 'button', 'aria-label': 'Close the item' });
@@ -927,10 +937,6 @@
     show(els.inspectText, on);
     if (!on) return;
     var id = ui.inspector.id;
-    if (els.inspectColumn.dataset.done !== '1') {
-      P.panel(els.inspectColumn, COLUMN_RECT[2], COLUMN_RECT[3], 'INSPECTOR COLUMN OVERLAY', []);
-      els.inspectColumn.dataset.done = '1';
-    }
     if (els.inspectArt.dataset.item !== id) {
       var def = G.content.items[id];
       P.inspectArt(els.inspectArt, INSPECT_RECT[2], INSPECT_RECT[3], def.slotArt ? G.image('item:' + id) : null, def.name + ' - INSPECT ART NOT YET APPROVED');

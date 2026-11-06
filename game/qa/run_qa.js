@@ -59,8 +59,8 @@ function staticChecks() {
   // The lab's own regenerated QA results and screenshots are output, not M1 source.
   const outside = changedSinceStart.filter((f) => !MAINTENANCE.includes(f) && !/^tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(f));
   check(b, 'M1 art, design, lab and docs are unchanged since M2 began, apart from the owner\'s card-outline edit', outside.length === 0, outside);
-  // The only art added since M2 began: the owner's item-inspector column overlay (docs/45 section 7),
-  // pinned by hash. Placeholders are drawn at runtime.
+  // The owner's item-inspector column overlay (docs/45 section 7) is pinned by hash and used
+  // directly by the reception inspector. Remaining unapproved art is drawn as DEV placeholders.
   const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, '--', 'art', 'design', 'tools/layout-lab').split('\n').filter(Boolean);
   const unexpected = added.filter((f) => !(f in OWNER_ART));
   check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art', unexpected.length === 0, unexpected);
@@ -428,9 +428,16 @@ async function suite(name, base, requests) {
     && b.querySelector('img.glyph').style.display === 'none' && b.querySelector('canvas.glyph').style.display !== 'none'));
   c('the choice cards give way to the item text', (await page.$$eval('#choiceViewport .choice', (bs) => bs.filter((b) => b.style.display !== 'none').length)) === 0
     && (await page.$eval('#inspectText', (e) => e.style.display !== 'none')));
-  c('the inspector column and X are drawn over the portrait and dialogue (placeholder)', await page.evaluate(() => {
+  c('the owner item-column overlay replaces the portrait/dialogue shell in inspector mode', await page.evaluate(() => {
+    const col = document.getElementById('inspectColumn');
     const art = document.getElementById('inspectArt');
-    return art.style.display !== 'none' && parseInt(art.style.top) === 44 && parseInt(art.style.height) === 476 && document.getElementById('inspectClose').offsetWidth === 44;
+    return col && col.tagName === 'IMG'
+      && /art\/ui\/shell\/item-overlay\.png$/.test(col.getAttribute('src'))
+      && parseInt(col.style.left) === 0 && parseInt(col.style.top) === 0
+      && parseInt(col.style.width) === 1920 && parseInt(col.style.height) === 1080
+      && art.style.display !== 'none'
+      && parseInt(art.style.top) === 44 && parseInt(art.style.height) === 476
+      && document.getElementById('inspectClose').offsetWidth === 44;
   }));
   c('the item is marked inspected', (await game(page, () => window.CYOA_GAME.state.items.wc_key)).includes('inspected'));
   await shot(page, '06_inspector_before_read.png');
