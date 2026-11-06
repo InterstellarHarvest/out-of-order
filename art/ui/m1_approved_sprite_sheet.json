@@ -4,7 +4,7 @@
   "package_status": "APPROVED_PACKAGE",
   "runtime_integrated": false,
   "image": "m1_approved_sprite_sheet.png",
-  "image_sha256": "1c5990ba16a88c4986709187628d7ba81460c985bcd0b290c83cdca540bd8d2e",
+  "image_sha256": "1f7094a543124dda679382b0ad3eebf06876d3173108126b2c5ad3113a911826",
   "width": 1676,
   "height": 1163,
   "margin": 8,
@@ -59,21 +59,21 @@
       "subgroup": "1-line cards",
       "state": "a",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_1line_a.png",
       "package_path": "sprites/choice_cards/choice_1line_a.png",
-      "sha256": "5736d1ac0417ea723846bbb021044e0ba3e3389b1d9d3a27b7425697379e76f6",
-      "rgba_sha256": "258facc3042f63cc6c2194466036764a437624fe775d20a5ccff1a71f49085b0",
+      "sha256": "c854d190316d7a5c399887a3c6e8c98304e43f51bbb7db896ec4e9328daa1eb2",
+      "rgba_sha256": "202d07e4b3ac99a220a9059c38fc7a7f30281ab9666f2e33fe4ea2e1291c19b5",
       "correction": {
-        "rows_cleared": [
-          0,
-          1
-        ],
-        "pixels_cleared": 72,
-        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
-        "source_sha256": "b7055d622440459f86d398c2df896cf235a700896f02cf417dede64d0ea03a32"
+        "source_sha256": "b7055d622440459f86d398c2df896cf235a700896f02cf417dede64d0ea03a32",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "b7055d622440459f86d398c2df896cf235a700896f02cf417dede64d0ea03a32",
+          "sha256_after": "c854d190316d7a5c399887a3c6e8c98304e43f51bbb7db896ec4e9328daa1eb2",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
       }
     },
     "choice_1line_b": {
@@ -85,21 +85,21 @@
       "subgroup": "1-line cards",
       "state": "b",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_1line_b.png",
       "package_path": "sprites/choice_cards/choice_1line_b.png",
-      "sha256": "5ca0fff158e52867c2141bed92db806747a103073f3cae2eccb95fcdb43234e6",
-      "rgba_sha256": "d6342e668d3a41d87d330259155c53d68ef7d1c59cfcb21fd3fce5f8f3380a63",
+      "sha256": "03a07e07a72ab67132f7e06d6f55ce91172df02bd74544c3ae0ab54ef3b4b82b",
+      "rgba_sha256": "c6a339658856c0c673447e2b476acde5950d9c56dc58469a6adae5a05fe7b98f",
       "correction": {
-        "rows_cleared": [
-          0,
-          1
-        ],
-        "pixels_cleared": 268,
-        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
-        "source_sha256": "efeac4cc0995b3451d75ae9a0f8868a762d73e17aa540a4d613bf72665ed1daa"
+        "source_sha256": "efeac4cc0995b3451d75ae9a0f8868a762d73e17aa540a4d613bf72665ed1daa",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "efeac4cc0995b3451d75ae9a0f8868a762d73e17aa540a4d613bf72665ed1daa",
+          "sha256_after": "03a07e07a72ab67132f7e06d6f55ce91172df02bd74544c3ae0ab54ef3b4b82b",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
       }
     },
     "choice_1line_c": {
@@ -128,21 +128,21 @@
       "subgroup": "2-line cards",
       "state": "a",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_2line_a.png",
       "package_path": "sprites/choice_cards/choice_2line_a.png",
-      "sha256": "04c016bafa1628a45f3dea688e6628bc0418df453ba0cb03a53f9293fd3fe7fe",
-      "rgba_sha256": "f98eb541d6c068d8b384c706bb70abe3c5a6bd99379cc7492a21f24c28a5deee",
+      "sha256": "fdde9a0ff0601216988fc42809f3fb9f36254fc5ddaa72c64270bb8782caac58",
+      "rgba_sha256": "5d9ec3d87f899a90f2ef1a1b3421887cda66ae3af4436c0bf439a199605f7e89",
       "correction": {
-        "rows_cleared": [
-          0,
-          1
-        ],
-        "pixels_cleared": 44,
-        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
-        "source_sha256": "bdb8fa8174cd4a10b7887d0fbb2fbff04039d2ea53e8d51fed3d5402bae1ac19"
+        "source_sha256": "bdb8fa8174cd4a10b7887d0fbb2fbff04039d2ea53e8d51fed3d5402bae1ac19",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "bdb8fa8174cd4a10b7887d0fbb2fbff04039d2ea53e8d51fed3d5402bae1ac19",
+          "sha256_after": "fdde9a0ff0601216988fc42809f3fb9f36254fc5ddaa72c64270bb8782caac58",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
       }
     },
     "choice_2line_b": {
@@ -154,21 +154,21 @@
       "subgroup": "2-line cards",
       "state": "b",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_2line_b.png",
       "package_path": "sprites/choice_cards/choice_2line_b.png",
-      "sha256": "78201b4d27723e70aae5974fce65e3ae6e5290640e55a253dd9d10169a07c6a4",
-      "rgba_sha256": "14eb91926ae01e2d718a66401c46e426b507aa21899c9288b057c6d85619fe23",
+      "sha256": "d4cd81b42c6c8321f66ea601a3845be956ae1c8d3194ed1611e1fa1404fc0ddf",
+      "rgba_sha256": "b50bbc6f212ec9f8418ac10bcfe5bf6b7d4746aee89e3b24677f24255aa6ee81",
       "correction": {
-        "rows_cleared": [
-          0,
-          1
-        ],
-        "pixels_cleared": 4,
-        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
-        "source_sha256": "e28807c219b7050e6ca3e51aa3b7f30b60e75d2d1b34ef67acac8ee23c71a86a"
+        "source_sha256": "e28807c219b7050e6ca3e51aa3b7f30b60e75d2d1b34ef67acac8ee23c71a86a",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "e28807c219b7050e6ca3e51aa3b7f30b60e75d2d1b34ef67acac8ee23c71a86a",
+          "sha256_after": "d4cd81b42c6c8321f66ea601a3845be956ae1c8d3194ed1611e1fa1404fc0ddf",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
       }
     },
     "choice_2line_c": {
@@ -180,20 +180,26 @@
       "subgroup": "2-line cards",
       "state": "c",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-02: stray top line removed",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-02: stray top line removed; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_2line_c.png",
       "package_path": "sprites/choice_cards/choice_2line_c.png",
-      "sha256": "8f5841975d91a419c99c0012c3403254d2e08a4420e451bc5aec856e81dadabe",
-      "rgba_sha256": "aa6ec9852663b6e87b5f380db221b0789a9ec1ac49c41e4632f2533f0938fa21",
+      "sha256": "cf85b220dcad633892902a90bdc4fe12ba5f785df41dfa64effcb38419f7170d",
+      "rgba_sha256": "e9471056855159349452e87f4911bec3901f6ca26a21a90b81d9597e66dc115a",
       "correction": {
         "rows_cleared": [
           0,
           1
         ],
         "reason": "Stray black line in rows 0-1, detached from the card by transparent rows 2-3",
-        "source_sha256": "fe4515f89ed32e7c0fce2985de1ce6a4f151e872a894d36914d1e0e679798b04"
+        "source_sha256": "fe4515f89ed32e7c0fce2985de1ce6a4f151e872a894d36914d1e0e679798b04",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "8f5841975d91a419c99c0012c3403254d2e08a4420e451bc5aec856e81dadabe",
+          "sha256_after": "cf85b220dcad633892902a90bdc4fe12ba5f785df41dfa64effcb38419f7170d",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
       }
     },
     "choice_3line_a": {
@@ -222,21 +228,21 @@
       "subgroup": "3-line cards",
       "state": "b",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_3line_b.png",
       "package_path": "sprites/choice_cards/choice_3line_b.png",
-      "sha256": "1655afe8625e44d4db9e85d5f9c0fa5135ccb0fb4b9f2972d2dedb076a49e070",
-      "rgba_sha256": "ae3cba5ffe1108ecf83bd5f8341bb3c50bb3155099045dd106fc1f16af363325",
+      "sha256": "484d30417b8b4e8d80751a948e3003f643f45c6bf1d6c93853a0ade5ebacc0be",
+      "rgba_sha256": "c853349a5a280a7110ffde8ad47b998e5a65a1e42cae89ab87805419bcd9f3d0",
       "correction": {
-        "rows_cleared": [
-          0,
-          1
-        ],
-        "pixels_cleared": 112,
-        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
-        "source_sha256": "c1b738f93d86215a5f630c4abc882d15c1f0c523dd5210061bc40985d967d7ec"
+        "source_sha256": "c1b738f93d86215a5f630c4abc882d15c1f0c523dd5210061bc40985d967d7ec",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "c1b738f93d86215a5f630c4abc882d15c1f0c523dd5210061bc40985d967d7ec",
+          "sha256_after": "484d30417b8b4e8d80751a948e3003f643f45c6bf1d6c93853a0ade5ebacc0be",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
       }
     },
     "choice_3line_c": {
@@ -248,13 +254,22 @@
       "subgroup": "3-line cards",
       "state": "c",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_3line_c.png",
       "package_path": "sprites/choice_cards/choice_3line_c.png",
-      "sha256": "7332aec95bf9324c1ca0860acb644edf997141e53aef9ec2d727d16cb9c52c5a",
-      "rgba_sha256": "b76a1ce19c43deb74e5ae9293808a0c15213e3787937ae8b2f50b5534f608902"
+      "sha256": "69c251c447fe379faae3404c6f448d7b0aadb32be0095e04ae4339246cd70d63",
+      "rgba_sha256": "f8dc15bff65c328fd76c6c55e66b21c5b276deeb121dd3b1bed17fd75e1a9dd5",
+      "correction": {
+        "source_sha256": "7332aec95bf9324c1ca0860acb644edf997141e53aef9ec2d727d16cb9c52c5a",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "7332aec95bf9324c1ca0860acb644edf997141e53aef9ec2d727d16cb9c52c5a",
+          "sha256_after": "69c251c447fe379faae3404c6f448d7b0aadb32be0095e04ae4339246cd70d63",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
+      }
     },
     "choice_4line_a": {
       "x": 8,
@@ -265,21 +280,21 @@
       "subgroup": "4-line cards",
       "state": "a",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-05 (PMO docs/49 section 2.7): stray pixels in rows 0-1 removed",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_4line_a.png",
       "package_path": "sprites/choice_cards/choice_4line_a.png",
-      "sha256": "af2cc48d35c71931350803a8c7af9c96d9a9553a7d36772a84a68a1dd2fbd4db",
-      "rgba_sha256": "910ef613cf4cf57e52c88f3c44dee2c261e64433d49cfc92f112a3846808f5ee",
+      "sha256": "fcef3ee2ed32817a8d38b379966b1406d83cabdc5c7786a50935ac48e548b90f",
+      "rgba_sha256": "8998cd977d7ebb6001007418fddab9976467979689663367a45e15baec578528",
       "correction": {
-        "rows_cleared": [
-          0,
-          1
-        ],
-        "pixels_cleared": 88,
-        "reason": "Stray near-black pixel runs in rows 0-1 above the card outline (the same runs recur across cards: bleed from the source sheet); only pixels with alpha > 0 were cleared, rows 2 and below unchanged",
-        "source_sha256": "dceed817b68f6743e1f6c3adeb142f23e1d6a70b33ef8f2eadbf3e72d79eabe1"
+        "source_sha256": "dceed817b68f6743e1f6c3adeb142f23e1d6a70b33ef8f2eadbf3e72d79eabe1",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "dceed817b68f6743e1f6c3adeb142f23e1d6a70b33ef8f2eadbf3e72d79eabe1",
+          "sha256_after": "fcef3ee2ed32817a8d38b379966b1406d83cabdc5c7786a50935ac48e548b90f",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
       }
     },
     "choice_4line_b": {
@@ -291,20 +306,26 @@
       "subgroup": "4-line cards",
       "state": "b",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-02: stray top line removed",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner-authorised correction, 2026-11-02: stray top line removed; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_4line_b.png",
       "package_path": "sprites/choice_cards/choice_4line_b.png",
-      "sha256": "970f9b23af0232b90bc5511d5ffcacbbca40264496a81c5b16b8805e0e2383b1",
-      "rgba_sha256": "df4573323797ab9873675502eaa45bcb5590aaf74135fc10887734ace3327248",
+      "sha256": "ff48293fcbce1d0b162f8838436128814a165b06a4baac2e6f8d271d9cd94abf",
+      "rgba_sha256": "0f6f9f28aa2e8e30fa653bfee437bcb4b6e6b6ea72e5e8095fe82598e29e41bd",
       "correction": {
         "rows_cleared": [
           0,
           1
         ],
         "reason": "Stray black line in rows 0-1, detached from the card by transparent rows 2-5",
-        "source_sha256": "35ec68778d0b6d6bc8b6b81159ff0a1181ba9a638607f8ffe2d7c5428e7e3315"
+        "source_sha256": "35ec68778d0b6d6bc8b6b81159ff0a1181ba9a638607f8ffe2d7c5428e7e3315",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "970f9b23af0232b90bc5511d5ffcacbbca40264496a81c5b16b8805e0e2383b1",
+          "sha256_after": "ff48293fcbce1d0b162f8838436128814a165b06a4baac2e6f8d271d9cd94abf",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
       }
     },
     "choice_4line_c": {
@@ -316,13 +337,22 @@
       "subgroup": "4-line cards",
       "state": "c",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-05: outline edges cleaned by hand (even chamfer steps, stray pixels above the outline removed, outline gaps filled and greys darkened to match)",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "choice_4line_c.png",
       "package_path": "sprites/choice_cards/choice_4line_c.png",
-      "sha256": "ccbd909258540beb703933809ccd611366506c712343e9ca4ff66b14b36c95b4",
-      "rgba_sha256": "f4106fd653c4eb9c37a56bf6926ebcc0641aa50f4fa7db3e0ad6280054468161"
+      "sha256": "3b6a057017834c6aa6f1cbddad9269e4d9c4609a4e20613ba08980c2afc7c437",
+      "rgba_sha256": "17d80ef7235c7e249530310ffdeebd43a73505c7e35e619fdb99b94aba460adb",
+      "correction": {
+        "source_sha256": "ccbd909258540beb703933809ccd611366506c712343e9ca4ff66b14b36c95b4",
+        "owner_edit": {
+          "date": "2026-11-05",
+          "sha256_before": "ccbd909258540beb703933809ccd611366506c712343e9ca4ff66b14b36c95b4",
+          "sha256_after": "3b6a057017834c6aa6f1cbddad9269e4d9c4609a4e20613ba08980c2afc7c437",
+          "description": "Hand edit by the owner to the card outline only; parchment pixels unchanged. Supersedes the interim rows-0-1 cleanup on the M2 branch (22640bb)."
+        }
+      }
     },
     "inventory_slot": {
       "x": 8,
