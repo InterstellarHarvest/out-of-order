@@ -15,7 +15,7 @@ window.M1_LAB_DATA = {
   "spritePackage": {
    "id": "m1-approved-sprite-package-v1",
    "path": "art/ui",
-   "atlasSha256": "1f7094a543124dda679382b0ad3eebf06876d3173108126b2c5ad3113a911826",
+   "atlasSha256": "002786f60dec4929cf0120b6c399105c0420a7414c1a48a69a4f10bda7192cb5",
    "spriteCount": 29,
    "status": "APPROVED_PACKAGE"
   },
@@ -1202,7 +1202,7 @@ window.M1_LAB_DATA = {
    "l": {
     "x": 499,
     "y": 2,
-    "w": 6,
+    "w": 7,
     "h": 18,
     "advance": 8,
     "bearingY": 0
@@ -1440,12 +1440,12 @@ window.M1_LAB_DATA = {
     "bearingY": 9
    },
    ":": {
-    "x": 370,
-    "y": 27,
-    "w": 4,
-    "h": 12,
+    "x": 369,
+    "y": 26,
+    "w": 6,
+    "h": 13,
     "advance": 11,
-    "bearingY": 5
+    "bearingY": 4
    },
    ";": {
     "x": 376,

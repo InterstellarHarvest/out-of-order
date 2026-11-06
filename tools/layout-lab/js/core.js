@@ -7,7 +7,7 @@
   var PACKAGE_ROOT = '../../art/ui/';
   var STORAGE_KEY = 'm1-ui-placement-lab/v1';
   var EXPORT_KEY = STORAGE_KEY + ':exported';
-  var PREVIOUS_ATLASES = ['25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee', 'bf636c757c30fa33b45f8ae370374d0349fb615a0d64a23cde873099b64a7013', '1c5990ba16a88c4986709187628d7ba81460c985bcd0b290c83cdca540bd8d2e'];
+  var PREVIOUS_ATLASES = ['25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee', 'bf636c757c30fa33b45f8ae370374d0349fb615a0d64a23cde873099b64a7013', '1c5990ba16a88c4986709187628d7ba81460c985bcd0b290c83cdca540bd8d2e', '1f7094a543124dda679382b0ad3eebf06876d3173108126b2c5ad3113a911826'];
 
   // QA pins a baseline of its own, so its expectations do not move each time the owner's
   // defaults change. Nothing else sets this.

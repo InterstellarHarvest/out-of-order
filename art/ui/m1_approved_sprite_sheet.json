@@ -4,7 +4,7 @@
   "package_status": "APPROVED_PACKAGE",
   "runtime_integrated": false,
   "image": "m1_approved_sprite_sheet.png",
-  "image_sha256": "1f7094a543124dda679382b0ad3eebf06876d3173108126b2c5ad3113a911826",
+  "image_sha256": "002786f60dec4929cf0120b6c399105c0420a7414c1a48a69a4f10bda7192cb5",
   "width": 1676,
   "height": 1163,
   "margin": 8,
@@ -601,14 +601,23 @@
       "subgroup": "Bitmap font atlases",
       "state": "dark",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-06: stray and ragged glyph pixels cleaned by hand",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas_dark.png",
       "package_path": "sprites/fonts/locked_pixel_font_atlas_dark.png",
-      "sha256": "592c656b4d4d5bc2b0ae4cd204d40b89c8878df021797255b88b48f5fce18fa1",
-      "rgba_sha256": "334f57bfd5e8fc4b1d1b26ab2da7efe4cced1ed858363f189779a8fd71754a75",
-      "note": "Glyph coordinates in locked_pixel_font_atlas.json are relative to this sprite's x, y."
+      "sha256": "caa84ab9acb990b98d556798cbd50a261764c470996a69149e3c21ea5cf38f90",
+      "rgba_sha256": "adf22f145d039d8c9b5824af8e6533946783de635f06a3b2d542493a5ca427df",
+      "note": "Glyph coordinates in locked_pixel_font_atlas.json are relative to this sprite's x, y.",
+      "correction": {
+        "source_sha256": "592c656b4d4d5bc2b0ae4cd204d40b89c8878df021797255b88b48f5fce18fa1",
+        "owner_edit": {
+          "date": "2026-11-06",
+          "sha256_before": "592c656b4d4d5bc2b0ae4cd204d40b89c8878df021797255b88b48f5fce18fa1",
+          "sha256_after": "caa84ab9acb990b98d556798cbd50a261764c470996a69149e3c21ea5cf38f90",
+          "description": "Hand edit by the owner to the glyph pixels only (stray pixels removed, strokes evened); atlas size, ink colour and glyph positions unchanged."
+        }
+      }
     },
     "locked_pixel_font_atlas_light": {
       "x": 528,
@@ -619,14 +628,23 @@
       "subgroup": "Bitmap font atlases",
       "state": "light",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json",
+      "approval_basis": "Owner-locked component: design/ui_locked_component_contract_v1.json; Owner edit, 2026-11-06: stray and ragged glyph pixels cleaned by hand",
       "source_manifest_status": "CANON",
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas_light.png",
       "package_path": "sprites/fonts/locked_pixel_font_atlas_light.png",
-      "sha256": "664480a3ada9cee638feadd46deb85e07558d8630687a8657a4cfb1b2b9ca6e6",
-      "rgba_sha256": "d4db9a8910f5ce7aec3b406eee1bbd9320d34358fb440c796f6d0129b00bbf2c",
-      "note": "Glyph coordinates in locked_pixel_font_atlas.json are relative to this sprite's x, y."
+      "sha256": "226e1facaaf1600deebc5d69a806adc7f4a52689246e852104e20646dd99968f",
+      "rgba_sha256": "c91724e627b50c6e1c391f3119f28d6694c0e55b4439a12d8bdeb1e260c0f22a",
+      "note": "Glyph coordinates in locked_pixel_font_atlas.json are relative to this sprite's x, y.",
+      "correction": {
+        "source_sha256": "664480a3ada9cee638feadd46deb85e07558d8630687a8657a4cfb1b2b9ca6e6",
+        "owner_edit": {
+          "date": "2026-11-06",
+          "sha256_before": "664480a3ada9cee638feadd46deb85e07558d8630687a8657a4cfb1b2b9ca6e6",
+          "sha256_after": "226e1facaaf1600deebc5d69a806adc7f4a52689246e852104e20646dd99968f",
+          "description": "Hand edit by the owner to the glyph pixels only (stray pixels removed, strokes evened); atlas size, ink colour and glyph positions unchanged."
+        }
+      }
     },
     "locked_pixel_font_atlas": {
       "x": 1048,
@@ -637,14 +655,23 @@
       "subgroup": "Bitmap font atlases",
       "state": "base",
       "approval_status": "APPROVED_PACKAGE",
-      "approval_basis": "Listed as approved in the M1 packaging brief, 2026-11-01; absent from the locked contract",
+      "approval_basis": "Listed as approved in the M1 packaging brief, 2026-11-01; absent from the locked contract; Owner edit, 2026-11-06: stray and ragged glyph pixels cleaned by hand",
       "source_manifest_status": null,
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas.png",
       "package_path": "sprites/fonts/locked_pixel_font_atlas.png",
-      "sha256": "ae185e43d1bdc14b1cb2f46b13799c6629f1d023ff09508a3a9f62b862161895",
-      "rgba_sha256": "3537ffe49f20771a05ab93f1615c0649285c9c975d88f59d527ae7a219a79d17",
-      "note": "Earlier 364x78 white-glyph layout. locked_pixel_font_atlas.json does not index it; use the dark or light atlas for glyph lookup."
+      "sha256": "b09f360d797068d53e4e102d552dfad5b07c48bb9a244d5e8b492ef93254312f",
+      "rgba_sha256": "5a9e5a9917b34cb928d5eef45bc3297800da0a78fccbe46bc6cf829d98bc9ba3",
+      "note": "Earlier 364x78 white-glyph layout. locked_pixel_font_atlas.json does not index it; use the dark or light atlas for glyph lookup.",
+      "correction": {
+        "source_sha256": "ae185e43d1bdc14b1cb2f46b13799c6629f1d023ff09508a3a9f62b862161895",
+        "owner_edit": {
+          "date": "2026-11-06",
+          "sha256_before": "ae185e43d1bdc14b1cb2f46b13799c6629f1d023ff09508a3a9f62b862161895",
+          "sha256_after": "b09f360d797068d53e4e102d552dfad5b07c48bb9a244d5e8b492ef93254312f",
+          "description": "Hand edit by the owner to the glyph pixels only (stray pixels removed, strokes evened); atlas size, ink colour and glyph positions unchanged."
+        }
+      }
     }
   },
   "data_files": [
@@ -656,11 +683,20 @@
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas.json",
       "package_path": "sprites/fonts/locked_pixel_font_atlas.json",
-      "sha256": "8c942ed820752663a0fac4e19b43b51147795a8c324f02e0e7393a9c9975f34e",
+      "sha256": "5a5c2260ba443bc0160d7a9b82822be1ba19619995aa6639735decf4495e2309",
       "indexes": [
         "locked_pixel_font_atlas_dark",
         "locked_pixel_font_atlas_light"
-      ]
+      ],
+      "correction": {
+        "source_sha256": "8c942ed820752663a0fac4e19b43b51147795a8c324f02e0e7393a9c9975f34e",
+        "box_fit": {
+          "date": "2026-11-06",
+          "sha256_before": "8c942ed820752663a0fac4e19b43b51147795a8c324f02e0e7393a9c9975f34e",
+          "sha256_after": "5a5c2260ba443bc0160d7a9b82822be1ba19619995aa6639735decf4495e2309",
+          "description": "Two glyph boxes widened to hold the owner's cleaned pixels: ':' x370 y27 4x12 bearingY 5 -> x369 y26 6x13 bearingY 4 (same drawn rows); 'l' width 6 -> 7. No other glyph changed."
+        }
+      }
     }
   ],
   "excluded": [

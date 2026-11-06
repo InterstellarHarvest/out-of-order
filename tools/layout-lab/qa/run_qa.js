@@ -77,8 +77,9 @@ function staticChecks() {
   const strays = onDisk('sprites').filter((f) => !listed.has(f));
   check(b, 'the sprite package holds no unlisted files', strays.length === 0, strays);
   const corrected = Object.keys(sheet.sprites).filter((n) => sheet.sprites[n].correction).sort();
-  check(b, 'manifest records a correction on exactly the ten edited cards', corrected.join()
-    === 'choice_1line_a,choice_1line_b,choice_2line_a,choice_2line_b,choice_2line_c,choice_3line_b,choice_3line_c,choice_4line_a,choice_4line_b,choice_4line_c', corrected);
+  check(b, 'manifest records a correction on exactly the ten edited cards and the three owner-cleaned font atlases', corrected.join()
+    === 'choice_1line_a,choice_1line_b,choice_2line_a,choice_2line_b,choice_2line_c,choice_3line_b,choice_3line_c,choice_4line_a,choice_4line_b,choice_4line_c,'
+    + 'locked_pixel_font_atlas,locked_pixel_font_atlas_dark,locked_pixel_font_atlas_light', corrected);
 
   const bundle = fs.readFileSync(path.join(LAB, 'data/lab_data.js'), 'utf8').replace(/^[^]*?window\.M1_LAB_DATA = /, '').replace(/;\s*$/, '');
   const data = JSON.parse(bundle);
@@ -2136,10 +2137,10 @@ async function shippedDefaults(name, base) {
   const scattered = (await art(532)).filter((k) => k.sparse).map((k) => k.name);
   c('no card sprite has scattered stray pixels above its outline', scattered.length === 0, scattered);
   for (const atlas of ['25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee', 'bf636c757c30fa33b45f8ae370374d0349fb615a0d64a23cde873099b64a7013',
-    '1c5990ba16a88c4986709187628d7ba81460c985bcd0b290c83cdca540bd8d2e']) {
+    '1c5990ba16a88c4986709187628d7ba81460c985bcd0b290c83cdca540bd8d2e', '1f7094a543124dda679382b0ad3eebf06876d3173108126b2c5ad3113a911826']) {
     const older = await page.evaluate((text) => { const s = JSON.parse(text); return M1Lab.importText(JSON.stringify(s)); },
       JSON.stringify(Object.assign({}, shipped, { spritePackage: Object.assign({}, shipped.spritePackage, { atlasSha256: atlas }) })));
-    c('a placement saved before the card correction (atlas ' + atlas.slice(0, 8) + ') still imports', older === true && JSON.parse(await page.evaluate(() => M1Lab.exportJson())).spritePackage.atlasSha256 === shipped.spritePackage.atlasSha256);
+    c('a placement saved against an earlier atlas (atlas ' + atlas.slice(0, 8) + ') still imports', older === true && JSON.parse(await page.evaluate(() => M1Lab.exportJson())).spritePackage.atlasSha256 === shipped.spritePackage.atlasSha256);
   }
   await browser.close();
 }

@@ -24,11 +24,15 @@ const PASS_PATH = 'art/items/bathroom_pass_slot.png';
 const OWNER_ART = {
   'art/ui/shell/item-overlay.png': '4566079c985b7efaeeba0140dd5c6b8b8b371713391604118e3de123738a8dfb' // inspector column, 1920x1080
 };
-// The one change to M1 art since M2 began: the owner's hand edit of ten choice-card outlines
-// (2026-11-05), which superseded the PMO-authorised rows-0-1 cleanup (docs/49 section 2.7).
+// The changes to M1 art since M2 began: the owner's hand edit of ten choice-card outlines
+// (2026-11-05), which superseded the PMO-authorised rows-0-1 cleanup (docs/49 section 2.7), and the
+// owner's hand cleanup of the three font atlases (2026-11-06), with two glyph boxes widened to fit.
 const CLEANED = ['choice_1line_a', 'choice_1line_b', 'choice_2line_a', 'choice_2line_b', 'choice_2line_c', 'choice_3line_b',
   'choice_3line_c', 'choice_4line_a', 'choice_4line_b', 'choice_4line_c'];
-const MAINTENANCE = CLEANED.map((n) => `art/ui/sprites/choice_cards/${n}.png`).concat([
+const FONT_EDIT = ['locked_pixel_font_atlas', 'locked_pixel_font_atlas_dark', 'locked_pixel_font_atlas_light'];
+const OWNER_EDITED = CLEANED.concat(FONT_EDIT).sort();
+const GLYPH_JSON = 'art/ui/sprites/fonts/locked_pixel_font_atlas.json';
+const MAINTENANCE = CLEANED.map((n) => `art/ui/sprites/choice_cards/${n}.png`).concat(FONT_EDIT.map((n) => `art/ui/sprites/fonts/${n}.png`), [GLYPH_JSON,
   'art/ui/m1_approved_sprite_sheet.png', 'art/ui/m1_approved_sprite_sheet.json', 'art/ui/m1_approved_sprite_sheet.manifest.js',
   'tools/layout-lab/data/placement.default.json', 'tools/layout-lab/data/lab_data.js', 'tools/layout-lab/data/snapshot_assets.js',
   'tools/layout-lab/qa/fixtures/placement.qa_baseline.json', 'tools/layout-lab/js/core.js', 'tools/layout-lab/qa/run_qa.js',
@@ -71,15 +75,25 @@ function staticChecks() {
   check(b, 'no uncommitted change to M1 art, design, lab or docs', working === '', working);
   const blobSha = (rev, f) => sha256(execFileSync('git', ['show', `${rev}:${f}`], { cwd: ROOT }));
   const cardFix = Object.keys(sheet.sprites).filter((n) => sheet.sprites[n].correction && sheet.sprites[n].correction.owner_edit);
-  check(b, 'exactly the ten edited cards record the 2026-11-05 owner edit', cardFix.sort().join() === CLEANED.join(), cardFix);
-  const before = CLEANED.filter((n) => {
+  check(b, 'exactly the ten edited cards and three font atlases record an owner edit', cardFix.sort().join() === OWNER_EDITED.join(), cardFix);
+  const before = OWNER_EDITED.filter((n) => {
     const e = sheet.sprites[n].correction.owner_edit;
     return e.sha256_before !== blobSha(START_SHA, 'art/ui/' + sheet.sprites[n].package_path) || e.sha256_after !== sheet.sprites[n].sha256;
   });
-  check(b, 'each edited card records its exact before- and after-hash', before.length === 0, before);
-  const untouched = Object.keys(sheet.sprites).filter((n) => !CLEANED.includes(n)
+  check(b, 'each owner-edited sprite records its exact before- and after-hash', before.length === 0, before);
+  const untouched = Object.keys(sheet.sprites).filter((n) => !OWNER_EDITED.includes(n)
     && sha256(fs.readFileSync(path.join(ROOT, 'art/ui', sheet.sprites[n].package_path))) !== blobSha(START_SHA, 'art/ui/' + sheet.sprites[n].package_path));
-  check(b, 'the other 19 package sprites are byte-identical to the M2 start', untouched.length === 0, untouched);
+  check(b, 'the other 16 package sprites are byte-identical to the M2 start', untouched.length === 0, untouched);
+  const glyphFile = sheet.data_files.find((d) => d.name === 'locked_pixel_font_atlas.json');
+  check(b, 'glyph JSON matches its manifest hash and records the box fit against the M2 start',
+    sha256(fs.readFileSync(path.join(ROOT, GLYPH_JSON))) === glyphFile.sha256 && glyphFile.correction.box_fit.sha256_before === blobSha(START_SHA, GLYPH_JSON)
+    && glyphFile.correction.box_fit.sha256_after === glyphFile.sha256);
+  const oldMap = JSON.parse(execFileSync('git', ['show', `${START_SHA}:${GLYPH_JSON}`], { cwd: ROOT })).mapping;
+  const newMap = JSON.parse(fs.readFileSync(path.join(ROOT, GLYPH_JSON))).mapping;
+  const boxChanged = Object.keys(newMap).filter((ch) => JSON.stringify(newMap[ch]) !== JSON.stringify(oldMap[ch]));
+  check(b, 'only the colon and l glyph boxes changed, same characters and advances',
+    boxChanged.sort().join('') === ':l' && Object.keys(newMap).join('') === Object.keys(oldMap).join('')
+    && Object.keys(newMap).every((ch) => newMap[ch].advance === oldMap[ch].advance), boxChanged);
   check(b, 'shell SHA-256 unchanged', sha256(fs.readFileSync(path.join(ROOT, SHELL_PATH))) === SHELL_SHA256);
   const bad = Object.keys(sheet.sprites).filter((n) => sha256(fs.readFileSync(path.join(ROOT, 'art/ui', sheet.sprites[n].package_path))) !== sheet.sprites[n].sha256);
   check(b, 'all 29 approved package sprites match their manifest hashes', Object.keys(sheet.sprites).length === 29 && bad.length === 0, bad);
@@ -260,6 +274,40 @@ async function suite(name, base, requests) {
   c('card edit: changes stay on the outline, within 8px of the card edge', cleanup.every((k) => k.deep === 0), cleanup);
   c('card edit: every change removes a pixel or paints it outline-dark; no parchment pixel repainted', cleanup.every((k) => k.parchment === 0), cleanup);
   c('card edit: no soft (partial-alpha) pixels', cleanup.every((k) => k.soft === 0), cleanup);
+  // The owner's font cleanup: one ink colour, hard alpha, identical dark/light shapes, and every
+  // inked pixel inside its glyph box, so the renderer never clips part of a letter.
+  const fontCheck = await page.evaluate(async (mapping) => {
+    const load = (src) => new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.src = src; });
+    const px = (img) => { const c2 = document.createElement('canvas'); c2.width = img.width; c2.height = img.height; const x = c2.getContext('2d'); x.drawImage(img, 0, 0); return x.getImageData(0, 0, img.width, img.height).data; };
+    const boxes = Object.values(mapping);
+    const out = {};
+    const masks = {};
+    for (const face of ['dark', 'light']) {
+      const img = await load('/art/ui/sprites/fonts/locked_pixel_font_atlas_' + face + '.png');
+      const d = px(img);
+      const inks = new Set();
+      let soft = 0;
+      let outside = 0;
+      const mask = [];
+      for (let i = 0; i < d.length; i += 4) {
+        if (d[i + 3] === 0) { mask.push(0); continue; }
+        mask.push(1);
+        if (d[i + 3] !== 255) soft++;
+        inks.add([d[i], d[i + 1], d[i + 2]].join());
+        const x = (i / 4) % img.width;
+        const y = Math.floor(i / 4 / img.width);
+        if (!boxes.some((g) => x >= g.x && x < g.x + g.w && y >= g.y && y < g.y + g.h)) outside++;
+      }
+      masks[face] = mask.join('');
+      out[face] = { inks: Array.from(inks), soft, outside };
+    }
+    out.sameShape = masks.dark === masks.light;
+    return out;
+  }, JSON.parse(fs.readFileSync(path.join(ROOT, GLYPH_JSON))).mapping);
+  c('font edit: one ink colour per atlas (#203037 dark, #f1d898 light), no soft alpha',
+    fontCheck.dark.inks.join('|') === '32,48,55' && fontCheck.light.inks.join('|') === '241,216,152' && fontCheck.dark.soft + fontCheck.light.soft === 0, fontCheck);
+  c('font edit: dark and light atlases carry identical glyph shapes', fontCheck.sameShape);
+  c('font edit: every inked pixel lies inside its glyph box', fontCheck.dark.outside + fontCheck.light.outside === 0, fontCheck);
   c('pixel art renders without smoothing', await page.evaluate(() => Array.from(document.querySelectorAll('#stage img, #stage canvas'))
     .every((e) => /pixelated|crisp-edges/.test(getComputedStyle(e).imageRendering))));
   c('utility buttons show the owner\'s glyphs in conversation', JSON.stringify(await page.$$eval('.utility', (bs) => bs.map((b) => b.dataset.action)))
