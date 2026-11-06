@@ -52,11 +52,13 @@ function staticChecks() {
   // and lab pins that follow from that. New M2 notes may be added under docs/.
   const protectedPaths = ['art', 'design', 'tools/layout-lab', 'README.md', 'docs'];
   const changedSinceStart = git('diff', '--name-only', '--diff-filter=MDRTC', START_SHA, '--', ...protectedPaths).split('\n').filter(Boolean);
-  const outside = changedSinceStart.filter((f) => !MAINTENANCE.includes(f));
+  // The lab's own regenerated QA results and screenshots are output, not M1 source.
+  const outside = changedSinceStart.filter((f) => !MAINTENANCE.includes(f) && !/^tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(f));
   check(b, 'M1 art, design, lab and docs are unchanged since M2 began, apart from the owner\'s card-outline edit', outside.length === 0, outside);
   const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, '--', 'art', 'design', 'tools/layout-lab');
   check(b, 'no file was added to art/, design/ or the lab (placeholders are drawn at runtime)', added === '', added);
-  const working = git('status', '--porcelain', '--', ...protectedPaths).split('\n').filter((l) => l && !/^\?\? docs\//.test(l)).join('\n');
+  const working = git('status', '--porcelain', '--', ...protectedPaths).split('\n')
+    .filter((l) => l && !/^\?\? docs\//.test(l) && !/tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(l)).join('\n');
   check(b, 'no uncommitted change to M1 art, design, lab or docs', working === '', working);
   const blobSha = (rev, f) => sha256(execFileSync('git', ['show', `${rev}:${f}`], { cwd: ROOT }));
   const cardFix = Object.keys(sheet.sprites).filter((n) => sheet.sprites[n].correction && sheet.sprites[n].correction.owner_edit);
