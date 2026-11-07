@@ -410,3 +410,82 @@ Both are exactly 314×206 and shown at exactly 4× nearest neighbour (1256×824,
 - Nothing is merged.
 - No art was regenerated.
 - No portrait production.
+
+## 14. Scene C colour cleanup and Portrait 03 NEAREST (2026-11-07)
+
+Owner/PMO decisions, implemented on this review branch. **Neither density nor any production art is locked.**
+
+### 14.1 Rule for pixel-art geometry
+
+pixel-art source → exact aspect crop → **NEAREST** geometric reduction → optional **non-spatial** colour cleanup → integer NEAREST display.
+
+BOX, bilinear, bicubic and Lanczos are never used to derive the logical geometry of pixel-art sources.
+
+### 14.2 Portrait 03 NEAREST: promoted as the active portrait candidate
+
+- **Source:** the owner's `receptionist_portrait_density_test_03_raw.png`. It is 1786×881 RGBA, SHA-256 `e6af89d3ef9bd6fc6d8defc21fe306ea92515bd20d5718ed3e2fb02acfee5e10`, and kept local only.
+- **Crop:** centred exact aspect, `(0, 0.3333)–(1786, 880.6667)`.
+- **Processing:** Pillow `NEAREST` to 282×139. Alpha ≥ 128 → 255, otherwise 0, and RGB under alpha 0 is set to 0,0,0. There is no colour cleanup, filtering or dither.
+- **Export:** `art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png`, SHA-256 `b66d891cb2073e66b3728057b2adcd92ec4882026ef0568a52972c10a2528324`.
+- **Unique visible RGB:** 4,469.
+- **Alpha:** exactly {0, 255}: 30,627 transparent and 8,571 opaque pixels, with 0 partial. The opaque pixels form one connected silhouette; the generator's faint fringe left no stray pixels.
+- **BOX portrait:** rejected as the branch candidate because spatial averaging is no longer acceptable for logical pixel-art geometry. It was not committed in this step.
+- Portrait 01 stays committed as evidence.
+
+### 14.3 Scene A / B / C
+
+All three come from one raw file (`reception_world_scene_density_test_02_raw.png`) with one crop box. Each is 314×206, shown at exactly 4×.
+
+| | Definition | Unique RGB | Edge strength | SHA-256 | Geometry vs B |
+|---|---|---|---|---|---|
+| **A** `reception_scene_02_box_314x206.png` | BOX + old 256-colour cleanup | 256 | 34.15 | `64600279d5a5e76ab081f62187306bd586687e4be09d65cffb94e8fd3b73a626` | different (averaged resample) |
+| **B** `reception_scene_02_nearest_314x206.png` | NEAREST, colours untouched | 15,403 | 43.00 | `56fff5b69286dd2a1980f6d04141894cd38abd5399f345e737c4adb86e112963` | (reference) |
+| **C** `reception_scene_02_nearest_clean_314x206.png` | B + non-spatial colour merge | **868** | 43.28 | `fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53` | **identical**: RGB substitutions only |
+
+Edge strength is the mean of Pillow `FIND_EDGES` on luminance, as in §13.
+
+### 14.4 Scene C algorithm (`tools/reception-density-test/colormerge.py`)
+
+Scene C is colour mapping only. It never reads where a pixel is.
+
+1. Count every distinct RGB colour of B.
+2. Visit the colours from most to least frequent, breaking ties by ascending RGB.
+3. A colour joins the nearest existing representative whose CIEDE2000 distance is **≤ 2.0**; otherwise it becomes a representative itself. A CIELAB grid is used only as a candidate prefilter.
+4. Representatives are always colours already present in B, never averages, so no colour is invented.
+5. The resulting table (colour → representative) is applied pixel by pixel. Nothing is resampled, moved, blurred, denoised, sharpened or dithered, and there is no alpha.
+
+**Result:** 15,403 → **868** colours. 59,771 of 64,684 pixels take a representative colour, and none moves by more than CIEDE2000 2.0. The CIEDE2000 implementation matches Sharma, Wu & Dalal's published test pairs.
+
+**Threshold sweep:** no palette size was targeted. Representatives at each threshold:
+
+| CIEDE2000 threshold | Representatives |
+|---|---|
+| 1.0 | 3,000 |
+| 1.5 | 1,509 |
+| 2.0 | 868 |
+| 2.5 | 579 |
+| 3.0 | 408 |
+
+Edge strength stayed at 43.1–43.5 throughout. 2.0 is the conventional "perceptible only on close observation" bound. It keeps the orange panel lamp, the cream lights, skin, hair, the glasses and headset, the teal machinery, the steel rails, the sky, the plant greens and the dark outlines, all of which sit further than 2.0 from any more frequent colour.
+
+Spatial speckle remains, as expected: removing it would need a spatial step, which this rule forbids.
+
+### 14.5 Test page and QA
+
+**Page controls:**
+- Scenes A / B / C, plus v2 (the first test, kept as history). **C is the default.**
+- Keys A / B / C pick a scene, S cycles A → B → C, and V shows v2.
+- The portrait is **03 NEAREST by default**, with 01 as history. P cycles the portrait and N hides the NPC.
+
+**QA:** 101/101 in Chromium and Firefox.
+- C equals B through a single per-colour table: no position-dependent step, no invented colour, and at most ΔE00 2.0 per pixel.
+- Exact 4× and 2× screen rendering for A, B and C with Portrait 03.
+- Switching A / B / C changes only scene pixels, and hiding the NPC changes only portrait pixels.
+- Portrait 03 checks: RGBA, alpha {0,255}, no hidden RGB, one silhouette.
+- All seven exports reproduce byte for byte.
+
+**Proofs** in `tools/reception-density-test/qa/screenshots/`:
+- `density_test_chromium_scene02_{A_box,B_nearest,C_merge}_portrait03.png`
+- `density_test_chromium_scene02_C_npc_off.png`
+
+The §13 A/B proofs (with portrait 01) remain as history.

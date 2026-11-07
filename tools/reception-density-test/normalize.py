@@ -8,13 +8,19 @@ review exports at their exact logical sizes, plus a manifest of what was done:
   art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png       (RGB, A: BOX)
   art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png   (RGB, B: NEAREST)
   art/portraits/receptionist/density_test/reception_background_282x139.png                  (RGB, BOX)
+  art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_clean_314x206.png (RGB, C: B + colour merge)
   art/portraits/receptionist/density_test/receptionist_282x139.png                          (RGBA, BOX, alpha 0/255)
+  art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png               (RGBA, NEAREST, alpha 0/255)
   tools/reception-density-test/density_test_manifest.json
 
 Scene 02 A/B (docs/55 section 13, PMO direction 2026-11-07): the same raw
 reception_world_scene_density_test_02_raw.png and the same crop box, reduced two ways.
   A = BOX + the 256-colour cleanup below (the method used so far).
   B = NEAREST only, no colour cleanup: crisp pixel-art sources keep their authored pixel clusters.
+  C = B's exact pixels with a non-spatial perceptual colour merge (colormerge.py, docs/55 section 14):
+      a per-colour lookup table applied pixel by pixel; nothing is resampled or moved.
+Portrait 03 (docs/55 section 14) uses the NEAREST path with binary alpha and no colour cleanup.
+Rule since section 13: pixel-art sources are reduced with NEAREST only, never an averaging resample.
 Steps 2 and 4 below describe the BOX path; the NEAREST path is step 1, then a NEAREST resize
 (each logical pixel takes the source pixel at the centre of its footprint), and nothing else.
 
@@ -49,7 +55,11 @@ import math
 import os
 import sys
 
-from PIL import Image, __version__ as PIL_VERSION
+from PIL import Image, ImageFilter, ImageStat, __version__ as PIL_VERSION
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+sys.dont_write_bytecode = True
+import colormerge  # noqa: E402
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..'))
 SOURCE_DIR = 'source/reception_density'
@@ -86,6 +96,15 @@ ASSETS = [
         'colors': None,
     },
     {
+        'id': 'scene_02_nearest_clean',
+        'derive_from': 'scene_02_nearest',
+        'out': 'art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_clean_314x206.png',
+        'size': (314, 206),
+        'mode': 'RGB',
+        'display_scale': 4,
+        'color_merge': colormerge.THRESHOLD,
+    },
+    {
         'id': 'portrait_background',
         'source': 'reception_background_v2_raw.png',
         'out': 'art/portraits/receptionist/density_test/reception_background_282x139.png',
@@ -101,7 +120,42 @@ ASSETS = [
         'mode': 'RGBA',
         'display_scale': 2,
     },
+    {
+        'id': 'portrait_npc_03_nearest',
+        'source': 'receptionist_portrait_density_test_03_raw.png',
+        'out': 'art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png',
+        'size': (282, 139),
+        'mode': 'RGBA',
+        'display_scale': 2,
+        'resample': 'NEAREST',
+        'colors': None,
+    },
 ]
+
+
+def edge_strength(img):
+    """Mean of Pillow FIND_EDGES on luminance: the sharpness measure used since section 13."""
+    return round(ImageStat.Stat(img.convert('L').filter(ImageFilter.FIND_EDGES)).mean[0], 2)
+
+
+def derive(asset, parent_img, parent_info):
+    """Colour mapping only: a table from each distinct colour to a representative, applied per pixel."""
+    from collections import Counter
+    counts = Counter(visible_pixels(parent_img))
+    mapping, stats = colormerge.build_map(counts, asset['color_merge'])
+    out = colormerge.apply_map(parent_img, mapping)
+    changed = sum(1 for p, q in zip(flat(parent_img), flat(out)) if p != q)
+    info = {
+        'derived_from': parent_info['output']['file'],
+        'derived_from_sha256': parent_info['output']['sha256'],
+        'source': parent_info['source'],
+        'crop_box': parent_info['crop_box'],
+        'resample': 'none (pixels of the parent, unmoved)',
+        'color_reduction': None,
+        'color_merge': dict(stats, method='greedy CIEDE2000 merge onto existing colours, most frequent first, per-colour table, no spatial step',
+                            threshold_ciede2000=asset['color_merge'], changed_pixels=changed),
+    }
+    return out, info
 
 
 def sha256_file(path):
@@ -193,7 +247,7 @@ def normalize(asset, crop_boxes):
     raw = Image.open(src_path)
     raw.load()
     dst_w, dst_h = asset['size']
-    box = crop_boxes.setdefault(raw.size, centred_aspect_box(raw.size[0], raw.size[1], dst_w, dst_h))
+    box = crop_boxes.setdefault((raw.size, (dst_w, dst_h)), centred_aspect_box(raw.size[0], raw.size[1], dst_w, dst_h))
     work = raw.convert(asset['mode'])
     resample = asset.get('resample', 'BOX')
     down = work.resize((dst_w, dst_h), getattr(Image.Resampling, resample), box=box)
@@ -236,7 +290,7 @@ def main():
     args = ap.parse_args()
     out_root = os.path.abspath(args.out) if args.out else ROOT
 
-    missing = [a['source'] for a in ASSETS if not os.path.exists(os.path.join(ROOT, SOURCE_DIR, a['source']))]
+    missing = [a['source'] for a in ASSETS if 'source' in a and not os.path.exists(os.path.join(ROOT, SOURCE_DIR, a['source']))]
     if missing:
         sys.exit('missing local sources in %s: %s' % (SOURCE_DIR, ', '.join(missing)))
 
@@ -254,8 +308,13 @@ def main():
         },
         'assets': {},
     }
+    images = {}
     for asset in ASSETS:
-        img, info = normalize(asset, crop_boxes)
+        if 'derive_from' in asset:
+            img, info = derive(asset, images[asset['derive_from']], manifest['assets'][asset['derive_from']])
+        else:
+            img, info = normalize(asset, crop_boxes)
+        images[asset['id']] = img
         dest = os.path.join(out_root, asset['out'])
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         img.save(dest, format='PNG')
@@ -269,6 +328,8 @@ def main():
             'display': [w * asset['display_scale'], h * asset['display_scale']],
             'unique_rgb': unique_rgb(img, img.mode == 'RGBA'),
         }
+        if asset['display_scale'] == 4:
+            out['edge_strength'] = edge_strength(img)
         if img.mode == 'RGBA':
             out['unique_rgb_including_transparent'] = unique_rgb(img, False)
             out['alpha'] = alpha_stats(img)

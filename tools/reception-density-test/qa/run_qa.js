@@ -25,11 +25,16 @@ const SCENE = 'art/scenes/conference_hall/reception/density_test/reception_scene
 // Scene 02 A/B (docs/55 section 13): one raw source, reduced with BOX (+256-colour cleanup) and NEAREST (nothing else).
 const SCENE_A = 'art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png';
 const SCENE_B = 'art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png';
-const SCENE_FILES = { v2: SCENE, a: SCENE_A, b: SCENE_B };
+// Scene C (docs/55 section 14): B's exact pixels after a non-spatial per-colour merge.
+const SCENE_C = 'art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_clean_314x206.png';
+const SCENE_FILES = { v2: SCENE, a: SCENE_A, b: SCENE_B, c: SCENE_C };
+// Portrait 03 NEAREST (docs/55 section 14): the active portrait candidate and the page default.
+const NPC03 = 'art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png';
+const MERGE_THRESHOLD = 2.0; // CIEDE2000, tools/reception-density-test/colormerge.py
 const BACKGROUND = 'art/portraits/receptionist/density_test/reception_background_282x139.png';
 const NPC = 'art/portraits/receptionist/density_test/receptionist_282x139.png';
 const RAWS = ['receptionist_portrait_v1_raw.png', 'reception_background_v2_raw.png', 'reception_world_scene_v2_raw.png',
-  'reception_world_scene_density_test_02_raw.png']
+  'reception_world_scene_density_test_02_raw.png', 'receptionist_portrait_density_test_03_raw.png']
   .map((f) => 'source/reception_density/' + f);
 // The only paths this branch may add or change relative to main.
 const ALLOWED = [/^tools\/reception-density-test\//, /^art\/scenes\/conference_hall\/reception\/density_test\/[^/]+\.png$/,
@@ -115,9 +120,58 @@ function staticChecks() {
   for (let i = 0; i < npc.width * npc.height; i++) if (npc.data[i * 4 + 3] === 0 && (npc.data[i * 4] || npc.data[i * 4 + 1] || npc.data[i * 4 + 2])) hiddenRgb++;
   check(s, 'no colour hides under the receptionist\'s transparent pixels', hiddenRgb === 0, hiddenRgb);
   check(s, 'scene and portrait background are fully opaque', ss.alphaValues.join() === '255' && bs.alphaValues.join() === '255');
+
+  // Scene C: derived from B by colour substitution only.
+  const sceneC = readPng(SCENE_C), cs = stats(sceneC);
+  check(s, 'scene C PNG is exactly 314x206 RGB and fully opaque', sceneC.width === 314 && sceneC.height === 206 && sceneC.colorType === 2
+    && cs.alphaValues.join() === '255', [sceneC.width, sceneC.height, sceneC.colorType]);
+  const table = new Map(), bColours = new Set();
+  let notFunction = 0, changedPx = 0;
+  for (let i = 0; i < 314 * 206; i++) {
+    const b = (sceneB.data[i * 4] << 16) | (sceneB.data[i * 4 + 1] << 8) | sceneB.data[i * 4 + 2];
+    const c = (sceneC.data[i * 4] << 16) | (sceneC.data[i * 4 + 1] << 8) | sceneC.data[i * 4 + 2];
+    bColours.add(b);
+    if (b !== c) changedPx++;
+    if (table.has(b) && table.get(b) !== c) notFunction++;
+    table.set(b, c);
+  }
+  const invented = [...new Set(table.values())].filter((c) => !bColours.has(c));
+  check(s, 'scene C = B through one per-colour table: every pixel of a given B colour gets the same C colour (no position-dependent step)',
+    notFunction === 0, { notFunction });
+  check(s, 'scene C invents no colour: every C colour already exists in B (representatives, not averages)', invented.length === 0, invented.length);
+  const deltas = JSON.parse(execFileSync('python3', ['-I', '-B', '-c',
+    'import sys,json; sys.path.insert(0, sys.argv[1]); import colormerge as m; ' +
+    'p=json.loads(sys.stdin.read()); print(json.dumps(max([m.ciede2000(m.srgb_to_lab(a), m.srgb_to_lab(b)) for a, b in p] or [0])))',
+    path.join(ROOT, TOOL)], { input: JSON.stringify([...table].filter(([b, c]) => b !== c).map(([b, c]) => [[b >> 16, (b >> 8) & 255, b & 255], [c >> 16, (c >> 8) & 255, c & 255]])) }).toString());
+  check(s, `scene C moves no pixel's colour by more than CIEDE2000 ${MERGE_THRESHOLD}`, deltas <= MERGE_THRESHOLD + 1e-9, deltas);
+
+  // Portrait 03 NEAREST: the active portrait candidate.
+  const npc03 = readPng(NPC03), n3 = stats(npc03);
+  check(s, 'portrait 03 PNG is exactly 282x139 RGBA', npc03.width === 282 && npc03.height === 139 && npc03.colorType === 6, [npc03.width, npc03.height, npc03.colorType]);
+  check(s, 'portrait 03 alpha values are exactly {0, 255}, with real transparent and opaque pixels', n3.alphaValues.join() === '0,255' && n3.transparent > 0 && n3.opaque > 0, n3);
+  let hidden03 = 0;
+  for (let i = 0; i < 282 * 139; i++) if (npc03.data[i * 4 + 3] === 0 && (npc03.data[i * 4] || npc03.data[i * 4 + 1] || npc03.data[i * 4 + 2])) hidden03++;
+  check(s, 'portrait 03 has no colour under alpha 0 and transparent corners', hidden03 === 0
+    && [[0, 0], [281, 0], [0, 138], [281, 138]].every(([x, y]) => at(npc03, x, y)[3] === 0), hidden03);
+  // One connected silhouette: the generator's faint fringe left no stray opaque specks.
+  const seen = new Uint8Array(282 * 139);
+  let islands = 0;
+  for (let i = 0; i < 282 * 139; i++) {
+    if (seen[i] || npc03.data[i * 4 + 3] !== 255) continue;
+    islands++;
+    const stack = [i]; seen[i] = 1;
+    while (stack.length) {
+      const j = stack.pop(), x = j % 282, y = (j - x) / 282;
+      [[x + 1, y], [x - 1, y], [x, y + 1], [x, y - 1]].forEach(([u, v]) => {
+        const k = v * 282 + u;
+        if (u >= 0 && u < 282 && v >= 0 && v < 139 && !seen[k] && npc03.data[k * 4 + 3] === 255) { seen[k] = 1; stack.push(k); }
+      });
+    }
+  }
+  check(s, 'portrait 03 is one connected silhouette (no stray fringe pixels)', islands === 1, islands);
   const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, TOOL, 'density_test_manifest.json')));
   const hashes = {};
-  [SCENE, SCENE_A, SCENE_B, BACKGROUND, NPC].forEach((f) => { hashes[f] = sha256(fs.readFileSync(path.join(ROOT, f))); });
+  [SCENE, SCENE_A, SCENE_B, SCENE_C, BACKGROUND, NPC, NPC03].forEach((f) => { hashes[f] = sha256(fs.readFileSync(path.join(ROOT, f))); });
   const byFile = {};
   Object.values(manifest.assets).forEach((a) => { byFile[a.output.file] = a.output; });
   check(s, 'export hashes match density_test_manifest.json', Object.keys(hashes).every((f) => byFile[f] && byFile[f].sha256 === hashes[f]));
@@ -127,6 +181,14 @@ function staticChecks() {
   const nearest = Object.values(manifest.assets).find((a) => a.output.file === SCENE_B);
   check(s, 'scene 02 B is NEAREST only, with no colour cleanup, and its unique RGB count matches the manifest',
     nearest.resample === 'NEAREST' && nearest.color_reduction === null && bsn.uniqueRgb === nearest.output.unique_rgb, { resample: nearest.resample, unique: bsn.uniqueRgb });
+  const clean = Object.values(manifest.assets).find((a) => a.output.file === SCENE_C);
+  check(s, 'scene C manifest: derived from B\'s exact bytes, no resample, merge threshold recorded, unique RGB matches',
+    clean.derived_from === SCENE_B && clean.derived_from_sha256 === hashes[SCENE_B] && /^none/.test(clean.resample)
+    && clean.color_merge.threshold_ciede2000 === MERGE_THRESHOLD && clean.output.unique_rgb === cs.uniqueRgb, clean.color_merge);
+  const p03 = Object.values(manifest.assets).find((a) => a.output.file === NPC03);
+  check(s, 'portrait 03 manifest: NEAREST, no colour cleanup, unique RGB and alpha match',
+    p03.resample === 'NEAREST' && p03.color_reduction === null && p03.output.unique_rgb === n3.uniqueRgb
+    && p03.output.alpha.transparent === n3.transparent && p03.output.alpha.opaque === n3.opaque, p03.output);
   const boxA = Object.values(manifest.assets).find((a) => a.output.file === SCENE_A);
   check(s, 'scene 02 A and B come from the same raw with the same crop box', boxA.source.sha256 === nearest.source.sha256
     && boxA.crop_box.join() === nearest.crop_box.join() && boxA.resample === 'BOX', [boxA.crop_box, nearest.crop_box]);
@@ -134,6 +196,8 @@ function staticChecks() {
     [SCENE]: { size: [scene.width, scene.height], uniqueRgb: ss.uniqueRgb, sha256: hashes[SCENE] },
     [SCENE_A]: { size: [sceneA.width, sceneA.height], uniqueRgb: as.uniqueRgb, sha256: hashes[SCENE_A] },
     [SCENE_B]: { size: [sceneB.width, sceneB.height], uniqueRgb: bsn.uniqueRgb, sha256: hashes[SCENE_B] },
+    [SCENE_C]: { size: [sceneC.width, sceneC.height], uniqueRgb: cs.uniqueRgb, sha256: hashes[SCENE_C], changedPixelsFromB: changedPx, maxCiede2000FromB: deltas },
+    [NPC03]: { size: [npc03.width, npc03.height], uniqueRgb: n3.uniqueRgb, alpha: { values: n3.alphaValues, transparent: n3.transparent, opaque: n3.opaque }, islands, sha256: hashes[NPC03] },
     [BACKGROUND]: { size: [bg.width, bg.height], uniqueRgb: bs.uniqueRgb, sha256: hashes[BACKGROUND] },
     [NPC]: { size: [npc.width, npc.height], uniqueRgb: ns.uniqueRgb, alpha: { values: ns.alphaValues, transparent: ns.transparent, opaque: ns.opaque }, sha256: hashes[NPC] }
   };
@@ -168,7 +232,7 @@ function staticChecks() {
   }
   const onDisk = ['art/scenes/conference_hall/reception/density_test', 'art/portraits/receptionist/density_test']
     .flatMap((d) => fs.readdirSync(path.join(ROOT, d)).map((f) => d + '/' + f));
-  check(s, 'the density-test art folders hold exactly the five exports', onDisk.sort().join() === [BACKGROUND, NPC, SCENE, SCENE_A, SCENE_B].sort().join(), onDisk);
+  check(s, 'the density-test art folders hold exactly the seven exports', onDisk.sort().join() === [BACKGROUND, NPC, NPC03, SCENE, SCENE_A, SCENE_B, SCENE_C].sort().join(), onDisk);
   const big = onDisk.filter((f) => /\.png$/.test(f)).map((f) => [f, readPng(f)])
     .filter(([, im]) => im.width > 314 || im.height > 206).map(([f]) => f);
   check(s, 'no density-test art file is larger than its logical canvas (no pre-upscaled or master-size exports)', big.length === 0, big);
@@ -179,9 +243,9 @@ function staticChecks() {
     execFileSync('python3', ['-I', path.join(ROOT, TOOL, 'normalize.py'), '--out', tmp], { cwd: ROOT });
     const same = Object.keys(hashes).filter((f) => sha256(fs.readFileSync(path.join(tmp, f))) === hashes[f]);
     fs.rmSync(tmp, { recursive: true, force: true });
-    check(s, 'normalize.py reproduces all five exports byte for byte from the local sources', same.length === 5, same);
+    check(s, 'normalize.py reproduces all seven exports byte for byte from the local sources', same.length === 7, same);
   }
-  return { scene, sceneA, sceneB, bg, npc };
+  return { scene, sceneA, sceneB, sceneC, bg, npc, npc03 };
 }
 
 // Server -----------------------------------------------------------------------------------------
@@ -245,7 +309,13 @@ async function browserChecks(name, base, art, shell) {
     await page.goto(`${base}/${PAGE}${query}`);
     await page.waitForFunction(() => document.body.dataset.ready);
   };
-  await open('?shot&scene=v2');
+  // Default view: scene C with portrait 03 NEAREST.
+  await open('?shot');
+  const def = await page.evaluate(() => [document.body.dataset.scene, document.body.dataset.portrait,
+    document.getElementById('scene').getAttribute('src'), document.getElementById('portraitNpc').getAttribute('src')]);
+  check(name, 'defaults: scene C and portrait 03 NEAREST', def[0] === 'c' && def[1] === '03' && def[2].endsWith(SCENE_C) && def[3].endsWith(NPC03), def);
+  // The geometry checks and the historical proofs use the first test (scene v2, portrait 01).
+  await open('?shot&scene=v2&portrait=01');
   check(name, 'page is ready with no load problems', await page.evaluate(() => document.body.dataset.ready) === 'true', await page.evaluate(() => window.DENSITY_TEST && window.DENSITY_TEST.problems));
 
   const g = await page.evaluate(() => {
@@ -307,7 +377,7 @@ async function browserChecks(name, base, art, shell) {
     cOn.portraitChecked > 140000 && cOn.portraitBad === 0 && cOn.npcPixelsShown > 10000, cOn);
   check(name, 'the scene\'s 1 px / 2 px overflow is clipped by the aperture (shell over black only beyond it)', cOn.clipBad === 0, cOn);
 
-  await open('?shot&scene=v2&npc=off');
+  await open('?shot&scene=v2&portrait=01&npc=off');
   const offBuf = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
   const off = decodePng(offBuf);
   const cOff = comparePixels(off, art, shell, rects, false);
@@ -322,43 +392,60 @@ async function browserChecks(name, base, art, shell) {
   }
   check(name, 'hiding the NPC changes only portrait-aperture pixels', diffInside > 10000 && diffOutside === 0, { diffInside, diffOutside });
 
-  // Scene 02 A/B: each variant, in the identical shell, must be its own exact 4x nearest-neighbour image.
-  const abShots = {};
-  for (const k of ['a', 'b']) {
+  // Scene 02 A/B/C with portrait 03: each, in the identical shell, must be its own exact 4x / 2x nearest-neighbour image.
+  const abShots = {}, sceneArt = { a: art.sceneA, b: art.sceneB, c: art.sceneC };
+  for (const k of ['a', 'b', 'c']) {
     await open(`?shot&scene=${k}`);
     const src = await page.evaluate(() => document.getElementById('scene').getAttribute('src'));
     abShots[k] = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
-    const c = comparePixels(decodePng(abShots[k]), Object.assign({}, art, { scene: k === 'a' ? art.sceneA : art.sceneB }), shell, rects, true);
-    check(name, `scene ${k.toUpperCase()} (${k === 'a' ? 'BOX' : 'NEAREST'}) shows at exact 4x nearest neighbour, portrait unchanged, overflow clipped`,
-      src.endsWith(SCENE_FILES[k]) && c.sceneChecked > 900000 && c.sceneBad === 0 && c.portraitBad === 0 && c.clipBad === 0, c);
+    const c = comparePixels(decodePng(abShots[k]), Object.assign({}, art, { scene: sceneArt[k], npc: art.npc03 }), shell, rects, true);
+    check(name, `scene ${k.toUpperCase()} at exact 4x and portrait 03 at exact 2x nearest neighbour (binary alpha), overflow clipped`,
+      src.endsWith(SCENE_FILES[k]) && c.sceneChecked > 900000 && c.sceneBad === 0 && c.portraitChecked > 140000 && c.portraitBad === 0
+      && c.npcPixelsShown > 10000 && c.clipBad === 0, c);
   }
-  check(name, 'served A/B exports are the committed bytes', [SCENE_A, SCENE_B].every((f) => served[f] === sha256(fs.readFileSync(path.join(ROOT, f)))));
-  const sa = decodePng(abShots.a), sb = decodePng(abShots.b);
-  let abOutside = 0, abInside = 0;
+  check(name, 'served A/B/C and portrait 03 exports are the committed bytes', [SCENE_A, SCENE_B, SCENE_C, NPC03].every((f) => served[f] === sha256(fs.readFileSync(path.join(ROOT, f)))));
+  const dec = { a: decodePng(abShots.a), b: decodePng(abShots.b), c: decodePng(abShots.c) };
   const [qx, qy, qw, qh] = rects.scene;
-  for (let y = 0; y < 1080; y++) for (let x = 0; x < 1920; x++) {
-    const i = (y * 1920 + x) * 4;
-    if (sa.data[i] !== sb.data[i] || sa.data[i + 1] !== sb.data[i + 1] || sa.data[i + 2] !== sb.data[i + 2]) {
-      if (x >= qx && x < qx + qw && y >= qy && y < qy + qh) abInside++; else abOutside++;
+  const pairDiff = (p, q) => {
+    let inside = 0, outside = 0;
+    for (let y = 0; y < 1080; y++) for (let x = 0; x < 1920; x++) {
+      const i = (y * 1920 + x) * 4;
+      if (p.data[i] !== q.data[i] || p.data[i + 1] !== q.data[i + 1] || p.data[i + 2] !== q.data[i + 2]) {
+        if (x >= qx && x < qx + qw && y >= qy && y < qy + qh) inside++; else outside++;
+      }
     }
-  }
-  check(name, 'switching A <-> B changes only scene-aperture pixels (shell and portrait identical)', abInside > 100000 && abOutside === 0, { abInside, abOutside });
+    return { inside, outside };
+  };
+  const ab = pairDiff(dec.a, dec.b), bc = pairDiff(dec.b, dec.c), ac = pairDiff(dec.a, dec.c);
+  check(name, 'switching A / B / C changes only scene-aperture pixels (shell and portrait identical)',
+    [ab, bc, ac].every((d) => d.inside > 10000 && d.outside === 0), { ab, bc, ac });
 
-  // The developer toggles (buttons and keys) in the normal, non-proof view; B is the default scene.
+  // NPC hidden in the default view: the portrait shows the background alone.
+  await open('?shot&npc=off');
+  const offC = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
+  const cOffC = comparePixels(decodePng(offC), Object.assign({}, art, { scene: art.sceneC, npc: art.npc03 }), shell, rects, false);
+  const onOffC = pairDiff(dec.c, decodePng(offC));
+  check(name, 'default view with portrait 03 hidden: background alone, exactly; only portrait pixels change',
+    cOffC.portraitBad === 0 && cOffC.npcPixelsShown === 0 && cOffC.sceneBad === 0 && onOffC.inside === 0 && onOffC.outside > 10000, { cOffC, onOffC });
+
+  // The developer toggles (buttons and keys) in the normal, non-proof view; C is the default scene.
   await open('');
-  const sceneNow = () => page.evaluate(() => [document.body.dataset.scene, document.getElementById('scene').getAttribute('src').split('/').pop()]);
-  const s0 = await sceneNow();
-  await page.keyboard.press('a');
-  const s1 = await sceneNow();
-  await page.click('#scene_b');
-  const s2 = await sceneNow();
-  await page.keyboard.press('v');
-  const s3 = await sceneNow();
-  await page.click('#scene_a');
-  const s4 = await sceneNow();
-  check(name, 'scene switch: default B, then A / B / v2 by key and button', [s0, s1, s2, s3, s4].map((x) => x.join(':')).join() ===
-    ['b:reception_scene_02_nearest_314x206.png', 'a:reception_scene_02_box_314x206.png', 'b:reception_scene_02_nearest_314x206.png',
-      'v2:reception_scene_314x206.png', 'a:reception_scene_02_box_314x206.png'].join(), [s0, s1, s2, s3, s4]);
+  const sceneNow = () => page.evaluate(() => document.body.dataset.scene + ':' + document.getElementById('scene').getAttribute('src').split('/').pop());
+  const seq = [await sceneNow()];
+  for (const step of ['key:a', 'click:#scene_b', 'key:s', 'key:s', 'key:s', 'key:v', 'click:#scene_c', 'key:b', 'key:c']) {
+    const [kind, arg] = step.split(':');
+    if (kind === 'key') await page.keyboard.press(arg); else await page.click(arg);
+    seq.push(await sceneNow());
+  }
+  const f = { a: 'reception_scene_02_box_314x206.png', b: 'reception_scene_02_nearest_314x206.png', c: 'reception_scene_02_nearest_clean_314x206.png', v2: 'reception_scene_314x206.png' };
+  check(name, 'scene switch: default C; A / B / C keys and buttons; S cycles A -> B -> C; V = first test',
+    seq.join() === ['c', 'a', 'b', 'c', 'a', 'b', 'v2', 'c', 'b', 'c'].map((k) => k + ':' + f[k]).join(), seq);
+  const portraitNow = () => page.evaluate(() => document.body.dataset.portrait + ':' + document.getElementById('portraitNpc').getAttribute('src').split('/').pop());
+  const pseq = [await portraitNow()];
+  await page.keyboard.press('p'); pseq.push(await portraitNow());
+  await page.click('#portraitToggle'); pseq.push(await portraitNow());
+  check(name, 'portrait switch: default 03 NEAREST, P / button cycle 03 -> 01 -> 03', pseq.join() ===
+    ['03:receptionist_03_nearest_282x139.png', '01:receptionist_282x139.png', '03:receptionist_03_nearest_282x139.png'].join(), pseq);
   await open('');
   const t = await page.evaluate(() => ({ dev: getComputedStyle(document.getElementById('dev')).display !== 'none', npc: document.body.dataset.npc,
     readout: document.getElementById('readout').textContent }));
@@ -375,8 +462,11 @@ async function browserChecks(name, base, art, shell) {
   if (name === 'chromium') {
     fs.writeFileSync(shotOn, onBuf);
     fs.writeFileSync(path.join(SHOTS, `density_test_${name}_npc_off.png`), offBuf);
-    fs.writeFileSync(path.join(SHOTS, `density_test_${name}_scene02_A_box.png`), abShots.a);
-    fs.writeFileSync(path.join(SHOTS, `density_test_${name}_scene02_B_nearest.png`), abShots.b);
+    // Section 13's A/B proofs (portrait 01) stay committed as history; section 14's proofs carry portrait 03.
+    fs.writeFileSync(path.join(SHOTS, `density_test_${name}_scene02_A_box_portrait03.png`), abShots.a);
+    fs.writeFileSync(path.join(SHOTS, `density_test_${name}_scene02_B_nearest_portrait03.png`), abShots.b);
+    fs.writeFileSync(path.join(SHOTS, `density_test_${name}_scene02_C_merge_portrait03.png`), abShots.c);
+    fs.writeFileSync(path.join(SHOTS, `density_test_${name}_scene02_C_npc_off.png`), offC);
   }
   await browser.close();
 }

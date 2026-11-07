@@ -23,14 +23,16 @@
 </main>
 
 <!-- Developer-only controls, below the 1920x1080 stage so they never sit over the art.
-     ?shot hides them; ?scene=a|b|v2 picks the scene; ?npc=off starts with the NPC hidden. -->
+     ?shot hides them; ?scene=a|b|c|v2 and ?portrait=03|01 pick the art; ?npc=off starts with the NPC hidden. -->
 <section id="dev" aria-label="Developer readout">
   <span class="hint">Scene:</span>
   <button id="scene_a" type="button" aria-pressed="false">A - BOX</button>
   <button id="scene_b" type="button" aria-pressed="false">B - NEAREST</button>
+  <button id="scene_c" type="button" aria-pressed="false">C - NEAREST + colour merge</button>
   <button id="scene_v2" type="button" aria-pressed="false">v2 - first test</button>
+  <button id="portraitToggle" type="button">Portrait: 03 - NEAREST</button>
   <button id="npcToggle" type="button" aria-pressed="true">NPC: ON</button>
-  <span class="hint">Keys: A / B / V pick the scene, N toggles the NPC layer</span>
+  <span class="hint">Keys: A / B / C pick the scene (S cycles A-B-C, V = first test), P cycles the portrait, N toggles the NPC layer</span>
   <pre id="readout">loading...</pre>
 </section>
 

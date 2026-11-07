@@ -62,7 +62,8 @@
      1256,
      824
     ],
-    "unique_rgb": 256
+    "unique_rgb": 256,
+    "edge_strength": 35.21
    }
   },
   "scene_02_box": {
@@ -117,7 +118,8 @@
      1256,
      824
     ],
-    "unique_rgb": 256
+    "unique_rgb": 256,
+    "edge_strength": 34.15
    }
   },
   "scene_02_nearest": {
@@ -153,7 +155,54 @@
      1256,
      824
     ],
-    "unique_rgb": 15403
+    "unique_rgb": 15403,
+    "edge_strength": 43.0
+   }
+  },
+  "scene_02_nearest_clean": {
+   "derived_from": "art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png",
+   "derived_from_sha256": "56fff5b69286dd2a1980f6d04141894cd38abd5399f345e737c4adb86e112963",
+   "source": {
+    "file": "source/reception_density/reception_world_scene_density_test_02_raw.png",
+    "sha256": "1f2a122d213ec0b080e7b95d22673dcf2ca42928b715492c78f6bbad6d79b252",
+    "size": [
+     1548,
+     1016
+    ],
+    "mode": "RGB",
+    "unique_rgb": 87621
+   },
+   "crop_box": [
+    0.0,
+    0.2166,
+    1548.0,
+    1015.7834
+   ],
+   "resample": "none (pixels of the parent, unmoved)",
+   "color_reduction": null,
+   "color_merge": {
+    "input_colors": 15403,
+    "representatives": 868,
+    "max_ciede2000": 2.0,
+    "method": "greedy CIEDE2000 merge onto existing colours, most frequent first, per-colour table, no spatial step",
+    "threshold_ciede2000": 2.0,
+    "changed_pixels": 59771
+   },
+   "output": {
+    "file": "art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_clean_314x206.png",
+    "sha256": "fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53",
+    "logical": [
+     314,
+     206
+    ],
+    "mode": "RGB",
+    "display_scale": 4,
+    "display": [
+     1256,
+     824
+    ],
+    "unique_rgb": 868,
+    "edge_strength": 43.28
    }
   },
   "portrait_background": {
@@ -280,6 +329,60 @@
      "near_opaque_251_254": 0,
      "transparent": 27647,
      "opaque": 11551,
+     "partial": 0
+    }
+   }
+  },
+  "portrait_npc_03_nearest": {
+   "source": {
+    "file": "source/reception_density/receptionist_portrait_density_test_03_raw.png",
+    "sha256": "e6af89d3ef9bd6fc6d8defc21fe306ea92515bd20d5718ed3e2fb02acfee5e10",
+    "size": [
+     1786,
+     881
+    ],
+    "mode": "RGBA",
+    "unique_rgb": 53192,
+    "alpha": {
+     "values": "256 distinct values",
+     "near_opaque_251_254": 333057,
+     "transparent": 1215258,
+     "opaque": 253,
+     "partial": 357955
+    }
+   },
+   "crop_box": [
+    0.0,
+    0.3333,
+    1786.0,
+    880.6667
+   ],
+   "resample": "NEAREST",
+   "downsampled_unique_rgb": 4469,
+   "color_reduction": null,
+   "output": {
+    "file": "art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png",
+    "sha256": "b66d891cb2073e66b3728057b2adcd92ec4882026ef0568a52972c10a2528324",
+    "logical": [
+     282,
+     139
+    ],
+    "mode": "RGBA",
+    "display_scale": 2,
+    "display": [
+     564,
+     278
+    ],
+    "unique_rgb": 4469,
+    "unique_rgb_including_transparent": 4469,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "near_opaque_251_254": 0,
+     "transparent": 30627,
+     "opaque": 8571,
      "partial": 0
     }
    }
