@@ -55,9 +55,14 @@ const PRODUCTION_ART = {
   'art/ui/sprites/inspect_close_up.png': '8247d4b6b23aac803debb405c3549054ea066d54e7561117499f0deb917dc530', // 44x44 RGBA
   'art/ui/sprites/inspect_close_down.png': '576b4fbc5f50f5d6fcb57065dd350dcf7d81fd4442831cb2509a76f5008c41ba', // 44x44 RGBA
   // NOTES/FILES pass (docs/60): the records panel behind both overlays.
-  'art/ui/overlays/notes_files_panel.png': 'bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783' // 1255x822 RGB
+  'art/ui/overlays/notes_files_panel.png': 'bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783', // 1255x822 RGB
+  // Transient UI pass (docs/61): the item-received slip.
+  'art/ui/overlays/item_received_slip.png': '993ecdb6fb11e27b41c0eec07221a3421398458fa1a06d82aae22e8eb423797c' // 560x116 RGBA, hard alpha
 };
 const PANEL_ART = 'art/ui/overlays/notes_files_panel.png';
+const SLIP_ART = 'art/ui/overlays/item_received_slip.png';
+const NOTICE_RECT = [56, 738, 560, 116]; // game/js/stage.js, unchanged
+const NOTICE_ITEM = [14, 9]; // the 96x96 slot art inside the slip
 const INSPECT_ART = 'art/items/bathroom_pass_inspect.png';
 const CLOSE_UP = 'art/ui/sprites/inspect_close_up.png';
 const CLOSE_DOWN = 'art/ui/sprites/inspect_close_down.png';
@@ -237,6 +242,22 @@ function staticChecks() {
   const stageSrc = fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8');
   check(b, 'NOTES/FILES no longer use the P.panel placeholder; P.panel stays for the inspect-art fallback', !/P\.panel\(/.test(stageSrc)
     && /P\.panel = function/.test(ph) && /P\.panel\(canvas/.test(ph));
+  const sl = png(SLIP_ART), slAlpha = new Set();
+  let slHidden = 0;
+  for (let i = 0; i < sl.width * sl.height; i++) {
+    const a = sl.data[i * 4 + 3];
+    slAlpha.add(a);
+    if (a === 0 && (sl.data[i * 4] || sl.data[i * 4 + 1] || sl.data[i * 4 + 2])) slHidden++;
+  }
+  check(b, 'item-received slip is 560x116 RGBA, hard alpha {0,255}, no RGB hidden under alpha 0', sl.width === 560 && sl.height === 116 && sl.type === 6
+    && [...slAlpha].sort((x, y) => x - y).join() === '0,255' && slHidden === 0, { size: [sl.width, sl.height], slHidden });
+  check(b, 'the provisional code-drawn slip is gone (no paper/ink/rule fills or stepped corners in stage.js)',
+    !/NOTICE_INK|NOTICE_PAPER|NOTICE_RULE|Stepped \(2px\) corners/.test(stageSrc));
+  const gameCss = fs.readFileSync(path.join(ROOT, 'game/game.css'), 'utf8');
+  const tip = (/\.tooltip \{[\s\S]*?\n\}/.exec(gameCss) || [''])[0];
+  check(b, 'tooltip box is hard-edged CSS: chamfered, no blur/glow/gradient/filter/transition, not a bitmap',
+    /clip-path:\s*polygon/.test(tip) && !/filter|transition|gradient|url\(/.test(tip)
+    && (tip.match(/inset [^,;]+/g) || []).every((sh) => /inset -?\d+p?x? -?\d+p?x? 0 /.test(sh.replace(/\s+/g, ' '))), tip.slice(0, 400));
   check(b, 'inspector rendering is generic: stage.js names no specific item (no wc_key / FACILITIES / bathroom_pass logic)',
     !/wc_key|facilities|bathroom_pass/i.test(fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8')));
   const ownerArtBad = Object.keys(OWNER_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== OWNER_ART[f]);
@@ -461,6 +482,9 @@ async function suite(name, base, requests) {
   c('the NOTES/FILES panel is loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() => {
     const i = window.CYOA_GAME.image('ui:notes_files_panel'); return !!(i && i.complete && i.naturalWidth === 1255);
   })) && bodies[PANEL_ART] === PRODUCTION_ART[PANEL_ART], bodies[PANEL_ART]);
+  c('the item-received slip is loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() => {
+    const i = window.CYOA_GAME.image('ui:item_received_slip'); return !!(i && i.complete && i.naturalWidth === 560);
+  })) && bodies[SLIP_ART] === PRODUCTION_ART[SLIP_ART], bodies[SLIP_ART]);
   c('served inspector art bytes are the approved files', [INSPECT_ART, CLOSE_UP, CLOSE_DOWN].every((f) => bodies[f] === PRODUCTION_ART[f]),
     [INSPECT_ART, CLOSE_UP, CLOSE_DOWN].map((f) => [f, bodies[f]]));
   c('obsolete 364x78 font atlas is never requested', !requests.some((r) => /locked_pixel_font_atlas\.png$/.test(r)));
@@ -575,6 +599,7 @@ async function suite(name, base, requests) {
     && b.querySelector('canvas.glyph').style.display !== 'none' && b.querySelector('canvas.glyph').width === 96));
   await page.hover('#util-0');
   c('the inactive button\'s tooltip says why', (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'INSPECT - NO ITEMS');
+  await page.screenshot({ path: path.join(SHOTS, '00m_tooltip_disabled_reason.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
   await page.mouse.down();
   c('an inactive button does not press', (await page.$eval('#util-0', (b) => b.dataset.state)) === 'up');
   await page.mouse.up();
@@ -740,21 +765,88 @@ async function suite(name, base, requests) {
   c('the slip sits inside the scene window, clear of the dialogue, choices, inventory and buttons',
     notice.x >= sceneRect[0] && notice.y >= sceneRect[1] && notice.x + notice.w <= sceneRect[0] + sceneRect[2] && notice.y + notice.h <= sceneRect[1] + sceneRect[3]
     && overlaps.length === 0, overlaps);
-  const slip = await page.evaluate(() => {
-    const cv = document.querySelector('#itemNotice canvas');
+  const slip = await page.evaluate((it) => {
+    const cv = document.getElementById('itemNoticeContent');
     const d = cv.getContext('2d').getImageData(0, 0, cv.width, cv.height).data;
     let soft = 0;
     for (let i = 3; i < d.length; i += 4) if (d[i] !== 0 && d[i] !== 255) soft++;
-    const icon = cv.getContext('2d').getImageData(10, 10, 96, 96).data;
+    const icon = cv.getContext('2d').getImageData(it[0], it[1], 96, 96).data;
     let iconInk = 0;
     for (let i = 0; i < icon.length; i += 4) if (icon[i] < 150 && icon[i + 3] === 255) iconInk++;
     return { soft, iconInk, w: cv.width, h: cv.height, smoothing: getComputedStyle(cv).imageRendering };
-  });
+  }, NOTICE_ITEM);
   c('the slip carries the item\'s slot art, drawn crisp at 1:1 with hard alpha', slip.soft === 0 && slip.iconInk > 200 && slip.w === notice.w && /pixelated|crisp-edges/.test(slip.smoothing), slip);
   await shot(page, '05b_item_received.png');
+  await shot(page, '00j_item_received_slip.png');
+  {
+    const g = await page.evaluate(() => {
+      const box = (e) => { const r = e.getBoundingClientRect(); return [r.left, r.top, r.width, r.height]; };
+      const n = document.getElementById('itemNotice'), bg = document.getElementById('itemNoticeBackground'), s = getComputedStyle(bg);
+      const anc = [];
+      for (let e = bg; e; e = e.parentElement) { const st = getComputedStyle(e); if (st.transform !== 'none' || st.filter !== 'none' || st.opacity !== '1') anc.push(e.id || e.tagName); }
+      return { kids: Array.from(n.children).map((k) => k.tagName + '#' + k.id), natural: [bg.naturalWidth, bg.naturalHeight], bgBox: box(bg), nBox: box(n),
+        st: [s.transform, s.imageRendering, s.opacity, s.filter, s.transitionDuration], anc };
+    });
+    c('slip = img#itemNoticeBackground (production art) under canvas#itemNoticeContent (item + text only)', g.kids.join() === 'IMG#itemNoticeBackground,CANVAS#itemNoticeContent', g.kids);
+    c('slip art: 560x116 natural, displayed 1:1 exactly on NOTICE_RECT, no transform/filter/opacity/transition, smoothing off',
+      g.natural.join() === '560,116' && JSON.stringify(g.bgBox) === JSON.stringify(NOTICE_RECT) && JSON.stringify(g.nBox) === JSON.stringify(NOTICE_RECT)
+      && g.st[0] === 'none' && /pixelated|crisp-edges/.test(g.st[1]) && g.st[2] === '1' && g.st[3] === 'none' && parseFloat(g.st[4]) === 0 && g.anc.length === 0, g);
+    const scr = decodePng(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }));
+    const cv = decodePng(Buffer.from((await page.$eval('#itemNoticeContent', (c2) => c2.toDataURL('image/png'))).split(',')[1], 'base64'));
+    const slipPng = png(SLIP_ART), slot = png(PASS_PATH);
+    let checked = 0, bad = 0, itemPx = 0, itemBad = 0;
+    const inks = { label: new Set(), name: new Set() };
+    for (let y = 0; y < 116; y++) for (let x = 0; x < 560; x++) {
+      const t = pxAt(cv, x, y);
+      const inItem = x >= NOTICE_ITEM[0] && x < NOTICE_ITEM[0] + 96 && y >= NOTICE_ITEM[1] && y < NOTICE_ITEM[1] + 96;
+      if (t[3] !== 0) {
+        if (inItem) { itemPx++; const sp = pxAt(slot, x - NOTICE_ITEM[0], y - NOTICE_ITEM[1]); if (!sameRgb(sp, t) || sp[3] !== 255) itemBad++; }
+        else (y < 49 ? inks.label : inks.name).add(t.slice(0, 3).join());
+        continue;
+      }
+      if (pxAt(slipPng, x, y)[3] !== 255) continue;
+      checked++;
+      if (!sameRgb(pxAt(slipPng, x, y), pxAt(scr, NOTICE_RECT[0] + x, NOTICE_RECT[1] + y))) bad++;
+    }
+    c('every item- and text-free slip pixel equals the 560x116 file 1:1', checked > 50000 && bad === 0, { checked, bad });
+    c('the item\'s 96x96 slot art sits 1:1 in the slip\'s item compartment', itemPx > 1000 && itemBad === 0, { itemPx, itemBad });
+    c('ITEM RECEIVED (upper band) and the item name (lower band) are drawn dynamically in one dark ink', inks.label.size === 1 && inks.name.size === 1
+      && [...inks.label][0] === '32,48,55' && [...inks.name][0] === '32,48,55', { label: [...inks.label], name: [...inks.name] });
+  }
   await page.click('#itemNotice');
   c('clicking the slip dismisses it early', (await page.$eval('#itemNotice', (e) => e.style.display)) === 'none' && !(await game(page, () => window.CYOA_GAME.ui.notice)));
   c('the slot shows the approved bathroom pass art', await page.$eval('#invWindow .slot[data-item="wc_key"] img.item-art', (i) => /bathroom_pass_slot\.png$/.test(i.src) && i.naturalWidth === 96));
+  await shot(page, '00k_after_slip_dismissed.png');
+  {
+    // Tooltip: separate box beside the button, inside the stage, never over the button; baked Labels face.
+    const tipInfo = () => page.evaluate(() => {
+      const t = document.getElementById('tooltip'), cvs = t.querySelector('canvas');
+      const shown = t.style.display !== 'none';
+      const r = [parseInt(t.style.left), parseInt(t.style.top), parseInt(t.style.width), parseInt(t.style.height)];
+      const b = document.getElementById('util-0'), br = [parseInt(b.style.left), parseInt(b.style.top), parseInt(b.style.width), parseInt(b.style.height)];
+      const s = getComputedStyle(t);
+      const d = cvs.getContext('2d').getImageData(0, 0, cvs.width, cvs.height).data, ink = new Set();
+      for (let i = 0; i < d.length; i += 4) if (d[i + 3]) ink.add([d[i], d[i + 1], d[i + 2], d[i + 3]].join());
+      return { shown, text: t.dataset.text, r, br, filter: s.filter, transition: s.transitionDuration, opacity: s.opacity, ch: cvs.height,
+        lh: window.CYOA_GAME.text.lineHeight('labels'), ink: [...ink] };
+    });
+    await page.mouse.move(600, 400);
+    await page.hover('#util-0');
+    const t1 = await tipInfo();
+    const overlap = (a, b2) => a[0] < b2[0] + b2[2] && b2[0] < a[0] + a[2] && a[1] < b2[1] + b2[3] && b2[1] < a[1] + a[3];
+    c('INSPECT tooltip shows on hover with the enabled label', t1.shown && t1.text === 'INSPECT', t1.text);
+    c('the tooltip stays inside the 1920x1080 stage and never covers its button', t1.r[0] >= 0 && t1.r[1] >= 0 && t1.r[0] + t1.r[2] <= 1920 && t1.r[1] + t1.r[3] <= 1080
+      && !overlap(t1.r, t1.br), { r: t1.r, br: t1.br });
+    c('tooltip text is the baked Labels face in one light ink; box has no filter, transition or opacity change',
+      t1.ch === t1.lh && t1.ink.length === 1 && t1.filter === 'none' && parseFloat(t1.transition) === 0 && t1.opacity === '1', t1);
+    await page.screenshot({ path: path.join(SHOTS, '00l_tooltip_inspect_enabled.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
+    await page.mouse.move(600, 400);
+    c('the tooltip disappears when the pointer leaves', (await page.$eval('#tooltip', (t) => t.style.display)) === 'none');
+    await page.focus('#util-0');
+    const tf = await tipInfo();
+    await page.evaluate(() => document.activeElement.blur());
+    c('keyboard focus shows the tooltip, and losing focus hides it', tf.shown && tf.text === 'INSPECT' && (await page.$eval('#tooltip', (t) => t.style.display)) === 'none', tf.text);
+  }
   await page.click('#invWindow .slot[data-item="wc_key"]');
   c('the inventory is ignored while the NPC is typing', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
   await skipToChoices(page);
@@ -869,6 +961,7 @@ async function suite(name, base, requests) {
   }
   await page.hover('#util-1');
   c('a disabled button explains itself in its tooltip', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW - NOT AVAILABLE HERE');
+  await page.screenshot({ path: path.join(SHOTS, '00n_tooltip_inspector_show_disabled.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
   await page.click('#util-1', { force: true }); // aria-disabled: Playwright would otherwise refuse
   c('pressing the disabled button does not press', (await page.$eval('#util-1', (b) => b.dataset.state)) === 'up');
   c('pressing the disabled button does nothing', (await phase(page)) === 'choosing' && !!(await game(page, () => window.CYOA_GAME.ui.inspector)));
@@ -1043,13 +1136,29 @@ async function suite(name, base, requests) {
   }
   c('the conversation carried on underneath', ['typing', 'beat', 'arriving', 'choosing'].includes(await phase(page)));
 
+  // Slip queue (QA-only grants through the same generic path): two at once show one after the other.
+  {
+    const before = await game(page, () => window.CYOA_GAME.ui.noticeLog.length);
+    await game(page, () => { window.CYOA_GAME.notifyItem('wc_key'); window.CYOA_GAME.notifyItem('wc_key'); });
+    const q1 = await game(page, () => [!!window.CYOA_GAME.ui.notice, window.CYOA_GAME.ui.noticeQueue.length].join());
+    await page.click('#itemNotice');
+    const q2 = await game(page, () => [!!window.CYOA_GAME.ui.notice, window.CYOA_GAME.ui.noticeQueue.length].join());
+    await page.click('#itemNotice');
+    const q3 = await game(page, () => [!!window.CYOA_GAME.ui.notice, window.CYOA_GAME.ui.noticeQueue.length, document.getElementById('itemNotice').style.display].join());
+    c('queued grants show one slip after another, each dismissed in turn', q1 === 'true,1' && q2 === 'true,0' && q3 === 'false,0,none'
+      && (await game(page, () => window.CYOA_GAME.ui.noticeLog.length)) === before + 2, { q1, q2, q3 });
+  }
+
   // Ending and restart ---------------------------------------------------------------------
   await play(page, ['enter-corridor']);
   await skipToChoices(page);
   c('the ending offers one card: BEGIN AGAIN', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.text))) === '["BEGIN AGAIN."]');
   c('the ending objective points beyond reception', /ROOM FOUR/.test(await page.$eval('#objectiveBody', (e) => e.dataset.text)));
   await shot(page, '11_ending.png');
+  await game(page, () => { window.CYOA_GAME.notifyItem('wc_key'); window.CYOA_GAME.notifyItem('wc_key'); }); // QA-only: a slip up and one queued
   await chooseById(page, 'restart');
+  c('restart clears the slip and its queue', await game(page, () => !window.CYOA_GAME.ui.notice && window.CYOA_GAME.ui.noticeQueue.length === 0
+    && document.getElementById('itemNotice').style.display === 'none'));
   c('BEGIN AGAIN restarts the slice cleanly', (await game(page, () => window.CYOA_GAME.state.node)) === 'opening'
     && (await game(page, () => window.CYOA_GAME.state.transcript.length)) === 1
     && (await game(page, () => window.CYOA_GAME.state.inventory.length)) === 0

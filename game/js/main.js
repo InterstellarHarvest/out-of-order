@@ -45,6 +45,9 @@
     items.push({ name: G.RECEPTION_ART[id].image, url: G.url(G.RECEPTION_ART[id].path) });
   });
 
+  // The item-received slip (js/stage.js, docs/61).
+  items.push({ name: G.NOTICE_ART.slip.image, url: G.url(G.NOTICE_ART.slip.path) });
+
   // The NOTES/FILES records panel (js/stage.js, docs/60).
   items.push({ name: G.OVERLAY_ART.panel.image, url: G.url(G.OVERLAY_ART.panel.path) });
 

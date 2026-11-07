@@ -1168,45 +1168,66 @@
   // itself after NOTICE_MS or at a click. PROVISIONAL treatment, drawn in code until the owner
   // approves art for it (docs/53): parchment, dark outline with stepped corners, locked fonts.
   var NOTICE_RECT = [56, 738, 560, 116];
-  var NOTICE_INK = '#203037';
-  var NOTICE_PAPER = '#e4d0a9';
-  var NOTICE_RULE = '#b9a57e';
+  // Production slip (docs/61): art/ui/overlays/item_received_slip.png, 560x116, shown 1:1 as its own
+  // image. A transparent canvas above it draws only the item's slot art and the two lines of text,
+  // into the slip's blank regions (slip coordinates): the item compartment (x 8-115, y 7-105), the
+  // upper text band (x 121-549, y 8-48) and the lower band (y 50-103). Generic for any item.
+  G.NOTICE_ART = { slip: { image: 'ui:item_received_slip', path: 'art/ui/overlays/item_received_slip.png' } };
+  var NOTICE_ITEM = [14, 9]; // the 96x96 slot art, centred in the compartment
+  var NOTICE_TEXT_X = 134;
+  var NOTICE_LABEL_MID = 28; // middle of the upper band
+  var NOTICE_NAME_MID = 77; // middle of the lower band
 
   function buildNotice() {
     els.notice = el('div', 'notice', stage, { id: 'itemNotice', role: 'status', 'aria-live': 'polite' });
-    els.noticeArt = el('canvas', 'sprite', els.notice, { 'aria-hidden': 'true' });
     place(els.notice, NOTICE_RECT[0], NOTICE_RECT[1], NOTICE_RECT[2], NOTICE_RECT[3]);
+    var bg = G.image(G.NOTICE_ART.slip.image);
+    bg.id = 'itemNoticeBackground';
+    bg.className = 'sprite-abs';
+    bg.alt = '';
+    bg.draggable = false;
+    bg.setAttribute('aria-hidden', 'true');
+    bg.width = bg.naturalWidth;
+    bg.height = bg.naturalHeight;
+    place(bg, 0, 0, bg.naturalWidth, bg.naturalHeight);
+    els.notice.appendChild(bg);
+    els.noticeBackground = bg;
+    els.noticeArt = el('canvas', 'sprite', els.notice, { id: 'itemNoticeContent', 'aria-hidden': 'true' });
     els.notice.addEventListener('click', function () { G.dismissNotice(); });
     show(els.notice, false);
   }
 
+  // Rows [top, bottom) that hold ink in a text canvas, so a line can be centred on its band
+  // whatever the face's cap offset.
+  function inkRows(canvas) {
+    var d = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    var top = -1;
+    var bottom = 0;
+    for (var y = 0; y < canvas.height; y++) {
+      for (var x = 0; x < canvas.width; x++) {
+        if (d[(y * canvas.width + x) * 4 + 3]) {
+          if (top < 0) top = y;
+          bottom = y + 1;
+          break;
+        }
+      }
+    }
+    return top < 0 ? [0, canvas.height] : [top, bottom];
+  }
+
   function drawNotice(canvas, id) {
-    var w = NOTICE_RECT[2];
-    var h = NOTICE_RECT[3];
-    canvas.width = w;
-    canvas.height = h;
+    canvas.width = NOTICE_RECT[2]; // also clears it: the canvas holds only the item and the text
+    canvas.height = NOTICE_RECT[3];
     var ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
-    ctx.fillStyle = NOTICE_INK;
-    ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = NOTICE_PAPER;
-    ctx.fillRect(2, 2, w - 4, h - 4);
-    // Stepped (2px) corners, like the cards' chamfers.
-    [[0, 0], [w - 2, 0], [0, h - 2], [w - 2, h - 2]].forEach(function (c) { ctx.clearRect(c[0], c[1], 2, 2); });
-    ctx.fillStyle = NOTICE_INK;
-    [[2, 2], [w - 4, 2], [2, h - 4], [w - 4, h - 4]].forEach(function (c) { ctx.fillRect(c[0], c[1], 2, 2); });
-    // The item in its own ruled box, then the words.
-    ctx.fillRect(116, 2, 2, h - 4);
     var art = G.content.items[id].slotArt ? G.image('item:' + id) : null;
-    if (art) ctx.drawImage(art, 10, 10, 96, 96);
-    var label = document.createElement('canvas');
-    var ls = T.label(label, 'ITEM RECEIVED', 'dark', 'labels');
-    ctx.drawImage(label, 134, 20);
-    ctx.fillStyle = NOTICE_RULE;
-    ctx.fillRect(134, 22 + ls[1], w - 134 - 18, 2);
-    var name = document.createElement('canvas');
-    T.label(name, G.content.items[id].name, 'dark', 'choices');
-    ctx.drawImage(name, 134, 36 + ls[1]);
+    if (art) ctx.drawImage(art, NOTICE_ITEM[0], NOTICE_ITEM[1], 96, 96);
+    [['ITEM RECEIVED', 'labels', NOTICE_LABEL_MID], [G.content.items[id].name, 'choices', NOTICE_NAME_MID]].forEach(function (line) {
+      var c = document.createElement('canvas');
+      T.label(c, line[0], 'dark', line[1]);
+      var rows = inkRows(c);
+      ctx.drawImage(c, NOTICE_TEXT_X, line[2] - Math.round((rows[0] + rows[1]) / 2));
+    });
   }
 
   function showNextNotice(now) {

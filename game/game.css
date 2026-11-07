@@ -69,11 +69,23 @@ body { background: #000; overflow: hidden; display: flex; align-items: center; j
 }
 .speech-indicator.on { opacity: 1; visibility: visible; }
 
-/* Temporary tooltip box. Its final treatment is owed art (docs/47 section 6); only its face is decided. */
+/* Utility tooltip (docs/45 section 6, docs/61). The box is CSS, not pixel art: it sizes to its text.
+   Hard-edged only, related to the shell: dark desaturated teal body, a 1px dark outline, a 2px warm
+   metal edge, a 1px steel inner line, a heavier dark bottom edge for depth, and 2px chamfered
+   corners. No blur, glow, gradient, filter or transition. The text is the baked Labels face. */
 .tooltip {
-  background: #1d2a2e;
-  border: 2px solid #0b1416;
-  box-shadow: inset 0 0 0 1px #5d7a72;
+  --tooltip-body: #22363b;
+  --tooltip-outline: #0b1416;
+  --tooltip-edge: #b3a886;
+  --tooltip-steel: #4d6b68;
+  background: var(--tooltip-body);
+  border: 0;
+  box-shadow:
+    inset 0 -2px 0 0 var(--tooltip-outline),
+    inset 0 0 0 1px var(--tooltip-outline),
+    inset 0 0 0 3px var(--tooltip-edge),
+    inset 0 0 0 4px var(--tooltip-steel);
+  clip-path: polygon(2px 0, calc(100% - 2px) 0, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 0 calc(100% - 2px), 0 2px);
   pointer-events: none;
 }
 .tooltip canvas { position: absolute; }
