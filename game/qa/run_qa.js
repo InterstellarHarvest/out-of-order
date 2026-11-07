@@ -359,7 +359,7 @@ async function artChecks(browser, base, measured, c) {
   c('art proof runs at canonical 1920x1080, devicePixelRatio 1, with no transform above the scene art', g.dpr === 1 && g.transforms.length === 0, g.transforms);
   c('scene aperture is the committed 1255x822 rectangle and clips its content', JSON.stringify(g.sceneBox) === JSON.stringify(S) && /^(hidden|clip)\/(hidden|clip)$/.test(g.sceneClip), g);
   c('scene art: 314x206 natural, displayed at exactly 4x (1256x824) from the aperture origin, nearest neighbour, no transform/filter/opacity/transition',
-    g.sceneImg.kids === 1 && /reception_scene\.png$/.test(g.sceneImg.src) && g.sceneImg.natural.join() === '314,206'
+    g.sceneImg.kids === 1 && g.sceneImg.id === 'sceneArt' && /reception_scene\.png$/.test(g.sceneImg.src) && g.sceneImg.natural.join() === '314,206'
     && JSON.stringify(g.sceneImg.box) === JSON.stringify([S[0], S[1], 1256, 824]) && g.sceneImg.box[2] / 314 === 4 && g.sceneImg.box[3] / 206 === 4
     && g.sceneImg.st.t === 'none' && nn(g.sceneImg.st.r) && g.sceneImg.st.o === '1' && g.sceneImg.st.f === 'none' && parseFloat(g.sceneImg.st.tr) === 0, g.sceneImg);
   c('portrait aperture is the committed 564x278 rectangle and clips its content', JSON.stringify(g.portraitBox) === JSON.stringify(P) && /^(hidden|clip)\/(hidden|clip)$/.test(g.portraitClip), g);
@@ -372,6 +372,8 @@ async function artChecks(browser, base, measured, c) {
     && /reception_background\.png$/.test(bgL.src) && /receptionist_idle\.png$/.test(npcL.src), [bgL, npcL]);
   c('FX layers are present, empty and cover the aperture', [rearL, frontL].every((l) => l.kids === 0 && JSON.stringify(l.box) === JSON.stringify(P)), [rearL, frontL]);
   c('stage order: scene, portrait, overlay, then the shell on top', g.stageOrder.join() === 'scene,portrait,overlay,shell', g.stageOrder);
+  const dupIds = await page.evaluate(() => { const seen = {}; document.querySelectorAll('[id]').forEach((e) => { seen[e.id] = (seen[e.id] || 0) + 1; }); return Object.keys(seen).filter((k) => seen[k] > 1); });
+  c('every element id on the page is unique', dupIds.length === 0, dupIds);
 
   const on = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
   await shot(page, '00_reception_art_dialogue.png');

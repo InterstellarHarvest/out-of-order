@@ -110,8 +110,8 @@
     portraitNpc: { image: 'art:portraitNpc', path: 'art/portraits/receptionist/receptionist_idle.png', scale: 1 }
   };
 
-  function artLayer(parent, id) {
-    var spec = G.RECEPTION_ART[id];
+  function artLayer(parent, key, id) {
+    var spec = G.RECEPTION_ART[key];
     var img = G.image(spec.image);
     img.id = id;
     img.className = 'layer art';
@@ -136,13 +136,13 @@
     var sc = R.sceneAperture.rect;
     els.scene = el('div', 'aperture art-aperture', stage, { id: 'scene', role: 'img', 'aria-label': 'The reception lobby' });
     place(els.scene, sc[0], sc[1], sc[2], sc[3]);
-    els.sceneArt = artLayer(els.scene, 'scene');
+    els.sceneArt = artLayer(els.scene, 'scene', 'sceneArt');
     var pr = R.portraitAperture.rect;
     els.portrait = el('div', 'aperture art-aperture', stage, { id: 'portrait', role: 'img', 'aria-label': 'The receptionist' });
     place(els.portrait, pr[0], pr[1], pr[2], pr[3]);
-    els.portraitBackground = artLayer(els.portrait, 'portraitBackground');
+    els.portraitBackground = artLayer(els.portrait, 'portraitBackground', 'portraitBackground');
     els.portraitRearFx = fxLayer(els.portrait, 'portraitRearFx', pr);
-    els.portraitNpc = artLayer(els.portrait, 'portraitNpc');
+    els.portraitNpc = artLayer(els.portrait, 'portraitNpc', 'portraitNpc');
     els.portraitFrontFx = fxLayer(els.portrait, 'portraitFrontFx', pr);
     els.overlay = el('div', 'aperture overlay', stage, { id: 'overlay', tabindex: '-1' });
     place(els.overlay, sc[0], sc[1], sc[2], sc[3]);

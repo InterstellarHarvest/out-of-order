@@ -7,34 +7,83 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 300,
-  "passed": 300,
+  "total": 347,
+  "passed": 347,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 18,
-      "passed": 18
+      "total": 23,
+      "passed": 23
     },
     "chromium": {
-      "total": 141,
-      "passed": 141
+      "total": 162,
+      "passed": 162
     },
     "firefox": {
-      "total": 141,
-      "passed": 141
+      "total": 162,
+      "passed": 162
     }
   },
   "failures": [],
   "checks": [
     {
       "browser": "static",
-      "name": "M1 art, design, lab and docs are unchanged since M2 began, apart from the owner's card-outline edit",
+      "name": "M1 UI art, actions, items, design and lab are unchanged since M2 began, apart from the owner's recorded edits",
       "ok": true,
       "detail": []
     },
     {
       "browser": "static",
-      "name": "nothing was added to art/, design/ or the lab except the owner's pinned art",
+      "name": "nothing was added to art/, design/ or the lab except the owner's pinned art and the approved reception art",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "the three approved reception art files exist at their production paths with their approved hashes",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "scene art is 314x206 opaque RGB",
+      "ok": true,
+      "detail": [
+        314,
+        206,
+        2
+      ]
+    },
+    {
+      "browser": "static",
+      "name": "portrait background is 564x278 opaque RGB",
+      "ok": true,
+      "detail": [
+        564,
+        278,
+        2
+      ]
+    },
+    {
+      "browser": "static",
+      "name": "receptionist NPC is 564x278 RGBA with binary alpha {0,255}, real transparency and no RGB hidden under alpha 0",
+      "ok": true,
+      "detail": {
+        "size": [
+          564,
+          278
+        ],
+        "type": 6,
+        "alphas": [
+          0,
+          255
+        ],
+        "hiddenRgb": 0
+      }
+    },
+    {
+      "browser": "static",
+      "name": "no duplicate candidate PNGs remain beside the production files",
       "ok": true,
       "detail": []
     },
@@ -46,7 +95,7 @@
     },
     {
       "browser": "static",
-      "name": "no uncommitted change to M1 art, design, lab or docs",
+      "name": "no uncommitted change to M1 art, design, lab or the reception production art",
       "ok": true,
       "detail": ""
     },
@@ -211,12 +260,12 @@
     },
     {
       "browser": "chromium",
-      "name": "scene placeholder fills the scene aperture exactly",
+      "name": "scene aperture container sits exactly on the committed scene aperture",
       "ok": true
     },
     {
       "browser": "chromium",
-      "name": "portrait placeholder fills the portrait aperture exactly",
+      "name": "portrait aperture container sits exactly on the committed portrait aperture",
       "ok": true
     },
     {
@@ -226,8 +275,546 @@
     },
     {
       "browser": "chromium",
-      "name": "placeholders are labelled as placeholders",
+      "name": "no scene or portrait placeholder remains (no canvas, no placeholder label)",
       "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "served reception art bytes are the approved files",
+      "ok": true,
+      "detail": [
+        [
+          "art/scenes/conference_hall/reception/reception_scene.png",
+          "fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53"
+        ],
+        [
+          "art/portraits/receptionist/reception_background.png",
+          "2f23075f151668624e3db1d687e7828a11f6fd11e447cd569ec53607e0f02d74"
+        ],
+        [
+          "art/portraits/receptionist/receptionist_idle.png",
+          "66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3"
+        ]
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "art proof runs at canonical 1920x1080, devicePixelRatio 1, with no transform above the scene art",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "scene aperture is the committed 1255x822 rectangle and clips its content",
+      "ok": true,
+      "detail": {
+        "dpr": 1,
+        "sceneBox": [
+          32,
+          44,
+          1255,
+          822
+        ],
+        "sceneClip": "clip/clip",
+        "sceneImg": {
+          "id": "sceneArt",
+          "natural": [
+            314,
+            206
+          ],
+          "box": [
+            32,
+            44,
+            1256,
+            824
+          ],
+          "src": "../art/scenes/conference_hall/reception/reception_scene.png",
+          "st": {
+            "t": "none",
+            "r": "pixelated",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 1
+        },
+        "portraitBox": [
+          1333,
+          44,
+          564,
+          278
+        ],
+        "portraitClip": "clip/clip",
+        "layers": [
+          {
+            "id": "portraitBackground",
+            "tag": "IMG",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": [
+              564,
+              278
+            ],
+            "src": "../art/portraits/receptionist/reception_background.png",
+            "st": {
+              "t": "none",
+              "r": "pixelated",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitRearFx",
+            "tag": "DIV",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": null,
+            "src": null,
+            "st": {
+              "t": "none",
+              "r": "auto",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitNpc",
+            "tag": "IMG",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": [
+              564,
+              278
+            ],
+            "src": "../art/portraits/receptionist/receptionist_idle.png",
+            "st": {
+              "t": "none",
+              "r": "pixelated",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitFrontFx",
+            "tag": "DIV",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": null,
+            "src": null,
+            "st": {
+              "t": "none",
+              "r": "auto",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          }
+        ],
+        "stageOrder": [
+          "scene",
+          "portrait",
+          "overlay",
+          "shell"
+        ],
+        "transforms": []
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "scene art: 314x206 natural, displayed at exactly 4x (1256x824) from the aperture origin, nearest neighbour, no transform/filter/opacity/transition",
+      "ok": true,
+      "detail": {
+        "id": "sceneArt",
+        "natural": [
+          314,
+          206
+        ],
+        "box": [
+          32,
+          44,
+          1256,
+          824
+        ],
+        "src": "../art/scenes/conference_hall/reception/reception_scene.png",
+        "st": {
+          "t": "none",
+          "r": "pixelated",
+          "o": "1",
+          "f": "none",
+          "tr": "0s"
+        },
+        "kids": 1
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "portrait aperture is the committed 564x278 rectangle and clips its content",
+      "ok": true,
+      "detail": {
+        "dpr": 1,
+        "sceneBox": [
+          32,
+          44,
+          1255,
+          822
+        ],
+        "sceneClip": "clip/clip",
+        "sceneImg": {
+          "id": "sceneArt",
+          "natural": [
+            314,
+            206
+          ],
+          "box": [
+            32,
+            44,
+            1256,
+            824
+          ],
+          "src": "../art/scenes/conference_hall/reception/reception_scene.png",
+          "st": {
+            "t": "none",
+            "r": "pixelated",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 1
+        },
+        "portraitBox": [
+          1333,
+          44,
+          564,
+          278
+        ],
+        "portraitClip": "clip/clip",
+        "layers": [
+          {
+            "id": "portraitBackground",
+            "tag": "IMG",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": [
+              564,
+              278
+            ],
+            "src": "../art/portraits/receptionist/reception_background.png",
+            "st": {
+              "t": "none",
+              "r": "pixelated",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitRearFx",
+            "tag": "DIV",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": null,
+            "src": null,
+            "st": {
+              "t": "none",
+              "r": "auto",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitNpc",
+            "tag": "IMG",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": [
+              564,
+              278
+            ],
+            "src": "../art/portraits/receptionist/receptionist_idle.png",
+            "st": {
+              "t": "none",
+              "r": "pixelated",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitFrontFx",
+            "tag": "DIV",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": null,
+            "src": null,
+            "st": {
+              "t": "none",
+              "r": "auto",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          }
+        ],
+        "stageOrder": [
+          "scene",
+          "portrait",
+          "overlay",
+          "shell"
+        ],
+        "transforms": []
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "portrait layers, in order: background -> rear/mid FX -> NPC -> foreground FX (four separate elements, no canvas)",
+      "ok": true,
+      "detail": [
+        "portraitBackground:IMG",
+        "portraitRearFx:DIV",
+        "portraitNpc:IMG",
+        "portraitFrontFx:DIV"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "portrait background and NPC: 564x278 natural, displayed at exactly 1x (564x278) at the aperture origin, no transform/filter/opacity/transition",
+      "ok": true,
+      "detail": [
+        {
+          "id": "portraitBackground",
+          "tag": "IMG",
+          "box": [
+            1333,
+            44,
+            564,
+            278
+          ],
+          "natural": [
+            564,
+            278
+          ],
+          "src": "../art/portraits/receptionist/reception_background.png",
+          "st": {
+            "t": "none",
+            "r": "pixelated",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 0
+        },
+        {
+          "id": "portraitNpc",
+          "tag": "IMG",
+          "box": [
+            1333,
+            44,
+            564,
+            278
+          ],
+          "natural": [
+            564,
+            278
+          ],
+          "src": "../art/portraits/receptionist/receptionist_idle.png",
+          "st": {
+            "t": "none",
+            "r": "pixelated",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 0
+        }
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "FX layers are present, empty and cover the aperture",
+      "ok": true,
+      "detail": [
+        {
+          "id": "portraitRearFx",
+          "tag": "DIV",
+          "box": [
+            1333,
+            44,
+            564,
+            278
+          ],
+          "natural": null,
+          "src": null,
+          "st": {
+            "t": "none",
+            "r": "auto",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 0
+        },
+        {
+          "id": "portraitFrontFx",
+          "tag": "DIV",
+          "box": [
+            1333,
+            44,
+            564,
+            278
+          ],
+          "natural": null,
+          "src": null,
+          "st": {
+            "t": "none",
+            "r": "auto",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 0
+        }
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "stage order: scene, portrait, overlay, then the shell on top",
+      "ok": true,
+      "detail": [
+        "scene",
+        "portrait",
+        "overlay",
+        "shell"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "every element id on the page is unique",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "every clear-shell scene pixel is the exact 4x nearest-neighbour block of the 314x206 file",
+      "ok": true,
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "sceneChecked": 997017,
+        "sceneBad": 0,
+        "portraitChecked": 148790,
+        "portraitBad": 0,
+        "npcShown": 34265,
+        "clipChecked": 3334,
+        "clipBad": 0,
+        "first": null
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "every clear-shell portrait pixel equals the 1:1 background + binary-alpha NPC composite",
+      "ok": true,
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "sceneChecked": 997017,
+        "sceneBad": 0,
+        "portraitChecked": 148790,
+        "portraitBad": 0,
+        "npcShown": 34265,
+        "clipChecked": 3334,
+        "clipBad": 0,
+        "first": null
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the scene's 1 px right / 2 px bottom overflow is clipped by the aperture",
+      "ok": true,
+      "detail": {
+        "clipChecked": 3334,
+        "clipBad": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "QA-only NPC hide: the portrait background stays intact and exact",
+      "ok": true,
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "sceneChecked": 997017,
+        "sceneBad": 0,
+        "portraitChecked": 148790,
+        "portraitBad": 0,
+        "npcShown": 0,
+        "clipChecked": 3334,
+        "clipBad": 0,
+        "first": null
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "QA-only NPC hide changes only portrait-aperture pixels",
+      "ok": true,
+      "detail": {
+        "inside": 34265,
+        "outside": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the game ships no NPC toggle or debug control for the portrait layers",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "no errors while proving the art",
+      "ok": true,
+      "detail": []
     },
     {
       "browser": "chromium",
@@ -637,8 +1224,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 13,
-        "r1": 25
+        "r0": 100,
+        "r1": 112
       }
     },
     {
@@ -656,7 +1243,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 216.79999995231628
+      "detail": 216.19999980926514
     },
     {
       "browser": "chromium",
@@ -749,16 +1336,16 @@
         -2,
         -4,
         -6,
-        -8,
-        -12,
+        -10,
+        -14,
         -18,
         -24,
         -30,
-        -36,
-        -44,
+        -38,
+        -46,
         -54,
-        -62,
-        -72
+        -64,
+        -74
       ]
     },
     {
@@ -803,7 +1390,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.30000019073486
+      "detail": 418.69999980926514
     },
     {
       "browser": "chromium",
@@ -818,7 +1405,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948.6000001430511
+      "detail": 949.1999998092651
     },
     {
       "browser": "chromium",
@@ -1077,6 +1664,29 @@
     },
     {
       "browser": "chromium",
+      "name": "inspector open: the item overlay covers the right column exactly where it is opaque",
+      "ok": true,
+      "detail": {
+        "ovChecked": 50213,
+        "ovBad": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "inspector open: the layered portrait is fully covered (drawn above portrait and shell)",
+      "ok": true,
+      "detail": {
+        "order": {
+          "portrait": 1,
+          "shell": 3,
+          "inspector": 13
+        },
+        "portraitStill": 957,
+        "clear": 148790
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "a disabled button explains itself in its tooltip",
       "ok": true
     },
@@ -1104,6 +1714,23 @@
       "browser": "chromium",
       "name": "closing the inspector brings a new set reflecting the tag",
       "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "closing the inspector restores the exact layered receptionist portrait and scene",
+      "ok": true,
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "sceneChecked": 997017,
+        "sceneBad": 0,
+        "portraitChecked": 148790,
+        "portraitBad": 0,
+        "npcShown": 34265,
+        "clipChecked": 3334,
+        "clipBad": 0,
+        "first": null
+      }
     },
     {
       "browser": "chromium",
@@ -1187,6 +1814,29 @@
       "browser": "chromium",
       "name": "the transcript scrolls back to the start",
       "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "NOTES still covers the scene: same aperture, above the scene art, under the shell; portrait untouched",
+      "ok": true,
+      "detail": {
+        "ov": {
+          "order": [
+            0,
+            2,
+            3
+          ],
+          "rect": [
+            32,
+            44,
+            1255,
+            822
+          ]
+        },
+        "sceneBad": 997017,
+        "sceneChecked": 997017,
+        "portraitBad": 0
+      }
     },
     {
       "browser": "chromium",
@@ -1505,12 +2155,12 @@
     },
     {
       "browser": "firefox",
-      "name": "scene placeholder fills the scene aperture exactly",
+      "name": "scene aperture container sits exactly on the committed scene aperture",
       "ok": true
     },
     {
       "browser": "firefox",
-      "name": "portrait placeholder fills the portrait aperture exactly",
+      "name": "portrait aperture container sits exactly on the committed portrait aperture",
       "ok": true
     },
     {
@@ -1520,8 +2170,546 @@
     },
     {
       "browser": "firefox",
-      "name": "placeholders are labelled as placeholders",
+      "name": "no scene or portrait placeholder remains (no canvas, no placeholder label)",
       "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "served reception art bytes are the approved files",
+      "ok": true,
+      "detail": [
+        [
+          "art/scenes/conference_hall/reception/reception_scene.png",
+          "fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53"
+        ],
+        [
+          "art/portraits/receptionist/reception_background.png",
+          "2f23075f151668624e3db1d687e7828a11f6fd11e447cd569ec53607e0f02d74"
+        ],
+        [
+          "art/portraits/receptionist/receptionist_idle.png",
+          "66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3"
+        ]
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "art proof runs at canonical 1920x1080, devicePixelRatio 1, with no transform above the scene art",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "scene aperture is the committed 1255x822 rectangle and clips its content",
+      "ok": true,
+      "detail": {
+        "dpr": 1,
+        "sceneBox": [
+          32,
+          44,
+          1255,
+          822
+        ],
+        "sceneClip": "clip/clip",
+        "sceneImg": {
+          "id": "sceneArt",
+          "natural": [
+            314,
+            206
+          ],
+          "box": [
+            32,
+            44,
+            1256,
+            824
+          ],
+          "src": "../art/scenes/conference_hall/reception/reception_scene.png",
+          "st": {
+            "t": "none",
+            "r": "pixelated",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 1
+        },
+        "portraitBox": [
+          1333,
+          44,
+          564,
+          278
+        ],
+        "portraitClip": "clip/clip",
+        "layers": [
+          {
+            "id": "portraitBackground",
+            "tag": "IMG",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": [
+              564,
+              278
+            ],
+            "src": "../art/portraits/receptionist/reception_background.png",
+            "st": {
+              "t": "none",
+              "r": "pixelated",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitRearFx",
+            "tag": "DIV",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": null,
+            "src": null,
+            "st": {
+              "t": "none",
+              "r": "auto",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitNpc",
+            "tag": "IMG",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": [
+              564,
+              278
+            ],
+            "src": "../art/portraits/receptionist/receptionist_idle.png",
+            "st": {
+              "t": "none",
+              "r": "pixelated",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitFrontFx",
+            "tag": "DIV",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": null,
+            "src": null,
+            "st": {
+              "t": "none",
+              "r": "auto",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          }
+        ],
+        "stageOrder": [
+          "scene",
+          "portrait",
+          "overlay",
+          "shell"
+        ],
+        "transforms": []
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "scene art: 314x206 natural, displayed at exactly 4x (1256x824) from the aperture origin, nearest neighbour, no transform/filter/opacity/transition",
+      "ok": true,
+      "detail": {
+        "id": "sceneArt",
+        "natural": [
+          314,
+          206
+        ],
+        "box": [
+          32,
+          44,
+          1256,
+          824
+        ],
+        "src": "../art/scenes/conference_hall/reception/reception_scene.png",
+        "st": {
+          "t": "none",
+          "r": "pixelated",
+          "o": "1",
+          "f": "none",
+          "tr": "0s"
+        },
+        "kids": 1
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "portrait aperture is the committed 564x278 rectangle and clips its content",
+      "ok": true,
+      "detail": {
+        "dpr": 1,
+        "sceneBox": [
+          32,
+          44,
+          1255,
+          822
+        ],
+        "sceneClip": "clip/clip",
+        "sceneImg": {
+          "id": "sceneArt",
+          "natural": [
+            314,
+            206
+          ],
+          "box": [
+            32,
+            44,
+            1256,
+            824
+          ],
+          "src": "../art/scenes/conference_hall/reception/reception_scene.png",
+          "st": {
+            "t": "none",
+            "r": "pixelated",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 1
+        },
+        "portraitBox": [
+          1333,
+          44,
+          564,
+          278
+        ],
+        "portraitClip": "clip/clip",
+        "layers": [
+          {
+            "id": "portraitBackground",
+            "tag": "IMG",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": [
+              564,
+              278
+            ],
+            "src": "../art/portraits/receptionist/reception_background.png",
+            "st": {
+              "t": "none",
+              "r": "pixelated",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitRearFx",
+            "tag": "DIV",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": null,
+            "src": null,
+            "st": {
+              "t": "none",
+              "r": "auto",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitNpc",
+            "tag": "IMG",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": [
+              564,
+              278
+            ],
+            "src": "../art/portraits/receptionist/receptionist_idle.png",
+            "st": {
+              "t": "none",
+              "r": "pixelated",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          },
+          {
+            "id": "portraitFrontFx",
+            "tag": "DIV",
+            "box": [
+              1333,
+              44,
+              564,
+              278
+            ],
+            "natural": null,
+            "src": null,
+            "st": {
+              "t": "none",
+              "r": "auto",
+              "o": "1",
+              "f": "none",
+              "tr": "0s"
+            },
+            "kids": 0
+          }
+        ],
+        "stageOrder": [
+          "scene",
+          "portrait",
+          "overlay",
+          "shell"
+        ],
+        "transforms": []
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "portrait layers, in order: background -> rear/mid FX -> NPC -> foreground FX (four separate elements, no canvas)",
+      "ok": true,
+      "detail": [
+        "portraitBackground:IMG",
+        "portraitRearFx:DIV",
+        "portraitNpc:IMG",
+        "portraitFrontFx:DIV"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "portrait background and NPC: 564x278 natural, displayed at exactly 1x (564x278) at the aperture origin, no transform/filter/opacity/transition",
+      "ok": true,
+      "detail": [
+        {
+          "id": "portraitBackground",
+          "tag": "IMG",
+          "box": [
+            1333,
+            44,
+            564,
+            278
+          ],
+          "natural": [
+            564,
+            278
+          ],
+          "src": "../art/portraits/receptionist/reception_background.png",
+          "st": {
+            "t": "none",
+            "r": "pixelated",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 0
+        },
+        {
+          "id": "portraitNpc",
+          "tag": "IMG",
+          "box": [
+            1333,
+            44,
+            564,
+            278
+          ],
+          "natural": [
+            564,
+            278
+          ],
+          "src": "../art/portraits/receptionist/receptionist_idle.png",
+          "st": {
+            "t": "none",
+            "r": "pixelated",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 0
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "FX layers are present, empty and cover the aperture",
+      "ok": true,
+      "detail": [
+        {
+          "id": "portraitRearFx",
+          "tag": "DIV",
+          "box": [
+            1333,
+            44,
+            564,
+            278
+          ],
+          "natural": null,
+          "src": null,
+          "st": {
+            "t": "none",
+            "r": "auto",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 0
+        },
+        {
+          "id": "portraitFrontFx",
+          "tag": "DIV",
+          "box": [
+            1333,
+            44,
+            564,
+            278
+          ],
+          "natural": null,
+          "src": null,
+          "st": {
+            "t": "none",
+            "r": "auto",
+            "o": "1",
+            "f": "none",
+            "tr": "0s"
+          },
+          "kids": 0
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "stage order: scene, portrait, overlay, then the shell on top",
+      "ok": true,
+      "detail": [
+        "scene",
+        "portrait",
+        "overlay",
+        "shell"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "every element id on the page is unique",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "every clear-shell scene pixel is the exact 4x nearest-neighbour block of the 314x206 file",
+      "ok": true,
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "sceneChecked": 997017,
+        "sceneBad": 0,
+        "portraitChecked": 148790,
+        "portraitBad": 0,
+        "npcShown": 34265,
+        "clipChecked": 3334,
+        "clipBad": 0,
+        "first": null
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "every clear-shell portrait pixel equals the 1:1 background + binary-alpha NPC composite",
+      "ok": true,
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "sceneChecked": 997017,
+        "sceneBad": 0,
+        "portraitChecked": 148790,
+        "portraitBad": 0,
+        "npcShown": 34265,
+        "clipChecked": 3334,
+        "clipBad": 0,
+        "first": null
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the scene's 1 px right / 2 px bottom overflow is clipped by the aperture",
+      "ok": true,
+      "detail": {
+        "clipChecked": 3334,
+        "clipBad": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "QA-only NPC hide: the portrait background stays intact and exact",
+      "ok": true,
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "sceneChecked": 997017,
+        "sceneBad": 0,
+        "portraitChecked": 148790,
+        "portraitBad": 0,
+        "npcShown": 0,
+        "clipChecked": 3334,
+        "clipBad": 0,
+        "first": null
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "QA-only NPC hide changes only portrait-aperture pixels",
+      "ok": true,
+      "detail": {
+        "inside": 34265,
+        "outside": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the game ships no NPC toggle or debug control for the portrait layers",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "no errors while proving the art",
+      "ok": true,
+      "detail": []
     },
     {
       "browser": "firefox",
@@ -1931,8 +3119,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 16,
-        "r1": 28
+        "r0": 97,
+        "r1": 109
       }
     },
     {
@@ -1950,7 +3138,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217
+      "detail": 216
     },
     {
       "browser": "firefox",
@@ -2015,7 +3203,7 @@
       "browser": "firefox",
       "name": "the other card slides away to the right",
       "ok": true,
-      "detail": 32
+      "detail": 31
     },
     {
       "browser": "firefox",
@@ -2042,18 +3230,17 @@
         0,
         0,
         -2,
-        -2,
-        -6,
+        -4,
         -8,
         -12,
-        -18,
-        -24,
-        -30,
-        -36,
-        -44,
-        -52,
-        -62,
-        -72
+        -16,
+        -22,
+        -28,
+        -34,
+        -42,
+        -50,
+        -58,
+        -68
       ]
     },
     {
@@ -2098,7 +3285,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 420
+      "detail": 422
     },
     {
       "browser": "firefox",
@@ -2113,7 +3300,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948
+      "detail": 946
     },
     {
       "browser": "firefox",
@@ -2372,6 +3559,29 @@
     },
     {
       "browser": "firefox",
+      "name": "inspector open: the item overlay covers the right column exactly where it is opaque",
+      "ok": true,
+      "detail": {
+        "ovChecked": 50213,
+        "ovBad": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "inspector open: the layered portrait is fully covered (drawn above portrait and shell)",
+      "ok": true,
+      "detail": {
+        "order": {
+          "portrait": 1,
+          "shell": 3,
+          "inspector": 13
+        },
+        "portraitStill": 957,
+        "clear": 148790
+      }
+    },
+    {
+      "browser": "firefox",
       "name": "a disabled button explains itself in its tooltip",
       "ok": true
     },
@@ -2399,6 +3609,23 @@
       "browser": "firefox",
       "name": "closing the inspector brings a new set reflecting the tag",
       "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "closing the inspector restores the exact layered receptionist portrait and scene",
+      "ok": true,
+      "detail": {
+        "width": 1920,
+        "height": 1080,
+        "sceneChecked": 997017,
+        "sceneBad": 0,
+        "portraitChecked": 148790,
+        "portraitBad": 0,
+        "npcShown": 34265,
+        "clipChecked": 3334,
+        "clipBad": 0,
+        "first": null
+      }
     },
     {
       "browser": "firefox",
@@ -2460,7 +3687,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3609
+        "ms": 3614
       }
     },
     {
@@ -2482,6 +3709,29 @@
       "browser": "firefox",
       "name": "the transcript scrolls back to the start",
       "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "NOTES still covers the scene: same aperture, above the scene art, under the shell; portrait untouched",
+      "ok": true,
+      "detail": {
+        "ov": {
+          "order": [
+            0,
+            2,
+            3
+          ],
+          "rect": [
+            32,
+            44,
+            1255,
+            822
+          ]
+        },
+        "sceneBad": 997017,
+        "sceneChecked": 997017,
+        "portraitBad": 0
+      }
     },
     {
       "browser": "firefox",
