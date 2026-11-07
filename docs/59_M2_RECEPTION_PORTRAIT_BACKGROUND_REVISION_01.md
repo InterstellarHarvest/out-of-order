@@ -93,4 +93,11 @@ This is a new, distinct receptionist design from the owner, also seated on the f
 - 564×278 RGBA, 36,400 opaque pixels, one connected silhouette.
 - **Committed and pinned, but not loaded by the game.** `receptionist_idle.png` stays the active NPC until the owner/PMO choose. Switching to `idle2` would mean either pointing `G.RECEPTION_ART.portraitNpc` at it or replacing `receptionist_idle.png`, plus the QA pin.
 
-Game QA pins both hashes, and the `art/` allowlist names each file exactly. QA also checks that the game never requests `idle2`. Results after these edits: route **38/38**; game QA **350/350** (static 24/24, Chromium 163/163, Firefox 163/163). The layout lab is not affected by portrait files, and its last run here was 1920/1920.
+### `art/portraits/receptionist/receptionist_idle3.png`: second alternate to try
+
+- **Cleanup:** the same binary-alpha rule (the source had 217 alpha levels; RGB under alpha 0 zeroed). No pixel at full alpha changed.
+- **Hash:** **`95ead2a6de3b28061b77775ea12cb9abf25035e76590b4ff33322abfe69e6376`**.
+- 564×278 RGBA, 40,026 opaque pixels, one connected silhouette (8-connected).
+- **Committed and pinned, but not loaded by the game**, like `idle2`.
+
+Game QA pins all three hashes, and the `art/` allowlist names each file exactly. QA also checks that the game never requests `idle2` or `idle3`. Results after these edits: route **38/38**; game QA **350/350** (static 24/24, Chromium 163/163, Firefox 163/163). The layout lab is not affected by portrait files, and its last run here was 1920/1920.

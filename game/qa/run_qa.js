@@ -47,7 +47,8 @@ const PRODUCTION_ART = {
   // Owner edit 2026-11-07 (docs/59 section 7): moved down 22 px to sit on the frame bottom; was 66c4f32a...
   'art/portraits/receptionist/receptionist_idle.png': '761a45d4aa3037173684b815fde75d8d7a7694d541aff6d55dbd863f7e312e2d', // 564x278 RGBA
   // Owner's alternate receptionist to try (docs/59 section 7). Committed and pinned, not loaded by the game.
-  'art/portraits/receptionist/receptionist_idle2.png': '38488a228d237650c7b2fe7a0eb2cee74f1549cef63c1767376eb899b714ee35' // 564x278 RGBA
+  'art/portraits/receptionist/receptionist_idle2.png': '38488a228d237650c7b2fe7a0eb2cee74f1549cef63c1767376eb899b714ee35', // 564x278 RGBA
+  'art/portraits/receptionist/receptionist_idle3.png': '95ead2a6de3b28061b77775ea12cb9abf25035e76590b4ff33322abfe69e6376' // 564x278 RGBA, also not loaded
 };
 const SCENE_ART = 'art/scenes/conference_hall/reception/reception_scene.png';
 const BG_ART = 'art/portraits/receptionist/reception_background.png';
@@ -191,15 +192,17 @@ function staticChecks() {
   check(b, 'receptionist NPC is 564x278 RGBA with binary alpha {0,255}, real transparency and no RGB hidden under alpha 0',
     npc.width === 564 && npc.height === 278 && npc.type === 6 && [...alphas].sort((x, y) => x - y).join() === '0,255' && pxAt(npc, 0, 0)[3] === 0 && hiddenRgb === 0,
     { size: [npc.width, npc.height], type: npc.type, alphas: [...alphas].slice(0, 6), hiddenRgb });
-  const alt = png('art/portraits/receptionist/receptionist_idle2.png'), altAlpha = new Set();
-  let altHidden = 0;
-  for (let i = 0; i < alt.width * alt.height; i++) {
-    const a = alt.data[i * 4 + 3];
-    altAlpha.add(a);
-    if (a === 0 && (alt.data[i * 4] || alt.data[i * 4 + 1] || alt.data[i * 4 + 2])) altHidden++;
+  for (const f of ['receptionist_idle2.png', 'receptionist_idle3.png']) {
+    const alt = png('art/portraits/receptionist/' + f), altAlpha = new Set();
+    let altHidden = 0;
+    for (let i = 0; i < alt.width * alt.height; i++) {
+      const a = alt.data[i * 4 + 3];
+      altAlpha.add(a);
+      if (a === 0 && (alt.data[i * 4] || alt.data[i * 4 + 1] || alt.data[i * 4 + 2])) altHidden++;
+    }
+    check(b, `alternate receptionist (${f}) is 564x278 RGBA with binary alpha and no RGB hidden under alpha 0`, alt.width === 564 && alt.height === 278
+      && alt.type === 6 && [...altAlpha].sort((x, y) => x - y).join() === '0,255' && altHidden === 0, { size: [alt.width, alt.height], altHidden });
   }
-  check(b, 'alternate receptionist (idle2) is 564x278 RGBA with binary alpha and no RGB hidden under alpha 0', alt.width === 564 && alt.height === 278
-    && alt.type === 6 && [...altAlpha].sort((x, y) => x - y).join() === '0,255' && altHidden === 0, { size: [alt.width, alt.height], altHidden });
   const candidates = git('ls-files', 'art').split('\n').filter((f) => /_candidate_/.test(f));
   check(b, 'no duplicate candidate PNGs remain beside the production files', candidates.length === 0, candidates);
   const ownerArtBad = Object.keys(OWNER_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== OWNER_ART[f]);
@@ -451,7 +454,7 @@ async function suite(name, base, requests) {
   // The three files the game loads (idle2 is pinned but deliberately not loaded).
   c('served reception art bytes are the approved files', [SCENE_ART, BG_ART, NPC_ART].every((f) => bodies[f] === PRODUCTION_ART[f]),
     [SCENE_ART, BG_ART, NPC_ART].map((f) => [f, bodies[f]]));
-  c('the alternate receptionist (idle2) is not loaded by the game', !requests.some((r) => /receptionist_idle2\.png$/.test(r)));
+  c('the alternate receptionists (idle2, idle3) are not loaded by the game', !requests.some((r) => /receptionist_idle[23]\.png$/.test(r)));
   await artChecks(browser, base, measured, c);
   const cleanup = await page.evaluate(async (pairs) => {
     const load = (src) => new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.src = src; });
