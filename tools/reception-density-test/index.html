@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Reception density test (review only)</title>
+<meta name="viewport" content="width=1920">
+<link rel="stylesheet" href="density-test.css">
+</head>
+<body>
+<!-- docs/55. Review tool only: no gameplay, no dialogue, no production route. The stage is drawn
+     1:1 in canonical 1920x1080 shell pixels, never fit-scaled. Draw order is DOM order. -->
+<main id="stage" aria-label="Reception density test">
+  <div id="sceneAperture" class="aperture">
+    <img id="scene" class="layer" alt="Reception world scene" draggable="false">
+  </div>
+  <div id="portraitAperture" class="aperture">
+    <img id="portraitBackground" class="layer" alt="Reception portrait background" draggable="false">
+    <div id="portraitRearFx" class="layer fx" data-layer="rear/mid FX (none in this test)"></div>
+    <img id="portraitNpc" class="layer" alt="Receptionist portrait" draggable="false">
+    <div id="portraitFrontFx" class="layer fx" data-layer="foreground FX (none in this test)"></div>
+  </div>
+  <img id="shell" alt="" draggable="false" width="1920" height="1080">
+</main>
+
+<!-- Developer-only controls, below the 1920x1080 stage so they never sit over the art.
+     ?shot hides them; ?npc=off starts with the NPC hidden; the N key toggles it. -->
+<section id="dev" aria-label="Developer readout">
+  <button id="npcToggle" type="button" aria-pressed="true">NPC: ON</button>
+  <span class="hint">N toggles the NPC layer</span>
+  <pre id="readout">loading...</pre>
+</section>
+
+<script src="../layout-lab/data/lab_data.js"></script>
+<script src="density-test.js"></script>
+</body>
+</html>

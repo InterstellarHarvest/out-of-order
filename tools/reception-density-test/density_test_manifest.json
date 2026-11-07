@@ -1,0 +1,194 @@
+{
+ "schema": "cyoa-reception-density-test-v1",
+ "status": "REVIEW ONLY - not production art approval; densities not locked (docs/55)",
+ "generator": "tools/reception-density-test/normalize.py",
+ "pillow": "12.3.0",
+ "method": {
+  "crop": "centred, exact destination aspect, fractional source box; portrait background and NPC share one box",
+  "resample": "Pillow BOX (area average); RGBA premultiplied",
+  "alpha": "NPC only: alpha >= 128 -> 255, else 0; transparent RGB set to 0,0,0",
+  "colors": "per asset 256-colour MAXCOVERAGE palette + 20 k-means passes from visible pixels, nearest mapping, Dither.NONE"
+ },
+ "assets": {
+  "scene": {
+   "source": {
+    "file": "source/reception_density/reception_world_scene_v2_raw.png",
+    "sha256": "3cf8879c484eed93a705ece094b17419669ea5f9c116cf4eb476d59bef5fcddd",
+    "size": [
+     1548,
+     1016
+    ],
+    "mode": "RGB",
+    "unique_rgb": 135421
+   },
+   "crop_box": [
+    0.0,
+    0.2166,
+    1548.0,
+    1015.7834
+   ],
+   "downsampled_unique_rgb": 20611,
+   "color_reduction": {
+    "method": "MAXCOVERAGE + 20 k-means passes, nearest-colour mapping, no dither",
+    "target_colors": 256,
+    "rgb_error": {
+     "mean": 3.998,
+     "p50": 3.74,
+     "p99": 10.25,
+     "max": 16.88
+    },
+    "median_cut_trial": {
+     "method": "MEDIANCUT, no k-means, no dither (rejected)",
+     "unique_rgb": 222,
+     "rgb_error": {
+      "mean": 4.512,
+      "p50": 3.46,
+      "p99": 19.05,
+      "max": 116.93
+     }
+    }
+   },
+   "output": {
+    "file": "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png",
+    "sha256": "6297a46db9413fdfc8b1dc63f2df2fdbfa47a8cfacedc9e921fc4c0b4ceaeb6e",
+    "logical": [
+     314,
+     206
+    ],
+    "mode": "RGB",
+    "display_scale": 4,
+    "display": [
+     1256,
+     824
+    ],
+    "unique_rgb": 256
+   }
+  },
+  "portrait_background": {
+   "source": {
+    "file": "source/reception_density/reception_background_v2_raw.png",
+    "sha256": "8b6b14bdf96653e1f2a0c18fdb5fb2da03ec7d5a3ce026b406d31c45325efde0",
+    "size": [
+     1774,
+     887
+    ],
+    "mode": "RGB",
+    "unique_rgb": 168965
+   },
+   "crop_box": [
+    0.0,
+    6.2908,
+    1774.0,
+    880.7092
+   ],
+   "downsampled_unique_rgb": 14842,
+   "color_reduction": {
+    "method": "MAXCOVERAGE + 20 k-means passes, nearest-colour mapping, no dither",
+    "target_colors": 256,
+    "rgb_error": {
+     "mean": 3.746,
+     "p50": 3.32,
+     "p99": 10.05,
+     "max": 15.39
+    },
+    "median_cut_trial": {
+     "method": "MEDIANCUT, no k-means, no dither (rejected)",
+     "unique_rgb": 223,
+     "rgb_error": {
+      "mean": 4.757,
+      "p50": 3.74,
+      "p99": 25.5,
+      "max": 101.97
+     }
+    }
+   },
+   "output": {
+    "file": "art/portraits/receptionist/density_test/reception_background_282x139.png",
+    "sha256": "c831ba6b9c3c5255335e77d47f3ed587a38fbb48453c78774c97a5bf2d0c70f5",
+    "logical": [
+     282,
+     139
+    ],
+    "mode": "RGB",
+    "display_scale": 2,
+    "display": [
+     564,
+     278
+    ],
+    "unique_rgb": 256
+   }
+  },
+  "portrait_npc": {
+   "source": {
+    "file": "source/reception_density/receptionist_portrait_v1_raw.png",
+    "sha256": "08b2d28282f444f2a5390bc98fc5faddc604de8bd4be63d16783e7560f435bdb",
+    "size": [
+     1774,
+     887
+    ],
+    "mode": "RGBA",
+    "unique_rgb": 55496,
+    "alpha": {
+     "values": "256 distinct values",
+     "near_opaque_251_254": 442064,
+     "transparent": 1104690,
+     "opaque": 802,
+     "partial": 468046
+    }
+   },
+   "crop_box": [
+    0.0,
+    6.2908,
+    1774.0,
+    880.7092
+   ],
+   "downsampled_unique_rgb": 4557,
+   "color_reduction": {
+    "method": "MAXCOVERAGE + 20 k-means passes, nearest-colour mapping, no dither",
+    "target_colors": 256,
+    "rgb_error": {
+     "mean": 3.422,
+     "p50": 3.0,
+     "p99": 9.38,
+     "max": 13.08
+    },
+    "median_cut_trial": {
+     "method": "MEDIANCUT, no k-means, no dither (rejected)",
+     "unique_rgb": 186,
+     "rgb_error": {
+      "mean": 3.712,
+      "p50": 2.83,
+      "p99": 17.38,
+      "max": 33.91
+     }
+    }
+   },
+   "output": {
+    "file": "art/portraits/receptionist/density_test/receptionist_282x139.png",
+    "sha256": "f80dc4edcdbb4e9b671be0ba585c0796bdaebfa6dfe7b5fce405469887159c0f",
+    "logical": [
+     282,
+     139
+    ],
+    "mode": "RGBA",
+    "display_scale": 2,
+    "display": [
+     564,
+     278
+    ],
+    "unique_rgb": 256,
+    "unique_rgb_including_transparent": 257,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "near_opaque_251_254": 0,
+     "transparent": 27647,
+     "opaque": 11551,
+     "partial": 0
+    }
+   }
+  }
+ }
+}

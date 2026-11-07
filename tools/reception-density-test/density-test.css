@@ -1,0 +1,40 @@
+/* Reception density test (docs/55). Everything on the stage is placed in whole 1920x1080 shell
+   pixels with no transform: the art is shown at exactly 4x (scene) and 2x (portrait) nearest
+   neighbour. Browser zoom must be 100% for the review; the readout warns when it is not. */
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: #000; }
+body { width: 1920px; }
+
+#stage {
+  position: relative;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background: #000;
+}
+#stage img {
+  display: block;
+  image-rendering: crisp-edges; /* Firefox */
+  image-rendering: pixelated;   /* Chromium; Firefox 93+ */
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: none;
+}
+.aperture { position: absolute; overflow: hidden; overflow: clip; }
+.layer { position: absolute; left: 0; top: 0; }
+.fx { width: 0; height: 0; }
+#shell { position: absolute; left: 0; top: 0; }
+#portraitNpc.off { visibility: hidden; }
+
+/* Developer-only readout, outside the artwork. */
+#dev {
+  padding: 12px 16px 20px;
+  color: #b9c7c2;
+  font: 13px/1.45 ui-monospace, Menlo, Consolas, monospace;
+  border-top: 1px solid #333;
+}
+#dev button { font: inherit; padding: 4px 12px; margin-right: 12px; cursor: pointer; }
+#dev .hint { color: #7d8b87; }
+#dev pre { margin: 10px 0 0; white-space: pre-wrap; }
+#dev .warn { color: #ffb347; }
+body.shot #dev { display: none; }

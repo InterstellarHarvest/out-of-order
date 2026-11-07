@@ -1,0 +1,807 @@
+{
+ "tool": "tools/reception-density-test/index.html",
+ "base": "b9f81d8beccdf59771f068b3bd822adc3961ae60",
+ "head": "514b783ed5c90999cd89792327a4f9fa04f9efa3",
+ "date": "2026-11-07T05:21:52.732Z",
+ "passed": 69,
+ "total": 69,
+ "report": {
+  "assets": {
+   "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png": {
+    "size": [
+     314,
+     206
+    ],
+    "uniqueRgb": 256,
+    "sha256": "6297a46db9413fdfc8b1dc63f2df2fdbfa47a8cfacedc9e921fc4c0b4ceaeb6e"
+   },
+   "art/portraits/receptionist/density_test/reception_background_282x139.png": {
+    "size": [
+     282,
+     139
+    ],
+    "uniqueRgb": 256,
+    "sha256": "c831ba6b9c3c5255335e77d47f3ed587a38fbb48453c78774c97a5bf2d0c70f5"
+   },
+   "art/portraits/receptionist/density_test/receptionist_282x139.png": {
+    "size": [
+     282,
+     139
+    ],
+    "uniqueRgb": 256,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "transparent": 27647,
+     "opaque": 11551
+    },
+    "sha256": "f80dc4edcdbb4e9b671be0ba585c0796bdaebfa6dfe7b5fce405469887159c0f"
+   }
+  },
+  "rawsPresent": 3
+ },
+ "results": [
+  {
+   "scope": "static",
+   "name": "scene PNG is exactly 314x206",
+   "ok": true,
+   "detail": [
+    314,
+    206
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "portrait background PNG is exactly 282x139",
+   "ok": true,
+   "detail": [
+    282,
+    139
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "receptionist PNG is exactly 282x139",
+   "ok": true,
+   "detail": [
+    282,
+    139
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "receptionist PNG is stored as RGBA (colour type 6)",
+   "ok": true,
+   "detail": 6
+  },
+  {
+   "scope": "static",
+   "name": "receptionist alpha values are exactly {0, 255}",
+   "ok": true,
+   "detail": [
+    0,
+    255
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "receptionist has genuine transparent pixels (and opaque ones)",
+   "ok": true,
+   "detail": {
+    "alphaValues": [
+     0,
+     255
+    ],
+    "transparent": 27647,
+    "opaque": 11551,
+    "uniqueRgb": 256
+   }
+  },
+  {
+   "scope": "static",
+   "name": "receptionist canvas corners are transparent (character only, no backdrop)",
+   "ok": true,
+   "detail": [
+    0,
+    0,
+    0,
+    0
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "no colour hides under the receptionist's transparent pixels",
+   "ok": true,
+   "detail": 0
+  },
+  {
+   "scope": "static",
+   "name": "scene and portrait background are fully opaque",
+   "ok": true
+  },
+  {
+   "scope": "static",
+   "name": "export hashes match density_test_manifest.json",
+   "ok": true
+  },
+  {
+   "scope": "static",
+   "name": "unique visible RGB counts match the manifest and stay within the 256-colour cleanup target",
+   "ok": true,
+   "detail": [
+    256,
+    256,
+    256
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "shell SHA-256 is the canonical 813e0884...",
+   "ok": true
+  },
+  {
+   "scope": "static",
+   "name": "shell blob is identical to main",
+   "ok": true
+  },
+  {
+   "scope": "static",
+   "name": "production gameplay, M1 UI art, fonts, design and the layout lab are byte-identical to main",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "static",
+   "name": "no uncommitted change under the protected paths",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "static",
+   "name": "every change on the branch is inside the density-test paths or docs/55",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "static",
+   "name": "nothing under source/ or originals/ is tracked",
+   "ok": true
+  },
+  {
+   "scope": "static",
+   "name": "no *_raw.png generator master is tracked or was committed on this branch",
+   "ok": true
+  },
+  {
+   "scope": "static",
+   "name": "the local raw sources are git-ignored and untracked",
+   "ok": true,
+   "detail": {
+    "present": [
+     "source/reception_density/receptionist_portrait_v1_raw.png",
+     "source/reception_density/reception_background_v2_raw.png",
+     "source/reception_density/reception_world_scene_v2_raw.png"
+    ],
+    "ignored": [
+     "source/reception_density/receptionist_portrait_v1_raw.png",
+     "source/reception_density/reception_background_v2_raw.png",
+     "source/reception_density/reception_world_scene_v2_raw.png"
+    ]
+   }
+  },
+  {
+   "scope": "static",
+   "name": "no tracked file is byte-identical to a raw source",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "static",
+   "name": "the density-test art folders hold exactly the three exports",
+   "ok": true,
+   "detail": [
+    "art/portraits/receptionist/density_test/reception_background_282x139.png",
+    "art/portraits/receptionist/density_test/receptionist_282x139.png",
+    "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png"
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "no density-test art file is larger than its logical canvas (no pre-upscaled or master-size exports)",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "static",
+   "name": "normalize.py reproduces all three exports byte for byte from the local sources",
+   "ok": true,
+   "detail": [
+    "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png",
+    "art/portraits/receptionist/density_test/reception_background_282x139.png",
+    "art/portraits/receptionist/density_test/receptionist_282x139.png"
+   ]
+  },
+  {
+   "scope": "chromium",
+   "name": "page is ready with no load problems",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "chromium",
+   "name": "devicePixelRatio is 1 (screenshots are 1:1 stage pixels)",
+   "ok": true,
+   "detail": 1
+  },
+  {
+   "scope": "chromium",
+   "name": "stage is the canonical 1920x1080 at the page origin, with nothing scrolling in proof mode",
+   "ok": true,
+   "detail": {
+    "stage": [
+     0,
+     0,
+     1920,
+     1080
+    ],
+    "scroll": [
+     1920,
+     1080
+    ]
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "no transform or fit scale anywhere above the art",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "chromium",
+   "name": "scene aperture uses the committed lab geometry (32,44 1255x822) and clips",
+   "ok": true,
+   "detail": {
+    "box": [
+     32,
+     44,
+     1255,
+     822
+    ],
+    "overflow": "clip/clip"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "portrait aperture uses the committed lab geometry (1333,44 564x278) and clips",
+   "ok": true,
+   "detail": {
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "overflow": "clip/clip"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "scene is 314x206 shown at exactly 4x: 1256x824 from the aperture origin (overflow 1 px right, 2 px bottom)",
+   "ok": true,
+   "detail": {
+    "natural": [
+     314,
+     206
+    ],
+    "box": [
+     32,
+     44,
+     1256,
+     824
+    ],
+    "rendering": "pixelated",
+    "src": "../../art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "portrait background is 282x139 shown at exactly 2x: 564x278",
+   "ok": true,
+   "detail": {
+    "natural": [
+     282,
+     139
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "src": "../../art/portraits/receptionist/density_test/reception_background_282x139.png"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "receptionist is a separate 282x139 layer shown at exactly 2x: 564x278",
+   "ok": true,
+   "detail": {
+    "natural": [
+     282,
+     139
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "src": "../../art/portraits/receptionist/density_test/receptionist_282x139.png"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "image smoothing is off on every image (image-rendering pixelated/crisp-edges)",
+   "ok": true,
+   "detail": [
+    "pixelated",
+    "pixelated",
+    "pixelated",
+    "pixelated"
+   ]
+  },
+  {
+   "scope": "chromium",
+   "name": "shell is the unchanged canonical file, 1920x1080 at 0,0",
+   "ok": true,
+   "detail": {
+    "natural": [
+     1920,
+     1080
+    ],
+    "box": [
+     0,
+     0,
+     1920,
+     1080
+    ],
+    "rendering": "pixelated",
+    "src": "../../art/ui/shell/layout-final.png"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "served exports are the committed bytes",
+   "ok": true
+  },
+  {
+   "scope": "chromium",
+   "name": "draw order: scene and portrait under the shell; background -> rear/mid FX -> NPC -> foreground FX",
+   "ok": true,
+   "detail": {
+    "stage": [
+     "sceneAperture",
+     "portraitAperture",
+     "shell"
+    ],
+    "portrait": [
+     "portraitBackground",
+     "portraitRearFx",
+     "portraitNpc",
+     "portraitFrontFx"
+    ],
+    "z": [
+     "auto",
+     "auto",
+     "auto",
+     "auto",
+     "auto",
+     "auto",
+     "auto"
+    ]
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "no gameplay, dialogue or production-route code on the page",
+   "ok": true
+  },
+  {
+   "scope": "chromium",
+   "name": "developer readout is hidden in proof mode (?shot)",
+   "ok": true
+  },
+  {
+   "scope": "chromium",
+   "name": "screen pixels equal the 4x nearest-neighbour scene exactly wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "screen pixels equal background + NPC at exact 2x nearest-neighbour, binary alpha, wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "the scene's 1 px / 2 px overflow is clipped by the aperture (shell over black only beyond it)",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "with the NPC hidden the portrait shows the background alone, exactly",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 0,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "hiding the NPC changes only portrait-aperture pixels",
+   "ok": true,
+   "detail": {
+    "diffInside": 46183,
+    "diffOutside": 0
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "developer NPC toggle hides and shows only the NPC layer (button and N key)",
+   "ok": true,
+   "detail": {
+    "t": "on",
+    "afterClick": [
+     "off",
+     "hidden",
+     "visible"
+    ],
+    "afterKey": [
+     "on",
+     "visible"
+    ]
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "readout states logical and display sizes",
+   "ok": true,
+   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
+  },
+  {
+   "scope": "chromium",
+   "name": "no console or page errors",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "firefox",
+   "name": "page is ready with no load problems",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "firefox",
+   "name": "devicePixelRatio is 1 (screenshots are 1:1 stage pixels)",
+   "ok": true,
+   "detail": 1
+  },
+  {
+   "scope": "firefox",
+   "name": "stage is the canonical 1920x1080 at the page origin, with nothing scrolling in proof mode",
+   "ok": true,
+   "detail": {
+    "stage": [
+     0,
+     0,
+     1920,
+     1080
+    ],
+    "scroll": [
+     1920,
+     1080
+    ]
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "no transform or fit scale anywhere above the art",
+   "ok": true,
+   "detail": []
+  },
+  {
+   "scope": "firefox",
+   "name": "scene aperture uses the committed lab geometry (32,44 1255x822) and clips",
+   "ok": true,
+   "detail": {
+    "box": [
+     32,
+     44,
+     1255,
+     822
+    ],
+    "overflow": "clip/clip"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "portrait aperture uses the committed lab geometry (1333,44 564x278) and clips",
+   "ok": true,
+   "detail": {
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "overflow": "clip/clip"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "scene is 314x206 shown at exactly 4x: 1256x824 from the aperture origin (overflow 1 px right, 2 px bottom)",
+   "ok": true,
+   "detail": {
+    "natural": [
+     314,
+     206
+    ],
+    "box": [
+     32,
+     44,
+     1256,
+     824
+    ],
+    "rendering": "pixelated",
+    "src": "../../art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "portrait background is 282x139 shown at exactly 2x: 564x278",
+   "ok": true,
+   "detail": {
+    "natural": [
+     282,
+     139
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "src": "../../art/portraits/receptionist/density_test/reception_background_282x139.png"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "receptionist is a separate 282x139 layer shown at exactly 2x: 564x278",
+   "ok": true,
+   "detail": {
+    "natural": [
+     282,
+     139
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "src": "../../art/portraits/receptionist/density_test/receptionist_282x139.png"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "image smoothing is off on every image (image-rendering pixelated/crisp-edges)",
+   "ok": true,
+   "detail": [
+    "pixelated",
+    "pixelated",
+    "pixelated",
+    "pixelated"
+   ]
+  },
+  {
+   "scope": "firefox",
+   "name": "shell is the unchanged canonical file, 1920x1080 at 0,0",
+   "ok": true,
+   "detail": {
+    "natural": [
+     1920,
+     1080
+    ],
+    "box": [
+     0,
+     0,
+     1920,
+     1080
+    ],
+    "rendering": "pixelated",
+    "src": "../../art/ui/shell/layout-final.png"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "served exports are the committed bytes",
+   "ok": true
+  },
+  {
+   "scope": "firefox",
+   "name": "draw order: scene and portrait under the shell; background -> rear/mid FX -> NPC -> foreground FX",
+   "ok": true,
+   "detail": {
+    "stage": [
+     "sceneAperture",
+     "portraitAperture",
+     "shell"
+    ],
+    "portrait": [
+     "portraitBackground",
+     "portraitRearFx",
+     "portraitNpc",
+     "portraitFrontFx"
+    ],
+    "z": [
+     "auto",
+     "auto",
+     "auto",
+     "auto",
+     "auto",
+     "auto",
+     "auto"
+    ]
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "no gameplay, dialogue or production-route code on the page",
+   "ok": true
+  },
+  {
+   "scope": "firefox",
+   "name": "developer readout is hidden in proof mode (?shot)",
+   "ok": true
+  },
+  {
+   "scope": "firefox",
+   "name": "screen pixels equal the 4x nearest-neighbour scene exactly wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "screen pixels equal background + NPC at exact 2x nearest-neighbour, binary alpha, wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "the scene's 1 px / 2 px overflow is clipped by the aperture (shell over black only beyond it)",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "with the NPC hidden the portrait shows the background alone, exactly",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 0,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "hiding the NPC changes only portrait-aperture pixels",
+   "ok": true,
+   "detail": {
+    "diffInside": 46183,
+    "diffOutside": 0
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "developer NPC toggle hides and shows only the NPC layer (button and N key)",
+   "ok": true,
+   "detail": {
+    "t": "on",
+    "afterClick": [
+     "off",
+     "hidden",
+     "visible"
+    ],
+    "afterKey": [
+     "on",
+     "visible"
+    ]
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "readout states logical and display sizes",
+   "ok": true,
+   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
+  },
+  {
+   "scope": "firefox",
+   "name": "no console or page errors",
+   "ok": true,
+   "detail": []
+  }
+ ]
+}
