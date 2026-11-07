@@ -107,6 +107,34 @@ To settle when it is built (not owner-confirmed):
 - **Timing.** "Immediately" suggests no delay, or at most about 100ms.
 - **Keyboard and touch.** Show on keyboard focus too. Touch has no hover, so it needs another trigger, such as press-and-hold.
 
+## 6A. NPC portrait compositing / layering contract (owner direction, 2026-11-06)
+
+The NPC portrait window must be authored and rendered as **separate composited layers**, not as one flattened portrait image.
+
+Minimum production layers:
+
+1. **Portrait background** — the environment/context visible behind the speaker.
+2. **NPC foreground sprite** — transparent PNG containing the character only.
+3. **Optional FX layers** — effects may sit behind the NPC, between background and NPC, or in front of the NPC when a scene requires it.
+4. **Portrait frame / UI shell** — remains separate UI art and draws above the portrait contents.
+
+Default draw order:
+
+`portrait background → rear/mid FX → NPC sprite → foreground FX (if needed) → UI portrait frame`
+
+Rules:
+
+- Do **not** permanently bake an NPC into their portrait background.
+- The same NPC sprite should be reusable over different portrait backgrounds when appropriate.
+- The NPC layer must be independently movable/animatable so idle motion, reaction motion or later frame animation does not require repainting the background.
+- The background must be independently swappable/animatable so scene events can alter the environment while preserving the NPC. Example: fire, damage, an explosion or some other changed condition can occur behind the same character without requiring a new flattened portrait.
+- Environmental FX that logically occur behind the speaker should not be baked into the NPC sprite.
+- Foreground effects may temporarily cross in front of the NPC when the scene calls for it, but remain separate whenever practical.
+- Preserve alpha on the NPC/FX layers and keep the portrait aperture/frame geometry unchanged.
+- A static scene may still use one background PNG + one NPC PNG; the layered contract is required even when no animation is currently planned.
+
+This is a production flexibility rule for all future NPC portrait art, including the M2 receptionist.
+
 ## 7. Item inspector layout (owner direction, 2026-11-04, not built)
 
 Clicking an inventory item switches the right column at once, with no animation:
