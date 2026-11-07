@@ -19,8 +19,12 @@ Opening `index.html` directly from disk also works.
 
 - The stage is drawn 1:1 at 1920×1080 and is never fit-scaled. A smaller window scrolls.
 - **Scene** buttons (below the stage) or the keys **A** / **B** / **V** switch the scene in the identical shell:
-  **A** = scene 02 reduced with BOX (+256-colour cleanup), **B** = the same source reduced with NEAREST only (the default),
-  **v2** = the first scene test. All are 314×206 at exactly 4×. `?scene=a|b|v2` picks one on load (docs/55 section 13).
+  **A** = scene 02 reduced with BOX (+256-colour cleanup), **B** = the same source reduced with NEAREST only,
+  **C** = B's exact pixels with a non-spatial colour merge (the default; **S** cycles A-B-C), **v2** = the first scene test.
+  All are 314×206 at exactly 4×. `?scene=a|b|c|v2` picks one on load (docs/55 sections 13-14).
+- **Portrait** buttons (below the stage) or **P** switch the receptionist NPC layer only: **P3-FULL** (564×278 at 1×,
+  the default; docs/55 section 15), **P3-282-N** (282×139 NEAREST at 2×), **P3-282-B** (282×139 BOX at 2×, comparison
+  only) and **01** (history). `?portrait=full|03n|03b|01` picks one on load.
 - **NPC: ON/OFF** (below the stage) or the **N** key hides or shows the receptionist layer only.
 - The readout below the stage lists logical and display sizes and warns if browser zoom makes the
   device pixel ratio fractional.
@@ -32,7 +36,7 @@ Opening `index.html` directly from disk also works.
    scene aperture's top-left (32,44). The aperture is 1255×822, so 1 px on the right and 2 px at the bottom are clipped.
 2. Portrait background, `art/portraits/receptionist/density_test/reception_background_282x139.png`, at 2× = 564×278.
 3. Rear/mid FX: an empty slot (no FX in this test).
-4. Receptionist, `art/portraits/receptionist/density_test/receptionist_282x139.png` (RGBA, alpha 0/255), at 2×.
+4. Receptionist (RGBA, alpha 0/255): P3-FULL `receptionist_03_full_564x278.png` at 1×, or a 282×139 candidate at 2×.
 5. Foreground FX: an empty slot.
 6. The canonical shell `art/ui/shell/layout-final.png`, unchanged, over everything.
 
@@ -43,13 +47,13 @@ reception slice reads.
 
 The raw sources are local only, in `source/reception_density/` (git-ignored, never committed):
 `reception_world_scene_v2_raw.png`, `reception_world_scene_density_test_02_raw.png`, `reception_background_v2_raw.png`,
-`receptionist_portrait_v1_raw.png`.
+`receptionist_portrait_v1_raw.png`, `receptionist_portrait_density_test_03_raw.png`.
 
 ```sh
 python3 tools/reception-density-test/normalize.py
 ```
 
-It rewrites the five exports and `density_test_manifest.json` (method, crop boxes, colour counts, alpha
+It rewrites the nine exports (colour merge in `colormerge.py`) and `density_test_manifest.json` (method, crop boxes, colour counts, alpha
 statistics, error metrics, hashes). The method is described at the top of the script and in docs/55.
 
 ## QA

@@ -24,16 +24,21 @@
   var params = new URLSearchParams(location.search);
   var sceneKey = SCENES[params.get('scene')] ? params.get('scene') : 'c';
   var SCENE_CYCLE = ['a', 'b', 'c'];
-  // Portrait NPC candidates (282x139 RGBA, 2x). 03 NEAREST is the active candidate; 01 is evidence.
+  // Portrait NPC candidates (docs/55 sections 14-15). Each has its own logical size and whole-number
+  // scale; all fill the 564x278 portrait aperture exactly. P3-FULL (564x278 at 1x) is the default.
   var NPC_DIR = 'art/portraits/receptionist/density_test/';
   var PORTRAITS = {
-    '03': { label: '03 - NEAREST', src: NPC_DIR + 'receptionist_03_nearest_282x139.png',
-      from: 'receptionist_portrait_density_test_03_raw, NEAREST, binary alpha, no colour cleanup' },
-    '01': { label: '01 - BOX', src: NPC_DIR + 'receptionist_282x139.png',
+    full: { label: 'P3-FULL 564x278 x1', src: NPC_DIR + 'receptionist_03_full_564x278.png', logical: [564, 278], scale: 1,
+      from: 'portrait 03 raw, premultiplied LANCZOS to 564x278, alpha >= 128, no colour cleanup' },
+    '03n': { label: 'P3-282-N 282x139 x2', src: NPC_DIR + 'receptionist_03_nearest_282x139.png', logical: [282, 139], scale: 2,
+      from: 'portrait 03 raw, NEAREST to 282x139, alpha >= 128, no colour cleanup' },
+    '03b': { label: 'P3-282-B 282x139 x2', src: NPC_DIR + 'receptionist_03_box_282x139.png', logical: [282, 139], scale: 2,
+      from: 'portrait 03 raw, BOX to 282x139, alpha >= 128, no colour cleanup (comparison only)' },
+    '01': { label: '01 (history) 282x139 x2', src: NPC_DIR + 'receptionist_282x139.png', logical: [282, 139], scale: 2,
       from: 'receptionist_portrait_v1_raw (first test), BOX + 256-colour cleanup' }
   };
-  var portraitKey = PORTRAITS[params.get('portrait')] ? params.get('portrait') : '03';
-  var PORTRAIT_CYCLE = ['03', '01'];
+  var portraitKey = PORTRAITS[params.get('portrait')] ? params.get('portrait') : 'full';
+  var PORTRAIT_CYCLE = ['full', '03n', '03b'];
   var SCENE = {
     id: 'scene',
     src: SCENES[sceneKey].src,
@@ -49,8 +54,8 @@
   var NPC = {
     id: 'portraitNpc',
     src: PORTRAITS[portraitKey].src,
-    logical: [282, 139],
-    scale: 2
+    logical: PORTRAITS[portraitKey].logical,
+    scale: PORTRAITS[portraitKey].scale
   };
   var LAYERS = [SCENE, BACKGROUND, NPC];
 
@@ -97,19 +102,30 @@
   // Scene switch: every variant is 314x206, so the 4x display size never changes.
   Object.keys(SCENES).forEach(function (k) { new Image().src = ROOT + SCENES[k].src; });
   Object.keys(PORTRAITS).forEach(function (k) { new Image().src = ROOT + PORTRAITS[k].src; });
+  // Only the NPC layer changes: its file, and its display box (logical size x whole-number scale).
   function setPortrait(key) {
+    var P = PORTRAITS[key], img = $('portraitNpc');
     portraitKey = key;
-    NPC.src = PORTRAITS[key].src;
-    $('portraitNpc').src = ROOT + PORTRAITS[key].src;
-    $('portraitToggle').textContent = 'Portrait: ' + PORTRAITS[key].label;
-    document.body.dataset.portrait = key;
+    NPC.src = P.src;
+    NPC.logical = P.logical;
+    NPC.scale = P.scale;
+    NPC.display = [P.logical[0] * P.scale, P.logical[1] * P.scale];
+    img.width = NPC.display[0];
+    img.height = NPC.display[1];
+    img.src = ROOT + P.src;
+    markPortrait();
     if (problems) readout(problems);
   }
-  $('portraitToggle').addEventListener('click', function () {
-    setPortrait(PORTRAIT_CYCLE[(PORTRAIT_CYCLE.indexOf(portraitKey) + 1) % PORTRAIT_CYCLE.length]);
+  function markPortrait() {
+    Object.keys(PORTRAITS).forEach(function (k) {
+      $('portrait_' + k).setAttribute('aria-pressed', k === portraitKey ? 'true' : 'false');
+    });
+    document.body.dataset.portrait = portraitKey;
+  }
+  Object.keys(PORTRAITS).forEach(function (k) {
+    $('portrait_' + k).addEventListener('click', function () { setPortrait(k); });
   });
-  $('portraitToggle').textContent = 'Portrait: ' + PORTRAITS[portraitKey].label;
-  document.body.dataset.portrait = portraitKey;
+  markPortrait();
   function setScene(key) {
     sceneKey = key;
     SCENE.src = SCENES[key].src;
@@ -149,6 +165,7 @@
       'PORTRAIT  ' + BACKGROUND.logical.join('x') + ' logical  x' + BACKGROUND.scale + ' nearest  = ' +
         BACKGROUND.display.join('x') + ' display  in aperture ' + portraitRect[2] + 'x' + portraitRect[3] + ' at (' + portraitRect[0] + ',' + portraitRect[1] + ')',
       'NPC       ' + PORTRAITS[portraitKey].label + ' (' + PORTRAITS[portraitKey].from + ')',
+      '          ' + NPC.logical.join('x') + ' logical  x' + NPC.scale + ' nearest  = ' + NPC.display.join('x') + ' display',
       'LAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (' + (npcOn ? 'ON' : 'OFF') + ') -> foreground FX (none) -> shell/frame',
       'SHELL     ' + shellPath + '  (unchanged; lab bundle sha256 ' + DATA.placementDefault.shell.sha256.slice(0, 12) + '...)',
       'DEVICE    devicePixelRatio ' + dpr + (Number.isInteger(dpr) ? '  (integer: exact)' : '  NOT AN INTEGER - set browser zoom to 100% for an exact view')

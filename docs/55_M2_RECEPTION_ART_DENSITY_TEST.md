@@ -489,3 +489,77 @@ Spatial speckle remains, as expected: removing it would need a spatial step, whi
 - `density_test_chromium_scene02_C_npc_off.png`
 
 The §13 A/B proofs (with portrait 01) remain as history.
+
+## 15. Portrait-density experiment: 564×278 at 1× (2026-11-07)
+
+**Status:** a new hypothesis under review. **Nothing is locked.** The 282×139 hypothesis (§2, §11, §14) is not withdrawn; it is being challenged.
+
+### 15.1 Why 282×139 is being challenged
+
+Portrait 03's raw file (1786×881) has no clean 282×139 grid behind it. Reducing it about 6.3× by a non-integer step forces a bad choice:
+
+- **NEAREST** keeps hard pixels but aliases fine facial detail. The glasses, eyes, mouth, headset and hair come out uneven or malformed.
+- **BOX** keeps the feature structure but visibly softens the portrait.
+
+The browser's scaling is not the cause; the reduction is.
+
+The owner has also said the dedicated speaking portrait may be substantially more detailed than the world representation of the same character:
+
+- **world:** chunky, broad silhouette, minimal face information;
+- **portrait:** much finer and more expressive, closer to later 32-bit-era conversation art.
+
+### 15.2 New hypothesis
+
+| | Logical | Display | Reduction |
+|---|---|---|---|
+| Scene (unchanged) | 314×206 | ×4 nearest = 1256×824 | NEAREST (+ optional non-spatial colour cleanup) |
+| **Portrait** | **564×278** | **×1 = 564×278** (the full existing aperture) | premultiplied LANCZOS from the raw file |
+
+The aperture, shell and scene density are unchanged.
+
+LANCZOS is used **only** for this higher-density portrait source. It does not supersede §13/§14: pixel-art scene sources still use NEAREST geometry only.
+
+### 15.3 P3-FULL normalization (`normalize.py`, asset `portrait_npc_03_full`)
+
+1. **Source:** `receptionist_portrait_density_test_03_raw.png` (SHA-256 `e6af89d3…acfee5e10`). It was not regenerated or altered.
+2. **Crop:** the same centred exact-aspect box as P3-282, `(0, 0.3333)–(1786, 880.6667)`. 564/278 equals 282/139, so the box is identical.
+3. **Resample:** Pillow `LANCZOS` straight to 564×278, a 3.167× reduction, done on **premultiplied** alpha. Pillow resamples RGBA as RGBa; this was verified byte-identical to an explicit RGBa → resize → RGBA. Transparent pixels therefore add no dark or coloured fringe.
+4. **Alpha:** ≥ **128** → 255, otherwise 0, and RGB under alpha 0 is set to 0,0,0. The alpha is not blurred separately.
+5. **Colour:** no cleanup, no palette, no dither, no denoise and no sharpening. The natural result is kept for owner review.
+
+**Threshold check:** thresholds 64, 96, 128, 160 and 192 all leave one connected silhouette (34,479 down to 34,069 opaque pixels). At 128 the opaque area (34,265 px) matches the resampled coverage (34,047 px). The headset band, the mic boom and the hair edge were inspected at 4× zoom over magenta and dark backgrounds, with no lost pixels and no fringe, so 128 was kept.
+
+| Candidate | File | Logical / display | Unique visible RGB | Alpha (transparent / opaque) | SHA-256 |
+|---|---|---|---|---|---|
+| **P3-FULL** | `art/portraits/receptionist/density_test/receptionist_03_full_564x278.png` | 564×278 ×1 | **11,756** | {0,255}: 122,527 / 34,265, one silhouette | `66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3` |
+| P3-282-N | `…/receptionist_03_nearest_282x139.png` (§14) | 282×139 ×2 | 4,469 | {0,255}: 30,627 / 8,571 | `b66d891cb2073e66b3728057b2adcd92ec4882026ef0568a52972c10a2528324` |
+| P3-282-B | `…/receptionist_03_box_282x139.png` | 282×139 ×2 | 3,972 | {0,255}: 30,625 / 8,573 | `7529e2db710c2d2b21be5e86dbe51d092bc7d6c8117b35b0b3754bac8948e1d6` |
+
+P3-282-B is committed **for this comparison only**. It is not a candidate under the §14 rule.
+
+The portrait background (282×139 at 2×) is unchanged; it will be redone later, separately.
+
+### 15.4 Test page
+
+- **Portrait buttons** below the stage: **P3-FULL** (the default), **P3-282-N**, **P3-282-B**, and **01 (history)**. **P** cycles FULL → 282-N → 282-B, and N still hides the NPC.
+- `?portrait=full|03n|03b|01` picks one on load.
+- Each candidate's display box is its logical size × a whole-number scale, which is always exactly the 564×278 aperture. P3-FULL is drawn 1:1: 564×278 natural size in a 564×278 box, with no transform and no fit scale. Only the NPC layer changes when switching.
+- **Scene:** C stays the default; A / B / C / v2 work as in §14.
+
+### 15.5 QA
+
+`tools/reception-density-test/qa/run_qa.js` passes in Chromium and Firefox; the result is in `qa/qa_results.json`. It adds:
+
+- **P3-FULL file:** exactly 564×278 RGBA, alpha exactly {0,255}, real transparency, no RGB under alpha 0, transparent corners, one silhouette, hash and counts matching the manifest, and LANCZOS from the same raw file and crop.
+- **P3-FULL on screen:** natural size 564×278, page box 564×278 at (1333,44), scale exactly 1×, no transform, smoothing off. The screen equals the served PNG **pixel for pixel** wherever the shell is clear.
+- **The other candidates:** P3-282-N and P3-282-B are each exactly 2× nearest neighbour on screen.
+- **Switching:** changing between candidates changes only portrait-aperture pixels. The default is scene C with P3-FULL.
+
+**Proofs** in `tools/reception-density-test/qa/screenshots/`:
+- `density_test_chromium_sceneC_P3-FULL_564x278_x1.png`
+- `density_test_chromium_sceneC_P3-282-N_x2.png`
+- `density_test_chromium_sceneC_P3-282-B_x2.png`
+
+The scene A/B/C proofs now carry the default portrait, P3-FULL.
+
+**Not done:** Portrait 03 was not regenerated, no new portrait or portrait background was made, the scene art is unchanged, and nothing is merged or locked.

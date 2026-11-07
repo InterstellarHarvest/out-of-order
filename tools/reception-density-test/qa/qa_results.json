@@ -1,10 +1,10 @@
 {
  "tool": "tools/reception-density-test/index.html",
  "base": "b9f81d8beccdf59771f068b3bd822adc3961ae60",
- "head": "3196188b62489b9fc2c03f3864f98ef638073e25",
- "date": "2026-11-07T18:39:05.652Z",
- "passed": 101,
- "total": 101,
+ "head": "21d4edf79e175a186cf5bf6ff4770b41d69e59e4",
+ "date": "2026-11-07T18:52:44.067Z",
+ "passed": 123,
+ "total": 123,
  "report": {
   "assets": {
    "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png": {
@@ -57,6 +57,39 @@
     },
     "islands": 1,
     "sha256": "b66d891cb2073e66b3728057b2adcd92ec4882026ef0568a52972c10a2528324"
+   },
+   "art/portraits/receptionist/density_test/receptionist_03_full_564x278.png": {
+    "size": [
+     564,
+     278
+    ],
+    "uniqueRgb": 11756,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "transparent": 122527,
+     "opaque": 34265
+    },
+    "islands": 1,
+    "sha256": "66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3"
+   },
+   "art/portraits/receptionist/density_test/receptionist_03_box_282x139.png": {
+    "size": [
+     282,
+     139
+    ],
+    "uniqueRgb": 3972,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "transparent": 30625,
+     "opaque": 8573
+    },
+    "sha256": "7529e2db710c2d2b21be5e86dbe51d092bc7d6c8117b35b0b3754bac8948e1d6"
    },
    "art/portraits/receptionist/density_test/reception_background_282x139.png": {
     "size": [
@@ -254,6 +287,53 @@
   },
   {
    "scope": "static",
+   "name": "P3-FULL PNG is exactly 564x278 RGBA",
+   "ok": true,
+   "detail": [
+    564,
+    278,
+    6
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "P3-FULL alpha values are exactly {0, 255}, with real transparent and opaque pixels",
+   "ok": true,
+   "detail": {
+    "alphaValues": [
+     0,
+     255
+    ],
+    "transparent": 122527,
+    "opaque": 34265,
+    "uniqueRgb": 11756
+   }
+  },
+  {
+   "scope": "static",
+   "name": "P3-FULL has no colour under alpha 0, transparent corners, and one connected silhouette",
+   "ok": true,
+   "detail": {
+    "hiddenF": 0,
+    "islandsF": 1
+   }
+  },
+  {
+   "scope": "static",
+   "name": "P3-282-B PNG is 282x139 RGBA with alpha exactly {0, 255} and no hidden colour",
+   "ok": true,
+   "detail": {
+    "alphaValues": [
+     0,
+     255
+    ],
+    "transparent": 30625,
+    "opaque": 8573,
+    "uniqueRgb": 3972
+   }
+  },
+  {
+   "scope": "static",
    "name": "export hashes match density_test_manifest.json",
    "ok": true
   },
@@ -317,6 +397,68 @@
      "near_opaque_251_254": 0,
      "transparent": 30627,
      "opaque": 8571,
+     "partial": 0
+    }
+   }
+  },
+  {
+   "scope": "static",
+   "name": "P3-FULL manifest: LANCZOS from the portrait 03 raw (same crop box as P3-282-N), shown at 1x, no colour cleanup; counts match",
+   "ok": true,
+   "detail": {
+    "file": "art/portraits/receptionist/density_test/receptionist_03_full_564x278.png",
+    "sha256": "66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3",
+    "logical": [
+     564,
+     278
+    ],
+    "mode": "RGBA",
+    "display_scale": 1,
+    "display": [
+     564,
+     278
+    ],
+    "unique_rgb": 11756,
+    "unique_rgb_including_transparent": 11756,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "near_opaque_251_254": 0,
+     "transparent": 122527,
+     "opaque": 34265,
+     "partial": 0
+    }
+   }
+  },
+  {
+   "scope": "static",
+   "name": "P3-282-B manifest: BOX from the same raw and crop box, 2x, no colour cleanup",
+   "ok": true,
+   "detail": {
+    "file": "art/portraits/receptionist/density_test/receptionist_03_box_282x139.png",
+    "sha256": "7529e2db710c2d2b21be5e86dbe51d092bc7d6c8117b35b0b3754bac8948e1d6",
+    "logical": [
+     282,
+     139
+    ],
+    "mode": "RGBA",
+    "display_scale": 2,
+    "display": [
+     564,
+     278
+    ],
+    "unique_rgb": 3972,
+    "unique_rgb_including_transparent": 3973,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "near_opaque_251_254": 0,
+     "transparent": 30625,
+     "opaque": 8573,
      "partial": 0
     }
    }
@@ -407,10 +549,12 @@
   },
   {
    "scope": "static",
-   "name": "the density-test art folders hold exactly the seven exports",
+   "name": "the density-test art folders hold exactly the nine exports",
    "ok": true,
    "detail": [
     "art/portraits/receptionist/density_test/reception_background_282x139.png",
+    "art/portraits/receptionist/density_test/receptionist_03_box_282x139.png",
+    "art/portraits/receptionist/density_test/receptionist_03_full_564x278.png",
     "art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png",
     "art/portraits/receptionist/density_test/receptionist_282x139.png",
     "art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png",
@@ -421,13 +565,13 @@
   },
   {
    "scope": "static",
-   "name": "no density-test art file is larger than its logical canvas (no pre-upscaled or master-size exports)",
+   "name": "every density-test art file is exactly its recorded logical canvas (no pre-upscaled or master-size exports)",
    "ok": true,
    "detail": []
   },
   {
    "scope": "static",
-   "name": "normalize.py reproduces all seven exports byte for byte from the local sources",
+   "name": "normalize.py reproduces all nine exports byte for byte from the local sources",
    "ok": true,
    "detail": [
     "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png",
@@ -436,18 +580,20 @@
     "art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_clean_314x206.png",
     "art/portraits/receptionist/density_test/reception_background_282x139.png",
     "art/portraits/receptionist/density_test/receptionist_282x139.png",
-    "art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png"
+    "art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png",
+    "art/portraits/receptionist/density_test/receptionist_03_box_282x139.png",
+    "art/portraits/receptionist/density_test/receptionist_03_full_564x278.png"
    ]
   },
   {
    "scope": "chromium",
-   "name": "defaults: scene C and portrait 03 NEAREST",
+   "name": "defaults: scene C and portrait P3-FULL",
    "ok": true,
    "detail": [
     "c",
-    "03",
+    "full",
     "../../art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_clean_314x206.png",
-    "../../art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png"
+    "../../art/portraits/receptionist/density_test/receptionist_03_full_564x278.png"
    ]
   },
   {
@@ -713,14 +859,14 @@
   },
   {
    "scope": "chromium",
-   "name": "scene A at exact 4x and portrait 03 at exact 2x nearest neighbour (binary alpha), overflow clipped",
+   "name": "scene A at exact 4x and P3-FULL at exact 1x (binary alpha), overflow clipped",
    "ok": true,
    "detail": {
     "sceneChecked": 997017,
     "sceneBad": 0,
     "portraitChecked": 148790,
     "portraitBad": 0,
-    "npcPixelsShown": 34284,
+    "npcPixelsShown": 34265,
     "clipChecked": 3334,
     "clipBad": 0,
     "firstBad": null
@@ -728,14 +874,14 @@
   },
   {
    "scope": "chromium",
-   "name": "scene B at exact 4x and portrait 03 at exact 2x nearest neighbour (binary alpha), overflow clipped",
+   "name": "scene B at exact 4x and P3-FULL at exact 1x (binary alpha), overflow clipped",
    "ok": true,
    "detail": {
     "sceneChecked": 997017,
     "sceneBad": 0,
     "portraitChecked": 148790,
     "portraitBad": 0,
-    "npcPixelsShown": 34284,
+    "npcPixelsShown": 34265,
     "clipChecked": 3334,
     "clipBad": 0,
     "firstBad": null
@@ -743,14 +889,14 @@
   },
   {
    "scope": "chromium",
-   "name": "scene C at exact 4x and portrait 03 at exact 2x nearest neighbour (binary alpha), overflow clipped",
+   "name": "scene C at exact 4x and P3-FULL at exact 1x (binary alpha), overflow clipped",
    "ok": true,
    "detail": {
     "sceneChecked": 997017,
     "sceneBad": 0,
     "portraitChecked": 148790,
     "portraitBad": 0,
-    "npcPixelsShown": 34284,
+    "npcPixelsShown": 34265,
     "clipChecked": 3334,
     "clipBad": 0,
     "firstBad": null
@@ -758,7 +904,7 @@
   },
   {
    "scope": "chromium",
-   "name": "served A/B/C and portrait 03 exports are the committed bytes",
+   "name": "served A/B/C and P3-FULL exports are the committed bytes",
    "ok": true
   },
   {
@@ -782,7 +928,7 @@
   },
   {
    "scope": "chromium",
-   "name": "default view with portrait 03 hidden: background alone, exactly; only portrait pixels change",
+   "name": "default view with the NPC hidden: background alone, exactly; only portrait pixels change",
    "ok": true,
    "detail": {
     "cOffC": {
@@ -797,7 +943,136 @@
     },
     "onOffC": {
      "inside": 0,
-     "outside": 34284
+     "outside": 34265
+    }
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "P3-FULL: natural 564x278, page box exactly 564x278 at (1333,44), scale exactly 1x, no transform, smoothing off",
+   "ok": true,
+   "detail": {
+    "src": "../../art/portraits/receptionist/density_test/receptionist_03_full_564x278.png",
+    "natural": [
+     564,
+     278
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "transform": "none"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "P3-FULL screen equals the served PNG pixel for pixel (1:1) wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 34265,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "P3-282-N: natural 282x139, page box exactly 564x278 at (1333,44), scale exactly 2x, no transform, smoothing off",
+   "ok": true,
+   "detail": {
+    "src": "../../art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png",
+    "natural": [
+     282,
+     139
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "transform": "none"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "03n screen equals its exact 2x nearest-neighbour upscale wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 34284,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "P3-282-B: natural 282x139, page box exactly 564x278 at (1333,44), scale exactly 2x, no transform, smoothing off",
+   "ok": true,
+   "detail": {
+    "src": "../../art/portraits/receptionist/density_test/receptionist_03_box_282x139.png",
+    "natural": [
+     282,
+     139
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "transform": "none"
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "03b screen equals its exact 2x nearest-neighbour upscale wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 34292,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "served P3-282-N / P3-282-B exports are the committed bytes",
+   "ok": true
+  },
+  {
+   "scope": "chromium",
+   "name": "switching portrait candidates changes only portrait-aperture pixels (scene and shell identical)",
+   "ok": true,
+   "detail": {
+    "full_n": {
+     "inside": 33718,
+     "outside": 0
+    },
+    "n_b": {
+     "inside": 33352,
+     "outside": 0
+    },
+    "full_b": {
+     "inside": 31405,
+     "outside": 0
     }
    }
   },
@@ -820,12 +1095,16 @@
   },
   {
    "scope": "chromium",
-   "name": "portrait switch: default 03 NEAREST, P / button cycle 03 -> 01 -> 03",
+   "name": "portrait switch: default P3-FULL; P cycles FULL -> 282-N -> 282-B; buttons reach each and 01 (history); box stays 564x278",
    "ok": true,
    "detail": [
-    "03:receptionist_03_nearest_282x139.png",
-    "01:receptionist_282x139.png",
-    "03:receptionist_03_nearest_282x139.png"
+    "full:receptionist_03_full_564x278.png@564x278",
+    "03n:receptionist_03_nearest_282x139.png@564x278",
+    "03b:receptionist_03_box_282x139.png@564x278",
+    "full:receptionist_03_full_564x278.png@564x278",
+    "01:receptionist_282x139.png@564x278",
+    "03b:receptionist_03_box_282x139.png@564x278",
+    "full:receptionist_03_full_564x278.png@564x278"
    ]
   },
   {
@@ -849,7 +1128,7 @@
    "scope": "chromium",
    "name": "readout states logical and display sizes",
    "ok": true,
-   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     C - NEAREST + colour merge (scene B pixels, per-colour CIEDE2000 <= 2.0 merge, no spatial step)\n          314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nNPC       03 - NEAREST (receptionist_portrait_density_test_03_raw, NEAREST, binary alpha, no colour cleanup)\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
+   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     C - NEAREST + colour merge (scene B pixels, per-colour CIEDE2000 <= 2.0 merge, no spatial step)\n          314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nNPC       P3-FULL 564x278 x1 (portrait 03 raw, premultiplied LANCZOS to 564x278, alpha >= 128, no colour cleanup)\n          564x278 logical  x1 nearest  = 564x278 display\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
   },
   {
    "scope": "chromium",
@@ -859,13 +1138,13 @@
   },
   {
    "scope": "firefox",
-   "name": "defaults: scene C and portrait 03 NEAREST",
+   "name": "defaults: scene C and portrait P3-FULL",
    "ok": true,
    "detail": [
     "c",
-    "03",
+    "full",
     "../../art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_clean_314x206.png",
-    "../../art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png"
+    "../../art/portraits/receptionist/density_test/receptionist_03_full_564x278.png"
    ]
   },
   {
@@ -1131,14 +1410,14 @@
   },
   {
    "scope": "firefox",
-   "name": "scene A at exact 4x and portrait 03 at exact 2x nearest neighbour (binary alpha), overflow clipped",
+   "name": "scene A at exact 4x and P3-FULL at exact 1x (binary alpha), overflow clipped",
    "ok": true,
    "detail": {
     "sceneChecked": 997017,
     "sceneBad": 0,
     "portraitChecked": 148790,
     "portraitBad": 0,
-    "npcPixelsShown": 34284,
+    "npcPixelsShown": 34265,
     "clipChecked": 3334,
     "clipBad": 0,
     "firstBad": null
@@ -1146,14 +1425,14 @@
   },
   {
    "scope": "firefox",
-   "name": "scene B at exact 4x and portrait 03 at exact 2x nearest neighbour (binary alpha), overflow clipped",
+   "name": "scene B at exact 4x and P3-FULL at exact 1x (binary alpha), overflow clipped",
    "ok": true,
    "detail": {
     "sceneChecked": 997017,
     "sceneBad": 0,
     "portraitChecked": 148790,
     "portraitBad": 0,
-    "npcPixelsShown": 34284,
+    "npcPixelsShown": 34265,
     "clipChecked": 3334,
     "clipBad": 0,
     "firstBad": null
@@ -1161,14 +1440,14 @@
   },
   {
    "scope": "firefox",
-   "name": "scene C at exact 4x and portrait 03 at exact 2x nearest neighbour (binary alpha), overflow clipped",
+   "name": "scene C at exact 4x and P3-FULL at exact 1x (binary alpha), overflow clipped",
    "ok": true,
    "detail": {
     "sceneChecked": 997017,
     "sceneBad": 0,
     "portraitChecked": 148790,
     "portraitBad": 0,
-    "npcPixelsShown": 34284,
+    "npcPixelsShown": 34265,
     "clipChecked": 3334,
     "clipBad": 0,
     "firstBad": null
@@ -1176,7 +1455,7 @@
   },
   {
    "scope": "firefox",
-   "name": "served A/B/C and portrait 03 exports are the committed bytes",
+   "name": "served A/B/C and P3-FULL exports are the committed bytes",
    "ok": true
   },
   {
@@ -1200,7 +1479,7 @@
   },
   {
    "scope": "firefox",
-   "name": "default view with portrait 03 hidden: background alone, exactly; only portrait pixels change",
+   "name": "default view with the NPC hidden: background alone, exactly; only portrait pixels change",
    "ok": true,
    "detail": {
     "cOffC": {
@@ -1215,7 +1494,136 @@
     },
     "onOffC": {
      "inside": 0,
-     "outside": 34284
+     "outside": 34265
+    }
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "P3-FULL: natural 564x278, page box exactly 564x278 at (1333,44), scale exactly 1x, no transform, smoothing off",
+   "ok": true,
+   "detail": {
+    "src": "../../art/portraits/receptionist/density_test/receptionist_03_full_564x278.png",
+    "natural": [
+     564,
+     278
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "transform": "none"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "P3-FULL screen equals the served PNG pixel for pixel (1:1) wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 34265,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "P3-282-N: natural 282x139, page box exactly 564x278 at (1333,44), scale exactly 2x, no transform, smoothing off",
+   "ok": true,
+   "detail": {
+    "src": "../../art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png",
+    "natural": [
+     282,
+     139
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "transform": "none"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "03n screen equals its exact 2x nearest-neighbour upscale wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 34284,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "P3-282-B: natural 282x139, page box exactly 564x278 at (1333,44), scale exactly 2x, no transform, smoothing off",
+   "ok": true,
+   "detail": {
+    "src": "../../art/portraits/receptionist/density_test/receptionist_03_box_282x139.png",
+    "natural": [
+     282,
+     139
+    ],
+    "box": [
+     1333,
+     44,
+     564,
+     278
+    ],
+    "rendering": "pixelated",
+    "transform": "none"
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "03b screen equals its exact 2x nearest-neighbour upscale wherever the shell is clear",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 34292,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "served P3-282-N / P3-282-B exports are the committed bytes",
+   "ok": true
+  },
+  {
+   "scope": "firefox",
+   "name": "switching portrait candidates changes only portrait-aperture pixels (scene and shell identical)",
+   "ok": true,
+   "detail": {
+    "full_n": {
+     "inside": 33718,
+     "outside": 0
+    },
+    "n_b": {
+     "inside": 33352,
+     "outside": 0
+    },
+    "full_b": {
+     "inside": 31405,
+     "outside": 0
     }
    }
   },
@@ -1238,12 +1646,16 @@
   },
   {
    "scope": "firefox",
-   "name": "portrait switch: default 03 NEAREST, P / button cycle 03 -> 01 -> 03",
+   "name": "portrait switch: default P3-FULL; P cycles FULL -> 282-N -> 282-B; buttons reach each and 01 (history); box stays 564x278",
    "ok": true,
    "detail": [
-    "03:receptionist_03_nearest_282x139.png",
-    "01:receptionist_282x139.png",
-    "03:receptionist_03_nearest_282x139.png"
+    "full:receptionist_03_full_564x278.png@564x278",
+    "03n:receptionist_03_nearest_282x139.png@564x278",
+    "03b:receptionist_03_box_282x139.png@564x278",
+    "full:receptionist_03_full_564x278.png@564x278",
+    "01:receptionist_282x139.png@564x278",
+    "03b:receptionist_03_box_282x139.png@564x278",
+    "full:receptionist_03_full_564x278.png@564x278"
    ]
   },
   {
@@ -1267,7 +1679,7 @@
    "scope": "firefox",
    "name": "readout states logical and display sizes",
    "ok": true,
-   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     C - NEAREST + colour merge (scene B pixels, per-colour CIEDE2000 <= 2.0 merge, no spatial step)\n          314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nNPC       03 - NEAREST (receptionist_portrait_density_test_03_raw, NEAREST, binary alpha, no colour cleanup)\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
+   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     C - NEAREST + colour merge (scene B pixels, per-colour CIEDE2000 <= 2.0 merge, no spatial step)\n          314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nNPC       P3-FULL 564x278 x1 (portrait 03 raw, premultiplied LANCZOS to 564x278, alpha >= 128, no colour cleanup)\n          564x278 logical  x1 nearest  = 564x278 display\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
   },
   {
    "scope": "firefox",

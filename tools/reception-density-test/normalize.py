@@ -11,6 +11,8 @@ review exports at their exact logical sizes, plus a manifest of what was done:
   art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_clean_314x206.png (RGB, C: B + colour merge)
   art/portraits/receptionist/density_test/receptionist_282x139.png                          (RGBA, BOX, alpha 0/255)
   art/portraits/receptionist/density_test/receptionist_03_nearest_282x139.png               (RGBA, NEAREST, alpha 0/255)
+  art/portraits/receptionist/density_test/receptionist_03_box_282x139.png                   (RGBA, BOX, alpha 0/255; comparison)
+  art/portraits/receptionist/density_test/receptionist_03_full_564x278.png                  (RGBA, LANCZOS, alpha 0/255; 1x)
   tools/reception-density-test/density_test_manifest.json
 
 Scene 02 A/B (docs/55 section 13, PMO direction 2026-11-07): the same raw
@@ -20,6 +22,10 @@ reception_world_scene_density_test_02_raw.png and the same crop box, reduced two
   C = B's exact pixels with a non-spatial perceptual colour merge (colormerge.py, docs/55 section 14):
       a per-colour lookup table applied pixel by pixel; nothing is resampled or moved.
 Portrait 03 (docs/55 section 14) uses the NEAREST path with binary alpha and no colour cleanup.
+Portrait 03 FULL (docs/55 section 15): the full 564x278 aperture resolution, shown at 1x. A higher-
+density portrait hypothesis, not pixel-art geometry: premultiplied LANCZOS straight from the raw
+source (Pillow resamples RGBA premultiplied), alpha >= 128 -> 255, no colour cleanup. The scene rule
+below is unchanged.
 Rule since section 13: pixel-art sources are reduced with NEAREST only, never an averaging resample.
 Steps 2 and 4 below describe the BOX path; the NEAREST path is step 1, then a NEAREST resize
 (each logical pixel takes the source pixel at the centre of its footprint), and nothing else.
@@ -128,6 +134,26 @@ ASSETS = [
         'mode': 'RGBA',
         'display_scale': 2,
         'resample': 'NEAREST',
+        'colors': None,
+    },
+    {
+        'id': 'portrait_npc_03_box',
+        'source': 'receptionist_portrait_density_test_03_raw.png',
+        'out': 'art/portraits/receptionist/density_test/receptionist_03_box_282x139.png',
+        'size': (282, 139),
+        'mode': 'RGBA',
+        'display_scale': 2,
+        'resample': 'BOX',
+        'colors': None,
+    },
+    {
+        'id': 'portrait_npc_03_full',
+        'source': 'receptionist_portrait_density_test_03_raw.png',
+        'out': 'art/portraits/receptionist/density_test/receptionist_03_full_564x278.png',
+        'size': (564, 278),
+        'mode': 'RGBA',
+        'display_scale': 1,
+        'resample': 'LANCZOS',
         'colors': None,
     },
 ]

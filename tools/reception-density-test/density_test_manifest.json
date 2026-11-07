@@ -386,6 +386,114 @@
      "partial": 0
     }
    }
+  },
+  "portrait_npc_03_box": {
+   "source": {
+    "file": "source/reception_density/receptionist_portrait_density_test_03_raw.png",
+    "sha256": "e6af89d3ef9bd6fc6d8defc21fe306ea92515bd20d5718ed3e2fb02acfee5e10",
+    "size": [
+     1786,
+     881
+    ],
+    "mode": "RGBA",
+    "unique_rgb": 53192,
+    "alpha": {
+     "values": "256 distinct values",
+     "near_opaque_251_254": 333057,
+     "transparent": 1215258,
+     "opaque": 253,
+     "partial": 357955
+    }
+   },
+   "crop_box": [
+    0.0,
+    0.3333,
+    1786.0,
+    880.6667
+   ],
+   "resample": "BOX",
+   "downsampled_unique_rgb": 3972,
+   "color_reduction": null,
+   "output": {
+    "file": "art/portraits/receptionist/density_test/receptionist_03_box_282x139.png",
+    "sha256": "7529e2db710c2d2b21be5e86dbe51d092bc7d6c8117b35b0b3754bac8948e1d6",
+    "logical": [
+     282,
+     139
+    ],
+    "mode": "RGBA",
+    "display_scale": 2,
+    "display": [
+     564,
+     278
+    ],
+    "unique_rgb": 3972,
+    "unique_rgb_including_transparent": 3973,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "near_opaque_251_254": 0,
+     "transparent": 30625,
+     "opaque": 8573,
+     "partial": 0
+    }
+   }
+  },
+  "portrait_npc_03_full": {
+   "source": {
+    "file": "source/reception_density/receptionist_portrait_density_test_03_raw.png",
+    "sha256": "e6af89d3ef9bd6fc6d8defc21fe306ea92515bd20d5718ed3e2fb02acfee5e10",
+    "size": [
+     1786,
+     881
+    ],
+    "mode": "RGBA",
+    "unique_rgb": 53192,
+    "alpha": {
+     "values": "256 distinct values",
+     "near_opaque_251_254": 333057,
+     "transparent": 1215258,
+     "opaque": 253,
+     "partial": 357955
+    }
+   },
+   "crop_box": [
+    0.0,
+    0.3333,
+    1786.0,
+    880.6667
+   ],
+   "resample": "LANCZOS",
+   "downsampled_unique_rgb": 11756,
+   "color_reduction": null,
+   "output": {
+    "file": "art/portraits/receptionist/density_test/receptionist_03_full_564x278.png",
+    "sha256": "66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3",
+    "logical": [
+     564,
+     278
+    ],
+    "mode": "RGBA",
+    "display_scale": 1,
+    "display": [
+     564,
+     278
+    ],
+    "unique_rgb": 11756,
+    "unique_rgb_including_transparent": 11756,
+    "alpha": {
+     "values": [
+      0,
+      255
+     ],
+     "near_opaque_251_254": 0,
+     "transparent": 122527,
+     "opaque": 34265,
+     "partial": 0
+    }
+   }
   }
  }
 }
