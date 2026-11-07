@@ -15,7 +15,7 @@ window.M1_LAB_DATA = {
   "spritePackage": {
    "id": "m1-approved-sprite-package-v1",
    "path": "art/ui",
-   "atlasSha256": "002786f60dec4929cf0120b6c399105c0420a7414c1a48a69a4f10bda7192cb5",
+   "atlasSha256": "15572035d8d2c39acad00bee31f74837d8cda1a3912eb1e985b1a9da5ec9a844",
    "spriteCount": 29,
    "status": "APPROVED_PACKAGE"
   },
@@ -1113,7 +1113,7 @@ window.M1_LAB_DATA = {
    },
    "a": {
     "x": 364,
-    "y": 2,
+    "y": 6,
     "w": 11,
     "h": 14,
     "advance": 14,
@@ -1129,7 +1129,7 @@ window.M1_LAB_DATA = {
    },
    "c": {
     "x": 390,
-    "y": 2,
+    "y": 6,
     "w": 10,
     "h": 14,
     "advance": 13,
@@ -1145,9 +1145,9 @@ window.M1_LAB_DATA = {
    },
    "e": {
     "x": 415,
-    "y": 2,
+    "y": 7,
     "w": 11,
-    "h": 13,
+    "h": 12,
     "advance": 13,
     "bearingY": 5
    },
@@ -1253,7 +1253,7 @@ window.M1_LAB_DATA = {
     "w": 10,
     "h": 13,
     "advance": 12,
-    "bearingY": 5
+    "bearingY": 4
    },
    "s": {
     "x": 82,
@@ -1283,9 +1283,9 @@ window.M1_LAB_DATA = {
     "x": 118,
     "y": 27,
     "w": 12,
-    "h": 12,
+    "h": 13,
     "advance": 16,
-    "bearingY": 5
+    "bearingY": 4
    },
    "w": {
     "x": 132,
@@ -1293,7 +1293,7 @@ window.M1_LAB_DATA = {
     "w": 13,
     "h": 13,
     "advance": 16,
-    "bearingY": 5
+    "bearingY": 4
    },
    "x": {
     "x": 147,
@@ -1301,7 +1301,7 @@ window.M1_LAB_DATA = {
     "w": 12,
     "h": 13,
     "advance": 14,
-    "bearingY": 5
+    "bearingY": 4
    },
    "y": {
     "x": 161,
@@ -1440,12 +1440,12 @@ window.M1_LAB_DATA = {
     "bearingY": 9
    },
    ":": {
-    "x": 369,
-    "y": 26,
-    "w": 6,
-    "h": 13,
+    "x": 370,
+    "y": 27,
+    "w": 4,
+    "h": 12,
     "advance": 11,
-    "bearingY": 4
+    "bearingY": 5
    },
    ";": {
     "x": 376,
@@ -1477,7 +1477,7 @@ window.M1_LAB_DATA = {
     "w": 8,
     "h": 21,
     "advance": 12,
-    "bearingY": 0
+    "bearingY": 1
    },
    "]": {
     "x": 414,
@@ -1485,7 +1485,7 @@ window.M1_LAB_DATA = {
     "w": 8,
     "h": 21,
     "advance": 13,
-    "bearingY": 0
+    "bearingY": 1
    },
    "\"": {
     "x": 424,

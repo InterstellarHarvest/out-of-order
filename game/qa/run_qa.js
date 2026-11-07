@@ -91,8 +91,8 @@ function staticChecks() {
   const oldMap = JSON.parse(execFileSync('git', ['show', `${START_SHA}:${GLYPH_JSON}`], { cwd: ROOT })).mapping;
   const newMap = JSON.parse(fs.readFileSync(path.join(ROOT, GLYPH_JSON))).mapping;
   const boxChanged = Object.keys(newMap).filter((ch) => JSON.stringify(newMap[ch]) !== JSON.stringify(oldMap[ch]));
-  check(b, 'only the colon and l glyph boxes changed, same characters and advances',
-    boxChanged.sort().join('') === ':l' && Object.keys(newMap).join('') === Object.keys(oldMap).join('')
+  check(b, 'only the fitted glyph boxes (a c e l r v w x [ ]) changed, same characters and advances',
+    boxChanged.sort().join('') === '[]acelrvwx' && Object.keys(newMap).join('') === Object.keys(oldMap).join('')
     && Object.keys(newMap).every((ch) => newMap[ch].advance === oldMap[ch].advance), boxChanged);
   check(b, 'shell SHA-256 unchanged', sha256(fs.readFileSync(path.join(ROOT, SHELL_PATH))) === SHELL_SHA256);
   const bad = Object.keys(sheet.sprites).filter((n) => sha256(fs.readFileSync(path.join(ROOT, 'art/ui', sheet.sprites[n].package_path))) !== sheet.sprites[n].sha256);

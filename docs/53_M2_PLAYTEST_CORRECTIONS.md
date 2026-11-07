@@ -71,25 +71,44 @@ sprite pipeline: `locked_pixel_font_atlas_dark.png`, `_light.png` and the uninde
   `snapshot_assets.js`. Placements saved against the previous atlas `1f7094a5…` still import.
 - **Pixels:** the owner's pixels are integrated as drawn; nothing was redrawn.
 
-Two glyph boxes in `locked_pixel_font_atlas.json` were widened, because the renderer clips each
-glyph to its box and some new pixels fell outside:
-- `:` — x370 y27 4×12 bearingY 5 → x369 y26 6×13 bearingY 4. The colon's top dot is now a 6 px
-  rounded shape; it draws on the same rows as before.
-- `l` — width 6 → 7 (the foot's last pixel).
+**Second owner pass (`maintenance commit after 3d51d9c`).** The owner re-edited all three atlases:
+- A–G brought to full cap height;
+- e, r, u, v, w, x brought to the common x-height;
+- 5, 6, ( ) and [ ] brought to cap height;
+- f, g, j, l, s, ? and the colon touched up;
+- a, c and e moved down in the atlas.
 
-**For the owner's eye.** These are pixel decisions, not placement errors, so they were left as drawn:
-- A–G and W are now 16 rows tall (bottom row removed); H–Z keep 17, so those letters sit 1 px
-  short at the baseline beside H, L, etc.
-- e, r, v, w, x now start a row lower than the other x-height letters.
-- u ends a row early.
-- p and q descend one row less than g, j, y.
-- The colon's top dot is a 6 × 6 "+"-like shape over a 4 × 4 lower dot.
+The renderer clips each glyph to its JSON box and places it by `bearingY`, so the boxes were fitted
+to the pixels. No overlaps; no character or advance changed. Before the fit, 73 pixels lay outside
+their boxes; now every inked pixel is inside its box.
+
+| Glyph | Change | Result |
+|---|---|---|
+| a, c | box y2 → y6 | same drawn rows as before (5–16) |
+| e | y2 h13 → y7 h12 | the common x-height rows (5–16) |
+| r, w, x | bearingY 5 → 4 | all short lowercase on rows 5–16 |
+| v | h12 → h13, bearingY 5 → 4 | all short lowercase on rows 5–16 |
+| [ ] | bearingY 0 → 1 | rows 1–17, with ( ), the capitals and digits |
+| l | width 6 → 7 | holds the foot |
+| : | back to its original box | the new dot fits it |
+
+Now on common rows:
+- every capital except W;
+- every digit;
+- every short lowercase letter;
+- `! ? ( ) [ ]`.
+
+**Still for the owner's eye.** These are pixel decisions, left as drawn:
+- W is one row shorter than the other capitals at the baseline.
+- b, d, t start a row below f, h, i, k, l.
+- The descenders differ: j ends at row 19, p and q at 20, g and y at 21; y starts a row below g.
 
 ## QA (this Mac)
 
 - Route validation: 38/38.
 - Game QA: 300/300 (static 18, Chromium 141, Firefox 141).
-- Layout-lab QA: 1916/1916 at `02325d2`.
+- Layout-lab QA: 1918/1918 after the second font pass. One earlier run had 2 Firefox send-timing
+  flakes, which cleared on re-run.
 
 New game checks:
 - **Brass tab:** no marker element or sprite request; focus adds no decoration.

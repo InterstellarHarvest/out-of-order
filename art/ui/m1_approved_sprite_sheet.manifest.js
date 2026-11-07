@@ -4,7 +4,7 @@ window.M1_SPRITE_SHEET = {
   "package_status": "APPROVED_PACKAGE",
   "runtime_integrated": false,
   "image": "m1_approved_sprite_sheet.png",
-  "image_sha256": "002786f60dec4929cf0120b6c399105c0420a7414c1a48a69a4f10bda7192cb5",
+  "image_sha256": "15572035d8d2c39acad00bee31f74837d8cda1a3912eb1e985b1a9da5ec9a844",
   "width": 1676,
   "height": 1163,
   "margin": 8,
@@ -606,16 +606,16 @@ window.M1_SPRITE_SHEET = {
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas_dark.png",
       "package_path": "sprites/fonts/locked_pixel_font_atlas_dark.png",
-      "sha256": "caa84ab9acb990b98d556798cbd50a261764c470996a69149e3c21ea5cf38f90",
-      "rgba_sha256": "adf22f145d039d8c9b5824af8e6533946783de635f06a3b2d542493a5ca427df",
+      "sha256": "dde763646cdeced3dd19e337eb98ac3de75ace2795dc9d0ff02862a4263fabfa",
+      "rgba_sha256": "7a70006ad3dfa87f687ca3d40c16db47a2e1056fd1af1911b66eb6d669805f35",
       "note": "Glyph coordinates in locked_pixel_font_atlas.json are relative to this sprite's x, y.",
       "correction": {
         "source_sha256": "592c656b4d4d5bc2b0ae4cd204d40b89c8878df021797255b88b48f5fce18fa1",
         "owner_edit": {
           "date": "2026-11-06",
           "sha256_before": "592c656b4d4d5bc2b0ae4cd204d40b89c8878df021797255b88b48f5fce18fa1",
-          "sha256_after": "caa84ab9acb990b98d556798cbd50a261764c470996a69149e3c21ea5cf38f90",
-          "description": "Hand edit by the owner to the glyph pixels only (stray pixels removed, strokes evened); atlas size, ink colour and glyph positions unchanged."
+          "sha256_after": "dde763646cdeced3dd19e337eb98ac3de75ace2795dc9d0ff02862a4263fabfa",
+          "description": "Hand edit by the owner to the glyph pixels only, in two passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas. Atlas size and ink colour unchanged."
         }
       }
     },
@@ -633,16 +633,16 @@ window.M1_SPRITE_SHEET = {
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas_light.png",
       "package_path": "sprites/fonts/locked_pixel_font_atlas_light.png",
-      "sha256": "226e1facaaf1600deebc5d69a806adc7f4a52689246e852104e20646dd99968f",
-      "rgba_sha256": "c91724e627b50c6e1c391f3119f28d6694c0e55b4439a12d8bdeb1e260c0f22a",
+      "sha256": "5e84b96f7937426dda777d75781063a624bfb96663684520e1ba929da2265bf7",
+      "rgba_sha256": "a1049f537ed83ccf18e2d464d2c01fae17135981de224c9c259591f21cbb6c52",
       "note": "Glyph coordinates in locked_pixel_font_atlas.json are relative to this sprite's x, y.",
       "correction": {
         "source_sha256": "664480a3ada9cee638feadd46deb85e07558d8630687a8657a4cfb1b2b9ca6e6",
         "owner_edit": {
           "date": "2026-11-06",
           "sha256_before": "664480a3ada9cee638feadd46deb85e07558d8630687a8657a4cfb1b2b9ca6e6",
-          "sha256_after": "226e1facaaf1600deebc5d69a806adc7f4a52689246e852104e20646dd99968f",
-          "description": "Hand edit by the owner to the glyph pixels only (stray pixels removed, strokes evened); atlas size, ink colour and glyph positions unchanged."
+          "sha256_after": "5e84b96f7937426dda777d75781063a624bfb96663684520e1ba929da2265bf7",
+          "description": "Hand edit by the owner to the glyph pixels only, in two passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas. Atlas size and ink colour unchanged."
         }
       }
     },
@@ -660,16 +660,16 @@ window.M1_SPRITE_SHEET = {
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas.png",
       "package_path": "sprites/fonts/locked_pixel_font_atlas.png",
-      "sha256": "b09f360d797068d53e4e102d552dfad5b07c48bb9a244d5e8b492ef93254312f",
-      "rgba_sha256": "5a9e5a9917b34cb928d5eef45bc3297800da0a78fccbe46bc6cf829d98bc9ba3",
+      "sha256": "2996a984ee1675310b569d379b47b9cead6ad2e2010836ef605bcc754e03b6ef",
+      "rgba_sha256": "29f7204d9e725317e029b35c253e74dfa683ae81e0b017ee7ba9a07b137b7279",
       "note": "Earlier 364x78 white-glyph layout. locked_pixel_font_atlas.json does not index it; use the dark or light atlas for glyph lookup.",
       "correction": {
         "source_sha256": "ae185e43d1bdc14b1cb2f46b13799c6629f1d023ff09508a3a9f62b862161895",
         "owner_edit": {
           "date": "2026-11-06",
           "sha256_before": "ae185e43d1bdc14b1cb2f46b13799c6629f1d023ff09508a3a9f62b862161895",
-          "sha256_after": "b09f360d797068d53e4e102d552dfad5b07c48bb9a244d5e8b492ef93254312f",
-          "description": "Hand edit by the owner to the glyph pixels only (stray pixels removed, strokes evened); atlas size, ink colour and glyph positions unchanged."
+          "sha256_after": "2996a984ee1675310b569d379b47b9cead6ad2e2010836ef605bcc754e03b6ef",
+          "description": "Hand edit by the owner to the glyph pixels only, in two passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas. Atlas size and ink colour unchanged."
         }
       }
     }
@@ -683,7 +683,7 @@ window.M1_SPRITE_SHEET = {
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas.json",
       "package_path": "sprites/fonts/locked_pixel_font_atlas.json",
-      "sha256": "5a5c2260ba443bc0160d7a9b82822be1ba19619995aa6639735decf4495e2309",
+      "sha256": "eedde278733b7a80bc233d82104b9f816759999ea99c348cf8242952866a2267",
       "indexes": [
         "locked_pixel_font_atlas_dark",
         "locked_pixel_font_atlas_light"
@@ -693,8 +693,8 @@ window.M1_SPRITE_SHEET = {
         "box_fit": {
           "date": "2026-11-06",
           "sha256_before": "8c942ed820752663a0fac4e19b43b51147795a8c324f02e0e7393a9c9975f34e",
-          "sha256_after": "5a5c2260ba443bc0160d7a9b82822be1ba19619995aa6639735decf4495e2309",
-          "description": "Two glyph boxes widened to hold the owner's cleaned pixels: ':' x370 y27 4x12 bearingY 5 -> x369 y26 6x13 bearingY 4 (same drawn rows); 'l' width 6 -> 7. No other glyph changed."
+          "sha256_after": "eedde278733b7a80bc233d82104b9f816759999ea99c348cf8242952866a2267",
+          "description": "Glyph boxes and bearingY fitted to the owner's cleaned atlas so every inked pixel is inside its box and each group draws on common rows. a, c: box y2 -> y6 (drawn rows unchanged). e: y2 h13 -> y7 h12 (now the common x-height rows). r, w, x: bearingY 5 -> 4; v: h12 -> h13, bearingY 5 -> 4 (all short lowercase on rows 5-16). [ ]: bearingY 0 -> 1 (rows 1-17, with ( ) and the capitals). l: width 6 -> 7 (the foot). ':' kept at its original box. No character or advance changed."
         }
       }
     }
