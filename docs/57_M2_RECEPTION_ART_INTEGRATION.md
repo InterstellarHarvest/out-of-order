@@ -143,3 +143,25 @@ python3 -m http.server 8137
 ```
 
 Then open <http://localhost:8137/game/index.html>. Opening `game/index.html` directly from disk also works.
+
+
+## 9. PMO acceptance (2026-11-07)
+
+**Outcome: ACCEPTED as the M2 reception art-integration checkpoint.**
+
+PMO accepts the integrated scene, layered portrait, preload behavior, shell/inspector layering, and the narrow QA-guard repairs at branch head `6330bc8d2d4299ba64d4ceb6ca43cd730fd41ccb`.
+
+The checkpoint is fully green:
+- route validation 38/38;
+- game QA 347/347 across Chromium and Firefox;
+- layout lab 1920/1920.
+
+The integrated reception scene and portrait now replace their former development placeholders. The portrait background and NPC remain independent production layers.
+
+This acceptance does **not** merge the branch and does not imply the remaining user-facing placeholders are acceptable for M2 closeout.
+
+The next bounded art task is the item inspector:
+1. FACILITIES KEY inspect art;
+2. inspector close-button X, UP/DOWN.
+
+NOTES/FILES, tooltip and item-received slip remain later passes.
