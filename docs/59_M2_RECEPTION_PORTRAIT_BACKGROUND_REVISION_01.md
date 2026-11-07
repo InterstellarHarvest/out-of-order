@@ -101,3 +101,42 @@ This is a new, distinct receptionist design from the owner, also seated on the f
 - **Committed and pinned, but not loaded by the game**, like `idle2`.
 
 Game QA pins all three hashes, and the `art/` allowlist names each file exactly. QA also checks that the game never requests `idle2` or `idle3`. Results after these edits, including idle3: route **38/38**; game QA **351/351** (static 25/25, Chromium 163/163, Firefox 163/163). Two of four Firefox passes failed the opening-typing timing checks ("opens with the receptionist typing", "types character by character"). These are known Firefox timing flakes, unrelated to portrait files, and the final full run was clean. The layout lab is not affected by portrait files, and its last run here was 1920/1920.
+
+
+## 8. PMO portrait selection and background acceptance (2026-11-07)
+
+**Portrait background revision: ACCEPTED.**
+
+The tightened 564×278 background now reads as the receptionist's immediate workstation zone rather than as another wide view of the lobby. Removing the plant, hallway and right-side door resolves the scale/framing problem while preserving enough shared architecture to connect it to the world scene.
+
+**Receptionist selection: `receptionist_idle.png`.**
+
+PMO reviewed all three committed receptionist variants.
+
+### Selected — `receptionist_idle.png`
+
+Keep this as the production receptionist.
+
+Reasons:
+- strongest continuity with the small world-scene receptionist;
+- best fit for the intended competent, professionally patient, mildly suspicious bureaucratic character;
+- strongest silhouette against the tightened workstation background;
+- the fuller mid-century hairstyle and square glasses give the character a more specific identity;
+- expression reads controlled and authoritative rather than anxious;
+- the owner's 22 px downward placement correctly seats the torso on the portrait frame bottom.
+
+### Not selected — `receptionist_idle2.png`
+
+A good design, but it reads as a different person: younger/narrower, more worried and more naturalistic. It should not be used as an expression or pose variant of the selected receptionist.
+
+### Not selected — `receptionist_idle3.png`
+
+Also a good separate character design, but the face and expression read more anxious/vulnerable and the identity differs too much from the selected receptionist. It should not be used as an animation/expression frame for this NPC.
+
+The two alternates may remain in git history/reference evidence, but should not remain as unused production assets in the final branch tree unless they are deliberately reassigned to future NPCs.
+
+### Next
+
+Finalize this correction branch around the tightened background + selected `receptionist_idle.png`, remove the two unused alternates from the current production tree, restore the art allowlist/QA to only shipped assets, and rerun QA.
+
+The inspector-art pass should then restart from this corrected portrait baseline rather than from the older integration checkpoint.
