@@ -38,6 +38,106 @@ const MAINTENANCE = CLEANED.map((n) => `art/ui/sprites/choice_cards/${n}.png`).c
   'tools/layout-lab/qa/fixtures/placement.qa_baseline.json', 'tools/layout-lab/js/core.js', 'tools/layout-lab/qa/run_qa.js',
   'tools/layout-lab/README.md']);
 
+// Approved reception production art (docs/56 approval, docs/57 integration), pinned by hash. These
+// are the ONLY files the art/ allowlist admits beyond OWNER_ART; anything else under art/ fails.
+const PRODUCTION_ART = {
+  'art/scenes/conference_hall/reception/reception_scene.png': 'fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53', // 314x206 RGB
+  'art/portraits/receptionist/reception_background.png': '2f23075f151668624e3db1d687e7828a11f6fd11e447cd569ec53607e0f02d74', // 564x278 RGB
+  'art/portraits/receptionist/receptionist_idle.png': '66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3' // 564x278 RGBA
+};
+const SCENE_ART = 'art/scenes/conference_hall/reception/reception_scene.png';
+const BG_ART = 'art/portraits/receptionist/reception_background.png';
+const NPC_ART = 'art/portraits/receptionist/receptionist_idle.png';
+const OVERLAY_ART = 'art/ui/shell/item-overlay.png';
+// M1 surfaces the slice must not change: runtime art, design contracts and the lab. Mutable project
+// documentation (README, docs/) is governed by PMO review, not pinned to the M2 starting bytes.
+const M1_PROTECTED = ['art/ui', 'art/actions', 'art/items', 'design', 'tools/layout-lab'];
+
+// Minimal PNG decoder (8-bit grey/RGB/RGBA, non-interlaced: Pillow exports, the shell and browser
+// screenshots), so pixel checks never depend on a browser's canvas colour handling.
+function decodePng(buf) {
+  let pos = 8, width, height, depth, type, interlace;
+  const idat = [];
+  while (pos < buf.length) {
+    const len = buf.readUInt32BE(pos), t = buf.toString('ascii', pos + 4, pos + 8), body = buf.subarray(pos + 8, pos + 8 + len);
+    if (t === 'IHDR') { width = body.readUInt32BE(0); height = body.readUInt32BE(4); depth = body[8]; type = body[9]; interlace = body[12]; }
+    if (t === 'IDAT') idat.push(body);
+    pos += 12 + len;
+  }
+  const ch = { 0: 1, 2: 3, 4: 2, 6: 4 }[type];
+  if (depth !== 8 || !ch || interlace) throw new Error(`unsupported PNG (depth ${depth}, type ${type}, interlace ${interlace})`);
+  const raw = require('zlib').inflateSync(Buffer.concat(idat)), stride = width * ch, px = Buffer.alloc(height * stride);
+  for (let y = 0; y < height; y++) {
+    const f = raw[y * (stride + 1)], line = raw.subarray(y * (stride + 1) + 1, (y + 1) * (stride + 1));
+    for (let i = 0; i < stride; i++) {
+      const a = i >= ch ? px[y * stride + i - ch] : 0, b = y ? px[(y - 1) * stride + i] : 0, c = y && i >= ch ? px[(y - 1) * stride + i - ch] : 0;
+      let v = line[i];
+      if (f === 1) v += a; else if (f === 2) v += b; else if (f === 3) v += (a + b) >> 1;
+      else if (f === 4) { const q = a + b - c, pa = Math.abs(q - a), pb = Math.abs(q - b), pc = Math.abs(q - c); v += pa <= pb && pa <= pc ? a : pb <= pc ? b : c; }
+      px[y * stride + i] = v & 255;
+    }
+  }
+  const data = Buffer.alloc(width * height * 4);
+  for (let i = 0; i < width * height; i++) {
+    const k = i * ch;
+    if (ch <= 2) { data[i * 4] = data[i * 4 + 1] = data[i * 4 + 2] = px[k]; data[i * 4 + 3] = ch === 2 ? px[k + 1] : 255; }
+    else { data[i * 4] = px[k]; data[i * 4 + 1] = px[k + 1]; data[i * 4 + 2] = px[k + 2]; data[i * 4 + 3] = ch === 4 ? px[k + 3] : 255; }
+  }
+  return { width, height, type, data };
+}
+const pngCache = {};
+const png = (rel) => (pngCache[rel] = pngCache[rel] || decodePng(fs.readFileSync(path.join(ROOT, rel))));
+const pxAt = (img, x, y) => { const i = (y * img.width + x) * 4; return [img.data[i], img.data[i + 1], img.data[i + 2], img.data[i + 3]]; };
+const sameRgb = (a, b) => a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
+
+// Compares a 1920x1080 screenshot with the exact expected art wherever the canonical shell is fully
+// transparent: the scene as a 4x nearest-neighbour upscale of its 314x206 file, the portrait as the
+// 1:1 background with the binary-alpha NPC over it. Also checks the scene's 1 px / 2 px overflow is
+// clipped (only the shell over the stage colour shows just outside the aperture).
+function compareScreen(buf, regions, opts = {}) {
+  const shot = decodePng(buf), shell = png(SHELL_PATH), scene = png(SCENE_ART), bg = png(BG_ART), npc = png(NPC_ART);
+  const [sx, sy, sw, sh] = regions.sceneAperture.rect, [px, py, pw, ph] = regions.portraitAperture.rect;
+  const out = { width: shot.width, height: shot.height, sceneChecked: 0, sceneBad: 0, portraitChecked: 0, portraitBad: 0, npcShown: 0, clipChecked: 0, clipBad: 0, first: null };
+  for (let y = sy; y < sy + sh; y++) for (let x = sx; x < sx + sw; x++) {
+    if (pxAt(shell, x, y)[3] !== 0) continue;
+    out.sceneChecked++;
+    const want = pxAt(scene, (x - sx) >> 2, (y - sy) >> 2), got = pxAt(shot, x, y);
+    if (!sameRgb(want, got)) { out.sceneBad++; out.first = out.first || { x, y, want, got }; }
+  }
+  for (let y = py; y < py + ph; y++) for (let x = px; x < px + pw; x++) {
+    if (pxAt(shell, x, y)[3] !== 0) continue;
+    out.portraitChecked++;
+    const n = pxAt(npc, x - px, y - py), useNpc = opts.npc !== false && n[3] === 255;
+    if (useNpc) out.npcShown++;
+    const want = useNpc ? n : pxAt(bg, x - px, y - py), got = pxAt(shot, x, y);
+    if (!sameRgb(want, got)) { out.portraitBad++; out.first = out.first || { x, y, want, got }; }
+  }
+  const edge = [];
+  for (let x = sx; x <= sx + sw; x++) for (let y = sy + sh; y < sy + sh + 2; y++) edge.push([x, y]);
+  for (let y = sy; y < sy + sh; y++) edge.push([sx + sw, y]);
+  edge.forEach(([x, y]) => {
+    const s = pxAt(shell, x, y), a = s[3] / 255, got = pxAt(shot, x, y);
+    out.clipChecked++;
+    if ([0, 1, 2].some((i) => Math.abs(s[i] * a + STAGE_BG[i] * (1 - a) - got[i]) > 2)) out.clipBad++;
+  });
+  return out;
+}
+// The stage colour the shell composites over just outside the apertures (game/game.css #stage).
+const STAGE_BG = (() => {
+  const m = /#stage\s*\{[^}]*background:\s*#([0-9a-f]{6})/i.exec(fs.readFileSync(path.join(ROOT, 'game/game.css'), 'utf8'));
+  return [0, 2, 4].map((i) => parseInt(m[1].slice(i, i + 2), 16));
+})();
+// Pixels that differ between two screenshots, inside / outside a rectangle.
+function diffInRect(a, b, r) {
+  const A = decodePng(a), B = decodePng(b);
+  let inside = 0, outside = 0;
+  for (let y = 0; y < A.height; y++) for (let x = 0; x < A.width; x++) {
+    if (sameRgb(pxAt(A, x, y), pxAt(B, x, y))) continue;
+    if (x >= r[0] && x < r[0] + r[2] && y >= r[1] && y < r[1] + r[3]) inside++; else outside++;
+  }
+  return { inside, outside };
+}
+
 const content = require('../content/reception.js');
 const Rules = require('../js/rules.js');
 const sheet = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/m1_approved_sprite_sheet.json')));
@@ -58,21 +158,42 @@ function staticChecks() {
   // M1 is untouched since M2 began, except the one maintenance change the PMO authorised in
   // docs/49 section 2.7: six choice cards lose their stray rows-0-1 pixels, with the atlas, manifest
   // and lab pins that follow from that. New M2 notes may be added under docs/.
-  const protectedPaths = ['art', 'design', 'tools/layout-lab', 'README.md', 'docs'];
-  const changedSinceStart = git('diff', '--name-only', '--diff-filter=MDRTC', START_SHA, '--', ...protectedPaths).split('\n').filter(Boolean);
+  // Repaired 2026-11-07 (docs/57): the guard used to pin README.md and docs/ too, but approved PMO
+  // documentation (docs/45 section 6A, README) has since changed on main, so it failed for reasons
+  // unrelated to M1. It now pins exactly the M1 runtime art, design contracts and lab (M1_PROTECTED).
+  const changedSinceStart = git('diff', '--name-only', '--diff-filter=MDRTC', START_SHA, '--', ...M1_PROTECTED).split('\n').filter(Boolean);
   // The lab's own regenerated QA results and screenshots are output, not M1 source.
   const outside = changedSinceStart.filter((f) => !MAINTENANCE.includes(f) && !/^tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(f));
-  check(b, 'M1 art, design, lab and docs are unchanged since M2 began, apart from the owner\'s card-outline edit', outside.length === 0, outside);
+  check(b, 'M1 UI art, actions, items, design and lab are unchanged since M2 began, apart from the owner\'s recorded edits', outside.length === 0, outside);
   // The owner's item-inspector column overlay (docs/45 section 7) is pinned by hash and used
   // directly by the reception inspector. Remaining unapproved art is drawn as DEV placeholders.
   const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, '--', 'art', 'design', 'tools/layout-lab').split('\n').filter(Boolean);
-  const unexpected = added.filter((f) => !(f in OWNER_ART));
-  check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art', unexpected.length === 0, unexpected);
+  // Repaired 2026-11-07 (docs/57): the approved reception production art is now admitted by exact
+  // path and hash (PRODUCTION_ART). No folder wildcard: any other new file under art/ still fails.
+  const unexpected = added.filter((f) => !(f in OWNER_ART) && !(f in PRODUCTION_ART));
+  check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art and the approved reception art', unexpected.length === 0, unexpected);
+  const prodBad = Object.keys(PRODUCTION_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== PRODUCTION_ART[f]);
+  check(b, 'the three approved reception art files exist at their production paths with their approved hashes', prodBad.length === 0, prodBad);
+  const sc = png(SCENE_ART), bgi = png(BG_ART), npc = png(NPC_ART);
+  check(b, 'scene art is 314x206 opaque RGB', sc.width === 314 && sc.height === 206 && sc.type === 2, [sc.width, sc.height, sc.type]);
+  check(b, 'portrait background is 564x278 opaque RGB', bgi.width === 564 && bgi.height === 278 && bgi.type === 2, [bgi.width, bgi.height, bgi.type]);
+  const alphas = new Set();
+  let hiddenRgb = 0;
+  for (let i = 0; i < npc.width * npc.height; i++) {
+    const a = npc.data[i * 4 + 3];
+    alphas.add(a);
+    if (a === 0 && (npc.data[i * 4] || npc.data[i * 4 + 1] || npc.data[i * 4 + 2])) hiddenRgb++;
+  }
+  check(b, 'receptionist NPC is 564x278 RGBA with binary alpha {0,255}, real transparency and no RGB hidden under alpha 0',
+    npc.width === 564 && npc.height === 278 && npc.type === 6 && [...alphas].sort((x, y) => x - y).join() === '0,255' && pxAt(npc, 0, 0)[3] === 0 && hiddenRgb === 0,
+    { size: [npc.width, npc.height], type: npc.type, alphas: [...alphas].slice(0, 6), hiddenRgb });
+  const candidates = git('ls-files', 'art').split('\n').filter((f) => /_candidate_/.test(f));
+  check(b, 'no duplicate candidate PNGs remain beside the production files', candidates.length === 0, candidates);
   const ownerArtBad = Object.keys(OWNER_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== OWNER_ART[f]);
   check(b, 'the owner\'s added art matches its pinned hash', ownerArtBad.length === 0, ownerArtBad);
-  const working = git('status', '--porcelain', '--', ...protectedPaths).split('\n')
-    .filter((l) => l && !/^\?\? docs\//.test(l) && !/tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(l)).join('\n');
-  check(b, 'no uncommitted change to M1 art, design, lab or docs', working === '', working);
+  const working = git('status', '--porcelain', '--', ...M1_PROTECTED, ...Object.keys(PRODUCTION_ART)).split('\n')
+    .filter((l) => l && !/tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(l)).join('\n');
+  check(b, 'no uncommitted change to M1 art, design, lab or the reception production art', working === '', working);
   const blobSha = (rev, f) => sha256(execFileSync('git', ['show', `${rev}:${f}`], { cwd: ROOT }));
   const cardFix = Object.keys(sheet.sprites).filter((n) => sheet.sprites[n].correction && sheet.sprites[n].correction.owner_edit);
   check(b, 'exactly the ten edited cards and three font atlases record an owner edit', cardFix.sort().join() === OWNER_EDITED.join(), cardFix);
@@ -208,6 +329,72 @@ async function lookOf(page, sel) {
   });
 }
 
+// Production reception art (docs/57) ------------------------------------------------------------
+// A fresh page: the opening line finishes and the choices arrive, so nothing but the art and the
+// shell occupies the two apertures. Geometry, layer order and exact pixels; then a QA-only hide of
+// the NPC layer (a mutation made here, not a shipped control).
+async function artChecks(browser, base, measured, c) {
+  const { page, context, errors } = await openGame(browser, base);
+  await skipToChoices(page);
+  await page.waitForTimeout(300);
+  const g = await page.evaluate(() => {
+    const box = (e) => { const r = e.getBoundingClientRect(); return [r.left, r.top, r.width, r.height]; };
+    const style = (e) => { const s = getComputedStyle(e); return { t: s.transform, r: s.imageRendering, o: s.opacity, f: s.filter, tr: s.transitionDuration }; };
+    const sc = document.getElementById('scene'), img = sc.querySelector('img'), pr = document.getElementById('portrait');
+    const anc = [];
+    for (let e = img; e; e = e.parentElement) { const t = getComputedStyle(e).transform; if (t !== 'none') anc.push(e.id || e.tagName); }
+    return {
+      dpr: window.devicePixelRatio,
+      sceneBox: box(sc), sceneClip: getComputedStyle(sc).overflowX + '/' + getComputedStyle(sc).overflowY,
+      sceneImg: { id: img.id, natural: [img.naturalWidth, img.naturalHeight], box: box(img), src: img.getAttribute('src'), st: style(img), kids: sc.children.length },
+      portraitBox: box(pr), portraitClip: getComputedStyle(pr).overflowX + '/' + getComputedStyle(pr).overflowY,
+      layers: Array.from(pr.children).map((e) => ({ id: e.id, tag: e.tagName, box: box(e), natural: e.tagName === 'IMG' ? [e.naturalWidth, e.naturalHeight] : null,
+        src: e.getAttribute('src'), st: style(e), kids: e.children.length })),
+      stageOrder: Array.from(document.getElementById('stage').children).map((e) => e.id).slice(0, 4),
+      transforms: anc
+    };
+  });
+  const S = measured.sceneAperture.rect, P = measured.portraitAperture.rect;
+  const nn = (r) => r === 'pixelated' || r === 'crisp-edges';
+  c('art proof runs at canonical 1920x1080, devicePixelRatio 1, with no transform above the scene art', g.dpr === 1 && g.transforms.length === 0, g.transforms);
+  c('scene aperture is the committed 1255x822 rectangle and clips its content', JSON.stringify(g.sceneBox) === JSON.stringify(S) && /^(hidden|clip)\/(hidden|clip)$/.test(g.sceneClip), g);
+  c('scene art: 314x206 natural, displayed at exactly 4x (1256x824) from the aperture origin, nearest neighbour, no transform/filter/opacity/transition',
+    g.sceneImg.kids === 1 && /reception_scene\.png$/.test(g.sceneImg.src) && g.sceneImg.natural.join() === '314,206'
+    && JSON.stringify(g.sceneImg.box) === JSON.stringify([S[0], S[1], 1256, 824]) && g.sceneImg.box[2] / 314 === 4 && g.sceneImg.box[3] / 206 === 4
+    && g.sceneImg.st.t === 'none' && nn(g.sceneImg.st.r) && g.sceneImg.st.o === '1' && g.sceneImg.st.f === 'none' && parseFloat(g.sceneImg.st.tr) === 0, g.sceneImg);
+  c('portrait aperture is the committed 564x278 rectangle and clips its content', JSON.stringify(g.portraitBox) === JSON.stringify(P) && /^(hidden|clip)\/(hidden|clip)$/.test(g.portraitClip), g);
+  c('portrait layers, in order: background -> rear/mid FX -> NPC -> foreground FX (four separate elements, no canvas)',
+    g.layers.map((l) => l.id + ':' + l.tag).join() === 'portraitBackground:IMG,portraitRearFx:DIV,portraitNpc:IMG,portraitFrontFx:DIV', g.layers.map((l) => l.id + ':' + l.tag));
+  const [bgL, rearL, npcL, frontL] = g.layers;
+  c('portrait background and NPC: 564x278 natural, displayed at exactly 1x (564x278) at the aperture origin, no transform/filter/opacity/transition',
+    [bgL, npcL].every((l) => l.natural.join() === '564,278' && JSON.stringify(l.box) === JSON.stringify(P) && l.st.t === 'none' && nn(l.st.r)
+      && l.st.o === '1' && l.st.f === 'none' && parseFloat(l.st.tr) === 0)
+    && /reception_background\.png$/.test(bgL.src) && /receptionist_idle\.png$/.test(npcL.src), [bgL, npcL]);
+  c('FX layers are present, empty and cover the aperture', [rearL, frontL].every((l) => l.kids === 0 && JSON.stringify(l.box) === JSON.stringify(P)), [rearL, frontL]);
+  c('stage order: scene, portrait, overlay, then the shell on top', g.stageOrder.join() === 'scene,portrait,overlay,shell', g.stageOrder);
+
+  const on = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
+  await shot(page, '00_reception_art_dialogue.png');
+  const cmp = compareScreen(on, measured);
+  c('every clear-shell scene pixel is the exact 4x nearest-neighbour block of the 314x206 file', cmp.sceneChecked > 900000 && cmp.sceneBad === 0, cmp);
+  c('every clear-shell portrait pixel equals the 1:1 background + binary-alpha NPC composite', cmp.portraitChecked > 140000 && cmp.portraitBad === 0 && cmp.npcShown > 10000, cmp);
+  c('the scene\'s 1 px right / 2 px bottom overflow is clipped by the aperture', cmp.clipBad === 0, { clipChecked: cmp.clipChecked, clipBad: cmp.clipBad });
+
+  // QA-only mutation: hide the NPC layer. The background must show alone, exactly, and nothing
+  // outside the portrait aperture may change.
+  await page.evaluate(() => { document.getElementById('portraitNpc').style.visibility = 'hidden'; });
+  const off = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
+  const cmpOff = compareScreen(off, measured, { npc: false });
+  const d = diffInRect(on, off, P);
+  c('QA-only NPC hide: the portrait background stays intact and exact', cmpOff.portraitBad === 0 && cmpOff.npcShown === 0, cmpOff);
+  c('QA-only NPC hide changes only portrait-aperture pixels', d.inside > 10000 && d.outside === 0, d);
+  await page.evaluate(() => { document.getElementById('portraitNpc').style.visibility = ''; });
+  c('the game ships no NPC toggle or debug control for the portrait layers', await page.evaluate(() => !document.querySelector('[id*="npcToggle"], [data-npc-toggle]')
+    && !(window.CYOA_GAME.debug && Object.keys(window.CYOA_GAME.debug).some((k) => /npc|portrait/i.test(k)))));
+  c('no errors while proving the art', errors.length === 0, errors);
+  await context.close();
+}
+
 // The suite ------------------------------------------------------------------------------------
 async function suite(name, base, requests) {
   const browser = await playwright[name].launch();
@@ -233,15 +420,21 @@ async function suite(name, base, requests) {
   const ub = labDefaults.utility.buttons.map((u) => [u.x, u.y, u.displayWidth, u.displayHeight]);
   c('utility buttons use the lab working geometry', JSON.stringify(await Promise.all([0, 1, 2].map((i) => rect('#util-' + i)))) === JSON.stringify(ub));
   const measured = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/layout-lab/data/measured_shell_regions.json'))).regions;
-  c('scene placeholder fills the scene aperture exactly', JSON.stringify(await rect('#scene')) === JSON.stringify(measured.sceneAperture.rect));
-  c('portrait placeholder fills the portrait aperture exactly', JSON.stringify(await rect('#portrait')) === JSON.stringify(measured.portraitAperture.rect));
+  c('scene aperture container sits exactly on the committed scene aperture', JSON.stringify(await rect('#scene')) === JSON.stringify(measured.sceneAperture.rect));
+  c('portrait aperture container sits exactly on the committed portrait aperture', JSON.stringify(await rect('#portrait')) === JSON.stringify(measured.portraitAperture.rect));
   c('scene and portrait sit beneath the shell, so no frame pixel is covered',
     await page.evaluate(() => {
       const kids = Array.from(document.getElementById('stage').children);
       const shell = kids.indexOf(document.getElementById('shell'));
       return kids.indexOf(document.getElementById('scene')) < shell && kids.indexOf(document.getElementById('portrait')) < shell;
     }));
-  c('placeholders are labelled as placeholders', await page.evaluate(() => ['scene', 'portrait'].every((id) => /COMMISSIONED|PORTRAIT/.test(document.getElementById(id).dataset.placeholder))));
+  c('no scene or portrait placeholder remains (no canvas, no placeholder label)', await page.evaluate(() => ['scene', 'portrait'].every((id) => {
+    const e = document.getElementById(id);
+    return e.tagName === 'DIV' && !e.querySelector('canvas') && !e.dataset.placeholder && !/placeholder|COMMISSIONED/i.test(e.outerHTML);
+  })));
+  c('served reception art bytes are the approved files', Object.keys(PRODUCTION_ART).every((f) => bodies[f] === PRODUCTION_ART[f]),
+    Object.keys(PRODUCTION_ART).map((f) => [f, bodies[f]]));
+  await artChecks(browser, base, measured, c);
   const cleanup = await page.evaluate(async (pairs) => {
     const load = (src) => new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.src = src; });
     const px = (img) => { const c2 = document.createElement('canvas'); c2.width = img.width; c2.height = img.height; const x = c2.getContext('2d'); x.drawImage(img, 0, 0); return x.getImageData(0, 0, img.width, img.height).data; };
@@ -546,6 +739,32 @@ async function suite(name, base, requests) {
   }));
   c('the item is marked inspected', (await game(page, () => window.CYOA_GAME.state.items.wc_key)).includes('inspected'));
   await shot(page, '06_inspector_before_read.png');
+  await shot(page, '00b_reception_art_inspector_open.png');
+  {
+    // The owner's item-column overlay still wins over the right column: wherever it is opaque the
+    // screen shows the overlay, and the layered portrait no longer shows anywhere in its aperture.
+    const buf = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
+    const scr = decodePng(buf), ov = png(OVERLAY_ART), shell = png(SHELL_PATH), bgi = png(BG_ART), npc = png(NPC_ART);
+    const [px, py, pw, ph] = measured.portraitAperture.rect;
+    let ovChecked = 0, ovBad = 0, portraitStill = 0, clear = 0;
+    for (let y = 0; y < 1080; y++) for (let x = 1300; x < 1920; x++) {
+      const o = pxAt(ov, x, y);
+      if (o[3] === 255) { ovChecked++; if (!sameRgb(o, pxAt(scr, x, y))) ovBad++; }
+    }
+    for (let y = py; y < py + ph; y++) for (let x = px; x < px + pw; x++) {
+      if (pxAt(shell, x, y)[3] !== 0) continue;
+      clear++;
+      const n = pxAt(npc, x - px, y - py), want = n[3] === 255 ? n : pxAt(bgi, x - px, y - py);
+      if (sameRgb(want, pxAt(scr, x, y))) portraitStill++;
+    }
+    const order = await page.evaluate(() => {
+      const kids = Array.from(document.getElementById('stage').children).map((e) => e.id);
+      return { portrait: kids.indexOf('portrait'), shell: kids.indexOf('shell'), inspector: kids.indexOf('inspector') };
+    });
+    c('inspector open: the item overlay covers the right column exactly where it is opaque', ovChecked > 40000 && ovBad === 0, { ovChecked, ovBad });
+    c('inspector open: the layered portrait is fully covered (drawn above portrait and shell)', order.inspector > order.shell && order.shell > order.portrait
+      && portraitStill / clear < 0.01, { order, portraitStill, clear });
+  }
   await page.hover('#util-1');
   c('a disabled button explains itself in its tooltip', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW - NOT AVAILABLE HERE');
   await page.click('#util-1', { force: true }); // aria-disabled: Playwright would otherwise refuse
@@ -559,6 +778,10 @@ async function suite(name, base, requests) {
   await waitPhase(page, 'choosing');
   c('closing the inspector brings a new set reflecting the tag', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.id))) === '["confirm-read","question-tag"]');
   await shot(page, '08_choices_changed_by_item.png');
+  {
+    const cmp = compareScreen(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }), measured);
+    c('closing the inspector restores the exact layered receptionist portrait and scene', cmp.portraitBad === 0 && cmp.npcShown > 10000 && cmp.sceneBad === 0, cmp);
+  }
   // Re-open with INSPECT, close with X, then SHOW.
   await page.click('#util-0');
   c('INSPECT opens the held item', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === 'wc_key');
@@ -614,6 +837,18 @@ async function suite(name, base, requests) {
   await page.waitForTimeout(50);
   c('the transcript scrolls back to the start', (await page.$eval('#overlay canvas', (c2) => c2.dataset.scroll)) === '0');
   await shot(page, '09_notes_transcript.png');
+  {
+    const r = measured.sceneAperture.rect;
+    const ov = await page.evaluate(() => {
+      const kids = Array.from(document.getElementById('stage').children).map((e) => e.id);
+      const o = document.getElementById('overlay');
+      return { order: [kids.indexOf('scene'), kids.indexOf('overlay'), kids.indexOf('shell')], rect: [parseInt(o.style.left), parseInt(o.style.top), parseInt(o.style.width), parseInt(o.style.height)] };
+    });
+    const cmp = compareScreen(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }), measured);
+    c('NOTES still covers the scene: same aperture, above the scene art, under the shell; portrait untouched',
+      JSON.stringify(ov.rect) === JSON.stringify(r) && ov.order[0] < ov.order[1] && ov.order[1] < ov.order[2]
+      && cmp.sceneBad / cmp.sceneChecked > 0.9 && cmp.portraitBad === 0, { ov, sceneBad: cmp.sceneBad, sceneChecked: cmp.sceneChecked, portraitBad: cmp.portraitBad });
+  }
   await page.click('#util-2');
   c('FILES shows the case file', (await page.$eval('#overlay canvas', (c2) => c2.dataset.kind)) === 'files'
     && /APPOINTMENT: EXAMINER/.test(await page.$eval('#overlay canvas', (c2) => c2.dataset.text))

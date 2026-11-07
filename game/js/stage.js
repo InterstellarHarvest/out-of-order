@@ -95,18 +95,55 @@
     node.addEventListener('blur', function () { set(false); });
   }
 
-  // Scene and portrait placeholders ------------------------------------------------------
+  // Scene and portrait art (docs/54 locked densities, docs/57 integration) ------------------
+  // Scene: 314x206 logical, shown at exactly 4x nearest neighbour (1256x824) from the aperture's
+  // top-left; the 1255x822 aperture clips 1 px right and 2 px bottom. Never resized to fit.
+  // Portrait: separate 564x278 layers drawn 1:1, in this order:
+  //   background -> rear/mid FX (empty) -> receptionist NPC -> foreground FX (empty)
+  // and the shell, built after the apertures, stays on top. The layers are never flattened, so
+  // the NPC and the background can later animate or change independently.
+  // The <img> elements are the very images js/main.js preloaded and decoded before boot, so the
+  // page never announces ready with art still to pop in.
+  G.RECEPTION_ART = {
+    scene: { image: 'art:scene', path: 'art/scenes/conference_hall/reception/reception_scene.png', scale: 4 },
+    portraitBackground: { image: 'art:portraitBackground', path: 'art/portraits/receptionist/reception_background.png', scale: 1 },
+    portraitNpc: { image: 'art:portraitNpc', path: 'art/portraits/receptionist/receptionist_idle.png', scale: 1 }
+  };
+
+  function artLayer(parent, id) {
+    var spec = G.RECEPTION_ART[id];
+    var img = G.image(spec.image);
+    img.id = id;
+    img.className = 'layer art';
+    img.alt = '';
+    img.draggable = false;
+    img.setAttribute('aria-hidden', 'true');
+    // Whole-number scale of the file's own pixels.
+    img.width = img.naturalWidth * spec.scale;
+    img.height = img.naturalHeight * spec.scale;
+    place(img, 0, 0, img.width, img.height);
+    parent.appendChild(img);
+    return img;
+  }
+
+  function fxLayer(parent, id, r) {
+    var fx = el('div', 'layer fx', parent, { id: id, 'aria-hidden': 'true' });
+    place(fx, 0, 0, r[2], r[3]);
+    return fx;
+  }
+
   function buildApertures() {
     var sc = R.sceneAperture.rect;
-    els.scene = el('canvas', 'aperture', stage, { id: 'scene', 'aria-label': 'Reception scene (placeholder)' });
+    els.scene = el('div', 'aperture art-aperture', stage, { id: 'scene', role: 'img', 'aria-label': 'The reception lobby' });
     place(els.scene, sc[0], sc[1], sc[2], sc[3]);
-    P.panel(els.scene, sc[2], sc[3], 'RECEPTION SCENE - ART NOT YET COMMISSIONED', [
-      'TO BE DRAWN: THE RECEPTION LOBBY. COUNTER, RECEPTIONIST, TICKET MACHINE, DIRECTORY BOARD, THE LOCKED EXAMINERS DOOR BEHIND THE DESK.'
-    ]);
+    els.sceneArt = artLayer(els.scene, 'scene');
     var pr = R.portraitAperture.rect;
-    els.portrait = el('canvas', 'aperture', stage, { id: 'portrait', 'aria-label': 'Receptionist portrait (placeholder)' });
+    els.portrait = el('div', 'aperture art-aperture', stage, { id: 'portrait', role: 'img', 'aria-label': 'The receptionist' });
     place(els.portrait, pr[0], pr[1], pr[2], pr[3]);
-    P.panel(els.portrait, pr[2], pr[3], 'RECEPTIONIST PORTRAIT', ['NOW SPEAKING: THE RECEPTIONIST.', 'PORTRAIT ART NOT YET COMMISSIONED.']);
+    els.portraitBackground = artLayer(els.portrait, 'portraitBackground');
+    els.portraitRearFx = fxLayer(els.portrait, 'portraitRearFx', pr);
+    els.portraitNpc = artLayer(els.portrait, 'portraitNpc');
+    els.portraitFrontFx = fxLayer(els.portrait, 'portraitFrontFx', pr);
     els.overlay = el('div', 'aperture overlay', stage, { id: 'overlay', tabindex: '-1' });
     place(els.overlay, sc[0], sc[1], sc[2], sc[3]);
     els.overlayCanvas = el('canvas', '', els.overlay, { 'aria-hidden': 'true' });

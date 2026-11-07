@@ -23,6 +23,10 @@ body { background: #000; overflow: hidden; display: flex; align-items: center; j
 #shell { left: 0; top: 0; pointer-events: none; }
 
 .aperture, .layer, .slot, .hit, .hit-area, .inv-window, .tooltip, .sprite-abs { position: absolute; }
+/* Scene and portrait art (js/stage.js): the aperture clips; the layers inside are placed in whole
+   pixels at an integer scale, nearest neighbour, with no filter, opacity, transform or transition. */
+.art-aperture { overflow: hidden; overflow: clip; }
+.art, .fx { pointer-events: none; }
 .layer { left: 0; top: 0; width: 0; height: 0; }
 .inv-window { overflow: hidden; overflow: clip; }
 .sprite { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }

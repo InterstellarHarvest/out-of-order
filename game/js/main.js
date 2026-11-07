@@ -39,6 +39,12 @@
     .filter(function (id) { return G.content.items[id].slotArt; })
     .map(function (id) { return { name: 'item:' + id, url: G.url(G.content.items[id].slotArt) }; });
 
+  // The reception scene and the layered receptionist portrait (js/stage.js): decoded before the
+  // stage is built, so ready never comes with art still to appear.
+  Object.keys(G.RECEPTION_ART).forEach(function (id) {
+    items.push({ name: G.RECEPTION_ART[id].image, url: G.url(G.RECEPTION_ART[id].path) });
+  });
+
   // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front.
   ['inspect', 'notes', 'files', 'read', 'use', 'show_badge'].forEach(function (g) {
     items.push({ name: 'glyph:' + g, url: G.glyphUrl(g) });

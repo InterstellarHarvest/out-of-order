@@ -48,8 +48,12 @@ then open <http://localhost:8137/game/index.html>.
 - **Behaviour** (typewriter, speaker faces and gap, card send motion, the three-piece thumb, inventory
   weight, physical presses, the no-hover rule) is ported from `tools/layout-lab/js/`. The lab is not
   modified and keeps its own QA.
-- **Art** is only the approved files already on `main`: the shell, the 29-sprite package, the fonts, the
-  action glyphs and `art/items/bathroom_pass_slot.png`. Nothing is added to `art/`.
+- **Art** is only approved files:
+  - the shell, the 29-sprite package, the fonts, the action glyphs and `art/items/bathroom_pass_slot.png`;
+  - the approved reception art (docs/56, docs/57), on separate layers:
+    - the scene `art/scenes/conference_hall/reception/reception_scene.png`, 314×206 shown at 4×;
+    - the portrait background `art/portraits/receptionist/reception_background.png`, 564×278 at 1×;
+    - the receptionist `art/portraits/receptionist/receptionist_idle.png`, 564×278 at 1×.
 
 ## Content schema (`cyoa-m2-reception-content-v1`)
 
