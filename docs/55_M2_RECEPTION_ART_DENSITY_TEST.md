@@ -278,3 +278,81 @@ The regenerated QA outputs of the slice and the lab were restored rather than co
 ### 11.7 Status
 
 Ready for owner/PMO visual review against section 9. Not merged, and neither density is locked.
+
+
+## 12. PMO visual review (2026-11-07)
+
+**PMO outcome: PASS — owner production lock still pending.**
+
+The purpose of this review is the density relationship, not automatic approval of the specific receptionist design or reception artwork as final production art.
+
+### Scene Density — PASS
+
+The 314×206 scene displayed at 4× reads as deliberately low-density rather than accidentally soft or under-resolved. Large architectural forms remain clear, the reception desk and bureaucratic equipment remain legible, and the environmental-scale receptionist remains identifiable without depending on portrait-level facial detail.
+
+The world scene retains enough environmental information to support storytelling while visibly using larger pixel clusters than the portrait.
+
+### Portrait Density — PASS
+
+The 282×139 portrait displayed at 2× provides a clear and useful increase in authored detail. Facial expression, spectacles, headset, clothing edges, hair shape and small identifying features survive at a level that supports conversational close-ups and later controlled animation.
+
+The portrait still reads as pixel art rather than a smooth high-resolution illustration.
+
+### Density relationship — PASS
+
+The approximately 2× difference in linear authored density creates the intended hierarchy:
+
+- world scene: broad, chunky environmental read;
+- portrait: closer, more intimate, more expressive read.
+
+The scene and portrait remain visually coherent because they share the same material and colour language. The detail jump is noticeable without making the portrait appear to belong to a different game.
+
+This is close to the intended King's Quest VI-style relationship: the environment is deliberately coarser, while conversation receives a visibly more detailed character treatment.
+
+### Layering — PASS
+
+The portrait-background / transparent-NPC separation behaves as intended and should remain a hard production rule.
+
+### QA interpretation
+
+The density-test QA is accepted.
+
+The existing game QA result of 298/300 is not treated as a branch regression:
+
+1. the README/docs/45 file-list guard already fails on current main because those documents changed after the guard baseline;
+2. the art-file guard intentionally detects the three review exports added for this test.
+
+All browser gameplay checks pass, route validation passes 38/38, the layout lab passes 1920/1920, and the dedicated density-test QA passes 69/69 in Chromium and Firefox.
+
+### What this PASS does and does not mean
+
+PMO recommends keeping the following as the production starting densities:
+
+- **Scene Density:** 314×206 logical, displayed at 4× nearest-neighbour;
+- **Portrait Density:** 282×139 logical, displayed at 2× nearest-neighbour.
+
+These should now be treated as the default production targets unless later real art exposes a specific reason to revise them.
+
+This PASS does **not** by itself:
+
+- approve the current receptionist character design as final canon;
+- approve these exact three test images as final production art;
+- make 256 colours an asset or project-wide palette rule;
+- require every scene or portrait to use exactly 256 colours;
+- authorize portrait animation yet;
+- authorize additional locations or NPC production.
+
+The 256-colour cleanup used here is accepted as a successful test normalization method, not as a new art-direction constraint. Production assets remain governed by the rule that every colour should do visible work.
+
+### Next recommended step
+
+Proceed to a bounded **reception production-art pass** using the successful density relationship.
+
+Work should remain in small reviewable batches:
+
+1. reception world scene production candidate;
+2. separate reception portrait background production candidate;
+3. transparent receptionist production portrait candidate;
+4. only after those are approved, consider expression/animation variants.
+
+Do not expand to another location or NPC until the reception production set is reviewed.
