@@ -7,21 +7,21 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 402,
-  "passed": 402,
+  "total": 431,
+  "passed": 431,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 32,
-      "passed": 32
+      "total": 35,
+      "passed": 35
     },
     "chromium": {
-      "total": 185,
-      "passed": 185
+      "total": 198,
+      "passed": 198
     },
     "firefox": {
-      "total": 185,
-      "passed": 185
+      "total": 198,
+      "passed": 198
     }
   },
   "failures": [],
@@ -174,6 +174,29 @@
     },
     {
       "browser": "static",
+      "name": "item-received slip is 560x116 RGBA, hard alpha {0,255}, no RGB hidden under alpha 0",
+      "ok": true,
+      "detail": {
+        "size": [
+          560,
+          116
+        ],
+        "slHidden": 0
+      }
+    },
+    {
+      "browser": "static",
+      "name": "the provisional code-drawn slip is gone (no paper/ink/rule fills or stepped corners in stage.js)",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "tooltip box is hard-edged CSS: chamfered, no blur/glow/gradient/filter/transition, not a bitmap",
+      "ok": true,
+      "detail": ".tooltip {\n  --tooltip-body: #22363b;\n  --tooltip-outline: #0b1416;\n  --tooltip-edge: #b3a886;\n  --tooltip-steel: #4d6b68;\n  background: var(--tooltip-body);\n  border: 0;\n  box-shadow:\n    inset 0 -2px 0 0 var(--tooltip-outline),\n    inset 0 0 0 1px var(--tooltip-outline),\n    inset 0 0 0 3px var(--tooltip-edge),\n    inset 0 0 0 4px var(--tooltip-steel);\n  clip-path: polygon(2px 0, calc(100% - 2px"
+    },
+    {
+      "browser": "static",
       "name": "inspector rendering is generic: stage.js names no specific item (no wc_key / FACILITIES / bathroom_pass logic)",
       "ok": true
     },
@@ -306,6 +329,12 @@
       "name": "the NOTES/FILES panel is loaded and decoded before ready, and served as the approved bytes",
       "ok": true,
       "detail": "bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783"
+    },
+    {
+      "browser": "chromium",
+      "name": "the item-received slip is loaded and decoded before ready, and served as the approved bytes",
+      "ok": true,
+      "detail": "993ecdb6fb11e27b41c0eec07221a3421398458fa1a06d82aae22e8eb423797c"
     },
     {
       "browser": "chromium",
@@ -1349,8 +1378,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 106,
-        "r1": 118
+        "r0": 112,
+        "r1": 124
       }
     },
     {
@@ -1368,7 +1397,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217.20000004768372
+      "detail": 217.5
     },
     {
       "browser": "chromium",
@@ -1459,7 +1488,7 @@
         0,
         0,
         -2,
-        -2,
+        -4,
         -6,
         -8,
         -12,
@@ -1468,7 +1497,7 @@
         -30,
         -36,
         -44,
-        -52,
+        -54,
         -62,
         -72
       ]
@@ -1515,7 +1544,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 417.90000009536743
+      "detail": 418.5
     },
     {
       "browser": "chromium",
@@ -1530,7 +1559,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948
+      "detail": 948.4000000953674
     },
     {
       "browser": "chromium",
@@ -1698,6 +1727,81 @@
     },
     {
       "browser": "chromium",
+      "name": "slip = img#itemNoticeBackground (production art) under canvas#itemNoticeContent (item + text only)",
+      "ok": true,
+      "detail": [
+        "IMG#itemNoticeBackground",
+        "CANVAS#itemNoticeContent"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "slip art: 560x116 natural, displayed 1:1 exactly on NOTICE_RECT, no transform/filter/opacity/transition, smoothing off",
+      "ok": true,
+      "detail": {
+        "kids": [
+          "IMG#itemNoticeBackground",
+          "CANVAS#itemNoticeContent"
+        ],
+        "natural": [
+          560,
+          116
+        ],
+        "bgBox": [
+          56,
+          738,
+          560,
+          116
+        ],
+        "nBox": [
+          56,
+          738,
+          560,
+          116
+        ],
+        "st": [
+          "none",
+          "pixelated",
+          "1",
+          "none",
+          "0s"
+        ],
+        "anc": []
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "every item- and text-free slip pixel equals the 560x116 file 1:1",
+      "ok": true,
+      "detail": {
+        "checked": 57751,
+        "bad": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the item's 96x96 slot art sits 1:1 in the slip's item compartment",
+      "ok": true,
+      "detail": {
+        "itemPx": 3140,
+        "itemBad": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "ITEM RECEIVED (upper band) and the item name (lower band) are drawn dynamically in one dark ink",
+      "ok": true,
+      "detail": {
+        "label": [
+          "32,48,55"
+        ],
+        "name": [
+          "32,48,55"
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "clicking the slip dismisses it early",
       "ok": true
     },
@@ -1705,6 +1809,71 @@
       "browser": "chromium",
       "name": "the slot shows the approved bathroom pass art",
       "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "INSPECT tooltip shows on hover with the enabled label",
+      "ok": true,
+      "detail": "INSPECT"
+    },
+    {
+      "browser": "chromium",
+      "name": "the tooltip stays inside the 1920x1080 stage and never covers its button",
+      "ok": true,
+      "detail": {
+        "r": [
+          1483,
+          894,
+          132,
+          32
+        ],
+        "br": [
+          1482,
+          930,
+          135,
+          114
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "tooltip text is the baked Labels face in one light ink; box has no filter, transition or opacity change",
+      "ok": true,
+      "detail": {
+        "shown": true,
+        "text": "INSPECT",
+        "r": [
+          1483,
+          894,
+          132,
+          32
+        ],
+        "br": [
+          1482,
+          930,
+          135,
+          114
+        ],
+        "filter": "none",
+        "transition": "0s",
+        "opacity": "1",
+        "ch": 18,
+        "lh": 18,
+        "ink": [
+          "241,216,152,255"
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the tooltip disappears when the pointer leaves",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "keyboard focus shows the tooltip, and losing focus hides it",
+      "ok": true,
+      "detail": "INSPECT"
     },
     {
       "browser": "chromium",
@@ -2042,7 +2211,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3607
+        "ms": 3608
       }
     },
     {
@@ -2227,12 +2396,27 @@
     },
     {
       "browser": "chromium",
+      "name": "queued grants show one slip after another, each dismissed in turn",
+      "ok": true,
+      "detail": {
+        "q1": "true,1",
+        "q2": "true,0",
+        "q3": "false,0,none"
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "the ending offers one card: BEGIN AGAIN",
       "ok": true
     },
     {
       "browser": "chromium",
       "name": "the ending objective points beyond reception",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "restart clears the slip and its queue",
       "ok": true
     },
     {
@@ -2504,6 +2688,12 @@
     },
     {
       "browser": "firefox",
+      "name": "the item-received slip is loaded and decoded before ready, and served as the approved bytes",
+      "ok": true,
+      "detail": "993ecdb6fb11e27b41c0eec07221a3421398458fa1a06d82aae22e8eb423797c"
+    },
+    {
+      "browser": "firefox",
       "name": "served inspector art bytes are the approved files",
       "ok": true,
       "detail": [
@@ -3544,8 +3734,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 98,
-        "r1": 110
+        "r0": 105,
+        "r1": 117
       }
     },
     {
@@ -3563,7 +3753,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217
+      "detail": 218
     },
     {
       "browser": "firefox",
@@ -3628,7 +3818,7 @@
       "browser": "firefox",
       "name": "the other card slides away to the right",
       "ok": true,
-      "detail": 31
+      "detail": 32
     },
     {
       "browser": "firefox",
@@ -3656,16 +3846,17 @@
         0,
         -2,
         -4,
+        -6,
         -8,
         -12,
-        -16,
-        -20,
-        -26,
-        -34,
-        -42,
-        -50,
-        -58,
-        -68
+        -18,
+        -24,
+        -30,
+        -36,
+        -44,
+        -54,
+        -62,
+        -74
       ]
     },
     {
@@ -3710,7 +3901,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 417
+      "detail": 419
     },
     {
       "browser": "firefox",
@@ -3725,7 +3916,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 943
+      "detail": 950
     },
     {
       "browser": "firefox",
@@ -3893,6 +4084,81 @@
     },
     {
       "browser": "firefox",
+      "name": "slip = img#itemNoticeBackground (production art) under canvas#itemNoticeContent (item + text only)",
+      "ok": true,
+      "detail": [
+        "IMG#itemNoticeBackground",
+        "CANVAS#itemNoticeContent"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "slip art: 560x116 natural, displayed 1:1 exactly on NOTICE_RECT, no transform/filter/opacity/transition, smoothing off",
+      "ok": true,
+      "detail": {
+        "kids": [
+          "IMG#itemNoticeBackground",
+          "CANVAS#itemNoticeContent"
+        ],
+        "natural": [
+          560,
+          116
+        ],
+        "bgBox": [
+          56,
+          738,
+          560,
+          116
+        ],
+        "nBox": [
+          56,
+          738,
+          560,
+          116
+        ],
+        "st": [
+          "none",
+          "pixelated",
+          "1",
+          "none",
+          "0s"
+        ],
+        "anc": []
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "every item- and text-free slip pixel equals the 560x116 file 1:1",
+      "ok": true,
+      "detail": {
+        "checked": 57751,
+        "bad": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the item's 96x96 slot art sits 1:1 in the slip's item compartment",
+      "ok": true,
+      "detail": {
+        "itemPx": 3140,
+        "itemBad": 0
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "ITEM RECEIVED (upper band) and the item name (lower band) are drawn dynamically in one dark ink",
+      "ok": true,
+      "detail": {
+        "label": [
+          "32,48,55"
+        ],
+        "name": [
+          "32,48,55"
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
       "name": "clicking the slip dismisses it early",
       "ok": true
     },
@@ -3900,6 +4166,71 @@
       "browser": "firefox",
       "name": "the slot shows the approved bathroom pass art",
       "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "INSPECT tooltip shows on hover with the enabled label",
+      "ok": true,
+      "detail": "INSPECT"
+    },
+    {
+      "browser": "firefox",
+      "name": "the tooltip stays inside the 1920x1080 stage and never covers its button",
+      "ok": true,
+      "detail": {
+        "r": [
+          1483,
+          894,
+          132,
+          32
+        ],
+        "br": [
+          1482,
+          930,
+          135,
+          114
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "tooltip text is the baked Labels face in one light ink; box has no filter, transition or opacity change",
+      "ok": true,
+      "detail": {
+        "shown": true,
+        "text": "INSPECT",
+        "r": [
+          1483,
+          894,
+          132,
+          32
+        ],
+        "br": [
+          1482,
+          930,
+          135,
+          114
+        ],
+        "filter": "none",
+        "transition": "0s",
+        "opacity": "1",
+        "ch": 18,
+        "lh": 18,
+        "ink": [
+          "241,216,152,255"
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the tooltip disappears when the pointer leaves",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "keyboard focus shows the tooltip, and losing focus hides it",
+      "ok": true,
+      "detail": "INSPECT"
     },
     {
       "browser": "firefox",
@@ -4237,7 +4568,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3618
+        "ms": 3609
       }
     },
     {
@@ -4422,12 +4753,27 @@
     },
     {
       "browser": "firefox",
+      "name": "queued grants show one slip after another, each dismissed in turn",
+      "ok": true,
+      "detail": {
+        "q1": "true,1",
+        "q2": "true,0",
+        "q3": "false,0,none"
+      }
+    },
+    {
+      "browser": "firefox",
       "name": "the ending offers one card: BEGIN AGAIN",
       "ok": true
     },
     {
       "browser": "firefox",
       "name": "the ending objective points beyond reception",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "restart clears the slip and its queue",
       "ok": true
     },
     {
@@ -4485,27 +4831,27 @@
         "first": [
           [
             0,
-            14
+            -7
           ],
           [
             1,
-            130
+            109
           ],
           [
             2,
-            246
+            229
           ],
           [
             3,
-            362
+            349
           ],
           [
             4,
-            478
+            469
           ],
           [
             5,
-            594
+            590
           ]
         ],
         "rest": [

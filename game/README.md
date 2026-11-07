@@ -33,7 +33,7 @@ then open <http://localhost:8137/game/index.html>.
 | `js/flow.js` | The dialogue-turn phase machine: typing, beat, cards arrive, choosing, sending, reply beat. |
 | `js/stage.js` | Presentation: dialogue box and history, choice cards and thumb, inventory, utility buttons and tooltip, inspector, NOTES/FILES, objective. |
 | `js/pixeltext.js` | Asset paths, image loading and bitmap text (ported from the lab's `core.js`). |
-| `js/placeholders.js` | Labelled grey dev placeholders, drawn at runtime, for art that does not exist yet. |
+| `js/placeholders.js` | Labelled grey dev placeholders, drawn at runtime: only development safety paths now (QA-only slot art, inspect-art fallback). |
 | `js/main.js` | Boot and fit-to-window scaling. `?qa` in the URL exposes QA-only hooks. |
 | `qa/validate_route.js` | Node route/state validation: `node game/qa/validate_route.js` |
 | `qa/run_qa.js` | Playwright browser QA: `NODE_PATH="$(npm root -g)" node game/qa/run_qa.js` |
@@ -54,6 +54,10 @@ then open <http://localhost:8137/game/index.html>.
     - the scene `art/scenes/conference_hall/reception/reception_scene.png`, 314×206 shown at 4×;
     - the portrait background `art/portraits/receptionist/reception_background.png`, 564×278 at 1×;
     - the receptionist `art/portraits/receptionist/receptionist_idle.png`, 564×278 at 1×.
+  - the inspector art (docs/58): `art/items/bathroom_pass_inspect.png` and the X `art/ui/sprites/inspect_close_up.png` / `_down.png`;
+  - the NOTES/FILES panel `art/ui/overlays/notes_files_panel.png` (docs/60) and the item-received slip `art/ui/overlays/item_received_slip.png` (docs/61).
+
+  The tooltip box is CSS (docs/61). The only remaining placeholders are development safety paths (`js/placeholders.js`): QA-only slot art, and the inspect-art fallback for an item whose `inspectArt` is null.
 
 ## Content schema (`cyoa-m2-reception-content-v1`)
 
