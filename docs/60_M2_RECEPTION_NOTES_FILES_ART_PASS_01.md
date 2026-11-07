@@ -90,3 +90,24 @@ The panel joins the existing `G.loadImages` boot list, so `ready` means it is de
 - The provisional code-drawn item-received slip.
 - Slot art for QA-only overflow items (`P.slotItem`).
 - The inspect-art fallback (`P.inspectArt` → `P.panel`), shown only for an item without `inspectArt` (none in the current content).
+
+
+## 7. PMO acceptance (2026-11-07)
+
+**Outcome: ACCEPTED.**
+
+PMO accepts the NOTES / FILES production panel integration at branch head `c0b322c54136f94fec182eac11a6a7c347be4bf7`.
+
+The shared panel correctly remains a static production-art layer while all title/body text stays dynamic. The fixed title plate, cream reading surface, unchanged content/wrapping, preserved scrolling/closing behavior, and scene-only overlay layering satisfy the intended records-reader treatment.
+
+The checkpoint is green:
+- route validation 38/38;
+- game QA 402/402 across Chromium and Firefox.
+
+No additional NOTES / FILES art pass is required.
+
+The next bounded presentation pass is the final small transient-UI cleanup:
+1. production tooltip treatment;
+2. production item-received slip treatment.
+
+QA-only slot placeholders and the generic inspect-art fallback remain development-only safety paths, not current player-facing M2 art blockers.
