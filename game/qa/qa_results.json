@@ -289,7 +289,7 @@
         ],
         [
           "art/portraits/receptionist/reception_background.png",
-          "2f23075f151668624e3db1d687e7828a11f6fd11e447cd569ec53607e0f02d74"
+          "16fe3a96d4304efdbd820981ae8d24039b176d30e28b6c0feee8b2baa08c3c74"
         ],
         [
           "art/portraits/receptionist/receptionist_idle.png",
@@ -1224,8 +1224,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 100,
-        "r1": 112
+        "r0": 107,
+        "r1": 119
       }
     },
     {
@@ -1243,7 +1243,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 216.19999980926514
+      "detail": 216.89999985694885
     },
     {
       "browser": "chromium",
@@ -1308,7 +1308,7 @@
       "browser": "chromium",
       "name": "the other card slides away to the right",
       "ok": true,
-      "detail": 31
+      "detail": 30
     },
     {
       "browser": "chromium",
@@ -1332,20 +1332,19 @@
         0,
         0,
         0,
-        0,
         -2,
         -4,
         -6,
-        -10,
-        -14,
+        -8,
+        -12,
         -18,
         -24,
         -30,
-        -38,
-        -46,
+        -36,
+        -44,
         -54,
-        -64,
-        -74
+        -62,
+        -72
       ]
     },
     {
@@ -1390,7 +1389,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.69999980926514
+      "detail": 419.5
     },
     {
       "browser": "chromium",
@@ -1405,7 +1404,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 949.1999998092651
+      "detail": 949.5
     },
     {
       "browser": "chromium",
@@ -1681,7 +1680,7 @@
           "shell": 3,
           "inspector": 13
         },
-        "portraitStill": 957,
+        "portraitStill": 959,
         "clear": 148790
       }
     },
@@ -1792,7 +1791,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3610
+        "ms": 3608
       }
     },
     {
@@ -2184,7 +2183,7 @@
         ],
         [
           "art/portraits/receptionist/reception_background.png",
-          "2f23075f151668624e3db1d687e7828a11f6fd11e447cd569ec53607e0f02d74"
+          "16fe3a96d4304efdbd820981ae8d24039b176d30e28b6c0feee8b2baa08c3c74"
         ],
         [
           "art/portraits/receptionist/receptionist_idle.png",
@@ -3119,8 +3118,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 97,
-        "r1": 109
+        "r0": 102,
+        "r1": 114
       }
     },
     {
@@ -3138,7 +3137,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 216
+      "detail": 215
     },
     {
       "browser": "firefox",
@@ -3203,7 +3202,7 @@
       "browser": "firefox",
       "name": "the other card slides away to the right",
       "ok": true,
-      "detail": 31
+      "detail": 32
     },
     {
       "browser": "firefox",
@@ -3230,17 +3229,18 @@
         0,
         0,
         -2,
-        -4,
+        -2,
+        -6,
         -8,
         -12,
-        -16,
-        -22,
-        -28,
-        -34,
-        -42,
-        -50,
-        -58,
-        -68
+        -18,
+        -24,
+        -30,
+        -36,
+        -44,
+        -52,
+        -62,
+        -72
       ]
     },
     {
@@ -3285,7 +3285,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 422
+      "detail": 419
     },
     {
       "browser": "firefox",
@@ -3300,7 +3300,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 946
+      "detail": 948
     },
     {
       "browser": "firefox",
@@ -3576,7 +3576,7 @@
           "shell": 3,
           "inspector": 13
         },
-        "portraitStill": 957,
+        "portraitStill": 959,
         "clear": 148790
       }
     },
@@ -3687,7 +3687,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3614
+        "ms": 3608
       }
     },
     {
@@ -3813,15 +3813,15 @@
         "first": [
           [
             0,
-            14
+            5
           ],
           [
             1,
-            130
+            121
           ],
           [
             2,
-            246
+            242
           ],
           [
             3,
