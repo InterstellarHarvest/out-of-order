@@ -113,3 +113,33 @@ It was replayed here with `git cherry-pick -n a828905`, after classifying every 
 - The provisional code-drawn item-received slip.
 - Slot art for QA-only overflow items (`P.slotItem`).
 - The inspect-art fallback placeholder, which shows only for an item whose `inspectArt` is null (none in the current content).
+
+
+## 8. PMO visual acceptance (2026-11-07)
+
+**Outcome: ACCEPTED.**
+
+PMO visually reviewed the committed FACILITIES KEY inspect art and inspector close-button UP/DOWN states.
+
+### FACILITIES KEY inspect art — accepted
+
+The 565×451 close-up clearly reads as the current story item:
+- substantial institutional steel key;
+- worn leather fob;
+- paper issue/return tag tied through the ring.
+
+The tag is visually prominent enough to justify the READ action while its writing remains abstract/illegible, so the authoritative readable 4:52 contradiction stays in game text rather than being baked into generated art.
+
+The object scale and quiet green-gray inspection surface fit the existing inspector frame and do not compete with its text/actions.
+
+### Inspector X — accepted
+
+The 44×44 UP/DOWN pair fits the existing physical-control language. The pressed state is real sprite geometry rather than a filter, and the X remains readable at native scale.
+
+### Checkpoint disposition
+
+Branch head `c5924bb7a49bbb90d034f1377f599e87ed7a3afd` is accepted as the M2 inspector-art checkpoint.
+
+No additional inspector-art generation is required.
+
+The next bounded visual-art pass is the NOTES / FILES scene-overlay panel treatment. Tooltip and item-received notice remain later work.
