@@ -1,10 +1,10 @@
 {
  "tool": "tools/reception-density-test/index.html",
  "base": "b9f81d8beccdf59771f068b3bd822adc3961ae60",
- "head": "8068cc27f0e716e69aa35f60784384036ac3ad0a",
- "date": "2026-11-07T05:32:35.580Z",
- "passed": 69,
- "total": 69,
+ "head": "70a4117625c428a64d571e2f0d1baf5eef5d2731",
+ "date": "2026-11-07T18:28:58.518Z",
+ "passed": 83,
+ "total": 83,
  "report": {
   "assets": {
    "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png": {
@@ -14,6 +14,22 @@
     ],
     "uniqueRgb": 256,
     "sha256": "6297a46db9413fdfc8b1dc63f2df2fdbfa47a8cfacedc9e921fc4c0b4ceaeb6e"
+   },
+   "art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png": {
+    "size": [
+     314,
+     206
+    ],
+    "uniqueRgb": 256,
+    "sha256": "64600279d5a5e76ab081f62187306bd586687e4be09d65cffb94e8fd3b73a626"
+   },
+   "art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png": {
+    "size": [
+     314,
+     206
+    ],
+    "uniqueRgb": 15403,
+    "sha256": "56fff5b69286dd2a1980f6d04141894cd38abd5399f345e737c4adb86e112963"
    },
    "art/portraits/receptionist/density_test/reception_background_282x139.png": {
     "size": [
@@ -40,7 +56,7 @@
     "sha256": "f80dc4edcdbb4e9b671be0ba585c0796bdaebfa6dfe7b5fce405469887159c0f"
    }
   },
-  "rawsPresent": 3
+  "rawsPresent": 4
  },
  "results": [
   {
@@ -75,6 +91,28 @@
    "name": "receptionist PNG is stored as RGBA (colour type 6)",
    "ok": true,
    "detail": 6
+  },
+  {
+   "scope": "static",
+   "name": "scene 02 A (BOX) and B (NEAREST) PNGs are exactly 314x206 RGB",
+   "ok": true,
+   "detail": [
+    [
+     314,
+     206,
+     2
+    ],
+    [
+     314,
+     206,
+     2
+    ]
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "scene 02 A and B are fully opaque",
+   "ok": true
   },
   {
    "scope": "static",
@@ -133,7 +171,36 @@
    "detail": [
     256,
     256,
+    256,
     256
+   ]
+  },
+  {
+   "scope": "static",
+   "name": "scene 02 B is NEAREST only, with no colour cleanup, and its unique RGB count matches the manifest",
+   "ok": true,
+   "detail": {
+    "resample": "NEAREST",
+    "unique": 15403
+   }
+  },
+  {
+   "scope": "static",
+   "name": "scene 02 A and B come from the same raw with the same crop box",
+   "ok": true,
+   "detail": [
+    [
+     0,
+     0.2166,
+     1548,
+     1015.7834
+    ],
+    [
+     0,
+     0.2166,
+     1548,
+     1015.7834
+    ]
    ]
   },
   {
@@ -182,12 +249,14 @@
     "present": [
      "source/reception_density/receptionist_portrait_v1_raw.png",
      "source/reception_density/reception_background_v2_raw.png",
-     "source/reception_density/reception_world_scene_v2_raw.png"
+     "source/reception_density/reception_world_scene_v2_raw.png",
+     "source/reception_density/reception_world_scene_density_test_02_raw.png"
     ],
     "ignored": [
      "source/reception_density/receptionist_portrait_v1_raw.png",
      "source/reception_density/reception_background_v2_raw.png",
-     "source/reception_density/reception_world_scene_v2_raw.png"
+     "source/reception_density/reception_world_scene_v2_raw.png",
+     "source/reception_density/reception_world_scene_density_test_02_raw.png"
     ]
    }
   },
@@ -199,11 +268,13 @@
   },
   {
    "scope": "static",
-   "name": "the density-test art folders hold exactly the three exports",
+   "name": "the density-test art folders hold exactly the five exports",
    "ok": true,
    "detail": [
     "art/portraits/receptionist/density_test/reception_background_282x139.png",
     "art/portraits/receptionist/density_test/receptionist_282x139.png",
+    "art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png",
+    "art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png",
     "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png"
    ]
   },
@@ -215,10 +286,12 @@
   },
   {
    "scope": "static",
-   "name": "normalize.py reproduces all three exports byte for byte from the local sources",
+   "name": "normalize.py reproduces all five exports byte for byte from the local sources",
    "ok": true,
    "detail": [
     "art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png",
+    "art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png",
+    "art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png",
     "art/portraits/receptionist/density_test/reception_background_282x139.png",
     "art/portraits/receptionist/density_test/receptionist_282x139.png"
    ]
@@ -486,6 +559,77 @@
   },
   {
    "scope": "chromium",
+   "name": "scene A (BOX) shows at exact 4x nearest neighbour, portrait unchanged, overflow clipped",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "scene B (NEAREST) shows at exact 4x nearest neighbour, portrait unchanged, overflow clipped",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "served A/B exports are the committed bytes",
+   "ok": true
+  },
+  {
+   "scope": "chromium",
+   "name": "switching A <-> B changes only scene-aperture pixels (shell and portrait identical)",
+   "ok": true,
+   "detail": {
+    "abInside": 976094,
+    "abOutside": 0
+   }
+  },
+  {
+   "scope": "chromium",
+   "name": "scene switch: default B, then A / B / v2 by key and button",
+   "ok": true,
+   "detail": [
+    [
+     "b",
+     "reception_scene_02_nearest_314x206.png"
+    ],
+    [
+     "a",
+     "reception_scene_02_box_314x206.png"
+    ],
+    [
+     "b",
+     "reception_scene_02_nearest_314x206.png"
+    ],
+    [
+     "v2",
+     "reception_scene_314x206.png"
+    ],
+    [
+     "a",
+     "reception_scene_02_box_314x206.png"
+    ]
+   ]
+  },
+  {
+   "scope": "chromium",
    "name": "developer NPC toggle hides and shows only the NPC layer (button and N key)",
    "ok": true,
    "detail": {
@@ -505,7 +649,7 @@
    "scope": "chromium",
    "name": "readout states logical and display sizes",
    "ok": true,
-   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
+   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     B - NEAREST (reception_world_scene_density_test_02_raw, NEAREST only, no colour cleanup)\n          314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
   },
   {
    "scope": "chromium",
@@ -776,6 +920,77 @@
   },
   {
    "scope": "firefox",
+   "name": "scene A (BOX) shows at exact 4x nearest neighbour, portrait unchanged, overflow clipped",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "scene B (NEAREST) shows at exact 4x nearest neighbour, portrait unchanged, overflow clipped",
+   "ok": true,
+   "detail": {
+    "sceneChecked": 997017,
+    "sceneBad": 0,
+    "portraitChecked": 148790,
+    "portraitBad": 0,
+    "npcPixelsShown": 46036,
+    "clipChecked": 3334,
+    "clipBad": 0,
+    "firstBad": null
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "served A/B exports are the committed bytes",
+   "ok": true
+  },
+  {
+   "scope": "firefox",
+   "name": "switching A <-> B changes only scene-aperture pixels (shell and portrait identical)",
+   "ok": true,
+   "detail": {
+    "abInside": 976094,
+    "abOutside": 0
+   }
+  },
+  {
+   "scope": "firefox",
+   "name": "scene switch: default B, then A / B / v2 by key and button",
+   "ok": true,
+   "detail": [
+    [
+     "b",
+     "reception_scene_02_nearest_314x206.png"
+    ],
+    [
+     "a",
+     "reception_scene_02_box_314x206.png"
+    ],
+    [
+     "b",
+     "reception_scene_02_nearest_314x206.png"
+    ],
+    [
+     "v2",
+     "reception_scene_314x206.png"
+    ],
+    [
+     "a",
+     "reception_scene_02_box_314x206.png"
+    ]
+   ]
+  },
+  {
+   "scope": "firefox",
    "name": "developer NPC toggle hides and shows only the NPC layer (button and N key)",
    "ok": true,
    "detail": {
@@ -795,7 +1010,7 @@
    "scope": "firefox",
    "name": "readout states logical and display sizes",
    "ok": true,
-   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
+   "detail": "REVIEW ONLY - densities are not locked (docs/55).\n\nSCENE     B - NEAREST (reception_world_scene_density_test_02_raw, NEAREST only, no colour cleanup)\n          314x206 logical  x4 nearest  = 1256x824 display  in aperture 1255x822 at (32,44)  -> clips 1 px right, 2 px bottom\nPORTRAIT  282x139 logical  x2 nearest  = 564x278 display  in aperture 564x278 at (1333,44)\nLAYERS    portrait background -> rear/mid FX (none) -> receptionist NPC (ON) -> foreground FX (none) -> shell/frame\nSHELL     art/ui/shell/layout-final.png  (unchanged; lab bundle sha256 813e08848797...)\nDEVICE    devicePixelRatio 1  (integer: exact)"
   },
   {
    "scope": "firefox",

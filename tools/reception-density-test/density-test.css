@@ -34,6 +34,7 @@ body { width: 1920px; }
   border-top: 1px solid #333;
 }
 #dev button { font: inherit; padding: 4px 12px; margin-right: 12px; cursor: pointer; }
+#dev button[aria-pressed=true] { font-weight: bold; outline: 2px solid #ffb347; }
 #dev .hint { color: #7d8b87; }
 #dev pre { margin: 10px 0 0; white-space: pre-wrap; }
 #dev .warn { color: #ffb347; }

@@ -5,9 +5,9 @@
  "pillow": "12.3.0",
  "method": {
   "crop": "centred, exact destination aspect, fractional source box; portrait background and NPC share one box",
-  "resample": "Pillow BOX (area average); RGBA premultiplied",
+  "resample": "per asset: Pillow BOX (area average; RGBA premultiplied) unless the asset records NEAREST",
   "alpha": "NPC only: alpha >= 128 -> 255, else 0; transparent RGB set to 0,0,0",
-  "colors": "per asset 256-colour MAXCOVERAGE palette + 20 k-means passes from visible pixels, nearest mapping, Dither.NONE"
+  "colors": "per asset 256-colour MAXCOVERAGE palette + 20 k-means passes from visible pixels, nearest mapping, Dither.NONE; none where color_reduction is null"
  },
  "assets": {
   "scene": {
@@ -27,6 +27,7 @@
     1548.0,
     1015.7834
    ],
+   "resample": "BOX",
    "downsampled_unique_rgb": 20611,
    "color_reduction": {
     "method": "MAXCOVERAGE + 20 k-means passes, nearest-colour mapping, no dither",
@@ -64,6 +65,97 @@
     "unique_rgb": 256
    }
   },
+  "scene_02_box": {
+   "source": {
+    "file": "source/reception_density/reception_world_scene_density_test_02_raw.png",
+    "sha256": "1f2a122d213ec0b080e7b95d22673dcf2ca42928b715492c78f6bbad6d79b252",
+    "size": [
+     1548,
+     1016
+    ],
+    "mode": "RGB",
+    "unique_rgb": 87621
+   },
+   "crop_box": [
+    0.0,
+    0.2166,
+    1548.0,
+    1015.7834
+   ],
+   "resample": "BOX",
+   "downsampled_unique_rgb": 14186,
+   "color_reduction": {
+    "method": "MAXCOVERAGE + 20 k-means passes, nearest-colour mapping, no dither",
+    "target_colors": 256,
+    "rgb_error": {
+     "mean": 3.594,
+     "p50": 3.16,
+     "p99": 9.27,
+     "max": 15.03
+    },
+    "median_cut_trial": {
+     "method": "MEDIANCUT, no k-means, no dither (rejected)",
+     "unique_rgb": 191,
+     "rgb_error": {
+      "mean": 4.049,
+      "p50": 3.16,
+      "p99": 17.94,
+      "max": 81.31
+     }
+    }
+   },
+   "output": {
+    "file": "art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png",
+    "sha256": "64600279d5a5e76ab081f62187306bd586687e4be09d65cffb94e8fd3b73a626",
+    "logical": [
+     314,
+     206
+    ],
+    "mode": "RGB",
+    "display_scale": 4,
+    "display": [
+     1256,
+     824
+    ],
+    "unique_rgb": 256
+   }
+  },
+  "scene_02_nearest": {
+   "source": {
+    "file": "source/reception_density/reception_world_scene_density_test_02_raw.png",
+    "sha256": "1f2a122d213ec0b080e7b95d22673dcf2ca42928b715492c78f6bbad6d79b252",
+    "size": [
+     1548,
+     1016
+    ],
+    "mode": "RGB",
+    "unique_rgb": 87621
+   },
+   "crop_box": [
+    0.0,
+    0.2166,
+    1548.0,
+    1015.7834
+   ],
+   "resample": "NEAREST",
+   "downsampled_unique_rgb": 15403,
+   "color_reduction": null,
+   "output": {
+    "file": "art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png",
+    "sha256": "56fff5b69286dd2a1980f6d04141894cd38abd5399f345e737c4adb86e112963",
+    "logical": [
+     314,
+     206
+    ],
+    "mode": "RGB",
+    "display_scale": 4,
+    "display": [
+     1256,
+     824
+    ],
+    "unique_rgb": 15403
+   }
+  },
   "portrait_background": {
    "source": {
     "file": "source/reception_density/reception_background_v2_raw.png",
@@ -81,6 +173,7 @@
     1774.0,
     880.7092
    ],
+   "resample": "BOX",
    "downsampled_unique_rgb": 14842,
    "color_reduction": {
     "method": "MAXCOVERAGE + 20 k-means passes, nearest-colour mapping, no dither",
@@ -142,6 +235,7 @@
     1774.0,
     880.7092
    ],
+   "resample": "BOX",
    "downsampled_unique_rgb": 4557,
    "color_reduction": {
     "method": "MAXCOVERAGE + 20 k-means passes, nearest-colour mapping, no dither",

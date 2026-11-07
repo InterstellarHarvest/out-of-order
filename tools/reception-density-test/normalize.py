@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
-"""Normalize the three owner/PMO-selected Codex sources for the reception density test (docs/55).
+"""Normalize the owner/PMO-selected Codex sources for the reception density test (docs/55).
 
 Reads the raw generator output from the local-only source/reception_density/ folder and writes the
-three review exports at their exact logical sizes, plus a manifest of what was done:
+review exports at their exact logical sizes, plus a manifest of what was done:
 
-  art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png      (RGB)
-  art/portraits/receptionist/density_test/reception_background_282x139.png          (RGB)
-  art/portraits/receptionist/density_test/receptionist_282x139.png                  (RGBA, alpha 0/255)
+  art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png              (RGB, BOX)
+  art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png       (RGB, A: BOX)
+  art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png   (RGB, B: NEAREST)
+  art/portraits/receptionist/density_test/reception_background_282x139.png                  (RGB, BOX)
+  art/portraits/receptionist/density_test/receptionist_282x139.png                          (RGBA, BOX, alpha 0/255)
   tools/reception-density-test/density_test_manifest.json
+
+Scene 02 A/B (docs/55 section 13, PMO direction 2026-11-07): the same raw
+reception_world_scene_density_test_02_raw.png and the same crop box, reduced two ways.
+  A = BOX + the 256-colour cleanup below (the method used so far).
+  B = NEAREST only, no colour cleanup: crisp pixel-art sources keep their authored pixel clusters.
+Steps 2 and 4 below describe the BOX path; the NEAREST path is step 1, then a NEAREST resize
+(each logical pixel takes the source pixel at the centre of its footprint), and nothing else.
 
 Algorithm (identical for every run; no randomness, no dithering, no sharpening, no noise):
 
@@ -57,6 +66,24 @@ ASSETS = [
         'size': (314, 206),
         'mode': 'RGB',
         'display_scale': 4,
+    },
+    {
+        'id': 'scene_02_box',
+        'source': 'reception_world_scene_density_test_02_raw.png',
+        'out': 'art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png',
+        'size': (314, 206),
+        'mode': 'RGB',
+        'display_scale': 4,
+    },
+    {
+        'id': 'scene_02_nearest',
+        'source': 'reception_world_scene_density_test_02_raw.png',
+        'out': 'art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png',
+        'size': (314, 206),
+        'mode': 'RGB',
+        'display_scale': 4,
+        'resample': 'NEAREST',
+        'colors': None,
     },
     {
         'id': 'portrait_background',
@@ -168,11 +195,13 @@ def normalize(asset, crop_boxes):
     dst_w, dst_h = asset['size']
     box = crop_boxes.setdefault(raw.size, centred_aspect_box(raw.size[0], raw.size[1], dst_w, dst_h))
     work = raw.convert(asset['mode'])
-    down = work.resize((dst_w, dst_h), Image.Resampling.BOX, box=box)
+    resample = asset.get('resample', 'BOX')
+    down = work.resize((dst_w, dst_h), getattr(Image.Resampling, resample), box=box)
     if asset['mode'] == 'RGBA':
         down = binary_alpha(down)
-    final = reduce_colors(down)
-    trial = reduce_colors(down, Image.Quantize.MEDIANCUT, 0)
+    cleanup = asset.get('colors', COLORS) is not None
+    final = reduce_colors(down) if cleanup else down
+    trial = reduce_colors(down, Image.Quantize.MEDIANCUT, 0) if cleanup else None
     info = {
         'source': {
             'file': SOURCE_DIR + '/' + asset['source'],
@@ -182,16 +211,20 @@ def normalize(asset, crop_boxes):
             'unique_rgb': len(set(flat(raw.convert('RGB')))),
         },
         'crop_box': [round(v, 4) for v in box],
+        'resample': resample,
         'downsampled_unique_rgb': unique_rgb(down, asset['mode'] == 'RGBA'),
-        'color_reduction': {
+    }
+    if not cleanup:
+        info['color_reduction'] = None  # deliberately none: judged before any palette step (docs/55 section 13)
+    else:
+        info['color_reduction'] = {
             'method': 'MAXCOVERAGE + %d k-means passes, nearest-colour mapping, no dither' % KMEANS,
             'target_colors': COLORS,
             'rgb_error': color_error(down, final),
             'median_cut_trial': {'method': 'MEDIANCUT, no k-means, no dither (rejected)',
                                  'unique_rgb': unique_rgb(trial, asset['mode'] == 'RGBA'),
                                  'rgb_error': color_error(down, trial)},
-        },
-    }
+        }
     if asset['mode'] == 'RGBA':
         info['source']['alpha'] = alpha_stats(raw)
     return final, info
@@ -215,9 +248,9 @@ def main():
         'pillow': PIL_VERSION,
         'method': {
             'crop': 'centred, exact destination aspect, fractional source box; portrait background and NPC share one box',
-            'resample': 'Pillow BOX (area average); RGBA premultiplied',
+            'resample': 'per asset: Pillow BOX (area average; RGBA premultiplied) unless the asset records NEAREST',
             'alpha': 'NPC only: alpha >= %d -> 255, else 0; transparent RGB set to 0,0,0' % ALPHA_THRESHOLD,
-            'colors': 'per asset %d-colour MAXCOVERAGE palette + %d k-means passes from visible pixels, nearest mapping, Dither.NONE' % (COLORS, KMEANS),
+            'colors': 'per asset %d-colour MAXCOVERAGE palette + %d k-means passes from visible pixels, nearest mapping, Dither.NONE; none where color_reduction is null' % (COLORS, KMEANS),
         },
         'assets': {},
     }

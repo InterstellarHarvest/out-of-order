@@ -21,10 +21,15 @@ const SHOTS = path.join(__dirname, 'screenshots');
 const BASE_SHA = 'b9f81d8beccdf59771f068b3bd822adc3961ae60'; // main when this test began
 const SHELL_PATH = 'art/ui/shell/layout-final.png';
 const SHELL_SHA256 = '813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6';
-const SCENE = 'art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png';
+const SCENE = 'art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png'; // v2, first test
+// Scene 02 A/B (docs/55 section 13): one raw source, reduced with BOX (+256-colour cleanup) and NEAREST (nothing else).
+const SCENE_A = 'art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png';
+const SCENE_B = 'art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png';
+const SCENE_FILES = { v2: SCENE, a: SCENE_A, b: SCENE_B };
 const BACKGROUND = 'art/portraits/receptionist/density_test/reception_background_282x139.png';
 const NPC = 'art/portraits/receptionist/density_test/receptionist_282x139.png';
-const RAWS = ['receptionist_portrait_v1_raw.png', 'reception_background_v2_raw.png', 'reception_world_scene_v2_raw.png']
+const RAWS = ['receptionist_portrait_v1_raw.png', 'reception_background_v2_raw.png', 'reception_world_scene_v2_raw.png',
+  'reception_world_scene_density_test_02_raw.png']
   .map((f) => 'source/reception_density/' + f);
 // The only paths this branch may add or change relative to main.
 const ALLOWED = [/^tools\/reception-density-test\//, /^art\/scenes\/conference_hall\/reception\/density_test\/[^/]+\.png$/,
@@ -97,7 +102,11 @@ function staticChecks() {
   check(s, 'portrait background PNG is exactly 282x139', bg.width === 282 && bg.height === 139, [bg.width, bg.height]);
   check(s, 'receptionist PNG is exactly 282x139', npc.width === 282 && npc.height === 139, [npc.width, npc.height]);
   check(s, 'receptionist PNG is stored as RGBA (colour type 6)', npc.colorType === 6, npc.colorType);
-  const ns = stats(npc), ss = stats(scene), bs = stats(bg);
+  const sceneA = readPng(SCENE_A), sceneB = readPng(SCENE_B);
+  check(s, 'scene 02 A (BOX) and B (NEAREST) PNGs are exactly 314x206 RGB', [sceneA, sceneB].every((im) => im.width === 314 && im.height === 206 && im.colorType === 2),
+    [sceneA, sceneB].map((im) => [im.width, im.height, im.colorType]));
+  const ns = stats(npc), ss = stats(scene), bs = stats(bg), as = stats(sceneA), bsn = stats(sceneB);
+  check(s, 'scene 02 A and B are fully opaque', as.alphaValues.join() === '255' && bsn.alphaValues.join() === '255');
   check(s, 'receptionist alpha values are exactly {0, 255}', ns.alphaValues.join() === '0,255', ns.alphaValues);
   check(s, 'receptionist has genuine transparent pixels (and opaque ones)', ns.transparent > 0 && ns.opaque > 0, ns);
   const corners = [[0, 0], [281, 0], [0, 138], [281, 138]].map(([x, y]) => at(npc, x, y)[3]);
@@ -107,15 +116,24 @@ function staticChecks() {
   check(s, 'no colour hides under the receptionist\'s transparent pixels', hiddenRgb === 0, hiddenRgb);
   check(s, 'scene and portrait background are fully opaque', ss.alphaValues.join() === '255' && bs.alphaValues.join() === '255');
   const manifest = JSON.parse(fs.readFileSync(path.join(ROOT, TOOL, 'density_test_manifest.json')));
-  const hashes = { [SCENE]: sha256(fs.readFileSync(path.join(ROOT, SCENE))), [BACKGROUND]: sha256(fs.readFileSync(path.join(ROOT, BACKGROUND))), [NPC]: sha256(fs.readFileSync(path.join(ROOT, NPC))) };
+  const hashes = {};
+  [SCENE, SCENE_A, SCENE_B, BACKGROUND, NPC].forEach((f) => { hashes[f] = sha256(fs.readFileSync(path.join(ROOT, f))); });
   const byFile = {};
   Object.values(manifest.assets).forEach((a) => { byFile[a.output.file] = a.output; });
   check(s, 'export hashes match density_test_manifest.json', Object.keys(hashes).every((f) => byFile[f] && byFile[f].sha256 === hashes[f]));
   check(s, 'unique visible RGB counts match the manifest and stay within the 256-colour cleanup target',
     ss.uniqueRgb === byFile[SCENE].unique_rgb && bs.uniqueRgb === byFile[BACKGROUND].unique_rgb && ns.uniqueRgb === byFile[NPC].unique_rgb
-    && [ss, bs, ns].every((x) => x.uniqueRgb <= 256), [ss.uniqueRgb, bs.uniqueRgb, ns.uniqueRgb]);
+    && as.uniqueRgb === byFile[SCENE_A].unique_rgb && [ss, bs, ns, as].every((x) => x.uniqueRgb <= 256), [ss.uniqueRgb, bs.uniqueRgb, ns.uniqueRgb, as.uniqueRgb]);
+  const nearest = Object.values(manifest.assets).find((a) => a.output.file === SCENE_B);
+  check(s, 'scene 02 B is NEAREST only, with no colour cleanup, and its unique RGB count matches the manifest',
+    nearest.resample === 'NEAREST' && nearest.color_reduction === null && bsn.uniqueRgb === nearest.output.unique_rgb, { resample: nearest.resample, unique: bsn.uniqueRgb });
+  const boxA = Object.values(manifest.assets).find((a) => a.output.file === SCENE_A);
+  check(s, 'scene 02 A and B come from the same raw with the same crop box', boxA.source.sha256 === nearest.source.sha256
+    && boxA.crop_box.join() === nearest.crop_box.join() && boxA.resample === 'BOX', [boxA.crop_box, nearest.crop_box]);
   report.assets = {
     [SCENE]: { size: [scene.width, scene.height], uniqueRgb: ss.uniqueRgb, sha256: hashes[SCENE] },
+    [SCENE_A]: { size: [sceneA.width, sceneA.height], uniqueRgb: as.uniqueRgb, sha256: hashes[SCENE_A] },
+    [SCENE_B]: { size: [sceneB.width, sceneB.height], uniqueRgb: bsn.uniqueRgb, sha256: hashes[SCENE_B] },
     [BACKGROUND]: { size: [bg.width, bg.height], uniqueRgb: bs.uniqueRgb, sha256: hashes[BACKGROUND] },
     [NPC]: { size: [npc.width, npc.height], uniqueRgb: ns.uniqueRgb, alpha: { values: ns.alphaValues, transparent: ns.transparent, opaque: ns.opaque }, sha256: hashes[NPC] }
   };
@@ -150,7 +168,7 @@ function staticChecks() {
   }
   const onDisk = ['art/scenes/conference_hall/reception/density_test', 'art/portraits/receptionist/density_test']
     .flatMap((d) => fs.readdirSync(path.join(ROOT, d)).map((f) => d + '/' + f));
-  check(s, 'the density-test art folders hold exactly the three exports', onDisk.sort().join() === [BACKGROUND, NPC, SCENE].sort().join(), onDisk);
+  check(s, 'the density-test art folders hold exactly the five exports', onDisk.sort().join() === [BACKGROUND, NPC, SCENE, SCENE_A, SCENE_B].sort().join(), onDisk);
   const big = onDisk.filter((f) => /\.png$/.test(f)).map((f) => [f, readPng(f)])
     .filter(([, im]) => im.width > 314 || im.height > 206).map(([f]) => f);
   check(s, 'no density-test art file is larger than its logical canvas (no pre-upscaled or master-size exports)', big.length === 0, big);
@@ -159,11 +177,11 @@ function staticChecks() {
   if (present.length === RAWS.length) {
     const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'density-'));
     execFileSync('python3', ['-I', path.join(ROOT, TOOL, 'normalize.py'), '--out', tmp], { cwd: ROOT });
-    const same = [SCENE, BACKGROUND, NPC].filter((f) => sha256(fs.readFileSync(path.join(tmp, f))) === hashes[f]);
+    const same = Object.keys(hashes).filter((f) => sha256(fs.readFileSync(path.join(tmp, f))) === hashes[f]);
     fs.rmSync(tmp, { recursive: true, force: true });
-    check(s, 'normalize.py reproduces all three exports byte for byte from the local sources', same.length === 3, same);
+    check(s, 'normalize.py reproduces all five exports byte for byte from the local sources', same.length === 5, same);
   }
-  return { scene, bg, npc };
+  return { scene, sceneA, sceneB, bg, npc };
 }
 
 // Server -----------------------------------------------------------------------------------------
@@ -227,7 +245,7 @@ async function browserChecks(name, base, art, shell) {
     await page.goto(`${base}/${PAGE}${query}`);
     await page.waitForFunction(() => document.body.dataset.ready);
   };
-  await open('?shot');
+  await open('?shot&scene=v2');
   check(name, 'page is ready with no load problems', await page.evaluate(() => document.body.dataset.ready) === 'true', await page.evaluate(() => window.DENSITY_TEST && window.DENSITY_TEST.problems));
 
   const g = await page.evaluate(() => {
@@ -289,7 +307,7 @@ async function browserChecks(name, base, art, shell) {
     cOn.portraitChecked > 140000 && cOn.portraitBad === 0 && cOn.npcPixelsShown > 10000, cOn);
   check(name, 'the scene\'s 1 px / 2 px overflow is clipped by the aperture (shell over black only beyond it)', cOn.clipBad === 0, cOn);
 
-  await open('?shot&npc=off');
+  await open('?shot&scene=v2&npc=off');
   const offBuf = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
   const off = decodePng(offBuf);
   const cOff = comparePixels(off, art, shell, rects, false);
@@ -304,7 +322,43 @@ async function browserChecks(name, base, art, shell) {
   }
   check(name, 'hiding the NPC changes only portrait-aperture pixels', diffInside > 10000 && diffOutside === 0, { diffInside, diffOutside });
 
-  // The developer toggle (button and N key) in the normal, non-proof view.
+  // Scene 02 A/B: each variant, in the identical shell, must be its own exact 4x nearest-neighbour image.
+  const abShots = {};
+  for (const k of ['a', 'b']) {
+    await open(`?shot&scene=${k}`);
+    const src = await page.evaluate(() => document.getElementById('scene').getAttribute('src'));
+    abShots[k] = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
+    const c = comparePixels(decodePng(abShots[k]), Object.assign({}, art, { scene: k === 'a' ? art.sceneA : art.sceneB }), shell, rects, true);
+    check(name, `scene ${k.toUpperCase()} (${k === 'a' ? 'BOX' : 'NEAREST'}) shows at exact 4x nearest neighbour, portrait unchanged, overflow clipped`,
+      src.endsWith(SCENE_FILES[k]) && c.sceneChecked > 900000 && c.sceneBad === 0 && c.portraitBad === 0 && c.clipBad === 0, c);
+  }
+  check(name, 'served A/B exports are the committed bytes', [SCENE_A, SCENE_B].every((f) => served[f] === sha256(fs.readFileSync(path.join(ROOT, f)))));
+  const sa = decodePng(abShots.a), sb = decodePng(abShots.b);
+  let abOutside = 0, abInside = 0;
+  const [qx, qy, qw, qh] = rects.scene;
+  for (let y = 0; y < 1080; y++) for (let x = 0; x < 1920; x++) {
+    const i = (y * 1920 + x) * 4;
+    if (sa.data[i] !== sb.data[i] || sa.data[i + 1] !== sb.data[i + 1] || sa.data[i + 2] !== sb.data[i + 2]) {
+      if (x >= qx && x < qx + qw && y >= qy && y < qy + qh) abInside++; else abOutside++;
+    }
+  }
+  check(name, 'switching A <-> B changes only scene-aperture pixels (shell and portrait identical)', abInside > 100000 && abOutside === 0, { abInside, abOutside });
+
+  // The developer toggles (buttons and keys) in the normal, non-proof view; B is the default scene.
+  await open('');
+  const sceneNow = () => page.evaluate(() => [document.body.dataset.scene, document.getElementById('scene').getAttribute('src').split('/').pop()]);
+  const s0 = await sceneNow();
+  await page.keyboard.press('a');
+  const s1 = await sceneNow();
+  await page.click('#scene_b');
+  const s2 = await sceneNow();
+  await page.keyboard.press('v');
+  const s3 = await sceneNow();
+  await page.click('#scene_a');
+  const s4 = await sceneNow();
+  check(name, 'scene switch: default B, then A / B / v2 by key and button', [s0, s1, s2, s3, s4].map((x) => x.join(':')).join() ===
+    ['b:reception_scene_02_nearest_314x206.png', 'a:reception_scene_02_box_314x206.png', 'b:reception_scene_02_nearest_314x206.png',
+      'v2:reception_scene_314x206.png', 'a:reception_scene_02_box_314x206.png'].join(), [s0, s1, s2, s3, s4]);
   await open('');
   const t = await page.evaluate(() => ({ dev: getComputedStyle(document.getElementById('dev')).display !== 'none', npc: document.body.dataset.npc,
     readout: document.getElementById('readout').textContent }));
@@ -321,6 +375,8 @@ async function browserChecks(name, base, art, shell) {
   if (name === 'chromium') {
     fs.writeFileSync(shotOn, onBuf);
     fs.writeFileSync(path.join(SHOTS, `density_test_${name}_npc_off.png`), offBuf);
+    fs.writeFileSync(path.join(SHOTS, `density_test_${name}_scene02_A_box.png`), abShots.a);
+    fs.writeFileSync(path.join(SHOTS, `density_test_${name}_scene02_B_nearest.png`), abShots.b);
   }
   await browser.close();
 }

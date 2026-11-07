@@ -7,9 +7,22 @@
 
   var DATA = window.M1_LAB_DATA;
   var ROOT = '../../';
+  // Scene variants, all 314x206 shown at 4x (docs/55 sections 11-12). A and B are the same raw
+  // source reduced two ways, for the BOX vs NEAREST review.
+  var SCENE_DIR = 'art/scenes/conference_hall/reception/density_test/';
+  var SCENES = {
+    a: { label: 'A - BOX', src: SCENE_DIR + 'reception_scene_02_box_314x206.png',
+      from: 'reception_world_scene_density_test_02_raw, BOX + 256-colour cleanup' },
+    b: { label: 'B - NEAREST', src: SCENE_DIR + 'reception_scene_02_nearest_314x206.png',
+      from: 'reception_world_scene_density_test_02_raw, NEAREST only, no colour cleanup' },
+    v2: { label: 'v2 - BOX', src: SCENE_DIR + 'reception_scene_314x206.png',
+      from: 'reception_world_scene_v2_raw (first test), BOX + 256-colour cleanup' }
+  };
+  var params = new URLSearchParams(location.search);
+  var sceneKey = SCENES[params.get('scene')] ? params.get('scene') : 'b';
   var SCENE = {
     id: 'scene',
-    src: 'art/scenes/conference_hall/reception/density_test/reception_scene_314x206.png',
+    src: SCENES[sceneKey].src,
     logical: [314, 206],
     scale: 4
   };
@@ -27,7 +40,6 @@
   };
   var LAYERS = [SCENE, BACKGROUND, NPC];
 
-  var params = new URLSearchParams(location.search);
   if (params.has('shot')) document.body.classList.add('shot');
 
   var regions = DATA.measured.regions;
@@ -68,8 +80,31 @@
   }
   setNpc(npcOn);
   $('npcToggle').addEventListener('click', function () { setNpc(!npcOn); });
+  // Scene switch: every variant is 314x206, so the 4x display size never changes.
+  Object.keys(SCENES).forEach(function (k) { new Image().src = ROOT + SCENES[k].src; });
+  function setScene(key) {
+    sceneKey = key;
+    SCENE.src = SCENES[key].src;
+    $('scene').src = ROOT + SCENES[key].src;
+    Object.keys(SCENES).forEach(function (k) {
+      $('scene_' + k).setAttribute('aria-pressed', k === key ? 'true' : 'false');
+    });
+    document.body.dataset.scene = key;
+    if (problems) readout(problems);
+  }
+  Object.keys(SCENES).forEach(function (k) {
+    $('scene_' + k).addEventListener('click', function () { setScene(k); });
+  });
+  document.body.dataset.scene = sceneKey;
+  Object.keys(SCENES).forEach(function (k) {
+    $('scene_' + k).setAttribute('aria-pressed', k === sceneKey ? 'true' : 'false');
+  });
   document.addEventListener('keydown', function (e) {
-    if ((e.key === 'n' || e.key === 'N') && !e.metaKey && !e.ctrlKey && !e.altKey) setNpc(!npcOn);
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    var k = e.key.toLowerCase();
+    if (k === 'n') setNpc(!npcOn);
+    if (k === 'a' || k === 'b') setScene(k);
+    if (k === 'v') setScene('v2');
   });
 
   function readout(list) {
@@ -77,7 +112,8 @@
     var lines = [
       'REVIEW ONLY - densities are not locked (docs/55).',
       '',
-      'SCENE     ' + SCENE.logical.join('x') + ' logical  x' + SCENE.scale + ' nearest  = ' +
+      'SCENE     ' + SCENES[sceneKey].label + ' (' + SCENES[sceneKey].from + ')',
+      '          ' + SCENE.logical.join('x') + ' logical  x' + SCENE.scale + ' nearest  = ' +
         SCENE.display.join('x') + ' display  in aperture ' + sceneRect[2] + 'x' + sceneRect[3] + ' at (' + sceneRect[0] + ',' + sceneRect[1] + ')' +
         '  -> clips ' + (SCENE.display[0] - sceneRect[2]) + ' px right, ' + (SCENE.display[1] - sceneRect[3]) + ' px bottom',
       'PORTRAIT  ' + BACKGROUND.logical.join('x') + ' logical  x' + BACKGROUND.scale + ' nearest  = ' +
@@ -116,7 +152,7 @@
       window.DENSITY_TEST = {
         scene: SCENE, background: BACKGROUND, npc: NPC,
         sceneRect: sceneRect, portraitRect: portraitRect, shellPath: shellPath,
-        problems: problems, setNpc: setNpc
+        problems: problems, setNpc: setNpc, setScene: setScene, scenes: SCENES
       };
       document.body.dataset.ready = problems.length ? 'error' : 'true';
     }, function (err) {

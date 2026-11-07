@@ -353,3 +353,60 @@ Those technical findings are retained.
 Neither density is locked.
 
 Do not merge this review branch as production art. The next iteration should test genuinely separately authored scene and portrait styles before any production lock.
+
+## 13. Scene 02: BOX vs NEAREST normalization (2026-11-07)
+
+**Question:** was the apparent blur in the normalized scene caused by BOX downsampling?
+
+**Source:** the owner's new `reception_world_scene_density_test_02_raw.png`. It is 1548×1016 RGB, SHA-256 `1f2a122d213ec0b080e7b95d22673dcf2ca42928b715492c78f6bbad6d79b252`, and kept local only. No art was generated or selected for this step.
+
+Both versions use the same raw file and the same crop box, `(0, 0.2166)–(1548, 1015.7834)`. Only the reduction differs:
+
+| | Reduction | Colour cleanup | Unique RGB | SHA-256 |
+|---|---|---|---|---|
+| **A** `art/scenes/conference_hall/reception/density_test/reception_scene_02_box_314x206.png` | Pillow `BOX` (area average) | 256 max coverage + k-means, no dither (as §11.2) | 256 | `64600279d5a5e76ab081f62187306bd586687e4be09d65cffb94e8fd3b73a626` |
+| **B** `art/scenes/conference_hall/reception/density_test/reception_scene_02_nearest_314x206.png` | Pillow `NEAREST` only | **none**, deliberately, so the palette is not a second variable | 15,403 | `56fff5b69286dd2a1980f6d04141894cd38abd5399f345e737c4ad8836c03dec` |
+
+Both are exactly 314×206 and shown at exactly 4× nearest neighbour (1256×824, clipped 1 px right and 2 px bottom by the aperture). They sit in the identical shell, with the portrait unchanged.
+
+**Measured:**
+
+- Mean edge strength (Pillow `FIND_EDGES` on luminance): **B 43.0**, A 34.2, and BOX without the colour step 33.7.
+- NEAREST keeps about 28% more edge energy. The colour step barely changes BOX's softness (33.7 → 34.2), so **the blur came from the BOX averaging, not from the palette**.
+- Visibly, B keeps hard clusters in the receptionist's glasses and headset, the pigeonholes, the panel lamps and the railing caps, where A smears them.
+
+**Trade-off seen in B:**
+
+- The raw file is crisp in style but not on a clean pixel grid: about 74% of the colour runs along a row are 1 px long, against a nominal cell of about 4.93 source px. NEAREST therefore also carries the generator's per-pixel colour noise into the logical image, which is why B has 15,403 unique RGB.
+- This shows as faint texture on flat walls and floor.
+- Whether any colour cleanup should follow NEAREST is **not decided**. It is not applied here.
+
+**Normalization rule (per the PMO direction of 2026-11-07, with the evidence above):**
+
+- Deliberately authored pixel-art sources are reduced with **NEAREST only**: crop to the exact aspect, NEAREST resize to the logical size, then integer nearest-neighbour display.
+- No BOX, bilinear, bicubic, Lanczos, antialiasing, supersampling or post-resize sharpening.
+- `normalize.py` records the resample per asset in the manifest.
+- The earlier exports (v2 scene, portrait background, receptionist) are unchanged in this step and still use BOX + 256. The portrait art and density are out of scope here.
+
+**Tool:** the scene buttons on the test page, or the keys **A** / **B** / **V** (`?scene=a|b|v2`), switch scenes in the same shell. B is the default.
+
+**QA:** 83/83 in Chromium and Firefox.
+
+- Both A and B match an exact 4× nearest-neighbour upscale of their own PNG at every clear-shell scene pixel.
+- The portrait is unchanged under both, and the overflow is clipped.
+- Switching between A and B changes scene-aperture pixels only.
+- The B export records NEAREST with no colour cleanup.
+- A and B share one raw file and one crop box.
+- All five exports reproduce byte for byte.
+
+**Proofs:**
+
+- `tools/reception-density-test/qa/screenshots/density_test_chromium_scene02_A_box.png`
+- `tools/reception-density-test/qa/screenshots/density_test_chromium_scene02_B_nearest.png`
+
+**Not done:**
+
+- The scene density is not locked.
+- Nothing is merged.
+- No art was regenerated.
+- No portrait production.
