@@ -83,7 +83,7 @@
     },
     {
       "browser": "static",
-      "name": "alternate receptionist (receptionist_idle2.png) is 564x278 RGBA with binary alpha and no RGB hidden under alpha 0",
+      "name": "alternate NPC design candidate (receptionist_idle2.png) is 564x278 RGBA with binary alpha and no RGB hidden under alpha 0",
       "ok": true,
       "detail": {
         "size": [
@@ -95,7 +95,7 @@
     },
     {
       "browser": "static",
-      "name": "alternate receptionist (receptionist_idle3.png) is 564x278 RGBA with binary alpha and no RGB hidden under alpha 0",
+      "name": "alternate NPC design candidate (receptionist_idle3.png) is 564x278 RGBA with binary alpha and no RGB hidden under alpha 0",
       "ok": true,
       "detail": {
         "size": [
@@ -323,7 +323,7 @@
     },
     {
       "browser": "chromium",
-      "name": "the alternate receptionists (idle2, idle3) are not loaded by the game",
+      "name": "the game loads only receptionist_idle.png; the alternate NPC designs (idle2, idle3) are never requested",
       "ok": true
     },
     {
@@ -1253,8 +1253,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 105,
-        "r1": 117
+        "r0": 104,
+        "r1": 116
       }
     },
     {
@@ -1272,7 +1272,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217.59999990463257
+      "detail": 218.09999990463257
     },
     {
       "browser": "chromium",
@@ -1366,7 +1366,7 @@
         -4,
         -6,
         -8,
-        -14,
+        -12,
         -18,
         -24,
         -30,
@@ -1419,7 +1419,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.80000019073486
+      "detail": 418.59999990463257
     },
     {
       "browser": "chromium",
@@ -1434,7 +1434,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 949.1000001430511
+      "detail": 948.8999998569489
     },
     {
       "browser": "chromium",
@@ -1821,7 +1821,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3609
+        "ms": 3606
       }
     },
     {
@@ -2223,7 +2223,7 @@
     },
     {
       "browser": "firefox",
-      "name": "the alternate receptionists (idle2, idle3) are not loaded by the game",
+      "name": "the game loads only receptionist_idle.png; the alternate NPC designs (idle2, idle3) are never requested",
       "ok": true
     },
     {
@@ -3153,8 +3153,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 104,
-        "r1": 116
+        "r0": 103,
+        "r1": 115
       }
     },
     {
@@ -3264,7 +3264,7 @@
         0,
         0,
         -2,
-        -2,
+        -4,
         -6,
         -8,
         -12,
@@ -3273,7 +3273,7 @@
         -30,
         -36,
         -44,
-        -52,
+        -54,
         -62,
         -72
       ]
@@ -3320,7 +3320,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418
+      "detail": 420
     },
     {
       "browser": "firefox",
@@ -3335,7 +3335,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948
+      "detail": 949
     },
     {
       "browser": "firefox",
@@ -3722,7 +3722,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3617
+        "ms": 3607
       }
     },
     {
