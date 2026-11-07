@@ -572,3 +572,33 @@ The scene A/B/C proofs now carry the default portrait, P3-FULL.
   1. README/docs/45 changed since M2 began. This already fails on main.
   2. "Nothing added to art/". It now lists the density-test exports, including Scene C and the three Portrait 03 candidates.
 - The slice's and the lab's regenerated QA outputs were restored rather than committed.
+
+## 16. Final disposition of the density test (2026-11-07)
+
+**Outcome: densities DECIDED by the owner/PMO. They are locked as the production starting contract in `docs/54_SCENE_PORTRAIT_PIXEL_DENSITY_AND_COLOR_CONTRACT.md` on `main`, via the docs-only branch `agent/m2-density-contract-final`.**
+
+| | Logical | Display | Status |
+|---|---|---|---|
+| Scene Density | **314×206** | ×4 nearest neighbour = 1256×824; the 1255×822 aperture clips 1 px right and 2 px bottom | **LOCKED** (starting contract) |
+| Portrait Density | **564×278** | ×1 = exactly the 564×278 portrait aperture | **LOCKED** (starting contract) |
+| Portrait 282×139 ×2 | — | — | **RETIRED** as a production target; kept here as test history (§2, §11, §14) |
+
+**Why:**
+- The goal was two deliberately different authored representations: a chunky world scene, and a much finer, expressive speaking portrait.
+- 282×139 forced detailed portrait sources through a non-integer reduction of about 6.3×. NEAREST aliased facial detail, and BOX softened it (§15.1).
+- 564×278 at 1× keeps the detailed portrait language and needs no runtime enlargement.
+
+**Normalization rules carried into docs/54:**
+- **Scene:** pixel-art-like source → exact aspect crop → NEAREST to 314×206 → optional conservative non-spatial colour cleanup → 4× NEAREST display. Never BOX, bilinear, bicubic or Lanczos for Scene Density geometry.
+- **Portrait:** native 564×278 authoring is preferred. A high-quality premultiplied-alpha reduction from a high-resolution source to 564×278 is acceptable, as P3-FULL shows. Display is always 1:1.
+
+**Evidence status:**
+- Scene C (§14) is the preferred evidence for the scene rule, over A (BOX + palette) and B (NEAREST with all generator noise).
+  - Its ΔE00 2.0 threshold and 868-colour result are **not** production constants.
+  - The production rule is to remove meaningless generator colour variation without changing pixel geometry or meaningful colour distinctions.
+- Portrait 03 is the **current receptionist design reference** for the next production-art pass.
+- **Scene C and Portrait 03 are reference/candidate art, not production-final. The densities are locked; the art is not.**
+
+**This branch:** it remains review evidence and is **not merged**. Its tools and review assets are not imported into `main`; it may later be archived or tagged. §§11–15, including the failed experiments, are kept as provenance.
+
+**Next (commissioned separately; not started here):** a native 564×278 high-detail reception portrait background, kept separate from the NPC.
