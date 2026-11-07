@@ -279,80 +279,77 @@ The regenerated QA outputs of the slice and the lab were restored rather than co
 
 Ready for owner/PMO visual review against section 9. Not merged, and neither density is locked.
 
+## 12. Owner / PMO visual review correction (2026-11-07)
 
-## 12. PMO visual review (2026-11-07)
+**Outcome: REVISE — the density relationship is not yet visually proven.**
 
-**PMO outcome: PASS — owner production lock still pending.**
+The implementation and QA are technically successful, but the owner identified a core visual failure:
 
-The purpose of this review is the density relationship, not automatic approval of the specific receptionist design or reception artwork as final production art.
+> the main scene and portrait read like a blurry and clear version of the same scene.
 
-### Scene Density — PASS
+That observation supersedes the earlier PMO PASS.
 
-The 314×206 scene displayed at 4× reads as deliberately low-density rather than accidentally soft or under-resolved. Large architectural forms remain clear, the reception desk and bureaucratic equipment remain legible, and the environmental-scale receptionist remains identifiable without depending on portrait-level facial detail.
+### What failed
 
-The world scene retains enough environmental information to support storytelling while visibly using larger pixel clusters than the portrait.
+The test demonstrates clean integer scaling, not the intended difference in authored visual language.
 
-### Portrait Density — PASS
+Both source images began as relatively detailed high-resolution generated artwork and were then normalized downward. That process preserves composition and subject detail while reducing resolution, so the lower-density scene can read as a softened/chunkier reduction of the same kind of image rather than as independently authored lower-density pixel art.
 
-The 282×139 portrait displayed at 2× provides a clear and useful increase in authored detail. Facial expression, spectacles, headset, clothing edges, hair shape and small identifying features survive at a level that supports conversational close-ups and later controlled animation.
+The scene and portrait also use too-similar framing, material detail and local information. The portrait therefore feels like a clearer crop of the world scene instead of a deliberately different conversational representation.
 
-The portrait still reads as pixel art rather than a smooth high-resolution illustration.
+### What the next test must change
 
-### Density relationship — PASS
+Do **not** simply change the numeric resolutions and repeat the same pipeline.
 
-The approximately 2× difference in linear authored density creates the intended hierarchy:
+The next test should preserve the current candidate numbers initially:
 
-- world scene: broad, chunky environmental read;
-- portrait: closer, more intimate, more expressive read.
+- Scene Density: 314×206 logical, 4× display.
+- Portrait Density: 282×139 logical, 2× display.
 
-The scene and portrait remain visually coherent because they share the same material and colour language. The detail jump is noticeable without making the portrait appear to belong to a different game.
+But the artwork must be authored differently:
 
-This is close to the intended King's Quest VI-style relationship: the environment is deliberately coarser, while conversation receives a visibly more detailed character treatment.
+#### Scene
+- Compose specifically for the 314×206 logical canvas.
+- Use larger shape language, fewer small surface details and simpler value groups.
+- Treat the environment like intentional 16-bit-era world art, not a high-detail illustration reduced afterward.
+- Scene NPC is a separately authored small sprite/figure with broad silhouette and minimal facial information.
+- Do not rely on downsampling to create the low-density look.
 
-### Layering — PASS
+#### Portrait
+- Use a genuinely tighter conversational composition.
+- Let the NPC occupy substantially more of the portrait aperture.
+- Reduce the amount of room/environment visible behind the character.
+- Use Portrait Density for face, hair, headset, clothing and expression detail.
+- The portrait background remains a separate layer, but should act as local context rather than recreating the world-scene composition.
 
-The portrait-background / transparent-NPC separation behaves as intended and should remain a hard production rule.
+### Key distinction to prove
 
-### QA interpretation
+The target is not:
 
-The density-test QA is accepted.
+`same image language → lower resolution / higher resolution`
 
-The existing game QA result of 298/300 is not treated as a branch regression:
+The target is:
 
-1. the README/docs/45 file-list guard already fails on current main because those documents changed after the guard baseline;
-2. the art-file guard intentionally detects the three review exports added for this test.
+`world-scene art language → conversational portrait art language`
 
-All browser gameplay checks pass, route validation passes 38/38, the layout lab passes 1920/1920, and the dedicated density-test QA passes 69/69 in Chromium and Firefox.
+They should share character design, materials and palette family, but they should not look like two clarity settings of the same camera.
 
-### What this PASS does and does not mean
+### Technical result retained
 
-PMO recommends keeping the following as the production starting densities:
+The branch remains useful evidence that:
 
-- **Scene Density:** 314×206 logical, displayed at 4× nearest-neighbour;
-- **Portrait Density:** 282×139 logical, displayed at 2× nearest-neighbour.
+- 314×206 can be displayed cleanly at 4×;
+- 282×139 can be displayed cleanly at 2×;
+- the shell/aperture geometry works;
+- layered portrait compositing works;
+- nearest-neighbour rendering and binary-alpha cleanup work.
 
-These should now be treated as the default production targets unless later real art exposes a specific reason to revise them.
+Those technical findings are retained.
 
-This PASS does **not** by itself:
+### Status
 
-- approve the current receptionist character design as final canon;
-- approve these exact three test images as final production art;
-- make 256 colours an asset or project-wide palette rule;
-- require every scene or portrait to use exactly 256 colours;
-- authorize portrait animation yet;
-- authorize additional locations or NPC production.
+**REVISE ART AUTHORSHIP / COMPOSITION.**
 
-The 256-colour cleanup used here is accepted as a successful test normalization method, not as a new art-direction constraint. Production assets remain governed by the rule that every colour should do visible work.
+Neither density is locked.
 
-### Next recommended step
-
-Proceed to a bounded **reception production-art pass** using the successful density relationship.
-
-Work should remain in small reviewable batches:
-
-1. reception world scene production candidate;
-2. separate reception portrait background production candidate;
-3. transparent receptionist production portrait candidate;
-4. only after those are approved, consider expression/animation variants.
-
-Do not expand to another location or NPC until the reception production set is reviewed.
+Do not merge this review branch as production art. The next iteration should test genuinely separately authored scene and portrait styles before any production lock.
