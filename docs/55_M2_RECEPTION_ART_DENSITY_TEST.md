@@ -563,3 +563,12 @@ The portrait background (282×139 at 2×) is unchanged; it will be redone later,
 The scene A/B/C proofs now carry the default portrait, P3-FULL.
 
 **Not done:** Portrait 03 was not regenerated, no new portrait or portrait background was made, the scene art is unchanged, and nothing is merged or locked.
+
+### 15.6 Regressions (sections 14 and 15, this branch, Chromium + Firefox)
+
+- `game/qa/validate_route.js`: **38/38**.
+- `tools/layout-lab/qa/run_qa.js`: **1920/1920**.
+- `game/qa/run_qa.js`: **298/300**. All 282 browser checks pass. The same two review-only guard failures as §11.6 remain, and the production guards were deliberately left unchanged:
+  1. README/docs/45 changed since M2 began. This already fails on main.
+  2. "Nothing added to art/". It now lists the density-test exports, including Scene C and the three Portrait 03 candidates.
+- The slice's and the lab's regenerated QA outputs were restored rather than committed.
