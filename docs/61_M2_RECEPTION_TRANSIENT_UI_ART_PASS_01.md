@@ -116,3 +116,31 @@ Both are **development safety paths**, not player-facing in the current M2 slice
 No player-facing reception placeholder remains.
 
 `game/README.md` was updated narrowly: the art list now includes the inspector art, the records panel and the slip, and the placeholders line now names only the two safety paths.
+
+
+## F. PMO art-complete checkpoint (2026-11-07)
+
+**Outcome: ACCEPTED AS PLAYER-FACING ART COMPLETE.**
+
+PMO accepts the transient-UI pass at branch head `c9156f5604e521dc61318ab277baf38b77266d8c`.
+
+The M2 reception slice now has no player-facing development-art placeholder:
+- reception scene: production art;
+- layered portrait background + NPC: production art;
+- FACILITIES KEY inspect art: production art;
+- inspector close button: production art;
+- NOTES / FILES panel: production art;
+- tooltip treatment: production treatment;
+- item-received slip: production art.
+
+The two remaining placeholders are development safety paths only:
+1. QA-only synthetic overflow-item slot art;
+2. generic inspect-art fallback for a future item with no inspect art.
+
+These are not M2 player-facing blockers.
+
+**Important:** ART COMPLETE does not mean POLISH COMPLETE.
+
+Before M2 can close or merge, the owner must review the fully art-complete slice in a dedicated visual / interaction tuning lab. That lab is the next mandatory gate.
+
+The lab should tune production parameters around the locked shell and approved art; it must not reopen M1 shell redesign or generate new artwork.
