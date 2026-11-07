@@ -7,21 +7,21 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 347,
-  "passed": 347,
+  "total": 350,
+  "passed": 350,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 23,
-      "passed": 23
+      "total": 24,
+      "passed": 24
     },
     "chromium": {
-      "total": 162,
-      "passed": 162
+      "total": 163,
+      "passed": 163
     },
     "firefox": {
-      "total": 162,
-      "passed": 162
+      "total": 163,
+      "passed": 163
     }
   },
   "failures": [],
@@ -79,6 +79,18 @@
           255
         ],
         "hiddenRgb": 0
+      }
+    },
+    {
+      "browser": "static",
+      "name": "alternate receptionist (idle2) is 564x278 RGBA with binary alpha and no RGB hidden under alpha 0",
+      "ok": true,
+      "detail": {
+        "size": [
+          564,
+          278
+        ],
+        "altHidden": 0
       }
     },
     {
@@ -293,9 +305,14 @@
         ],
         [
           "art/portraits/receptionist/receptionist_idle.png",
-          "66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3"
+          "761a45d4aa3037173684b815fde75d8d7a7694d541aff6d55dbd863f7e312e2d"
         ]
       ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the alternate receptionist (idle2) is not loaded by the game",
+      "ok": true
     },
     {
       "browser": "chromium",
@@ -747,7 +764,7 @@
         "sceneBad": 0,
         "portraitChecked": 148790,
         "portraitBad": 0,
-        "npcShown": 34265,
+        "npcShown": 33099,
         "clipChecked": 3334,
         "clipBad": 0,
         "first": null
@@ -764,7 +781,7 @@
         "sceneBad": 0,
         "portraitChecked": 148790,
         "portraitBad": 0,
-        "npcShown": 34265,
+        "npcShown": 33099,
         "clipChecked": 3334,
         "clipBad": 0,
         "first": null
@@ -801,7 +818,7 @@
       "name": "QA-only NPC hide changes only portrait-aperture pixels",
       "ok": true,
       "detail": {
-        "inside": 34265,
+        "inside": 33796,
         "outside": 0
       }
     },
@@ -1224,8 +1241,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 107,
-        "r1": 119
+        "r0": 101,
+        "r1": 113
       }
     },
     {
@@ -1243,7 +1260,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 216.89999985694885
+      "detail": 217.29999995231628
     },
     {
       "browser": "chromium",
@@ -1308,7 +1325,7 @@
       "browser": "chromium",
       "name": "the other card slides away to the right",
       "ok": true,
-      "detail": 30
+      "detail": 31
     },
     {
       "browser": "chromium",
@@ -1332,19 +1349,20 @@
         0,
         0,
         0,
+        0,
         -2,
         -4,
         -6,
-        -8,
-        -12,
+        -10,
+        -14,
         -18,
         -24,
         -30,
-        -36,
-        -44,
+        -38,
+        -46,
         -54,
-        -62,
-        -72
+        -64,
+        -74
       ]
     },
     {
@@ -1389,7 +1407,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 419.5
+      "detail": 418.09999990463257
     },
     {
       "browser": "chromium",
@@ -1404,7 +1422,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 949.5
+      "detail": 949.7999999523163
     },
     {
       "browser": "chromium",
@@ -1680,7 +1698,7 @@
           "shell": 3,
           "inspector": 13
         },
-        "portraitStill": 959,
+        "portraitStill": 958,
         "clear": 148790
       }
     },
@@ -1725,7 +1743,7 @@
         "sceneBad": 0,
         "portraitChecked": 148790,
         "portraitBad": 0,
-        "npcShown": 34265,
+        "npcShown": 33099,
         "clipChecked": 3334,
         "clipBad": 0,
         "first": null
@@ -1791,7 +1809,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3608
+        "ms": 3605
       }
     },
     {
@@ -2187,9 +2205,14 @@
         ],
         [
           "art/portraits/receptionist/receptionist_idle.png",
-          "66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3"
+          "761a45d4aa3037173684b815fde75d8d7a7694d541aff6d55dbd863f7e312e2d"
         ]
       ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the alternate receptionist (idle2) is not loaded by the game",
+      "ok": true
     },
     {
       "browser": "firefox",
@@ -2641,7 +2664,7 @@
         "sceneBad": 0,
         "portraitChecked": 148790,
         "portraitBad": 0,
-        "npcShown": 34265,
+        "npcShown": 33099,
         "clipChecked": 3334,
         "clipBad": 0,
         "first": null
@@ -2658,7 +2681,7 @@
         "sceneBad": 0,
         "portraitChecked": 148790,
         "portraitBad": 0,
-        "npcShown": 34265,
+        "npcShown": 33099,
         "clipChecked": 3334,
         "clipBad": 0,
         "first": null
@@ -2695,7 +2718,7 @@
       "name": "QA-only NPC hide changes only portrait-aperture pixels",
       "ok": true,
       "detail": {
-        "inside": 34265,
+        "inside": 33796,
         "outside": 0
       }
     },
@@ -3118,8 +3141,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 102,
-        "r1": 114
+        "r0": 97,
+        "r1": 109
       }
     },
     {
@@ -3137,7 +3160,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 215
+      "detail": 217
     },
     {
       "browser": "firefox",
@@ -3234,7 +3257,7 @@
         -8,
         -12,
         -18,
-        -24,
+        -22,
         -30,
         -36,
         -44,
@@ -3300,7 +3323,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948
+      "detail": 947
     },
     {
       "browser": "firefox",
@@ -3576,7 +3599,7 @@
           "shell": 3,
           "inspector": 13
         },
-        "portraitStill": 959,
+        "portraitStill": 958,
         "clear": 148790
       }
     },
@@ -3621,7 +3644,7 @@
         "sceneBad": 0,
         "portraitChecked": 148790,
         "portraitBad": 0,
-        "npcShown": 34265,
+        "npcShown": 33099,
         "clipChecked": 3334,
         "clipBad": 0,
         "first": null
@@ -3813,15 +3836,15 @@
         "first": [
           [
             0,
-            5
+            14
           ],
           [
             1,
-            121
+            130
           ],
           [
             2,
-            242
+            246
           ],
           [
             3,

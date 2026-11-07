@@ -448,8 +448,10 @@ async function suite(name, base, requests) {
     const e = document.getElementById(id);
     return e.tagName === 'DIV' && !e.querySelector('canvas') && !e.dataset.placeholder && !/placeholder|COMMISSIONED/i.test(e.outerHTML);
   })));
-  c('served reception art bytes are the approved files', Object.keys(PRODUCTION_ART).every((f) => bodies[f] === PRODUCTION_ART[f]),
-    Object.keys(PRODUCTION_ART).map((f) => [f, bodies[f]]));
+  // The three files the game loads (idle2 is pinned but deliberately not loaded).
+  c('served reception art bytes are the approved files', [SCENE_ART, BG_ART, NPC_ART].every((f) => bodies[f] === PRODUCTION_ART[f]),
+    [SCENE_ART, BG_ART, NPC_ART].map((f) => [f, bodies[f]]));
+  c('the alternate receptionist (idle2) is not loaded by the game', !requests.some((r) => /receptionist_idle2\.png$/.test(r)));
   await artChecks(browser, base, measured, c);
   const cleanup = await page.evaluate(async (pairs) => {
     const load = (src) => new Promise((res) => { const i = new Image(); i.onload = () => res(i); i.src = src; });
