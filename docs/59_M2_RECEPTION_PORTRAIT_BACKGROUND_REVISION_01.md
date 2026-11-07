@@ -125,18 +125,24 @@ Reasons:
 - expression reads controlled and authoritative rather than anxious;
 - the owner's 22 px downward placement correctly seats the torso on the portrait frame bottom.
 
-### Not selected — `receptionist_idle2.png`
+### Alternate NPC design — `receptionist_idle2.png`
 
-A good design, but it reads as a different person: younger/narrower, more worried and more naturalistic. It should not be used as an expression or pose variant of the selected receptionist.
+This is a separate NPC/receptionist design candidate, not an expression, pose or animation frame of `receptionist_idle.png`.
 
-### Not selected — `receptionist_idle3.png`
+It reads as a younger/narrower, more worried and more naturalistic character. It is not selected as the active receptionist for the current M2 reception slice, but it may remain as alternate character-design evidence for possible later reuse.
 
-Also a good separate character design, but the face and expression read more anxious/vulnerable and the identity differs too much from the selected receptionist. It should not be used as an animation/expression frame for this NPC.
+### Alternate NPC design — `receptionist_idle3.png`
 
-The two alternates may remain in git history/reference evidence, but should not remain as unused production assets in the final branch tree unless they are deliberately reassigned to future NPCs.
+This is also a separate NPC/receptionist design candidate, not an expression, pose or animation frame of the selected receptionist.
+
+It reads as a more anxious/vulnerable character and is not selected for the current M2 receptionist role. It may remain as alternate character-design evidence for possible later reuse.
+
+Do not use either alternate as an animation/expression frame for `receptionist_idle.png`.
 
 ### Next
 
-Finalize this correction branch around the tightened background + selected `receptionist_idle.png`, remove the two unused alternates from the current production tree, restore the art allowlist/QA to only shipped assets, and rerun QA.
+Finalize this correction branch around the tightened background + selected active `receptionist_idle.png`.
+
+Keep `receptionist_idle2.png` and `receptionist_idle3.png` as clearly documented alternate NPC design candidates on this review/art branch unless the owner later assigns them elsewhere. They should remain unloaded by the current game.
 
 The inspector-art pass should then restart from this corrected portrait baseline rather than from the older integration checkpoint.
