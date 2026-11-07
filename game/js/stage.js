@@ -855,8 +855,8 @@
   // Item inspector ------------------------------------------------------------------------
   // docs/45 section 7: the portrait window grows down to the dialogue box's bottom edge and the
   // item fills it; the choices box holds the item's text; the buttons change; an X closes it.
-  // The owner-provided item column overlay is production art. Item inspect art and the X
-  // remain placeholders until their own approved assets exist.
+  // The owner-provided item column overlay is production art. Item inspect art remains a
+  // placeholder; the X is a separate 44px production sprite over the unchanged frame.
   // The overlay's see-through window is hand-drawn (about x1332-1894, y51-499). The art fills a
   // rectangle just inside the frame and sits UNDER the overlay, so the frame's ragged inner edge
   // always wins and no rail is overpainted.
@@ -921,7 +921,9 @@
     }
     var down = !!ui.pressed['inspect-close'];
     if (els.inspectClose.dataset.state !== (down ? 'down' : 'up')) {
-      P.closeButton(els.inspectCloseArt, CLOSE, down);
+      els.inspectCloseArt.width = CLOSE;
+      els.inspectCloseArt.height = CLOSE;
+      els.inspectCloseArt.getContext('2d').drawImage(G.image(down ? 'inspector_x_down' : 'inspector_x_up'), 0, 0);
       els.inspectClose.dataset.state = down ? 'down' : 'up';
     }
     var lines = inspectorLines();
@@ -1046,11 +1048,9 @@
   // Item received ---------------------------------------------------------------------------
   // A slip that says an item was just added: label, item name and its slot art. It sits in the
   // scene window just above the inventory, clear of the dialogue and the choices, and goes by
-  // itself after NOTICE_MS or at a click. PROVISIONAL treatment, drawn in code until the owner
-  // approves art for it (docs/53): parchment, dark outline with stepped corners, locked fonts.
+  // itself after NOTICE_MS or at a click. A reusable frame sprite sits beneath the dynamic
+  // icon and locked-font copy at the existing stage coordinates.
   var NOTICE_RECT = [56, 738, 560, 116];
-  var NOTICE_INK = '#203037';
-  var NOTICE_PAPER = '#e4d0a9';
   var NOTICE_RULE = '#b9a57e';
 
   function buildNotice() {
@@ -1068,16 +1068,8 @@
     canvas.height = h;
     var ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
-    ctx.fillStyle = NOTICE_INK;
-    ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = NOTICE_PAPER;
-    ctx.fillRect(2, 2, w - 4, h - 4);
-    // Stepped (2px) corners, like the cards' chamfers.
-    [[0, 0], [w - 2, 0], [0, h - 2], [w - 2, h - 2]].forEach(function (c) { ctx.clearRect(c[0], c[1], 2, 2); });
-    ctx.fillStyle = NOTICE_INK;
-    [[2, 2], [w - 4, 2], [2, h - 4], [w - 4, h - 4]].forEach(function (c) { ctx.fillRect(c[0], c[1], 2, 2); });
-    // The item in its own ruled box, then the words.
-    ctx.fillRect(116, 2, 2, h - 4);
+    ctx.drawImage(G.image('item_received_slip'), 0, 0);
+    // The reusable sprite contains no item art or copy. Those remain dynamic here.
     var art = G.content.items[id].slotArt ? G.image('item:' + id) : null;
     if (art) ctx.drawImage(art, 10, 10, 96, 96);
     var label = document.createElement('canvas');

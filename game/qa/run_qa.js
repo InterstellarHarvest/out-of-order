@@ -24,6 +24,11 @@ const PASS_PATH = 'art/items/bathroom_pass_slot.png';
 const OWNER_ART = {
   'art/ui/shell/item-overlay.png': '4566079c985b7efaeeba0140dd5c6b8b8b371713391604118e3de123738a8dfb' // inspector column, 1920x1080
 };
+const M2_ART = {
+  'art/ui/sprites/reception/item_received_slip.png': '2bb1bc2518ee7aa65effb7074eba312737e20d147d3a4fe82ac0b2e6106d16b7',
+  'art/ui/sprites/reception/inspector_x_up.png': 'ff88eed1365fde12c480c66da7522dd9b31c71198ba17ca4b50f1278610bb2f2',
+  'art/ui/sprites/reception/inspector_x_down.png': 'efe2bd6d4e8a10ff56550fe0322ee5fe22e4bb2cd37cc6571e11359caca4b464'
+};
 // The changes to M1 art since M2 began: the owner's hand edit of ten choice-card outlines
 // (2026-11-05), which superseded the PMO-authorised rows-0-1 cleanup (docs/49 section 2.7), and the
 // owner's hand cleanup of the three font atlases (2026-11-06), with two glyph boxes widened to fit.
@@ -66,10 +71,10 @@ function staticChecks() {
   // The owner's item-inspector column overlay (docs/45 section 7) is pinned by hash and used
   // directly by the reception inspector. Remaining unapproved art is drawn as DEV placeholders.
   const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, '--', 'art', 'design', 'tools/layout-lab').split('\n').filter(Boolean);
-  const unexpected = added.filter((f) => !(f in OWNER_ART));
-  check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art', unexpected.length === 0, unexpected);
-  const ownerArtBad = Object.keys(OWNER_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== OWNER_ART[f]);
-  check(b, 'the owner\'s added art matches its pinned hash', ownerArtBad.length === 0, ownerArtBad);
+  const unexpected = added.filter((f) => !(f in OWNER_ART) && !(f in M2_ART));
+  check(b, 'only the pinned owner overlay and reception art were added under art/', unexpected.length === 0, unexpected);
+  const ownerArtBad = Object.entries({ ...OWNER_ART, ...M2_ART }).filter(([f, hash]) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== hash);
+  check(b, 'the owner overlay and reception art match their pinned hashes', ownerArtBad.length === 0, ownerArtBad);
   const working = git('status', '--porcelain', '--', ...protectedPaths).split('\n')
     .filter((l) => l && !/^\?\? docs\//.test(l) && !/tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(l)).join('\n');
   check(b, 'no uncommitted change to M1 art, design, lab or docs', working === '', working);

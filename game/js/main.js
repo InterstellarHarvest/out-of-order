@@ -43,6 +43,9 @@
   ['inspect', 'notes', 'files', 'read', 'use', 'show_badge'].forEach(function (g) {
     items.push({ name: 'glyph:' + g, url: G.glyphUrl(g) });
   });
+  ['item_received_slip', 'inspector_x_up', 'inspector_x_down'].forEach(function (name) {
+    items.push({ name: name, url: G.url('art/ui/sprites/reception/' + name + '.png') });
+  });
 
   G.loadImages(items).then(function () {
     G.buildStage();
