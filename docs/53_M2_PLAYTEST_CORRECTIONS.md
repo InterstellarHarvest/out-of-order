@@ -93,13 +93,15 @@ their boxes; now every inked pixel is inside its box.
 | : | back to its original box | the new dot fits it |
 
 Now on common rows:
-- every capital except W;
+- every capital;
 - every digit;
 - every short lowercase letter;
 - `! ? ( ) [ ]`.
 
+**Third owner pass (W).** W brought to full cap height, so every capital now draws on rows 1–17. One `j`
+pixel erased in the dark atlas only was restored to match the light atlas.
+
 **Still for the owner's eye.** These are pixel decisions, left as drawn:
-- W is one row shorter than the other capitals at the baseline.
 - b, d, t start a row below f, h, i, k, l.
 - The descenders differ: j ends at row 19, p and q at 20, g and y at 21; y starts a row below g.
 

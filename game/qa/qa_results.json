@@ -750,7 +750,7 @@
         -4,
         -6,
         -8,
-        -14,
+        -12,
         -18,
         -24,
         -30,
@@ -803,7 +803,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 417.2999999523163
+      "detail": 418.30000019073486
     },
     {
       "browser": "chromium",
@@ -818,7 +818,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 949.0999999046326
+      "detail": 948.6000001430511
     },
     {
       "browser": "chromium",
@@ -1165,7 +1165,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3609
+        "ms": 3610
       }
     },
     {
@@ -1931,8 +1931,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 17,
-        "r1": 29
+        "r0": 16,
+        "r1": 28
       }
     },
     {
@@ -2042,7 +2042,7 @@
         0,
         0,
         -2,
-        -4,
+        -2,
         -6,
         -8,
         -12,
@@ -2098,7 +2098,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 419
+      "detail": 420
     },
     {
       "browser": "firefox",
@@ -2113,7 +2113,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 949
+      "detail": 948
     },
     {
       "browser": "firefox",
@@ -2460,7 +2460,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3610
+        "ms": 3609
       }
     },
     {

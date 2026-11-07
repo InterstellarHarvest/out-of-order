@@ -4,7 +4,7 @@
   "package_status": "APPROVED_PACKAGE",
   "runtime_integrated": false,
   "image": "m1_approved_sprite_sheet.png",
-  "image_sha256": "15572035d8d2c39acad00bee31f74837d8cda1a3912eb1e985b1a9da5ec9a844",
+  "image_sha256": "85dabd2fa24580db1ca9602df0f46b470aa7195f0608e541f654fe3aebef4ce0",
   "width": 1676,
   "height": 1163,
   "margin": 8,
@@ -606,16 +606,16 @@
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas_dark.png",
       "package_path": "sprites/fonts/locked_pixel_font_atlas_dark.png",
-      "sha256": "dde763646cdeced3dd19e337eb98ac3de75ace2795dc9d0ff02862a4263fabfa",
-      "rgba_sha256": "7a70006ad3dfa87f687ca3d40c16db47a2e1056fd1af1911b66eb6d669805f35",
+      "sha256": "25b089ace4cba69daad7904f32081a6e5b69566f260bc48252ea5a07bf224b75",
+      "rgba_sha256": "5717ea9572514e4ede5843ebd031d2185afadd266293e592f5d7731cb8d8963f",
       "note": "Glyph coordinates in locked_pixel_font_atlas.json are relative to this sprite's x, y.",
       "correction": {
         "source_sha256": "592c656b4d4d5bc2b0ae4cd204d40b89c8878df021797255b88b48f5fce18fa1",
         "owner_edit": {
           "date": "2026-11-06",
           "sha256_before": "592c656b4d4d5bc2b0ae4cd204d40b89c8878df021797255b88b48f5fce18fa1",
-          "sha256_after": "dde763646cdeced3dd19e337eb98ac3de75ace2795dc9d0ff02862a4263fabfa",
-          "description": "Hand edit by the owner to the glyph pixels only, in two passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas. Atlas size and ink colour unchanged."
+          "sha256_after": "25b089ace4cba69daad7904f32081a6e5b69566f260bc48252ea5a07bf224b75",
+          "description": "Hand edit by the owner to the glyph pixels only, in three passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas; then W brought to full cap height. Atlas size and ink colour unchanged. One pixel of the j hook (479,19) that the third pass erased in the dark atlas only was restored to match the light atlas."
         }
       }
     },
@@ -633,16 +633,16 @@
       "source_path": "review/m1-ui-shell-v2/CYOA_M1_locked_components_v1.zip",
       "archive_member": "locked_pixel_font_atlas_light.png",
       "package_path": "sprites/fonts/locked_pixel_font_atlas_light.png",
-      "sha256": "5e84b96f7937426dda777d75781063a624bfb96663684520e1ba929da2265bf7",
-      "rgba_sha256": "a1049f537ed83ccf18e2d464d2c01fae17135981de224c9c259591f21cbb6c52",
+      "sha256": "93efd300a93a1926a6474fbf7a3175bbd5e2a64df577e815ca914954e0adfe0a",
+      "rgba_sha256": "3a2712bdecf498e54e7bdea69cccb52d0a68e19b3c6d144256146d06a24bee36",
       "note": "Glyph coordinates in locked_pixel_font_atlas.json are relative to this sprite's x, y.",
       "correction": {
         "source_sha256": "664480a3ada9cee638feadd46deb85e07558d8630687a8657a4cfb1b2b9ca6e6",
         "owner_edit": {
           "date": "2026-11-06",
           "sha256_before": "664480a3ada9cee638feadd46deb85e07558d8630687a8657a4cfb1b2b9ca6e6",
-          "sha256_after": "5e84b96f7937426dda777d75781063a624bfb96663684520e1ba929da2265bf7",
-          "description": "Hand edit by the owner to the glyph pixels only, in two passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas. Atlas size and ink colour unchanged."
+          "sha256_after": "93efd300a93a1926a6474fbf7a3175bbd5e2a64df577e815ca914954e0adfe0a",
+          "description": "Hand edit by the owner to the glyph pixels only, in three passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas; then W brought to full cap height. Atlas size and ink colour unchanged."
         }
       }
     },
@@ -669,7 +669,7 @@
           "date": "2026-11-06",
           "sha256_before": "ae185e43d1bdc14b1cb2f46b13799c6629f1d023ff09508a3a9f62b862161895",
           "sha256_after": "2996a984ee1675310b569d379b47b9cead6ad2e2010836ef605bcc754e03b6ef",
-          "description": "Hand edit by the owner to the glyph pixels only, in two passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas. Atlas size and ink colour unchanged."
+          "description": "Hand edit by the owner to the glyph pixels only, in three passes on 2026-11-06: stray pixels removed and strokes evened; then A-G brought to full cap height, e/r/u/v/w/x to the common x-height, 5/6 and ( ) [ ] to cap height, and a/c/e moved down in the atlas; then W brought to full cap height. Atlas size and ink colour unchanged."
         }
       }
     }

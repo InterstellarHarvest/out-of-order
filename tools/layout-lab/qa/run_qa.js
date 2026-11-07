@@ -2138,7 +2138,8 @@ async function shippedDefaults(name, base) {
   c('no card sprite has scattered stray pixels above its outline', scattered.length === 0, scattered);
   for (const atlas of ['25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee', 'bf636c757c30fa33b45f8ae370374d0349fb615a0d64a23cde873099b64a7013',
     '1c5990ba16a88c4986709187628d7ba81460c985bcd0b290c83cdca540bd8d2e', '1f7094a543124dda679382b0ad3eebf06876d3173108126b2c5ad3113a911826',
-    '002786f60dec4929cf0120b6c399105c0420a7414c1a48a69a4f10bda7192cb5']) {
+    '002786f60dec4929cf0120b6c399105c0420a7414c1a48a69a4f10bda7192cb5',
+    '15572035d8d2c39acad00bee31f74837d8cda1a3912eb1e985b1a9da5ec9a844']) {
     const older = await page.evaluate((text) => { const s = JSON.parse(text); return M1Lab.importText(JSON.stringify(s)); },
       JSON.stringify(Object.assign({}, shipped, { spritePackage: Object.assign({}, shipped.spritePackage, { atlasSha256: atlas }) })));
     c('a placement saved against an earlier atlas (atlas ' + atlas.slice(0, 8) + ') still imports', older === true && JSON.parse(await page.evaluate(() => M1Lab.exportJson())).spritePackage.atlasSha256 === shipped.spritePackage.atlasSha256);
