@@ -42,7 +42,8 @@ const MAINTENANCE = CLEANED.map((n) => `art/ui/sprites/choice_cards/${n}.png`).c
 // are the ONLY files the art/ allowlist admits beyond OWNER_ART; anything else under art/ fails.
 const PRODUCTION_ART = {
   'art/scenes/conference_hall/reception/reception_scene.png': 'fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53', // 314x206 RGB
-  'art/portraits/receptionist/reception_background.png': '2f23075f151668624e3db1d687e7828a11f6fd11e447cd569ec53607e0f02d74', // 564x278 RGB
+  // Revised 2026-11-07 (docs/59): tighter workstation framing; was 2f23075f... (docs/56/57).
+  'art/portraits/receptionist/reception_background.png': '16fe3a96d4304efdbd820981ae8d24039b176d30e28b6c0feee8b2baa08c3c74', // 564x278 RGB
   'art/portraits/receptionist/receptionist_idle.png': '66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3' // 564x278 RGBA
 };
 const SCENE_ART = 'art/scenes/conference_hall/reception/reception_scene.png';
@@ -386,6 +387,7 @@ async function artChecks(browser, base, measured, c) {
   // outside the portrait aperture may change.
   await page.evaluate(() => { document.getElementById('portraitNpc').style.visibility = 'hidden'; });
   const off = await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } });
+  fs.writeFileSync(path.join(SHOTS, '00a_reception_art_npc_hidden_qa_only.png'), off);
   const cmpOff = compareScreen(off, measured, { npc: false });
   const d = diffInRect(on, off, P);
   c('QA-only NPC hide: the portrait background stays intact and exact', cmpOff.portraitBad === 0 && cmpOff.npcShown === 0, cmpOff);
