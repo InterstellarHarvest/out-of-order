@@ -13,6 +13,8 @@ An ordinary person, inadvertently granted inappropriate authority through coinci
 
 The intended visual language is bright, chunky, true low-resolution pixel art inspired by the richer 16- to early-32-bit era, shown at integer scale. A King's Quest VI-style composed scene and separately framed, more detailed NPC speaking portraits are an important UI reference. The playable protagonist's on-screen representation is **undecided**.
 
+**Current scene/portrait art contract:** [Scene / Portrait Pixel-Density and Color Contract](docs/54_SCENE_PORTRAIT_PIXEL_DENSITY_AND_COLOR_CONTRACT.md) — deliberately lower-density world scenes and higher-density layered portraits, shared color language without arbitrary 256-color limits, controlled/noise-conscious palettes, and animation-friendly NPC layers.
+
 The inspiration from *Choose Your Own Adventure: House of Danger* concerns consequential choices, occasional chance, and useful acquired objects—not a deck-building, combat-card, or roguelike card-game interface.
 ## Repository layout
 
