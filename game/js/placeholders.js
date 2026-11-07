@@ -85,21 +85,4 @@
     var size = T.label(c, label, 'light', 'labels');
     ctx.drawImage(c, Math.floor((96 - size[0]) / 2), Math.floor((96 - T.capHeight('labels')) / 2));
   };
-
-  // The inspector's close button: square, raised, with an X. Pressed, the face drops 2px.
-  P.closeButton = function (canvas, size, down) {
-    canvas.width = size;
-    canvas.height = size;
-    var ctx = canvas.getContext('2d');
-    var d = down ? 2 : 0;
-    ctx.fillStyle = '#1b1f20';
-    ctx.fillRect(0, 0, size, size);
-    ctx.fillStyle = down ? '#4a5154' : '#6d7679';
-    ctx.fillRect(2 + d, 2 + d, size - 6, size - 6);
-    ctx.fillStyle = BASE;
-    ctx.fillRect(4 + d, 4 + d, size - 10, size - 10);
-    var c = document.createElement('canvas');
-    var dims = T.label(c, 'X', 'light', 'labels');
-    ctx.drawImage(c, Math.floor((size - dims[0]) / 2) - 1 + d, Math.floor((size - T.capHeight('labels')) / 2) + d);
-  };
 })();

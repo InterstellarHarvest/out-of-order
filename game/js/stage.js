@@ -892,18 +892,31 @@
   // Item inspector ------------------------------------------------------------------------
   // docs/45 section 7: the portrait window grows down to the dialogue box's bottom edge and the
   // item fills it; the choices box holds the item's text; the buttons change; an X closes it.
-  // The owner-provided item column overlay is production art. Item inspect art and the X
-  // remain placeholders until their own approved assets exist.
+  // The owner-provided item column overlay is production art. An item's inspect art comes from its
+  // content entry (`inspectArt`, authored at 565x451 and drawn 1:1); an item without one falls back
+  // to the labelled development placeholder. The X uses its approved up/down sprites (docs/58).
   // The overlay's see-through window is hand-drawn (about x1332-1894, y51-499). The art fills a
   // rectangle just inside the frame and sits UNDER the overlay, so the frame's ragged inner edge
   // always wins and no rail is overpainted.
   var INSPECT_RECT = [1331, 50, 565, 451];
   var CLOSE = 44;
+  G.INSPECTOR_ART = {
+    closeUp: { image: 'ui:inspect_close_up', path: 'art/ui/sprites/inspect_close_up.png' },
+    closeDown: { image: 'ui:inspect_close_down', path: 'art/ui/sprites/inspect_close_down.png' }
+  };
+  // The preloaded image name for an item's inspect art (js/main.js decodes it before ready).
+  G.inspectImageName = function (id) {
+    return 'inspect:' + id;
+  };
 
   function buildInspector() {
     els.inspector = el('div', 'layer', stage, { id: 'inspector' });
-    els.inspectArt = el('canvas', 'sprite-abs', els.inspector, { id: 'inspectArt', 'aria-hidden': 'true' });
+    // The art area: holds either the item's own inspect image or the placeholder canvas.
+    els.inspectArt = el('div', 'sprite-abs art-aperture', els.inspector, { id: 'inspectArt', 'aria-hidden': 'true' });
     place(els.inspectArt, INSPECT_RECT[0], INSPECT_RECT[1], INSPECT_RECT[2], INSPECT_RECT[3]);
+    els.inspectPlaceholder = document.createElement('canvas');
+    els.inspectPlaceholder.id = 'inspectPlaceholder';
+    els.inspectPlaceholder.className = 'sprite-abs';
     // Full-canvas RGBA overlay: transparent everywhere except the replacement right-column frame.
     // Keep it at 1:1 stage coordinates; never crop/rescale it into the old placeholder rectangle.
     els.inspectColumn = el('img', 'sprite-abs', els.inspector, {
@@ -917,10 +930,48 @@
     });
     place(els.inspectColumn, 0, 0, 1920, 1080);
     els.inspectClose = el('button', 'hit', els.inspector, { id: 'inspectClose', type: 'button', 'aria-label': 'Close the item' });
-    els.inspectCloseArt = el('canvas', 'sprite', els.inspectClose, { 'aria-hidden': 'true' });
+    // The two approved 44x44 sprites, the very images preloaded before ready; the press swaps them.
+    els.inspectCloseUp = closeSprite('closeUp', 'inspectCloseUp');
+    els.inspectCloseDown = closeSprite('closeDown', 'inspectCloseDown');
     place(els.inspectClose, INSPECT_RECT[0] + INSPECT_RECT[2] - CLOSE - 8, INSPECT_RECT[1] + 8, CLOSE, CLOSE);
     bindPress(els.inspectClose, 'inspect-close', renderInspector, function () { G.flow.closeInspector(); });
     show(els.inspector, false);
+  }
+
+  function closeSprite(key, id) {
+    var img = G.image(G.INSPECTOR_ART[key].image);
+    img.id = id;
+    img.className = 'sprite';
+    img.alt = '';
+    img.draggable = false;
+    img.setAttribute('aria-hidden', 'true');
+    img.width = CLOSE;
+    img.height = CLOSE;
+    els.inspectClose.appendChild(img);
+    return img;
+  }
+
+  // Shows the item's inspect art 1:1 at the art area's origin, or the placeholder when it has none.
+  function showInspectArt(id) {
+    var def = G.content.items[id];
+    var img = def.inspectArt ? G.image(G.inspectImageName(id)) : null;
+    if (img) {
+      img.id = 'inspectImage';
+      img.className = 'sprite-abs';
+      img.alt = '';
+      img.draggable = false;
+      img.setAttribute('aria-hidden', 'true');
+      img.width = img.naturalWidth;
+      img.height = img.naturalHeight;
+      place(img, 0, 0, img.naturalWidth, img.naturalHeight);
+      els.inspectArt.replaceChildren(img);
+      els.inspectArt.dataset.kind = 'art';
+    } else {
+      P.inspectArt(els.inspectPlaceholder, INSPECT_RECT[2], INSPECT_RECT[3], def.slotArt ? G.image('item:' + id) : null, def.name + ' - INSPECT ART NOT YET APPROVED');
+      place(els.inspectPlaceholder, 0, 0, INSPECT_RECT[2], INSPECT_RECT[3]);
+      els.inspectArt.replaceChildren(els.inspectPlaceholder);
+      els.inspectArt.dataset.kind = 'placeholder';
+    }
   }
 
   function inspectorLines() {
@@ -952,13 +1003,13 @@
     if (!on) return;
     var id = ui.inspector.id;
     if (els.inspectArt.dataset.item !== id) {
-      var def = G.content.items[id];
-      P.inspectArt(els.inspectArt, INSPECT_RECT[2], INSPECT_RECT[3], def.slotArt ? G.image('item:' + id) : null, def.name + ' - INSPECT ART NOT YET APPROVED');
+      showInspectArt(id);
       els.inspectArt.dataset.item = id;
     }
     var down = !!ui.pressed['inspect-close'];
     if (els.inspectClose.dataset.state !== (down ? 'down' : 'up')) {
-      P.closeButton(els.inspectCloseArt, CLOSE, down);
+      show(els.inspectCloseUp, !down);
+      show(els.inspectCloseDown, down);
       els.inspectClose.dataset.state = down ? 'down' : 'up';
     }
     var lines = inspectorLines();

@@ -3,28 +3,30 @@
   "note": "Technical checks only. A pass is not visual or narrative approval.",
   "startingCommit": "5d42b524e8499c7ef3da724ba02f439c1cc660ff",
   "browsers": {
-    "chromium": "147.0.7727.15",
-    "firefox": "148.0.2"
+    "chromium": "147.0.7727.15"
   },
   "playwright": "1.59.1",
-  "total": 351,
-  "passed": 351,
-  "failed": 0,
+  "total": 204,
+  "passed": 203,
+  "failed": 1,
   "byBrowser": {
     "static": {
-      "total": 25,
-      "passed": 25
+      "total": 30,
+      "passed": 29
     },
     "chromium": {
-      "total": 163,
-      "passed": 163
-    },
-    "firefox": {
-      "total": 163,
-      "passed": 163
+      "total": 174,
+      "passed": 174
     }
   },
-  "failures": [],
+  "failures": [
+    {
+      "browser": "static",
+      "name": "no uncommitted change to M1 art, design, lab or the reception production art",
+      "ok": false,
+      "detail": "A  art/items/bathroom_pass_inspect.png\nA  art/ui/sprites/inspect_close_down.png\nA  art/ui/sprites/inspect_close_up.png"
+    }
+  ],
   "checks": [
     {
       "browser": "static",
@@ -113,6 +115,57 @@
     },
     {
       "browser": "static",
+      "name": "FACILITIES KEY inspect art is 565x451 opaque RGB, the exact inspector art rectangle",
+      "ok": true,
+      "detail": [
+        565,
+        451,
+        2
+      ]
+    },
+    {
+      "browser": "static",
+      "name": "the FACILITIES KEY content entry points at its approved inspect art",
+      "ok": true,
+      "detail": "art/items/bathroom_pass_inspect.png"
+    },
+    {
+      "browser": "static",
+      "name": "inspector X up/down sprites are 44x44 RGBA with hard alpha {0,255} and differ (a real pressed state)",
+      "ok": true,
+      "detail": [
+        {
+          "f": "art/ui/sprites/inspect_close_up.png",
+          "size": [
+            44,
+            44
+          ],
+          "type": 6,
+          "alpha": "0,255"
+        },
+        {
+          "f": "art/ui/sprites/inspect_close_down.png",
+          "size": [
+            44,
+            44
+          ],
+          "type": 6,
+          "alpha": "0,255"
+        }
+      ]
+    },
+    {
+      "browser": "static",
+      "name": "the drawn X placeholder is retired (no caller remained); the inspect-art fallback placeholder stays",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "inspector rendering is generic: stage.js names no specific item (no wc_key / FACILITIES / bathroom_pass logic)",
+      "ok": true
+    },
+    {
+      "browser": "static",
       "name": "the owner's added art matches its pinned hash",
       "ok": true,
       "detail": []
@@ -120,8 +173,8 @@
     {
       "browser": "static",
       "name": "no uncommitted change to M1 art, design, lab or the reception production art",
-      "ok": true,
-      "detail": ""
+      "ok": false,
+      "detail": "A  art/items/bathroom_pass_inspect.png\nA  art/ui/sprites/inspect_close_down.png\nA  art/ui/sprites/inspect_close_up.png"
     },
     {
       "browser": "static",
@@ -232,6 +285,30 @@
     },
     {
       "browser": "chromium",
+      "name": "FACILITIES KEY inspect art and both X sprites are loaded and decoded before ready",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "served inspector art bytes are the approved files",
+      "ok": true,
+      "detail": [
+        [
+          "art/items/bathroom_pass_inspect.png",
+          "9c8527a3fd85cfeddc01ce4a85b74b04cb54063ffc30100be19497e73e7fa722"
+        ],
+        [
+          "art/ui/sprites/inspect_close_up.png",
+          "8247d4b6b23aac803debb405c3549054ea066d54e7561117499f0deb917dc530"
+        ],
+        [
+          "art/ui/sprites/inspect_close_down.png",
+          "576b4fbc5f50f5d6fcb57065dd350dcf7d81fd4442831cb2509a76f5008c41ba"
+        ]
+      ]
+    },
+    {
+      "browser": "chromium",
       "name": "obsolete 364x78 font atlas is never requested",
       "ok": true
     },
@@ -1253,8 +1330,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 104,
-        "r1": 116
+        "r0": 98,
+        "r1": 110
       }
     },
     {
@@ -1272,7 +1349,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 218.09999990463257
+      "detail": 217
     },
     {
       "browser": "chromium",
@@ -1363,16 +1440,16 @@
         0,
         0,
         -2,
-        -4,
+        -2,
         -6,
         -8,
         -12,
-        -18,
-        -24,
-        -30,
+        -16,
+        -22,
+        -28,
         -36,
         -44,
-        -54,
+        -52,
         -62,
         -72
       ]
@@ -1419,7 +1496,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.59999990463257
+      "detail": 417.89999985694885
     },
     {
       "browser": "chromium",
@@ -1434,7 +1511,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948.8999998569489
+      "detail": 945.5
     },
     {
       "browser": "chromium",
@@ -1693,1907 +1770,104 @@
     },
     {
       "browser": "chromium",
-      "name": "inspector open: the item overlay covers the right column exactly where it is opaque",
+      "name": "FACILITIES KEY inspector shows its real art image, not the placeholder canvas",
       "ok": true,
       "detail": {
-        "ovChecked": 50213,
-        "ovBad": 0
-      }
-    },
-    {
-      "browser": "chromium",
-      "name": "inspector open: the layered portrait is fully covered (drawn above portrait and shell)",
-      "ok": true,
-      "detail": {
-        "order": {
-          "portrait": 1,
-          "shell": 3,
-          "inspector": 13
-        },
-        "portraitStill": 958,
-        "clear": 148790
-      }
-    },
-    {
-      "browser": "chromium",
-      "name": "a disabled button explains itself in its tooltip",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "pressing the disabled button does not press",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "pressing the disabled button does nothing",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "READ reveals the tag",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "after READ, SHOW is enabled here",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "closing the inspector brings a new set reflecting the tag",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "closing the inspector restores the exact layered receptionist portrait and scene",
-      "ok": true,
-      "detail": {
-        "width": 1920,
-        "height": 1080,
-        "sceneChecked": 997017,
-        "sceneBad": 0,
-        "portraitChecked": 148790,
-        "portraitBad": 0,
-        "npcShown": 33099,
-        "clipChecked": 3334,
-        "clipBad": 0,
-        "first": null
-      }
-    },
-    {
-      "browser": "chromium",
-      "name": "INSPECT opens the held item",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the X closes the inspector",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "clicking the inspected item again closes it, and again reopens it",
-      "ok": true,
-      "detail": {
-        "open1": true,
-        "closed1": true
-      }
-    },
-    {
-      "browser": "chromium",
-      "name": "SHOW speaks the player's line as a turn",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "SHOW leads to the receptionist's answer about the tag",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the practical route gets its own send-off line",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "at the door the middle button becomes USE",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "USE on the key opens the door",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the closing line remembers the tag",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "INSPECT, READ, SHOW and USE never re-announce the key",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "an unclicked slip dismisses itself after about 3.6 s",
-      "ok": true,
-      "detail": {
-        "shown": true,
-        "ms": 3606
-      }
-    },
-    {
-      "browser": "chromium",
-      "name": "NOTES opens the transcript over the scene",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the transcript holds both speakers' lines",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the transcript opens at its latest lines",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the transcript scrolls back to the start",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "NOTES still covers the scene: same aperture, above the scene art, under the shell; portrait untouched",
-      "ok": true,
-      "detail": {
-        "ov": {
-          "order": [
-            0,
-            2,
-            3
-          ],
-          "rect": [
-            32,
-            44,
-            1255,
-            822
-          ]
-        },
-        "sceneBad": 997017,
-        "sceneChecked": 997017,
-        "portraitBad": 0
-      }
-    },
-    {
-      "browser": "chromium",
-      "name": "FILES shows the case file",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "Esc closes the overlay",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the conversation carried on underneath",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the ending offers one card: BEGIN AGAIN",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the ending objective points beyond reception",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "BEGIN AGAIN restarts the slice cleanly",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "replay: correcting the mistake changes the later send-off",
-      "ok": true,
-      "detail": "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR IS THE FIRST ON THE LEFT. YOUR DISPUTE IS ALREADY ON THE DESK. IT ARRIVED BEFORE YOU DID. MOST THINGS DO."
-    },
-    {
-      "browser": "chromium",
-      "name": "replay: a blind confirmation gets its own answer",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "replay: protest is offered (not yet used)",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "replay: without the tag, the closing line differs",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "QA overflow items fill the inventory past one row",
-      "ok": true,
-      "detail": 9
-    },
-    {
-      "browser": "chromium",
-      "name": "the right arrow presses (DOWN sprite) while held",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the right arrow comes back up",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "one press moves the strip by exactly one item",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the strip slides rather than jumping",
-      "ok": true,
-      "detail": {
-        "first": [
-          [
-            0,
-            14
-          ],
-          [
-            1,
-            130
-          ],
-          [
-            2,
-            246
-          ],
-          [
-            3,
-            362
-          ],
-          [
-            4,
-            478
-          ],
-          [
-            5,
-            594
-          ]
-        ],
-        "rest": [
-          [
-            1,
-            14
-          ],
-          [
-            2,
-            130
-          ],
-          [
-            3,
-            246
-          ],
-          [
-            4,
-            362
-          ],
-          [
-            5,
-            478
-          ],
-          [
-            6,
-            594
-          ]
-        ]
-      }
-    },
-    {
-      "browser": "chromium",
-      "name": "at rest, six slots show items 2-7",
-      "ok": true,
-      "detail": [
-        [
-          1,
-          14
-        ],
-        [
-          2,
-          130
-        ],
-        [
-          3,
-          246
-        ],
-        [
-          4,
-          362
-        ],
-        [
-          5,
-          478
-        ],
-        [
-          6,
-          594
-        ]
-      ]
-    },
-    {
-      "browser": "chromium",
-      "name": "the left arrow steps back one item",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "the strip stops at the last item",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "with several items and none selected, INSPECT is inactive",
-      "ok": true,
-      "detail": [
-        null,
-        null,
-        "<button class=\"hit arrow\" id=\"inv-right\" type=\"button\" aria-label=\"Next inventor"
-      ]
-    },
-    {
-      "browser": "chromium",
-      "name": "focusing a slot selects its item",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "INSPECT opens the selected item, not the leftmost one",
-      "ok": true,
-      "detail": "qa_item_6"
-    },
-    {
-      "browser": "chromium",
-      "name": "clicking a slot selects and opens its item",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "INSPECT then reopens the last selected item",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "an item with nothing to read shows READ unlit",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "hover adds no border, outline, glow, fill or brightening to any control (styles and pixels)",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "chromium",
-      "name": "a hovered control has no filter, outline, shadow, fill or opacity at all",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "chromium",
-      "name": "no stylesheet on the page has a :hover rule",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "hovering a utility shows a separate tooltip naming it",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "no console errors or failed requests",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "chromium",
-      "name": "opens from file:// with no server",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "chromium",
-      "name": "fits a smaller window by scaling the whole stage",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "a scaled stage still takes clicks on the right card",
-      "ok": true
-    },
-    {
-      "browser": "chromium",
-      "name": "no errors from file://",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "page loads ready",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "obsolete 364x78 font atlas is never requested",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "neither the brass tab nor the RETURN glyph is ever requested",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "served shell bytes are canonical",
-      "ok": true,
-      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
-    },
-    {
-      "browser": "firefox",
-      "name": "served package sprites match manifest hashes",
-      "ok": true,
-      "detail": {
-        "served": 28,
-        "servedBad": []
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "served action glyphs match actions.json",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "served bathroom pass bytes match the repository",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "choice viewport uses the lab working geometry",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "dialogue box uses the lab working geometry",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "utility buttons use the lab working geometry",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "scene aperture container sits exactly on the committed scene aperture",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "portrait aperture container sits exactly on the committed portrait aperture",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "scene and portrait sit beneath the shell, so no frame pixel is covered",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "no scene or portrait placeholder remains (no canvas, no placeholder label)",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "served reception art bytes are the approved files",
-      "ok": true,
-      "detail": [
-        [
-          "art/scenes/conference_hall/reception/reception_scene.png",
-          "fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53"
-        ],
-        [
-          "art/portraits/receptionist/reception_background.png",
-          "16fe3a96d4304efdbd820981ae8d24039b176d30e28b6c0feee8b2baa08c3c74"
-        ],
-        [
-          "art/portraits/receptionist/receptionist_idle.png",
-          "761a45d4aa3037173684b815fde75d8d7a7694d541aff6d55dbd863f7e312e2d"
-        ]
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "the game loads only receptionist_idle.png; the alternate NPC designs (idle2, idle3) are never requested",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "art proof runs at canonical 1920x1080, devicePixelRatio 1, with no transform above the scene art",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "scene aperture is the committed 1255x822 rectangle and clips its content",
-      "ok": true,
-      "detail": {
-        "dpr": 1,
-        "sceneBox": [
-          32,
-          44,
-          1255,
-          822
-        ],
-        "sceneClip": "clip/clip",
-        "sceneImg": {
-          "id": "sceneArt",
-          "natural": [
-            314,
-            206
-          ],
-          "box": [
-            32,
-            44,
-            1256,
-            824
-          ],
-          "src": "../art/scenes/conference_hall/reception/reception_scene.png",
-          "st": {
-            "t": "none",
-            "r": "pixelated",
-            "o": "1",
-            "f": "none",
-            "tr": "0s"
-          },
-          "kids": 1
-        },
-        "portraitBox": [
-          1333,
-          44,
-          564,
-          278
-        ],
-        "portraitClip": "clip/clip",
-        "layers": [
-          {
-            "id": "portraitBackground",
-            "tag": "IMG",
-            "box": [
-              1333,
-              44,
-              564,
-              278
-            ],
-            "natural": [
-              564,
-              278
-            ],
-            "src": "../art/portraits/receptionist/reception_background.png",
-            "st": {
-              "t": "none",
-              "r": "pixelated",
-              "o": "1",
-              "f": "none",
-              "tr": "0s"
-            },
-            "kids": 0
-          },
-          {
-            "id": "portraitRearFx",
-            "tag": "DIV",
-            "box": [
-              1333,
-              44,
-              564,
-              278
-            ],
-            "natural": null,
-            "src": null,
-            "st": {
-              "t": "none",
-              "r": "auto",
-              "o": "1",
-              "f": "none",
-              "tr": "0s"
-            },
-            "kids": 0
-          },
-          {
-            "id": "portraitNpc",
-            "tag": "IMG",
-            "box": [
-              1333,
-              44,
-              564,
-              278
-            ],
-            "natural": [
-              564,
-              278
-            ],
-            "src": "../art/portraits/receptionist/receptionist_idle.png",
-            "st": {
-              "t": "none",
-              "r": "pixelated",
-              "o": "1",
-              "f": "none",
-              "tr": "0s"
-            },
-            "kids": 0
-          },
-          {
-            "id": "portraitFrontFx",
-            "tag": "DIV",
-            "box": [
-              1333,
-              44,
-              564,
-              278
-            ],
-            "natural": null,
-            "src": null,
-            "st": {
-              "t": "none",
-              "r": "auto",
-              "o": "1",
-              "f": "none",
-              "tr": "0s"
-            },
-            "kids": 0
-          }
-        ],
-        "stageOrder": [
-          "scene",
-          "portrait",
-          "overlay",
-          "shell"
-        ],
-        "transforms": []
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "scene art: 314x206 natural, displayed at exactly 4x (1256x824) from the aperture origin, nearest neighbour, no transform/filter/opacity/transition",
-      "ok": true,
-      "detail": {
-        "id": "sceneArt",
-        "natural": [
-          314,
-          206
+        "kind": "art",
+        "kids": [
+          "IMG#inspectImage"
         ],
         "box": [
-          32,
-          44,
-          1256,
-          824
+          1331,
+          50,
+          565,
+          451
         ],
-        "src": "../art/scenes/conference_hall/reception/reception_scene.png",
-        "st": {
-          "t": "none",
-          "r": "pixelated",
-          "o": "1",
-          "f": "none",
-          "tr": "0s"
-        },
-        "kids": 1
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "portrait aperture is the committed 564x278 rectangle and clips its content",
-      "ok": true,
-      "detail": {
-        "dpr": 1,
-        "sceneBox": [
-          32,
-          44,
-          1255,
-          822
-        ],
-        "sceneClip": "clip/clip",
-        "sceneImg": {
-          "id": "sceneArt",
+        "img": {
           "natural": [
-            314,
-            206
+            565,
+            451
           ],
           "box": [
-            32,
-            44,
-            1256,
-            824
+            1331,
+            50,
+            565,
+            451
           ],
-          "src": "../art/scenes/conference_hall/reception/reception_scene.png",
-          "st": {
-            "t": "none",
-            "r": "pixelated",
-            "o": "1",
-            "f": "none",
-            "tr": "0s"
-          },
-          "kids": 1
+          "src": "../art/items/bathroom_pass_inspect.png",
+          "complete": true,
+          "st": [
+            "none",
+            "pixelated",
+            "1",
+            "none",
+            "0s"
+          ]
         },
-        "portraitBox": [
-          1333,
-          44,
-          564,
-          278
-        ],
-        "portraitClip": "clip/clip",
-        "layers": [
-          {
-            "id": "portraitBackground",
-            "tag": "IMG",
-            "box": [
-              1333,
-              44,
-              564,
-              278
-            ],
-            "natural": [
-              564,
-              278
-            ],
-            "src": "../art/portraits/receptionist/reception_background.png",
-            "st": {
-              "t": "none",
-              "r": "pixelated",
-              "o": "1",
-              "f": "none",
-              "tr": "0s"
-            },
-            "kids": 0
-          },
-          {
-            "id": "portraitRearFx",
-            "tag": "DIV",
-            "box": [
-              1333,
-              44,
-              564,
-              278
-            ],
-            "natural": null,
-            "src": null,
-            "st": {
-              "t": "none",
-              "r": "auto",
-              "o": "1",
-              "f": "none",
-              "tr": "0s"
-            },
-            "kids": 0
-          },
-          {
-            "id": "portraitNpc",
-            "tag": "IMG",
-            "box": [
-              1333,
-              44,
-              564,
-              278
-            ],
-            "natural": [
-              564,
-              278
-            ],
-            "src": "../art/portraits/receptionist/receptionist_idle.png",
-            "st": {
-              "t": "none",
-              "r": "pixelated",
-              "o": "1",
-              "f": "none",
-              "tr": "0s"
-            },
-            "kids": 0
-          },
-          {
-            "id": "portraitFrontFx",
-            "tag": "DIV",
-            "box": [
-              1333,
-              44,
-              564,
-              278
-            ],
-            "natural": null,
-            "src": null,
-            "st": {
-              "t": "none",
-              "r": "auto",
-              "o": "1",
-              "f": "none",
-              "tr": "0s"
-            },
-            "kids": 0
-          }
-        ],
-        "stageOrder": [
-          "scene",
-          "portrait",
-          "overlay",
-          "shell"
-        ],
-        "transforms": []
+        "anc": [],
+        "colAfter": true
       }
     },
     {
-      "browser": "firefox",
-      "name": "portrait layers, in order: background -> rear/mid FX -> NPC -> foreground FX (four separate elements, no canvas)",
+      "browser": "chromium",
+      "name": "inspect art: 565x451 natural, displayed 1:1 exactly on INSPECT_RECT, no transform/filter/opacity/transition, smoothing off, under the item overlay",
       "ok": true,
-      "detail": [
-        "portraitBackground:IMG",
-        "portraitRearFx:DIV",
-        "portraitNpc:IMG",
-        "portraitFrontFx:DIV"
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "portrait background and NPC: 564x278 natural, displayed at exactly 1x (564x278) at the aperture origin, no transform/filter/opacity/transition",
-      "ok": true,
-      "detail": [
-        {
-          "id": "portraitBackground",
-          "tag": "IMG",
-          "box": [
-            1333,
-            44,
-            564,
-            278
-          ],
+      "detail": {
+        "kind": "art",
+        "kids": [
+          "IMG#inspectImage"
+        ],
+        "box": [
+          1331,
+          50,
+          565,
+          451
+        ],
+        "img": {
           "natural": [
-            564,
-            278
+            565,
+            451
           ],
-          "src": "../art/portraits/receptionist/reception_background.png",
-          "st": {
-            "t": "none",
-            "r": "pixelated",
-            "o": "1",
-            "f": "none",
-            "tr": "0s"
-          },
-          "kids": 0
-        },
-        {
-          "id": "portraitNpc",
-          "tag": "IMG",
           "box": [
-            1333,
-            44,
-            564,
-            278
+            1331,
+            50,
+            565,
+            451
           ],
-          "natural": [
-            564,
-            278
-          ],
-          "src": "../art/portraits/receptionist/receptionist_idle.png",
-          "st": {
-            "t": "none",
-            "r": "pixelated",
-            "o": "1",
-            "f": "none",
-            "tr": "0s"
-          },
-          "kids": 0
-        }
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "FX layers are present, empty and cover the aperture",
-      "ok": true,
-      "detail": [
-        {
-          "id": "portraitRearFx",
-          "tag": "DIV",
-          "box": [
-            1333,
-            44,
-            564,
-            278
-          ],
-          "natural": null,
-          "src": null,
-          "st": {
-            "t": "none",
-            "r": "auto",
-            "o": "1",
-            "f": "none",
-            "tr": "0s"
-          },
-          "kids": 0
+          "src": "../art/items/bathroom_pass_inspect.png",
+          "complete": true,
+          "st": [
+            "none",
+            "pixelated",
+            "1",
+            "none",
+            "0s"
+          ]
         },
-        {
-          "id": "portraitFrontFx",
-          "tag": "DIV",
-          "box": [
-            1333,
-            44,
-            564,
-            278
-          ],
-          "natural": null,
-          "src": null,
-          "st": {
-            "t": "none",
-            "r": "auto",
-            "o": "1",
-            "f": "none",
-            "tr": "0s"
-          },
-          "kids": 0
-        }
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "stage order: scene, portrait, overlay, then the shell on top",
-      "ok": true,
-      "detail": [
-        "scene",
-        "portrait",
-        "overlay",
-        "shell"
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "every element id on the page is unique",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "every clear-shell scene pixel is the exact 4x nearest-neighbour block of the 314x206 file",
-      "ok": true,
-      "detail": {
-        "width": 1920,
-        "height": 1080,
-        "sceneChecked": 997017,
-        "sceneBad": 0,
-        "portraitChecked": 148790,
-        "portraitBad": 0,
-        "npcShown": 33099,
-        "clipChecked": 3334,
-        "clipBad": 0,
-        "first": null
+        "anc": [],
+        "colAfter": true
       }
     },
     {
-      "browser": "firefox",
-      "name": "every clear-shell portrait pixel equals the 1:1 background + binary-alpha NPC composite",
+      "browser": "chromium",
+      "name": "every inspect-art pixel left visible by the overlay and the X equals the 565x451 file 1:1",
       "ok": true,
       "detail": {
-        "width": 1920,
-        "height": 1080,
-        "sceneChecked": 997017,
-        "sceneBad": 0,
-        "portraitChecked": 148790,
-        "portraitBad": 0,
-        "npcShown": 33099,
-        "clipChecked": 3334,
-        "clipBad": 0,
-        "first": null
+        "artChecked": 246739,
+        "artBad": 0
       }
     },
     {
-      "browser": "firefox",
-      "name": "the scene's 1 px right / 2 px bottom overflow is clipped by the aperture",
+      "browser": "chromium",
+      "name": "the X shows its approved UP sprite, pixel for pixel, at its unchanged 44x44 place",
       "ok": true,
       "detail": {
-        "clipChecked": 3334,
-        "clipBad": 0
+        "xChecked": 1576,
+        "xBad": 0
       }
     },
     {
-      "browser": "firefox",
-      "name": "QA-only NPC hide: the portrait background stays intact and exact",
-      "ok": true,
-      "detail": {
-        "width": 1920,
-        "height": 1080,
-        "sceneChecked": 997017,
-        "sceneBad": 0,
-        "portraitChecked": 148790,
-        "portraitBad": 0,
-        "npcShown": 0,
-        "clipChecked": 3334,
-        "clipBad": 0,
-        "first": null
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "QA-only NPC hide changes only portrait-aperture pixels",
-      "ok": true,
-      "detail": {
-        "inside": 33796,
-        "outside": 0
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the game ships no NPC toggle or debug control for the portrait layers",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "no errors while proving the art",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "card edit: each of the ten cards visibly changed",
-      "ok": true,
-      "detail": [
-        {
-          "name": "choice_1line_a",
-          "changed": 80,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_1line_b",
-          "changed": 920,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_a",
-          "changed": 50,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_b",
-          "changed": 4,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_c",
-          "changed": 4,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_3line_b",
-          "changed": 112,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_3line_c",
-          "changed": 54,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_a",
-          "changed": 96,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_b",
-          "changed": 1690,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_c",
-          "changed": 336,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        }
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "card edit: changes stay on the outline, within 8px of the card edge",
-      "ok": true,
-      "detail": [
-        {
-          "name": "choice_1line_a",
-          "changed": 80,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_1line_b",
-          "changed": 920,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_a",
-          "changed": 50,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_b",
-          "changed": 4,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_c",
-          "changed": 4,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_3line_b",
-          "changed": 112,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_3line_c",
-          "changed": 54,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_a",
-          "changed": 96,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_b",
-          "changed": 1690,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_c",
-          "changed": 336,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        }
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "card edit: every change removes a pixel or paints it outline-dark; no parchment pixel repainted",
-      "ok": true,
-      "detail": [
-        {
-          "name": "choice_1line_a",
-          "changed": 80,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_1line_b",
-          "changed": 920,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_a",
-          "changed": 50,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_b",
-          "changed": 4,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_c",
-          "changed": 4,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_3line_b",
-          "changed": 112,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_3line_c",
-          "changed": 54,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_a",
-          "changed": 96,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_b",
-          "changed": 1690,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_c",
-          "changed": 336,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        }
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "card edit: no soft (partial-alpha) pixels",
-      "ok": true,
-      "detail": [
-        {
-          "name": "choice_1line_a",
-          "changed": 80,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_1line_b",
-          "changed": 920,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_a",
-          "changed": 50,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_b",
-          "changed": 4,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_2line_c",
-          "changed": 4,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_3line_b",
-          "changed": 112,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_3line_c",
-          "changed": 54,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_a",
-          "changed": 96,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_b",
-          "changed": 1690,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        },
-        {
-          "name": "choice_4line_c",
-          "changed": 336,
-          "parchment": 0,
-          "deep": 0,
-          "soft": 0
-        }
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "font edit: one ink colour per atlas (#203037 dark, #f1d898 light), no soft alpha",
-      "ok": true,
-      "detail": {
-        "dark": {
-          "inks": [
-            "32,48,55"
-          ],
-          "soft": 0,
-          "outside": 0
-        },
-        "light": {
-          "inks": [
-            "241,216,152"
-          ],
-          "soft": 0,
-          "outside": 0
-        },
-        "sameShape": true
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "font edit: dark and light atlases carry identical glyph shapes",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "font edit: every inked pixel lies inside its glyph box",
-      "ok": true,
-      "detail": {
-        "dark": {
-          "inks": [
-            "32,48,55"
-          ],
-          "soft": 0,
-          "outside": 0
-        },
-        "light": {
-          "inks": [
-            "241,216,152"
-          ],
-          "soft": 0,
-          "outside": 0
-        },
-        "sameShape": true
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "pixel art renders without smoothing",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "utility buttons show the owner's glyphs in conversation",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "INSPECT is inactive while nothing is held",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "an inactive button keeps its glyph, in the inactive treatment",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the inactive button's tooltip says why",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "an inactive button does not press",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "every authored choice fits on a card (four lines at most)",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "the slice opens with the receptionist typing",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "no choice is on show while the NPC types",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the NPC line types character by character",
-      "ok": true,
-      "detail": {
-        "r0": 103,
-        "r1": 115
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "turn order: typing, beat, cards arrive, then choosing",
-      "ok": true,
-      "detail": [
-        "typing",
-        "beat",
-        "arriving",
-        "choosing"
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "a short beat (150-350ms) between the line and the cards",
-      "ok": true,
-      "detail": 217
-    },
-    {
-      "browser": "firefox",
-      "name": "keyboard focus lands on the first choice",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the thumb appears once the cards have arrived",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "opening offers the bathroom request",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "no hidden pointer target: cards are real buttons",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "ArrowDown moves focus to the next choice",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "ArrowUp moves focus back",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "keyboard focus shows no brass tab or any marker element",
-      "ok": true,
-      "detail": {
-        "els": 0,
-        "attrs": 0
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "keyboard focus adds no outline, shadow, filter, fill, shift or extra element",
-      "ok": true,
-      "detail": {
-        "outline": "none",
-        "shadow": "none",
-        "filter": "none",
-        "bg": "rgba(0, 0, 0, 0)",
-        "w": "535px",
-        "kids": 2,
-        "textLeft": "29px",
-        "textTransform": "none"
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "mouse hover over another card brings out no marker",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the other card slides away to the right",
-      "ok": true,
-      "detail": 32
-    },
-    {
-      "browser": "firefox",
-      "name": "the chosen card rises until it disappears behind the divider",
-      "ok": true,
-      "detail": [
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        -2,
-        -4,
-        -6,
-        -8,
-        -12,
-        -18,
-        -24,
-        -30,
-        -36,
-        -44,
-        -54,
-        -62,
-        -72
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "the chosen card waits for the others before it rises",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the player's line is shown whole, not typed",
-      "ok": true,
-      "detail": {
-        "last": {
-          "text": "WHERE IS THE BATHROOM, PLEASE?",
-          "role": "choices"
-        },
-        "typing": false,
-        "cards": 0,
-        "whole": true
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the player's line is in the dialogue box at once, in the Choices face",
-      "ok": true,
-      "detail": {
-        "text": "WHERE IS THE BATHROOM, PLEASE?",
-        "role": "choices"
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the choice panel is empty while waiting for the reply",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "input during the send was ignored (one player line only)",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "a beat (about 400ms) before the reply types",
-      "ok": true,
-      "detail": 420
-    },
-    {
-      "browser": "firefox",
-      "name": "the reply types below in the Dialogue face",
-      "ok": true,
-      "detail": {
-        "text": "ONE MOMENT. [STAMP.] THE FACILITIES ARE NOT A PUBLIC LOCATION. THEIR WHEREABOUTS ARE RELEASED TO PERSONNEL ONLY, AND ONLY PERSONNEL WOULD THINK TO ASK. YOU ASKED. SO: WELCOME, EXAMINER. OFFICE OF UNVERIFIED CONDITIONS. YOU ARE EXPECTED.",
-        "role": "dialogue"
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the whole send took a sensible time",
-      "ok": true,
-      "detail": 949
-    },
-    {
-      "browser": "firefox",
-      "name": "clicking the dialogue finishes the line at once",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "after a skip, the cards follow after the beat (not at once)",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the thumb stays hidden while cards arrive",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "clicks on arriving cards are ignored",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the misassignment's three choices overflow the box",
-      "ok": true,
-      "detail": {
-        "max": 28,
-        "thumb": {
-          "x": 1880,
-          "y": 539,
-          "width": 20,
-          "height": 288,
-          "overflow": true
-        }
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the wheel scrolls the choices",
-      "ok": true,
-      "detail": {
-        "c": 28,
-        "s": 3
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "scrolling choices leaves the dialogue where it was",
-      "ok": true,
-      "detail": {
-        "c": 28,
-        "s": 3
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the thumb tracks the choice scroll",
-      "ok": true,
-      "detail": 563
-    },
-    {
-      "browser": "firefox",
-      "name": "dialogue scroll-back reaches the first line",
-      "ok": true,
-      "detail": {
-        "c": 28,
-        "s": 0
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "scrolling the dialogue leaves the choices where they were",
-      "ok": true,
-      "detail": {
-        "c": 28,
-        "s": 0
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "End focuses the last card and scrolls it into view",
-      "ok": true,
-      "detail": {
-        "idx": "2",
-        "scroll": 28,
-        "max": 28
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "a new choice set starts at the top",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the third card took the practical route",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "a single choice still arrives as a card",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "no item-received slip before any item is granted",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the key enters the inventory when the receptionist issues it",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "an item-received slip appears the moment the key is granted",
-      "ok": true,
-      "detail": {
-        "shown": true,
-        "item": "wc_key",
-        "text": "ITEM RECEIVED: FACILITIES KEY",
-        "label": "ITEM RECEIVED: FACILITIES KEY",
-        "role": "status",
-        "live": "polite",
-        "x": 56,
-        "y": 738,
-        "w": 560,
-        "h": 116
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the slip names the item: ITEM RECEIVED: FACILITIES KEY",
-      "ok": true,
-      "detail": {
-        "shown": true,
-        "item": "wc_key",
-        "text": "ITEM RECEIVED: FACILITIES KEY",
-        "label": "ITEM RECEIVED: FACILITIES KEY",
-        "role": "status",
-        "live": "polite",
-        "x": 56,
-        "y": 738,
-        "w": 560,
-        "h": 116
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the slip sits inside the scene window, clear of the dialogue, choices, inventory and buttons",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "the slip carries the item's slot art, drawn crisp at 1:1 with hard alpha",
-      "ok": true,
-      "detail": {
-        "soft": 0,
-        "iconInk": 2821,
-        "w": 560,
-        "h": 116,
-        "smoothing": "pixelated"
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "clicking the slip dismisses it early",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the slot shows the approved bathroom pass art",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the inventory is ignored while the NPC is typing",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "focus that follows a mouse action shows no marker",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "before reading: only the blind confirmation is offered",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "clicking the item opens the inspector",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the buttons become READ, SHOW (disabled) and a blank; RETURN is gone",
-      "ok": true,
-      "detail": [
-        "read:true",
-        "show:false",
-        "none:false"
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "the third button is bare: no glyph, not focusable, inactive",
-      "ok": true,
-      "detail": {
-        "glyph": "none",
-        "on": "none",
-        "off": "none",
-        "tab": -1,
-        "disabled": "true",
-        "action": "none"
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the bare button shows no tooltip",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the bare button neither presses nor closes the item",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the item name and description are in dark ink (#203037), hard-edged, nothing light",
-      "ok": true,
-      "detail": {
-        "32,48,55,255": 8253
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the unavailable SHOW keeps its glyph, unlit",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the choice cards give way to the item text",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the owner item-column overlay replaces the portrait/dialogue shell in inspector mode, drawn over the inspect art",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the item is marked inspected",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "inspector open: the item overlay covers the right column exactly where it is opaque",
       "ok": true,
       "detail": {
@@ -3602,7 +1876,7 @@
       }
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "inspector open: the layered portrait is fully covered (drawn above portrait and shell)",
       "ok": true,
       "detail": {
@@ -3611,42 +1885,42 @@
           "shell": 3,
           "inspector": 13
         },
-        "portraitStill": 958,
+        "portraitStill": 955,
         "clear": 148790
       }
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "a disabled button explains itself in its tooltip",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "pressing the disabled button does not press",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "pressing the disabled button does nothing",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "READ reveals the tag",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "after READ, SHOW is enabled here",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "closing the inspector brings a new set reflecting the tag",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "closing the inspector restores the exact layered receptionist portrait and scene",
       "ok": true,
       "detail": {
@@ -3663,17 +1937,44 @@
       }
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "INSPECT opens the held item",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
+      "name": "hovering the X changes nothing (no hover styling)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "pressing the X swaps to its DOWN sprite (pixel for pixel) and keeps the item open",
+      "ok": true,
+      "detail": {
+        "pressed": "down,none,,true",
+        "dChecked": 1576,
+        "dBad": 0
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "a press released off the X does not close the item and returns it to UP",
+      "ok": true,
+      "detail": "up,,none,true"
+    },
+    {
+      "browser": "chromium",
       "name": "the X closes the inspector",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
+      "name": "the X works from the keyboard: Enter presses it (DOWN) and closes on release",
+      "ok": true,
+      "detail": "down,true"
+    },
+    {
+      "browser": "chromium",
       "name": "clicking the inspected item again closes it, and again reopens it",
       "ok": true,
       "detail": {
@@ -3682,71 +1983,71 @@
       }
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "SHOW speaks the player's line as a turn",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "SHOW leads to the receptionist's answer about the tag",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the practical route gets its own send-off line",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "at the door the middle button becomes USE",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "USE on the key opens the door",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the closing line remembers the tag",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "INSPECT, READ, SHOW and USE never re-announce the key",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "an unclicked slip dismisses itself after about 3.6 s",
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3607
+        "ms": 3609
       }
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "NOTES opens the transcript over the scene",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the transcript holds both speakers' lines",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the transcript opens at its latest lines",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the transcript scrolls back to the start",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "NOTES still covers the scene: same aperture, above the scene art, under the shell; portrait untouched",
       "ok": true,
       "detail": {
@@ -3769,79 +2070,79 @@
       }
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "FILES shows the case file",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "Esc closes the overlay",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the conversation carried on underneath",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the ending offers one card: BEGIN AGAIN",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the ending objective points beyond reception",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "BEGIN AGAIN restarts the slice cleanly",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "replay: correcting the mistake changes the later send-off",
       "ok": true,
       "detail": "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR IS THE FIRST ON THE LEFT. YOUR DISPUTE IS ALREADY ON THE DESK. IT ARRIVED BEFORE YOU DID. MOST THINGS DO."
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "replay: a blind confirmation gets its own answer",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "replay: protest is offered (not yet used)",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "replay: without the tag, the closing line differs",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "QA overflow items fill the inventory past one row",
       "ok": true,
       "detail": 9
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the right arrow presses (DOWN sprite) while held",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the right arrow comes back up",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "one press moves the strip by exactly one item",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the strip slides rather than jumping",
       "ok": true,
       "detail": {
@@ -3900,7 +2201,7 @@
       }
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "at rest, six slots show items 2-7",
       "ok": true,
       "detail": [
@@ -3931,17 +2232,17 @@
       ]
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the left arrow steps back one item",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "the strip stops at the last item",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "with several items and none selected, INSPECT is inactive",
       "ok": true,
       "detail": [
@@ -3951,77 +2252,95 @@
       ]
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "focusing a slot selects its item",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "INSPECT opens the selected item, not the leftmost one",
       "ok": true,
       "detail": "qa_item_6"
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "clicking a slot selects and opens its item",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
+      "name": "an item without inspectArt (QA-only synthetic item) still falls back to the labelled development placeholder",
+      "ok": true,
+      "detail": {
+        "item": "qa_item_4",
+        "hasArt": false,
+        "kind": "placeholder",
+        "kids": [
+          "CANVAS#inspectPlaceholder"
+        ],
+        "size": [
+          565,
+          451
+        ],
+        "label": "QA 4 - INSPECT ART NOT YET APPROVED"
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "INSPECT then reopens the last selected item",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "an item with nothing to read shows READ unlit",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "hover adds no border, outline, glow, fill or brightening to any control (styles and pixels)",
       "ok": true,
       "detail": []
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "a hovered control has no filter, outline, shadow, fill or opacity at all",
       "ok": true,
       "detail": []
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "no stylesheet on the page has a :hover rule",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "hovering a utility shows a separate tooltip naming it",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "no console errors or failed requests",
       "ok": true,
       "detail": []
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "opens from file:// with no server",
       "ok": true,
       "detail": []
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "fits a smaller window by scaling the whole stage",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "a scaled stage still takes clicks on the right card",
       "ok": true
     },
     {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "no errors from file://",
       "ok": true,
       "detail": []

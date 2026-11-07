@@ -49,8 +49,17 @@ const PRODUCTION_ART = {
   // receptionist_idle2/idle3: separate alternate NPC design candidates (docs/59 sections 7-8), NOT frames,
   // expressions or poses of receptionist_idle. Committed and pinned; never loaded by the game.
   'art/portraits/receptionist/receptionist_idle2.png': '38488a228d237650c7b2fe7a0eb2cee74f1549cef63c1767376eb899b714ee35', // 564x278 RGBA
-  'art/portraits/receptionist/receptionist_idle3.png': '95ead2a6de3b28061b77775ea12cb9abf25035e76590b4ff33322abfe69e6376' // 564x278 RGBA
+  'art/portraits/receptionist/receptionist_idle3.png': '95ead2a6de3b28061b77775ea12cb9abf25035e76590b4ff33322abfe69e6376', // 564x278 RGBA
+  // Inspector art pass (docs/58): FACILITIES KEY inspect art and the inspector X up/down.
+  'art/items/bathroom_pass_inspect.png': '9c8527a3fd85cfeddc01ce4a85b74b04cb54063ffc30100be19497e73e7fa722', // 565x451 RGB
+  'art/ui/sprites/inspect_close_up.png': '8247d4b6b23aac803debb405c3549054ea066d54e7561117499f0deb917dc530', // 44x44 RGBA
+  'art/ui/sprites/inspect_close_down.png': '576b4fbc5f50f5d6fcb57065dd350dcf7d81fd4442831cb2509a76f5008c41ba' // 44x44 RGBA
 };
+const INSPECT_ART = 'art/items/bathroom_pass_inspect.png';
+const CLOSE_UP = 'art/ui/sprites/inspect_close_up.png';
+const CLOSE_DOWN = 'art/ui/sprites/inspect_close_down.png';
+const INSPECT_RECT = [1331, 50, 565, 451]; // game/js/stage.js, unchanged
+const CLOSE_RECT = [1331 + 565 - 44 - 8, 50 + 8, 44, 44]; // the X, unchanged
 const SCENE_ART = 'art/scenes/conference_hall/reception/reception_scene.png';
 const BG_ART = 'art/portraits/receptionist/reception_background.png';
 const NPC_ART = 'art/portraits/receptionist/receptionist_idle.png';
@@ -206,6 +215,22 @@ function staticChecks() {
   }
   const candidates = git('ls-files', 'art').split('\n').filter((f) => /_candidate_/.test(f));
   check(b, 'no duplicate candidate PNGs remain beside the production files', candidates.length === 0, candidates);
+  const ins = png(INSPECT_ART);
+  check(b, 'FACILITIES KEY inspect art is 565x451 opaque RGB, the exact inspector art rectangle', ins.width === INSPECT_RECT[2] && ins.height === INSPECT_RECT[3] && ins.type === 2,
+    [ins.width, ins.height, ins.type]);
+  check(b, 'the FACILITIES KEY content entry points at its approved inspect art', content.items.wc_key.inspectArt === INSPECT_ART, content.items.wc_key.inspectArt);
+  const xs = [CLOSE_UP, CLOSE_DOWN].map((f) => {
+    const im = png(f), al = new Set();
+    for (let i = 0; i < im.width * im.height; i++) al.add(im.data[i * 4 + 3]);
+    return { f, size: [im.width, im.height], type: im.type, alpha: [...al].sort((x, y) => x - y).join() };
+  });
+  check(b, 'inspector X up/down sprites are 44x44 RGBA with hard alpha {0,255} and differ (a real pressed state)',
+    xs.every((x) => x.size.join() === '44,44' && x.type === 6 && x.alpha === '0,255') && !png(CLOSE_UP).data.equals(png(CLOSE_DOWN).data), xs);
+  const ph = fs.readFileSync(path.join(ROOT, 'game/js/placeholders.js'), 'utf8');
+  check(b, 'the drawn X placeholder is retired (no caller remained); the inspect-art fallback placeholder stays', !/closeButton/.test(ph + fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8'))
+    && /P\.inspectArt = function/.test(ph));
+  check(b, 'inspector rendering is generic: stage.js names no specific item (no wc_key / FACILITIES / bathroom_pass logic)',
+    !/wc_key|facilities|bathroom_pass/i.test(fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8')));
   const ownerArtBad = Object.keys(OWNER_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== OWNER_ART[f]);
   check(b, 'the owner\'s added art matches its pinned hash', ownerArtBad.length === 0, ownerArtBad);
   const working = git('status', '--porcelain', '--', ...M1_PROTECTED, ...Object.keys(PRODUCTION_ART)).split('\n')
@@ -423,6 +448,10 @@ async function suite(name, base, requests) {
 
   // Load, assets, geometry -----------------------------------------------------------------
   c('page loads ready', (await page.evaluate(() => document.body.dataset.ready)) === 'true');
+  c('FACILITIES KEY inspect art and both X sprites are loaded and decoded before ready', await page.evaluate(() =>
+    ['inspect:wc_key', 'ui:inspect_close_up', 'ui:inspect_close_down'].every((n) => { const i = window.CYOA_GAME.image(n); return i && i.complete && i.naturalWidth > 0; })));
+  c('served inspector art bytes are the approved files', [INSPECT_ART, CLOSE_UP, CLOSE_DOWN].every((f) => bodies[f] === PRODUCTION_ART[f]),
+    [INSPECT_ART, CLOSE_UP, CLOSE_DOWN].map((f) => [f, bodies[f]]));
   c('obsolete 364x78 font atlas is never requested', !requests.some((r) => /locked_pixel_font_atlas\.png$/.test(r)));
   c('neither the brass tab nor the RETURN glyph is ever requested', !requests.some((r) => /choice_marker_tab\.png$|\/return\.png$/.test(r)), requests.filter((r) => /marker|return/.test(r)));
   c('served shell bytes are canonical', bodies[SHELL_PATH] === SHELL_SHA256, bodies[SHELL_PATH]);
@@ -762,6 +791,46 @@ async function suite(name, base, requests) {
   c('the item is marked inspected', (await game(page, () => window.CYOA_GAME.state.items.wc_key)).includes('inspected'));
   await shot(page, '06_inspector_before_read.png');
   await shot(page, '00b_reception_art_inspector_open.png');
+  await shot(page, '00c_inspector_facilities_key_before_read.png');
+  {
+    const g = await page.evaluate(() => {
+      const box = (e) => { const r = e.getBoundingClientRect(); return [r.left, r.top, r.width, r.height]; };
+      const a = document.getElementById('inspectArt'), img = a.querySelector('img'), s = img && getComputedStyle(img);
+      const anc = [];
+      for (let e = img; e; e = e.parentElement) if (getComputedStyle(e).transform !== 'none') anc.push(e.id || e.tagName);
+      return { kind: a.dataset.kind, kids: Array.from(a.children).map((k) => k.tagName + '#' + k.id), box: box(a),
+        img: img && { natural: [img.naturalWidth, img.naturalHeight], box: box(img), src: img.getAttribute('src'), complete: img.complete,
+          st: [s.transform, s.imageRendering, s.opacity, s.filter, s.transitionDuration] },
+        anc, colAfter: (a.compareDocumentPosition(document.getElementById('inspectColumn')) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0 };
+    });
+    c('FACILITIES KEY inspector shows its real art image, not the placeholder canvas', g.kind === 'art' && g.kids.join() === 'IMG#inspectImage', g);
+    c('inspect art: 565x451 natural, displayed 1:1 exactly on INSPECT_RECT, no transform/filter/opacity/transition, smoothing off, under the item overlay',
+      g.img && g.img.natural.join() === '565,451' && JSON.stringify(g.img.box) === JSON.stringify(INSPECT_RECT) && JSON.stringify(g.box) === JSON.stringify(INSPECT_RECT)
+      && /bathroom_pass_inspect\.png$/.test(g.img.src) && g.img.st[0] === 'none' && /pixelated|crisp-edges/.test(g.img.st[1]) && g.img.st[2] === '1'
+      && g.img.st[3] === 'none' && parseFloat(g.img.st[4]) === 0 && g.anc.length === 0 && g.colAfter, g);
+    // Every inspect-art pixel the overlay and the X leave visible is the file's own pixel, 1:1.
+    const scr = decodePng(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }));
+    const ov = png(OVERLAY_ART), art = png(INSPECT_ART), up = png(CLOSE_UP);
+    let artChecked = 0, artBad = 0, xChecked = 0, xBad = 0;
+    for (let y = INSPECT_RECT[1]; y < INSPECT_RECT[1] + INSPECT_RECT[3]; y++) for (let x = INSPECT_RECT[0]; x < INSPECT_RECT[0] + INSPECT_RECT[2]; x++) {
+      const inX = x >= CLOSE_RECT[0] && x < CLOSE_RECT[0] + 44 && y >= CLOSE_RECT[1] && y < CLOSE_RECT[1] + 44;
+      if (inX) {
+        const u = pxAt(up, x - CLOSE_RECT[0], y - CLOSE_RECT[1]);
+        if (u[3] === 255) { xChecked++; if (!sameRgb(u, pxAt(scr, x, y))) xBad++; }
+        continue;
+      }
+      if (pxAt(ov, x, y)[3] !== 0) continue;
+      artChecked++;
+      if (!sameRgb(pxAt(art, x - INSPECT_RECT[0], y - INSPECT_RECT[1]), pxAt(scr, x, y))) artBad++;
+    }
+    c('every inspect-art pixel left visible by the overlay and the X equals the 565x451 file 1:1', artChecked > 200000 && artBad === 0, { artChecked, artBad });
+    c('the X shows its approved UP sprite, pixel for pixel, at its unchanged 44x44 place', xChecked > 1000 && xBad === 0
+      && (await page.evaluate(() => {
+        const b = document.getElementById('inspectClose'), r = b.getBoundingClientRect();
+        return [r.left, r.top, r.width, r.height].join() + '|' + b.dataset.state + '|' + document.getElementById('inspectCloseUp').style.display + '|' + document.getElementById('inspectCloseDown').style.display
+          + '|' + !b.querySelector('canvas');
+      })) === CLOSE_RECT.join() + '|up||none|true', { xChecked, xBad });
+  }
   {
     // The owner's item-column overlay still wins over the right column: wherever it is opaque the
     // screen shows the overlay, and the layered portrait no longer shows anywhere in its aperture.
@@ -807,8 +876,41 @@ async function suite(name, base, requests) {
   // Re-open with INSPECT, close with X, then SHOW.
   await page.click('#util-0');
   c('INSPECT opens the held item', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === 'wc_key');
-  await page.click('#inspectClose');
+  {
+    // No hover look on the X; a press shows the DOWN sprite; a release on it closes; off it does not.
+    const cx = CLOSE_RECT[0] + 22, cy = CLOSE_RECT[1] + 22, clip = { x: CLOSE_RECT[0], y: CLOSE_RECT[1], width: 44, height: 44 };
+    await page.mouse.move(600, 400);
+    const idleLook = await lookOf(page, '#inspectClose'), idlePx = await page.screenshot({ clip });
+    await page.mouse.move(cx, cy);
+    await page.waitForTimeout(150);
+    c('hovering the X changes nothing (no hover styling)', (await lookOf(page, '#inspectClose')) === idleLook && idlePx.equals(await page.screenshot({ clip })));
+    await page.screenshot({ path: path.join(SHOTS, '00d_inspector_close_up.png'), clip: { x: CLOSE_RECT[0] - 38, y: CLOSE_RECT[1] - 8, width: 120, height: 120 } });
+    await page.mouse.down();
+    const st = () => page.evaluate(() => [document.getElementById('inspectClose').dataset.state, document.getElementById('inspectCloseUp').style.display,
+      document.getElementById('inspectCloseDown').style.display, !!window.CYOA_GAME.ui.inspector].join());
+    const pressed = await st();
+    const downShot = decodePng(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } })), dn = png(CLOSE_DOWN);
+    let dChecked = 0, dBad = 0;
+    for (let y = 0; y < 44; y++) for (let x = 0; x < 44; x++) {
+      const d = pxAt(dn, x, y);
+      if (d[3] === 255) { dChecked++; if (!sameRgb(d, pxAt(downShot, CLOSE_RECT[0] + x, CLOSE_RECT[1] + y))) dBad++; }
+    }
+    await page.screenshot({ path: path.join(SHOTS, '00e_inspector_close_down.png'), clip: { x: CLOSE_RECT[0] - 38, y: CLOSE_RECT[1] - 8, width: 120, height: 120 } });
+    c('pressing the X swaps to its DOWN sprite (pixel for pixel) and keeps the item open', pressed === 'down,none,,true' && dChecked > 1000 && dBad === 0, { pressed, dChecked, dBad });
+    await page.mouse.move(600, 400);
+    await page.mouse.up();
+    c('a press released off the X does not close the item and returns it to UP', (await st()) === 'up,,none,true', await st());
+    await page.mouse.move(cx, cy);
+    await page.mouse.down();
+    await page.mouse.up();
+  }
   c('the X closes the inspector', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  await page.click('#util-0');
+  await page.focus('#inspectClose');
+  await page.keyboard.down('Enter');
+  const kDown = await page.evaluate(() => document.getElementById('inspectClose').dataset.state + ',' + !!window.CYOA_GAME.ui.inspector);
+  await page.keyboard.up('Enter');
+  c('the X works from the keyboard: Enter presses it (DOWN) and closes on release', kDown === 'down,true' && !(await game(page, () => window.CYOA_GAME.ui.inspector)), kDown);
   const isOpen = () => game(page, () => !!window.CYOA_GAME.ui.inspector);
   await page.click('#invWindow .slot[data-item="wc_key"]');
   const open1 = await isOpen();
@@ -942,6 +1044,15 @@ async function suite(name, base, requests) {
   await page.click('#invWindow .slot[data-index="4"]');
   const clickedItem = await page.$eval('#invWindow .slot[data-index="4"]', (sl) => sl.dataset.item);
   c('clicking a slot selects and opens its item', (await game(page, () => window.CYOA_GAME.ui.inspector.id)) === clickedItem && (await game(page, () => window.CYOA_GAME.selectedItem())) === clickedItem);
+  {
+    const fb = await page.evaluate((id) => {
+      const a = document.getElementById('inspectArt'), cv = a.querySelector('canvas');
+      return { item: id, hasArt: !!window.CYOA_GAME.content.items[id].inspectArt, kind: a.dataset.kind, kids: Array.from(a.children).map((k) => k.tagName + '#' + k.id),
+        size: cv && [cv.width, cv.height], label: cv && cv.dataset.placeholder };
+    }, clickedItem);
+    c('an item without inspectArt (QA-only synthetic item) still falls back to the labelled development placeholder', /^qa_item_/.test(clickedItem) && !fb.hasArt
+      && fb.kind === 'placeholder' && fb.kids.join() === 'CANVAS#inspectPlaceholder' && fb.size.join() === '565,451' && /INSPECT ART NOT YET APPROVED/.test(fb.label), fb);
+  }
   await page.keyboard.press('Escape');
   await page.click('#util-0');
   c('INSPECT then reopens the last selected item', (await game(page, () => window.CYOA_GAME.ui.inspector.id)) === clickedItem);

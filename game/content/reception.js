@@ -37,7 +37,7 @@
       wc_key: {
         name: 'FACILITIES KEY',
         slotArt: 'art/items/bathroom_pass_slot.png',
-        inspectArt: null, // art/items/bathroom_pass_inspect.png is owed; a labelled placeholder stands in
+        inspectArt: 'art/items/bathroom_pass_inspect.png', // approved 565x451 inspect art (docs/58)
         description: [
           { if: { itemNot: ['wc_key', 'read'] }, text: 'A WC KEY ON A WORN LEATHER FOB. A SMALL PAPER TAG IS TIED THROUGH THE RING. IT HAS BEEN FILLED IN.' },
           { text: 'A WC KEY ON A WORN LEATHER FOB. THE TAG READS:\n\nISSUED TO: EXAMINER, OFFICE OF UNVERIFIED CONDITIONS.\nRETURNED: TODAY, 4:52.\nSIGNED: (A SIGNATURE IN WHAT IS PLAINLY YOUR OWN HANDWRITING.)' }

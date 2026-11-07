@@ -45,6 +45,15 @@
     items.push({ name: G.RECEPTION_ART[id].image, url: G.url(G.RECEPTION_ART[id].path) });
   });
 
+  // Approved item inspect art (an item's own `inspectArt`, if any) and the inspector's X up/down
+  // sprites (js/stage.js), decoded before ready like everything else.
+  Object.keys(G.content.items)
+    .filter(function (id) { return G.content.items[id].inspectArt; })
+    .forEach(function (id) { items.push({ name: G.inspectImageName(id), url: G.url(G.content.items[id].inspectArt) }); });
+  Object.keys(G.INSPECTOR_ART).forEach(function (k) {
+    items.push({ name: G.INSPECTOR_ART[k].image, url: G.url(G.INSPECTOR_ART[k].path) });
+  });
+
   // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front.
   ['inspect', 'notes', 'files', 'read', 'use', 'show_badge'].forEach(function (g) {
     items.push({ name: 'glyph:' + g, url: G.glyphUrl(g) });
