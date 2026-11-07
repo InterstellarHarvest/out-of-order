@@ -44,7 +44,10 @@ const PRODUCTION_ART = {
   'art/scenes/conference_hall/reception/reception_scene.png': 'fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53', // 314x206 RGB
   // Revised 2026-11-07 (docs/59): tighter workstation framing; was 2f23075f... (docs/56/57).
   'art/portraits/receptionist/reception_background.png': '16fe3a96d4304efdbd820981ae8d24039b176d30e28b6c0feee8b2baa08c3c74', // 564x278 RGB
-  'art/portraits/receptionist/receptionist_idle.png': '66c4f32a13a6de3cdffa07163b18de7f9959b782484c766ea3512093c4e4d2a3' // 564x278 RGBA
+  // Owner edit 2026-11-07 (docs/59 section 7): moved down 22 px to sit on the frame bottom; was 66c4f32a...
+  'art/portraits/receptionist/receptionist_idle.png': '761a45d4aa3037173684b815fde75d8d7a7694d541aff6d55dbd863f7e312e2d', // 564x278 RGBA
+  // Owner's alternate receptionist to try (docs/59 section 7). Committed and pinned, not loaded by the game.
+  'art/portraits/receptionist/receptionist_idle2.png': '38488a228d237650c7b2fe7a0eb2cee74f1549cef63c1767376eb899b714ee35' // 564x278 RGBA
 };
 const SCENE_ART = 'art/scenes/conference_hall/reception/reception_scene.png';
 const BG_ART = 'art/portraits/receptionist/reception_background.png';
@@ -188,6 +191,15 @@ function staticChecks() {
   check(b, 'receptionist NPC is 564x278 RGBA with binary alpha {0,255}, real transparency and no RGB hidden under alpha 0',
     npc.width === 564 && npc.height === 278 && npc.type === 6 && [...alphas].sort((x, y) => x - y).join() === '0,255' && pxAt(npc, 0, 0)[3] === 0 && hiddenRgb === 0,
     { size: [npc.width, npc.height], type: npc.type, alphas: [...alphas].slice(0, 6), hiddenRgb });
+  const alt = png('art/portraits/receptionist/receptionist_idle2.png'), altAlpha = new Set();
+  let altHidden = 0;
+  for (let i = 0; i < alt.width * alt.height; i++) {
+    const a = alt.data[i * 4 + 3];
+    altAlpha.add(a);
+    if (a === 0 && (alt.data[i * 4] || alt.data[i * 4 + 1] || alt.data[i * 4 + 2])) altHidden++;
+  }
+  check(b, 'alternate receptionist (idle2) is 564x278 RGBA with binary alpha and no RGB hidden under alpha 0', alt.width === 564 && alt.height === 278
+    && alt.type === 6 && [...altAlpha].sort((x, y) => x - y).join() === '0,255' && altHidden === 0, { size: [alt.width, alt.height], altHidden });
   const candidates = git('ls-files', 'art').split('\n').filter((f) => /_candidate_/.test(f));
   check(b, 'no duplicate candidate PNGs remain beside the production files', candidates.length === 0, candidates);
   const ownerArtBad = Object.keys(OWNER_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== OWNER_ART[f]);

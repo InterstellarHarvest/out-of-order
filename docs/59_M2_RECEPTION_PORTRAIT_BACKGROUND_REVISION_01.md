@@ -70,3 +70,27 @@ The owner/PMO found that the integrated portrait background (docs/56 §2.3, docs
 - `game/qa/screenshots/00b_reception_art_inspector_open.png`: the inspector still over the right column.
 
 A before/after comparison of the old and new background, alone and with the NPC, was made locally for review and is not committed.
+
+## 7. Owner NPC edits on this branch (2026-11-07, later)
+
+The owner supplied two NPC files, edited in the integration worktree, for use on this branch.
+
+### `art/portraits/receptionist/receptionist_idle.png`: owner edit
+
+The sprite was not seated on the bottom of the portrait frame. The owner moved it down by **exactly 22 px**: every visible pixel matches the previous file shifted by 22 rows, and nothing was redrawn. The torso now meets the bottom edge, opaque rows run from y 43 to 278, and the two rows that fell below the canvas are cut off.
+
+- **Cleanup:** RGB under alpha 0 was zeroed (the editor had saved colour under 101,567 transparent pixels). No visible pixel changed, and alpha was already {0,255}.
+- **Hash:** `66c4f32a…` → **`761a45d4aa3037173684b815fde75d8d7a7694d541aff6d55dbd863f7e312e2d`**.
+- 564×278 RGBA, 33,796 opaque pixels, one connected silhouette.
+- The game uses it as before: same path, same layer, 1×.
+
+### `art/portraits/receptionist/receptionist_idle2.png`: alternate receptionist to try
+
+This is a new, distinct receptionist design from the owner, also seated on the frame bottom.
+
+- **Cleanup:** the same binary-alpha rule as the other portrait NPCs. Alpha ≥ 128 → 255, otherwise 0, and RGB under alpha 0 is zeroed. The owner file had 241 alpha levels. No pixel at full alpha changed.
+- **Hash:** **`38488a228d237650c7b2fe7a0eb2cee74f1549cef63c1767376eb899b714ee35`**.
+- 564×278 RGBA, 36,400 opaque pixels, one connected silhouette.
+- **Committed and pinned, but not loaded by the game.** `receptionist_idle.png` stays the active NPC until the owner/PMO choose. Switching to `idle2` would mean either pointing `G.RECEPTION_ART.portraitNpc` at it or replacing `receptionist_idle.png`, plus the QA pin.
+
+Game QA pins both hashes; the `art/` allowlist names each file exactly.
