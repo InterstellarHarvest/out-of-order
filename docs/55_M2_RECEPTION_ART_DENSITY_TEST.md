@@ -264,3 +264,17 @@ Proof screenshots (Chromium, 1920×1080):
 
 - `tools/reception-density-test/qa/screenshots/density_test_chromium_npc_on.png`
 - `tools/reception-density-test/qa/screenshots/density_test_chromium_npc_off.png`
+
+### 11.6 Existing M1/M2 regressions (run on this branch, Chromium + Firefox, node 20)
+
+- `node game/qa/validate_route.js`: **38/38**.
+- `tools/layout-lab/qa/run_qa.js`: **1920/1920**.
+- `game/qa/run_qa.js`: **298/300**. All 282 browser checks pass. The two failures are file-list guards in the slice's static checks, and neither is a regression in behaviour:
+  1. *"M1 art, design, lab and docs are unchanged since M2 began"* lists `README.md` and `docs/45`. Main's own PMO doc commits changed those (`75f735a`, `b9f81d8`), so this check already fails on main. This branch does not touch them.
+  2. *"nothing was added to art/ … except the owner's pinned art"* lists the three density-test exports. This is expected for this review branch. `game/` is protected here, so the guard is left as it is.
+
+The regenerated QA outputs of the slice and the lab were restored rather than committed, so `game/` and `tools/layout-lab/` stay byte-identical to main.
+
+### 11.7 Status
+
+Ready for owner/PMO visual review against section 9. Not merged, and neither density is locked.
