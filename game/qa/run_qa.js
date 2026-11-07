@@ -27,7 +27,7 @@ const OWNER_ART = {
 const M2_ART = {
   'art/ui/sprites/reception/item_received_slip.png': '2bb1bc2518ee7aa65effb7074eba312737e20d147d3a4fe82ac0b2e6106d16b7',
   'art/ui/sprites/reception/inspector_x_up.png': 'ff88eed1365fde12c480c66da7522dd9b31c71198ba17ca4b50f1278610bb2f2',
-  'art/ui/sprites/reception/inspector_x_down.png': 'efe2bd6d4e8a10ff56550fe0322ee5fe22e4bb2cd37cc6571e11359caca4b464'
+  'art/ui/sprites/reception/inspector_x_down.png': '8591ab5c5f6395d1a4d0a9f26ae8f673b0e0bbbf063e999314fb0a4c578f2684'
 };
 // The changes to M1 art since M2 began: the owner's hand edit of ten choice-card outlines
 // (2026-11-05), which superseded the PMO-authorised rows-0-1 cleanup (docs/49 section 2.7), and the
