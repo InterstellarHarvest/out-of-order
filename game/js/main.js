@@ -45,6 +45,9 @@
     items.push({ name: G.RECEPTION_ART[id].image, url: G.url(G.RECEPTION_ART[id].path) });
   });
 
+  // The NOTES/FILES records panel (js/stage.js, docs/60).
+  items.push({ name: G.OVERLAY_ART.panel.image, url: G.url(G.OVERLAY_ART.panel.path) });
+
   // Approved item inspect art (an item's own `inspectArt`, if any) and the inspector's X up/down
   // sprites (js/stage.js), decoded before ready like everything else.
   Object.keys(G.content.items)

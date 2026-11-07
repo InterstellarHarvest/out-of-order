@@ -146,7 +146,21 @@
     els.portraitFrontFx = fxLayer(els.portrait, 'portraitFrontFx', pr);
     els.overlay = el('div', 'aperture overlay', stage, { id: 'overlay', tabindex: '-1' });
     place(els.overlay, sc[0], sc[1], sc[2], sc[3]);
-    els.overlayCanvas = el('canvas', '', els.overlay, { 'aria-hidden': 'true' });
+    // NOTES/FILES (docs/60): the static production panel, 1:1 at the overlay's origin, with a
+    // transparent canvas above it that draws only the dynamic title and text.
+    var panel = G.image(G.OVERLAY_ART.panel.image);
+    panel.id = 'notesFilesPanel';
+    panel.className = 'layer art';
+    panel.alt = '';
+    panel.draggable = false;
+    panel.setAttribute('aria-hidden', 'true');
+    panel.width = panel.naturalWidth;
+    panel.height = panel.naturalHeight;
+    place(panel, 0, 0, panel.naturalWidth, panel.naturalHeight);
+    els.overlay.appendChild(panel);
+    els.overlayPanel = panel;
+    els.overlayCanvas = el('canvas', 'layer', els.overlay, { id: 'overlayCanvas', 'aria-hidden': 'true' });
+    place(els.overlayCanvas, 0, 0, sc[2], sc[3]);
     show(els.overlay, false);
     els.overlay.addEventListener('wheel', function (e) {
       e.preventDefault();
@@ -1029,21 +1043,32 @@
   G.renderInspector = renderInspector;
 
   // NOTES (transcript) and FILES (case file) ---------------------------------------------
-  // Shown over the scene window, which they never leave. The panel treatment is a placeholder.
+  // Shown over the scene window, which they never leave, on the production records panel
+  // (art/ui/overlays/notes_files_panel.png, docs/60). Text regions, in panel coordinates, fit the
+  // panel's blank areas: the title sits on the teal title plate (x 76-1175, y 11-108 visible under
+  // the shell), the body on the cream reading area (x 31-1222, y 122-776). The body keeps the
+  // previous left edge and wrap width, so lines break exactly as before.
+  G.OVERLAY_ART = { panel: { image: 'ui:notes_files_panel', path: 'art/ui/overlays/notes_files_panel.png' } };
+  var OVERLAY_TITLE = { x: 100, centerY: 60 };
+  var OVERLAY_BODY = [48, 140, 1159, 620]; // x, y, width, height
+  var OVERLAY_LH = 26;
+
+  function overlayTitle() {
+    return ui.overlay === 'notes' ? 'NOTES: EVERYTHING SAID AT RECEPTION' : 'FILES: YOUR CASE FILE';
+  }
+
   function overlayLines() {
-    var width = R.sceneAperture.rect[2] - 96;
+    var width = OVERLAY_BODY[2];
     var lines = [];
     function add(text, role, gap) {
       T.wrap(text, width, role).forEach(function (t, i) { lines.push({ text: t, role: role, gap: i === 0 ? gap || 0 : 0 }); });
     }
     if (ui.overlay === 'notes') {
-      add('NOTES: EVERYTHING SAID AT RECEPTION', 'labels');
       G.state.transcript.forEach(function (line, i) {
         add(line.who === 'npc' ? G.content.speaker + ':' : 'YOU:', 'labels', i === 0 ? 18 : 14);
         add(line.text, line.who === 'npc' ? 'dialogue' : 'choices', 4);
       });
     } else {
-      add('FILES: YOUR CASE FILE', 'labels');
       G.rules.files(G.content, G.state).forEach(function (t) { add(t, 'dialogue', 16); });
     }
     return lines;
@@ -1051,7 +1076,7 @@
 
   function overlayView(lines) {
     // How many rows fit from `start`, with gaps.
-    var h = R.sceneAperture.rect[3] - 64 - 40;
+    var h = OVERLAY_BODY[3];
     return function (start) {
       var y = 0;
       var n = 0;
@@ -1090,17 +1115,23 @@
     var fit = overlayView(lines)(ui.overlayScroll);
     var shown = lines.slice(ui.overlayScroll, ui.overlayScroll + fit);
     var c = els.overlayCanvas;
-    P.panel(c, sc[2], sc[3], ui.overlay === 'notes' ? 'NOTES PANEL TREATMENT' : 'FILES PANEL TREATMENT', []);
+    c.width = sc[2]; // also clears it: the canvas holds only text over the panel image
+    c.height = sc[3];
     var ctx = c.getContext('2d');
-    ctx.fillStyle = '#1f2426';
-    ctx.fillRect(32, 96, sc[2] - 64, sc[3] - 128);
+    ctx.imageSmoothingEnabled = false;
+    var title = overlayTitle();
+    var head = document.createElement('canvas');
+    T.draw(head, [{ text: title, role: 'labels' }], 'light', OVERLAY_LH, OVERLAY_BODY[2], OVERLAY_LH, undefined, 'labels');
+    ctx.drawImage(head, OVERLAY_TITLE.x, OVERLAY_TITLE.centerY - Math.floor(T.capHeight('labels') / 2));
     var text = document.createElement('canvas');
-    T.draw(text, shown.map(function (l, i) { return { text: l.text, role: l.role, gap: i ? l.gap : 0 }; }), 'light', 26, sc[2] - 96, sc[3] - 160, undefined, 'dialogue');
-    ctx.drawImage(text, 48, 116);
+    // Dark ink on the cream reading surface.
+    T.draw(text, shown.map(function (l, i) { return { text: l.text, role: l.role, gap: i ? l.gap : 0 }; }), 'dark', OVERLAY_LH, OVERLAY_BODY[2], OVERLAY_BODY[3], undefined, 'dialogue');
+    ctx.drawImage(text, OVERLAY_BODY[0], OVERLAY_BODY[1]);
     c.dataset.kind = ui.overlay;
+    c.dataset.title = title;
     c.dataset.lines = lines.length;
     c.dataset.scroll = ui.overlayScroll;
-    c.dataset.text = lines.map(function (l) { return l.text; }).join('\n');
+    c.dataset.text = [title].concat(lines.map(function (l) { return l.text; })).join('\n');
     els.overlay.setAttribute('aria-label', ui.overlay === 'notes' ? 'Notes: transcript' : 'Files: case file');
   }
   G.renderOverlay = renderOverlay;
