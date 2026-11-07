@@ -20,6 +20,10 @@ The notice remains at `(56, 738)` in the 1920×1080 stage. Code still renders th
 
 The canonical shell, approved sprite package, item slot art, and `art/ui/shell/item-overlay.png` are preserved byte for byte. No PSD, source image, or other master is in Git.
 
+### Owner pixel edit
+
+The owner edited `review/m2-reception-ui-art-01/item_slip_magenta.png`. Its 280 changed pixels refine the corner hardware and registration marks. Those RGB pixels were transferred into the production slip, while the proof's magenta exterior was kept transparent in the sprite. The alpha remains binary and the 560×116 footprint is unchanged. No new magenta marks were present inside the former opaque area; the edited proof's magenta mask matched the existing transparent silhouette.
+
 ## Owner gate
 
 Review the isolated slip on checkerboard, black, and magenta; the exact 1920×1080 runtime assembly; both X states; and the X on the real item overlay in `review/m2-reception-ui-art-01/`. The new art and its integration need owner approval before merge. Reception scene, portrait, key inspect art, NOTES/FILES, tooltip, inventory cue, and choice focus remain outside this batch.

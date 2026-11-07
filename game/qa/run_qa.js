@@ -25,7 +25,7 @@ const OWNER_ART = {
   'art/ui/shell/item-overlay.png': '4566079c985b7efaeeba0140dd5c6b8b8b371713391604118e3de123738a8dfb' // inspector column, 1920x1080
 };
 const M2_ART = {
-  'art/ui/sprites/reception/item_received_slip.png': '2bb1bc2518ee7aa65effb7074eba312737e20d147d3a4fe82ac0b2e6106d16b7',
+  'art/ui/sprites/reception/item_received_slip.png': '72309d32bffec4476d9b19642aeea4f8a1f3c9a99b12046b18bf65138784d60c',
   'art/ui/sprites/reception/inspector_x_up.png': 'ff88eed1365fde12c480c66da7522dd9b31c71198ba17ca4b50f1278610bb2f2',
   'art/ui/sprites/reception/inspector_x_down.png': '8591ab5c5f6395d1a4d0a9f26ae8f673b0e0bbbf063e999314fb0a4c578f2684'
 };
