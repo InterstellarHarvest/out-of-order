@@ -148,3 +148,45 @@ The candidates are **not** wired into the playable reception route, and they rep
 ## 8. Next
 
 The owner/PMO review the candidates against §6. Approved, revised or replaced candidates come in a later pass. Integration into the playable route happens only after art approval.
+
+
+## 9. PMO visual review (2026-11-07)
+
+**Outcome: APPROVED FOR RECEPTION INTEGRATION.**
+
+This approval applies to the three candidate assets as the current production-art set for the M2 reception slice. It does not make them immutable forever; later art revisions may still occur through an explicit reviewed pass.
+
+### World scene — approved
+
+The 314×206 scene now reads as intentionally authored low-density world art rather than as a blurred version of the portrait treatment. Architecture and queue geometry carry the composition, the small receptionist is readable at environmental scale, and the scene retains useful environmental storytelling without overloading the logical pixel grid.
+
+### Receptionist portrait — approved
+
+The 564×278 Portrait 03 treatment creates the intended large jump in conversational detail. The receptionist reads as the same character through hair colour, glasses, headset, uniform and overall silhouette while gaining substantially richer facial, hair, clothing and accessory information.
+
+The difference from the small scene representation is intentional. The speaking portrait is a dedicated character representation, not an enlarged scene sprite.
+
+### Portrait background — approved
+
+The 564×278 background clearly belongs to the same reception location while functioning as a separately authored conversational environment. The centre remains calm enough for the NPC silhouette, and the stronger local details sit primarily around the character rather than competing with her face.
+
+The background remains an independent layer. No foreground desk or other element that should cross in front of the NPC is baked into it.
+
+### Composite — approved
+
+The current composite resolves the failed first density experiment. The world scene and speaking portrait now read as two deliberate art languages within one game rather than as blurry-versus-clear versions of the same image.
+
+The scene is intentionally coarse and environmental; the portrait is intentionally much richer and more intimate.
+
+### Integration authorization
+
+The three approved files may now replace the current reception scene and receptionist portrait placeholders in the playable M2 reception route, subject to the following hard rules:
+
+- scene remains 314×206 logical and renders at 4× nearest-neighbour;
+- portrait background and NPC remain separate 564×278 layers rendered 1:1;
+- UI shell remains above all scene/portrait art;
+- no background/NPC flattening;
+- no new animation, FX or additional art is implied by this approval;
+- no redesign of M1 geometry or narrative behavior is authorized.
+
+Integration should be performed on a dedicated branch derived from this approved art checkpoint and should include browser QA proving exact placement, layering and no smoothing.
