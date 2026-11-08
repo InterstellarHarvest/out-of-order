@@ -17,7 +17,16 @@
 8. [60 The Exposition of Everything — Opening & Story Engine](60_EXPOSITION_OPENING_AND_STORY_ENGINE_V01.md) — detailed owner opening and Expo adventure framework.
 9. [61 House of Tomorrow Story Laboratory](61_HOUSE_OF_TOMORROW_STORY_LAB_V01.md) — earlier, broader concept; now superseded on tone and entry specifics.
 10. [62 House of Tomorrow Owner Revision v0.2](62_HOUSE_OF_TOMORROW_OWNER_REVISION_V02.md) — current story concept for later reference, not current design gate.
-11. [63 Non-NPC Narrative Presentation Gate](63_NON_NPC_NARRATIVE_PRESENTATION_GATE_V01.md) — **CURRENT ACTIVE DESIGN TASK**: no-NPC right-column layout semantics, narration versus spoken lines, action-card behavior, and design-only A/B/C comparison.
+11. [63 Non-NPC Narrative Presentation Gate](63_NON_NPC_NARRATIVE_PRESENTATION_GATE_V01.md) — historical A/B/C hypothesis, superseded.
+12. [64 Non-NPC Mode Owner Rules & Art Brief](64_NON_NPC_MODE_OWNER_RULES_AND_ART_BRIEF.md) — **CURRENT ACTIVE DESIGN TASK**: B is expanded narration, A is authored choice-entered object focus, C removed; needs B overlay art and action/speech typography proof.
+
+## Owner non-NPC mode ruling (2026-11-07)
+
+- **B = default non-NPC narrative presentation:** right-column narration box extends upward over the current NPC portrait region and previous speech panel; choice area and footer remain precisely where they are. A new frame/overlay art asset will likely be needed, following the existing item inspector's opposite expansion concept.
+- **A = close-up interaction mode:** player first selects a choice in B to focus on a switch, keypad, file drawer, document or other interactable target; focused close-up replaces the B upper narration surface with meaningful high-detail image and contextual description.
+- **C merged into A; no separate object mode.**
+- **Canonical font check:** M1 chose Jersey 15 1x for NPC speech, locked Choices font for player-spoken choice and cards, Tiny5 3x for objective and Press Start 2P 2x for labels/tooltips. **No approved special styling for action-vs-spoken choices; italics and parentheses are NOT canon.** Compare text-convention/glyph options using existing card font/art; action should not be logged as if spoken.
+- Next review gate: isolated exact-shell B overlay art and action-versus-spoken comparison; preserve M2 implementation.
 
 ## Priority reset to original PMO directive (2026-11-07)
 
@@ -96,7 +105,8 @@
 - [x] Owner refined House of Tomorrow entry, AI portrait and tone; recorded doc 62.
 - [x] Owner recalled original PMO priority: non-NPC gameplay presentation before more story expansion.
 - [x] Define conceptual A/B/C visual comparison gate (doc 63).
-- [ ] **Next owner gate:** compare fixed-shell contextual visual focus vs scene-first narrative treatment using the same test scenes; decide which no-image fallback works.
+- [x] Owner selected two-mode presentation: B default narration/expanded right panel, A context close-up from choices, C merged into A; documented 64.
+- [ ] **Next owner gate:** review isolated B narrative-frame art overlay against canonical shell, with choices/footer untouched; compare action versus spoken choice typography before locking visual convention.
 - [ ] Decide whether action choices require a different send/transcript behavior from spoken NPC choices; later hand off tested semantics to other PMO.
 - [ ] Resolve open creative details of the former job, memorable keepsake, first exhibit, and how many different exhibit worlds the larger plot can sustain.
 - [ ] Develop story-spine beats, relevant supporting characters, a few memorable episodes and possible difficult outcomes without locking the mystery too early.
