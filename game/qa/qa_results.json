@@ -7,12 +7,12 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 300,
+  "total": 301,
   "passed": 300,
-  "failed": 0,
+  "failed": 1,
   "byBrowser": {
     "static": {
-      "total": 18,
+      "total": 19,
       "passed": 18
     },
     "chromium": {
@@ -24,13 +24,26 @@
       "passed": 141
     }
   },
-  "failures": [],
+  "failures": [
+    {
+      "browser": "static",
+      "name": "M1 art, design, lab and docs are unchanged since M2 began, apart from the owner's card-outline edit",
+      "ok": false,
+      "detail": [
+        "README.md",
+        "docs/45_M1_OWNER_DIRECTION_INTERACTION_AND_DIALOGUE_FLOW.md"
+      ]
+    }
+  ],
   "checks": [
     {
       "browser": "static",
       "name": "M1 art, design, lab and docs are unchanged since M2 began, apart from the owner's card-outline edit",
-      "ok": true,
-      "detail": []
+      "ok": false,
+      "detail": [
+        "README.md",
+        "docs/45_M1_OWNER_DIRECTION_INTERACTION_AND_DIALOGUE_FLOW.md"
+      ]
     },
     {
       "browser": "static",
@@ -49,6 +62,11 @@
       "name": "no uncommitted change to M1 art, design, lab or docs",
       "ok": true,
       "detail": ""
+    },
+    {
+      "browser": "static",
+      "name": "shell regions and alpha census are identical to the M2 start",
+      "ok": true
     },
     {
       "browser": "static",
@@ -172,7 +190,7 @@
       "browser": "chromium",
       "name": "served shell bytes are canonical",
       "ok": true,
-      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+      "detail": "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625"
     },
     {
       "browser": "chromium",
@@ -637,8 +655,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 13,
-        "r1": 25
+        "r0": 18,
+        "r1": 30
       }
     },
     {
@@ -656,7 +674,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 216.79999995231628
+      "detail": 217.29999995231628
     },
     {
       "browser": "chromium",
@@ -747,7 +765,7 @@
         0,
         0,
         -2,
-        -4,
+        -2,
         -6,
         -8,
         -12,
@@ -818,7 +836,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948.6000001430511
+      "detail": 948.3000001907349
     },
     {
       "browser": "chromium",
@@ -1165,7 +1183,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3610
+        "ms": 3602
       }
     },
     {
@@ -1466,7 +1484,7 @@
       "browser": "firefox",
       "name": "served shell bytes are canonical",
       "ok": true,
-      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+      "detail": "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625"
     },
     {
       "browser": "firefox",
@@ -1931,8 +1949,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 16,
-        "r1": 28
+        "r0": 24,
+        "r1": 36
       }
     },
     {
@@ -2047,7 +2065,7 @@
         -8,
         -12,
         -18,
-        -24,
+        -22,
         -30,
         -36,
         -44,
@@ -2098,7 +2116,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 420
+      "detail": 418
     },
     {
       "browser": "firefox",
@@ -2460,7 +2478,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3609
+        "ms": 3603
       }
     },
     {
@@ -2563,23 +2581,23 @@
         "first": [
           [
             0,
-            14
+            -1
           ],
           [
             1,
-            130
+            115
           ],
           [
             2,
-            246
+            235
           ],
           [
             3,
-            362
+            356
           ],
           [
             4,
-            478
+            476
           ],
           [
             5,
