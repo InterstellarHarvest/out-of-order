@@ -14,7 +14,8 @@
 5. [56 Parallel Creative Track Plan](56_PARALLEL_CREATIVE_TRACK_PLAN_V01.md) — Detroit/House of Danger comparison, ownership boundaries, staged creative gates.
 6. [57 Branching & Dice Paper Test](57_BRANCHING_DICE_PAPER_TEST_V01.md) — historical mechanics idea; ON HOLD until story material exists.
 7. [59 Story Spine Laboratory 01](59_STORY_SPINE_LAB_01.md) — earlier story-pitch comparison; ranking superseded by owner Expo direction.
-8. [60 The Exposition of Everything — Opening & Story Engine](60_EXPOSITION_OPENING_AND_STORY_ENGINE_V01.md) — **CURRENT CREATIVE WORK**: detailed owner opening and novel Expo adventure framework.
+8. [60 The Exposition of Everything — Opening & Story Engine](60_EXPOSITION_OPENING_AND_STORY_ENGINE_V01.md) — detailed owner opening and Expo adventure framework.
+9. [61 House of Tomorrow Story Laboratory](61_HOUSE_OF_TOMORROW_STORY_LAB_V01.md) — **CURRENT CREATIVE WORK**: first post-reception exhibit concept, scenes, characters, escalating automated-home absurdity, and proposed transition.
 
 ## Most recent owner story direction (2026-11-07)
 
@@ -24,6 +25,12 @@
 - The bathroom is essential at the beginning but should become a **rare callback later**, not a constant gag or timer.
 - Brainstorm **stories and specific adventures first**. Mechanic and branching tests remain on hold until there is narrative worth branching.
 - Everything else in current work remains on a docs-only review branch; no changes to other PMO's M2 implementation.
+
+## Latest current request (2026-11-07)
+
+- Owner selected **House of Tomorrow** for conceptual development as the first post-reception Expo adventure (not necessarily locked as the final playable first chapter).
+- PMO created doc 61, proposing a rotating model home, domestic-labor paradox, environmental incident sequence, one or two human characters, and a dramatic relocation into Transport Miracle. These details are proposals, not owner-approved.
+- Next creative checkpoint: owner evaluates whether this has the right degree of wildness and character, then we revise before selecting its plot beats. Keep branch/dice testing on hold and M2 untouched.
 
 ## Owner-confirmed foundation
 
@@ -66,7 +73,8 @@
 - [x] **Owner sequencing decision:** story-first (C) before mechanical branch testing.
 - [x] Start story laboratory / candidate story engines in doc 59.
 - [x] Owner selected the Expo as primary story generator and provided pre-reception sequence (doc 60).
-- [ ] Explore and select one or more first *post-reception* Expo adventures, and plausible reasons circumstances continue pushing the protagonist forward.
+- [x] Draft first post-reception candidate House of Tomorrow in doc 61, including a reason the house keeps moving protagonist forward.
+- [ ] Review/revise House of Tomorrow with owner (tone, originality, incidents, characters and next-pavilion transition).
 - [ ] Resolve open creative details of the former job, memorable keepsake, first exhibit, and how many different exhibit worlds the larger plot can sustain.
 - [ ] Develop story-spine beats, relevant supporting characters, a few memorable episodes and possible difficult outcomes without locking the mystery too early.
 - [ ] **Later**, after concrete scenes exist, evaluate House of Danger item/dice checks and Detroit-style chapter divergence. No Claude branch lab yet.
