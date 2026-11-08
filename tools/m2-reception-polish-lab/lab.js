@@ -14,6 +14,7 @@
 
   var prod = null; // production values, read from the production frame
   var changes = {}; // only the values that differ from production
+  var ownerDefaults = null; // the OWNER_DEFAULTS id this lab has already added (once per id)
   var view = 'lab';
   var stateId = 'opening';
   var fit = true;
@@ -44,6 +45,7 @@
     try {
       var s = JSON.parse(localStorage.getItem(STORE) || 'null');
       if (s && s.changes && typeof s.changes === 'object') changes = s.changes;
+      if (s && typeof s.ownerDefaults === 'string') ownerDefaults = s.ownerDefaults;
       readUi(s); // UI fields an older lab kept beside the values
     } catch (e) { /* unreadable storage: start from production */ }
     try {
@@ -52,7 +54,7 @@
   }
   function save() {
     try {
-      localStorage.setItem(STORE, JSON.stringify({ schema: TUN.SCHEMA, changes: changes }));
+      localStorage.setItem(STORE, JSON.stringify({ schema: TUN.SCHEMA, changes: changes, ownerDefaults: ownerDefaults }));
     } catch (e) { /* storage blocked: the lab still works for this session */ }
   }
   function saveUi() {
@@ -475,6 +477,13 @@
     if (!check.ok) {
       $('ioStatus').textContent = 'Saved lab values were invalid and were dropped:\n' + check.errors.join('\n');
       changes = {};
+      save();
+    }
+    // The owner's lab defaults, added once (TUN.OWNER_DEFAULTS); they override an older saved value.
+    if (ownerDefaults !== TUN.OWNER_DEFAULTS.id) {
+      var od = TUN.OWNER_DEFAULTS.values;
+      if (TUN.validate(od, prod).ok) Object.keys(od).forEach(function (k) { if (od[k] === prod[k]) delete changes[k]; else changes[k] = od[k]; });
+      ownerDefaults = TUN.OWNER_DEFAULTS.id;
       save();
     }
     loadFrame('lab');

@@ -186,14 +186,21 @@
     var w;
     try { w = api.frameWin(api.view()); } catch (e) { w = null; }
     var i = w && w.NARRATIVE_STAGE ? w.NARRATIVE_STAGE.info() : null;
+    var t = w && w.NARRATIVE_STAGE && w.NARRATIVE_STAGE.talkInfo ? w.NARRATIVE_STAGE.talkInfo() : null;
+    if (t && t.on) {
+      var st = window.NARRATIVE_STUDY.byKey['marking.style'];
+      out.textContent = 'Reception dialogue (the real conversation), re-marked: ' + st.options[t.style] + '\n' + t.parts.length + ' lines in the history; scroll the dialogue box to read them all.';
+      return;
+    }
     if (!i || !i.active) { out.textContent = api.isPreview(api.stateId()) ? 'Loading the preview...' : 'No Narrative Study state on show. Pick one in State (group "Narrative Study").'; return; }
-    out.textContent = (i.mode === 'B' ? 'Narrative B' : 'Focus A') + ' - ' + i.node + ' - page ' + (i.page + 1) + ' / ' + i.pages + ' - ' + i.lines + ' of ' + i.capacity + ' lines'
-      + (i.revealed ? '' : ' - revealing') + '\nchoices: ' + JSON.parse(i.kinds).map(function (k) { return k[0] + ' (' + k[1] + ')'; }).join(', ');
+    var part = i.mode === 'B' && i.flow !== 3 ? 'part ' : 'page ';
+    out.textContent = (i.mode === 'B' ? 'Narrative B' : 'Focus A') + ' - ' + i.node + ' - ' + part + (i.page + 1) + ' / ' + i.pages + ' - ' + i.lines + ' lines, ' + i.capacity + ' fit'
+      + (i.maxScroll ? ' - scrolled ' + i.scroll + ' / ' + i.maxScroll : '') + (i.revealed ? '' : ' - typing') + '\nchoices: ' + JSON.parse(i.kinds).map(function (k) { return k[0] + ' (' + k[1] + ')'; }).join(', ');
   }
 
   // A card taken by hand in one frame is taken in the other frame too, once it stands at the same
   // point, so PRODUCTION / LAB flips keep comparing the same moment.
-  function echo(fromMode, id, node, page) {
+  function echo(fromMode, id, node, page) { // page: the CONTINUE step (part or page) the card was taken at
     var other = fromMode === 'lab' ? 'production' : 'lab';
     try {
       var w = api.frameWin(other);

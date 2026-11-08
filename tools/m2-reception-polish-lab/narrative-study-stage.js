@@ -2,15 +2,20 @@
 // lab-stage.js. EXPERIMENTAL PREVIEW: the production game has no narrative mode, and nothing here is
 // part of it. It never writes G.state, never reads browser storage, and never edits game/ files.
 //
-// It reuses the production stage it runs in: the canonical shell, the bitmap text routines
-// (G.text.wrap / draw), the approved choice cards with their production arrive / slide-away / send
-// motions (G.setChoices, G.ui.motion), the scrollbar thumb, and the labelled developer placeholder
-// (G.placeholders.panel). It adds only:
+// It reuses the production stage it runs in: the canonical shell, the baked faces and glyph maps
+// (G.text), the approved choice cards with their production arrive / slide-away / send motions
+// (G.setChoices, G.ui.motion), the dialogue's scroll-thumb style (.speech-indicator) and the labelled
+// developer placeholder (G.placeholders.panel). It adds only:
 //   - Narrative B: the review overlay (Candidate 1 or 2, a 1920x1080 RGBA layer over the shell) and
-//     one narration canvas on it. The current passage REPLACES the previous one (no history); a long
-//     passage is shown as natural-break pages, with a single CONTINUE card until the final page.
+//     one narration canvas on it. The narration works like the dialogue box (owner, 2026-11-08): new
+//     text types on below what is there and the box scrolls to follow it; once it stops, a thumb
+//     shows when there is more than fits, and the wheel scrolls back. A choice's result continues the
+//     narration. A long passage still waits for CONTINUE between groups of whole paragraphs.
+//     (The earlier study's replacing pages remain selectable for comparison.)
 //   - Focus A: the normal shell (portrait aperture + speech panel), a runtime-drawn placeholder
 //     close-up in the portrait aperture, and the description in the speech panel's text area.
+//   - Talking vs action: candidate ways to tell spoken words from actions, thoughts and narration,
+//     applied to the narration and (state NB-8) to the real reception dialogue in this frame.
 // Choices carry a semantic kind: action | spoken | continue. None is written to the transcript or the
 // dialogue history: the result is narrated.
 (function () {
@@ -35,20 +40,132 @@
   }
   function V(k) { return vals[k]; }
 
-  // Fixtures ----------------------------------------------------------------------------------
-  // REPRESENTATIVE TEST TEXT ONLY: not story canon, not M2 content. Written in the game's upper-case
-  // house style and in the plain ASCII every baked face covers.
-  var LONG = {
-    1: 'A NOTICE WAS PINNED BESIDE THE DOUBLE DOORS, TYPED ON THE BUILDING\'S OWN FORM. I READ IT BECAUSE THERE WAS NOTHING ELSE TO DO, AND BECAUSE THE FORM HAD BEEN STAMPED THREE TIMES, WHICH IN THIS BUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\n'
-      + 'IT SAID THAT FROM TODAY ALL VISITORS ARE TO BE TREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL THE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY THE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT NAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE SPACE HAS BEEN INITIALLED.\n\n'
-      + 'BELOW THAT, IN SMALLER TYPE, IT EXPLAINED THAT ANY PERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED MAY APPLY FOR RECLASSIFICATION AT THE DESK, BETWEEN THE HOURS OF NINE AND NINE FIFTEEN, ON ANY DAY THE DESK IS STAFFED. THE DESK IS STAFFED BY VISITORS, AS OF TODAY.\n\n'
-      + 'AT THE VERY BOTTOM SOMEONE HAD ADDED, BY HAND, THAT THE BATHROOM ON THIS FLOOR WAS FOR THE USE OF STAFF ONLY, AND THAT THIS RULE HAD NOT CHANGED. THE HANDWRITING WAS NEAT AND VERY SMALL, AS IF IT WERE EMBARRASSED TO BE THERE AT ALL.',
-    2: 'THE NOTICE BESIDE THE DOUBLE DOORS RAN ON WITHOUT A SINGLE BREAK, AS IF WHOEVER TYPED IT WAS AFRAID THAT A PARAGRAPH WOULD BE TAKEN AS PERMISSION TO STOP READING. IT EXPLAINED THAT VISITORS WERE TO BE TREATED AS STAFF AND STAFF AS VISITORS UNTIL THE MATTER WAS SETTLED. IT EXPLAINED THAT THE MATTER WOULD BE SETTLED BY THE OFFICE CONCERNED, WHICH WAS NOT NAMED. IT EXPLAINED THAT A SPACE HAD BEEN LEFT FOR THE NAME AND THAT THE SPACE HAD BEEN INITIALLED, WHICH MADE IT OFFICIAL. IT EXPLAINED THAT ANY PERSON WHO BELIEVED THEY HAD BEEN MISCLASSIFIED MIGHT APPLY AT THE DESK BETWEEN NINE AND NINE FIFTEEN. IT EXPLAINED THAT THE DESK WAS NOW STAFFED BY VISITORS. IT EXPLAINED THAT VISITORS COULD NOT ACCEPT APPLICATIONS. IT EXPLAINED THAT THIS WAS NOT A CONTRADICTION BUT A PROCEDURE. IT EXPLAINED THAT THE PROCEDURE WAS UNDER REVIEW, AND THAT THE REVIEW WAS BEING CONDUCTED BY THE OFFICE CONCERNED. IT ENDED, AT LAST, WITH A REMINDER THAT THE BATHROOM ON THIS FLOOR WAS FOR STAFF ONLY, AND THAT THIS RULE HAD NOT CHANGED.',
-    3: null // built below: the announcement, then two more long paragraphs, twice over
+  // Talking vs action ---------------------------------------------------------------------------
+  // Text is a list of runs, each spoken or not. A word of an unspoken run that takes the second ink
+  // is prefixed with MARK, a zero-width glyph added (in this frame only) to every face, so wrapping
+  // and widths are the production ones and every wrapped line carries its own inks.
+  var MARK = '\u0001';
+  var INK1 = '#203037'; // the production dark ink
+  ['dialogue', 'choices', 'labels', 'objective'].forEach(function (r) {
+    var m = T.face(r).mapping;
+    if (!m[MARK]) m[MARK] = { x: 0, y: 0, w: 0, h: 0, advance: 0, bearingX: 0, bearingY: 0 };
+  });
+  // Fixture markup: {{...}} is spoken.
+  function parseRuns(text) {
+    var out = [];
+    var re = /\{\{([^}]*)\}\}/g;
+    var last = 0;
+    var m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) out.push({ t: text.slice(last, m.index), spoken: false });
+      out.push({ t: m[1], spoken: true });
+      last = re.lastIndex;
+    }
+    if (last < text.length) out.push({ t: text.slice(last), spoken: false });
+    return out;
+  }
+  // A production dialogue part: [stage directions] are unspoken; a thought is unspoken throughout.
+  function dialogueRuns(text, who) {
+    if (who === 'thought') return [{ t: text.replace(/^\(|\)$/g, ''), spoken: false, bracket: '()' }];
+    var out = [];
+    var re = /\[([^\]]*)\]/g;
+    var last = 0;
+    var m;
+    while ((m = re.exec(text))) {
+      if (m.index > last) out.push({ t: text.slice(last, m.index), spoken: true });
+      out.push({ t: m[1], spoken: false, bracket: '[]' });
+      last = re.lastIndex;
+    }
+    if (last < text.length) out.push({ t: text.slice(last), spoken: true });
+    return out;
+  }
+  // style 1: brackets as authored (today's game); 2: speech in quotation marks; 3: unspoken words in
+  // the second ink; 4: both.
+  function markRuns(runs, style) {
+    var quotes = style === 2 || style === 4;
+    var ink = style === 3 || style === 4;
+    return runs.map(function (r) {
+      var t = r.t.trim();
+      if (!t) return '';
+      if (r.spoken) return quotes ? '"' + t + '"' : t;
+      if (r.bracket && style === 1) return r.bracket[0] + t + r.bracket[1];
+      return ink ? t.split(/\s+/).map(function (w) { return MARK + w; }).join(' ') : t;
+    }).filter(Boolean).join(' ');
+  }
+  function plain(t) { return t.split(MARK).join(''); }
+
+  // Draws wrapped lines like G.text.draw (same faces, glyph maps, tops and typewriter budget), with
+  // each word in the first ink or, after MARK, the second.
+  function paint(canvas, lines, lh, width, height, budget) {
+    canvas.width = width;
+    canvas.height = height;
+    var ctx = canvas.getContext('2d');
+    var layers = {};
+    var layer = function (k) {
+      if (!layers[k]) {
+        var c = document.createElement('canvas');
+        c.width = width;
+        c.height = height;
+        layers[k] = c.getContext('2d');
+        layers[k].imageSmoothingEnabled = false;
+      }
+      return layers[k];
+    };
+    var left = budget === undefined ? Infinity : budget;
+    var y = 0;
+    lines.forEach(function (line) {
+      y += line.gap || 0;
+      var face = T.face(line.role);
+      var atlas = face.id === 'locked' ? G.image('locked_pixel_font_atlas_dark') : G.image('font:' + face.id);
+      var x = 0;
+      var two = false;
+      var start = true;
+      for (var i = 0; i < line.text.length && left > 0; i++, left--) {
+        var ch = line.text[i];
+        if (ch === ' ') start = true;
+        else if (start) { two = ch === MARK; start = false; }
+        var g = face.mapping[ch] || face.mapping['?'];
+        if (g.w && g.h) layer(two ? 2 : 1).drawImage(atlas, g.x, g.y, g.w, g.h, x + (g.bearingX || 0), y + (g.bearingY || 0), g.w, g.h);
+        x += g.advance;
+      }
+      y += lh;
+    });
+    ctx.imageSmoothingEnabled = false;
+    [1, 2].forEach(function (k) {
+      var l = layers[k];
+      if (!l) return;
+      l.globalCompositeOperation = 'source-in';
+      l.fillStyle = k === 1 ? INK1 : NS.INKS[V('marking.ink')];
+      l.fillRect(0, 0, width, height);
+      ctx.drawImage(l.canvas, 0, 0);
+    });
+  }
+  // The production dialogue box draws through G.text.draw: a line with a second-ink word is painted
+  // here instead (only ever in state NB-8); every other call is the production routine, untouched.
+  var prodDraw = T.draw;
+  T.draw = function (canvas, lines, ink, lineHeight, width, height, maxChars, role) {
+    var marked = lines.some(function (l) { return (typeof l === 'string' ? l : l.text).indexOf(MARK) !== -1; });
+    if (!marked) return prodDraw.apply(this, arguments);
+    paint(canvas, lines.map(function (l) { return typeof l === 'string' ? { text: l, role: role } : l; }), lineHeight, width, height, maxChars);
   };
-  LONG[3] = LONG[1] + '\n\n'
-    + 'A SECOND SHEET WAS PINNED UNDER THE FIRST. IT WAS A COPY OF THE FIRST, EXCEPT THAT EVERY INSTANCE OF THE WORD VISITOR HAS BEEN STRUCK THROUGH AND REPLACED WITH THE WORD APPLICANT, AND EVERY INSTANCE OF THE WORD STAFF HAS BEEN CIRCLED, AS IF SOMEBODY MEANT TO COME BACK TO IT LATER AND NEVER DID.\n\n'
-    + 'A THIRD SHEET, UNDER THE SECOND, WAS BLANK EXCEPT FOR A STAMP IN THE TOP CORNER THAT READ RECEIVED, AND A SECOND STAMP BESIDE IT THAT READ NOT RECEIVED. BOTH STAMPS WERE DATED TODAY. BOTH WERE SIGNED IN THE SAME HAND, WHICH, I NOTICED WITH SOME DISCOMFORT, LOOKED A GREAT DEAL LIKE MY OWN.';
+
+  // Fixtures ----------------------------------------------------------------------------------
+  // REPRESENTATIVE TEST TEXT ONLY: not story canon, not M2 content. Upper case, plain ASCII that every
+  // baked face covers, and second person, present tense (owner, 2026-11-08). {{...}} is spoken.
+  var NOTICE = [
+    'A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED ON THE BUILDING\'S OWN FORM. YOU READ IT BECAUSE THERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM HAS BEEN STAMPED THREE TIMES, WHICH IN THIS BUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.',
+    'IT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE TREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL THE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY THE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT NAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE SPACE HAS BEEN INITIALLED.',
+    'BELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY PERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED MAY APPLY FOR RECLASSIFICATION AT THE DESK, BETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK IS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, {{IT IS PERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.}}',
+    'AT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND, THAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF STAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED. THE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT WERE EMBARRASSED TO BE THERE AT ALL.'
+  ];
+  var LONG = {
+    1: NOTICE.join('\n\n'),
+    2: 'THE NOTICE BESIDE THE DOUBLE DOORS RUNS ON WITHOUT A SINGLE BREAK, AS IF WHOEVER TYPED IT WAS AFRAID THAT A PARAGRAPH WOULD BE TAKEN AS PERMISSION TO STOP READING. IT EXPLAINS THAT VISITORS ARE TO BE TREATED AS STAFF AND STAFF AS VISITORS UNTIL THE MATTER IS SETTLED. IT EXPLAINS THAT THE MATTER WILL BE SETTLED BY THE OFFICE CONCERNED, WHICH IS NOT NAMED. IT EXPLAINS THAT A SPACE HAS BEEN LEFT FOR THE NAME AND THAT THE SPACE HAS BEEN INITIALLED, WHICH MAKES IT OFFICIAL. IT EXPLAINS THAT ANY PERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED MAY APPLY AT THE DESK BETWEEN NINE AND NINE FIFTEEN. IT EXPLAINS THAT THE DESK IS NOW STAFFED BY VISITORS. IT EXPLAINS THAT VISITORS CANNOT ACCEPT APPLICATIONS. IT EXPLAINS THAT THIS IS NOT A CONTRADICTION BUT A PROCEDURE. IT EXPLAINS THAT THE PROCEDURE IS UNDER REVIEW, AND THAT THE REVIEW IS BEING CONDUCTED BY THE OFFICE CONCERNED. IT ENDS, AT LAST, WITH A REMINDER THAT THE BATHROOM ON THIS FLOOR IS FOR STAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.',
+    3: NOTICE.concat([
+      'A SECOND SHEET IS PINNED UNDER THE FIRST. IT IS A COPY OF THE FIRST, EXCEPT THAT EVERY INSTANCE OF THE WORD VISITOR HAS BEEN STRUCK THROUGH AND REPLACED WITH THE WORD APPLICANT, AND EVERY INSTANCE OF THE WORD STAFF HAS BEEN CIRCLED, AS IF SOMEBODY MEANT TO COME BACK TO IT LATER AND NEVER DID.',
+      'A THIRD SHEET, UNDER THE SECOND, IS BLANK EXCEPT FOR A STAMP IN THE TOP CORNER THAT READS RECEIVED, AND A SECOND STAMP BESIDE IT THAT READS NOT RECEIVED. BOTH STAMPS ARE DATED TODAY. BOTH ARE SIGNED IN THE SAME HAND, WHICH, YOU NOTICE WITH SOME DISCOMFORT, LOOKS A GREAT DEAL LIKE YOUR OWN.'
+    ]).join('\n\n')
+  };
 
   var HALL_CHOICES = [
     { id: 'examine-keypad', kind: 'action', text: 'EXAMINE THE KEYPAD', to: 'keypad' },
@@ -57,11 +174,11 @@
   ];
   var NODES = {
     hall: { mode: 'B', choices: HALL_CHOICES,
-      text: 'THE RECEPTIONIST WAS BUSY WITH A FORM AND DID NOT LOOK UP. THE DOUBLE DOORS BESIDE THE DESK STOOD SHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME. ABOVE IT, A LEVER MARKED CALL ATTENDANT WAITED IN ITS SLOT.' },
+      text: 'THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT LOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND SHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME. ABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN ITS SLOT.' },
     'hall-long': { mode: 'B', choices: HALL_CHOICES,
-      text: 'THE RECEPTIONIST HAD GONE BACK TO HER FORMS. SHE FILLED THEM IN WITH THE SLOW CARE OF SOMEONE WHO EXPECTED EACH ONE TO BE READ ALOUD AT HER RETIREMENT, AND SHE DID NOT LOOK UP WHEN I MOVED AWAY FROM THE DESK.\n\n'
-        + 'A BRASS KEYPAD WAS SET INTO THE FRAME OF THE DOUBLE DOORS AT CHEST HEIGHT. ITS KEYS WERE WORN FLAT IN THE MIDDLE, WHERE THE SAME FEW NUMBERS HAD BEEN PRESSED FOR YEARS. ABOVE IT, A LEVER MARKED CALL ATTENDANT WAITED IN ITS SLOT, PAINTED THE SAME GREEN AS EVERYTHING ELSE THAT NOBODY WAS MEANT TO TOUCH.\n\n'
-        + 'SOMEWHERE IN THE WALL, A PNEUMATIC TUBE THUMPED ONCE AND WENT QUIET.' },
+      text: 'THE RECEPTIONIST HAS GONE BACK TO HER FORMS. SHE FILLS THEM IN WITH THE SLOW CARE OF SOMEONE WHO EXPECTS EACH ONE TO BE READ ALOUD AT HER RETIREMENT, AND SHE DOES NOT LOOK UP WHEN YOU MOVE AWAY FROM THE DESK.\n\n'
+        + 'A BRASS KEYPAD IS SET INTO THE FRAME OF THE DOUBLE DOORS AT CHEST HEIGHT. ITS KEYS ARE WORN FLAT IN THE MIDDLE, WHERE THE SAME FEW NUMBERS HAVE BEEN PRESSED FOR YEARS. ABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN ITS SLOT, PAINTED THE SAME GREEN AS EVERYTHING ELSE THAT NOBODY IS MEANT TO TOUCH.\n\n'
+        + 'SOMEWHERE IN THE WALL, A PNEUMATIC TUBE THUMPS ONCE AND GOES QUIET.' },
     announce: { mode: 'B', long: true, choices: [
       { id: 'reclassify', kind: 'action', text: 'APPLY FOR RECLASSIFICATION AT THE DESK', to: 'wait' },
       { id: 'examine-keypad', kind: 'action', text: 'EXAMINE THE KEYPAD', to: 'keypad' },
@@ -73,30 +190,37 @@
     ], text: 'A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN SMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY. CODES ARE ISSUED, NOT GUESSED.' },
     'keypad-tried': { mode: 'A', focus: 'keypad', choices: [
       { id: 'stop', kind: 'action', text: 'STOP EXAMINING', to: 'hall-after-try' }
-    ], text: 'THE KEYS WENT DOWN ONE BY ONE WITH A DRY CLICK. A SLOT UNDER THE PLATE PRINTED A SMALL RECEIPT: ATTEMPT RECORDED. PLEASE WAIT TO BE CONTACTED.' },
+    ], text: 'THE KEYS GO DOWN ONE BY ONE WITH A DRY CLICK. A SLOT UNDER THE PLATE PRINTS A SMALL RECEIPT: ATTEMPT RECORDED. PLEASE WAIT TO BE CONTACTED.' },
     'hall-return': { mode: 'B', choices: HALL_CHOICES,
-      text: 'I STEPPED BACK FROM THE DOORS. THE KEYPAD WENT ON GLOWING FAINTLY, AS IF IT HAD MADE A NOTE OF ME. SOMEWHERE BEHIND THE DESK A TUBE THUMPED, ONCE.' },
+      text: 'YOU STEP BACK FROM THE DOORS. THE KEYPAD GOES ON GLOWING FAINTLY, AS IF IT HAS MADE A NOTE OF YOU. SOMEWHERE BEHIND THE DESK A TUBE THUMPS, ONCE.' },
     'hall-after-try': { mode: 'B', choices: HALL_CHOICES,
-      text: 'I STEPPED BACK. THE RECEIPT HUNG FROM ITS SLOT AND CURLED SLOWLY IN THE DRAUGHT FROM THE DOORS. NOBODY CAME TO CONTACT ME.' },
+      text: 'YOU STEP BACK. THE RECEIPT HANGS FROM ITS SLOT AND CURLS SLOWLY IN THE DRAUGHT FROM THE DOORS. NOBODY COMES TO CONTACT YOU.' },
     lever: { mode: 'B', choices: [HALL_CHOICES[0], HALL_CHOICES[2]],
-      text: 'THE LEVER WENT DOWN WITH A HEAVY CLUNK AND DID NOT COME BACK UP. NOTHING ELSE HAPPENED. THEN, FAR AWAY, A BELL RANG TWICE.' },
+      text: 'YOU PULL THE LEVER. IT GOES DOWN WITH A HEAVY CLUNK AND DOES NOT COME BACK UP. NOTHING ELSE HAPPENS. THEN, FAR AWAY, A BELL RINGS TWICE.' },
     wait: { mode: 'B', choices: [HALL_CHOICES[0], HALL_CHOICES[1]],
-      text: 'I WAITED. THE CLOCK ABOVE THE DESK MOVED ONE MINUTE FORWARD AND THEN SEEMED TO THINK BETTER OF IT.' },
+      text: 'YOU WAIT BY THE DESK. THE CLOCK ABOVE IT MOVES ONE MINUTE FORWARD AND THEN SEEMS TO THINK BETTER OF IT. WITHOUT LOOKING UP, THE RECEPTIONIST SAYS, {{IF YOU ARE WAITING, PLEASE WAIT OVER THERE.}}' },
     // Spoken vs action (docs/64): the same approved cards; the difference is semantic and behavioural.
     spoken: { mode: 'B', choices: [
       { id: 'examine-keypad', kind: 'action', text: 'EXAMINE THE KEYPAD', to: 'keypad' },
       { id: 'call-out', kind: 'spoken', text: 'HELLO? IS ANYONE BACK THERE?', to: 'called-out' },
       { id: 'knock', kind: 'action', text: 'KNOCK ON THE DOUBLE DOORS', to: 'knocked' }
-    ], text: 'THE LOBBY WAS QUIET. SOMEWHERE BEHIND THE DOUBLE DOORS, A CHAIR SCRAPED ACROSS A TILED FLOOR.' },
+    ], text: 'THE LOBBY IS QUIET. SOMEWHERE BEHIND THE DOUBLE DOORS, A CHAIR SCRAPES ACROSS A TILED FLOOR.' },
+    // A spoken line's result tells what you said, as speech, then what happened.
     'called-out': { mode: 'B', choices: HALL_CHOICES,
-      text: 'I CALLED OUT. MY VOICE CAME BACK OFF THE TILES. THE CHAIR STOPPED SCRAPING, AND DID NOT START AGAIN.' },
+      text: 'YOU CALL OUT, {{HELLO? IS ANYONE BACK THERE?}} YOUR VOICE COMES BACK OFF THE TILES. THE CHAIR STOPS SCRAPING. A MAN ANSWERS THROUGH THE DOORS, {{NOT FOR VISITORS, THERE ISN\'T.}}' },
     knocked: { mode: 'B', choices: HALL_CHOICES,
-      text: 'I KNOCKED TWICE. THE DOORS ABSORBED IT, THE WAY DOORS IN THIS BUILDING ABSORB MOST THINGS.' }
+      text: 'YOU KNOCK TWICE ON THE DOUBLE DOORS. THEY ABSORB IT, THE WAY DOORS IN THIS BUILDING ABSORB MOST THINGS.' }
   };
   S.NODES = NODES;
   function passage(id) { return NODES[id].long ? LONG[V('paging.fixture')] : NODES[id].text; }
+  // Paragraphs of a passage, each a list of runs.
+  function paragraphs(id) {
+    return passage(id).split(/\n\s*\n/).map(function (p) { return p.replace(/\s*\n\s*/g, ' ').trim(); }).filter(Boolean).map(parseRuns);
+  }
+  function marked(runs) { return markRuns(runs, V('marking.style')); }
+  function markedPassage(id) { return paragraphs(id).map(marked).join('\n\n'); }
 
-  // Pagination ----------------------------------------------------------------------------------
+  // Pagination (separate pages, the earlier study, and Focus A) ----------------------------------
   // Pages are arrays of wrapped lines, paragraphs separated by one blank line. A page never starts
   // with a blank line, never holds more lines than `cap`, and no word is lost or reordered.
   // breakAt 1: whole paragraphs; a paragraph that does not fit an empty page flows by sentences.
@@ -164,14 +288,13 @@
 
   // Geometry ------------------------------------------------------------------------------------
   function faceRole() { return NS.FONT_ROLE[V('text.font')]; }
-  // A page holds `cap` lines: the box runs from the first line's top to the last line's glyph
-  // bottom ((cap - 1) line pitches + the face's own height), never past the safe bottom.
+  // The box shows `cap` lines: from the first line's top to the last line's glyph bottom
+  // ((cap - 1) line pitches + the face's own height), never past the safe bottom.
   function boxB() {
     var lh = V('text.lineHeight');
     var faceH = T.lineHeight(faceRole());
     var avail = NS.SAFE_B.bottom - V('text.bottomMargin') - V('text.y');
     var cap = Math.max(1, Math.floor((avail - faceH) / lh) + 1);
-    if (V('paging.maxLines') > 0) cap = Math.min(cap, V('paging.maxLines'));
     return { x: V('text.x'), y: V('text.y'), width: V('text.width'), lh: lh, cap: cap, height: (cap - 1) * lh + faceH, role: faceRole() };
   }
   function boxA() {
@@ -182,6 +305,12 @@
     return { x: V('focus.x'), y: V('focus.y'), width: V('focus.width'), lh: lh, cap: cap, height: (cap - 1) * lh + faceH, role: 'dialogue' };
   }
   function box(mode) { return mode === 'A' ? boxA() : boxB(); }
+  // A page (separate pages) or a CONTINUE group holds at most this many lines.
+  function groupCap() { var c = boxB().cap; return V('paging.maxLines') > 0 ? Math.min(c, V('paging.maxLines')) : c; }
+  function pagesFlow() { return V('paging.flow') === 3; }
+  // The dialogue's scroll thumb rail (G.layout.speech.indicator: x 1899, 8 wide, inset 6 top /
+  // 12 bottom against its 144 px text box), set the same way beside the narration box.
+  function railB(b) { var ind = G.layout.speech.indicator; return { x: ind.x, y: b.y + 6, width: ind.width, height: Math.max(12, b.height - 18) }; }
 
   // Overlay art: one kept <img> per candidate (a new <img> per rebuild makes Firefox report a corrupt
   // image), decoded before a state shows. Review assets under review/, never under the lab folder.
@@ -206,10 +335,17 @@
   }
 
   // State ---------------------------------------------------------------------------------------
-  var active = null; // { node, page, pages, mode, taken: [], revealN, revealing, skip, fade }
+  // active: { node, mode, prevNode, focusNode, taken: [],
+  //   log: [runs, ...], newFrom,          Narrative B, continuous: the paragraphs told so far
+  //   beats: [[para index, ...]], beat,   the current passage's CONTINUE groups
+  //   bPages: [[line]], bPage,            Narrative B as separate pages (the earlier study)
+  //   pages: [[line]], page,              Focus A's description
+  //   scroll, typing, typed, skip, fade }
+  var active = null;
   var epoch = 0;
   var els = {};
   var showBounds = false;
+  var lastToggles = null;
   function now() { return performance.now(); }
   function loading() { return LAB.loading && LAB.loading(); }
   function setPhase(p) {
@@ -226,18 +362,101 @@
   }
   async function untilTrue(test, ep) { while (!test()) { await nextFrame(); alive(ep); } }
 
+  function continuous() { return active.mode === 'B' && !pagesFlow(); }
+  // The CONTINUE step the passage stands at, and how many there are.
+  function step() { return active.mode === 'A' ? active.page : pagesFlow() ? active.bPage : active.beat; }
+  function steps() { return active.mode === 'A' ? active.pages.length : pagesFlow() ? active.bPages.length : active.beats.length; }
+
   function choicesFor() {
     var n = NODES[active.node];
-    if (active.page < active.pages.length - 1) return [{ id: 'continue', kind: 'continue', text: 'CONTINUE' }];
+    if (step() < steps() - 1) return [{ id: 'continue', kind: 'continue', text: 'CONTINUE' }];
     return n.choices.map(function (c) {
       var text = c.kind === 'spoken' && V('choices.spokenQuotes') === 2 ? '"' + c.text + '"' : c.text;
       return { id: c.id, kind: c.kind, text: text, to: c.to };
     });
   }
-  function repaginate() {
-    var b = box(active.mode);
-    active.pages = paginate(passage(active.node), b.role, b.width, b.cap, active.mode === 'A' ? 1 : V('paging.breakAt'));
-    active.page = Math.min(active.page, active.pages.length - 1);
+
+  // CONTINUE groups: whole paragraphs, as many as fit one panel together; a paragraph longer than
+  // the panel is a group of its own and simply types on and scrolls. No CONTINUE at all: one group.
+  function beatsFor(id) {
+    var paras = paragraphs(id);
+    if (V('paging.flow') === 2) return [paras.map(function (p, i) { return i; })];
+    var b = boxB();
+    var cap = groupCap();
+    var out = [];
+    var cur = [];
+    var used = 0;
+    paras.forEach(function (runs, i) {
+      var n = T.wrap(marked(runs), b.width, b.role).length;
+      if (cur.length && used + 1 + n > cap) { out.push(cur); cur = []; used = 0; }
+      used += (cur.length ? 1 : 0) + n;
+      cur.push(i);
+    });
+    if (cur.length) out.push(cur);
+    return out.length ? out : [[]];
+  }
+  function pagesOf(id, mode) {
+    var b = box(mode);
+    return paginate(markedPassage(id), b.role, b.width, mode === 'A' ? b.cap : groupCap(), mode === 'A' ? 1 : V('paging.breakAt'));
+  }
+  function appendBeat() {
+    var paras = paragraphs(active.node);
+    active.newFrom = active.log.length;
+    active.beats[active.beat].forEach(function (i) { active.log.push(paras[i]); });
+  }
+  // Starts a B passage: CONTINUE groups appended to the narration, or (separate pages) page 1.
+  function beginB(id) {
+    if (pagesFlow()) {
+      active.bPages = pagesOf(id, 'B');
+      active.bPage = 0;
+    } else {
+      active.beats = beatsFor(id);
+      active.beat = 0;
+      appendBeat();
+    }
+  }
+
+  // The lines of a surface: { lines: [{ text, role }], newRow, base (chars before newRow), total }.
+  function layout(mode) {
+    var b = box(mode);
+    var lines = [];
+    var newRow = 0;
+    if (mode === 'A' || pagesFlow()) {
+      var page = mode === 'A' ? active.pages[active.page] : active.bPages[active.bPage];
+      (page || []).forEach(function (t) { lines.push({ text: t, role: b.role }); });
+    } else {
+      active.log.forEach(function (runs, i) {
+        if (i > 0) lines.push({ text: '', role: b.role });
+        if (i === active.newFrom) newRow = lines.length;
+        T.wrap(marked(runs), b.width, b.role).forEach(function (t) { lines.push({ text: t, role: b.role }); });
+      });
+      if (active.newFrom >= active.log.length) newRow = lines.length; // nothing new yet
+    }
+    var base = 0;
+    for (var i = 0; i < newRow; i++) base += lines[i].text.length;
+    var total = base;
+    for (; i < lines.length; i++) total += lines[i].text.length;
+    return { lines: lines, newRow: newRow, base: base, total: total, box: b };
+  }
+  function maxScroll(L) { return Math.max(0, L.lines.length - L.box.cap); }
+  function charsBefore(L, row) { var n = 0; for (var i = 0; i < row; i++) n += L.lines[i].text.length; return n; }
+  // While typing, the box follows the newest row (the production dialogue's rule).
+  function follow(L) {
+    var at = L.base + active.typed;
+    var row = 0;
+    for (var chars = 0; row < L.lines.length; row++) {
+      chars += L.lines[row].text.length;
+      if (chars >= at) break;
+    }
+    var top = active.scroll;
+    while (row >= top + L.box.cap) top++;
+    active.scroll = Math.min(top, maxScroll(L));
+  }
+  // Text shown at once (or a click to finish): its first row in view, or the end when it all fits
+  // below that row (the production dialogue's finishTyping rule).
+  function scrollToNew(L) {
+    var max = maxScroll(L);
+    active.scroll = L.newRow + L.box.cap > L.lines.length ? max : Math.min(L.newRow, max);
   }
 
   // Layers --------------------------------------------------------------------------------------
@@ -272,15 +491,25 @@
       els.textB.id = 'labNarrationText';
       els.textB.className = 'sprite-abs';
       els.layerB.appendChild(els.textB);
+      // The dialogue's own thumb style (game.css .speech-indicator), on its own element.
+      els.thumb = document.createElement('div');
+      els.thumb.id = 'labNarrationThumb';
+      els.thumb.className = 'speech-indicator';
+      els.layerB.appendChild(els.thumb);
       els.bounds = document.createElement('div');
       els.bounds.id = 'labNarrativeBounds';
       els.bounds.className = 'layer';
       [els.textA, els.textB].forEach(function (c) {
-        // A click on the text finishes the reveal (like a click on the dialogue box).
+        // A click on the text finishes the typing (like a click on the dialogue box).
         c.style.pointerEvents = 'auto';
         c.style.cursor = 'pointer';
         c.addEventListener('click', function () { S.skip(); });
       });
+      // The wheel scrolls the narration back and forth, a line at a time, like the dialogue box.
+      els.textB.addEventListener('wheel', function (e) {
+        e.preventDefault();
+        S.scrollBy(Math.sign(e.deltaY));
+      }, { passive: false });
     }
     var r = R.portraitAperture.rect;
     els.focusArt.style.cssText = 'left:' + r[0] + 'px;top:' + r[1] + 'px;width:' + r[2] + 'px;height:' + r[3] + 'px';
@@ -328,22 +557,34 @@
     c.style.top = '0px';
   }
 
-  function drawText(budget) {
-    var b = box(active.mode);
-    var canvas = active.mode === 'A' ? els.textA : els.textB;
-    var lines = active.pages[active.page];
-    var role = b.role;
-    T.draw(canvas, lines.map(function (t) { return { text: t, role: role }; }), 'dark', b.lh, b.width, b.height, budget, role);
+  // Draws one surface. `typing` applies only to the surface the preview stands on.
+  function drawSurface(mode) {
+    var L = layout(mode);
+    var b = L.box;
+    var canvas = mode === 'A' ? els.textA : els.textB;
+    var here = active.mode === mode;
+    if (mode === 'B' && here) active.scroll = Math.min(active.scroll, maxScroll(L));
+    var top = mode === 'B' && here ? active.scroll : 0;
+    var shown = L.lines.slice(top, top + b.cap);
+    var budget = here && active.typing ? Math.max(0, L.base + active.typed - charsBefore(L, top)) : undefined;
+    paint(canvas, shown, b.lh, b.width, b.height, budget);
     canvas.style.left = b.x + 'px';
     canvas.style.top = b.y + 'px';
     canvas.style.width = b.width + 'px';
     canvas.style.height = b.height + 'px';
-    var total = lines.join('').length;
-    active.revealN = budget === undefined ? total : Math.min(total, budget);
-    var d = els.layerB.dataset;
-    var info = S.info();
-    Object.keys(info).forEach(function (k) { if (typeof info[k] !== 'object') d[k] = String(info[k]); });
-    document.body.dataset.narrMode = active.mode;
+    if (mode === 'B') {
+      // The thumb: shown only when there is more than fits and the typing has stopped.
+      var max = here ? maxScroll(L) : 0;
+      var rail = railB(b);
+      var on = max > 0 && !active.typing && !active.fade;
+      els.thumb.classList.toggle('on', on);
+      var h = Math.min(rail.height, Math.max(12, Math.round((rail.height * b.cap) / (L.lines.length || 1))));
+      var y = rail.y + (max ? Math.round(((rail.height - h) * active.scroll) / max) : 0);
+      els.thumb.style.left = rail.x + 'px';
+      els.thumb.style.top = y + 'px';
+      els.thumb.style.width = rail.width + 'px';
+      els.thumb.style.height = h + 'px';
+    }
   }
 
   function render() {
@@ -360,9 +601,13 @@
     els.layerB.style.opacity = active.fade ? String(active.fade.opacity) : '';
     els.focusArt.style.display = b && !active.fade ? 'none' : '';
     els.layerA.style.display = b ? 'none' : '';
-    els.textB.style.display = b ? '' : 'none';
     if (!b || active.fade) drawFocusArt(NODES[active.focusNode || active.node].focus || 'keypad');
-    drawText(active.revealing ? active.revealN : undefined);
+    if (b || active.fade) drawSurface('B');
+    if (!b) drawSurface('A');
+    var d = els.layerB.dataset;
+    var info = S.info();
+    Object.keys(info).forEach(function (k) { if (typeof info[k] !== 'object') d[k] = String(info[k]); });
+    document.body.dataset.narrMode = active.mode;
     renderBounds();
   }
   function renderBounds() {
@@ -380,25 +625,33 @@
     var safe = active.mode === 'A' ? NS.SAFE_A : NS.SAFE_B;
     add([safe.left, safe.top, safe.right - safe.left, safe.bottom - safe.top], '#5ac8fa', 'safe surface');
     add([bx.x, bx.y, bx.width, bx.height], '#ff2d55', 'text box (' + bx.cap + ' lines)');
+    if (active.mode === 'B') { var rl = railB(bx); add([rl.x, rl.y, rl.width, rl.height], '#ffcc00', 'scroll thumb rail'); }
   }
 
   // Sequences -----------------------------------------------------------------------------------
-  async function reveal(ep) {
+  // Types the newest text on (the production typing speed by default); 0 cps shows it at once.
+  async function typeOn(ep) {
     var cps = loading() ? 0 : V('timing.revealCps');
-    var total = active.pages[active.page].join('').length;
     active.skip = false;
-    if (!cps) { active.revealing = false; render(); return; }
-    active.revealing = true;
-    var t0 = now();
-    for (;;) {
-      var n = Math.floor(((now() - t0) * cps) / 1000);
-      if (active.skip || n >= total) break;
-      active.revealN = n;
-      render();
-      await nextFrame();
-      alive(ep);
+    if (cps > 0) {
+      active.typing = true;
+      active.typed = 0;
+      var t0 = now();
+      for (;;) {
+        var L = layout(active.mode);
+        var need = L.total - L.base;
+        active.typed = Math.min(need, Math.floor(((now() - t0) * cps) / 1000));
+        if (active.mode === 'B') follow(L);
+        render();
+        if (active.skip || active.typed >= need) break;
+        await nextFrame();
+        alive(ep);
+      }
     }
-    active.revealing = false;
+    var shownAtOnce = !(cps > 0) || active.skip;
+    active.typing = false;
+    active.typed = Infinity;
+    if (active.mode === 'B' && shownAtOnce) scrollToNew(layout('B'));
     render();
   }
   async function cardsGone(ep) {
@@ -406,9 +659,9 @@
     G.ui.motion = null;
     G.setChoices([]);
   }
-  async function showPage(ep) {
+  async function showStep(ep) {
     setPhase('lab-narrative');
-    await reveal(ep);
+    await typeOn(ep);
     await waitMs(V('timing.choicesDelayMs'), ep);
     G.setChoices(choicesFor().map(function (c) { return { id: c.id, text: c.text }; }), { kind: 'in', start: now() });
     setPhase('lab-narrative-arriving');
@@ -424,8 +677,6 @@
     if (ms > 0) {
       var t0 = now();
       active.fade = { opacity: from === 'B' ? 1 : 0 };
-      active.revealing = true; // the new mode's text waits for the fade
-      active.revealN = 0;
       for (;;) {
         var u = Math.min(1, (now() - t0) / ms);
         active.fade.opacity = from === 'B' ? 1 - u : u;
@@ -440,18 +691,25 @@
   }
   async function go(nodeId, ep) {
     var from = active.mode;
+    var to = NODES[nodeId].mode;
     active.prevNode = active.node;
     active.node = nodeId;
-    active.page = 0;
-    active.mode = NODES[nodeId].mode;
-    repaginate();
-    if (from !== active.mode) {
-      // The text of the mode being left is gone before the fade (a fresh passage follows).
-      active.revealing = true;
-      active.revealN = 0;
-      await crossFade(from, active.mode, ep);
+    active.mode = to;
+    if (to === 'A') {
+      active.pages = pagesOf(nodeId, 'A');
+      active.page = 0;
+      active.typing = true; // the description waits for the fade
+      active.typed = 0;
+    } else if (V('choices.result') === 2 || pagesFlow()) {
+      active.log = []; // the earlier study: a result replaces the narration
+      active.newFrom = 0;
+      active.bPages = [[]];
+      active.bPage = 0;
+      active.scroll = 0;
     }
-    await showPage(ep);
+    if (from !== to) await crossFade(from, to, ep);
+    if (to === 'B') beginB(nodeId);
+    await showStep(ep);
   }
 
   // Public ---------------------------------------------------------------------------------------
@@ -459,35 +717,47 @@
   S.values = function () { return Object.assign({}, vals); };
   S.info = function () {
     if (!active) return { active: false };
-    var b = box(active.mode);
-    var lines = active.pages[active.page];
+    var L = layout(active.mode);
+    var b = L.box;
+    var top = active.mode === 'B' ? Math.min(active.scroll, maxScroll(L)) : 0;
+    var shown = L.lines.slice(top, top + b.cap).map(function (l) { return plain(l.text); });
+    var all = L.lines.map(function (l) { return plain(l.text); });
     return {
-      active: true, mode: active.mode, node: active.node, page: active.page, pages: active.pages.length, capacity: b.cap,
-      lines: lines.length, maxInk: Math.max.apply(null, lines.map(function (l) { return T.inkWidth(l, b.role); })), width: b.width,
-      box: [b.x, b.y, b.width, b.height].join(','), revealed: !active.revealing, text: lines.join('\n'),
-      candidate: V('surface.candidate'), overlay: NS.OVERLAYS[V('surface.candidate')].path,
+      active: true, mode: active.mode, node: active.node, page: step(), pages: steps(), capacity: b.cap, lines: L.lines.length,
+      scroll: top, maxScroll: active.mode === 'B' ? maxScroll(L) : 0, thumb: !!(els.thumb && els.thumb.classList.contains('on')),
+      maxInk: Math.max.apply(null, [0].concat(L.lines.map(function (l) { return T.inkWidth(plain(l.text), b.role); }))), width: b.width,
+      box: [b.x, b.y, b.width, b.height].join(','), revealed: !active.typing, text: shown.join('\n'), all: all.join('\n'),
+      candidate: V('surface.candidate'), overlay: NS.OVERLAYS[V('surface.candidate')].path, flow: V('paging.flow'), marking: V('marking.style'),
       kinds: JSON.stringify(choicesFor().map(function (c) { return [c.id, c.kind]; })), taken: JSON.stringify(active.taken)
     };
   };
-  S.pagesOf = function (nodeId, mode) {
-    var b = box(mode || NODES[nodeId].mode);
-    return paginate(passage(nodeId), b.role, b.width, b.cap, (mode || NODES[nodeId].mode) === 'A' ? 1 : V('paging.breakAt'));
+  S.pagesOf = function (nodeId, mode) { return pagesOf(nodeId, mode || NODES[nodeId].mode).map(function (p) { return p.map(plain); }); };
+  S.beatsOf = function (nodeId) { return beatsFor(nodeId); };
+  S.passage = function (id) { return passage(id).replace(/\{\{|\}\}/g, ''); };
+  S.marked = function (text, style) { return plain(markRuns(parseRuns(text), style)); };
+  S.scrollBy = function (n) {
+    if (!active || active.mode !== 'B' || active.typing) return;
+    var L = layout('B');
+    active.scroll = Math.max(0, Math.min(maxScroll(L), active.scroll + n));
+    render();
   };
-  S.passage = passage;
 
   S.enter = async function (nodeId) {
     S.exit();
     var ep = ++epoch;
     await overlayImg(V('surface.candidate')).ready;
     if (ep !== epoch) return 'superseded';
-    active = { node: nodeId, page: 0, mode: NODES[nodeId].mode, taken: [], revealN: 0, revealing: false, fade: null };
+    active = { node: nodeId, mode: NODES[nodeId].mode, taken: [], log: [], newFrom: 0, beats: [[]], beat: 0, bPages: [[]], bPage: 0, pages: [[]], page: 0,
+      scroll: 0, typing: false, typed: Infinity, fade: null };
     G.hideTooltip();
     G.ui.thumbOn = false;
     G.setChoices([]);
-    repaginate();
+    if (active.mode === 'A') { active.pages = pagesOf(nodeId, 'A'); } else beginB(nodeId);
+    active.typing = true;
+    active.typed = 0;
     render();
     try {
-      await showPage(ep);
+      await showStep(ep);
     } catch (e) {
       if (e.message !== 'narrative-superseded') throw e;
       return 'superseded';
@@ -502,14 +772,15 @@
     uninstall();
   };
 
-  // Takes a card by id: CONTINUE turns the page; an action or a spoken line goes to its next node.
-  // An action leaves with the production slide-away (every card slides out; nothing is "sent"); a
-  // spoken line uses the production send. Neither enters the transcript or the dialogue history.
+  // Takes a card by id: CONTINUE adds the next group (or turns the page); an action or a spoken line
+  // goes to its next node. An action leaves with the production slide-away (every card slides out;
+  // nothing is "sent"); a spoken line uses the production send. Neither enters the transcript or the
+  // dialogue history.
   S.take = async function (id, opts) {
     opts = opts || {};
     if (opts.wait) {
       var t0 = now();
-      while (!(active && G.flow.phase === 'choosing' && active.node === opts.node && active.page === opts.page)) {
+      while (!(active && G.flow.phase === 'choosing' && active.node === opts.node && step() === opts.page)) {
         if (now() - t0 > 10000 || !active) return 'not at the same point';
         await nextFrame();
       }
@@ -521,7 +792,7 @@
     var ch = list[i];
     var ep = epoch;
     if (opts.user && window.parent && window.parent.NARRATIVE_LAB) {
-      try { window.parent.NARRATIVE_LAB.echo(frameMode, id, active.node, active.page); } catch (e) { /* lab page gone */ }
+      try { window.parent.NARRATIVE_LAB.echo(frameMode, id, active.node, step()); } catch (e) { /* lab page gone */ }
     }
     active.taken.push([id, ch.kind]);
     setPhase('lab-narrative');
@@ -532,8 +803,8 @@
     try {
       await cardsGone(ep);
       if (ch.kind === 'continue') {
-        active.page++;
-        await showPage(ep);
+        if (continuous()) { active.beat++; appendBeat(); } else if (active.mode === 'A') active.page++; else active.bPage++;
+        await showStep(ep);
       } else {
         await go(ch.to, ep);
       }
@@ -543,18 +814,38 @@
     }
     return 'ok';
   };
-  S.skip = function () { if (active && active.revealing && !active.fade) active.skip = true; };
+  S.skip = function () { if (active && active.typing && !active.fade) active.skip = true; };
 
-  // Live values (LAB frame only): re-wrap and re-paginate where the preview stands.
+  // Live values (LAB frame only): re-wrap where the preview stands; NB-8 re-marks the dialogue.
   S.applyValues = function (map) {
     if (frameMode !== 'lab') return 'invalid';
     var check = NS.validate(map);
     if (!check.ok) return 'invalid';
+    var was = vals;
     vals = Object.assign(NS.defaults(), map);
+    if (talk && (was['marking.style'] !== V('marking.style') || was['marking.ink'] !== V('marking.ink'))) markDialogue();
     if (!active) return 'live';
     overlayImg(V('surface.candidate')).ready.then(function () {
       if (!active) return;
-      repaginate();
+      if (active.mode === 'A') {
+        active.pages = pagesOf(active.node, 'A');
+        active.page = Math.min(active.page, active.pages.length - 1);
+      } else if (pagesFlow()) {
+        active.bPages = pagesOf(active.node, 'B');
+        active.bPage = Math.min(active.bPage, active.bPages.length - 1);
+      } else {
+        var beats = beatsFor(active.node);
+        if (was['paging.flow'] === 3 || !active.log.length) {
+          // From separate pages to continuous narration: the passage so far, as narration.
+          var paras = paragraphs(active.node);
+          active.log = [];
+          active.newFrom = 0;
+          active.beat = Math.min(active.beat || 0, beats.length - 1);
+          beats.slice(0, active.beat + 1).forEach(function (g) { g.forEach(function (k) { active.log.push(paras[k]); }); });
+        }
+        active.beats = beats;
+        active.beat = Math.min(active.beat, beats.length - 1);
+      }
       if (G.flow.phase === 'choosing') {
         var list = choicesFor().map(function (c) { return { id: c.id, text: c.text }; });
         if (list.map(function (c) { return c.text; }).join('|') !== G.ui.cards.map(function (c) { return c.text; }).join('|')) {
@@ -569,14 +860,63 @@
     return 'live';
   };
 
+  // Talking vs action in the reception dialogue (state NB-8) ------------------------------------
+  // The real conversation, through the production flow; each line of the history is re-marked with
+  // the current style (style 1 is the production text itself). New lines are marked as they arrive.
+  var talk = null; // { origs: [{ text, who }] } while NB-8 is on show
+  function markOne(o) { return V('marking.style') === 1 ? o.text : markRuns(dialogueRuns(o.text, o.who), V('marking.style')); }
+  function markDialogue() {
+    if (!talk) return;
+    var parts = G.ui.speech.parts;
+    parts.forEach(function (part, i) { if (talk.origs[i]) part.text = markOne(talk.origs[i]); });
+    G.rebuildStage(); // rewraps the history where it stands
+    if (lastToggles) LAB.setToggles(lastToggles);
+    // Open where the history mixes the most: from the latest line with a stage direction.
+    var last = -1;
+    talk.origs.forEach(function (o, i) { if (o.who !== 'thought' && o.text.indexOf('[') !== -1) last = i; });
+    var row = G.ui.speech.lines.findIndex(function (l) { return l.part === last; });
+    G.setSpeechScroll(row < 0 ? G.speechMaxScroll() : Math.min(row, G.speechMaxScroll()));
+    document.body.dataset.talkMarked = String(V('marking.style'));
+  }
+  var prodAdd = G.addSpeech;
+  G.addSpeech = function (text, who) {
+    if (!talk) return prodAdd.apply(this, arguments);
+    var o = { text: who === 'thought' ? G.thoughtText(text) : text, who: who };
+    talk.origs.push(o);
+    if (V('marking.style') === 1) return prodAdd.call(this, text, who);
+    var keep = G.thoughtText;
+    G.thoughtText = function (t) { return t; }; // already marked: no parentheses added
+    try { return prodAdd.call(this, markOne(o), who); } finally { G.thoughtText = keep; }
+  };
+  var prodClear = G.clearSpeech;
+  G.clearSpeech = function () {
+    if (talk) talk.origs = [];
+    return prodClear.apply(this, arguments);
+  };
+  S.talkInfo = function () {
+    return { on: !!talk, style: V('marking.style'), parts: G.ui.speech.parts.map(function (p) { return { who: p.who, text: plain(p.text), marked: p.text.indexOf(MARK) !== -1 }; }),
+      origs: talk ? talk.origs.map(function (o) { return o.text; }) : [] };
+  };
+
   // The lab's hooks: production stage rebuilds drop our layers (put them back); a state load ends
   // the preview; toggles; the reception-only triggers are refused here.
-  LAB.on('beforeState', function () { S.exit(); });
+  LAB.on('beforeState', function () {
+    S.exit();
+    if (talk) {
+      var origs = talk.origs;
+      talk = null;
+      G.ui.speech.parts.forEach(function (part, i) { if (origs[i]) part.text = origs[i].text; });
+      delete document.body.dataset.talkMarked;
+    }
+  });
   LAB.on('afterRebuild', function () { if (active) render(); });
-  LAB.on('toggles', function (t) { showBounds = !!t.boundsNarration; if (active) renderBounds(); });
+  LAB.on('toggles', function (t) { lastToggles = t; showBounds = !!t.boundsNarration; if (active) renderBounds(); });
   LAB.narrativeRefuses = function (kind) {
-    if (!active) return null;
-    if (kind === 'npc-typing' || kind === 'context-action') return 'not in a Narrative Study state: there is no receptionist conversation on show';
+    if (!active && !talk) return null;
+    if (kind === 'npc-typing' || kind === 'context-action') {
+      return active ? 'not in a Narrative Study state: there is no receptionist conversation on show'
+        : 'not in a Narrative Study state: its dialogue is re-marked for the talking vs action study';
+    }
     return null;
   };
 
@@ -602,16 +942,24 @@
   var N = 'Narrative Study (experimental preview, not the production game)';
   LAB.addStates(N, {
     'ns-b-short': { label: 'NB-1. Narrative B: short narration, three actions', run: async function () { await S.enter('hall'); } },
-    'ns-b-long': { label: 'NB-2. Narrative B: longer narration (one page)', run: async function () { await S.enter('hall-long'); } },
-    'ns-b-continue': { label: 'NB-3. Narrative B: overflowing passage, page 1 (CONTINUE only)', run: async function () { await S.enter('announce'); } },
-    'ns-b-final': { label: 'NB-4. Narrative B: overflowing passage, final page (choices)', run: async function () {
+    'ns-b-long': { label: 'NB-2. Narrative B: longer narration (fits the panel)', run: async function () { await S.enter('hall-long'); } },
+    'ns-b-continue': { label: 'NB-3. Narrative B: long passage, first part (CONTINUE only)', run: async function () { await S.enter('announce'); } },
+    'ns-b-final': { label: 'NB-4. Narrative B: long passage, all of it (added on, scrolled; choices)', run: async function () {
       await S.enter('announce');
-      while (active.page < active.pages.length - 1) await S.take('continue');
+      while (step() < steps() - 1) await S.take('continue');
     } },
     'ns-a-keypad': { label: 'NA-1. Focus A: keypad close-up (from EXAMINE THE KEYPAD)', run: async function () { await S.enter('hall'); await S.take('examine-keypad'); } },
     'ns-bab': { label: 'NB-5. B -> A -> B interactive (start: hallway in B, click the cards)', run: async function () { await S.enter('hall'); } },
-    'ns-b-return': { label: 'NB-6. Narrative B: fresh passage after returning from A', run: async function () { await S.enter('hall'); await S.take('examine-keypad'); await S.take('stop'); } },
+    'ns-b-return': { label: 'NB-6. Narrative B: back from A, the narration continues', run: async function () { await S.enter('hall'); await S.take('examine-keypad'); await S.take('stop'); } },
     'ns-spoken': { label: 'NB-7. Narrative B: action vs spoken choice comparison', run: async function () { await S.enter('spoken'); } },
+    'ns-talk-dialogue': { label: 'NB-8. Talking vs action in the reception dialogue (real conversation, re-marked)', run: async function (h) {
+      talk = { origs: G.ui.speech.parts.map(function (part) { return { text: part.text, who: part.who }; }) };
+      markDialogue();
+      await h.path(['ask-politely', 'correct', 'rule', 'sigh']);
+      await h.settle();
+      G.flow.utility('context'); // OBSERVE: the player's thought
+      markDialogue();
+    } },
     'ns-dialogue': { label: 'REF. Existing reception dialogue (unchanged, for comparison)', reception: true, run: async function (h) { await h.path(['ask-politely']); } }
   });
 })();

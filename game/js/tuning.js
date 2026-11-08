@@ -19,8 +19,11 @@
 
     // Utility-button tooltip (js/stage.js showTooltip): centred over its button, offsetX from that
     // centre, gapY px above the button; the box is the text plus padX / padY on each side.
-    // Delays are 0: the tooltip shows and hides at once.
-    tooltip: { offsetX: 0, gapY: 4, padX: 10, padY: 7, showDelayMs: 0, hideDelayMs: 0 },
+    // Delays are 0: the tooltip shows and hides at once. An unavailable action keeps its label as
+    // is on the first line; the reason (NOT NOW, NOT AVAILABLE HERE...) sits on a second line,
+    // reasonGapY px below, in a smaller face: reasonFace 1 = the Labels face (Press Start 2P) at
+    // half size, 2 = the Dialogue face (Jersey 15), 3 = the Objective face (Tiny5). Owner, 2026-11-08.
+    tooltip: { offsetX: 0, gapY: 4, padX: 10, padY: 7, showDelayMs: 0, hideDelayMs: 0, reasonFace: 1, reasonGapY: 5 },
 
     // Item-received slip (js/stage.js): stage position of the 560x116 slip and, in slip
     // coordinates, the 96x96 item art and the two text lines (each centred on a middle row).

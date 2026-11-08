@@ -483,8 +483,8 @@ async function observeChecks(browser, base, c) {
   await page.mouse.move(600, 400);
   await shot(page, '14_observe_thought_in_history.png');
   await page.hover('#util-0');
-  c('OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE', s1.btn === 'inactive,true'
-    && (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE - NOTHING NEW TO NOTICE', s1.btn);
+  c('OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE (second line)', s1.btn === 'inactive,true'
+    && (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE\nNOTHING NEW TO NOTICE', s1.btn);
   await page.screenshot({ path: path.join(SHOTS, '00m_tooltip_disabled_reason.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
   await page.click('#util-0', { force: true });
   await page.focus('#util-0');
@@ -795,7 +795,7 @@ async function suite(name, base, requests) {
   c('an inactive button keeps its glyph, in the inactive treatment', await page.$eval('#util-0', (b) => b.querySelector('img.glyph').style.display === 'none'
     && b.querySelector('canvas.glyph').style.display !== 'none' && b.querySelector('canvas.glyph').width === 96));
   await page.hover('#util-0');
-  c('the inactive button\'s tooltip says why', (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE - NOT NOW');
+  c('the inactive button\'s tooltip says why (on its second line)', (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE\nNOT NOW');
   await page.mouse.down();
   c('an inactive button does not press', (await page.$eval('#util-0', (b) => b.dataset.state)) === 'up');
   await page.mouse.up();
@@ -1035,17 +1035,44 @@ async function suite(name, base, requests) {
     await page.hover('#util-0');
     const t1 = await tipInfo();
     const overlap = (a, b2) => a[0] < b2[0] + b2[2] && b2[0] < a[0] + a[2] && a[1] < b2[1] + b2[3] && b2[1] < a[1] + a[3];
-    c('the first button\'s tooltip shows on hover (OBSERVE, unlit while she types)', t1.shown && t1.text === 'OBSERVE - NOT NOW', t1.text);
+    c('the first button\'s tooltip shows on hover (OBSERVE, unlit while she types)', t1.shown && t1.text === 'OBSERVE\nNOT NOW', t1.text);
     c('the tooltip stays inside the 1920x1080 stage and never covers its button', t1.r[0] >= 0 && t1.r[1] >= 0 && t1.r[0] + t1.r[2] <= 1920 && t1.r[1] + t1.r[3] <= 1080
       && !overlap(t1.r, t1.br), { r: t1.r, br: t1.br });
     c('tooltip text is the baked Labels face in one light ink; box has no filter, transition or opacity change',
       t1.ch === t1.lh && t1.ink.length === 1 && t1.filter === 'none' && parseFloat(t1.transition) === 0 && t1.opacity === '1', t1);
+    // Owner, 2026-11-08: the label as is on the first line; the reason on a second, smaller line.
+    const two = await page.evaluate(() => {
+      const G = window.CYOA_GAME, t = document.getElementById('tooltip'), [a, b] = t.querySelectorAll('canvas');
+      const px = (e) => [parseInt(e.style.left), parseInt(e.style.top), parseInt(e.style.width), parseInt(e.style.height)];
+      const ra = px(a), rb = px(b), box = px(t), tt = G.TUNING.tooltip;
+      // Reason face 1: the Labels face at exactly half size (every 2x2 block of the 2x face is one pixel).
+      const full = document.createElement('canvas');
+      const size = G.text.label(full, t.dataset.why, 'light', 'labels');
+      const fd = full.getContext('2d').getImageData(0, 0, size[0], size[1]).data, bd = b.getContext('2d').getImageData(0, 0, b.width, b.height).data;
+      let diff = 0;
+      for (let y = 0; y < b.height; y++) for (let x = 0; x < b.width; x++) {
+        const k = (y * b.width + x) * 4, j = ((2 * y) * size[0] + 2 * x) * 4;
+        for (let q = 0; q < 4; q++) if (bd[k + q] !== fd[j + q]) { diff++; break; }
+      }
+      const ink = new Set();
+      for (let i = 0; i < bd.length; i += 4) if (bd[i + 3]) ink.add([bd[i], bd[i + 1], bd[i + 2], bd[i + 3]].join());
+      return { label: t.dataset.label, why: t.dataset.why, shown: b.style.display !== 'none', ra, rb, box, face: tt.reasonFace, gap: tt.reasonGapY, padY: tt.padY,
+        half: b.width === size[0] / 2 && b.height === size[1] / 2 && diff === 0, diff, ink: ink.size,
+        below: rb[1] === ra[1] + ra[3] + tt.reasonGapY, inside: [ra, rb].every((r) => r[0] >= 0 && r[1] >= 0 && r[0] + r[2] <= box[2] && r[1] + r[3] <= box[3] - tt.padY + 1),
+        centred: Math.abs((ra[0] + ra[2] / 2) - (rb[0] + rb[2] / 2)) <= 1 };
+    });
+    c('an unavailable action\'s tooltip: the label as is, then the reason below it in the Labels face at half size (production reasonFace 1), centred, inside the box',
+      two.label === 'OBSERVE' && two.why === 'NOT NOW' && two.shown && two.face === 1 && two.half && two.ink === 1 && two.below && two.inside && two.centred, two);
+    await page.mouse.move(600, 400);
+    await page.hover('#util-1');
+    const one = await page.evaluate(() => { const t = document.getElementById('tooltip'); return [t.dataset.text, t.dataset.why, t.querySelectorAll('canvas')[1].style.display].join('|'); });
+    c('an available action\'s tooltip is its label alone (no reason line)', one === 'NOTES||none', one);
     await page.mouse.move(600, 400);
     c('the tooltip disappears when the pointer leaves', (await page.$eval('#tooltip', (t) => t.style.display)) === 'none');
     await page.focus('#util-0');
     const tf = await tipInfo();
     await page.evaluate(() => document.activeElement.blur());
-    c('keyboard focus shows the tooltip, and losing focus hides it', tf.shown && tf.text === 'OBSERVE - NOT NOW' && (await page.$eval('#tooltip', (t) => t.style.display)) === 'none', tf.text);
+    c('keyboard focus shows the tooltip, and losing focus hides it', tf.shown && tf.text === 'OBSERVE\nNOT NOW' && (await page.$eval('#tooltip', (t) => t.style.display)) === 'none', tf.text);
   }
   await page.click('#invWindow .slot[data-item="wc_key"]');
   c('the inventory is ignored while the NPC is typing', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
@@ -1162,7 +1189,7 @@ async function suite(name, base, requests) {
       && portraitStill / clear < 0.01, { order, portraitStill, clear });
   }
   await page.hover('#util-1');
-  c('a disabled button explains itself in its tooltip', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW - NOT AVAILABLE HERE');
+  c('a disabled button explains itself in its tooltip (label, then the reason on a second line)', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW\nNOT AVAILABLE HERE');
   await page.screenshot({ path: path.join(SHOTS, '00n_tooltip_inspector_show_disabled.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
   await page.click('#util-1', { force: true }); // aria-disabled: Playwright would otherwise refuse
   c('pressing the disabled button does not press', (await page.$eval('#util-1', (b) => b.dataset.state)) === 'up');

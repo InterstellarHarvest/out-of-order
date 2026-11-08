@@ -21,7 +21,7 @@ then open <http://localhost:8137/game/index.html>.
 - Pick a card by clicking it, or with the arrow keys and Enter. Scroll long choice lists with the wheel or the thumb.
 - Click an item in the inventory (or press Enter / Space on its focused slot) to inspect it. Nothing else opens an item: holding a single item never makes it a target (docs/64). READ, SHOW or USE and a blank button replace the buttons there; the X, Esc or activating the item again closes it.
 - The first utility button in conversation is the **context action**, an optional thing to do in the current situation, defined in content (docs/64). At reception it is OBSERVE (WATCH glyph): it adds a parenthesised, unspoken observation to the history and NOTES, once per encounter, without advancing the conversation.
-- A button whose action is not available here keeps its glyph unlit, does not press, and its tooltip says why.
+- A button whose action is not available here keeps its glyph unlit, does not press, and its tooltip says why: the label as is on the first line, the reason on a second, smaller line (the Labels face at half size; `G.TUNING.tooltip.reasonFace` / `reasonGapY`).
 - Keyboard focus on a choice brings out the brass tab at the card's left edge; the mouse never does.
 - NOTES shows everything said so far; FILES shows your case file. Press the button again or Esc to close.
 

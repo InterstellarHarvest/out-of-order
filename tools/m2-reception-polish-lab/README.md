@@ -35,7 +35,11 @@ It needs the server, because it uses frames on the same origin. A window at leas
 6. Every section folds from its heading. Folded sections, scroll positions, the state, PRODUCTION / LAB and the preview mode are remembered across reloads.
 7. **COPY CHANGES JSON** and send the result back. **COPY ALL VALUES JSON** exports every tunable. **IMPORT JSON** loads an export after validating it.
 
+**Owner's lab defaults (2026-11-08):** a lab starts with two LAB values on top of production: the item slip's **Fade in** at **500 ms** and **NOTES background v2** (the panel without the metal corner plates). They are ordinary lab changes: highlighted, in **COPY CHANGES**, and cleared by **RESET ALL TO PRODUCTION**. A lab adds them once (it records that in its storage), so a reset is not undone by the next reload. They live in `tunables.js` (`OWNER_DEFAULTS`).
+
 **Resets:** **RESET ALL TO PRODUCTION**, **Reset section**, and the per-row **reset**.
+
+**Tooltip reason line:** an action that is not available keeps its label as is on the first line; the reason (NOT NOW, NOT AVAILABLE HERE...) is on a second, smaller line. **Tooltip → Reason line face** compares the Labels face at half size (production) with the Dialogue and Objective faces; **Gap between label and reason** sets the spacing.
 
 **Storage:** lab values are saved in this page's `localStorage` (`cyoa-m2-reception-polish-lab-v1`); the lab's own UI state is kept apart under `cyoa-m2-reception-polish-lab-ui-v1`, is never exported, and RESET leaves it alone. The game never reads either.
 
@@ -48,17 +52,19 @@ A lab-only preview of **Narrative B** and **Focus A** (docs/64–68 on `docs/sto
 | State | Shows |
 |---|---|
 | NB-1 | B: a short passage and three action choices; the unused parchment is left blank |
-| NB-2 | B: a longer passage that fits on one page |
-| NB-3 | B: page 1 of a passage that overflows, with a single **CONTINUE** card |
-| NB-4 | B: the final page of that passage, reached through CONTINUE, with the authored choices |
+| NB-2 | B: a longer passage that fits the panel |
+| NB-3 | B: the first part of a long passage, with a single **CONTINUE** card |
+| NB-4 | B: the whole long passage, added on part by part through CONTINUE, scrolled, with the authored choices |
 | NA-1 | A: the keypad close-up, reached through **EXAMINE THE KEYPAD** |
 | NB-5 | B → A → B, played by hand: click **EXAMINE THE KEYPAD**, then **PRESS THE KEYS AT RANDOM** or **STOP EXAMINING** |
-| NB-6 | B: the fresh passage after returning from A |
-| NB-7 | B: action and spoken cards side by side (the spoken card's result is narrated) |
+| NB-6 | B: back from A, the narration continues below the earlier passage |
+| NB-7 | B: action and spoken cards side by side (take the spoken one: what you said is told as speech) |
+| NB-8 | Talking vs action on the real reception dialogue: the production conversation (stage directions, the player's [SIGH.], an OBSERVE thought) re-marked with the current candidate |
 | REF | the existing reception dialogue, unchanged, through the production flow |
 
 **What it does:**
-- **B** keeps the scene. The Candidate 1 overlay (or Candidate 2) covers the portrait and speech regions, and the narration starts at the top of the panel. Each passage replaces the last; there is no history. A passage too long for one page breaks at a paragraph, then at a sentence, then at a line, and never clips. Every page before the last offers only CONTINUE.
+- **B** keeps the scene. The Candidate 1 overlay (or Candidate 2) covers the portrait and speech regions, and the narration starts at the top of the panel. It works like the dialogue box (owner, 2026-11-08): new text types on below what is there (at the dialogue's 40 chars / s), and the box follows it; once it stops, the dialogue's own scroll thumb shows when there is more than fits, and the wheel scrolls back. A choice's result continues the narration. A long passage waits for **CONTINUE** between groups of whole paragraphs that fit the panel together; a paragraph longer than the panel simply types on and scrolls. The earlier study (separate pages that replace each other; a result that replaces the narration) stays selectable for comparison.
+- The narration is in the second person, present tense ("YOU STEP BACK."). Spoken words are told apart from actions by the **Talking vs action** candidate (below).
 - **A** brings back the normal shell. A labelled **LAB PLACEHOLDER** keypad is drawn at runtime in the portrait aperture; it is not an art file and not an asset order. The description sits in the speech panel's text area, with the object's own choices below it. Leaving A returns to B with a new passage.
 - Cards, scrollbar, inventory, Current Objective and footer use the production code and stay in place. An **action** leaves with the production slide-away. A **spoken** line uses the production send, but its result is narrated. Neither is written into the transcript or the dialogue history.
 - A card you click in one frame is also taken in the other, so a PRODUCTION / LAB flip compares the same moment. While a preview is on show, those buttons read **STUDY DEFAULTS** and **LAB + STUDY VALUES**, and the header carries an **EXPERIMENTAL PREVIEW** badge. The utility buttons, the inventory inspector and the reception-only triggers (NPC typing, context action) do nothing in a preview.
@@ -70,16 +76,17 @@ A lab-only preview of **Narrative B** and **Focus A** (docs/64–68 on `docs/sto
 |---|---|
 | Narrative B surface | Candidate 1 / Candidate 2 overlay |
 | Narrative B text | X, Y, wrap width (x + width stays on the parchment, ≤ 1908), bottom safe margin, face (Dialogue / Choices / Labels / Objective, all approved baked faces), line spacing |
-| Passage length + continuation | long fixture (4 paragraphs / one very long paragraph / 6 long paragraphs), break at paragraph / sentence / line, max lines per page (0 = all that fit) |
+| Passage length + continuation | long passages: CONTINUE between paragraph groups, text adds on and scrolls (default) / no CONTINUE, the whole passage types on / separate pages (earlier study); long fixture (4 paragraphs / one very long paragraph / 6 long paragraphs); page break at paragraph / sentence / line (separate pages only); max lines per page or group (0 = all that fit) |
 | Focus A description | X, Y, wrap width, line spacing (inside the speech panel) |
-| Reveal + transitions | reveal speed (0 = whole page at once), pause before choices, B ↔ A cross-fade (0 = cut) |
-| Action vs spoken choices | action leaves with slide-away or a spoken-style send (for comparison); spoken cards plain or in quotation marks (candidate only) |
+| Typing + transitions | typing speed (40 = the dialogue's; 0 = all at once), pause before choices, B ↔ A cross-fade (0 = cut) |
+| Choices + results | a result adds to the narration (default) or replaces it (earlier study); an action leaves with slide-away or a spoken-style send (for comparison); spoken cards plain or in quotation marks (candidate only) |
+| Talking vs action | 1 brackets / parentheses (the game today), 2 speech in quotation marks with actions plain (default), 3 actions in a second ink, 4 both; second ink: red ribbon / faded brown / slate. Applies to the narration, Focus A and NB-8 |
 
 Changes apply live to the LAB frame. The other frame keeps the study defaults.
 
 **Kept apart from production:** the values are stored under `cyoa-m2-reception-polish-lab-narrative-study-v1`. They export with **COPY NARRATIVE STUDY JSON** / **COPY ALL STUDY VALUES** (schema `cyoa-m2-narrative-study-v1`, with an EXPERIMENTAL note) and come back in with **IMPORT NARRATIVE JSON**. Each import refuses the other schema. **RESET NARRATIVE STUDY** clears only these values. **RESET ALL TO PRODUCTION** never touches them, and the production COPY CHANGES / COPY ALL never include them. The stage frames get the values from the lab page in memory and never read storage. The aid **Narration / description box** outlines the text box and its safe surface.
 
-**Review overlays:** `review/narrative-mode-b-art-study/narrative-mode-b-candidate-{a,b}-overlay.png`, copied byte-identical from `agent/narrative-mode-b-art-study` (Candidate 1 = `a`, SHA-256 `0dca8af3…`; Candidate 2 = `b`, `3b163752…`). They are review assets only and live outside this folder, which holds no art.
+**Review overlays:** `review/narrative-mode-b-art-study/narrative-mode-b-candidate-{a,b}-overlay.png`, from `agent/narrative-mode-b-art-study` (Candidate 1 = `a`, Candidate 2 = `b`). Both arrived with a stray cream column at x 1919, outside the frame's dark edge (a 1 px light line at the panel's right edge, owner 2026-11-08); there, and only there, each now repeats column 1918 (`a` `0dca8af3…` → `ebc7ccd0…`, `b` `3b163752…` → `dddb6be4…`; QA proves no other pixel changed). They are review assets only and live outside this folder, which holds no art.
 
 ## Files
 

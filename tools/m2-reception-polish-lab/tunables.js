@@ -106,6 +106,12 @@
       read: function (G) { return tun(G).tooltip.padX; }, write: function (G, v) { tun(G).tooltip.padX = v; } },
     { key: 'tooltip.padY', s: 'tooltip', label: 'Vertical padding', unit: 'px', src: 'G.TUNING.tooltip.padY', range: [2, 20], rel: false,
       read: function (G) { return tun(G).tooltip.padY; }, write: function (G, v) { tun(G).tooltip.padY = v; } },
+    // An unavailable action: its reason on a second, smaller line (owner, 2026-11-08).
+    { key: 'tooltip.reasonFace', s: 'tooltip', label: 'Reason line face (second line)', unit: '', src: 'G.TUNING.tooltip.reasonFace', range: [1, 3], rel: false,
+      options: { 1: 'Labels face at half size', 2: 'Dialogue face (Jersey 15)', 3: 'Objective face (Tiny5)' },
+      read: function (G) { return tun(G).tooltip.reasonFace; }, write: function (G, v) { tun(G).tooltip.reasonFace = v; } },
+    { key: 'tooltip.reasonGapY', s: 'tooltip', label: 'Gap between label and reason', unit: 'px', src: 'G.TUNING.tooltip.reasonGapY', range: [0, 20], rel: false,
+      read: function (G) { return tun(G).tooltip.reasonGapY; }, write: function (G, v) { tun(G).tooltip.reasonGapY = v; } },
 
     // Item-received slip (560x116 art at 1x; generic for any item).
     { key: 'notice.x', s: 'notice', label: 'Slip X', unit: 'px', src: 'G.TUNING.notice.x', range: [-60, 60], rel: true,
@@ -252,6 +258,11 @@
     return { ok: errors.length === 0, errors: errors };
   }
 
+  // The owner's lab defaults (2026-11-08): LAB values a lab starts with, on top of production. They
+  // are ordinary lab changes (highlighted, exported by COPY CHANGES, cleared by RESET ALL TO
+  // PRODUCTION); a lab adds them once per `id`, so a reset is not undone by the next reload.
+  var OWNER_DEFAULTS = { id: 'owner-2026-11-08', values: { 'notice.fadeInMs': 500, 'overlay.notesPanel': 2 } };
+
   window.POLISH_TUNABLES = { SECTIONS: SECTIONS, LIST: T, byKey: byKey, bounds: bounds, readAll: readAll, writeAll: writeAll, validate: validate,
-    SCHEMA: 'cyoa-m2-reception-polish-lab-v1', BASE_SHA: '6472cecb377a6e00484f92cdee55f6500858daa3' };
+    OWNER_DEFAULTS: OWNER_DEFAULTS, SCHEMA: 'cyoa-m2-reception-polish-lab-v1', BASE_SHA: '6472cecb377a6e00484f92cdee55f6500858daa3' };
 })();

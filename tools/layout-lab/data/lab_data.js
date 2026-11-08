@@ -15,7 +15,7 @@ window.M1_LAB_DATA = {
   "spritePackage": {
    "id": "m1-approved-sprite-package-v1",
    "path": "art/ui",
-   "atlasSha256": "85dabd2fa24580db1ca9602df0f46b470aa7195f0608e541f654fe3aebef4ce0",
+   "atlasSha256": "6879d66f9574e388a56f150f42601fa1b52fa307f0079710e69a5bf2d2863dee",
    "spriteCount": 29,
    "status": "APPROVED_PACKAGE"
   },
