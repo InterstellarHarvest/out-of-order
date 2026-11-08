@@ -7,21 +7,21 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 431,
-  "passed": 431,
+  "total": 445,
+  "passed": 445,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 35,
-      "passed": 35
+      "total": 37,
+      "passed": 37
     },
     "chromium": {
-      "total": 198,
-      "passed": 198
+      "total": 204,
+      "passed": 204
     },
     "firefox": {
-      "total": 198,
-      "passed": 198
+      "total": 204,
+      "passed": 204
     }
   },
   "failures": [],
@@ -159,13 +159,38 @@
     },
     {
       "browser": "static",
-      "name": "NOTES/FILES panel is 1255x822 opaque RGB, exactly the scene aperture",
+      "name": "NOTES, FILES and NOTES v2 panels are each 1255x822 opaque RGB, exactly the scene aperture",
       "ok": true,
       "detail": [
-        1255,
-        822,
-        2
+        [
+          "art/ui/overlays/notes_files_panel.png",
+          1255,
+          822,
+          2
+        ],
+        [
+          "art/ui/overlays/files_panel.png",
+          1255,
+          822,
+          2
+        ],
+        [
+          "art/ui/overlays/notes_panel_v2.png",
+          1255,
+          822,
+          2
+        ]
       ]
+    },
+    {
+      "browser": "static",
+      "name": "the FILES panel is its own art, not the NOTES panel",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "production NOTES panel is v1 (G.TUNING.overlay.notesPanel: 1)",
+      "ok": true
     },
     {
       "browser": "static",
@@ -326,9 +351,22 @@
     },
     {
       "browser": "chromium",
-      "name": "the NOTES/FILES panel is loaded and decoded before ready, and served as the approved bytes",
+      "name": "the NOTES and FILES panels are loaded and decoded before ready, and served as the approved bytes",
       "ok": true,
-      "detail": "bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783"
+      "detail": [
+        "bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783",
+        "e1107f217c4a5281bd6ecdc731db64e06cb9e3919d8385744d40de7ea3f92baa"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the NOTES v2 candidate is never requested by the production game",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the production game exposes no live-rebuild caller (G.rebuildStage is the polish lab's only)",
+      "ok": true
     },
     {
       "browser": "chromium",
@@ -1378,8 +1416,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 104,
-        "r1": 116
+        "r0": 106,
+        "r1": 118
       }
     },
     {
@@ -1397,7 +1435,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 215.5
+      "detail": 218.60000014305115
     },
     {
       "browser": "chromium",
@@ -1487,19 +1525,19 @@
         0,
         0,
         0,
+        0,
         -2,
-        -2,
-        -6,
+        -4,
         -8,
         -12,
-        -18,
-        -24,
-        -30,
-        -36,
-        -44,
+        -16,
+        -22,
+        -28,
+        -34,
+        -42,
         -52,
-        -62,
-        -72
+        -60,
+        -70
       ]
     },
     {
@@ -1544,7 +1582,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.09999990463257
+      "detail": 418
     },
     {
       "browser": "chromium",
@@ -1559,7 +1597,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948.7000000476837
+      "detail": 944.3999998569489
     },
     {
       "browser": "chromium",
@@ -2242,10 +2280,10 @@
     },
     {
       "browser": "chromium",
-      "name": "NOTES/FILES overlay = img#notesFilesPanel under canvas#overlayCanvas (text only)",
+      "name": "NOTES/FILES overlay = img#overlayPanel under canvas#overlayCanvas (text only)",
       "ok": true,
       "detail": [
-        "IMG#notesFilesPanel",
+        "IMG#overlayPanel",
         "CANVAS#overlayCanvas"
       ]
     },
@@ -2255,7 +2293,7 @@
       "ok": true,
       "detail": {
         "kids": [
-          "IMG#notesFilesPanel",
+          "IMG#overlayPanel",
           "CANVAS#overlayCanvas"
         ],
         "natural": [
@@ -2297,7 +2335,13 @@
     },
     {
       "browser": "chromium",
-      "name": "every clear-shell, text-free overlay pixel equals the 1255x822 panel file 1:1",
+      "name": "NOTES shows its own panel image",
+      "ok": true,
+      "detail": "art/ui/overlays/notes_files_panel.png"
+    },
+    {
+      "browser": "chromium",
+      "name": "NOTES: every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1",
       "ok": true,
       "detail": {
         "checked": 919906,
@@ -2308,7 +2352,7 @@
     },
     {
       "browser": "chromium",
-      "name": "ink: light title on the teal plate, dark text on the cream reading area (one ink each, hard-edged)",
+      "name": "NOTES ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)",
       "ok": true,
       "detail": {
         "title": [
@@ -2351,6 +2395,36 @@
       "browser": "chromium",
       "name": "FILES shows the case file",
       "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "FILES shows its own panel image",
+      "ok": true,
+      "detail": "art/ui/overlays/files_panel.png"
+    },
+    {
+      "browser": "chromium",
+      "name": "FILES: every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1",
+      "ok": true,
+      "detail": {
+        "checked": 977843,
+        "bad": 0,
+        "textPx": 19174,
+        "first": null
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "FILES ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)",
+      "ok": true,
+      "detail": {
+        "title": [
+          "241,216,152"
+        ],
+        "body": [
+          "32,48,55"
+        ]
+      }
     },
     {
       "browser": "chromium",
@@ -2682,9 +2756,22 @@
     },
     {
       "browser": "firefox",
-      "name": "the NOTES/FILES panel is loaded and decoded before ready, and served as the approved bytes",
+      "name": "the NOTES and FILES panels are loaded and decoded before ready, and served as the approved bytes",
       "ok": true,
-      "detail": "bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783"
+      "detail": [
+        "bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783",
+        "e1107f217c4a5281bd6ecdc731db64e06cb9e3919d8385744d40de7ea3f92baa"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the NOTES v2 candidate is never requested by the production game",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the production game exposes no live-rebuild caller (G.rebuildStage is the polish lab's only)",
+      "ok": true
     },
     {
       "browser": "firefox",
@@ -3734,8 +3821,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 115,
-        "r1": 127
+        "r0": 104,
+        "r1": 116
       }
     },
     {
@@ -3753,7 +3840,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 216
+      "detail": 215
     },
     {
       "browser": "firefox",
@@ -3846,15 +3933,15 @@
         0,
         0,
         -2,
-        -6,
+        -4,
         -8,
         -12,
         -16,
         -22,
         -28,
-        -36,
+        -34,
         -42,
-        -52,
+        -50,
         -60,
         -70
       ]
@@ -3916,7 +4003,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 946
+      "detail": 943
     },
     {
       "browser": "firefox",
@@ -4568,7 +4655,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3607
+        "ms": 3609
       }
     },
     {
@@ -4599,10 +4686,10 @@
     },
     {
       "browser": "firefox",
-      "name": "NOTES/FILES overlay = img#notesFilesPanel under canvas#overlayCanvas (text only)",
+      "name": "NOTES/FILES overlay = img#overlayPanel under canvas#overlayCanvas (text only)",
       "ok": true,
       "detail": [
-        "IMG#notesFilesPanel",
+        "IMG#overlayPanel",
         "CANVAS#overlayCanvas"
       ]
     },
@@ -4612,7 +4699,7 @@
       "ok": true,
       "detail": {
         "kids": [
-          "IMG#notesFilesPanel",
+          "IMG#overlayPanel",
           "CANVAS#overlayCanvas"
         ],
         "natural": [
@@ -4654,7 +4741,13 @@
     },
     {
       "browser": "firefox",
-      "name": "every clear-shell, text-free overlay pixel equals the 1255x822 panel file 1:1",
+      "name": "NOTES shows its own panel image",
+      "ok": true,
+      "detail": "art/ui/overlays/notes_files_panel.png"
+    },
+    {
+      "browser": "firefox",
+      "name": "NOTES: every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1",
       "ok": true,
       "detail": {
         "checked": 919906,
@@ -4665,7 +4758,7 @@
     },
     {
       "browser": "firefox",
-      "name": "ink: light title on the teal plate, dark text on the cream reading area (one ink each, hard-edged)",
+      "name": "NOTES ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)",
       "ok": true,
       "detail": {
         "title": [
@@ -4708,6 +4801,36 @@
       "browser": "firefox",
       "name": "FILES shows the case file",
       "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "FILES shows its own panel image",
+      "ok": true,
+      "detail": "art/ui/overlays/files_panel.png"
+    },
+    {
+      "browser": "firefox",
+      "name": "FILES: every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1",
+      "ok": true,
+      "detail": {
+        "checked": 977843,
+        "bad": 0,
+        "textPx": 19174,
+        "first": null
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "FILES ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)",
+      "ok": true,
+      "detail": {
+        "title": [
+          "241,216,152"
+        ],
+        "body": [
+          "32,48,55"
+        ]
+      }
     },
     {
       "browser": "firefox",

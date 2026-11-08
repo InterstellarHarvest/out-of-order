@@ -252,7 +252,7 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
 
 ### Lab QA
 
-`NODE_PATH="$(npm root -g)" node tools/m2-reception-polish-lab/qa/run_qa.js` passes **67/67** in Chromium 147 and Firefox 148 (static 5, Chromium 31, Firefox 31). Results are in `tools/m2-reception-polish-lab/qa/qa_results.json`.
+`NODE_PATH="$(npm root -g)" node tools/m2-reception-polish-lab/qa/run_qa.js` passes **85/85** in Chromium 147 and Firefox 148 (static 5, Chromium 40, Firefox 40). The run includes the live-value, NOTES v2 and FILES-panel checks from docs/63. Results are in `tools/m2-reception-polish-lab/qa/qa_results.json`.
 
 - **Static checks:**
   - the lab folder holds no images;
@@ -283,6 +283,12 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
 - **Import:**
   - IMPORT round-trips an export;
   - IMPORT rejects unknown keys, non-integers, out-of-range spatial and timing values, a wrong schema, string values and malformed JSON, and a rejected import changes nothing.
+- **Live values (docs/63):**
+  - a slider drag moves the stage step by step, with no reload;
+  - a live change keeps NOTES open on the same lines and scroll;
+  - NOTES v2 switches live in the lab frame only and is exported;
+  - FILES shows its own panel;
+  - after live changes and a reset, PRODUCTION and LAB are pixel-identical again.
 - **Timing:** a lab tooltip delay applies in the lab frame (hidden at 120 ms, shown after 400 ms).
 - **Errors:** there are no console or page errors.
 
@@ -293,7 +299,7 @@ Lab screenshots (Chromium): `tools/m2-reception-polish-lab/qa/screenshots/lab_ov
 The checks were run on the final commit:
 
 - `node game/qa/validate_route.js`: **38/38**.
-- `game/qa/run_qa.js`: **431/431** (static 35/35, Chromium 198/198, Firefox 198/198).
+- `game/qa/run_qa.js`: **445/445** (static 37/37, Chromium 204/204, Firefox 204/204), including the separate FILES panel (docs/63). Before docs/63 it was 431/431.
 
 The production values are unchanged (§3).
 

@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-m2-reception-polish-lab-qa-v1",
-  "passed": 67,
-  "total": 67,
+  "passed": 85,
+  "total": 85,
   "failures": [],
   "checks": [
     {
@@ -94,6 +94,7 @@
           "overlay.bodyWidth": 1159,
           "overlay.bodyHeight": 620,
           "overlay.lineHeight": 26,
+          "overlay.notesPanel": 1,
           "objective.titleAlignX": 0,
           "objective.titleY": 907,
           "objective.bodyX": 889,
@@ -164,6 +165,7 @@
           "overlay.bodyWidth": 1159,
           "overlay.bodyHeight": 620,
           "overlay.lineHeight": 26,
+          "overlay.notesPanel": 1,
           "objective.titleAlignX": 0,
           "objective.titleY": 907,
           "objective.bodyX": 889,
@@ -299,6 +301,81 @@
     },
     {
       "browser": "chromium",
+      "name": "a slider drag updates the lab stage live, step by step (no debounce, no reload)",
+      "ok": true,
+      "detail": {
+        "drag": {
+          "tops": [
+            48,
+            49,
+            50,
+            51,
+            52
+          ],
+          "ms": 158
+        },
+        "href0": "http://127.0.0.1:56344/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "a live change keeps the state on show (NOTES stays open on the same lines and scroll)",
+      "ok": true,
+      "detail": [
+        "notes|NOTES: EVERYTHING SAID AT RECEPTION\nRECEPTIONIST:\nGOOD",
+        "notes|NOTES: EVERYTHING SAID AT RECEPTION\nRECEPTIONIST:\nGOOD"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "NOTES shows the v1 panel in both frames by default",
+      "ok": true,
+      "detail": [
+        "art/ui/overlays/notes_files_panel.png",
+        "art/ui/overlays/notes_files_panel.png"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "NOTES background v2 switches live in the lab frame only",
+      "ok": true,
+      "detail": [
+        "art/ui/overlays/notes_panel_v2.png",
+        "art/ui/overlays/notes_files_panel.png"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the NOTES background choice is exported with the changes",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "FILES shows its own panel (files_panel.png) in both frames, whatever the NOTES choice",
+      "ok": true,
+      "detail": [
+        "art/ui/overlays/files_panel.png",
+        "art/ui/overlays/files_panel.png"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the lab frame shows the v2 panel 1:1 (served bytes are the committed candidate)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "reset returns NOTES to v1 live",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "after live changes and a reset, PRODUCTION and LAB are pixel-identical again (same frame, never reloaded)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
       "name": "spatial controls store whole numbers (6.6 -> 7)",
       "ok": true
     },
@@ -320,7 +397,7 @@
       "browser": "chromium",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 68
+      "detail": 69
     },
     {
       "browser": "chromium",
@@ -485,6 +562,7 @@
           "overlay.bodyWidth": 1159,
           "overlay.bodyHeight": 620,
           "overlay.lineHeight": 26,
+          "overlay.notesPanel": 1,
           "objective.titleAlignX": 0,
           "objective.titleY": 907,
           "objective.bodyX": 889,
@@ -555,6 +633,7 @@
           "overlay.bodyWidth": 1159,
           "overlay.bodyHeight": 620,
           "overlay.lineHeight": 26,
+          "overlay.notesPanel": 1,
           "objective.titleAlignX": 0,
           "objective.titleY": 907,
           "objective.bodyX": 889,
@@ -690,6 +769,81 @@
     },
     {
       "browser": "firefox",
+      "name": "a slider drag updates the lab stage live, step by step (no debounce, no reload)",
+      "ok": true,
+      "detail": {
+        "drag": {
+          "tops": [
+            48,
+            49,
+            50,
+            51,
+            52
+          ],
+          "ms": 157
+        },
+        "href0": "http://127.0.0.1:56344/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "a live change keeps the state on show (NOTES stays open on the same lines and scroll)",
+      "ok": true,
+      "detail": [
+        "notes|NOTES: EVERYTHING SAID AT RECEPTION\nRECEPTIONIST:\nGOOD",
+        "notes|NOTES: EVERYTHING SAID AT RECEPTION\nRECEPTIONIST:\nGOOD"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "NOTES shows the v1 panel in both frames by default",
+      "ok": true,
+      "detail": [
+        "art/ui/overlays/notes_files_panel.png",
+        "art/ui/overlays/notes_files_panel.png"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "NOTES background v2 switches live in the lab frame only",
+      "ok": true,
+      "detail": [
+        "art/ui/overlays/notes_panel_v2.png",
+        "art/ui/overlays/notes_files_panel.png"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the NOTES background choice is exported with the changes",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "FILES shows its own panel (files_panel.png) in both frames, whatever the NOTES choice",
+      "ok": true,
+      "detail": [
+        "art/ui/overlays/files_panel.png",
+        "art/ui/overlays/files_panel.png"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the lab frame shows the v2 panel 1:1 (served bytes are the committed candidate)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "reset returns NOTES to v1 live",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "after live changes and a reset, PRODUCTION and LAB are pixel-identical again (same frame, never reloaded)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
       "name": "spatial controls store whole numbers (6.6 -> 7)",
       "ok": true
     },
@@ -711,7 +865,7 @@
       "browser": "firefox",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 68
+      "detail": 69
     },
     {
       "browser": "firefox",
