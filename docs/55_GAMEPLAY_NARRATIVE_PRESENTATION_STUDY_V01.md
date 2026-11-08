@@ -1,8 +1,18 @@
 # The Acceptable Error — Gameplay & Narrative Presentation Study v0.1
 
-**Status:** PMO proposal for owner review; not an approved production contract.
+**Status:** PMO proposal for owner review; owner clarification added 2026-11-07. Not an approved production contract.
 **Scope:** Story/gameplay/narrative architecture beyond the M2 reception vertical slice.
 **Boundary:** No changes to reception implementation, art, UI assets, layout lab, or production engine. Existing M2 authority remains in docs/47.
+
+## Owner clarification and recovered earlier story direction (2026-11-07)
+
+The owner reaffirmed the original central premise: an ordinary person **simply needs to use the bathroom**. After a couple of unrelated opening incidents, they approach a complex for directions. Their request becomes a mistaken bureaucratic appointment. Each mundane attempt to complete the errand produces more procedural steps, which the surrounding world treats as routine. The protagonist never seems to reach the bathroom. This is the comic story spine, not merely a receptionist anecdote.
+
+The intended escalation is **mundane need → ridiculous administrative detour → widening absurd world and assignments → accumulating contradictions → disturbing consequences and deeper mystery → uneasy decisions**. Humor and wonder can survive the later unsettling turns; not every oddity is a clue. Earlier story ideas remain in [00 Creative Brief](00_CREATIVE_BRIEF.md), [01 World and Story](01_WORLD_AND_STORY.md), [04 Idea Archive](04_IDEA_ARCHIVE.md), and [05 Decisions/Open Questions](05_DECISIONS_AND_OPEN_QUESTIONS.md). These notes did not lock a complete chapter-by-chapter plot.
+
+Illustrative story threads (NOT canon chapter sequence): a public exhibit filing a complaint, a specimen whose history predates its enclosure, records apparently describing future events, and a department concealing an unusual authority. Meridian and the early character names are proposals. **The Exchange** is a favored mystery hypothesis—transport may actually exchange objects for equivalents elsewhere, potentially affecting identity, memories and records—but it is not the final locked explanation.
+
+**Mechanics correction:** House of Danger-style **dice/check resolution is intended to be a recurring part of play for uncertain attempted actions**, not a rare exception. Choices can give items; those items open later attempts/options and/or improve the odds of success, but should not guarantee success merely because they are owned. The roll occurs behind the scenes. Player-facing percentages, qualitative odds, visible roll results and precise formulas are still to be explored. Ordinary decisions without uncertain execution need not roll automatically. Exact check frequency, dice mathematics and difficulty model are not locked.
 
 ## Executive recommendation
 
@@ -16,6 +26,8 @@ The game remains a **choice-first CYOA with occasional contextual micro-interact
 
 ### LOCKED FROM EXISTING DIRECTION
 - CYOA identity; House of Danger is a structural influence, not a card-game UI mandate.
+- The mundane bathroom errand is the central comic starting motivation. Bureaucratic misassignment grows into the deeper story; do not replace it with a generic investigator premise.
+- Uncertain attempted actions use behind-the-scenes dice/checks, with acquired items able to unlock attempts or influence odds without automatically succeeding. Exact mathematics and visible feedback are open.
 - The reception vertical slice is only one incident type.
 - The player is the completely wrong person, trapped in routine institutional absurdity.
 - The overall mystery is slow-burn. Do not establish the actual nature of the technology as canon yet.
@@ -33,7 +45,7 @@ The game remains a **choice-first CYOA with occasional contextual micro-interact
 ### EXPERIMENTAL
 - Occasional observation-only micro-interactions/hotspots invoked from a choice.
 - Timed decisions in genuinely urgent incidents only.
-- Contextual risk checks (prefer success / success with complication / failure with consequence).
+- Dice/check mathematics and presentation (whether to show percentages, qualitative odds or hidden odds; how bonuses and outcome bands work).
 - Special chapter-specific mechanics; optional post-chapter branch visualization.
 
 ### REJECTED FOR NOW (retain rationale)
@@ -44,7 +56,7 @@ The game remains a **choice-first CYOA with occasional contextual micro-interact
 - A traditional many-task quest log: conflicts with the single compelling Current Objective.
 - A Detroit-scale independent branch tree: exponential content production is not feasible.
 - Forced NPC portraits or filler close-ups in scenes without relevant focus.
-- Routine dice rolls and routine timed choices: dilute their narrative meaning.
+- Automatic rolls for choices with no uncertain execution, or arbitrary time limits while reading: they add noise rather than agency. (Recurring dice checks for risky actions remain intended.)
 
 ## 1. Minute-to-minute gameplay grammar
 
@@ -65,11 +77,11 @@ An incident can be a discussion, entrance decision, document examination, hazard
 | Story card | Illustrated incident and concise narration |
 | Choice card | Authored contextual decision |
 | Item card | Item, document, credential or evidence with narrative permissions |
-| Check/dice | Rare contextual uncertainty resolution |
+| Check/dice | Recurring behind-the-scenes rolls for uncertain actions; items may grant access or shift odds, not automatic success |
 | Branch card | Short route, altered state or major outcome |
 | Story sequence | Chapter-level incident spine |
 
-**Failure should normally create a new complication**, not an immediate dead end. A failed lock attempt might damage a badge, attract an official, reroute the player or expose new information.
+**Risky item use should normally remain a check, not an automatic solution.** Items can enable an attempt, improve a roll or mitigate failure. **Failure should normally create a new complication**, not an immediate dead end. A failed lock attempt might damage a badge, attract an official, reroute the player or expose new information.
 
 ## 3. Environmental interaction recommendation
 
@@ -156,7 +168,7 @@ Institutional record is the promising signature mechanic: the bureaucracy's asse
 - Inventory as story authority: badge/clipboard/form grants entry, plausibility or leverage rather than crafting recipes.
 - Institutional record: false official identity evolves through signatures, mistaken credentials, omissions and classifications.
 - Route/opportunity decisions: following one lead can mean missing another.
-- Consequential checks: rare uncertain acts; failures produce narrative complications.
+- Consequential checks: recurring behind-the-scenes dice resolution of uncertain attempted actions; items and knowledge can open options or improve odds, and failed rolls create narrative complications.
 - History and character memory: later scenes recognize what occurred.
 
 **Occasional only:** limited-time investigation; timed crisis choice; close inspection; contradictions between documents; chapter-specific procedure/puzzle; hidden temporary danger/pressure. Never add a mechanic only because another RPG has one.
@@ -217,7 +229,7 @@ Selected references for later research verification:
 Separate from the active M2 reception work. Prototype **one 10–15 minute non-NPC sequence** with:
 1. opening scene, narrator and DETAIL focus;
 2. 3–5 choices with meaningful different outcomes;
-3. one item gate;
+3. one item-gated risky action resolved with a behind-the-scenes roll, testing a useful but non-guaranteed advantage;
 4. one knowledge gate;
 5. one short branch/gather;
 6. one later shared scene that remembers earlier choices;
