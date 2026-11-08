@@ -9,8 +9,8 @@ window.M1_LAB_DATA = {
    "path": "art/ui/shell/layout-final.png",
    "width": 1920,
    "height": 1080,
-   "gitBlob": "1849c8ec192cd639dd8550de0dcdda1aa88d2e4f",
-   "sha256": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+   "gitBlob": "bd28ac18b210de2a0d1b79bdbef82dc89f865766",
+   "sha256": "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625"
   },
   "spritePackage": {
    "id": "m1-approved-sprite-package-v1",
@@ -378,8 +378,8 @@ window.M1_LAB_DATA = {
    "width": 1920,
    "height": 1080,
    "mode": "RGBA",
-   "sha256": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6",
-   "git_blob": "1849c8ec192cd639dd8550de0dcdda1aa88d2e4f",
+   "sha256": "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625",
+   "git_blob": "bd28ac18b210de2a0d1b79bdbef82dc89f865766",
    "alpha": {
     "transparent": 1162132,
     "opaque": 879691,
