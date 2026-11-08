@@ -24,7 +24,6 @@ assert SHELL.size == (1920, 1080)
 assert QA_FOOTER.size == SHELL.size
 assert hashlib.sha256(SHELL_PATH.read_bytes()).hexdigest() == SHELL_SHA
 
-PANEL = (1316, 43, 1915, 520)  # exclusive right/bottom
 INNER = (1323, 50, 1909, 515)
 PALETTE_A = (224, 208, 174)
 INK = (32, 48, 55, 255)
@@ -32,9 +31,8 @@ INK = (32, 48, 55, 255)
 
 def panel_border(out: Image.Image) -> None:
     """Nine-slice the approved dialogue surround, retaining native pixel size."""
-    # Only seven source rows form the new upper rim. The bottom stays at its
-    # original y. Neither the choice panel nor its track is copied or painted.
-    out.alpha_composite(SHELL.crop((1316, 343, 1915, 350)), (1316, 43))
+    # The top rim is placed separately beneath the existing upper hardware.
+    # The bottom stays at its original y. Choice panel and track are untouched.
     for y in range(50, 515):
         sy = 355 + (y - 50) % 150
         out.alpha_composite(SHELL.crop((1316, sy, 1323, sy + 1)), (1316, y))
@@ -42,37 +40,39 @@ def panel_border(out: Image.Image) -> None:
     out.alpha_composite(SHELL.crop((1316, 515, 1920, 520)), (1316, 515))
 
 
-def rounded_top_end(out: Image.Image) -> None:
-    """Narrative-mode terminal cap in place of the portrait's corner bracket."""
-    d = ImageDraw.Draw(out)
-    # This small opaque patch masks the shell's large L-shaped top-right
-    # bracket. It belongs to the mode overlay; the underlying shell is never
-    # edited, so switching back reveals the original portrait bracket.
-    d.rectangle((1876, 0, 1919, 49), fill=(12, 18, 20, 255))
-    d.polygon([(1876, 7), (1909, 7), (1914, 9), (1918, 14),
-               (1918, 38), (1914, 44), (1909, 47), (1876, 47)],
-              fill=(49, 42, 35, 255))
-    d.polygon([(1876, 9), (1908, 9), (1913, 12), (1916, 16),
-               (1916, 36), (1912, 41), (1907, 43), (1876, 43)],
-              fill=(167, 137, 97, 255))
-    d.polygon([(1876, 11), (1907, 11), (1911, 14), (1914, 18),
-               (1914, 34), (1910, 39), (1906, 40), (1876, 40)],
-              fill=(218, 197, 159, 255))
-    cap_texture = SHELL.crop((1825, 0, 1869, 50))
-    cap_mask = Image.new("L", (44, 50), 0)
-    ImageDraw.Draw(cap_mask).polygon([(0, 11), (31, 11), (35, 14), (38, 18),
-                                     (38, 34), (34, 39), (30, 40), (0, 40)], fill=255)
-    out.paste(cap_texture, (1876, 0), cap_mask)
-    # Source plate continues into the cap without the portrait bracket's
-    # heavy vertical junction.
-    out.paste(SHELL.crop((1825, 8, 1828, 44)), (1876, 8))
-    d.line((1876, 9, 1908, 9), fill=(234, 216, 179, 255), width=1)
-    d.line((1876, 42, 1907, 42), fill=(96, 72, 49, 255), width=1)
-    # Pixel-stepped dark lip connects the rounded end to the slimmer side
-    # moulding; it has no bolt or L-corner plate.
-    d.rectangle((1915, 44, 1919, 50), fill=(24, 29, 28, 255))
-    d.rectangle((1915, 51, 1917, 66), fill=(94, 89, 74, 255))
-    d.rectangle((1918, 51, 1919, 66), fill=(28, 34, 33, 255))
+def top_frame_bottom(x: int) -> int:
+    """Last solid upper-frame pixel, before the portrait aperture begins."""
+    if x >= 1880:
+        # Keep the original silver bracket head and large screw. Its surviving
+        # lower contour is rounded; the narrow 90-degree leg and lower screw
+        # are covered by the taller dialogue panel.
+        distance = abs(x - 1900)
+        if distance >= 18:
+            return 50
+        if distance >= 14:
+            return 51
+        if distance >= 10:
+            return 53
+        if distance >= 6:
+            return 54
+        return 55
+    for y in range(55, 34, -1):
+        if SHELL.getpixel((x, y))[3] >= 200:
+            return y
+    return 41
+
+
+def top_border_below_frame(out: Image.Image) -> None:
+    """Move the EXISTING dialogue top border up to touch the upper frame."""
+    # The upper hardware has an irregular lower edge: the pipe is shallower
+    # than the enamel plates. The black edge follows that edge one pixel below
+    # instead of drawing a new rail across the existing hardware.
+    for x in range(1316, 1920):
+        top = top_frame_bottom(x) + 1
+        for y in range(top):
+            out.putpixel((x, y), (0, 0, 0, 0))
+        sx = min(x, 1914)
+        out.alpha_composite(SHELL.crop((sx, 338, sx + 1, 350)), (x, top))
 
 
 def paper_a() -> Image.Image:
@@ -108,7 +108,7 @@ def paper_a() -> Image.Image:
 
 
 def paper_b() -> Image.Image:
-    """Warmer institutional paper, with quiet ledger rules and a left margin."""
+    """Slightly warmer institutional paper in the same dialogue-box form."""
     w, h = 586, 465
     rng = random.Random(6402)
     paper = Image.new("RGBA", (w, h), (232, 220, 191, 255))
@@ -120,40 +120,26 @@ def paper_b() -> Image.Image:
             px[x, y] = (232 + n - edge // 6,
                         220 + n - edge // 4,
                         191 + n - edge // 3, 255)
-    d = ImageDraw.Draw(paper)
-    # Rules are muted ink in the paper itself. No lettering, folio number,
-    # second box, decorative fastener, or new scrollbar is introduced.
-    for y in range(50, 445, 27):
-        d.line((51, y, 562, y), fill=(222, 211, 183, 255), width=1)
-    d.line((45, 25, 45, 438), fill=(192, 170, 137, 255), width=1)
-    d.line((48, 25, 48, 438), fill=(224, 204, 170, 255), width=1)
-    # A tiny brass paper-stop is an actual-looking attachment to the existing
-    # frame, kept outside the text-safe area.
-    d.rectangle((17, 13, 34, 18), fill=(151, 119, 78, 255))
-    d.rectangle((19, 13, 32, 14), fill=(218, 194, 145, 255))
     return paper
 
 
 def overlay(kind: str) -> Image.Image:
     out = Image.new("RGBA", SHELL.size, (0, 0, 0, 0))
-    ImageDraw.Draw(out).rectangle((1316, 43, 1919, 519), fill=PALETTE_A + (255,))
+    ImageDraw.Draw(out).rectangle((1316, 41, 1919, 519), fill=PALETTE_A + (255,))
     out.paste(paper_a() if kind == "a" else paper_b(), INNER[:2])
     panel_border(out)
-    d = ImageDraw.Draw(out)
-    # A continuous raised top edge is visible even though this content panel
-    # reaches the old portrait aperture. These rows are native pixel strokes.
-    for y, col in [(43, (60, 48, 33, 255)), (44, (167, 127, 77, 255)),
-                   (45, (239, 210, 157, 255)), (46, (187, 149, 97, 255)),
-                   (47, (226, 202, 159, 255))]:
-        d.line((1323, y, 1909, y), fill=col, width=1)
-    rounded_top_end(out)
+    top_border_below_frame(out)
     # A candidate overlay must fully occlude the portrait/speech divider and
     # nowhere touch the scene, choices, choice track, objective, or footer.
-    assert out.getbbox() == (1316, 0, 1920, 520)
+    assert out.getbbox() == (1316, 42, 1920, 520)
     alpha = out.getchannel("A")
-    assert alpha.crop((1316, 67, 1920, 520)).getextrema() == (255, 255)
+    assert alpha.crop((1316, 68, 1920, 520)).getextrema() == (255, 255)
     assert alpha.crop((0, 0, 1316, 1080)).getbbox() is None
     assert alpha.crop((0, 520, 1920, 1080)).getbbox() is None
+    for x in (1340, 1500, 1750, 1850, 1890, 1900, 1918):
+        first_panel_pixel = top_frame_bottom(x) + 1
+        assert alpha.getpixel((x, first_panel_pixel - 1)) == 0
+        assert alpha.getpixel((x, first_panel_pixel)) == 255
     return out
 
 
@@ -266,9 +252,7 @@ def proof(kind: str, length: str, text_style: str) -> Image.Image:
     im.paste(QA_FOOTER.crop((0, 895, 1920, 1080)), (0, 895))
     im.alpha_composite(overlay(kind))
     text = SHORT if length == "short" else LONG
-    tx = 1350 if kind == "a" else 1380
-    maxw = 522 if kind == "a" else 490
-    line_count = draw_text(im, text, (tx, 77), "dialogue", 27, maxw)
+    line_count = draw_text(im, text, (1350, 77), "dialogue", 27, 522)
     assert line_count <= 16, (length, line_count)
     if text_style == "quotes":
         choices = [('"Is that door locked, or am I meant to enter a code?"', False),
@@ -336,6 +320,19 @@ def corner_comparison() -> Image.Image:
     return sheet
 
 
+def top_border_detail() -> Image.Image:
+    sheet = Image.new("RGBA", (1208, 270), (24, 41, 49, 255))
+    ImageDraw.Draw(sheet).text((12, 8),
+        "EXISTING UPPER FRAME ABOVE THE EXTENDED DIALOGUE BOX - NATIVE PIXEL EDGES AT 2X",
+        fill=(235, 214, 174, 255))
+    im = Image.new("RGBA", SHELL.size, (27, 45, 52, 255))
+    im.alpha_composite(SHELL)
+    im.alpha_composite(overlay("a"))
+    crop = im.crop((1316, 0, 1920, 120)).resize((1208, 240), Image.Resampling.NEAREST)
+    sheet.alpha_composite(crop, (0, 30))
+    return sheet
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     for kind in ("a", "b"):
@@ -346,6 +343,7 @@ def main() -> None:
     for length in ("short", "long"):
         panel_comparison(length).save(OUT / f"candidate-comparison-{length}.png", optimize=True)
     corner_comparison().save(OUT / "top-end-switch-comparison.png", optimize=True)
+    top_border_detail().save(OUT / "top-border-alignment-detail.png", optimize=True)
 
 
 if __name__ == "__main__":

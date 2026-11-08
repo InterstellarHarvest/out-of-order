@@ -8,10 +8,10 @@
 | Candidate | Overlay | Reading surface |
 | --- | --- | --- |
 | 1 | [narrative-mode-b-candidate-a-overlay.png](narrative-mode-b-candidate-a-overlay.png) | Existing dialogue inset cream and stained lower edge, extended as one surface. |
-| 2 | [narrative-mode-b-candidate-b-overlay.png](narrative-mode-b-candidate-b-overlay.png) | Slightly warmer institutional paper with a quiet margin and pixel rules. |
+| 2 | [narrative-mode-b-candidate-b-overlay.png](narrative-mode-b-candidate-b-overlay.png) | Slightly warmer institutional-paper tone in the same dialogue-panel frame. |
 
 Both are transparent **1920×1080 RGBA** PNGs with hard, binary alpha. They contain
-only the altered right-column panel and its top-right terminal cap. They contain
+only the altered right-column panel. They contain
 no narration, choices, scene, objective, inventory, or footer controls.
 
 The starting shell is exactly `art/ui/shell/layout-final.png`, SHA-256
@@ -32,7 +32,10 @@ its picture-window artwork was not copied into the narration overlays.
 | Long | [full frame](candidate-a-long-exact-shell.png) | [full frame](candidate-b-long-exact-shell.png) | [comparison](candidate-comparison-long.png) |
 
 [Top-right switch detail](top-end-switch-comparison.png) shows the original
-portrait-view corner bracket beside the narration-view rounded end.
+portrait-view corner bracket beside the same metal bracket with its lower leg
+masked and rounded in Narrative Mode.
+[Top-border alignment detail](top-border-alignment-detail.png) shows the
+existing upper hardware directly above the reused dialogue-box black edge.
 [Choice text comparison](choice-text-conventions.png) shows both proposed
 conventions on the **existing approved choice-card sprites and locked Choices
 bitmap atlas**. The exact-shell proofs use three standard two-line cards at
@@ -48,13 +51,20 @@ not game assets.
 - Original measured portrait aperture: `x1333 y44 w564 h278`.
 - Original speech panel: `x1316 y344 w598 h176`; parchment starts
   `x1323 y349`. The existing choices begin at `y525`, track at `y536`.
-- New opaque panel coverage: `x1316..1919, y43..519`; the paper field is
-  `x1323..1908, y50..514`. The old portrait/speech divider around `y318..348`
-  is fully covered, including its rightmost edge.
-- The top border is an explicit continuous brass/cream pixel rim at
-  `y43..49`. Its rounded terminal cap covers the portrait-view top-right
-  bracket at `x1876..1919, y0..66`. Removing the mode overlay reveals the
-  approved bracket again.
+- New opaque panel coverage is `x1316..1919, y68..519`, with a top edge that
+  follows the lower edge of the existing top frame at about `y42..56`. The old
+  portrait/speech divider around `y318..348` is fully covered, including its
+  rightmost edge.
+- The **actual black top edge and brass bevel from the existing dialogue box**
+  are moved upward, column by column, to the first pixel below the existing
+  top frame. The panel therefore sits behind that frame, with its black line
+  directly touching the frame's lower edge even where the frame has a shallower
+  pipe or a deeper enamel plate.
+- The original silver top-right bracket head and large screw remain visible
+  from the shell. The overlay masks its descending 90-degree leg and lower
+  screw; the surviving metal edge is pixel-stepped into a shallow rounded end
+  at `x1880..1919, y50..55`. No new cap material is drawn. Removing the
+  overlay reveals the approved full bracket again.
 - Alpha is zero left of `x1316` and below `y519`. Thus neither overlay touches
   the scene, choice cards/scrollbar, objective, inventory, or footer. Both
   overlays must be composited at `(0,0)` and **above** the shell and any old
