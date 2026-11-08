@@ -15,7 +15,7 @@
 //   - Focus A: the normal shell (portrait aperture + speech panel), a runtime-drawn placeholder
 //     close-up in the portrait aperture, and the description in the speech panel's text area.
 //   - Talking vs action: candidate ways to tell spoken words from actions, thoughts and narration,
-//     applied to the narration and (state NB-8) to the real reception dialogue in this frame.
+//     applied to the narration and (states NB-8, NB-9) to the real reception dialogue in this frame.
 // Choices carry a semantic kind: action | spoken | continue. None is written to the transcript or the
 // dialogue history: the result is narrated.
 (function () {
@@ -79,18 +79,45 @@
     if (last < text.length) out.push({ t: text.slice(last), spoken: true });
     return out;
   }
-  // style 1: brackets as authored (today's game); 2: speech in quotation marks; 3: unspoken words in
-  // the second ink; 4: both.
+  // The narration (owner, 2026-11-08): one dark ink throughout; under the owner's rule (style 2)
+  // anyone's speech - the player calling out or talking to themselves, or someone else - is in
+  // quotation marks, and actions are plain. Style 1 is the game today: nothing is marked.
   function markRuns(runs, style) {
-    var quotes = style === 2 || style === 4;
-    var ink = style === 3 || style === 4;
     return runs.map(function (r) {
       var t = r.t.trim();
       if (!t) return '';
-      if (r.spoken) return quotes ? '"' + t + '"' : t;
-      if (r.bracket && style === 1) return r.bracket[0] + t + r.bracket[1];
-      return ink ? t.split(/\s+/).map(function (w) { return MARK + w; }).join(' ') : t;
+      return r.spoken && style === 2 ? '"' + t + '"' : t;
     }).filter(Boolean).join(' ');
+  }
+  function inked(t) { return t.trim().split(/\s+/).map(function (w) { return MARK + w; }).join(' '); }
+  // The dialogue box under the owner's rule: nobody's speech is quoted; the player's actions take the
+  // second ink, without brackets; the NPC's stage directions read as plain descriptions in the dark
+  // ink; a thought keeps the game's own presentation (owned elsewhere, see the lab README).
+  // Choices whose whole line is an action carry no brackets in the content, so the study names them.
+  var ACTION_CHOICES = ['unlock', 'unlock-after', 'to-door', 'enter-corridor'];
+  var NPC_DESCRIPTIONS = { 'STAMP.': 'SHE STAMPS SOMETHING.' }; // every other direction is a description already
+  function actionSays() {
+    var out = {};
+    var nodes = (G.content && G.content.nodes) || {};
+    Object.keys(nodes).forEach(function (n) {
+      (nodes[n].choices || []).forEach(function (c) { if (ACTION_CHOICES.indexOf(c.id) !== -1) out[c.text] = c.id; });
+    });
+    return out;
+  }
+  function choiceText(id) {
+    var nodes = (G.content && G.content.nodes) || {};
+    var hit = null;
+    Object.keys(nodes).forEach(function (n) { (nodes[n].choices || []).forEach(function (c) { if (c.id === id) hit = c.text; }); });
+    return hit;
+  }
+  function markLine(o) {
+    if (o.who === 'thought') return o.text;
+    var runs = dialogueRuns(o.text, o.who);
+    if (o.who === 'npc') {
+      return runs.map(function (r) { var t = r.t.trim(); return r.spoken ? t : (NPC_DESCRIPTIONS[t] || t); }).filter(Boolean).join(' ');
+    }
+    if (actionSays()[o.text]) return inked(o.text);
+    return runs.map(function (r) { var t = r.t.trim(); return !t ? '' : r.spoken ? t : inked(t); }).filter(Boolean).join(' ');
   }
   function plain(t) { return t.split(MARK).join(''); }
 
@@ -141,7 +168,7 @@
     });
   }
   // The production dialogue box draws through G.text.draw: a line with a second-ink word is painted
-  // here instead (only ever in state NB-8); every other call is the production routine, untouched.
+  // here instead (only ever in states NB-8 and NB-9); every other call is the production routine, untouched.
   var prodDraw = T.draw;
   T.draw = function (canvas, lines, ink, lineHeight, width, height, maxChars, role) {
     var marked = lines.some(function (l) { return (typeof l === 'string' ? l : l.text).indexOf(MARK) !== -1; });
@@ -816,7 +843,7 @@
   };
   S.skip = function () { if (active && active.typing && !active.fade) active.skip = true; };
 
-  // Live values (LAB frame only): re-wrap where the preview stands; NB-8 re-marks the dialogue.
+  // Live values (LAB frame only): re-wrap where the preview stands; NB-8 / NB-9 re-mark the dialogue.
   S.applyValues = function (map) {
     if (frameMode !== 'lab') return 'invalid';
     var check = NS.validate(map);
@@ -860,11 +887,11 @@
     return 'live';
   };
 
-  // Talking vs action in the reception dialogue (state NB-8) ------------------------------------
+  // Talking vs action in the reception dialogue (states NB-8, NB-9) -----------------------------
   // The real conversation, through the production flow; each line of the history is re-marked with
   // the current style (style 1 is the production text itself). New lines are marked as they arrive.
-  var talk = null; // { origs: [{ text, who }] } while NB-8 is on show
-  function markOne(o) { return V('marking.style') === 1 ? o.text : markRuns(dialogueRuns(o.text, o.who), V('marking.style')); }
+  var talk = null; // { origs: [{ text, who }] } while NB-8 or NB-9 is on show
+  function markOne(o) { return V('marking.style') === 1 ? o.text : markLine(o); }
   function markDialogue() {
     if (!talk) return;
     var parts = G.ui.speech.parts;
@@ -873,7 +900,8 @@
     if (lastToggles) LAB.setToggles(lastToggles);
     // Open where the history mixes the most: from the latest line with a stage direction.
     var last = -1;
-    talk.origs.forEach(function (o, i) { if (o.who !== 'thought' && o.text.indexOf('[') !== -1) last = i; });
+    talk.origs.forEach(function (o, i) { if (o.who !== 'thought' && (o.text.indexOf('[') !== -1 || actionSays()[o.text])) last = i; });
+    if (talk.from !== undefined) last = talk.from(talk.origs);
     var row = G.ui.speech.lines.findIndex(function (l) { return l.part === last; });
     G.setSpeechScroll(row < 0 ? G.speechMaxScroll() : Math.min(row, G.speechMaxScroll()));
     document.body.dataset.talkMarked = String(V('marking.style'));
@@ -894,7 +922,10 @@
     return prodClear.apply(this, arguments);
   };
   S.talkInfo = function () {
-    return { on: !!talk, style: V('marking.style'), parts: G.ui.speech.parts.map(function (p) { return { who: p.who, text: plain(p.text), marked: p.text.indexOf(MARK) !== -1 }; }),
+    return { on: !!talk, style: V('marking.style'), actionChoices: ACTION_CHOICES.filter(function (id) { return choiceText(id) !== null; }),
+      parts: G.ui.speech.parts.map(function (p) {
+        return { who: p.who, text: plain(p.text), marked: p.text.indexOf(MARK) !== -1, inked: p.text.split(' ').filter(function (w) { return w[0] === MARK; }).map(plain).join(' ') };
+      }),
       origs: talk ? talk.origs.map(function (o) { return o.text; }) : [] };
   };
 
@@ -958,6 +989,15 @@
       await h.path(['ask-politely', 'correct', 'rule', 'sigh']);
       await h.settle();
       G.flow.utility('context'); // OBSERVE: the player's thought
+      markDialogue();
+    } },
+    'ns-talk-door': { label: "NB-9. Talking vs action at the door: the player's action choices (GO TO, UNLOCK) and her drawer", run: async function (h) {
+      talk = { origs: G.ui.speech.parts.map(function (part) { return { text: part.text, who: part.who }; }) };
+      // Open on her drawer line, so the two actions and her replies follow it on screen.
+      talk.from = function (origs) { var i = -1; origs.forEach(function (o, k) { if (o.who === 'npc' && o.text.indexOf('[SHE OPENS A DRAWER') !== -1) i = k; }); return i; };
+      markDialogue();
+      await h.path(['ask-politely', 'cooperate', 'standard-issue', 'confirm-unread', 'onward-blind', 'protest', 'to-door', 'unlock-after']);
+      await h.settle();
       markDialogue();
     } },
     'ns-dialogue': { label: 'REF. Existing reception dialogue (unchanged, for comparison)', reception: true, run: async function (h) { await h.path(['ask-politely']); } }

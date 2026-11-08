@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-m2-reception-polish-lab-qa-v1",
-  "passed": 268,
-  "total": 268,
+  "passed": 272,
+  "total": 272,
   "failures": [],
   "checks": [
     {
@@ -381,9 +381,9 @@
             51,
             52
           ],
-          "ms": 158
+          "ms": 155
         },
-        "href0": "http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:53735/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -622,17 +622,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "115px",
-          "88px",
-          "64px",
-          "46px",
-          "31px",
-          "21px",
-          "15px",
-          "11px",
-          "9px",
+          "102px",
+          "76px",
+          "52px",
+          "37px",
+          "25px",
+          "17px",
+          "13px",
           "10px",
-          "13px"
+          "9px",
+          "12px",
+          "15px"
         ]
       }
     },
@@ -654,8 +654,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:53735/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:53735/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -679,7 +679,7 @@
       "browser": "chromium",
       "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.5075999999046326,730px"
+      "detail": "500,400,0.5068000001907349,730px"
     },
     {
       "browser": "chromium",
@@ -1425,26 +1425,25 @@
     },
     {
       "browser": "chromium",
-      "name": "talking vs action candidates apply live to the narration: 1 plain, 2 quotes, 3 unspoken words in a second ink (red ribbon), 4 both; the ink choice switches it (faded brown)",
+      "name": "narration: dark ink only under every style and every action ink; the owner's rule quotes both the player's and the man's speech, style 1 (the game today) marks nothing",
       "ok": true,
       "detail": {
-        "1": {
+        "1/1": {
           "inks": "#203037",
           "quotes": false
         },
-        "2": {
+        "2/1": {
           "inks": "#203037",
           "quotes": true
         },
-        "3": {
-          "inks": "#203037,#8e2c1f",
-          "quotes": false
-        },
-        "4": {
-          "inks": "#203037,#8e2c1f",
+        "2/2": {
+          "inks": "#203037",
           "quotes": true
         },
-        "brown": "#203037,#6b5536"
+        "2/3": {
+          "inks": "#203037",
+          "quotes": true
+        }
       }
     },
     {
@@ -1471,33 +1470,65 @@
     },
     {
       "browser": "chromium",
-      "name": "NB-8, quotes (default): every spoken line in quotation marks, directions without brackets, the thought without parentheses; transcript keeps the production text",
+      "name": "NB-8, owner's rule (default): no quotation marks in the dialogue box; only the player's action takes the ink (SIGH.), without brackets; her directions read as plain descriptions (SHE STAMPS SOMETHING.); the thought keeps the game's parentheses; transcript keeps the production text",
       "ok": true,
       "detail": [
-        "\"GOOD MORNING, AND WELCOME TO RECEPTION. PLEASE ST",
-        "\"WHERE IS THE BATHROOM, PLEASE?\"",
-        "\"ONE MOMENT.\" STAMP. \"THE FACILITIES ARE NOT A PUB",
-        "\"THERE HAS BEEN A MISTAKE. I AM NOT AN EXAMINER. I",
-        "\"OF COURSE. YOU WISH TO DISPUTE YOUR APPOINTMENT. ",
-        "\"THEN, AS EXAMINER, I RULE THAT I AM NOT THE EXAMI",
-        "\"A RULING MUST BE MADE FROM ROOM FOUR, ON THE PROP",
-        "SIGH. \"AND THE BATHROOM?\"",
-        "\"THE FACILITIES ARE BEHIND THE EXAMINERS DOOR, OVE",
-        "I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUS"
+        [
+          "GOOD MORNING, AND WELCOME TO RECEPTION. PLEASE STA",
+          ""
+        ],
+        [
+          "WHERE IS THE BATHROOM, PLEASE?",
+          ""
+        ],
+        [
+          "ONE MOMENT. SHE STAMPS SOMETHING. THE FACILITIES A",
+          ""
+        ],
+        [
+          "THERE HAS BEEN A MISTAKE. I AM NOT AN EXAMINER. I ",
+          ""
+        ],
+        [
+          "OF COURSE. YOU WISH TO DISPUTE YOUR APPOINTMENT. D",
+          ""
+        ],
+        [
+          "THEN, AS EXAMINER, I RULE THAT I AM NOT THE EXAMIN",
+          ""
+        ],
+        [
+          "A RULING MUST BE MADE FROM ROOM FOUR, ON THE PROPE",
+          ""
+        ],
+        [
+          "SIGH. AND THE BATHROOM?",
+          "SIGH."
+        ],
+        [
+          "THE FACILITIES ARE BEHIND THE EXAMINERS DOOR, OVER",
+          ""
+        ],
+        [
+          "(I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNU",
+          ""
+        ]
       ]
     },
     {
       "browser": "chromium",
-      "name": "NB-8 opens where the history mixes most (at the player's [SIGH.] line), scrollable like any dialogue",
+      "name": "NB-8 opens where the history mixes most (at the player's SIGH. line), scrollable like any dialogue; the box shows the dark ink and the red ribbon",
       "ok": true,
       "detail": {
-        "scroll": 23,
-        "max": 25
+        "scroll": 24,
+        "max": 26,
+        "topPart": 7,
+        "sighAt": 7
       }
     },
     {
       "browser": "chromium",
-      "name": "NB-8, style 1 is the production text exactly (brackets, parentheses), re-marked live in the LAB frame only (no reload)",
+      "name": "NB-8, the action ink switches live (faded brown); style 1 is the production text exactly (brackets, parentheses, one ink), re-marked live in the LAB frame only (no reload)",
       "ok": true,
       "detail": [
         "GOOD MORNING, AND WELCOME TO RECEPTION. ",
@@ -1514,32 +1545,132 @@
     },
     {
       "browser": "chromium",
-      "name": "NB-8, second ink: directions and the thought in red ribbon, speech in the production dark ink, no brackets or quotes",
-      "ok": true,
-      "detail": {
-        "marked": [
-          "npc",
-          "npc",
-          "player",
-          "thought"
-        ],
-        "unspoken": [
-          2,
-          4,
-          7,
-          9
-        ],
-        "speechInks": "#203037,#8e2c1f"
-      }
-    },
-    {
-      "browser": "chromium",
       "name": "NB-8 refuses the reception triggers that would re-add a line (NPC typing, context action)",
       "ok": true,
       "detail": [
         "not in a Narrative Study state: its dialogue is re-marked for the talking vs action study",
         "not in a Narrative Study state: its dialogue is re-marked for the talking vs action study"
       ]
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-9 reaches the door through the production flow; every action choice the study names exists in the content (unlock, unlock-after, to-door, enter-corridor)",
+      "ok": true,
+      "detail": {
+        "node": "door",
+        "goAt": 13,
+        "unlockAt": 15,
+        "drawerAt": 12,
+        "actionChoices": [
+          "unlock",
+          "unlock-after",
+          "to-door",
+          "enter-corridor"
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-9: the player's action choices land in the dialogue wholly in the ink (GO TO..., UNLOCK...); the player's spoken lines and every NPC line stay dark; her drawer is a plain description",
+      "ok": true,
+      "detail": [
+        [
+          "npc",
+          "GOOD MORNING, AND WELCOME TO RECEPTION. ",
+          ""
+        ],
+        [
+          "player",
+          "WHERE IS THE BATHROOM, PLEASE?",
+          ""
+        ],
+        [
+          "npc",
+          "ONE MOMENT. SHE STAMPS SOMETHING. THE FA",
+          ""
+        ],
+        [
+          "player",
+          "ALL RIGHT. WHAT EXACTLY DOES AN EXAMINER",
+          ""
+        ],
+        [
+          "npc",
+          "EXAMINERS EXAMINE WHATEVER HAS BEEN MARK",
+          ""
+        ],
+        [
+          "player",
+          "STANDARD ISSUE?",
+          ""
+        ],
+        [
+          "npc",
+          "ONE FACILITIES KEY, EXAMINERS PATTERN. I",
+          ""
+        ],
+        [
+          "player",
+          "I AM SURE THE DETAILS ARE IN ORDER.",
+          ""
+        ],
+        [
+          "npc",
+          "THANK YOU. NOBODY EVER READS THE TAG. TH",
+          ""
+        ],
+        [
+          "player",
+          "SO WHERE DOES THE KEY GO?",
+          ""
+        ],
+        [
+          "npc",
+          "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR",
+          ""
+        ],
+        [
+          "player",
+          "ONE LAST TIME: I AM NOT AN EXAMINER.",
+          ""
+        ],
+        [
+          "npc",
+          "NOTED. I WILL PUT IT WITH THE OTHERS. SH",
+          ""
+        ],
+        [
+          "player",
+          "GO TO THE EXAMINERS DOOR.",
+          "GO TO THE EXAMINERS DOOR."
+        ],
+        [
+          "npc",
+          "THE KEY, EXAMINER. THE DOOR WILL NOT OPE",
+          ""
+        ],
+        [
+          "player",
+          "UNLOCK THE EXAMINERS DOOR WITH THE KEY.",
+          "UNLOCK THE EXAMINERS DOOR WITH THE KEY."
+        ],
+        [
+          "npc",
+          "THERE. IT KNOWS YOU. THE FACILITIES ARE ",
+          ""
+        ]
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-9 opens on her drawer line, with both actions and her replies below it",
+      "ok": true,
+      "detail": {
+        "scroll": 29,
+        "max": 35,
+        "topPart": 12,
+        "drawerAt": 12
+      }
     },
     {
       "browser": "chromium",
@@ -1603,7 +1734,7 @@
       "browser": "chromium",
       "name": "a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value",
       "ok": true,
-      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:53735/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
     },
     {
       "browser": "chromium",
@@ -1614,7 +1745,7 @@
       "browser": "chromium",
       "name": "the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)",
       "ok": true,
-      "detail": "0.666125,,0"
+      "detail": "0.645125,,0"
     },
     {
       "browser": "chromium",
@@ -1675,7 +1806,7 @@
         "range": "text.lineHeight: 400 is outside 16..44",
         "offParchment": "text.x + text.width (2000) must stay inside the parchment (<= 1908)",
         "fraction": "text.y: must be a whole number (got 80.5)",
-        "style": "marking.style: 5 is outside 1..4"
+        "style": "marking.style: 3 is outside 1..2"
       }
     },
     {
@@ -2049,7 +2180,7 @@
           ],
           "ms": 157
         },
-        "href0": "http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:53735/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -2288,16 +2419,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "119px",
-          "89px",
-          "62px",
-          "44px",
-          "34px",
-          "20px",
-          "11px",
-          "9px",
+          "128px",
+          "95px",
+          "70px",
+          "45px",
+          "33px",
+          "23px",
+          "15px",
           "12px",
-          "15px"
+          "10px",
+          "9px",
+          "11px"
         ]
       }
     },
@@ -2319,8 +2451,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:53735/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:53735/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -2344,7 +2476,7 @@
       "browser": "firefox",
       "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.548,730px"
+      "detail": "500,400,0.524,730px"
     },
     {
       "browser": "firefox",
@@ -3090,26 +3222,25 @@
     },
     {
       "browser": "firefox",
-      "name": "talking vs action candidates apply live to the narration: 1 plain, 2 quotes, 3 unspoken words in a second ink (red ribbon), 4 both; the ink choice switches it (faded brown)",
+      "name": "narration: dark ink only under every style and every action ink; the owner's rule quotes both the player's and the man's speech, style 1 (the game today) marks nothing",
       "ok": true,
       "detail": {
-        "1": {
+        "1/1": {
           "inks": "#203037",
           "quotes": false
         },
-        "2": {
+        "2/1": {
           "inks": "#203037",
           "quotes": true
         },
-        "3": {
-          "inks": "#203037,#8e2c1f",
-          "quotes": false
-        },
-        "4": {
-          "inks": "#203037,#8e2c1f",
+        "2/2": {
+          "inks": "#203037",
           "quotes": true
         },
-        "brown": "#203037,#6b5536"
+        "2/3": {
+          "inks": "#203037",
+          "quotes": true
+        }
       }
     },
     {
@@ -3136,33 +3267,65 @@
     },
     {
       "browser": "firefox",
-      "name": "NB-8, quotes (default): every spoken line in quotation marks, directions without brackets, the thought without parentheses; transcript keeps the production text",
+      "name": "NB-8, owner's rule (default): no quotation marks in the dialogue box; only the player's action takes the ink (SIGH.), without brackets; her directions read as plain descriptions (SHE STAMPS SOMETHING.); the thought keeps the game's parentheses; transcript keeps the production text",
       "ok": true,
       "detail": [
-        "\"GOOD MORNING, AND WELCOME TO RECEPTION. PLEASE ST",
-        "\"WHERE IS THE BATHROOM, PLEASE?\"",
-        "\"ONE MOMENT.\" STAMP. \"THE FACILITIES ARE NOT A PUB",
-        "\"THERE HAS BEEN A MISTAKE. I AM NOT AN EXAMINER. I",
-        "\"OF COURSE. YOU WISH TO DISPUTE YOUR APPOINTMENT. ",
-        "\"THEN, AS EXAMINER, I RULE THAT I AM NOT THE EXAMI",
-        "\"A RULING MUST BE MADE FROM ROOM FOUR, ON THE PROP",
-        "SIGH. \"AND THE BATHROOM?\"",
-        "\"THE FACILITIES ARE BEHIND THE EXAMINERS DOOR, OVE",
-        "I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUS"
+        [
+          "GOOD MORNING, AND WELCOME TO RECEPTION. PLEASE STA",
+          ""
+        ],
+        [
+          "WHERE IS THE BATHROOM, PLEASE?",
+          ""
+        ],
+        [
+          "ONE MOMENT. SHE STAMPS SOMETHING. THE FACILITIES A",
+          ""
+        ],
+        [
+          "THERE HAS BEEN A MISTAKE. I AM NOT AN EXAMINER. I ",
+          ""
+        ],
+        [
+          "OF COURSE. YOU WISH TO DISPUTE YOUR APPOINTMENT. D",
+          ""
+        ],
+        [
+          "THEN, AS EXAMINER, I RULE THAT I AM NOT THE EXAMIN",
+          ""
+        ],
+        [
+          "A RULING MUST BE MADE FROM ROOM FOUR, ON THE PROPE",
+          ""
+        ],
+        [
+          "SIGH. AND THE BATHROOM?",
+          "SIGH."
+        ],
+        [
+          "THE FACILITIES ARE BEHIND THE EXAMINERS DOOR, OVER",
+          ""
+        ],
+        [
+          "(I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNU",
+          ""
+        ]
       ]
     },
     {
       "browser": "firefox",
-      "name": "NB-8 opens where the history mixes most (at the player's [SIGH.] line), scrollable like any dialogue",
+      "name": "NB-8 opens where the history mixes most (at the player's SIGH. line), scrollable like any dialogue; the box shows the dark ink and the red ribbon",
       "ok": true,
       "detail": {
-        "scroll": 23,
-        "max": 25
+        "scroll": 24,
+        "max": 26,
+        "topPart": 7,
+        "sighAt": 7
       }
     },
     {
       "browser": "firefox",
-      "name": "NB-8, style 1 is the production text exactly (brackets, parentheses), re-marked live in the LAB frame only (no reload)",
+      "name": "NB-8, the action ink switches live (faded brown); style 1 is the production text exactly (brackets, parentheses, one ink), re-marked live in the LAB frame only (no reload)",
       "ok": true,
       "detail": [
         "GOOD MORNING, AND WELCOME TO RECEPTION. ",
@@ -3179,32 +3342,132 @@
     },
     {
       "browser": "firefox",
-      "name": "NB-8, second ink: directions and the thought in red ribbon, speech in the production dark ink, no brackets or quotes",
-      "ok": true,
-      "detail": {
-        "marked": [
-          "npc",
-          "npc",
-          "player",
-          "thought"
-        ],
-        "unspoken": [
-          2,
-          4,
-          7,
-          9
-        ],
-        "speechInks": "#203037,#8e2c1f"
-      }
-    },
-    {
-      "browser": "firefox",
       "name": "NB-8 refuses the reception triggers that would re-add a line (NPC typing, context action)",
       "ok": true,
       "detail": [
         "not in a Narrative Study state: its dialogue is re-marked for the talking vs action study",
         "not in a Narrative Study state: its dialogue is re-marked for the talking vs action study"
       ]
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-9 reaches the door through the production flow; every action choice the study names exists in the content (unlock, unlock-after, to-door, enter-corridor)",
+      "ok": true,
+      "detail": {
+        "node": "door",
+        "goAt": 13,
+        "unlockAt": 15,
+        "drawerAt": 12,
+        "actionChoices": [
+          "unlock",
+          "unlock-after",
+          "to-door",
+          "enter-corridor"
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-9: the player's action choices land in the dialogue wholly in the ink (GO TO..., UNLOCK...); the player's spoken lines and every NPC line stay dark; her drawer is a plain description",
+      "ok": true,
+      "detail": [
+        [
+          "npc",
+          "GOOD MORNING, AND WELCOME TO RECEPTION. ",
+          ""
+        ],
+        [
+          "player",
+          "WHERE IS THE BATHROOM, PLEASE?",
+          ""
+        ],
+        [
+          "npc",
+          "ONE MOMENT. SHE STAMPS SOMETHING. THE FA",
+          ""
+        ],
+        [
+          "player",
+          "ALL RIGHT. WHAT EXACTLY DOES AN EXAMINER",
+          ""
+        ],
+        [
+          "npc",
+          "EXAMINERS EXAMINE WHATEVER HAS BEEN MARK",
+          ""
+        ],
+        [
+          "player",
+          "STANDARD ISSUE?",
+          ""
+        ],
+        [
+          "npc",
+          "ONE FACILITIES KEY, EXAMINERS PATTERN. I",
+          ""
+        ],
+        [
+          "player",
+          "I AM SURE THE DETAILS ARE IN ORDER.",
+          ""
+        ],
+        [
+          "npc",
+          "THANK YOU. NOBODY EVER READS THE TAG. TH",
+          ""
+        ],
+        [
+          "player",
+          "SO WHERE DOES THE KEY GO?",
+          ""
+        ],
+        [
+          "npc",
+          "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR",
+          ""
+        ],
+        [
+          "player",
+          "ONE LAST TIME: I AM NOT AN EXAMINER.",
+          ""
+        ],
+        [
+          "npc",
+          "NOTED. I WILL PUT IT WITH THE OTHERS. SH",
+          ""
+        ],
+        [
+          "player",
+          "GO TO THE EXAMINERS DOOR.",
+          "GO TO THE EXAMINERS DOOR."
+        ],
+        [
+          "npc",
+          "THE KEY, EXAMINER. THE DOOR WILL NOT OPE",
+          ""
+        ],
+        [
+          "player",
+          "UNLOCK THE EXAMINERS DOOR WITH THE KEY.",
+          "UNLOCK THE EXAMINERS DOOR WITH THE KEY."
+        ],
+        [
+          "npc",
+          "THERE. IT KNOWS YOU. THE FACILITIES ARE ",
+          ""
+        ]
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-9 opens on her drawer line, with both actions and her replies below it",
+      "ok": true,
+      "detail": {
+        "scroll": 29,
+        "max": 35,
+        "topPart": 12,
+        "drawerAt": 12
+      }
     },
     {
       "browser": "firefox",
@@ -3268,7 +3531,7 @@
       "browser": "firefox",
       "name": "a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value",
       "ok": true,
-      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:53735/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
     },
     {
       "browser": "firefox",
@@ -3279,7 +3542,7 @@
       "browser": "firefox",
       "name": "the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)",
       "ok": true,
-      "detail": "0.6525,,0"
+      "detail": "0.64625,,0"
     },
     {
       "browser": "firefox",
@@ -3340,7 +3603,7 @@
         "range": "text.lineHeight: 400 is outside 16..44",
         "offParchment": "text.x + text.width (2000) must stay inside the parchment (<= 1908)",
         "fraction": "text.y: must be a whole number (got 80.5)",
-        "style": "marking.style: 5 is outside 1..4"
+        "style": "marking.style: 3 is outside 1..2"
       }
     },
     {

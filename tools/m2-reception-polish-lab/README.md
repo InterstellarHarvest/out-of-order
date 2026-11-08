@@ -59,12 +59,13 @@ A lab-only preview of **Narrative B** and **Focus A** (docs/64–68 on `docs/sto
 | NB-5 | B → A → B, played by hand: click **EXAMINE THE KEYPAD**, then **PRESS THE KEYS AT RANDOM** or **STOP EXAMINING** |
 | NB-6 | B: back from A, the narration continues below the earlier passage |
 | NB-7 | B: action and spoken cards side by side (take the spoken one: what you said is told as speech) |
-| NB-8 | Talking vs action on the real reception dialogue: the production conversation (stage directions, the player's [SIGH.], an OBSERVE thought) re-marked with the current candidate |
+| NB-8 | Talking vs action on the real reception dialogue: the production conversation (stage directions, the player's [SIGH.], an OBSERVE thought) re-marked with the current style |
+| NB-9 | Talking vs action at the door: the real conversation through the protest to the unlocked door; the player's action choices (GO TO THE EXAMINERS DOOR., UNLOCK THE EXAMINERS DOOR WITH THE KEY.) and her drawer description |
 | REF | the existing reception dialogue, unchanged, through the production flow |
 
 **What it does:**
 - **B** keeps the scene. The Candidate 1 overlay (or Candidate 2) covers the portrait and speech regions, and the narration starts at the top of the panel. It works like the dialogue box (owner, 2026-11-08): new text types on below what is there (at the dialogue's 40 chars / s), and the box follows it; once it stops, the dialogue's own scroll thumb shows when there is more than fits, and the wheel scrolls back. A choice's result continues the narration. A long passage waits for **CONTINUE** between groups of whole paragraphs that fit the panel together; a paragraph longer than the panel simply types on and scrolls. The earlier study (separate pages that replace each other; a result that replaces the narration) stays selectable for comparison.
-- The narration is in the second person, present tense ("YOU STEP BACK."). Spoken words are told apart from actions by the **Talking vs action** candidate (below).
+- The narration is in the second person, present tense ("YOU STEP BACK."). Spoken words are in quotation marks and the narration stays in one dark ink (the **Talking vs action** rule, below).
 - **A** brings back the normal shell. A labelled **LAB PLACEHOLDER** keypad is drawn at runtime in the portrait aperture; it is not an art file and not an asset order. The description sits in the speech panel's text area, with the object's own choices below it. Leaving A returns to B with a new passage.
 - Cards, scrollbar, inventory, Current Objective and footer use the production code and stay in place. An **action** leaves with the production slide-away. A **spoken** line uses the production send, but its result is narrated. Neither is written into the transcript or the dialogue history.
 - A card you click in one frame is also taken in the other, so a PRODUCTION / LAB flip compares the same moment. While a preview is on show, those buttons read **STUDY DEFAULTS** and **LAB + STUDY VALUES**, and the header carries an **EXPERIMENTAL PREVIEW** badge. The utility buttons, the inventory inspector and the reception-only triggers (NPC typing, context action) do nothing in a preview.
@@ -80,7 +81,7 @@ A lab-only preview of **Narrative B** and **Focus A** (docs/64–68 on `docs/sto
 | Focus A description | X, Y, wrap width, line spacing (inside the speech panel) |
 | Typing + transitions | typing speed (40 = the dialogue's; 0 = all at once), pause before choices, B ↔ A cross-fade (0 = cut) |
 | Choices + results | a result adds to the narration (default) or replaces it (earlier study); an action leaves with slide-away or a spoken-style send (for comparison); spoken cards plain or in quotation marks (candidate only) |
-| Talking vs action | 1 brackets / parentheses (the game today), 2 speech in quotation marks with actions plain (default), 3 actions in a second ink, 4 both; second ink: red ribbon / faded brown / slate. Applies to the narration, Focus A and NB-8 |
+| Talking vs action | 2 the owner's rule (default, 2026-11-08), 1 brackets / parentheses (the game today). Owner's rule, narration: one dark ink, anyone's speech in quotation marks, actions plain. Dialogue box: nobody is quoted; the player's actions (a [bracketed] part, or a whole action choice: unlock, unlock-after, to-door, enter-corridor) take the action ink, without brackets; her stage directions read as plain descriptions in the dark ink ([STAMP.] becomes SHE STAMPS SOMETHING.); a thought keeps the game's parentheses. Action ink (dialogue box only): red ribbon / faded brown / slate. The earlier candidates 3 and 4 are retired; a saved one falls back to the default |
 
 Changes apply live to the LAB frame. The other frame keeps the study defaults.
 

@@ -475,7 +475,7 @@ async function suite(name, base) {
 // narration types on and scrolls like the dialogue box (same thumb), a choice's result continues it,
 // second person, and talking vs action candidates on the narration and the reception dialogue.
 async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeBoth, bodies, name, prod }) {
-  const NS_STATES = ['ns-b-short', 'ns-b-long', 'ns-b-continue', 'ns-b-final', 'ns-a-keypad', 'ns-bab', 'ns-b-return', 'ns-spoken', 'ns-talk-dialogue', 'ns-dialogue'];
+  const NS_STATES = ['ns-b-short', 'ns-b-long', 'ns-b-continue', 'ns-b-final', 'ns-a-keypad', 'ns-bab', 'ns-b-return', 'ns-spoken', 'ns-talk-dialogue', 'ns-talk-door', 'ns-dialogue'];
   const info = (mode) => lab((m) => document.getElementById(m === 'production' ? 'frameProduction' : 'frameLab').contentWindow.NARRATIVE_STAGE.info(), mode || 'lab');
   const setState = async (s) => { await lab((x) => window.POLISH_LAB.setState(x), s); await page.waitForTimeout(250); };
   const shoot = async () => page.screenshot({ clip: await wrap() });
@@ -797,25 +797,17 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
   await freezeBoth(true);
   save(await shoot(), 'narrative_spoken_result.png');
   await freezeBoth(false);
-  // The marking candidates, on the narration canvas: inks by pixel.
+  // The narration's marking, by pixel: one dark ink whatever the style or the action ink (owner,
+  // 2026-11-08: the narration never takes the dialogue's red).
   const inks = () => labG((w) => { const c = w.document.getElementById('labNarrationText'); const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; const s = new Set(); for (let i = 0; i < d.length; i += 4) if (d[i + 3]) s.add('#' + [d[i], d[i + 1], d[i + 2]].map((v) => v.toString(16).padStart(2, '0')).join('')); return [...s].sort().join(); });
   const mk = {};
-  for (const st of [1, 2, 3, 4]) {
-    await lab((x) => window.NARRATIVE_LAB.setValue('marking.style', x), st);
+  for (const [st, ink] of [[1, 1], [2, 1], [2, 2], [2, 3]]) {
+    await lab((x) => { window.NARRATIVE_LAB.setValue('marking.style', x[0]); window.NARRATIVE_LAB.setValue('marking.ink', x[1]); }, [st, ink]);
     await page.waitForTimeout(150);
-    mk[st] = { inks: await inks(), quotes: /"HELLO\?/.test((await info()).all) };
+    mk[st + '/' + ink] = { inks: await inks(), quotes: /"HELLO\?/.test((await info()).all) && /"NOT FOR VISITORS/.test((await info()).all.replace(/\n/g, ' ')) };
   }
-  await lab(() => window.NARRATIVE_LAB.setValue('marking.ink', 2));
-  await page.waitForTimeout(150);
-  mk.brown = await inks();
-  c('talking vs action candidates apply live to the narration: 1 plain, 2 quotes, 3 unspoken words in a second ink (red ribbon), 4 both; the ink choice switches it (faded brown)',
-    mk[1].inks === '#203037' && !mk[1].quotes && mk[2].inks === '#203037' && mk[2].quotes && mk[3].inks === '#203037,#8e2c1f' && !mk[3].quotes && mk[4].inks === '#203037,#8e2c1f' && mk[4].quotes
-    && mk.brown === '#203037,#6b5536', mk);
-  await lab(() => { window.NARRATIVE_LAB.setValue('marking.ink', 1); window.NARRATIVE_LAB.setValue('marking.style', 3); });
-  await page.waitForTimeout(150);
-  await freezeBoth(true);
-  save(await shoot(), 'narrative_spoken_result_ink.png');
-  await freezeBoth(false);
+  c('narration: dark ink only under every style and every action ink; the owner\'s rule quotes both the player\'s and the man\'s speech, style 1 (the game today) marks nothing',
+    Object.values(mk).every((m) => m.inks === '#203037') && !mk['1/1'].quotes && mk['2/1'].quotes && mk['2/2'].quotes && mk['2/3'].quotes, mk);
   await lab(() => window.NARRATIVE_LAB.reset());
   await lab(() => window.NARRATIVE_LAB.setValue('choices.spokenQuotes', 2));
   await setState('ns-spoken');
@@ -823,43 +815,60 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
     && (await lab(() => document.getElementById('frameProduction').contentWindow.CYOA_GAME.ui.cards[1].text)) === 'HELLO? IS ANYONE BACK THERE?');
   await lab(() => window.NARRATIVE_LAB.reset());
 
-  // NB-8: the same candidates on the real reception dialogue ----------------------------------------
+  // NB-8 / NB-9: the owner's rule on the real reception dialogue -------------------------------------
   await setState('ns-talk-dialogue');
   const talk = (mode) => lab((m) => { const w = document.getElementById(m === 'production' ? 'frameProduction' : 'frameLab').contentWindow; const G = w.CYOA_GAME;
-    return { t: w.NARRATIVE_STAGE.talkInfo(), node: G.state.node, transcript: G.state.transcript.map((x) => x.text), phase: G.flow.phase, scroll: G.ui.speech.scrollLine, max: G.speechMaxScroll() }; }, mode || 'lab');
+    return { t: w.NARRATIVE_STAGE.talkInfo(), node: G.state.node, transcript: G.state.transcript.map((x) => x.text), phase: G.flow.phase, scroll: G.ui.speech.scrollLine, max: G.speechMaxScroll(),
+      topPart: (G.ui.speech.lines[G.ui.speech.scrollLine] || {}).part }; }, mode || 'lab');
+  const speechInks = () => labG((w) => { const c = w.document.querySelector('#speechText canvas'); const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; const s = new Set(); for (let i = 0; i < d.length; i += 4) if (d[i + 3]) s.add('#' + [d[i], d[i + 1], d[i + 2]].map((v) => v.toString(16).padStart(2, '0')).join('')); return [...s].sort().join(); });
   const t2 = await talk();
   const byWho = (t, who) => t.t.parts.filter((p) => p.who === who).map((p) => p.text);
   c('NB-8 is the real conversation through the production flow (directions, the player\'s [SIGH.] and an OBSERVE thought), story state untouched',
     t2.node === 'facilities' && t2.phase === 'choosing' && t2.t.on && t2.t.parts.length === 10 && t2.transcript.some((x) => /\[SIGH\.\]/.test(x)) && t2.transcript.some((x) => /\[STAMP\.\]/.test(x)), t2.t.parts.map((p) => p.who));
-  c('NB-8, quotes (default): every spoken line in quotation marks, directions without brackets, the thought without parentheses; transcript keeps the production text',
-    byWho(t2, 'player').includes('SIGH. "AND THE BATHROOM?"') && byWho(t2, 'npc').some((x) => /^"ONE MOMENT\." STAMP\. "THE FACILITIES/.test(x)) && byWho(t2, 'thought').every((x) => !/^\(|\)$/.test(x) && !/"/.test(x))
-    && t2.t.parts.every((p) => !/[[\]]/.test(p.text)) && t2.transcript.every((x) => !/^"/.test(x)), t2.t.parts.map((p) => p.text.slice(0, 50)));
-  c('NB-8 opens where the history mixes most (at the player\'s [SIGH.] line), scrollable like any dialogue', t2.scroll > 0 && t2.scroll <= t2.max, { scroll: t2.scroll, max: t2.max });
+  const marked8 = t2.t.parts.map((p, k) => (p.marked ? k : -1)).filter((k) => k >= 0);
+  const sighAt = t2.t.origs.indexOf('[SIGH.] AND THE BATHROOM?');
+  c('NB-8, owner\'s rule (default): no quotation marks in the dialogue box; only the player\'s action takes the ink (SIGH.), without brackets; her directions read as plain descriptions (SHE STAMPS SOMETHING.); the thought keeps the game\'s parentheses; transcript keeps the production text',
+    JSON.stringify(marked8) === JSON.stringify([sighAt]) && t2.t.parts[sighAt].inked === 'SIGH.' && byWho(t2, 'player').includes('SIGH. AND THE BATHROOM?')
+    && byWho(t2, 'npc').some((x) => /^ONE MOMENT\. SHE STAMPS SOMETHING\. THE FACILITIES/.test(x)) && byWho(t2, 'npc').some((x) => /CONDITIONS\. SHE WAITS FOR YOU TO WORK OUT WHO THAT IS\.$/.test(x))
+    && byWho(t2, 'thought').length === 1 && byWho(t2, 'thought').every((x) => /^\(.*\)$/.test(x))
+    && t2.t.parts.every((p) => !/"/.test(p.text) && (p.who === 'thought' || !/[[\]()]/.test(p.text))) && t2.transcript.every((x) => !/^"/.test(x)), t2.t.parts.map((p) => [p.text.slice(0, 50), p.inked]));
+  c('NB-8 opens where the history mixes most (at the player\'s SIGH. line), scrollable like any dialogue; the box shows the dark ink and the red ribbon',
+    t2.scroll > 0 && t2.scroll <= t2.max && t2.topPart === sighAt && (await speechInks()) === '#203037,#8e2c1f', { scroll: t2.scroll, max: t2.max, topPart: t2.topPart, sighAt });
   await freezeBoth(true);
-  save(await shoot(), 'narrative_talk_dialogue_quotes.png');
+  save(await shoot(), 'narrative_talk_dialogue_owner_rule.png');
   await freezeBoth(false);
   const href8 = await labWin((w) => w.location.href);
+  await lab(() => window.NARRATIVE_LAB.setValue('marking.ink', 2));
+  await page.waitForTimeout(200);
+  const brown8 = await speechInks();
   await lab(() => window.NARRATIVE_LAB.setValue('marking.style', 1));
   await page.waitForTimeout(200);
   const t1 = await talk();
   const prodParts = t1.t.origs;
-  c('NB-8, style 1 is the production text exactly (brackets, parentheses), re-marked live in the LAB frame only (no reload)',
-    JSON.stringify(t1.t.parts.map((p) => p.text)) === JSON.stringify(prodParts) && prodParts.some((x) => x === '[SIGH.] AND THE BATHROOM?') && prodParts.some((x) => /^\(.*\)$/.test(x))
-    && (await labWin((w) => w.location.href)) === href8 && byWho(await talk('production'), 'player').includes('SIGH. "AND THE BATHROOM?"'), t1.t.parts.map((p) => p.text.slice(0, 40)));
-  await lab(() => window.NARRATIVE_LAB.setValue('marking.style', 3));
-  await page.waitForTimeout(200);
-  const t3 = await talk();
-  const speechInks = await labG((w) => { const c = w.document.querySelector('#speechText canvas'); const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; const s = new Set(); for (let i = 0; i < d.length; i += 4) if (d[i + 3]) s.add('#' + [d[i], d[i + 1], d[i + 2]].map((v) => v.toString(16).padStart(2, '0')).join('')); return [...s].sort().join(); });
-  // Exactly the lines with something unspoken in them (a [direction], or a thought) take the second ink.
-  const unspoken = t3.t.origs.map((o, k) => /\[|^\(/.test(o) ? k : -1).filter((k) => k >= 0);
-  c('NB-8, second ink: directions and the thought in red ribbon, speech in the production dark ink, no brackets or quotes',
-    JSON.stringify(t3.t.parts.map((p, k) => p.marked ? k : -1).filter((k) => k >= 0)) === JSON.stringify(unspoken) && unspoken.length === 4
-    && t3.t.parts.every((p) => !/[[\]"]/.test(p.text)) && speechInks === '#203037,#8e2c1f', { marked: t3.t.parts.filter((p) => p.marked).map((p) => p.who), unspoken, speechInks });
-  await freezeBoth(true);
-  save(await shoot(), 'narrative_talk_dialogue_ink.png');
-  await freezeBoth(false);
+  c('NB-8, the action ink switches live (faded brown); style 1 is the production text exactly (brackets, parentheses, one ink), re-marked live in the LAB frame only (no reload)',
+    brown8 === '#203037,#6b5536' && JSON.stringify(t1.t.parts.map((p) => p.text)) === JSON.stringify(prodParts) && t1.t.parts.every((p) => !p.marked) && prodParts.some((x) => x === '[SIGH.] AND THE BATHROOM?') && prodParts.some((x) => /^\(.*\)$/.test(x))
+    && (await speechInks()) === '#203037' && (await labWin((w) => w.location.href)) === href8 && byWho(await talk('production'), 'player').includes('SIGH. AND THE BATHROOM?'), t1.t.parts.map((p) => p.text.slice(0, 40)));
   const refused8 = await lab(async () => [await window.POLISH_LAB.trigger('npc-typing'), await window.POLISH_LAB.trigger('context-action')]);
   c('NB-8 refuses the reception triggers that would re-add a line (NPC typing, context action)', refused8.every((r) => /not in a Narrative Study state/.test(r)), refused8);
+  await lab(() => window.NARRATIVE_LAB.reset());
+
+  await setState('ns-talk-door');
+  const t9 = await talk();
+  const goAt = t9.t.origs.indexOf('GO TO THE EXAMINERS DOOR.');
+  const unlockAt = t9.t.origs.indexOf('UNLOCK THE EXAMINERS DOOR WITH THE KEY.');
+  const drawerAt = t9.t.origs.findIndex((x) => /\[SHE OPENS A DRAWER\. IT IS FULL\.\]$/.test(x));
+  const spokenPlayer = t9.t.parts.filter((p, k) => p.who === 'player' && k !== goAt && k !== unlockAt);
+  c('NB-9 reaches the door through the production flow; every action choice the study names exists in the content (unlock, unlock-after, to-door, enter-corridor)',
+    t9.node === 'door' && t9.phase === 'choosing' && goAt > 0 && unlockAt > goAt && drawerAt > 0 && drawerAt < goAt && JSON.stringify(t9.t.actionChoices) === JSON.stringify(['unlock', 'unlock-after', 'to-door', 'enter-corridor']),
+    { node: t9.node, goAt, unlockAt, drawerAt, actionChoices: t9.t.actionChoices });
+  c('NB-9: the player\'s action choices land in the dialogue wholly in the ink (GO TO..., UNLOCK...); the player\'s spoken lines and every NPC line stay dark; her drawer is a plain description',
+    t9.t.parts[goAt].inked === 'GO TO THE EXAMINERS DOOR.' && t9.t.parts[unlockAt].inked === 'UNLOCK THE EXAMINERS DOOR WITH THE KEY.' && spokenPlayer.length >= 5 && spokenPlayer.every((p) => !p.marked)
+    && t9.t.parts.filter((p) => p.who === 'npc').every((p) => !p.marked && !/[[\]"]/.test(p.text)) && /OTHERS\. SHE OPENS A DRAWER\. IT IS FULL\.$/.test(t9.t.parts[drawerAt].text),
+    t9.t.parts.map((p) => [p.who, p.text.slice(0, 40), p.inked]));
+  c('NB-9 opens on her drawer line, with both actions and her replies below it', t9.topPart === drawerAt && t9.scroll <= t9.max && (await speechInks()) === '#203037,#8e2c1f', { scroll: t9.scroll, max: t9.max, topPart: t9.topPart, drawerAt });
+  await freezeBoth(true);
+  save(await shoot(), 'narrative_talk_door_owner_rule.png');
+  await freezeBoth(false);
   await lab(() => window.NARRATIVE_LAB.reset());
 
   // Tuning, live, LAB frame only; candidate 2; timings --------------------------------------------
@@ -937,7 +946,7 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
   nBad.range = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'text.lineHeight': 400 } }));
   nBad.offParchment = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'text.x': 1420, 'text.width': 580 } }));
   nBad.fraction = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'text.y': 80.5 } }));
-  nBad.style = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'marking.style': 5 } }));
+  nBad.style = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'marking.style': 3 } })); // a retired candidate
   const prodImp = await lab((t) => window.POLISH_LAB.importJSON(t), JSON.stringify(nx));
   c('imports stay apart: a production export is refused by the study import and a study export by the production import; bad values refused',
     Object.values(nBad).every((r) => !r.ok) && !prodImp.ok && JSON.stringify(await lab(() => window.NARRATIVE_LAB.changes())) === JSON.stringify(nx.changes),

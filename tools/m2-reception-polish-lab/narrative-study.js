@@ -27,7 +27,8 @@
     { id: 'marking', title: 'Talking vs action (narration and dialogue)' }
   ];
 
-  // Second inks for unspoken text (marking styles 3 and 4); the first ink is the production dark ink.
+  // The second ink for the player's actions in the dialogue box (never in the narration); the first
+  // ink is the production dark ink.
   var INKS = { 1: '#8e2c1f', 2: '#6b5536', 3: '#3f5f6b' };
 
   var FONTS = { 1: 'Dialogue face (Jersey 15 1x)', 2: 'Choices face (locked atlas)', 3: 'Labels face (Press Start 2P 2x)', 4: 'Objective face (Tiny5 3x)' };
@@ -75,9 +76,12 @@
 
     // How spoken words are told apart from actions, thoughts and narration, in Narrative B / Focus A
     // and in the reception dialogue (state NB-8). Candidates for the owner; brackets are today's game.
-    { key: 'marking.style', s: 'marking', label: 'Talking vs action', def: 2, min: 1, max: 4,
-      options: { 1: 'Brackets / parentheses (the game today)', 2: 'Speech in quotation marks, actions plain', 3: 'Actions in a second ink, speech plain', 4: 'Speech in quotes and actions in a second ink' } },
-    { key: 'marking.ink', s: 'marking', label: 'Second ink (styles 3 and 4)', def: 1, min: 1, max: 3,
+    // The owner's rule (2026-11-08): narration is dark throughout, with anyone's speech in quotation
+    // marks; in the dialogue box nobody is quoted, the player's actions take the second ink and the
+    // NPC's stage directions read as plain descriptions ("SHE STAMPS SOMETHING.").
+    { key: 'marking.style', s: 'marking', label: 'Talking vs action', def: 2, min: 1, max: 2,
+      options: { 1: 'Brackets / parentheses (the game today)', 2: "Owner's rule: narration quotes speech; dialogue inks the player's actions" } },
+    { key: 'marking.ink', s: 'marking', label: "Player action ink (dialogue box only)", def: 1, min: 1, max: 3,
       options: { 1: 'Red ribbon', 2: 'Faded brown', 3: 'Slate' } }
   ];
 

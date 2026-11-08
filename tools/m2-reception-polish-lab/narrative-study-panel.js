@@ -22,6 +22,9 @@
   function load() {
     try {
       var s = JSON.parse(localStorage.getItem(NS.STORE) || 'null');
+      // Styles 3 and 4 were retired when the owner chose a rule (2026-11-08): a saved one falls back
+      // to the default rather than dropping every other saved study value.
+      if (s && s.changes && s.changes['marking.style'] > 2) delete s.changes['marking.style'];
       if (s && s.schema === NS.SCHEMA && s.changes && NS.validate(s.changes).ok) changes = s.changes;
     } catch (e) { /* unreadable: start from the study defaults */ }
   }
