@@ -14,14 +14,14 @@ python3 -c "import http.server as h; h.ThreadingHTTPServer.request_queue_size = 
 
 <http://127.0.0.1:8137/tools/m2-reception-polish-lab/index.html>
 
-It needs the server, because it uses frames on the same origin. A window at least about 2400 × 1150 shows the controls and the 1:1 stage together. Otherwise use **View: fit to window** for a scaled preview, then switch back to 1:1 to judge pixels.
+It needs the server, because it uses frames on the same origin. A window at least about 2400 × 1150 shows the controls and the 1:1 stage together. Otherwise use **FIT TO WINDOW** for a scaled preview, then switch back to **1:1 EXACT PIXELS** to judge pixels.
 
 ## Use it
 
 1. Pick a **State**: opening, the three-choice decision, long history, item received, the inspector before and after READ, NOTES, FILES, OBSERVE taken, the tooltips, the ending, and the choice-card samples.
 2. Adjust values in **Tunable values**:
    - each row shows its production value;
-   - edit a row with **−/+** (1 px or 1 ms), the number box or the slider; every change shows live;
+   - edit a row with the control that fits the value (owner, 2026-11-08; `controls.js`): positions, sizes and counts with **−/+** (1 px; Shift: 10) or the number box; timings and speeds with a slider and an exact number box; a few named choices with radio buttons (the production or study value is tagged); many named choices (the narration face) in a dropdown; on / off with a checkbox. A row's **reset** appears once it is changed. Every change shows live;
    - **NOTES background** (NOTES / FILES section) switches the NOTES panel between v1 and the owner's v2 candidate;
    - **reset** returns one value to production; changed rows are highlighted.
 3. Flip **PRODUCTION / LAB** (keys **P**, **L**, or **Space**) to compare.
@@ -59,12 +59,12 @@ A lab-only preview of **Narrative B** and **Focus A** (docs/64–68 on `docs/sto
 | NB-5 | B → A → B, played by hand: click **EXAMINE THE KEYPAD**, then **PRESS THE KEYS AT RANDOM** or **STOP EXAMINING** |
 | NB-6 | B: back from A, the narration continues below the earlier passage |
 | NB-7 | B: action and spoken cards side by side (take the spoken one: what you said is told as speech) |
-| NB-8 | Talking vs action on the real reception dialogue: the production conversation (stage directions, the player's [SIGH.], an OBSERVE thought) re-marked with the current style |
-| NB-9 | Talking vs action at the door: the real conversation through the protest to the unlocked door; the player's action choices (GO TO THE EXAMINERS DOOR., UNLOCK THE EXAMINERS DOOR WITH THE KEY.) and her drawer description |
+| NB-8 | Talking vs action on the real reception dialogue: the production conversation (stage directions, the player's [SIGH.] - a sound, so speech - and an OBSERVE thought) re-marked with the current style |
+| NB-9 | Talking vs action at the door: the real conversation through the protest to the unlocked door; the player's action choices (GO TO THE EXAMINERS DOOR., UNLOCK THE EXAMINERS DOOR WITH THE KEY.) in the action ink, her drawer as a description, and the action card STEP THROUGH INTO THE CORRIDOR. (try **Action choice cards in the action ink too**) |
 | REF | the existing reception dialogue, unchanged, through the production flow |
 
 **What it does:**
-- **B** keeps the scene. The Candidate 1 overlay (or Candidate 2) covers the portrait and speech regions, and the narration starts at the top of the panel. It works like the dialogue box (owner, 2026-11-08): new text types on below what is there (at the dialogue's 40 chars / s), and the box follows it; once it stops, the dialogue's own scroll thumb shows when there is more than fits, and the wheel scrolls back. A choice's result continues the narration. A long passage waits for **CONTINUE** between groups of whole paragraphs that fit the panel together; a paragraph longer than the panel simply types on and scrolls. The earlier study (separate pages that replace each other; a result that replaces the narration) stays selectable for comparison.
+- **B** keeps the scene. The Candidate 1 overlay (or Candidate 2) covers the portrait and speech regions, and the narration starts at the top of the panel. It works like the dialogue box (owner, 2026-11-08): new text types on below what is there (at the dialogue's 40 chars / s), and the box follows it; once it stops, the dialogue's own scroll thumb shows when there is more than fits, and the wheel scrolls back. A choice's result continues the narration. A long passage waits for **CONTINUE** between groups of whole paragraphs that fit the panel together; a paragraph longer than the panel simply types on and scrolls. The earlier study's separate replacing pages, replacing results, spoken-style action sends and quoted cards were retired once the owner chose (2026-11-08); a saved value from them is carried over (no CONTINUE) or dropped, never the other saved values.
 - The narration is in the second person, present tense ("YOU STEP BACK."). Spoken words are in quotation marks and the narration stays in one dark ink (the **Talking vs action** rule, below).
 - **A** brings back the normal shell. A labelled **LAB PLACEHOLDER** keypad is drawn at runtime in the portrait aperture; it is not an art file and not an asset order. The description sits in the speech panel's text area, with the object's own choices below it. Leaving A returns to B with a new passage.
 - Cards, scrollbar, inventory, Current Objective and footer use the production code and stay in place. An **action** leaves with the production slide-away. A **spoken** line uses the production send, but its result is narrated. Neither is written into the transcript or the dialogue history.
@@ -77,11 +77,10 @@ A lab-only preview of **Narrative B** and **Focus A** (docs/64–68 on `docs/sto
 |---|---|
 | Narrative B surface | Candidate 1 / Candidate 2 overlay |
 | Narrative B text | X, Y, wrap width (x + width stays on the parchment, ≤ 1908), bottom safe margin, face (Dialogue / Choices / Labels / Objective, all approved baked faces), line spacing |
-| Passage length + continuation | long passages: CONTINUE between paragraph groups, text adds on and scrolls (default) / no CONTINUE, the whole passage types on / separate pages (earlier study); long fixture (4 paragraphs / one very long paragraph / 6 long paragraphs); page break at paragraph / sentence / line (separate pages only); max lines per page or group (0 = all that fit) |
+| Passage length + continuation | CONTINUE between paragraph groups (checkbox; off: the whole passage types on and scrolls); max lines per CONTINUE group (0 = all that fit); long-passage test text (4 paragraphs / one very long paragraph / 6 long paragraphs) |
 | Focus A description | X, Y, wrap width, line spacing (inside the speech panel) |
 | Typing + transitions | typing speed (40 = the dialogue's; 0 = all at once), pause before choices, B ↔ A cross-fade (0 = cut) |
-| Choices + results | a result adds to the narration (default) or replaces it (earlier study); an action leaves with slide-away or a spoken-style send (for comparison); spoken cards plain or in quotation marks (candidate only) |
-| Talking vs action | 2 the owner's rule (default, 2026-11-08), 1 brackets / parentheses (the game today). Owner's rule, narration: one dark ink, anyone's speech in quotation marks, actions plain. Dialogue box: nobody is quoted; the player's actions (a [bracketed] part, or a whole action choice: unlock, unlock-after, to-door, enter-corridor) take the action ink, without brackets; her stage directions read as plain descriptions in the dark ink ([STAMP.] becomes SHE STAMPS SOMETHING.); a thought keeps the game's parentheses. Action ink (dialogue box only): red ribbon / faded brown / slate. The earlier candidates 3 and 4 are retired; a saved one falls back to the default |
+| Talking vs action | the owner's rule (default, 2026-11-08) or brackets / parentheses (the game today). Owner's rule, narration: one dark ink, anyone's speech in quotation marks, actions plain. Dialogue box: nobody is quoted; the player's actions (a [bracketed] part, or a whole action choice: unlock, unlock-after, to-door, enter-corridor) take the action ink, without brackets; a sigh or other vocal sound ([SIGH.], [AHEM.], [HM.] ...) is speech; her stage directions read as plain descriptions in the dark ink ([STAMP.] becomes SHE STAMPS SOMETHING.); a thought keeps the game's parentheses. Action ink: red ribbon / faded brown / slate. **Action choice cards in the action ink too** (off by default): a card whose whole line is an action is painted in the action ink, in NB-8 / NB-9 and in Narrative B / Focus A (spoken cards and CONTINUE stay dark); its text and accessible name are unchanged |
 
 Changes apply live to the LAB frame. The other frame keeps the study defaults.
 
@@ -93,7 +92,8 @@ Changes apply live to the LAB frame. The other frame keeps the study defaults.
 
 | File | Role |
 |---|---|
-| `index.html`, `lab.css`, `lab.js` | the lab page: controls, PRODUCTION / LAB, export / import, persistence |
+| `index.html`, `lab.css`, `lab.js` | the lab page: PRODUCTION / LAB, export / import, persistence |
+| `controls.js` | the value controls shared by both panels: one widget per kind of value (nudge, slider, radio, dropdown, checkbox) |
 | `tunables.js` | the registry of every tunable: key, label, production source path, bounds, read / write |
 | `stage.html` | a stage frame that loads the production game scripts and CSS from `game/` |
 | `lab-apply.js` | in a stage frame, before the stage is built: `?mode=lab` writes the lab values into `G.TUNING` / `G.layout`; `?mode=production` writes nothing |

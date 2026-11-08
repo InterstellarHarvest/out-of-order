@@ -22,10 +22,9 @@
   function load() {
     try {
       var s = JSON.parse(localStorage.getItem(NS.STORE) || 'null');
-      // Styles 3 and 4 were retired when the owner chose a rule (2026-11-08): a saved one falls back
-      // to the default rather than dropping every other saved study value.
-      if (s && s.changes && s.changes['marking.style'] > 2) delete s.changes['marking.style'];
-      if (s && s.schema === NS.SCHEMA && s.changes && NS.validate(s.changes).ok) changes = s.changes;
+      // Values of retired study options are carried over or dropped (NS.migrate), never the lot.
+      var saved = s && s.schema === NS.SCHEMA && s.changes ? NS.migrate(s.changes) : null;
+      if (saved && NS.validate(saved).ok) changes = saved;
     } catch (e) { /* unreadable: start from the study defaults */ }
   }
   function save() {
@@ -110,28 +109,8 @@
       fb.type = 'button';
       el('span', 'sec-count', head).id = 'ncount-' + sec.id;
       NS.LIST.filter(function (t) { return t.s === sec.id; }).forEach(function (t) {
-        var row = el('div', 'row', s);
-        row.dataset.nkey = t.key;
-        var lab = el('label', 'lbl', row, t.label);
-        lab.title = t.key + ' (Narrative Study, experimental)';
-        el('span', 'prod', row, 'study ' + DEF[t.key]).title = 'Study default (not a production value)';
-        var minus = el('button', 'step', row, '-'); minus.type = 'button';
-        var input = el('input', 'num', row);
-        input.type = 'number'; input.step = '1'; input.min = t.min; input.max = t.max;
-        input.setAttribute('aria-label', t.label);
-        var plus = el('button', 'step', row, '+'); plus.type = 'button';
-        var unit = el('span', 'unit', row, t.unit || '');
-        var rs = el('button', 'small', row, 'reset'); rs.type = 'button';
-        var slider = el('input', 'slider', row);
-        slider.type = 'range'; slider.min = t.min; slider.max = t.max; slider.step = '1';
-        slider.setAttribute('aria-label', t.label + ' slider');
-        var hint = el('span', 'hint', row, t.options ? '' : t.min + '..' + t.max);
-        minus.addEventListener('click', function () { setValue(t.key, valueOf(t.key) - 1); });
-        plus.addEventListener('click', function () { setValue(t.key, valueOf(t.key) + 1); });
-        input.addEventListener('change', function () { setValue(t.key, input.value); });
-        slider.addEventListener('input', function () { setValue(t.key, slider.value); });
-        rs.addEventListener('click', function () { setValue(t.key, DEF[t.key]); });
-        rows[t.key] = { row: row, input: input, slider: slider, unit: unit, hint: hint };
+        rows[t.key] = window.LAB_CONTROLS.build(s, t, { min: t.min, max: t.max, ref: DEF[t.key], refName: 'study', attr: 'nkey',
+          value: function () { return valueOf(t.key); }, onSet: function (v) { setValue(t.key, v); }, onReset: function () { setValue(t.key, DEF[t.key]); } });
         renderRow(t.key);
       });
     });
@@ -147,15 +126,7 @@
     renderSummary();
   }
   function renderRow(key) {
-    var r = rows[key];
-    if (!r) return;
-    var v = valueOf(key);
-    var t = NS.byKey[key];
-    if (document.activeElement !== r.input) r.input.value = v;
-    r.slider.value = v;
-    r.row.classList.toggle('changed', key in changes);
-    r.row.dataset.value = v;
-    if (t.options) r.unit.textContent = t.options[v];
+    if (rows[key]) rows[key].render(valueOf(key), key in changes);
   }
   function renderSummary() {
     var n = Object.keys(changes).length;

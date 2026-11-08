@@ -23,7 +23,6 @@
     { id: 'paging', title: 'Passage length + continuation' },
     { id: 'focus', title: 'Focus A description' },
     { id: 'timing', title: 'Typing + transitions' },
-    { id: 'choices', title: 'Choices + results' },
     { id: 'marking', title: 'Talking vs action (narration and dialogue)' }
   ];
 
@@ -35,55 +34,58 @@
   // The text role whose baked face draws the narration (G.layout.typeface maps role -> face).
   var FONT_ROLE = { 1: 'dialogue', 2: 'choices', 3: 'labels', 4: 'objective' };
 
+  // `control` picks the widget (controls.js): 'nudge' (- box +, whole steps), 'slider' (for wide
+  // ranges such as timings), 'radio' (one of a few), 'select' (one of many), 'check' (on / off, 0 / 1).
   var LIST = [
-    { key: 'surface.candidate', s: 'surface', label: 'Narrative B overlay', def: 1, min: 1, max: 2,
+    { key: 'surface.candidate', s: 'surface', label: 'Narrative B overlay', def: 1, min: 1, max: 2, control: 'radio',
       options: { 1: 'Candidate 1 (dialogue cream, PMO preferred)', 2: 'Candidate 2 (warmer paper)' } },
 
-    { key: 'text.x', s: 'text', label: 'Narration X', unit: 'px', def: 1350, min: SAFE_B.left + 2, max: 1420 },
-    { key: 'text.y', s: 'text', label: 'Narration Y (top)', unit: 'px', def: 77, min: SAFE_B.top + 2, max: 180 },
-    { key: 'text.width', s: 'text', label: 'Wrap width', unit: 'px', def: 522, min: 320, max: SAFE_B.right - SAFE_B.left - 4 },
-    { key: 'text.bottomMargin', s: 'text', label: 'Bottom safe margin', unit: 'px', def: 20, min: 0, max: 160 },
-    { key: 'text.font', s: 'text', label: 'Narration face', def: 1, min: 1, max: 4, options: FONTS },
-    { key: 'text.lineHeight', s: 'text', label: 'Line spacing', unit: 'px', def: 26, min: 16, max: 44 },
+    { key: 'text.x', s: 'text', label: 'Narration X', unit: 'px', def: 1350, min: SAFE_B.left + 2, max: 1420, control: 'nudge' },
+    { key: 'text.y', s: 'text', label: 'Narration Y (top)', unit: 'px', def: 77, min: SAFE_B.top + 2, max: 180, control: 'nudge' },
+    { key: 'text.width', s: 'text', label: 'Wrap width', unit: 'px', def: 522, min: 320, max: SAFE_B.right - SAFE_B.left - 4, control: 'nudge' },
+    { key: 'text.bottomMargin', s: 'text', label: 'Bottom safe margin', unit: 'px', def: 20, min: 0, max: 160, control: 'nudge' },
+    { key: 'text.font', s: 'text', label: 'Narration face', def: 1, min: 1, max: 4, options: FONTS, control: 'select' },
+    { key: 'text.lineHeight', s: 'text', label: 'Line spacing', unit: 'px', def: 26, min: 16, max: 44, control: 'nudge' },
 
     // Owner, 2026-11-08: text past a full panel types on and scrolls, like the dialogue box, with the
-    // same scroll thumb. CONTINUE still paces a long passage between groups of whole paragraphs.
-    { key: 'paging.flow', s: 'paging', label: 'Long passages', def: 1, min: 1, max: 3,
-      options: { 1: 'CONTINUE between paragraph groups; text adds on and scrolls', 2: 'No CONTINUE: the whole passage types on and scrolls', 3: 'Separate pages that replace each other (earlier study)' } },
-    { key: 'paging.fixture', s: 'paging', label: 'Long-passage fixture', def: 1, min: 1, max: 3,
+    // same scroll thumb; CONTINUE paces a long passage between groups of whole paragraphs ("works
+    // fine, timing good"). Separate replacing pages were retired.
+    { key: 'paging.continue', s: 'paging', label: 'CONTINUE between paragraph groups (off: the whole passage types on and scrolls)', def: 1, min: 0, max: 1, control: 'check' },
+    { key: 'paging.maxLines', s: 'paging', label: 'Max lines per CONTINUE group (0 = all that fit)', unit: 'lines', def: 0, min: 0, max: 24, control: 'nudge' },
+    { key: 'paging.fixture', s: 'paging', label: 'Long-passage test text', def: 1, min: 1, max: 3, control: 'radio',
       options: { 1: 'Announcement, 4 paragraphs', 2: 'One very long paragraph', 3: 'Extreme: 6 long paragraphs' } },
-    { key: 'paging.breakAt', s: 'paging', label: 'Page break at (separate pages only)', def: 1, min: 1, max: 3,
-      options: { 1: 'Paragraph (then sentence, then line)', 2: 'Sentence (then line)', 3: 'Line (fill every page)' } },
-    { key: 'paging.maxLines', s: 'paging', label: 'Max lines per page or group (0 = all that fit)', unit: 'lines', def: 0, min: 0, max: 24 },
 
-    { key: 'focus.x', s: 'focus', label: 'Description X', unit: 'px', def: 1342, min: SAFE_A.left, max: 1400 },
-    { key: 'focus.y', s: 'focus', label: 'Description Y (top)', unit: 'px', def: 360, min: SAFE_A.top, max: 420 },
-    { key: 'focus.width', s: 'focus', label: 'Description wrap width', unit: 'px', def: 540, min: 300, max: SAFE_A.right - SAFE_A.left },
-    { key: 'focus.lineHeight', s: 'focus', label: 'Description line spacing', unit: 'px', def: 24, min: 16, max: 40 },
+    { key: 'focus.x', s: 'focus', label: 'Description X', unit: 'px', def: 1342, min: SAFE_A.left, max: 1400, control: 'nudge' },
+    { key: 'focus.y', s: 'focus', label: 'Description Y (top)', unit: 'px', def: 360, min: SAFE_A.top, max: 420, control: 'nudge' },
+    { key: 'focus.width', s: 'focus', label: 'Description wrap width', unit: 'px', def: 540, min: 300, max: SAFE_A.right - SAFE_A.left, control: 'nudge' },
+    { key: 'focus.lineHeight', s: 'focus', label: 'Description line spacing', unit: 'px', def: 24, min: 16, max: 40, control: 'nudge' },
 
     // 40 = the dialogue's own typing speed (G.layout.speech.text.charsPerSecond).
-    { key: 'timing.revealCps', s: 'timing', label: 'Typing speed (0 = whole text at once)', unit: 'cps', def: 40, min: 0, max: 400 },
-    { key: 'timing.choicesDelayMs', s: 'timing', label: 'Pause after the text, before choices', unit: 'ms', def: 200, min: 0, max: 2000 },
-    { key: 'timing.transitionMs', s: 'timing', label: 'B <-> A cross-fade (0 = cut)', unit: 'ms', def: 200, min: 0, max: 1500 },
+    { key: 'timing.revealCps', s: 'timing', label: 'Typing speed (0 = whole text at once)', unit: 'cps', def: 40, min: 0, max: 400, control: 'slider' },
+    { key: 'timing.choicesDelayMs', s: 'timing', label: 'Pause after the text, before choices', unit: 'ms', def: 200, min: 0, max: 2000, control: 'slider' },
+    { key: 'timing.transitionMs', s: 'timing', label: 'B <-> A cross-fade (0 = cut)', unit: 'ms', def: 200, min: 0, max: 1500, control: 'slider' },
 
-    // Owner, 2026-11-08: a choice's result continues the narration (no replacing).
-    { key: 'choices.result', s: 'choices', label: 'A choice\'s result', def: 1, min: 1, max: 2,
-      options: { 1: 'Adds to the narration and scrolls', 2: 'Replaces the narration (earlier study)' } },
-    { key: 'choices.actionMotion', s: 'choices', label: 'Taking an action card', def: 1, min: 1, max: 2,
-      options: { 1: 'All cards slide away (no speech send)', 2: 'Spoken-style send (comparison only)' } },
-    { key: 'choices.spokenQuotes', s: 'choices', label: 'Spoken cards in the comparison state', def: 1, min: 1, max: 2,
-      options: { 1: 'Plain wording', 2: 'In quotation marks (candidate only)' } },
-
-    // How spoken words are told apart from actions, thoughts and narration, in Narrative B / Focus A
-    // and in the reception dialogue (state NB-8). Candidates for the owner; brackets are today's game.
-    // The owner's rule (2026-11-08): narration is dark throughout, with anyone's speech in quotation
-    // marks; in the dialogue box nobody is quoted, the player's actions take the second ink and the
-    // NPC's stage directions read as plain descriptions ("SHE STAMPS SOMETHING.").
-    { key: 'marking.style', s: 'marking', label: 'Talking vs action', def: 2, min: 1, max: 2,
-      options: { 1: 'Brackets / parentheses (the game today)', 2: "Owner's rule: narration quotes speech; dialogue inks the player's actions" } },
-    { key: 'marking.ink', s: 'marking', label: "Player action ink (dialogue box only)", def: 1, min: 1, max: 3,
-      options: { 1: 'Red ribbon', 2: 'Faded brown', 3: 'Slate' } }
+    // How talking is told apart from action. The owner's rule (2026-11-08): narration is dark
+    // throughout, with anyone's speech in quotation marks; in the dialogue box nobody is quoted, the
+    // player's actions take the action ink (a sigh or other sound is speech) and the NPC's stage
+    // directions read as plain descriptions ("SHE STAMPS SOMETHING."). Brackets are today's game.
+    { key: 'marking.style', s: 'marking', label: 'Talking vs action', def: 2, min: 1, max: 2, control: 'radio', order: [2, 1],
+      options: { 2: "Owner's rule (narration: speech in quotes; dialogue: the player's actions in ink)", 1: 'Brackets / parentheses (the game today)' } },
+    { key: 'marking.ink', s: 'marking', label: "Action ink (the player's actions, never the narration)", def: 1, min: 1, max: 3, control: 'radio', swatches: INKS,
+      options: { 1: 'Red ribbon', 2: 'Faded brown', 3: 'Slate' } },
+    { key: 'marking.actionCards', s: 'marking', label: 'Action choice cards in the action ink too', def: 0, min: 0, max: 1, control: 'check' }
   ];
+
+  // Saved or imported values from retired study options (2026-11-08): what still means something
+  // is carried over; the rest is dropped, without losing the other values.
+  function migrate(map) {
+    var out = {};
+    Object.keys(map || {}).forEach(function (k) { out[k] = map[k]; });
+    if (out['paging.flow'] === 2) out['paging.continue'] = 0;
+    ['paging.flow', 'paging.breakAt', 'choices.result', 'choices.actionMotion', 'choices.spokenQuotes'].forEach(function (k) { delete out[k]; });
+    if (out['marking.style'] > 2) delete out['marking.style'];
+    return out;
+  }
 
   var byKey = {};
   LIST.forEach(function (t) { byKey[t.key] = t; });
@@ -125,7 +127,7 @@
   window.NARRATIVE_STUDY = {
     SCHEMA: 'cyoa-m2-narrative-study-v1',
     STORE: 'cyoa-m2-reception-polish-lab-narrative-study-v1',
-    SECTIONS: SECTIONS, LIST: LIST, byKey: byKey, defaults: defaults, validate: validate, constrain: constrain,
+    SECTIONS: SECTIONS, LIST: LIST, byKey: byKey, defaults: defaults, validate: validate, migrate: migrate, constrain: constrain,
     SAFE_B: SAFE_B, SAFE_A: SAFE_A, FONT_ROLE: FONT_ROLE, INKS: INKS,
     // The review overlays from agent/narrative-mode-b-art-study (same paths). Review assets, never
     // production art. Both arrived with a stray cream column at x 1919, outside the frame's dark edge

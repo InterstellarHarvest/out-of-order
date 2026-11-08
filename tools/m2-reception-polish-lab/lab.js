@@ -234,7 +234,10 @@
     wrap.style.transform = s === 1 ? '' : 'scale(' + s + ')';
     wrap.parentNode.style.width = Math.floor(1920 * s) + 'px';
     wrap.parentNode.style.height = Math.floor(1080 * s) + 'px';
-    $('fitToggle').textContent = fit ? 'View: fit to window (scaled preview)' : 'View: 1:1 exact pixels';
+    $('fitExact').classList.toggle('on', !fit);
+    $('fitWindow').classList.toggle('on', fit);
+    $('fitExact').setAttribute('aria-pressed', String(!fit));
+    $('fitWindow').setAttribute('aria-pressed', String(fit));
     $('fitNote').textContent = s === 1 ? 'Exact 1:1 pixels.' : 'Scaled preview (' + Math.round(s * 100) + '%). Switch to 1:1 to judge pixels.';
   }
 
@@ -260,47 +263,14 @@
       rs.addEventListener('click', function () { resetSection(sec.id); });
       TUN.LIST.filter(function (t) { return t.s === sec.id; }).forEach(function (t) {
         var b = TUN.bounds(t, prod);
-        var row = el('div', 'row', box);
-        row.dataset.key = t.key;
-        var lab = el('label', 'lbl', row, t.label);
-        lab.title = t.key + '  <-  ' + t.src;
-        var p = el('span', 'prod', row, 'prod ' + prod[t.key]);
-        p.title = 'Production value (' + t.src + ')';
-        var minus = el('button', 'step', row, '-');
-        minus.type = 'button';
-        var input = el('input', 'num', row);
-        input.type = 'number'; input.step = '1'; input.min = b[0]; input.max = b[1];
-        input.setAttribute('aria-label', t.label);
-        var plus = el('button', 'step', row, '+');
-        plus.type = 'button';
-        var unit = el('span', 'unit', row, t.unit);
-        var reset = el('button', 'small', row, 'reset');
-        reset.type = 'button';
-        var slider = el('input', 'slider', row);
-        slider.type = 'range'; slider.min = b[0]; slider.max = b[1]; slider.step = '1';
-        slider.setAttribute('aria-label', t.label + ' slider');
-        var hint = el('span', 'hint', row, t.options ? '' : b[0] + '..' + b[1]);
-        minus.addEventListener('click', function () { setValue(t.key, valueOf(t.key) - 1); });
-        plus.addEventListener('click', function () { setValue(t.key, valueOf(t.key) + 1); });
-        input.addEventListener('change', function () { setValue(t.key, input.value); });
-        slider.addEventListener('input', function () { setValue(t.key, slider.value); });
-        reset.addEventListener('click', function () { resetField(t.key); });
-        rows[t.key] = { row: row, input: input, slider: slider, unit: unit, hint: hint };
+        rows[t.key] = window.LAB_CONTROLS.build(box, t, { min: b[0], max: b[1], ref: prod[t.key], refName: 'prod', attr: 'key',
+          value: function () { return valueOf(t.key); }, onSet: function (v) { setValue(t.key, v); }, onReset: function () { resetField(t.key); } });
         renderRow(t.key);
       });
     });
   }
   function renderRow(key) {
-    var r = rows[key];
-    if (!r) return;
-    var v = valueOf(key);
-    var t = TUN.byKey[key];
-    if (document.activeElement !== r.input) r.input.value = v;
-    r.slider.value = v;
-    r.row.classList.toggle('changed', key in changes);
-    r.row.dataset.value = v;
-    if (t.unit === 'cps') r.unit.textContent = 'cps (' + Math.round(1000 / v) + ' ms/char)';
-    if (t.options) r.unit.textContent = t.options[v];
+    if (rows[key]) rows[key].render(valueOf(key), key in changes);
   }
   function renderSummary() {
     var n = Object.keys(changes).length;
@@ -362,12 +332,13 @@
     $('viewProduction').addEventListener('click', function () { setView('production'); });
     $('viewLab').addEventListener('click', function () { setView('lab'); });
     $('resetAll').addEventListener('click', function () { if (Object.keys(changes).length) resetAll(); });
-    $('fitToggle').addEventListener('click', function () { fit = !fit; saveUi(); applyFit(); });
+    $('fitExact').addEventListener('click', function () { fit = false; saveUi(); applyFit(); });
+    $('fitWindow').addEventListener('click', function () { fit = true; saveUi(); applyFit(); });
     Array.prototype.forEach.call(document.querySelectorAll('[data-trigger]'), function (b) {
       b.addEventListener('click', function () { trigger(b.dataset.trigger); });
     });
     $('finishTyping').addEventListener('click', function () { both(function (s) { s.finishTyping(); }); });
-    $('freeze').addEventListener('click', function () { frozen = !frozen; both(function (s) { s.freeze(frozen); }); $('freeze').classList.toggle('on', frozen); renderStatus(); });
+    $('freeze').addEventListener('click', function () { frozen = !frozen; both(function (s) { s.freeze(frozen); }); $('freeze').setAttribute('aria-pressed', String(frozen)); renderStatus(); });
     $('copyChanges').addEventListener('click', function () { copy(exportChanges(), 'Changes JSON'); });
     $('copyAll').addEventListener('click', function () { copy(exportAll(), 'All values JSON'); });
     $('importBtn').addEventListener('click', function () {

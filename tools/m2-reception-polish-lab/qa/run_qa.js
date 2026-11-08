@@ -131,7 +131,7 @@ async function suite(name, base) {
   await gpage.close();
 
   // PRODUCTION vs LAB at defaults: pixel-identical across representative states.
-  await lab(() => { document.getElementById('fitToggle').click(); }); // 1:1
+  await lab(() => { document.getElementById('fitExact').click(); }); // 1:1
   const wrap = async () => {
     const r = await page.$eval('#stageWrap', (e) => { const b = e.getBoundingClientRect(); return { x: b.left, y: b.top }; });
     return { x: Math.round(r.x), y: Math.round(r.y), width: 1920, height: 1080 };
@@ -214,20 +214,19 @@ async function suite(name, base) {
   const href0 = await labWin((w) => w.location.href);
   const applied0 = Number(await labWin((w, d) => d.body.dataset.labApplied || 0));
   const drag = await lab(async () => {
-    // A slider drag: input events, one per frame; the NPC must follow every step.
+    // Nudging a pixel value: one + click per frame (from 3); the NPC must follow every step.
     const w = document.getElementById('frameLab').contentWindow;
-    const sl = document.querySelector('.row[data-key="portrait.npcY"] .slider');
+    const plus = document.querySelector('.row[data-key="portrait.npcY"] .plus');
     const tops = [];
     const t0 = performance.now();
-    for (const v of [4, 5, 6, 7, 8]) {
-      sl.value = String(v);
-      sl.dispatchEvent(new Event('input', { bubbles: true }));
+    for (let k = 0; k < 5; k++) {
+      plus.click();
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
       tops.push(w.document.getElementById('portraitNpc').getBoundingClientRect().top);
     }
     return { tops, ms: Math.round(performance.now() - t0) };
   });
-  c('a slider drag updates the lab stage live, step by step (no debounce, no reload)', drag.tops.join() === '48,49,50,51,52'
+  c('nudging with + updates the lab stage live, step by step (no debounce, no reload)', drag.tops.join() === '48,49,50,51,52'
     && (await labWin((w) => w.location.href)) === href0 && Number(await labWin((w, d) => d.body.dataset.labApplied)) >= applied0 + 5, { drag, href0 });
   await lab(() => window.POLISH_LAB.setState('notes'));
   const ov0 = await labWin((w, d) => { const cv = d.getElementById('overlayCanvas'); return [w.CYOA_GAME.ui.overlay, cv.dataset.text, cv.dataset.scroll, d.getElementById('overlayPanel').dataset.art].join('|'); });
@@ -453,11 +452,11 @@ async function suite(name, base) {
   await page.waitForTimeout(200);
   const ui1 = await lab(() => ({ s: window.POLISH_LAB.uiState(), scroll: document.getElementById('side').scrollTop, folded: document.querySelector('[data-fold="sec-portrait"]').classList.contains('folded'),
     sel: document.getElementById('stateSelect').value, overlay: document.getElementById('frameLab').contentWindow.CYOA_GAME.ui.overlay, view: document.getElementById('stageWrap').dataset.view,
-    fit: document.getElementById('fitToggle').textContent }));
+    fit: document.getElementById('fitExact').classList.contains('on') && document.getElementById('fitExact').getAttribute('aria-pressed') === 'true' && !document.getElementById('fitWindow').classList.contains('on') }));
   c('after a reload: folded sections stay folded', ui1.folded && ui1.s.folded['sec-portrait'] === true, ui1.s.folded);
   c('after a reload: the sidebar scroll position is restored', Math.abs(ui1.scroll - ui0.scrolls.side) <= 2 && ui0.scrolls.side > 300, { now: ui1.scroll, was: ui0.scrolls.side });
   c('after a reload: the representative state is restored (FILES open in the frames)', ui1.sel === 'files' && ui1.overlay === 'files', ui1);
-  c('after a reload: the PRODUCTION / LAB choice and the 1:1 preview mode are restored', ui1.view === 'production' && ui1.s.fit === false && /1:1/.test(ui1.fit), ui1);
+  c('after a reload: the PRODUCTION / LAB choice and the 1:1 preview mode are restored', ui1.view === 'production' && ui1.s.fit === false && ui1.fit === true, ui1);
   c('a reload restores no narrative state from a trigger (no thought, no slip)', await lab(() => { const G = document.getElementById('frameLab').contentWindow.CYOA_GAME; return !G.ui.notice && !G.state.transcript.some((t) => t.who === 'thought'); }));
   c('a reload keeps the values and the export as they were', (await lab(() => window.POLISH_LAB.exportChanges())) === exUi);
   await lab(() => { document.querySelector('[data-fold="sec-portrait"] .fold').click(); });
@@ -688,8 +687,8 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
   const clipping = await lab(async () => {
     const L = window.NARRATIVE_LAB;
     const out = [];
-    for (const font of [1, 2, 3, 4]) for (const fx of [1, 2, 3]) for (const lh of [16, 26, 44]) for (const fl of [[1, 1], [2, 1], [3, 1], [3, 2], [3, 3]]) {
-      L.setValue('text.font', font, true); L.setValue('paging.fixture', fx, true); L.setValue('text.lineHeight', lh, true); L.setValue('paging.flow', fl[0], true); L.setValue('paging.breakAt', fl[1], true);
+    for (const font of [1, 2, 3, 4]) for (const fx of [1, 2, 3]) for (const lh of [16, 26, 44]) for (const on of [1, 0]) {
+      L.setValue('text.font', font, true); L.setValue('paging.fixture', fx, true); L.setValue('text.lineHeight', lh, true); L.setValue('paging.continue', on, true);
       const w = document.getElementById('frameLab').contentWindow;
       w.NARRATIVE_STAGE.applyValues(L.values());
       const S = w.NARRATIVE_STAGE, T = w.CYOA_GAME.text;
@@ -701,32 +700,28 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
       const src = S.passage('announce').replace(/"/g, '').replace(/\s+/g, ' ').trim();
       const paras = S.passage('announce').split('\n\n').map((p) => S.marked(p, v['marking.style']));
       let ok = bottom <= window.NARRATIVE_STUDY.SAFE_B.bottom - v['text.bottomMargin'];
-      let parts;
-      if (fl[0] === 3) {
-        const pages = S.pagesOf('announce', 'B');
-        const got = pages.map((p) => p.join(' ')).join(' ').replace(/"/g, '').replace(/\s+/g, ' ').trim();
-        const okEnds = fx !== 2 || fl[1] !== 1 || pages.slice(0, -1).every((p) => /[.!?]"?$/.test(p[p.length - 1]));
-        ok = ok && got === src && pages.every((p) => p.length <= cap && p[0] !== '') && pages.flat().every((l) => T.inkWidth(l, role) <= v['text.width']) && okEnds;
-        parts = pages.length;
-      } else {
-        const groups = S.beatsOf('announce');
-        const flat = groups.flat();
-        const lens = groups.map((g) => g.reduce((n, k, j) => n + (j ? 1 : 0) + T.wrap(paras[k], v['text.width'], role).length, 0));
-        // No CONTINUE (flow 2): one part, which types on and scrolls; with CONTINUE, a part of several
-        // paragraphs fits the panel (a single paragraph longer than the panel scrolls).
-        ok = ok && JSON.stringify(flat) === JSON.stringify(paras.map((p, k) => k))
-          && (fl[0] === 2 ? groups.length === 1 : groups.every((g, j) => g.length === 1 || lens[j] <= cap)) && paras.every((p) => T.wrap(p, v['text.width'], role).every((l) => T.inkWidth(l.split('\u0001').join(''), role) <= v['text.width']));
-        parts = groups.length;
-      }
-      out.push({ font, fx, lh, fl: fl.join('/'), ok, parts, cap });
+      const groups = S.beatsOf('announce');
+      const flat = groups.flat();
+      const lens = groups.map((g) => g.reduce((n, k, j) => n + (j ? 1 : 0) + T.wrap(paras[k], v['text.width'], role).length, 0));
+      // No CONTINUE: one part, which types on and scrolls; with CONTINUE, a part of several
+      // paragraphs fits the panel (a single paragraph longer than the panel scrolls).
+      ok = ok && JSON.stringify(flat) === JSON.stringify(paras.map((p, k) => k))
+        && (on === 0 ? groups.length === 1 : groups.every((g, j) => g.length === 1 || lens[j] <= cap)) && paras.every((p) => T.wrap(p, v['text.width'], role).every((l) => T.inkWidth(l.split('\u0001').join(''), role) <= v['text.width']));
+      const parts = groups.length;
+      // Focus A's pagination (paragraphs, then sentences): this text at this face, as pages of `cap`.
+      const pages = S.paginate(paras.join('\n\n'), role, v['text.width'], cap);
+      const got = pages.map((p) => p.join(' ')).join(' ').replace(/"/g, '').replace(/\s+/g, ' ').trim();
+      const pagesOk = got === src && pages.every((p) => p.length <= cap && p[0] !== '') && pages.flat().every((l) => T.inkWidth(l, role) <= v['text.width'])
+        && (fx !== 2 || pages.slice(0, -1).every((p) => /[.!?]"?$/.test(p[p.length - 1])));
+      out.push({ font, fx, lh, on, ok, parts, cap, pagesOk, pages: pages.length });
     }
     L.reset();
     return out;
   });
   const clipBad = clipping.filter((r) => !r.ok);
-  c('no clipping or lost text: 4 faces x 3 fixtures x 3 line spacings x 5 continuation rules fit the panel budget and the parchment (180 cases)', clipBad.length === 0 && clipping.length === 180, clipBad.slice(0, 5));
-  c('separate pages (the earlier study, still selectable): a single paragraph longer than a page breaks at sentence ends', clipping.filter((r) => r.fx === 2 && r.fl === '3/1').every((r) => r.ok)
-    && clipping.filter((r) => r.fx === 2 && r.fl === '3/1' && r.parts >= 2).length >= 6, clipping.filter((r) => r.fx === 2 && r.fl === '3/1').map((r) => [r.font, r.lh, r.parts, r.ok]));
+  c('no clipping or lost text: 4 faces x 3 fixtures x 3 line spacings x CONTINUE on / off fit the panel budget and the parchment (72 cases)', clipBad.length === 0 && clipping.length === 72, clipBad.slice(0, 5));
+  c('pagination (Focus A) keeps every word in order inside the page budget, and a paragraph longer than a page breaks at sentence ends', clipping.every((r) => r.pagesOk)
+    && clipping.filter((r) => r.fx === 2 && r.pages >= 2).length >= 6, clipping.filter((r) => !r.pagesOk || r.fx === 2).map((r) => [r.font, r.fx, r.lh, r.pages, r.pagesOk]).slice(0, 12));
   await ready();
 
   // B -> A -> B, by real clicks on the stage --------------------------------------------------------
@@ -774,13 +769,6 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
   await setState('ns-b-return');
   const ret = await info();
   c('the NB-6 state shows the same continued narration (the hallway, then stepping back)', ret.node === 'hall-return' && ret.all === b2.all, ret.all);
-  // The earlier study's replacing result stays selectable for comparison.
-  await lab(() => window.NARRATIVE_LAB.setValue('choices.result', 2));
-  await setState('ns-b-return');
-  const repl = await info();
-  c('"Replaces the narration" (earlier study, selectable): back from A, only the new passage is on show', repl.node === 'hall-return' && /^YOU STEP BACK/.test(repl.all) && !repl.all.includes('BUSY WITH A FORM'), repl.all);
-  await lab(() => window.NARRATIVE_LAB.reset());
-
   // Spoken vs action; talking vs action marking ---------------------------------------------------
   await setState('ns-spoken');
   const sp = await info();
@@ -809,12 +797,6 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
   c('narration: dark ink only under every style and every action ink; the owner\'s rule quotes both the player\'s and the man\'s speech, style 1 (the game today) marks nothing',
     Object.values(mk).every((m) => m.inks === '#203037') && !mk['1/1'].quotes && mk['2/1'].quotes && mk['2/2'].quotes && mk['2/3'].quotes, mk);
   await lab(() => window.NARRATIVE_LAB.reset());
-  await lab(() => window.NARRATIVE_LAB.setValue('choices.spokenQuotes', 2));
-  await setState('ns-spoken');
-  c('spoken quotation marks on the card are only a selectable candidate (lab frame only)', (await labG((w, G) => G.ui.cards[1].text)) === '"HELLO? IS ANYONE BACK THERE?"'
-    && (await lab(() => document.getElementById('frameProduction').contentWindow.CYOA_GAME.ui.cards[1].text)) === 'HELLO? IS ANYONE BACK THERE?');
-  await lab(() => window.NARRATIVE_LAB.reset());
-
   // NB-8 / NB-9: the owner's rule on the real reception dialogue -------------------------------------
   await setState('ns-talk-dialogue');
   const talk = (mode) => lab((m) => { const w = document.getElementById(m === 'production' ? 'frameProduction' : 'frameLab').contentWindow; const G = w.CYOA_GAME;
@@ -827,26 +809,23 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
     t2.node === 'facilities' && t2.phase === 'choosing' && t2.t.on && t2.t.parts.length === 10 && t2.transcript.some((x) => /\[SIGH\.\]/.test(x)) && t2.transcript.some((x) => /\[STAMP\.\]/.test(x)), t2.t.parts.map((p) => p.who));
   const marked8 = t2.t.parts.map((p, k) => (p.marked ? k : -1)).filter((k) => k >= 0);
   const sighAt = t2.t.origs.indexOf('[SIGH.] AND THE BATHROOM?');
-  c('NB-8, owner\'s rule (default): no quotation marks in the dialogue box; only the player\'s action takes the ink (SIGH.), without brackets; her directions read as plain descriptions (SHE STAMPS SOMETHING.); the thought keeps the game\'s parentheses; transcript keeps the production text',
-    JSON.stringify(marked8) === JSON.stringify([sighAt]) && t2.t.parts[sighAt].inked === 'SIGH.' && byWho(t2, 'player').includes('SIGH. AND THE BATHROOM?')
+  c('NB-8, owner\'s rule (default): no quotation marks in the dialogue box; a sigh is speech (SIGH. AND THE BATHROOM?, dark, no brackets); her directions read as plain descriptions (SHE STAMPS SOMETHING.); the thought keeps the game\'s parentheses; transcript keeps the production text',
+    sighAt > 0 && marked8.length === 0 && t2.t.parts[sighAt].text === 'SIGH. AND THE BATHROOM?'
     && byWho(t2, 'npc').some((x) => /^ONE MOMENT\. SHE STAMPS SOMETHING\. THE FACILITIES/.test(x)) && byWho(t2, 'npc').some((x) => /CONDITIONS\. SHE WAITS FOR YOU TO WORK OUT WHO THAT IS\.$/.test(x))
     && byWho(t2, 'thought').length === 1 && byWho(t2, 'thought').every((x) => /^\(.*\)$/.test(x))
     && t2.t.parts.every((p) => !/"/.test(p.text) && (p.who === 'thought' || !/[[\]()]/.test(p.text))) && t2.transcript.every((x) => !/^"/.test(x)), t2.t.parts.map((p) => [p.text.slice(0, 50), p.inked]));
-  c('NB-8 opens where the history mixes most (at the player\'s SIGH. line), scrollable like any dialogue; the box shows the dark ink and the red ribbon',
-    t2.scroll > 0 && t2.scroll <= t2.max && t2.topPart === sighAt && (await speechInks()) === '#203037,#8e2c1f', { scroll: t2.scroll, max: t2.max, topPart: t2.topPart, sighAt });
+  c('NB-8 opens at the player\'s SIGH. line, scrollable like any dialogue; with no player action on show, the box is one dark ink',
+    t2.scroll > 0 && t2.scroll <= t2.max && t2.topPart === sighAt && (await speechInks()) === '#203037', { scroll: t2.scroll, max: t2.max, topPart: t2.topPart, sighAt });
   await freezeBoth(true);
   save(await shoot(), 'narrative_talk_dialogue_owner_rule.png');
   await freezeBoth(false);
   const href8 = await labWin((w) => w.location.href);
-  await lab(() => window.NARRATIVE_LAB.setValue('marking.ink', 2));
-  await page.waitForTimeout(200);
-  const brown8 = await speechInks();
   await lab(() => window.NARRATIVE_LAB.setValue('marking.style', 1));
   await page.waitForTimeout(200);
   const t1 = await talk();
   const prodParts = t1.t.origs;
-  c('NB-8, the action ink switches live (faded brown); style 1 is the production text exactly (brackets, parentheses, one ink), re-marked live in the LAB frame only (no reload)',
-    brown8 === '#203037,#6b5536' && JSON.stringify(t1.t.parts.map((p) => p.text)) === JSON.stringify(prodParts) && t1.t.parts.every((p) => !p.marked) && prodParts.some((x) => x === '[SIGH.] AND THE BATHROOM?') && prodParts.some((x) => /^\(.*\)$/.test(x))
+  c('NB-8, style 1 is the production text exactly (brackets, parentheses, one ink), re-marked live in the LAB frame only (no reload)',
+    JSON.stringify(t1.t.parts.map((p) => p.text)) === JSON.stringify(prodParts) && t1.t.parts.every((p) => !p.marked) && prodParts.some((x) => x === '[SIGH.] AND THE BATHROOM?') && prodParts.some((x) => /^\(.*\)$/.test(x))
     && (await speechInks()) === '#203037' && (await labWin((w) => w.location.href)) === href8 && byWho(await talk('production'), 'player').includes('SIGH. AND THE BATHROOM?'), t1.t.parts.map((p) => p.text.slice(0, 40)));
   const refused8 = await lab(async () => [await window.POLISH_LAB.trigger('npc-typing'), await window.POLISH_LAB.trigger('context-action')]);
   c('NB-8 refuses the reception triggers that would re-add a line (NPC typing, context action)', refused8.every((r) => /not in a Narrative Study state/.test(r)), refused8);
@@ -869,6 +848,31 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
   await freezeBoth(true);
   save(await shoot(), 'narrative_talk_door_owner_rule.png');
   await freezeBoth(false);
+  // Action choice cards in the action ink: a toggle (off by default); the card's text never changes.
+  const cardInks = (mode) => lab((m) => { const w = document.getElementById(m === 'production' ? 'frameProduction' : 'frameLab').contentWindow; const out = {};
+    w.document.querySelectorAll('#choiceViewport .choice').forEach((e) => { const c = e.querySelector('canvas.card-text'); const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; const s = new Set();
+      for (let i = 0; i < d.length; i += 4) if (d[i + 3]) s.add('#' + [d[i], d[i + 1], d[i + 2]].map((v) => v.toString(16).padStart(2, '0')).join('')); out[e.dataset.choice] = [...s].sort().join() + '|' + e.getAttribute('aria-label'); });
+    return out; }, mode || 'lab');
+  const cardsOff = await cardInks();
+  await lab(() => window.NARRATIVE_LAB.setValue('marking.actionCards', 1));
+  await page.waitForTimeout(250);
+  const cardsOn = await cardInks();
+  await lab(() => window.NARRATIVE_LAB.setValue('marking.ink', 2));
+  await page.waitForTimeout(250);
+  const brown9 = [await speechInks(), await cardInks()];
+  c('action choice cards: off by default (dark); on, the action card STEP THROUGH INTO THE CORRIDOR. is in the action ink; the ink choice switches the box and the card live (faded brown); its accessible name is unchanged',
+    cardsOff['enter-corridor'] === '#203037|STEP THROUGH INTO THE CORRIDOR.' && cardsOn['enter-corridor'] === '#8e2c1f|STEP THROUGH INTO THE CORRIDOR.'
+    && brown9[0] === '#203037,#6b5536' && brown9[1]['enter-corridor'] === '#6b5536|STEP THROUGH INTO THE CORRIDOR.' && (await cardInks('production'))['enter-corridor'] === '#203037|STEP THROUGH INTO THE CORRIDOR.',
+    { cardsOff, cardsOn, brown9 });
+  await freezeBoth(true);
+  await lab(() => window.NARRATIVE_LAB.setValue('marking.ink', 1));
+  await page.waitForTimeout(250);
+  save(await shoot(), 'narrative_talk_door_action_cards.png');
+  await freezeBoth(false);
+  await setState('ns-spoken');
+  const spokenCards = await cardInks();
+  c('action choice cards in Narrative B too: EXAMINE THE KEYPAD and KNOCK in the action ink, the spoken card (HELLO?) dark; the narration stays dark',
+    spokenCards['examine-keypad'].startsWith('#8e2c1f|') && spokenCards.knock.startsWith('#8e2c1f|') && spokenCards['call-out'] === '#203037|HELLO? IS ANYONE BACK THERE?' && (await inks()) === '#203037', spokenCards);
   await lab(() => window.NARRATIVE_LAB.reset());
 
   // Tuning, live, LAB frame only; candidate 2; timings --------------------------------------------
@@ -971,6 +975,72 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
   await g.close();
   await lab(() => { window.NARRATIVE_LAB.reset(); window.POLISH_LAB.resetAll(); });
   await ready();
+
+  // Saved values from retired study options: carried over or dropped, the rest kept (2026-11-08) ------
+  await lab((k) => localStorage.setItem(k, JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1',
+    changes: { 'paging.flow': 2, 'choices.result': 2, 'marking.style': 4, 'text.y': 97, 'paging.breakAt': 3, 'choices.spokenQuotes': 2, 'choices.actionMotion': 2 } })), NARR_STORE);
+  await page.reload();
+  await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
+  const migrated = await lab(() => window.NARRATIVE_LAB.changes());
+  c('saved study values from retired options: "no CONTINUE" carries over, the rest of the retired keys and styles drop, other saved values stay',
+    JSON.stringify(Object.keys(migrated).sort()) === '["paging.continue","text.y"]' && migrated['paging.continue'] === 0 && migrated['text.y'] === 97, migrated);
+  await lab(() => window.NARRATIVE_LAB.reset());
+
+  // Controls: one widget per kind of value (owner, 2026-11-08) ------------------------------------------
+  const ctl = await lab(() => {
+    const out = {};
+    document.querySelectorAll('.row[data-control]').forEach((r) => {
+      out[r.dataset.key || r.dataset.nkey] = { kind: r.dataset.control, slider: !!r.querySelector('input[type=range]'), nudge: !!r.querySelector('.plus') && !!r.querySelector('.minus'),
+        radios: r.querySelectorAll('input[type=radio]').length, select: r.querySelectorAll('select option').length, check: r.querySelectorAll('input[type=checkbox]').length,
+        num: !!r.querySelector('input[type=number]'), swatches: r.querySelectorAll('.swatch').length, refTag: Array.from(r.querySelectorAll('.opt')).filter((o) => o.querySelector('.ref-tag')).map((o) => o.querySelector('input').value).join(),
+        reset: getComputedStyle(r.querySelector('.reset')).visibility };
+    });
+    return { rows: out, tun: window.POLISH_TUNABLES.LIST.map((t) => [t.key, t.unit, t.options ? Object.keys(t.options).length : 0]), ns: window.NARRATIVE_STUDY.LIST.map((t) => [t.key, t.unit, t.options ? Object.keys(t.options).length : 0, t.control]) };
+  });
+  const want = (unit, n, control) => control === 'check' ? 'check' : n ? (n >= 4 ? 'select' : 'radio') : (unit === 'ms' || unit === 'cps' ? 'slider' : 'nudge');
+  const ctlBad = ctl.tun.map((t) => [t[0], want(t[1], t[2])]).concat(ctl.ns.map((t) => [t[0], t[3] || want(t[1], t[2])])).filter(([k, kind]) => {
+    const r = ctl.rows[k];
+    if (!r || r.kind !== kind || r.reset !== 'hidden') return true;
+    const n = (ctl.tun.find((t) => t[0] === k) || ctl.ns.find((t) => t[0] === k))[2];
+    if (kind === 'nudge') return !r.nudge || !r.num || r.slider || r.radios || r.select || r.check;
+    if (kind === 'slider') return !r.slider || !r.num || r.nudge || r.radios || r.select || r.check;
+    if (kind === 'radio') return r.radios !== n || r.slider || r.nudge || r.num || r.select || r.check;
+    if (kind === 'select') return r.select !== n || r.slider || r.nudge || r.num || r.radios || r.check;
+    return r.check !== 1 || r.slider || r.nudge || r.num || r.radios || r.select;
+  });
+  c('every value has the widget that fits it: pixels and counts - / box / + (no slider), timings and speeds a slider with a box, few named choices radio buttons, many a dropdown, on/off a checkbox; no row shows a reset until changed',
+    ctlBad.length === 0 && Object.keys(ctl.rows).length === ctl.tun.length + ctl.ns.length && ctl.rows['text.font'].kind === 'select' && ctl.rows['marking.actionCards'].kind === 'check'
+    && ctl.rows['marking.ink'].swatches === 3 && ctl.rows['overlay.notesPanel'].refTag === '1' && ctl.rows['marking.style'].refTag === '2', { ctlBad, n: Object.keys(ctl.rows).length });
+  const ui = await lab(async () => {
+    const row = (k) => document.querySelector('.row[data-key="' + k + '"], .row[data-nkey="' + k + '"]');
+    const P = window.POLISH_LAB, N = window.NARRATIVE_LAB;
+    const x0 = P.values()['notice.x'];
+    row('notice.x').querySelector('.plus').dispatchEvent(new MouseEvent('click', { bubbles: true, shiftKey: true }));
+    row('notice.x').querySelector('.minus').click();
+    const nudged = P.values()['notice.x'] - x0;
+    const resetShown = getComputedStyle(row('notice.x').querySelector('.reset')).visibility;
+    row('notice.x').querySelector('.reset').click();
+    const back = P.values()['notice.x'] === x0 && getComputedStyle(row('notice.x').querySelector('.reset')).visibility === 'hidden';
+    const r2 = row('overlay.notesPanel').querySelector('input[type=radio][value="2"]');
+    r2.click();
+    const radio = P.values()['overlay.notesPanel'];
+    const sel = row('text.font').querySelector('select');
+    sel.value = '3';
+    sel.dispatchEvent(new Event('change', { bubbles: true }));
+    const chk = row('paging.continue').querySelector('input[type=checkbox]');
+    chk.click();
+    const sl = row('notice.fadeInMs').querySelector('input[type=range]');
+    sl.value = '320';
+    sl.dispatchEvent(new Event('input', { bubbles: true }));
+    const box = row('notice.fadeInMs').querySelector('input[type=number]').value;
+    const out = { nudged, resetShown, back, radio, font: N.values()['text.font'], cont: N.values()['paging.continue'], fade: P.values()['notice.fadeInMs'], box };
+    P.resetAll();
+    N.reset();
+    return out;
+  });
+  await ready();
+  c('the widgets set their values: Shift + is 10 and - is 1; a changed row shows its reset, which restores the production value and hides again; radio, dropdown, checkbox and slider (its box follows) each set theirs',
+    ui.nudged === 9 && ui.resetShown === 'visible' && ui.back && ui.radio === 2 && ui.font === 3 && ui.cont === 0 && ui.fade === 320 && ui.box === '320', ui);
 
   // Reception-only triggers are refused in a preview; reception states unchanged after the study ----
   await setState('ns-b-short');

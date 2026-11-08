@@ -28,9 +28,12 @@
     <section class="panel" data-fold="stage">
       <h2 class="fold-head"><button class="fold" type="button">Stage / inspection aids</button></h2>
       <div class="buttons">
-        <button id="fitToggle" type="button"></button>
+        <div class="seg" role="group" aria-label="Stage scale">
+          <button id="fitExact" type="button">1:1 EXACT PIXELS</button>
+          <button id="fitWindow" type="button">FIT TO WINDOW</button>
+        </div>
+        <button id="freeze" type="button" aria-pressed="false">Freeze motion</button>
         <button id="finishTyping" type="button">Finish typing</button>
-        <button id="freeze" type="button">Freeze motion</button>
       </div>
       <p id="fitNote" class="note"></p>
       <div id="toggles" class="toggles"></div>
@@ -81,7 +84,7 @@
 
     <section class="panel" data-fold="values">
       <h2 class="fold-head"><button class="fold" type="button">Tunable values</button></h2>
-      <p class="note">Each row shows its production value. Changed rows are highlighted. Spatial values are whole pixels; timings are whole milliseconds.</p>
+      <p class="note">Each row shows its production value (prod) and gets a reset once changed; changed rows are highlighted. Positions and sizes: - / + nudge 1 px (Shift: 10), or type a value. Timings: slider, or type exact milliseconds. Named choices: pick one.</p>
       <div id="controls"></div>
     </section>
 
@@ -103,6 +106,7 @@
 </div>
 
 <script src="tunables.js"></script>
+<script src="controls.js"></script>
 <script src="narrative-study.js"></script>
 <script src="narrative-study-panel.js"></script>
 <script src="lab.js"></script>

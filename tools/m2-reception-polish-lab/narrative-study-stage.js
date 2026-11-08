@@ -96,6 +96,10 @@
   // Choices whose whole line is an action carry no brackets in the content, so the study names them.
   var ACTION_CHOICES = ['unlock', 'unlock-after', 'to-door', 'enter-corridor'];
   var NPC_DESCRIPTIONS = { 'STAMP.': 'SHE STAMPS SOMETHING.' }; // every other direction is a description already
+  // A sigh and other vocal sounds are mostly speech, not action (owner, 2026-11-08): a bracketed
+  // sound reads as part of what is said, dark and without brackets.
+  var SOUNDS = /^(SIGH|AHEM|HM+|HMPH|UGH|HUH|TSK|PSST|SH+|OH|AH|UH|UM|ER|PHEW|GASP|GULP|GROAN|COUGH|YAWN|LAUGH|CHUCKLE|SNORT|SNIFF|HA)[.!?,]*$/;
+  function sound(t) { return SOUNDS.test(t.trim()); }
   function actionSays() {
     var out = {};
     var nodes = (G.content && G.content.nodes) || {};
@@ -117,7 +121,7 @@
       return runs.map(function (r) { var t = r.t.trim(); return r.spoken ? t : (NPC_DESCRIPTIONS[t] || t); }).filter(Boolean).join(' ');
     }
     if (actionSays()[o.text]) return inked(o.text);
-    return runs.map(function (r) { var t = r.t.trim(); return !t ? '' : r.spoken ? t : inked(t); }).filter(Boolean).join(' ');
+    return runs.map(function (r) { var t = r.t.trim(); return !t ? '' : r.spoken || sound(t) ? t : inked(t); }).filter(Boolean).join(' ');
   }
   function plain(t) { return t.split(MARK).join(''); }
 
@@ -169,9 +173,22 @@
   }
   // The production dialogue box draws through G.text.draw: a line with a second-ink word is painted
   // here instead (only ever in states NB-8 and NB-9); every other call is the production routine, untouched.
+  // Action choice cards in the action ink (a toggle, owner 2026-11-08): a card whose whole line is an
+  // action - an action choice in NB-8 / NB-9, or an action card in Narrative B / Focus A - is painted
+  // here too. The card's text itself (and its accessible name) is never changed.
   var prodDraw = T.draw;
+  function actionCard(text) {
+    if (V('marking.style') !== 2 || !V('marking.actionCards')) return false;
+    if (talk) return !!actionSays()[text];
+    return !!active && choicesFor().some(function (c) { return c.kind === 'action' && c.text === text; });
+  }
   T.draw = function (canvas, lines, ink, lineHeight, width, height, maxChars, role) {
-    var marked = lines.some(function (l) { return (typeof l === 'string' ? l : l.text).indexOf(MARK) !== -1; });
+    var str = function (l) { return typeof l === 'string' ? l : l.text; };
+    if (canvas.classList && canvas.classList.contains('card-text') && actionCard(lines.map(str).join(' '))) {
+      lines = lines.map(function (l) { return inked(str(l)); });
+      return paint(canvas, lines.map(function (l) { return { text: l, role: role }; }), lineHeight, width, height, maxChars);
+    }
+    var marked = lines.some(function (l) { return str(l).indexOf(MARK) !== -1; });
     if (!marked) return prodDraw.apply(this, arguments);
     paint(canvas, lines.map(function (l) { return typeof l === 'string' ? { text: l, role: role } : l; }), lineHeight, width, height, maxChars);
   };
@@ -247,16 +264,15 @@
   function marked(runs) { return markRuns(runs, V('marking.style')); }
   function markedPassage(id) { return paragraphs(id).map(marked).join('\n\n'); }
 
-  // Pagination (separate pages, the earlier study, and Focus A) ----------------------------------
+  // Pagination (Focus A's description) ----------------------------------------------------------
   // Pages are arrays of wrapped lines, paragraphs separated by one blank line. A page never starts
-  // with a blank line, never holds more lines than `cap`, and no word is lost or reordered.
-  // breakAt 1: whole paragraphs; a paragraph that does not fit an empty page flows by sentences.
-  //         2: sentences (pages fill further). 3: lines (pages fill completely).
-  // A sentence longer than a whole page falls back to lines.
+  // with a blank line, never holds more lines than `cap`, and no word is lost or reordered. Whole
+  // paragraphs; a paragraph that does not fit an empty page flows by sentences, and a sentence
+  // longer than a whole page falls back to lines.
   function sentences(para) {
     return para.match(/[^.!?]+[.!?]+['")]*(\s+|$)|[^.!?]+$/g).map(function (s) { return s.trim(); }).filter(Boolean);
   }
-  function paginate(text, role, width, cap, breakAt) {
+  function paginate(text, role, width, cap) {
     var paras = text.split(/\n\s*\n/).map(function (p) { return p.replace(/\s*\n\s*/g, ' ').trim(); }).filter(Boolean);
     var pages = [];
     var cur = [];
@@ -296,12 +312,7 @@
     }
     paras.forEach(function (para) {
       var lines = wrap(para);
-      if (breakAt === 3) {
-        if (cur.length && room() <= 0) flush();
-        byLines(lines, false);
-        return;
-      }
-      if (breakAt === 1 && lines.length <= cap) {
+      if (lines.length <= cap) {
         if (lines.length > room()) flush();
         put(lines, false);
         return;
@@ -332,9 +343,8 @@
     return { x: V('focus.x'), y: V('focus.y'), width: V('focus.width'), lh: lh, cap: cap, height: (cap - 1) * lh + faceH, role: 'dialogue' };
   }
   function box(mode) { return mode === 'A' ? boxA() : boxB(); }
-  // A page (separate pages) or a CONTINUE group holds at most this many lines.
+  // A CONTINUE group holds at most this many lines.
   function groupCap() { var c = boxB().cap; return V('paging.maxLines') > 0 ? Math.min(c, V('paging.maxLines')) : c; }
-  function pagesFlow() { return V('paging.flow') === 3; }
   // The dialogue's scroll thumb rail (G.layout.speech.indicator: x 1899, 8 wide, inset 6 top /
   // 12 bottom against its 144 px text box), set the same way beside the narration box.
   function railB(b) { var ind = G.layout.speech.indicator; return { x: ind.x, y: b.y + 6, width: ind.width, height: Math.max(12, b.height - 18) }; }
@@ -365,7 +375,6 @@
   // active: { node, mode, prevNode, focusNode, taken: [],
   //   log: [runs, ...], newFrom,          Narrative B, continuous: the paragraphs told so far
   //   beats: [[para index, ...]], beat,   the current passage's CONTINUE groups
-  //   bPages: [[line]], bPage,            Narrative B as separate pages (the earlier study)
   //   pages: [[line]], page,              Focus A's description
   //   scroll, typing, typed, skip, fade }
   var active = null;
@@ -389,25 +398,21 @@
   }
   async function untilTrue(test, ep) { while (!test()) { await nextFrame(); alive(ep); } }
 
-  function continuous() { return active.mode === 'B' && !pagesFlow(); }
   // The CONTINUE step the passage stands at, and how many there are.
-  function step() { return active.mode === 'A' ? active.page : pagesFlow() ? active.bPage : active.beat; }
-  function steps() { return active.mode === 'A' ? active.pages.length : pagesFlow() ? active.bPages.length : active.beats.length; }
+  function step() { return active.mode === 'A' ? active.page : active.beat; }
+  function steps() { return active.mode === 'A' ? active.pages.length : active.beats.length; }
 
   function choicesFor() {
     var n = NODES[active.node];
     if (step() < steps() - 1) return [{ id: 'continue', kind: 'continue', text: 'CONTINUE' }];
-    return n.choices.map(function (c) {
-      var text = c.kind === 'spoken' && V('choices.spokenQuotes') === 2 ? '"' + c.text + '"' : c.text;
-      return { id: c.id, kind: c.kind, text: text, to: c.to };
-    });
+    return n.choices.map(function (c) { return { id: c.id, kind: c.kind, text: c.text, to: c.to }; });
   }
 
   // CONTINUE groups: whole paragraphs, as many as fit one panel together; a paragraph longer than
   // the panel is a group of its own and simply types on and scrolls. No CONTINUE at all: one group.
   function beatsFor(id) {
     var paras = paragraphs(id);
-    if (V('paging.flow') === 2) return [paras.map(function (p, i) { return i; })];
+    if (!V('paging.continue')) return [paras.map(function (p, i) { return i; })];
     var b = boxB();
     var cap = groupCap();
     var out = [];
@@ -422,25 +427,20 @@
     if (cur.length) out.push(cur);
     return out.length ? out : [[]];
   }
-  function pagesOf(id, mode) {
-    var b = box(mode);
-    return paginate(markedPassage(id), b.role, b.width, mode === 'A' ? b.cap : groupCap(), mode === 'A' ? 1 : V('paging.breakAt'));
+  function pagesOf(id) {
+    var b = boxA();
+    return paginate(markedPassage(id), b.role, b.width, b.cap);
   }
   function appendBeat() {
     var paras = paragraphs(active.node);
     active.newFrom = active.log.length;
     active.beats[active.beat].forEach(function (i) { active.log.push(paras[i]); });
   }
-  // Starts a B passage: CONTINUE groups appended to the narration, or (separate pages) page 1.
+  // Starts a B passage: its first CONTINUE group is added to the narration.
   function beginB(id) {
-    if (pagesFlow()) {
-      active.bPages = pagesOf(id, 'B');
-      active.bPage = 0;
-    } else {
-      active.beats = beatsFor(id);
-      active.beat = 0;
-      appendBeat();
-    }
+    active.beats = beatsFor(id);
+    active.beat = 0;
+    appendBeat();
   }
 
   // The lines of a surface: { lines: [{ text, role }], newRow, base (chars before newRow), total }.
@@ -448,9 +448,8 @@
     var b = box(mode);
     var lines = [];
     var newRow = 0;
-    if (mode === 'A' || pagesFlow()) {
-      var page = mode === 'A' ? active.pages[active.page] : active.bPages[active.bPage];
-      (page || []).forEach(function (t) { lines.push({ text: t, role: b.role }); });
+    if (mode === 'A') {
+      (active.pages[active.page] || []).forEach(function (t) { lines.push({ text: t, role: b.role }); });
     } else {
       active.log.forEach(function (runs, i) {
         if (i > 0) lines.push({ text: '', role: b.role });
@@ -723,16 +722,10 @@
     active.node = nodeId;
     active.mode = to;
     if (to === 'A') {
-      active.pages = pagesOf(nodeId, 'A');
+      active.pages = pagesOf(nodeId);
       active.page = 0;
       active.typing = true; // the description waits for the fade
       active.typed = 0;
-    } else if (V('choices.result') === 2 || pagesFlow()) {
-      active.log = []; // the earlier study: a result replaces the narration
-      active.newFrom = 0;
-      active.bPages = [[]];
-      active.bPage = 0;
-      active.scroll = 0;
     }
     if (from !== to) await crossFade(from, to, ep);
     if (to === 'B') beginB(nodeId);
@@ -754,11 +747,11 @@
       scroll: top, maxScroll: active.mode === 'B' ? maxScroll(L) : 0, thumb: !!(els.thumb && els.thumb.classList.contains('on')),
       maxInk: Math.max.apply(null, [0].concat(L.lines.map(function (l) { return T.inkWidth(plain(l.text), b.role); }))), width: b.width,
       box: [b.x, b.y, b.width, b.height].join(','), revealed: !active.typing, text: shown.join('\n'), all: all.join('\n'),
-      candidate: V('surface.candidate'), overlay: NS.OVERLAYS[V('surface.candidate')].path, flow: V('paging.flow'), marking: V('marking.style'),
+      candidate: V('surface.candidate'), overlay: NS.OVERLAYS[V('surface.candidate')].path, continueOn: V('paging.continue'), marking: V('marking.style'),
       kinds: JSON.stringify(choicesFor().map(function (c) { return [c.id, c.kind]; })), taken: JSON.stringify(active.taken)
     };
   };
-  S.pagesOf = function (nodeId, mode) { return pagesOf(nodeId, mode || NODES[nodeId].mode).map(function (p) { return p.map(plain); }); };
+  S.pagesOf = function (nodeId) { return pagesOf(nodeId).map(function (p) { return p.map(plain); }); };
   S.beatsOf = function (nodeId) { return beatsFor(nodeId); };
   S.passage = function (id) { return passage(id).replace(/\{\{|\}\}/g, ''); };
   S.marked = function (text, style) { return plain(markRuns(parseRuns(text), style)); };
@@ -774,12 +767,12 @@
     var ep = ++epoch;
     await overlayImg(V('surface.candidate')).ready;
     if (ep !== epoch) return 'superseded';
-    active = { node: nodeId, mode: NODES[nodeId].mode, taken: [], log: [], newFrom: 0, beats: [[]], beat: 0, bPages: [[]], bPage: 0, pages: [[]], page: 0,
+    active = { node: nodeId, mode: NODES[nodeId].mode, taken: [], log: [], newFrom: 0, beats: [[]], beat: 0, pages: [[]], page: 0,
       scroll: 0, typing: false, typed: Infinity, fade: null };
     G.hideTooltip();
     G.ui.thumbOn = false;
     G.setChoices([]);
-    if (active.mode === 'A') { active.pages = pagesOf(nodeId, 'A'); } else beginB(nodeId);
+    if (active.mode === 'A') { active.pages = pagesOf(nodeId); } else beginB(nodeId);
     active.typing = true;
     active.typed = 0;
     render();
@@ -824,13 +817,13 @@
     active.taken.push([id, ch.kind]);
     setPhase('lab-narrative');
     G.ui.thumbOn = false;
-    var send = ch.kind === 'spoken' || (ch.kind === 'action' && V('choices.actionMotion') === 2);
+    var send = ch.kind === 'spoken';
     G.ui.motion = send ? { kind: 'send', index: i, start: now() } : { kind: 'clear', start: now() };
     G.renderChoices(now());
     try {
       await cardsGone(ep);
       if (ch.kind === 'continue') {
-        if (continuous()) { active.beat++; appendBeat(); } else if (active.mode === 'A') active.page++; else active.bPage++;
+        if (active.mode === 'B') { active.beat++; appendBeat(); } else active.page++;
         await showStep(ep);
       } else {
         await go(ch.to, ep);
@@ -850,22 +843,19 @@
     if (!check.ok) return 'invalid';
     var was = vals;
     vals = Object.assign(NS.defaults(), map);
-    if (talk && (was['marking.style'] !== V('marking.style') || was['marking.ink'] !== V('marking.ink'))) markDialogue();
+    var marking = ['marking.style', 'marking.ink', 'marking.actionCards'].some(function (k) { return was[k] !== V(k); });
+    if (talk && marking) markDialogue();
     if (!active) return 'live';
+    if (marking) { G.rebuildStage(); if (lastToggles) LAB.setToggles(lastToggles); } // repaints the cards
     overlayImg(V('surface.candidate')).ready.then(function () {
       if (!active) return;
       if (active.mode === 'A') {
-        active.pages = pagesOf(active.node, 'A');
+        active.pages = pagesOf(active.node);
         active.page = Math.min(active.page, active.pages.length - 1);
-      } else if (pagesFlow()) {
-        active.bPages = pagesOf(active.node, 'B');
-        active.bPage = Math.min(active.bPage, active.bPages.length - 1);
       } else {
         var beats = beatsFor(active.node);
-        if (was['paging.flow'] === 3 || !active.log.length) {
-          // From separate pages to continuous narration: the passage so far, as narration.
+        if (!active.log.length) {
           var paras = paragraphs(active.node);
-          active.log = [];
           active.newFrom = 0;
           active.beat = Math.min(active.beat || 0, beats.length - 1);
           beats.slice(0, active.beat + 1).forEach(function (g) { g.forEach(function (k) { active.log.push(paras[k]); }); });
