@@ -19,7 +19,8 @@
   var fit = true;
   var frozen = false;
   var toggles = { hideShell: false, hideScene: false, hideBackground: false, hideNpc: false, hideRearFx: false, hideFrontFx: false,
-    boundsScene: false, boundsPortrait: false, boundsChoices: false, boundsInventory: false, boundsUtility: false, boundsClose: false, coords: true };
+    boundsScene: false, boundsPortrait: false, boundsChoices: false, boundsInventory: false, boundsUtility: false, boundsClose: false, coords: true,
+    boundsNarration: false };
   var folded = {}; // section id -> true when collapsed
   var scrolls = { side: 0, stageX: 0, stageY: 0 };
   var frames = {};
@@ -208,6 +209,7 @@
       w.LAB_STAGE.setToggles(toggles);
     }));
     renderStatus();
+    window.NARRATIVE_LAB.onState(id);
   }
   function setView(v) {
     view = v;
@@ -310,8 +312,12 @@
       if (box) box.classList.toggle('changed', c > 0);
     });
   }
+  function isPreview(id) {
+    try { return frameWin('production').LAB_STAGE.STATES.some(function (s) { return s.id === id && s.preview; }); } catch (e) { return false; }
+  }
   function renderStatus() {
-    $('status').textContent = 'Showing ' + view.toUpperCase() + ' values - state: ' + stateId + (frozen ? ' - FROZEN' : '');
+    var name = isPreview(stateId) ? (view === 'lab' ? 'LAB + STUDY' : 'STUDY DEFAULT') : view.toUpperCase();
+    $('status').textContent = 'Showing ' + name + ' values - state: ' + stateId + (isPreview(stateId) ? ' (Narrative Study preview, experimental)' : '') + (frozen ? ' - FROZEN' : '');
   }
   function buildLocked(w) {
     var G = w.CYOA_GAME;
@@ -341,8 +347,12 @@
 
   function buildToolbar() {
     var sel = $('stateSelect');
+    // The reception states, then the Narrative Study's experimental preview states in their own group.
+    var groups = {};
     frameWin('production').LAB_STAGE.STATES.forEach(function (s) {
-      var o = el('option', '', sel, s.label);
+      var g = s.group || 'M2 reception (the production game)';
+      if (!groups[g]) { groups[g] = el('optgroup', '', sel); groups[g].label = g; }
+      var o = el('option', '', groups[g], s.label);
       o.value = s.id;
     });
     sel.value = stateId;
@@ -367,7 +377,8 @@
     [['hideShell', 'Hide shell'], ['hideScene', 'Hide scene art'], ['hideBackground', 'Hide portrait background'], ['hideNpc', 'Hide receptionist'],
       ['hideRearFx', 'Hide rear FX'], ['hideFrontFx', 'Hide front FX'], ['boundsScene', 'Scene aperture bounds'], ['boundsPortrait', 'Portrait bounds'],
       ['boundsChoices', 'Choice + scrollbar bounds'], ['boundsInventory', 'Inventory bounds'], ['boundsUtility', 'Utility-button bounds'],
-      ['boundsClose', 'Show X hitbox (inspector)'], ['coords', 'Show coordinates']].forEach(function (p) {
+      ['boundsClose', 'Show X hitbox (inspector)'], ['coords', 'Show coordinates'],
+      ['boundsNarration', 'Narration / description box (Narrative Study)']].forEach(function (p) {
       var l = el('label', 'tg', tg);
       var c = el('input', '', l);
       c.type = 'checkbox';
@@ -471,8 +482,10 @@
     buildLocked(frameWin('production'));
     buildToolbar();
     renderSummary();
+    window.NARRATIVE_LAB.init({ frameWin: frameWin, view: function () { return view; }, isPreview: isPreview, stateId: function () { return stateId; }, setState: setState });
     initFolds();
     setView(view);
+    window.NARRATIVE_LAB.onState(stateId);
     applyFit();
     initScrolls();
     window.addEventListener('resize', applyFit);

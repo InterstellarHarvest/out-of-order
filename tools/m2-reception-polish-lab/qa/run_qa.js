@@ -55,7 +55,25 @@ function staticChecks() {
     prodScripts.every((f) => stageHtml.includes('../../game/' + f)) && stageHtml.includes('../../game/game.css') && !fs.existsSync(path.join(dir, 'stage.js')));
   const labStage = fs.readFileSync(path.join(dir, 'lab-stage.js'), 'utf8');
   check(s, 'state shortcuts never assign narrative state directly (they drive the real flow)', !/G\.state\s*=|G\.state\.[a-z]+\s*=(?!=)|state\.flags\.[a-z]+\s*=(?!=)/i.test(labStage));
+
+  // Narrative Study (docs/68): an experimental, lab-only preview kept apart from production.
+  const nsStage = fs.readFileSync(path.join(dir, 'narrative-study-stage.js'), 'utf8');
+  const nsReg = fs.readFileSync(path.join(dir, 'narrative-study.js'), 'utf8');
+  check(s, 'Narrative Study: the review overlays are the art-study branch files, byte-identical, outside the lab folder (review/)',
+    Object.entries(NARR_OVERLAYS).every(([p, h]) => fs.existsSync(path.join(ROOT, p)) && sha256(fs.readFileSync(path.join(ROOT, p))) === h && !p.startsWith('tools/')),
+    Object.keys(NARR_OVERLAYS).map((p) => fs.existsSync(path.join(ROOT, p)) && sha256(fs.readFileSync(path.join(ROOT, p)))));
+  check(s, 'Narrative Study: the production game neither loads nor names it (no narrative script, no identifier)',
+    !/NARRATIVE_STUDY|NARRATIVE_LAB|NARRATIVE_STAGE|narrative-study/.test(game) && !/narrative-study/.test(html));
+  check(s, 'Narrative Study: no stage-frame code reads browser storage (values arrive from the lab page in memory)',
+    ['lab-apply.js', 'lab-stage.js', 'narrative-study.js', 'narrative-study-stage.js'].every((f) => !/localStorage|sessionStorage|indexedDB/.test(fs.readFileSync(path.join(dir, f), 'utf8'))));
+  check(s, 'Narrative Study: the adapter never writes story state or production values (G.state, G.TUNING, G.layout)',
+    !/G\.state\s*=|G\.state\.[a-z]+\s*=(?!=)|state\.flags\.[a-z]+\s*=(?!=)|G\.TUNING[\w.[\]]*\s*=(?!=)|G\.layout[\w.[\]]*\s*=(?!=)/i.test(nsStage) && !/G\.TUNING|G\.layout/.test(nsReg.replace(/\/\/.*$/gm, '')));
 }
+const NARR_OVERLAYS = {
+  'review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png': '0dca8af319f3c67ca4f382f365d4ab642ec5cced0f81031ca34e36d9efdd88f7',
+  'review/narrative-mode-b-art-study/narrative-mode-b-candidate-b-overlay.png': '3b163752dcb6da269c4dd46376e75efbdd364831f18b16a36955a5593476c340'
+};
+const NARR_STORE = 'cyoa-m2-reception-polish-lab-narrative-study-v1';
 
 // Browser --------------------------------------------------------------------------------------
 async function suite(name, base) {
@@ -414,9 +432,367 @@ async function suite(name, base) {
   c('a reload keeps the values and the export as they were', (await lab(() => window.POLISH_LAB.exportChanges())) === exUi);
   await lab(() => { document.querySelector('[data-fold="sec-portrait"] .fold').click(); });
 
+  await narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeBoth, bodies, name, prod });
+
   c('no console or page errors in the lab', errors.length === 0, errors);
   await lab((ks) => ks.forEach((k) => localStorage.removeItem(k)), [STORE, STORE_UI]);
   await browser.close();
+}
+
+// Narrative Study (docs/68) -----------------------------------------------------------------------
+// The experimental Narrative B / Focus A preview added to this lab. Runs after every reception check
+// above, then proves the reception states are as they were.
+async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeBoth, bodies, name, prod }) {
+  const NS_STATES = ['ns-b-short', 'ns-b-long', 'ns-b-continue', 'ns-b-final', 'ns-a-keypad', 'ns-bab', 'ns-b-return', 'ns-spoken', 'ns-dialogue'];
+  const info = (mode) => lab((m) => document.getElementById(m === 'production' ? 'frameProduction' : 'frameLab').contentWindow.NARRATIVE_STAGE.info(), mode || 'lab');
+  const setState = async (s) => { await lab((x) => window.POLISH_LAB.setState(x), s); await page.waitForTimeout(250); };
+  const shoot = async () => page.screenshot({ clip: await wrap() });
+  const save = (buf, file) => { if (name === 'chromium') fs.writeFileSync(path.join(SHOTS, file), buf); };
+  const restOn = (test, ms) => lab(([t, limit]) => new Promise((res) => {
+    const w = document.getElementById('frameLab').contentWindow;
+    const f = new Function('w', 'G', 'i', 'return (' + t + ');');
+    const t0 = Date.now();
+    (function p() { const G = w.CYOA_GAME; const i = w.NARRATIVE_STAGE.info(); if (G.flow.phase === 'choosing' && !G.ui.motion && f(w, G, i)) res(true); else if (Date.now() - t0 > limit) res(false); else setTimeout(p, 30); })();
+  }), [test, ms || 10000]);
+  await lab(() => window.POLISH_LAB.resetAll());
+  await lab(() => window.NARRATIVE_LAB.reset());
+  await ready();
+  await lab(() => window.POLISH_LAB.setView('lab'));
+
+  // The reception opening before any preview has been on show (compared again at the end).
+  await setState('opening');
+  await freezeBoth(true);
+  const openingBefore = await shoot();
+  await freezeBoth(false);
+
+  // The state list: the study's states in their own, clearly labelled group.
+  const groups = await lab(() => Array.from(document.querySelectorAll('#stateSelect optgroup')).map((g) => [g.label, Array.from(g.children).map((o) => o.value)]));
+  const nsGroup = groups.find((g) => /Narrative Study/.test(g[0]));
+  c('Narrative Study: its states sit in their own group, labelled experimental and not the production game', !!nsGroup && /experimental/i.test(nsGroup[0]) && /not the production game/i.test(nsGroup[0])
+    && JSON.stringify(nsGroup[1]) === JSON.stringify(NS_STATES) && groups.some((g) => /reception/.test(g[0]) && g[1].includes('opening')), groups.map((g) => g[0]));
+  c('Narrative Study: the registry shares no key with the production tunables', await lab(() => window.NARRATIVE_STUDY.LIST.every((t) => !(t.key in window.POLISH_TUNABLES.byKey))));
+
+  // Narrative B, short: frame, overlay, layers, labels -------------------------------------------
+  await setState('ns-b-short');
+  const hdr = await lab(() => [document.getElementById('viewProduction').textContent, document.getElementById('viewLab').textContent, !document.getElementById('narrBadge').hidden, document.getElementById('status').textContent]);
+  c('Narrative Study: in a preview the header says STUDY DEFAULTS / LAB + STUDY VALUES and shows the EXPERIMENTAL badge (never PRODUCTION)',
+    hdr[0] === 'STUDY DEFAULTS' && hdr[1] === 'LAB + STUDY VALUES' && hdr[2] && /experimental/i.test(hdr[3]) && !/PRODUCTION/.test(hdr[0] + hdr[1]), hdr);
+  const b0 = await labG((w, G) => {
+    const d = w.document;
+    const i = w.NARRATIVE_STAGE.info();
+    const kids = Array.from(d.getElementById('stage').children).map((e) => e.id);
+    const ov = d.getElementById('labNarrativeOverlay');
+    const vis = (id) => w.getComputedStyle(d.getElementById(id)).visibility;
+    return { i, order: [kids.indexOf('portrait'), kids.indexOf('labFocusArt'), kids.indexOf('shell'), kids.indexOf('labNarrativeB'), kids.indexOf('choiceViewport')],
+      ov: ov && [ov.getAttribute('src'), ov.naturalWidth, ov.naturalHeight, ov.style.left, ov.style.top, ov.width, ov.height].join(),
+      hidden: [vis('portrait'), vis('speechText'), vis('speechIndicator')].join(), state: [G.state.node, G.state.transcript.length, G.ui.speech.parts.length].join() };
+  });
+  c('Narrative B: Candidate 1 overlay at 1:1 (0,0 1920x1080), above the shell and below the choices; portrait and dialogue box hidden',
+    b0.i.mode === 'B' && b0.ov === '../../review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png,1920,1080,0px,0px,1920,1080'
+    && b0.order[0] < b0.order[1] && b0.order[1] < b0.order[2] && b0.order[3] === b0.order[2] + 1 && b0.order[3] < b0.order[4] && b0.hidden === 'hidden,hidden,hidden', b0);
+  c('Narrative B: the overlay served is the pinned review file (Candidate 1 bytes)', bodies['review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png'] === NARR_OVERLAYS['review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png']);
+  c('Narrative B short: one top-aligned passage (starts at y 77), three ACTION choices, nothing in the transcript',
+    b0.i.node === 'hall' && b0.i.pages === 1 && b0.i.lines >= 1 && b0.i.lines <= 5 && /^1350,77,522,/.test(b0.i.box)
+    && b0.i.kinds === JSON.stringify([['examine-keypad', 'action'], ['pull-lever', 'action'], ['wait', 'action']]) && b0.state === 'opening,1,1', b0);
+  await freezeBoth(true);
+  const shotB = await shoot();
+  save(shotB, 'narrative_b_short.png');
+  // Pixels of the right column above the choices: wherever the overlay is opaque the screen is the
+  // overlay; elsewhere where the shell is opaque, the shell (top hardware intact, no divider showing).
+  const pix = (buf, mode, overlayPath, excl) => lab(async ([b64, m, ovp, ex]) => {
+    const load = (src) => new Promise((r, j) => { const i = new Image(); i.onload = () => r(i); i.onerror = () => j(new Error('load ' + src.slice(0, 60))); i.src = src; });
+    const imgs = await Promise.all([load('data:image/png;base64,' + b64), load('../../art/ui/shell/layout-final.png')].concat(ovp ? [load('../../' + ovp)] : []));
+    const px = (img) => { const cv = document.createElement('canvas'); cv.width = 1920; cv.height = 1080; const x = cv.getContext('2d'); x.drawImage(img, 0, 0); return x.getImageData(0, 0, 1920, 1080).data; };
+    const [s, sh, ov] = imgs.map(px);
+    let n = 0, bad = 0, ovN = 0, first = null;
+    for (let y = 0; y < 525; y++) for (let x = 1296; x < 1920; x++) {
+      if (ex.some((r) => x >= r[0] && x < r[0] + r[2] && y >= r[1] && y < r[1] + r[3])) continue;
+      const k = (y * 1920 + x) * 4;
+      let e = null;
+      if (ov && ov[k + 3] === 255) { e = ov; ovN++; } else if (sh[k + 3] === 255) e = sh;
+      if (!e) continue;
+      n++;
+      if (s[k] !== e[k] || s[k + 1] !== e[k + 1] || s[k + 2] !== e[k + 2]) { bad++; if (!first) first = [x, y, s[k], s[k + 1], s[k + 2], e[k], e[k + 1], e[k + 2]]; }
+    }
+    return { n, bad, ovN, first, m };
+  }, [buf.toString('base64'), mode, overlayPath, excl]);
+  const boxOf = (i) => { const b = i.box.split(',').map(Number); return [b[0] - 2, b[1] - 2, b[2] + 4, b[3] + 4]; };
+  const pB = await pix(shotB, 'B', 'review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png', [boxOf(b0.i)]);
+  c('Narrative B pixels: right column = Candidate 1 overlay where it is opaque, the owner shell elsewhere (frame, top hardware, no divider)', pB.bad === 0 && pB.n > 80000 && pB.ovN > 50000, pB);
+  await freezeBoth(false);
+
+  // Choices, scrollbar, footer and scene do not move -------------------------------------------
+  const geo = (w, G) => {
+    const d = w.document;
+    const r = (e) => { const b = e.getBoundingClientRect(); return [b.left, b.top, b.width, b.height].join(); };
+    const c0 = d.querySelector('#choiceViewport .choice').getBoundingClientRect();
+    // A card's height follows its own line count (production cardHeights); its place and width do not.
+    return { vp: r(d.getElementById('choiceViewport')), card0: [c0.left, c0.top, c0.width].join(), heights: JSON.stringify(G.layout.choices.cardHeights),
+      thumb: [d.getElementById('choiceThumb').style.left, d.getElementById('choiceThumb').style.top].join(), util: Array.from(d.querySelectorAll('.utility')).map(r).join('|'), inv: r(d.getElementById('invWindow')) };
+  };
+  const gB = await labG(geo);
+  await freezeBoth(true);
+  const footB = await page.screenshot({ clip: Object.assign(await wrap(), { height: 1080 }) });
+  await freezeBoth(false);
+  await setState('three-choices');
+  const gR = await labG(geo);
+  await setState('opening');
+  await freezeBoth(true);
+  const footR = await shoot();
+  await freezeBoth(false);
+  const region = (buf) => lab(async ([b64]) => {
+    const i = await new Promise((r) => { const m = new Image(); m.onload = () => r(m); m.src = 'data:image/png;base64,' + b64; });
+    const cv = document.createElement('canvas'); cv.width = 1920; cv.height = 1080; const x = cv.getContext('2d'); x.drawImage(i, 0, 0);
+    // The scene (x < 1296) and the whole footer (y >= 870): everything outside the right column above the footer.
+    return [x.getImageData(0, 0, 1296, 870).data, x.getImageData(0, 870, 1920, 210).data].map((d) => { let h = 0; for (let k = 0; k < d.length; k++) h = (h * 31 + d[k]) >>> 0; return h; }).join('/');
+  }, [buf.toString('base64')]);
+  c('Narrative B: choice viewport, first card, scrollbar thumb, utility buttons and inventory are exactly where reception has them',
+    gB.vp === gR.vp && gB.card0 === gR.card0 && gB.heights === gR.heights && gB.thumb === gR.thumb && gB.util === gR.util && gB.inv === gR.inv, { gB, gR });
+  c('Narrative B: scene and footer pixels are identical to the reception opening', (await region(footB)) === (await region(footR)));
+
+  // Long passage: CONTINUE only until the final page ---------------------------------------------
+  await setState('ns-b-continue');
+  const p1 = await info();
+  const cards1 = await labG((w, G) => G.ui.cards.map((k) => k.id + ':' + k.lines).join());
+  c('Overflowing passage, page 1: only one 1-line CONTINUE card, no authored decision on show', p1.page === 0 && p1.pages >= 2 && cards1 === 'continue:1'
+    && p1.kinds === JSON.stringify([['continue', 'continue']]), { p1, cards1 });
+  await freezeBoth(true);
+  save(await shoot(), 'narrative_b_continue_page1.png');
+  await freezeBoth(false);
+  const words = (t) => t.replace(/\s+/g, ' ').trim();
+  await lab(() => window.NARRATIVE_LAB.take('continue'));
+  await restOn('i.page === 1');
+  const p2 = await info();
+  c('CONTINUE replaces the passage with the next page (no history) and only the final page reveals the decisions', p2.page === 1 && p2.page === p2.pages - 1
+    && JSON.parse(p2.kinds).every((k) => k[1] === 'action') && JSON.parse(p2.kinds).length === 3 && !p2.text.includes(p1.text.split('\n')[0])
+    && words(p1.text + ' ' + p2.text) === words(await labG((w) => w.NARRATIVE_STAGE.passage('announce'))), { p2 });
+  await setState('ns-b-final');
+  const pf = await info();
+  c('the final-page state is reached by taking CONTINUE (page 2 of 2, three actions)', pf.page === pf.pages - 1 && pf.pages === 2 && JSON.parse(pf.kinds).length === 3, pf);
+  await freezeBoth(true);
+  save(await shoot(), 'narrative_b_continue_final.png');
+  await freezeBoth(false);
+  // Every intermediate page of the extreme fixture shows CONTINUE only.
+  await lab(() => window.NARRATIVE_LAB.setValue('paging.fixture', 3));
+  await setState('ns-b-continue');
+  const seen = [];
+  for (let k = 0; k < 8; k++) {
+    const i = await info();
+    seen.push([i.page, i.pages, JSON.parse(i.kinds).map((x) => x[0]).join('+'), i.lines, i.capacity]);
+    if (i.page === i.pages - 1) break;
+    await lab(() => window.NARRATIVE_LAB.take('continue'));
+    await restOn('i.page === ' + (i.page + 1));
+  }
+  c('a 3+ page passage: CONTINUE alone on every page but the last; the decisions appear only on the last', seen.length >= 3 && seen.slice(0, -1).every((s) => s[2] === 'continue')
+    && seen[seen.length - 1][2] === 'reclassify+examine-keypad+pull-lever' && seen.every((s) => s[3] <= s[4]), seen);
+  await lab(() => window.NARRATIVE_LAB.reset());
+
+  // No clipping, no lost words: every fixture x break rule x face, and a single very long paragraph.
+  const clipping = await lab(async () => {
+    const L = window.NARRATIVE_LAB;
+    const out = [];
+    for (const font of [1, 2, 3, 4]) for (const fx of [1, 2, 3]) for (const br of [1, 2, 3]) for (const lh of [16, 26, 44]) {
+      L.setValue('text.font', font, true); L.setValue('paging.fixture', fx, true); L.setValue('paging.breakAt', br, true); L.setValue('text.lineHeight', lh, true);
+      const w = document.getElementById('frameLab').contentWindow;
+      w.NARRATIVE_STAGE.applyValues(L.values());
+      const S = w.NARRATIVE_STAGE;
+      const role = window.NARRATIVE_STUDY.FONT_ROLE[font];
+      const pages = S.pagesOf('announce', 'B');
+      const v = L.values();
+      const faceH = w.CYOA_GAME.text.lineHeight(role);
+      const cap = Math.max(1, Math.floor((window.NARRATIVE_STUDY.SAFE_B.bottom - v['text.bottomMargin'] - v['text.y'] - faceH) / lh) + 1);
+      const bottom = v['text.y'] + (cap - 1) * lh + faceH; // the last line's glyphs end here
+      const src = S.passage('announce').replace(/\s+/g, ' ').trim();
+      const got = pages.map((p) => p.join(' ')).join(' ').replace(/\s+/g, ' ').trim();
+      const wide = pages.flat().filter((l) => w.CYOA_GAME.text.inkWidth(l, role) > v['text.width']);
+      const okEnds = fx !== 2 || br !== 1 || pages.slice(0, -1).every((p) => /[.!?]$/.test(p[p.length - 1]));
+      out.push({ font, fx, br, lh, ok: got === src && pages.every((p) => p.length <= cap && p[0] !== '') && wide.length === 0 && bottom <= window.NARRATIVE_STUDY.SAFE_B.bottom - v['text.bottomMargin'] && okEnds, pages: pages.length, cap });
+    }
+    L.reset();
+    return out;
+  });
+  const clipBad = clipping.filter((r) => !r.ok);
+  c('no clipping or lost text: 4 faces x 3 fixtures x 3 break rules x 3 line spacings fit the page budget and the parchment', clipBad.length === 0 && clipping.length === 108, clipBad.slice(0, 5));
+  c('a single paragraph longer than a page breaks at sentence ends, never mid-sentence (break at paragraph)', clipping.filter((r) => r.fx === 2 && r.br === 1).every((r) => r.ok)
+    && clipping.filter((r) => r.fx === 2 && r.br === 1 && r.pages >= 2).length >= 6, clipping.filter((r) => r.fx === 2 && r.br === 1).map((r) => [r.font, r.lh, r.pages, r.ok]));
+  await ready();
+
+  // B -> A -> B, by real clicks on the stage --------------------------------------------------------
+  await setState('ns-bab');
+  await lab(() => window.POLISH_LAB.setView('lab'));
+  const box = await wrap();
+  const clickCard = async (id) => {
+    const r = await labWin((w, d, a) => { const e = d.querySelector('#choiceViewport .choice[data-choice="' + a + '"]'); const b = e.getBoundingClientRect(); return [b.left, b.top, b.width, b.height]; }, id);
+    await page.mouse.click(box.x + r[0] + Math.round(r[2] / 2), box.y + r[1] + Math.round(r[3] / 2));
+  };
+  const base = await labG((w, G) => [G.state.node, G.state.transcript.length, G.ui.speech.parts.length, JSON.stringify(G.state.flags)].join('|'));
+  await freezeBoth(true);
+  save(await shoot(), 'narrative_bab_1_b.png');
+  await freezeBoth(false);
+  await clickCard('examine-keypad');
+  const motion1 = await labG((w, G) => G.ui.motion && G.ui.motion.kind);
+  const inA = await restOn('i.mode === "A"');
+  const a = await info();
+  const aDom = await labG((w) => { const d = w.document; return [d.getElementById('labNarrativeB').style.display, d.getElementById('labFocusArt').style.display, d.getElementById('labFocusPlaceholder').dataset.placeholder,
+    d.getElementById('labFocusPlaceholder').width, d.getElementById('labFocusPlaceholder').height, d.getElementById('labFocusArt').style.left, d.getElementById('labFocusArt').style.top].join(); });
+  c('B -> A: clicking EXAMINE THE KEYPAD (an action: every card slides away, no speech send) opens Focus A', inA && motion1 === 'clear' && a.node === 'keypad' && a.mode === 'A', { motion1, a });
+  c('Focus A: overlay gone, a labelled LAB PLACEHOLDER close-up fills the normal portrait aperture (564x278 at 1333,44), object choices', aDom === 'none,,FOCUS A: KEYPAD,564,278,1333px,44px'
+    && a.kinds === JSON.stringify([['press-keys', 'action'], ['stop', 'action']]) && /^1342,360,540,/.test(a.box) && a.lines <= a.capacity, { aDom, a });
+  await freezeBoth(true);
+  const shotA = await shoot();
+  save(shotA, 'narrative_bab_2_a.png');
+  save(shotA, 'narrative_a_keypad.png');
+  const pA = await pix(shotA, 'A', null, [boxOf(a), [1333, 44, 564, 278]]);
+  c('Focus A pixels: the right column above the choices is the owner shell (no B overlay, no stray divider or hardware)', pA.bad === 0 && pA.n > 60000, pA);
+  await freezeBoth(false);
+  const followA = (await info('production')).node;
+  await clickCard('stop');
+  const backB = await restOn('i.mode === "B"');
+  const b2 = await info();
+  c('A -> B: STOP EXAMINING returns to Narrative B with a fresh passage on page 1 (no log of the earlier passage or the description)', backB && b2.node === 'hall-return' && b2.page === 0
+    && !b2.text.includes('RECEPTIONIST WAS BUSY') && !b2.text.includes('BRASS KEYPAD, TWELVE KEYS') && b2.lines <= 5, b2);
+  await freezeBoth(true);
+  save(await shoot(), 'narrative_bab_3_b.png');
+  await freezeBoth(false);
+  await page.waitForTimeout(600);
+  c('a card taken by hand in the LAB frame is taken in the STUDY DEFAULTS frame too (same point for P / L flips)', followA === 'keypad' && (await info('production')).node === 'hall-return');
+  const after = await labG((w, G) => [G.state.node, G.state.transcript.length, G.ui.speech.parts.length, JSON.stringify(G.state.flags)].join('|'));
+  c('actions are not spoken lines: nothing entered the transcript or the dialogue history, no story state changed', after === base && base.startsWith('opening|1|1|'), { base, after });
+
+  // Spoken vs action comparison ---------------------------------------------------------------------
+  await setState('ns-spoken');
+  const sp = await info();
+  c('the comparison state offers ACTION and SPOKEN cards on the same approved card art, plain wording, no "A:" marker', sp.kinds === JSON.stringify([['examine-keypad', 'action'], ['call-out', 'spoken'], ['knock', 'action']])
+    && (await labG((w, G) => G.ui.cards.map((k) => k.text).join('|'))) === 'EXAMINE THE KEYPAD|HELLO? IS ANYONE BACK THERE?|KNOCK ON THE DOUBLE DOORS', sp);
+  await freezeBoth(true);
+  save(await shoot(), 'narrative_spoken_vs_action.png');
+  await freezeBoth(false);
+  const spoken = await labG(async (w, G) => { const S = w.NARRATIVE_STAGE; const p = S.take('call-out'); const kind = G.ui.motion && G.ui.motion.kind; await p; return [kind, S.info().node, G.state.transcript.length, G.ui.speech.parts.length].join(); });
+  c('a spoken line uses the production send, but its result is narrated: no transcript or dialogue-history entry', spoken === 'send,called-out,1,1', spoken);
+  c('the narrated result does not repeat the card as a line of speech', !(await info()).text.includes('HELLO? IS ANYONE BACK THERE?'));
+  await lab(() => window.NARRATIVE_LAB.setValue('choices.spokenQuotes', 2));
+  await setState('ns-spoken');
+  c('spoken quotation marks are only a selectable candidate (lab frame only)', (await labG((w, G) => G.ui.cards[1].text)) === '"HELLO? IS ANYONE BACK THERE?"'
+    && (await lab(() => document.getElementById('frameProduction').contentWindow.CYOA_GAME.ui.cards[1].text)) === 'HELLO? IS ANYONE BACK THERE?');
+  await lab(() => window.NARRATIVE_LAB.reset());
+
+  // Tuning, live, LAB frame only; candidate 2; timings --------------------------------------------
+  await setState('ns-b-short');
+  const href0 = await labWin((w) => w.location.href);
+  await lab(() => { const L = window.NARRATIVE_LAB; L.setValue('text.y', 97); L.setValue('text.x', 1360); L.setValue('text.lineHeight', 30); });
+  await page.waitForTimeout(150);
+  const tuned = [(await info()).box, (await info('production')).box];
+  c('narration X / Y / spacing apply live in the LAB frame only (no reload); the STUDY DEFAULTS frame keeps 1350,77', /^1360,97,522,/.test(tuned[0]) && /^1350,77,522,/.test(tuned[1])
+    && (await labWin((w) => w.location.href)) === href0, tuned);
+  await lab(() => window.NARRATIVE_LAB.setValue('text.width', 600));
+  c('wrap width is clamped so the box stays on the parchment (x + width <= 1908)', (await lab(() => window.NARRATIVE_LAB.values()['text.width'])) === 548);
+  await lab(() => window.NARRATIVE_LAB.setValue('surface.candidate', 2));
+  await page.waitForTimeout(400);
+  const cand = await labG((w) => w.document.getElementById('labNarrativeOverlay').getAttribute('src'));
+  c('Candidate 2 switches live in the LAB frame (served bytes pinned); the defaults frame keeps Candidate 1', /candidate-b-overlay\.png$/.test(cand)
+    && bodies['review/narrative-mode-b-art-study/narrative-mode-b-candidate-b-overlay.png'] === NARR_OVERLAYS['review/narrative-mode-b-art-study/narrative-mode-b-candidate-b-overlay.png']
+    && /candidate-a-overlay\.png$/.test(await lab(() => document.getElementById('frameProduction').contentWindow.document.getElementById('labNarrativeOverlay').getAttribute('src'))), cand);
+  c('every image the lab loads is a production art file under art/ or one of the two pinned review overlays', Object.keys(bodies).every((p) => /^art\//.test(p) || p in NARR_OVERLAYS), Object.keys(bodies).filter((p) => !/^art\//.test(p)));
+  await lab(() => window.NARRATIVE_LAB.setValue('text.font', 3));
+  await page.waitForTimeout(150);
+  const f3 = await info();
+  c('the narration face can be switched to another baked face (Labels) and still fits', f3.lines <= f3.capacity && f3.maxInk <= f3.width, f3);
+  await lab(() => window.NARRATIVE_LAB.reset());
+  await page.waitForTimeout(150);
+  // A production tunable changed during a preview rebuilds the production stage in place: the
+  // preview layers come back on it at once, and the cards follow the production value.
+  const beforeRebuild = await info();
+  await lab(() => window.POLISH_LAB.setValue('choices.listY', window.POLISH_LAB.production()['choices.listY'] + 10));
+  await ready();
+  const rb = await labWin((w, d) => [!!d.getElementById('labNarrativeB') && d.getElementById('labNarrativeB').parentNode === d.getElementById('stage'),
+    d.getElementById('shell').nextElementSibling.id, d.getElementById('labNarrativeOverlay').getAttribute('src').split('/').pop(), d.querySelector('#choiceViewport').getBoundingClientRect().top, w.location.href].join('|'));
+  const afterRebuild = await info();
+  c('a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value', rb === 'true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|' + href0
+    && afterRebuild.node === beforeRebuild.node && afterRebuild.text === beforeRebuild.text, rb);
+  await lab(() => window.POLISH_LAB.resetAll());
+  await ready();
+  // Timings: reveal, choices pause, cross-fade.
+  await lab(() => { const L = window.NARRATIVE_LAB; L.setValue('timing.revealCps', 30); L.setValue('timing.transitionMs', 800); });
+  await setState('ns-b-short');
+  await labG((w) => { w.NARRATIVE_STAGE.take('examine-keypad'); });
+  await page.waitForTimeout(450);
+  const mid = await labG((w, G) => [Number(w.document.getElementById('labNarrativeB').style.opacity), w.document.getElementById('labFocusArt').style.display, G.ui.cards.length].join());
+  const midP = mid.split(',');
+  c('the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)', Number(midP[0]) > 0 && Number(midP[0]) < 1 && midP[1] === '' && midP[2] === '0', mid);
+  await page.waitForTimeout(800);
+  const rev = await info();
+  await labG((w) => { w.document.getElementById('labFocusText').click(); });
+  await page.waitForTimeout(100);
+  const revDone = await info();
+  c('the reveal types the page at the set speed, a click on the text finishes it, and the choices follow only then', !rev.revealed && rev.mode === 'A' && revDone.revealed
+    && (await restOn('i.node === "keypad"', 4000)), { rev: rev.revealed, done: revDone.revealed });
+  await lab(() => window.NARRATIVE_LAB.reset());
+
+  // Export / import / reset / persistence: apart from the production tunables ---------------------
+  await lab(() => window.POLISH_LAB.setValue('portrait.npcY', 3));
+  await lab(() => { const L = window.NARRATIVE_LAB; L.setValue('text.y', 90); L.setValue('timing.transitionMs', 400); });
+  const nx = JSON.parse(await lab(() => window.NARRATIVE_LAB.exportChanges()));
+  c('COPY NARRATIVE STUDY JSON: its own schema, an EXPERIMENTAL note, only the changed study keys', nx.schema === 'cyoa-m2-narrative-study-v1' && /EXPERIMENTAL/.test(nx.note)
+    && JSON.stringify(nx.changes) === JSON.stringify({ 'text.y': 90, 'timing.transitionMs': 400 }), nx);
+  const px1 = await lab(() => window.POLISH_LAB.exportChanges());
+  const pxAll = await lab(() => window.POLISH_LAB.exportAll());
+  c('the production exports never carry a narrative value (COPY CHANGES / COPY ALL)', JSON.stringify(JSON.parse(px1).changes) === JSON.stringify({ 'portrait.npcY': 3 })
+    && !/text\.y|timing\.transition|surface\.|paging\.|focus\.|narrative/i.test(px1 + pxAll), JSON.parse(px1));
+  await lab(() => window.NARRATIVE_LAB.reset());
+  c('RESET NARRATIVE STUDY clears only the study values (the production lab change stays)', (await lab(() => Object.keys(window.NARRATIVE_LAB.changes()).length)) === 0
+    && JSON.stringify(await lab(() => window.POLISH_LAB.changes())) === JSON.stringify({ 'portrait.npcY': 3 }));
+  const nImp = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify(nx));
+  c('IMPORT NARRATIVE JSON round-trips its own export', nImp.ok && JSON.stringify(await lab(() => window.NARRATIVE_LAB.changes())) === JSON.stringify(nx.changes), nImp);
+  const nBad = {};
+  nBad.prodSchema = await lab((t) => window.NARRATIVE_LAB.importJSON(t), px1);
+  nBad.unknown = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'portrait.npcY': 3 } }));
+  nBad.range = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'text.lineHeight': 400 } }));
+  nBad.offParchment = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'text.x': 1420, 'text.width': 580 } }));
+  nBad.fraction = await lab((t) => window.NARRATIVE_LAB.importJSON(t), JSON.stringify({ schema: 'cyoa-m2-narrative-study-v1', changes: { 'text.y': 80.5 } }));
+  const prodImp = await lab((t) => window.POLISH_LAB.importJSON(t), JSON.stringify(nx));
+  c('imports stay apart: a production export is refused by the study import and a study export by the production import; bad values refused',
+    Object.values(nBad).every((r) => !r.ok) && !prodImp.ok && JSON.stringify(await lab(() => window.NARRATIVE_LAB.changes())) === JSON.stringify(nx.changes),
+    Object.fromEntries(Object.entries(nBad).map(([k, r]) => [k, r.errors && r.errors[0]])));
+  await lab(() => window.POLISH_LAB.resetAll());
+  await ready();
+  c('RESET ALL TO PRODUCTION leaves the study values alone', JSON.stringify(await lab(() => window.NARRATIVE_LAB.changes())) === JSON.stringify(nx.changes)
+    && Object.keys(await lab(() => window.POLISH_LAB.changes())).length === 0);
+  await lab(() => window.POLISH_LAB.setValue('portrait.npcY', 3));
+  await page.reload();
+  await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
+  const persisted = await lab((k) => [JSON.stringify(window.NARRATIVE_LAB.changes()), JSON.stringify(window.POLISH_LAB.changes()), Object.keys(JSON.parse(localStorage.getItem(k)).changes).join(),
+    JSON.stringify(document.getElementById('frameLab').contentWindow.NARRATIVE_STAGE.values()['text.y'])], NARR_STORE);
+  c('study values persist under their own storage key, apart from the production values; the LAB frame gets them at boot', persisted[0] === JSON.stringify(nx.changes)
+    && persisted[1] === JSON.stringify({ 'portrait.npcY': 3 }) && persisted[2] === 'text.y,timing.transitionMs' && persisted[3] === '90', persisted);
+  // The production game reads none of it.
+  const g = await page.context().newPage();
+  await g.goto(page.url().replace(/tools\/m2-reception-polish-lab\/index\.html.*/, 'game/index.html'));
+  await g.waitForFunction(() => document.body.dataset.ready, null, { timeout: 20000 });
+  const gState = await g.evaluate((k) => [!!localStorage.getItem(k), typeof window.NARRATIVE_STAGE, typeof window.NARRATIVE_STUDY, !!document.getElementById('labNarrativeOverlay'), window.CYOA_GAME.TUNING.portrait.npcY, window.CYOA_GAME.state.node].join(), NARR_STORE);
+  c('the production game ignores the study (storage present, never read; no narrative code or layer; production values)', gState === 'true,undefined,undefined,false,0,opening', gState);
+  await g.close();
+  await lab(() => { window.NARRATIVE_LAB.reset(); window.POLISH_LAB.resetAll(); });
+  await ready();
+
+  // Reception-only triggers are refused in a preview; reception states unchanged after the study ----
+  await setState('ns-b-short');
+  const refusals = await lab(async () => [await window.POLISH_LAB.trigger('npc-typing'), await window.POLISH_LAB.trigger('context-action')]);
+  c('reception-only triggers (NPC typing, context action) are refused in a preview, with the reason', refusals.every((r) => /not in a Narrative Study state/.test(r)), refusals);
+  await setState('ns-dialogue');
+  const ref = await labG((w, G) => [G.state.node, G.ui.cards.map((k) => k.id).join('+'), w.getComputedStyle(w.document.getElementById('portrait')).visibility, !!w.document.getElementById('labNarrativeB') && !!w.document.getElementById('labNarrativeB').parentNode, w.document.body.dataset.narrMode || ''].join('|'));
+  const refHdr = await lab(() => [document.getElementById('viewProduction').textContent, document.getElementById('narrBadge').hidden].join());
+  c('the reference state is the real reception dialogue (production flow, receptionist on show, no preview layer, PRODUCTION / LAB labels)',
+    ref === 'misassign|correct+cooperate+practical|visible|false|' && refHdr === 'PRODUCTION,true', { ref, refHdr });
+  await setState('opening');
+  await freezeBoth(true);
+  const openingAfter = await shoot();
+  await freezeBoth(false);
+  c('after every preview, the reception opening is pixel-identical to before (no layer, overlay or style left behind)', openingAfter.equals(openingBefore));
+  if (name === 'chromium') {
+    await setState('ns-b-continue');
+    await page.screenshot({ path: path.join(SHOTS, 'narrative_lab_overview.png') });
+  }
+  await setState('opening');
 }
 
 (async () => {

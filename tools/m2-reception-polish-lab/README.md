@@ -39,6 +39,48 @@ It needs the server, because it uses frames on the same origin. A window at leas
 
 **Storage:** lab values are saved in this page's `localStorage` (`cyoa-m2-reception-polish-lab-v1`); the lab's own UI state is kept apart under `cyoa-m2-reception-polish-lab-ui-v1`, is never exported, and RESET leaves it alone. The game never reads either.
 
+## Narrative Study (experimental preview)
+
+A lab-only preview of **Narrative B** and **Focus A** (docs/64–68 on `docs/story-gameplay-study-v01`), on the same stage, scaling, aids and QA as the reception states. **It is not the production game's narrative engine. The game has none yet.** No `game/` file, M2 content, shell, sprite or font is changed. Its text is representative test text, not story canon.
+
+**States** (in their own group in **State**):
+
+| State | Shows |
+|---|---|
+| NB-1 | B: a short passage and three action choices; the unused parchment is left blank |
+| NB-2 | B: a longer passage that fits on one page |
+| NB-3 | B: page 1 of a passage that overflows, with a single **CONTINUE** card |
+| NB-4 | B: the final page of that passage, reached through CONTINUE, with the authored choices |
+| NA-1 | A: the keypad close-up, reached through **EXAMINE THE KEYPAD** |
+| NB-5 | B → A → B, played by hand: click **EXAMINE THE KEYPAD**, then **PRESS THE KEYS AT RANDOM** or **STOP EXAMINING** |
+| NB-6 | B: the fresh passage after returning from A |
+| NB-7 | B: action and spoken cards side by side (the spoken card's result is narrated) |
+| REF | the existing reception dialogue, unchanged, through the production flow |
+
+**What it does:**
+- **B** keeps the scene. The Candidate 1 overlay (or Candidate 2) covers the portrait and speech regions, and the narration starts at the top of the panel. Each passage replaces the last; there is no history. A passage too long for one page breaks at a paragraph, then at a sentence, then at a line, and never clips. Every page before the last offers only CONTINUE.
+- **A** brings back the normal shell. A labelled **LAB PLACEHOLDER** keypad is drawn at runtime in the portrait aperture; it is not an art file and not an asset order. The description sits in the speech panel's text area, with the object's own choices below it. Leaving A returns to B with a new passage.
+- Cards, scrollbar, inventory, Current Objective and footer use the production code and stay in place. An **action** leaves with the production slide-away. A **spoken** line uses the production send, but its result is narrated. Neither is written into the transcript or the dialogue history.
+- A card you click in one frame is also taken in the other, so a PRODUCTION / LAB flip compares the same moment. While a preview is on show, those buttons read **STUDY DEFAULTS** and **LAB + STUDY VALUES**, and the header carries an **EXPERIMENTAL PREVIEW** badge. The utility buttons, the inventory inspector and the reception-only triggers (NPC typing, context action) do nothing in a preview.
+- Click the narration to finish a reveal. **RESTART THIS PREVIEW** reloads the state.
+
+**Controls** (Narrative Study panel; whole numbers, bounded; defaults are the static proofs' values, not production values):
+
+| Group | Controls |
+|---|---|
+| Narrative B surface | Candidate 1 / Candidate 2 overlay |
+| Narrative B text | X, Y, wrap width (x + width stays on the parchment, ≤ 1908), bottom safe margin, face (Dialogue / Choices / Labels / Objective, all approved baked faces), line spacing |
+| Passage length + continuation | long fixture (4 paragraphs / one very long paragraph / 6 long paragraphs), break at paragraph / sentence / line, max lines per page (0 = all that fit) |
+| Focus A description | X, Y, wrap width, line spacing (inside the speech panel) |
+| Reveal + transitions | reveal speed (0 = whole page at once), pause before choices, B ↔ A cross-fade (0 = cut) |
+| Action vs spoken choices | action leaves with slide-away or a spoken-style send (for comparison); spoken cards plain or in quotation marks (candidate only) |
+
+Changes apply live to the LAB frame. The other frame keeps the study defaults.
+
+**Kept apart from production:** the values are stored under `cyoa-m2-reception-polish-lab-narrative-study-v1`. They export with **COPY NARRATIVE STUDY JSON** / **COPY ALL STUDY VALUES** (schema `cyoa-m2-narrative-study-v1`, with an EXPERIMENTAL note) and come back in with **IMPORT NARRATIVE JSON**. Each import refuses the other schema. **RESET NARRATIVE STUDY** clears only these values. **RESET ALL TO PRODUCTION** never touches them, and the production COPY CHANGES / COPY ALL never include them. The stage frames get the values from the lab page in memory and never read storage. The aid **Narration / description box** outlines the text box and its safe surface.
+
+**Review overlays:** `review/narrative-mode-b-art-study/narrative-mode-b-candidate-{a,b}-overlay.png`, copied byte-identical from `agent/narrative-mode-b-art-study` (Candidate 1 = `a`, SHA-256 `0dca8af3…`; Candidate 2 = `b`, `3b163752…`). They are review assets only and live outside this folder, which holds no art.
+
 ## Files
 
 | File | Role |
@@ -48,4 +90,7 @@ It needs the server, because it uses frames on the same origin. A window at leas
 | `stage.html` | a stage frame that loads the production game scripts and CSS from `game/` |
 | `lab-apply.js` | in a stage frame, before the stage is built: `?mode=lab` writes the lab values into `G.TUNING` / `G.layout`; `?mode=production` writes nothing |
 | `lab-stage.js` | in a stage frame, after boot: representative states (driven through the real flow), live values (`applyValues` → `G.rebuildStage`), inspection aids |
+| `narrative-study.js` | Narrative Study: the experimental value registry (bounds, defaults, safe surfaces, overlay pins), loaded by the page and the frames |
+| `narrative-study-stage.js` | Narrative Study: the lab-only preview adapter in a stage frame (fixtures, pagination, B / A layers, choices, live values) |
+| `narrative-study-panel.js` | Narrative Study: the panel on the lab page (controls, own storage, export / import / reset, header labels) |
 | `qa/run_qa.js` | lab QA (`NODE_PATH="$(npm root -g)" node tools/m2-reception-polish-lab/qa/run_qa.js`) |

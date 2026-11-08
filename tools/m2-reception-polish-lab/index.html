@@ -17,6 +17,7 @@
     <button id="viewLab" type="button">LAB</button>
   </div>
   <span class="hint">P / L / Space flip</span>
+  <span id="narrBadge" class="narr-badge" hidden>NARRATIVE STUDY: EXPERIMENTAL PREVIEW, NOT THE PRODUCTION GAME</span>
   <button id="resetAll" type="button" class="danger">RESET ALL TO PRODUCTION</button>
   <span id="summary" class="summary"></span>
   <span id="status" class="status">Starting...</span>
@@ -46,6 +47,25 @@
         <button id="trigContextAction" type="button" data-trigger="context-action">TRIGGER CONTEXT ACTION (OBSERVE)</button>
       </div>
       <pre id="triggerStatus" class="note"></pre>
+    </section>
+
+    <section class="panel narr" data-fold="narrative">
+      <h2 class="fold-head"><button class="fold" type="button">Narrative Study (experimental preview)</button></h2>
+      <p class="note">A lab-only preview of Narrative B and Focus A (docs/64-68) on the production stage. It is NOT the production game's narrative engine: the game has none yet. Its values are kept apart from the production tunables: own storage, own export, own reset. Pick a state in the "Narrative Study" group, then click the cards on the stage (CONTINUE, EXAMINE THE KEYPAD, STOP EXAMINING ...). A card taken in one frame is taken in the other too. Click the narration to finish a reveal.</p>
+      <pre id="narrInfo" class="note"></pre>
+      <div class="buttons">
+        <button id="narrRestart" type="button">RESTART THIS PREVIEW</button>
+        <button id="narrReset" type="button" class="danger">RESET NARRATIVE STUDY</button>
+      </div>
+      <span id="narrSummary" class="summary"></span>
+      <div id="narrControls"></div>
+      <div class="buttons narr-io">
+        <button id="narrCopyChanges" type="button">COPY NARRATIVE STUDY JSON</button>
+        <button id="narrCopyAll" type="button">COPY ALL STUDY VALUES</button>
+        <button id="narrImport" type="button">IMPORT NARRATIVE JSON</button>
+      </div>
+      <textarea id="narrIo" rows="5" spellcheck="false" aria-label="Narrative Study JSON" placeholder="Narrative Study exports appear here (schema cyoa-m2-narrative-study-v1). Paste one here, then IMPORT NARRATIVE JSON."></textarea>
+      <pre id="narrIoStatus" class="note"></pre>
     </section>
 
     <section class="panel" data-fold="io">
@@ -83,6 +103,8 @@
 </div>
 
 <script src="tunables.js"></script>
+<script src="narrative-study.js"></script>
+<script src="narrative-study-panel.js"></script>
 <script src="lab.js"></script>
 </body>
 </html>

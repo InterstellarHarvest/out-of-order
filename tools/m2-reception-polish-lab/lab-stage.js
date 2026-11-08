@@ -128,7 +128,21 @@
     'choices-1-2-3': { label: 'Sample: 1-, 2- and 3-line cards', run: async function () {}, after: function () { showSamples([1, 2, 3]); } },
     'choices-three-2': { label: 'Sample: three 2-line cards', run: async function () {}, after: function () { showSamples([2, 2, 2]); } }
   };
-  LAB.STATES = Object.keys(STATES).map(function (k) { return { id: k, label: STATES[k].label }; });
+  function listStates() { return Object.keys(STATES).map(function (k) { return { id: k, label: STATES[k].label, group: STATES[k].group || null, preview: !!STATES[k].group && !STATES[k].reception }; }); }
+  LAB.STATES = listStates();
+
+  // Lab-only extensions (the Narrative Study, narrative-study-stage.js): more states in their own
+  // group, and hooks around a state load, a live rebuild and the aids. The reception states above
+  // and their loading are unchanged.
+  var hooks = { beforeState: [], afterRebuild: [], toggles: [] };
+  LAB.on = function (name, fn) { hooks[name].push(fn); };
+  function fire(name, arg) { hooks[name].forEach(function (fn) { fn(arg); }); }
+  LAB.addStates = function (group, defs) {
+    Object.keys(defs).forEach(function (k) { STATES[k] = Object.assign({ group: group }, defs[k]); });
+    LAB.STATES = listStates();
+  };
+  LAB.loading = function () { return loading; };
+  var helpers = { path: path, choose: choose, settle: settle };
 
   LAB.loadState = async function (id) {
     var s = STATES[id] || STATES.opening;
@@ -136,12 +150,13 @@
     var wasFrozen = frozenAt !== null;
     LAB.freeze(false);
     G.hideTooltip();
+    fire('beforeState', id);
     loading = true;
     try {
       await fast(async function () {
         G.flow.begin();
         await settle();
-        await s.run();
+        await s.run(helpers);
         await settle();
       });
     } finally {
@@ -183,6 +198,7 @@
     var notes = G.OVERLAY_ART[G.overlayPanelKey('notes')];
     if (!G.image(notes.image)) return 'reload';
     G.rebuildStage();
+    fire('afterRebuild');
     if (lastToggles) LAB.setToggles(lastToggles);
     document.body.dataset.labApplied = String(++applied);
     return 'live';
@@ -200,6 +216,8 @@
   // saved: a reload or a state load starts over. Each returns 'ok' or why it could not run.
   var resting = function () { return phase() === 'choosing' && !G.ui.motion && !G.ui.inspector; };
   LAB.trigger = async function (kind) {
+    var refused = LAB.narrativeRefuses && LAB.narrativeRefuses(kind);
+    if (refused) return refused;
     // The production grant path: the slip queues behind one already on show, exactly as in play,
     // and fades with the LAB frame's current fade values (G.TUNING.notice).
     if (kind === 'item-received') { G.notifyItem('wc_key'); return 'ok'; }
@@ -315,6 +333,7 @@
       d.style.cssText = 'position:absolute;box-sizing:border-box;border:1px solid ' + b[1] + ';left:' + b[0][0] + 'px;top:' + b[0][1] + 'px;width:' + b[0][2] + 'px;height:' + b[0][3] + 'px';
       boundsLayer.appendChild(d);
     });
+    fire('toggles', t);
   };
 
   // Pointer position in stage pixels and the element under it, reported to the lab page.

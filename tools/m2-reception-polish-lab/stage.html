@@ -5,7 +5,8 @@
 <title>Reception polish lab - stage</title>
 <meta name="viewport" content="width=1920">
 <!-- The PRODUCTION game, loaded from game/ unchanged: same stylesheet, same scripts, same art.
-     The lab adds only lab-apply.js (before the stage is built) and lab-stage.js (after boot). -->
+     The lab adds only lab-apply.js (before the stage is built) and lab-stage.js (after boot), plus
+     the Narrative Study's lab-only preview adapter (after lab-stage.js). -->
 <link rel="stylesheet" href="../../game/game.css">
 <script>window.CYOA_ROOT = '../../';</script>
 </head>
@@ -26,5 +27,8 @@
 <script src="../../game/js/flow.js"></script>
 <script src="../../game/js/main.js"></script>
 <script src="lab-stage.js"></script>
+<!-- Narrative Study (docs/68): an experimental, lab-only presentation preview. Not production. -->
+<script src="narrative-study.js"></script>
+<script src="narrative-study-stage.js"></script>
 </body>
 </html>
