@@ -17,7 +17,7 @@
   var G = window.CYOA_GAME;
   var Rules = (G.rules = window.CYOA_RULES);
   var content = (G.content = window.CYOA_RECEPTION);
-  var F = (G.flow = { phase: 'boot', beforeChoicesMs: 200 });
+  var F = (G.flow = { phase: 'boot' });
   var timer = null;
   var pending = null;
   var sliding = false;
@@ -72,7 +72,7 @@
 
   function afterTyping() {
     setPhase('beat');
-    later(F.beforeChoicesMs, present);
+    later(G.TUNING.timing.beforeChoicesMs, present);
   }
 
   // Click or Enter on the dialogue box finishes the line; the choices follow after the beat.

@@ -1,0 +1,268 @@
+# CYOA M2 — Reception Polish Lab
+
+**Date:** 2026-11-07  
+**Branch:** `agent/m2-reception-polish-lab`, created by PMO from `6472cecb377a6e00484f92cdee55f6500858daa3`, the accepted player-facing-art-complete checkpoint.  
+**Lab:** `tools/m2-reception-polish-lab/`. Open <http://127.0.0.1:8137/tools/m2-reception-polish-lab/index.html>.  
+**Status:** ready for owner use. No tuning value has been chosen or applied, and nothing is merged.
+
+> **M2 POLISH CANNOT CLOSE UNTIL OWNER LAB REVIEW IS COMPLETE AND THE OWNER-APPROVED EXPORTED CHANGES HAVE BEEN APPLIED BACK TO PRODUCTION.**
+
+## 1. Purpose
+
+Art complete is not polish complete. The lab is the final visual and interaction tuning gate for the complete reception slice. The owner sees the finished presentation in action, makes small placement and timing adjustments, compares them with production, and exports them. The exported changes are then applied back to the game in a separate step, before M2 closeout.
+
+## 2. It is the production game, not a mockup
+
+- **Same code and art:** each stage frame (`stage.html`) loads the production `game/game.css`, `game/content/reception.js`, `game/js/{rules,pixeltext,tuning,placeholders,stage,flow,main}.js`, the layout bundle and the committed art. Nothing is copied or recreated. The lab folder contains no images, and QA checks that every image it loads is a production file under `art/`.
+- **Two frames:** the lab page holds two stage frames:
+  - `?mode=production`: the game exactly as committed;
+  - `?mode=lab`: `lab-apply.js` writes the lab values into `G.TUNING` / `G.layout` **before** `stage.js` builds anything.
+- **PRODUCTION / LAB** flips between the frames instantly, without losing the lab values.
+- **The game never loads the lab:** `game/index.html` loads no lab script, and the game has no storage access at all (static QA).
+
+## 3. Production values source
+
+- **Defaults** are read **at runtime from the production frame** through the registry (`tunables.js`, one `read(G)` per key). QA confirms they equal the values read from a plain `game/index.html`. The lab hard-codes no production number.
+- **Sources:**
+  - layout values come from `G.layout`, the committed `tools/layout-lab/data/placement.default.json` via `lab_data.js`, unchanged;
+  - the constants that were literals in `stage.js` / `flow.js` now come from **`game/js/tuning.js`** (`G.TUNING`).
+
+### Low-risk production refactor (values unchanged)
+
+**What moved into `game/js/tuning.js`, with identical values:**
+- `NOTICE_MS` 3600 and the slip geometry: x 56, y 738, item (14, 9), text x 134, middle rows 28 / 77;
+- the card stagger 40;
+- `beforeChoicesMs` 200;
+- the tooltip box constants: padding 10 / 7, gap 4, offset 0;
+- the NOTES/FILES text regions: title (100, centred on 60), body (48, 140, 1159 × 620), line 26;
+- the inspector item-text top 12;
+- new zero defaults: portrait layer offsets and inspector nudges 0, tooltip show / hide delay 0.
+
+**How the game uses it:**
+- `stage.js` and `flow.js` read `G.TUNING`.
+- `game/index.html` loads `tuning.js` after `pixeltext.js`.
+- `pixeltext.js` accepts `window.CYOA_ROOT`, which only the lab's stage frame sets, so the same scripts can load from `tools/`.
+- The tooltip's optional show / hide delay is 0, so it shows and hides at once as before.
+
+**Proof that production is unchanged:**
+- **Game QA:** 431/431 (Chromium + Firefox) after the refactor.
+- **Screenshots:** of the 29 game QA screenshots, 23 are byte-identical to the committed base. The other 6 differ only in timing-captured regions: typing progress in the dialogue box (`01`, `00f`, `00k`, `09`), the speech indicator mid-fade (`05b`), and a choice card caught mid-arrival (`10`).
+- **Lab QA:** PRODUCTION and LAB are pixel-identical at defaults in every representative state.
+
+## 4. Locked (not tunable in the lab)
+
+- **Shell and stage:** the canonical shell pixels (`art/ui/shell/layout-final.png`, `813e0884…`), the 1920 × 1080 stage, and the three-utility-button structure.
+- **Scene:** aperture (32, 44) 1255 × 822; 314 × 206 density; exact 4× rendering.
+- **Portrait:** aperture (1333, 44) 564 × 278; 564 × 278 density; 1× rendering; layer contract background → rear FX → NPC → front FX → shell.
+- **Approved art:** the scene, portrait background, `receptionist_idle`, the inspector frame / item overlay, FACILITIES KEY inspect art (565 × 451), the NOTES/FILES panel (1255 × 822), the item-received slip (560 × 116), and the action-button sprite family.
+- **Choice cards:** the width and height contract as committed in production, `placement.default.json`: **width 535, heights 79 / 107 / 135 / 162** (1–4 lines). The scrollbar width (20) is reserved, with no arrows.
+  - The brief quoted 548 and 80 / 108 / 136. Those are not the production values; the lab locks what production actually uses.
+- **Inventory:** the slot concept and slot / arrow art.
+  - Production shows **6 slots** (`slotCount` 6; a 7-slot layout exists in the data). The brief said "7-slot". The lab keeps the count locked as committed and does not reopen it.
+
+## 5. Tunables (68)
+
+Spatial values are whole pixels, and timings whole milliseconds; both must be integers. "Bounds" are the import / control limits.
+
+**Portrait**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `portrait.npcX` | Receptionist X offset | 0 px | -40...40 | `G.TUNING.portrait.npcX` |
+| `portrait.npcY` | Receptionist Y offset | 0 px | -40...40 | `G.TUNING.portrait.npcY` |
+| `portrait.backgroundX` | Background X offset | 0 px | -20...20 | `G.TUNING.portrait.backgroundX` |
+| `portrait.backgroundY` | Background Y offset | 0 px | -20...20 | `G.TUNING.portrait.backgroundY` |
+
+**Dialogue**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `dialogue.textX` | Text box X (left inset) | 1342 px | 1302...1382 | `G.layout.speech.text.x` |
+| `dialogue.textY` | Text box Y (top inset) | 360 px | 320...400 | `G.layout.speech.text.y` |
+| `dialogue.textWidth` | Text box width (right padding) | 540 px | 480...570 | `G.layout.speech.text.width` |
+| `dialogue.textHeight` | Visible history height (bottom padding) | 144 px | 84...174 | `G.layout.speech.text.height` |
+| `dialogue.lineHeight` | Line height | 24 px | 16...40 | `G.layout.speech.text.lineHeight` |
+| `dialogue.speakerGap` | Gap between speakers | 8 px | 0...32 | `G.layout.speech.text.speakerGap` |
+
+**Choices + scrollbar**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `choices.listY` | Choice list top (viewport Y) | 527 px | 497...557 | `G.layout.choices.viewport.y` |
+| `choices.gap` | Gap between cards | 5 px | 0...30 | `G.layout.choices.gap` |
+| `choices.textX` | Card text X inset | 29 px | 0...80 | `G.layout.choices.text.offsetX` |
+| `choices.textY` | Card text Y inset | 0 px | -20...20 | `G.layout.choices.text.offsetY` |
+| `scrollbar.x` | Scrollbar indicator X | 1880 px | 1850...1910 | `G.layout.scrollbar.thumb.x (= track.x)` |
+| `scrollbar.top` | Scrollbar track top | 539 px | 509...569 | `G.layout.scrollbar.track.y` |
+| `scrollbar.bottom` | Scrollbar track bottom | 851 px | 821...881 | `G.layout.scrollbar.track.y + height` |
+
+**Inventory**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `inventory.slotsX` | Slot group X | 92 px | 52...132 | `G.layout.inventory.slotLayouts[slotCount].x` |
+| `inventory.slotsY` | Slot group Y | 935 px | 905...965 | `G.layout.inventory.slotLayouts[slotCount].y` |
+| `inventory.slotGap` | Slot gap (pitch = 96 + gap) | 20 px | 0...40 | `G.layout.inventory.gap / pitch` |
+| `inventory.leftArrowX` | Left arrow X | 33 px | 3...63 | `G.layout.inventory.leftArrow.x` |
+| `inventory.leftArrowY` | Left arrow Y | 948 px | 918...978 | `G.layout.inventory.leftArrow.y` |
+| `inventory.rightArrowX` | Right arrow X | 782 px | 752...812 | `G.layout.inventory.rightArrow.x` |
+| `inventory.rightArrowY` | Right arrow Y | 948 px | 918...978 | `G.layout.inventory.rightArrow.y` |
+
+**Utility buttons**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `utility.groupX` | Group X (first button) | 1482 px | 1422...1542 | `G.layout.utility.buttons[0].x` |
+| `utility.spacing` | Spacing between buttons | 2 px | 0...30 | `buttons[1].x - buttons[0].x - width` |
+| `utility.rowY` | Row Y | 930 px | 900...960 | `G.layout.utility.buttons[*].y` |
+
+**Tooltip**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `tooltip.offsetX` | X offset from the button centre | 0 px | -40...40 | `G.TUNING.tooltip.offsetX` |
+| `tooltip.gapY` | Gap above the button | 4 px | 0...40 | `G.TUNING.tooltip.gapY` |
+| `tooltip.padX` | Horizontal padding | 10 px | 2...30 | `G.TUNING.tooltip.padX` |
+| `tooltip.padY` | Vertical padding | 7 px | 2...20 | `G.TUNING.tooltip.padY` |
+
+**Item-received slip**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `notice.x` | Slip X | 56 px | -4...116 | `G.TUNING.notice.x` |
+| `notice.y` | Slip Y | 738 px | 678...798 | `G.TUNING.notice.y` |
+| `notice.itemX` | Item art X (in slip) | 14 px | 2...26 | `G.TUNING.notice.itemX` |
+| `notice.itemY` | Item art Y (in slip) | 9 px | -3...21 | `G.TUNING.notice.itemY` |
+| `notice.titleX` | ITEM RECEIVED X | 134 px | 104...164 | `G.TUNING.notice.titleX` |
+| `notice.titleY` | ITEM RECEIVED middle row Y | 28 px | 16...40 | `G.TUNING.notice.titleMidY` |
+| `notice.nameX` | Item name X | 134 px | 104...164 | `G.TUNING.notice.nameX` |
+| `notice.nameY` | Item name middle row Y | 77 px | 65...89 | `G.TUNING.notice.nameMidY` |
+
+**Inspector**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `inspector.artX` | Inspect art X nudge | 0 px | -20...20 | `G.TUNING.inspector.artDx` |
+| `inspector.artY` | Inspect art Y nudge | 0 px | -20...20 | `G.TUNING.inspector.artDy` |
+| `inspector.closeX` | Close X nudge X | 0 px | -20...20 | `G.TUNING.inspector.closeDx` |
+| `inspector.closeY` | Close X nudge Y | 0 px | -20...20 | `G.TUNING.inspector.closeDy` |
+| `inspector.textX` | Item text X (vs card text inset) | 0 px | -20...20 | `G.TUNING.inspector.textDx` |
+| `inspector.textY` | Item text top | 12 px | 0...40 | `G.TUNING.inspector.textY` |
+
+**NOTES / FILES**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `overlay.titleX` | Title X | 100 px | 40...160 | `G.TUNING.overlay.titleX` |
+| `overlay.titleY` | Title middle row Y | 60 px | 30...90 | `G.TUNING.overlay.titleCenterY` |
+| `overlay.bodyX` | Body X | 48 px | 18...88 | `G.TUNING.overlay.bodyX` |
+| `overlay.bodyY` | Body Y | 140 px | 110...180 | `G.TUNING.overlay.bodyY` |
+| `overlay.bodyWidth` | Body width | 1159 px | 1039...1189 | `G.TUNING.overlay.bodyWidth` |
+| `overlay.bodyHeight` | Body height | 620 px | 500...650 | `G.TUNING.overlay.bodyHeight` |
+| `overlay.lineHeight` | Line height | 26 px | 18...40 | `G.TUNING.overlay.lineHeight` |
+
+**Objective**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `objective.titleAlignX` | Title centring adjustment | 0 px | -30...30 | `G.layout.objective.title.alignOffsetX` |
+| `objective.titleY` | Title Y | 907 px | 887...927 | `G.layout.objective.title.y` |
+| `objective.bodyX` | Body X | 889 px | 859...919 | `G.layout.objective.body.x` |
+| `objective.bodyY` | Body Y | 958 px | 938...978 | `G.layout.objective.body.y` |
+| `objective.bodyWidth` | Body width | 522 px | 462...552 | `G.layout.objective.body.width` |
+
+**Interaction timing**
+
+| Key | Meaning | Production | Bounds | Source |
+|---|---|---|---|---|
+| `timing.npcCharsPerSecond` | NPC typing speed (chars / s) | 40 cps | 5...200 | `G.layout.speech.text.charsPerSecond` |
+| `timing.beforeChoicesMs` | Pause after a line, before choices | 200 ms | 0...2000 | `G.TUNING.timing.beforeChoicesMs` |
+| `timing.cardSlideMs` | Card arrival / leave slide | 160 ms | 1...1000 | `G.layout.choices.feedback.awayMs` |
+| `timing.cardStaggerMs` | Stagger between arriving cards | 40 ms | 0...300 | `G.TUNING.timing.cardStaggerMs` |
+| `timing.sendDelayMs` | Send: wait before the chosen card rises | 120 ms | 0...1000 | `G.layout.choices.feedback.send.delayMs` |
+| `timing.sendRiseMs` | Send: chosen card rise | 240 ms | 1...2000 | `G.layout.choices.feedback.send.durationMs` |
+| `timing.replyBeatMs` | Reply beat (your line, then the reply) | 400 ms | 0...3000 | `G.layout.choices.feedback.send.beatMs` |
+| `timing.inventorySlideMs` | Inventory slide | 275 ms | 1...1000 | `G.layout.inventory.motion.durationMs` |
+| `notice.durationMs` | Item-received slip duration | 3600 ms | 1000...10000 | `G.TUNING.notice.durationMs` |
+| `tooltip.showDelayMs` | Tooltip appearance delay | 0 ms | 0...1000 | `G.TUNING.tooltip.showDelayMs` |
+| `tooltip.hideDelayMs` | Tooltip hide delay | 0 ms | 0...1000 | `G.TUNING.tooltip.hideDelayMs` |
+
+**Not separately tunable:** the player's line has no typing. It appears at once by design (docs/45 §4), so there is no "player typing interval".
+
+## 6. Representative states (lab only)
+
+The states are reached by **driving the production flow** through its real choices and item actions (`G.flow.begin / choose / toggleInspect / utility / closeInspector`).
+
+- The turn timings are set near zero only while a state loads, and the frame's own values are restored before the state is shown.
+- No narrative state is assigned directly (static QA), and nothing is persisted.
+- Each state ends at rest, with no keyboard focus and no stale slip.
+
+| # | State | Path |
+|---|---|---|
+| 1 | Opening | the opening line and first choices |
+| 2 | Three choices | `ask-politely` → the misassign decision (three 2–3-line cards) |
+| 3 | Long dialogue / history | `ask-politely`, `correct`, `rule`, `sigh` |
+| 4 | Item received | `ask-politely`, `practical`, `ask-key`, then a fresh FACILITIES KEY slip |
+| 5 | Inspector, before READ | as 4, then INSPECT |
+| 6 | Inspector, after READ | as 5, then READ |
+| 7 | NOTES | the long path + `ask-key`, inspect / READ / close, `question-tag`, then NOTES |
+| 8 | FILES | as 7, then FILES (appointment, dispute, key issued, returned at 4:52) |
+| 9 | Tooltip, INSPECT enabled | as 4, with the INSPECT tooltip |
+| 10 | Tooltip, INSPECT disabled | opening, with `INSPECT - NO ITEMS` |
+| 10a / 10b | Inspector READ / SHOW-unavailable tooltips | as 5, with `READ` / `SHOW - NOT AVAILABLE HERE` |
+| 11 | Ending | as 4, `confirm-unread`, `onward-blind`, `unlock`, `enter-corridor` |
+| – | Card samples | 1-, 2- and 3-line cards, and three 2-line cards. These are lab-only display text fitted to exact line counts, through the production `setChoices`, and the flow will not take them. |
+
+## 7. Lab controls
+
+- **Every tunable:** shows its production value, the current lab value, −/+ (1 px or 1 ms), a number box, a slider, its bounds, and a reset. Changed rows and sections are highlighted.
+- **Resets:** **Reset section** and **RESET ALL TO PRODUCTION**.
+- **Comparison:** **PRODUCTION / LAB** buttons, or the keys P / L / Space.
+- **Stage aids:** SHOW ITEM RECEIVED (UI only), Finish typing, Freeze motion, and hold the close X UP / DOWN.
+- **Visual QA toggles:** hide the shell, scene art, portrait background, receptionist, rear FX or front FX; bounds for the scene aperture, portrait, choices + scrollbar, inventory and utility buttons; the coordinates and element-under-pointer readout.
+- **Inspection aids:** never exported, and they apply to both frames.
+- **View:** fit-to-window is a scaled preview, clearly labelled; 1:1 shows exact pixels.
+
+## 8. Export / import
+
+```json
+{
+  "schema": "cyoa-m2-reception-polish-lab-v1",
+  "baseSha": "6472cecb377a6e00484f92cdee55f6500858daa3",
+  "changes": {
+    "portrait.npcY": 3,
+    "tooltip.gapY": 7,
+    "notice.durationMs": 3200
+  }
+}
+```
+
+- **COPY CHANGES JSON:** only the keys that differ from production, in registry order.
+- **COPY ALL VALUES JSON:** the same schema with `"values"`, holding every tunable.
+- **IMPORT JSON:** accepts either form. It rejects a wrong schema, unknown fields or keys, non-integers, out-of-bounds values and malformed JSON. A rejected import changes nothing.
+
+## 9. Persistence
+
+The lab page saves the changes, the selected state, the view, fit and toggles in its own `localStorage` key, `cyoa-m2-reception-polish-lab-v1`. The production game has no storage access and ignores it (QA). No story state is ever stored.
+
+## 10. QA
+
+QA_PLACEHOLDER
+
+## 11. Owner workflow
+
+From the worktree root:
+
+```sh
+python3 -c "import http.server as h; h.ThreadingHTTPServer.request_queue_size = 256; h.test(HandlerClass=h.SimpleHTTPRequestHandler, ServerClass=h.ThreadingHTTPServer, port=8137, bind='127.0.0.1')"
+```
+
+Open <http://127.0.0.1:8137/tools/m2-reception-polish-lab/index.html>.
+
+1. Select a representative state.
+2. Adjust visual and timing controls.
+3. Toggle PRODUCTION / LAB repeatedly.
+4. Test all relevant representative states.
+5. COPY CHANGES JSON.
+6. Send the exported JSON back to PMO/Claude.
+7. Do NOT call M2 complete yet. The approved changes are applied to production in a separate step, and that step closes the polish gate.

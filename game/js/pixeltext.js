@@ -8,7 +8,9 @@
 
   var DATA = window.M1_LAB_DATA; // the lab's bundle: working layout, fonts, glyph maps, action glyphs
   var SHEET = window.M1_SPRITE_SHEET;
-  var ROOT = '../'; // game/index.html sits one folder below the repository root
+  // game/index.html sits one folder below the repository root. A page elsewhere that loads these
+  // same scripts (the polish lab's stage, docs/62) sets window.CYOA_ROOT first; the game does not.
+  var ROOT = window.CYOA_ROOT || '../';
 
   var G = (window.CYOA_GAME = window.CYOA_GAME || {});
   G.layout = JSON.parse(JSON.stringify(DATA.placementDefault));

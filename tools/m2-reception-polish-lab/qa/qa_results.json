@@ -1,0 +1,816 @@
+{
+  "schema": "cyoa-m2-reception-polish-lab-qa-v1",
+  "passed": 67,
+  "total": 67,
+  "failures": [],
+  "checks": [
+    {
+      "browser": "static",
+      "name": "the lab holds no art of its own (no copied or generated images)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "the production game never touches browser storage or the lab (no storage API, no lab identifier)",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "game/index.html loads no lab script",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "the lab stage loads the production game scripts and stylesheet from game/ (no copies)",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "state shortcuts never assign narrative state directly (they drive the real flow)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the lab opens and both stage frames load",
+      "ok": true,
+      "detail": "Showing LAB values - state: opening"
+    },
+    {
+      "browser": "chromium",
+      "name": "lab defaults equal the values read from the actual production game (game/index.html)",
+      "ok": true,
+      "detail": {
+        "prod": {
+          "portrait.npcX": 0,
+          "portrait.npcY": 0,
+          "portrait.backgroundX": 0,
+          "portrait.backgroundY": 0,
+          "dialogue.textX": 1342,
+          "dialogue.textY": 360,
+          "dialogue.textWidth": 540,
+          "dialogue.textHeight": 144,
+          "dialogue.lineHeight": 24,
+          "dialogue.speakerGap": 8,
+          "choices.listY": 527,
+          "choices.gap": 5,
+          "choices.textX": 29,
+          "choices.textY": 0,
+          "scrollbar.x": 1880,
+          "scrollbar.top": 539,
+          "scrollbar.bottom": 851,
+          "inventory.slotsX": 92,
+          "inventory.slotsY": 935,
+          "inventory.slotGap": 20,
+          "inventory.leftArrowX": 33,
+          "inventory.leftArrowY": 948,
+          "inventory.rightArrowX": 782,
+          "inventory.rightArrowY": 948,
+          "utility.groupX": 1482,
+          "utility.spacing": 2,
+          "utility.rowY": 930,
+          "tooltip.offsetX": 0,
+          "tooltip.gapY": 4,
+          "tooltip.padX": 10,
+          "tooltip.padY": 7,
+          "notice.x": 56,
+          "notice.y": 738,
+          "notice.itemX": 14,
+          "notice.itemY": 9,
+          "notice.titleX": 134,
+          "notice.titleY": 28,
+          "notice.nameX": 134,
+          "notice.nameY": 77,
+          "inspector.artX": 0,
+          "inspector.artY": 0,
+          "inspector.closeX": 0,
+          "inspector.closeY": 0,
+          "inspector.textX": 0,
+          "inspector.textY": 12,
+          "overlay.titleX": 100,
+          "overlay.titleY": 60,
+          "overlay.bodyX": 48,
+          "overlay.bodyY": 140,
+          "overlay.bodyWidth": 1159,
+          "overlay.bodyHeight": 620,
+          "overlay.lineHeight": 26,
+          "objective.titleAlignX": 0,
+          "objective.titleY": 907,
+          "objective.bodyX": 889,
+          "objective.bodyY": 958,
+          "objective.bodyWidth": 522,
+          "timing.npcCharsPerSecond": 40,
+          "timing.beforeChoicesMs": 200,
+          "timing.cardSlideMs": 160,
+          "timing.cardStaggerMs": 40,
+          "timing.sendDelayMs": 120,
+          "timing.sendRiseMs": 240,
+          "timing.replyBeatMs": 400,
+          "timing.inventorySlideMs": 275,
+          "notice.durationMs": 3600,
+          "tooltip.showDelayMs": 0,
+          "tooltip.hideDelayMs": 0
+        },
+        "gameValues": {
+          "portrait.npcX": 0,
+          "portrait.npcY": 0,
+          "portrait.backgroundX": 0,
+          "portrait.backgroundY": 0,
+          "dialogue.textX": 1342,
+          "dialogue.textY": 360,
+          "dialogue.textWidth": 540,
+          "dialogue.textHeight": 144,
+          "dialogue.lineHeight": 24,
+          "dialogue.speakerGap": 8,
+          "choices.listY": 527,
+          "choices.gap": 5,
+          "choices.textX": 29,
+          "choices.textY": 0,
+          "scrollbar.x": 1880,
+          "scrollbar.top": 539,
+          "scrollbar.bottom": 851,
+          "inventory.slotsX": 92,
+          "inventory.slotsY": 935,
+          "inventory.slotGap": 20,
+          "inventory.leftArrowX": 33,
+          "inventory.leftArrowY": 948,
+          "inventory.rightArrowX": 782,
+          "inventory.rightArrowY": 948,
+          "utility.groupX": 1482,
+          "utility.spacing": 2,
+          "utility.rowY": 930,
+          "tooltip.offsetX": 0,
+          "tooltip.gapY": 4,
+          "tooltip.padX": 10,
+          "tooltip.padY": 7,
+          "notice.x": 56,
+          "notice.y": 738,
+          "notice.itemX": 14,
+          "notice.itemY": 9,
+          "notice.titleX": 134,
+          "notice.titleY": 28,
+          "notice.nameX": 134,
+          "notice.nameY": 77,
+          "inspector.artX": 0,
+          "inspector.artY": 0,
+          "inspector.closeX": 0,
+          "inspector.closeY": 0,
+          "inspector.textX": 0,
+          "inspector.textY": 12,
+          "overlay.titleX": 100,
+          "overlay.titleY": 60,
+          "overlay.bodyX": 48,
+          "overlay.bodyY": 140,
+          "overlay.bodyWidth": 1159,
+          "overlay.bodyHeight": 620,
+          "overlay.lineHeight": 26,
+          "objective.titleAlignX": 0,
+          "objective.titleY": 907,
+          "objective.bodyX": 889,
+          "objective.bodyY": 958,
+          "objective.bodyWidth": 522,
+          "timing.npcCharsPerSecond": 40,
+          "timing.beforeChoicesMs": 200,
+          "timing.cardSlideMs": 160,
+          "timing.cardStaggerMs": 40,
+          "timing.sendDelayMs": 120,
+          "timing.sendRiseMs": 240,
+          "timing.replyBeatMs": 400,
+          "timing.inventorySlideMs": 275,
+          "notice.durationMs": 3600,
+          "tooltip.showDelayMs": 0,
+          "tooltip.hideDelayMs": 0
+        }
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the lab opens on exact production values (no changes)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "every tunable has a production value that is a whole number",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "PRODUCTION and LAB are pixel-identical at defaults in every representative state",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "every representative state loads where it should (node, inspector, overlay, slip, READ mark)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "FILES state shows the 4:52 record",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "tooltip states show INSPECT / INSPECT - NO ITEMS / READ / SHOW - NOT AVAILABLE HERE",
+      "ok": true,
+      "detail": {
+        "tooltip-enabled": "INSPECT",
+        "tooltip-disabled": "INSPECT - NO ITEMS",
+        "tooltip-read": "READ",
+        "tooltip-show": "SHOW - NOT AVAILABLE HERE"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "choice samples show a 1-, 2- and 3-line card (display only)",
+      "ok": true,
+      "detail": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "choice samples show three 2-line cards",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the stage shell is the canonical file (served bytes)",
+      "ok": true,
+      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+    },
+    {
+      "browser": "chromium",
+      "name": "every image the lab loads is a production art file under art/",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "scene stays exactly 4x (314x206 -> 1256x824) in the lab frame",
+      "ok": true,
+      "detail": [
+        314,
+        206,
+        32,
+        44,
+        1256,
+        824
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "portrait stays native 1x (564x278) and a lab nudge moves only the NPC layer by whole pixels",
+      "ok": true,
+      "detail": {
+        "scene": [
+          314,
+          206,
+          32,
+          44,
+          1256,
+          824
+        ],
+        "npc": [
+          564,
+          278,
+          1333,
+          47,
+          564,
+          278
+        ],
+        "bg": [
+          564,
+          278,
+          1333,
+          44,
+          564,
+          278
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the PRODUCTION frame is untouched by the lab change",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "spatial controls store whole numbers (6.6 -> 7)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "COPY CHANGES contains only the changed keys, with schema and base SHA",
+      "ok": true,
+      "detail": {
+        "schema": "cyoa-m2-reception-polish-lab-v1",
+        "baseSha": "6472cecb377a6e00484f92cdee55f6500858daa3",
+        "changes": {
+          "portrait.npcY": 3,
+          "tooltip.gapY": 7,
+          "notice.durationMs": 3200
+        }
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "COPY ALL contains every declared tunable",
+      "ok": true,
+      "detail": 68
+    },
+    {
+      "browser": "chromium",
+      "name": "visual helper toggles do not change the exported changes",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "hide-shell and bounds toggles act on the stage frames only",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "lab values persist in localStorage across a reload",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the production game ignores the lab storage (production values while lab changes are saved)",
+      "ok": true,
+      "detail": [
+        true,
+        "cyoa-m2-reception-polish-lab-v1",
+        "opening",
+        1
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "no story state is persisted: storage holds only the lab key, and a fresh game starts at the opening",
+      "ok": true,
+      "detail": [
+        true,
+        "cyoa-m2-reception-polish-lab-v1",
+        "opening",
+        1
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "RESET FIELD restores one value",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "RESET SECTION restores only that section",
+      "ok": true,
+      "detail": {
+        "tooltip.gapY": 7
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "RESET ALL restores every production value",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "IMPORT round-trips exported changes",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "errors": [],
+        "changed": 3
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "IMPORT rejects unknown keys, non-integers, out-of-range spatial/timing values, a wrong schema and malformed JSON",
+      "ok": true,
+      "detail": {
+        "unknown": "unknown key: portrait.hatSize",
+        "nonInteger": "portrait.npcY: must be a whole number (got 2.5)",
+        "outOfRange": "portrait.npcY: 400 is outside -40..40",
+        "timingRange": "notice.durationMs: 999999 is outside 1000..10000",
+        "wrongSchema": "schema must be cyoa-m2-reception-polish-lab-v1 (got something-else)",
+        "stringValue": "portrait.npcY: must be a whole number (got \"3\")",
+        "malformed": "not valid JSON: Expected property name or '}' in JSON at position 1 (line 1 column 2)"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "a rejected import leaves the lab values unchanged",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "a lab tooltip delay applies in the lab frame (hidden at 120 ms, shown after 400 ms)",
+      "ok": true,
+      "detail": {
+        "early": "none",
+        "late": ""
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "no console or page errors in the lab",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "the lab opens and both stage frames load",
+      "ok": true,
+      "detail": "Showing LAB values - state: opening"
+    },
+    {
+      "browser": "firefox",
+      "name": "lab defaults equal the values read from the actual production game (game/index.html)",
+      "ok": true,
+      "detail": {
+        "prod": {
+          "portrait.npcX": 0,
+          "portrait.npcY": 0,
+          "portrait.backgroundX": 0,
+          "portrait.backgroundY": 0,
+          "dialogue.textX": 1342,
+          "dialogue.textY": 360,
+          "dialogue.textWidth": 540,
+          "dialogue.textHeight": 144,
+          "dialogue.lineHeight": 24,
+          "dialogue.speakerGap": 8,
+          "choices.listY": 527,
+          "choices.gap": 5,
+          "choices.textX": 29,
+          "choices.textY": 0,
+          "scrollbar.x": 1880,
+          "scrollbar.top": 539,
+          "scrollbar.bottom": 851,
+          "inventory.slotsX": 92,
+          "inventory.slotsY": 935,
+          "inventory.slotGap": 20,
+          "inventory.leftArrowX": 33,
+          "inventory.leftArrowY": 948,
+          "inventory.rightArrowX": 782,
+          "inventory.rightArrowY": 948,
+          "utility.groupX": 1482,
+          "utility.spacing": 2,
+          "utility.rowY": 930,
+          "tooltip.offsetX": 0,
+          "tooltip.gapY": 4,
+          "tooltip.padX": 10,
+          "tooltip.padY": 7,
+          "notice.x": 56,
+          "notice.y": 738,
+          "notice.itemX": 14,
+          "notice.itemY": 9,
+          "notice.titleX": 134,
+          "notice.titleY": 28,
+          "notice.nameX": 134,
+          "notice.nameY": 77,
+          "inspector.artX": 0,
+          "inspector.artY": 0,
+          "inspector.closeX": 0,
+          "inspector.closeY": 0,
+          "inspector.textX": 0,
+          "inspector.textY": 12,
+          "overlay.titleX": 100,
+          "overlay.titleY": 60,
+          "overlay.bodyX": 48,
+          "overlay.bodyY": 140,
+          "overlay.bodyWidth": 1159,
+          "overlay.bodyHeight": 620,
+          "overlay.lineHeight": 26,
+          "objective.titleAlignX": 0,
+          "objective.titleY": 907,
+          "objective.bodyX": 889,
+          "objective.bodyY": 958,
+          "objective.bodyWidth": 522,
+          "timing.npcCharsPerSecond": 40,
+          "timing.beforeChoicesMs": 200,
+          "timing.cardSlideMs": 160,
+          "timing.cardStaggerMs": 40,
+          "timing.sendDelayMs": 120,
+          "timing.sendRiseMs": 240,
+          "timing.replyBeatMs": 400,
+          "timing.inventorySlideMs": 275,
+          "notice.durationMs": 3600,
+          "tooltip.showDelayMs": 0,
+          "tooltip.hideDelayMs": 0
+        },
+        "gameValues": {
+          "portrait.npcX": 0,
+          "portrait.npcY": 0,
+          "portrait.backgroundX": 0,
+          "portrait.backgroundY": 0,
+          "dialogue.textX": 1342,
+          "dialogue.textY": 360,
+          "dialogue.textWidth": 540,
+          "dialogue.textHeight": 144,
+          "dialogue.lineHeight": 24,
+          "dialogue.speakerGap": 8,
+          "choices.listY": 527,
+          "choices.gap": 5,
+          "choices.textX": 29,
+          "choices.textY": 0,
+          "scrollbar.x": 1880,
+          "scrollbar.top": 539,
+          "scrollbar.bottom": 851,
+          "inventory.slotsX": 92,
+          "inventory.slotsY": 935,
+          "inventory.slotGap": 20,
+          "inventory.leftArrowX": 33,
+          "inventory.leftArrowY": 948,
+          "inventory.rightArrowX": 782,
+          "inventory.rightArrowY": 948,
+          "utility.groupX": 1482,
+          "utility.spacing": 2,
+          "utility.rowY": 930,
+          "tooltip.offsetX": 0,
+          "tooltip.gapY": 4,
+          "tooltip.padX": 10,
+          "tooltip.padY": 7,
+          "notice.x": 56,
+          "notice.y": 738,
+          "notice.itemX": 14,
+          "notice.itemY": 9,
+          "notice.titleX": 134,
+          "notice.titleY": 28,
+          "notice.nameX": 134,
+          "notice.nameY": 77,
+          "inspector.artX": 0,
+          "inspector.artY": 0,
+          "inspector.closeX": 0,
+          "inspector.closeY": 0,
+          "inspector.textX": 0,
+          "inspector.textY": 12,
+          "overlay.titleX": 100,
+          "overlay.titleY": 60,
+          "overlay.bodyX": 48,
+          "overlay.bodyY": 140,
+          "overlay.bodyWidth": 1159,
+          "overlay.bodyHeight": 620,
+          "overlay.lineHeight": 26,
+          "objective.titleAlignX": 0,
+          "objective.titleY": 907,
+          "objective.bodyX": 889,
+          "objective.bodyY": 958,
+          "objective.bodyWidth": 522,
+          "timing.npcCharsPerSecond": 40,
+          "timing.beforeChoicesMs": 200,
+          "timing.cardSlideMs": 160,
+          "timing.cardStaggerMs": 40,
+          "timing.sendDelayMs": 120,
+          "timing.sendRiseMs": 240,
+          "timing.replyBeatMs": 400,
+          "timing.inventorySlideMs": 275,
+          "notice.durationMs": 3600,
+          "tooltip.showDelayMs": 0,
+          "tooltip.hideDelayMs": 0
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the lab opens on exact production values (no changes)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "every tunable has a production value that is a whole number",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "PRODUCTION and LAB are pixel-identical at defaults in every representative state",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "every representative state loads where it should (node, inspector, overlay, slip, READ mark)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "FILES state shows the 4:52 record",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "tooltip states show INSPECT / INSPECT - NO ITEMS / READ / SHOW - NOT AVAILABLE HERE",
+      "ok": true,
+      "detail": {
+        "tooltip-enabled": "INSPECT",
+        "tooltip-disabled": "INSPECT - NO ITEMS",
+        "tooltip-read": "READ",
+        "tooltip-show": "SHOW - NOT AVAILABLE HERE"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "choice samples show a 1-, 2- and 3-line card (display only)",
+      "ok": true,
+      "detail": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "choice samples show three 2-line cards",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the stage shell is the canonical file (served bytes)",
+      "ok": true,
+      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+    },
+    {
+      "browser": "firefox",
+      "name": "every image the lab loads is a production art file under art/",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "scene stays exactly 4x (314x206 -> 1256x824) in the lab frame",
+      "ok": true,
+      "detail": [
+        314,
+        206,
+        32,
+        44,
+        1256,
+        824
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "portrait stays native 1x (564x278) and a lab nudge moves only the NPC layer by whole pixels",
+      "ok": true,
+      "detail": {
+        "scene": [
+          314,
+          206,
+          32,
+          44,
+          1256,
+          824
+        ],
+        "npc": [
+          564,
+          278,
+          1333,
+          47,
+          564,
+          278
+        ],
+        "bg": [
+          564,
+          278,
+          1333,
+          44,
+          564,
+          278
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the PRODUCTION frame is untouched by the lab change",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "spatial controls store whole numbers (6.6 -> 7)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "COPY CHANGES contains only the changed keys, with schema and base SHA",
+      "ok": true,
+      "detail": {
+        "schema": "cyoa-m2-reception-polish-lab-v1",
+        "baseSha": "6472cecb377a6e00484f92cdee55f6500858daa3",
+        "changes": {
+          "portrait.npcY": 3,
+          "tooltip.gapY": 7,
+          "notice.durationMs": 3200
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "COPY ALL contains every declared tunable",
+      "ok": true,
+      "detail": 68
+    },
+    {
+      "browser": "firefox",
+      "name": "visual helper toggles do not change the exported changes",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "hide-shell and bounds toggles act on the stage frames only",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "lab values persist in localStorage across a reload",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the production game ignores the lab storage (production values while lab changes are saved)",
+      "ok": true,
+      "detail": [
+        true,
+        "cyoa-m2-reception-polish-lab-v1",
+        "opening",
+        1
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "no story state is persisted: storage holds only the lab key, and a fresh game starts at the opening",
+      "ok": true,
+      "detail": [
+        true,
+        "cyoa-m2-reception-polish-lab-v1",
+        "opening",
+        1
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "RESET FIELD restores one value",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "RESET SECTION restores only that section",
+      "ok": true,
+      "detail": {
+        "tooltip.gapY": 7
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "RESET ALL restores every production value",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "IMPORT round-trips exported changes",
+      "ok": true,
+      "detail": {
+        "ok": true,
+        "errors": [],
+        "changed": 3
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "IMPORT rejects unknown keys, non-integers, out-of-range spatial/timing values, a wrong schema and malformed JSON",
+      "ok": true,
+      "detail": {
+        "unknown": "unknown key: portrait.hatSize",
+        "nonInteger": "portrait.npcY: must be a whole number (got 2.5)",
+        "outOfRange": "portrait.npcY: 400 is outside -40..40",
+        "timingRange": "notice.durationMs: 999999 is outside 1000..10000",
+        "wrongSchema": "schema must be cyoa-m2-reception-polish-lab-v1 (got something-else)",
+        "stringValue": "portrait.npcY: must be a whole number (got \"3\")",
+        "malformed": "not valid JSON: JSON.parse: expected property name or '}' at line 1 column 2 of the JSON data"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "a rejected import leaves the lab values unchanged",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "a lab tooltip delay applies in the lab frame (hidden at 120 ms, shown after 400 ms)",
+      "ok": true,
+      "detail": {
+        "early": "none",
+        "late": ""
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "no console or page errors in the lab",
+      "ok": true,
+      "detail": []
+    }
+  ]
+}

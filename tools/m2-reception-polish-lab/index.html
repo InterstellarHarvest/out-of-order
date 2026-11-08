@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>M2 Reception Polish Lab</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<header class="bar">
+  <strong class="title">M2 reception polish lab</strong>
+  <label class="field">State
+    <select id="stateSelect" aria-label="Representative state"></select>
+  </label>
+  <div class="seg" role="group" aria-label="Show production or lab values">
+    <button id="viewProduction" type="button">PRODUCTION</button>
+    <button id="viewLab" type="button">LAB</button>
+  </div>
+  <span class="hint">P / L / Space flip</span>
+  <button id="resetAll" type="button" class="danger">RESET ALL TO PRODUCTION</button>
+  <span id="summary" class="summary"></span>
+  <span id="status" class="status">Starting...</span>
+</header>
+
+<div class="main">
+  <aside class="side">
+    <section class="panel">
+      <h2>Stage</h2>
+      <div class="buttons">
+        <button id="fitToggle" type="button"></button>
+        <button id="showNotice" type="button">SHOW ITEM RECEIVED</button>
+        <button id="finishTyping" type="button">Finish typing</button>
+        <button id="freeze" type="button">Freeze motion</button>
+        <label class="field">Close X
+          <select id="holdClose" aria-label="Hold the close X">
+            <option value="auto">normal</option>
+            <option value="up">hold UP</option>
+            <option value="down">hold DOWN</option>
+          </select>
+        </label>
+      </div>
+      <p id="fitNote" class="note"></p>
+      <div id="toggles" class="toggles"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Export / import</h2>
+      <div class="buttons">
+        <button id="copyChanges" type="button">COPY CHANGES JSON</button>
+        <button id="copyAll" type="button">COPY ALL VALUES JSON</button>
+        <button id="importBtn" type="button">IMPORT JSON</button>
+      </div>
+      <textarea id="ioText" rows="7" spellcheck="false" aria-label="Exported or imported JSON" placeholder="Exports appear here. Paste JSON here, then IMPORT JSON."></textarea>
+      <pre id="ioStatus" class="note"></pre>
+    </section>
+
+    <section class="panel">
+      <h2>Tunable values</h2>
+      <p class="note">Each row shows its production value. Changed rows are highlighted. Spatial values are whole pixels; timings are whole milliseconds.</p>
+      <div id="controls"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Locked (not tunable here)</h2>
+      <div id="locked"></div>
+    </section>
+  </aside>
+
+  <section id="stageArea" class="stage-area">
+    <div class="stage-outer">
+      <div id="stageWrap" class="stage-wrap">
+        <iframe id="frameProduction" title="Production values" class="stage-frame" width="1920" height="1080"></iframe>
+        <iframe id="frameLab" title="Lab values" class="stage-frame" width="1920" height="1080"></iframe>
+      </div>
+    </div>
+    <div id="coords" class="coords"></div>
+  </section>
+</div>
+
+<script src="tunables.js"></script>
+<script src="lab.js"></script>
+</body>
+</html>

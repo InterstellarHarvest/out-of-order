@@ -17,7 +17,7 @@
   var THUMB_INSPECTOR = 'inspector';
   // Choices carry no focus or hover marker of any kind (owner ruling after the playtest, docs/53):
   // keyboard navigation still moves real focus between the cards, unseen.
-  var NOTICE_MS = 3600; // how long an item-received slip stays up unless clicked away
+  var TU = G.TUNING; // production presentation constants (js/tuning.js); values unchanged
 
   var ui = (G.ui = {
     speech: { parts: [], lines: [], key: '', base: 0, revealed: 0, typing: false, typeStart: 0, scrollLine: 0, newRow: 0 },
@@ -106,8 +106,10 @@
   // page never announces ready with art still to pop in.
   G.RECEPTION_ART = {
     scene: { image: 'art:scene', path: 'art/scenes/conference_hall/reception/reception_scene.png', scale: 4 },
-    portraitBackground: { image: 'art:portraitBackground', path: 'art/portraits/receptionist/reception_background.png', scale: 1 },
-    portraitNpc: { image: 'art:portraitNpc', path: 'art/portraits/receptionist/receptionist_idle.png', scale: 1 }
+    portraitBackground: { image: 'art:portraitBackground', path: 'art/portraits/receptionist/reception_background.png', scale: 1,
+      offset: function () { return [TU.portrait.backgroundX, TU.portrait.backgroundY]; } },
+    portraitNpc: { image: 'art:portraitNpc', path: 'art/portraits/receptionist/receptionist_idle.png', scale: 1,
+      offset: function () { return [TU.portrait.npcX, TU.portrait.npcY]; } }
   };
 
   function artLayer(parent, key, id) {
@@ -121,7 +123,8 @@
     // Whole-number scale of the file's own pixels.
     img.width = img.naturalWidth * spec.scale;
     img.height = img.naturalHeight * spec.scale;
-    place(img, 0, 0, img.width, img.height);
+    var off = spec.offset ? spec.offset() : [0, 0];
+    place(img, off[0], off[1], img.width, img.height);
     parent.appendChild(img);
     return img;
   }
@@ -446,7 +449,6 @@
     ctx.drawImage(img, w - right, h - bottom, right, bottom, left, top, right, bottom);
   }
 
-  var STAGGER = 40;
 
   // How far each card is from rest. `away` 0..1 slides right (out or in), `rise` 0..1 is the
   // chosen card sending behind the divider. Returns null for a card that is gone.
@@ -457,7 +459,7 @@
     if (!m) return { away: 0, rise: 0 };
     var t = now - m.start;
     if (m.kind === 'in') {
-      var u = clamp((t - i * STAGGER) / move, 0, 1);
+      var u = clamp((t - i * TU.timing.cardStaggerMs) / move, 0, 1);
       return { away: 1 - u, rise: 0, entering: true };
     }
     if (m.kind === 'clear') return { away: clamp(t / move, 0, 1), rise: 0 };
@@ -474,7 +476,7 @@
     var f = C().feedback;
     var move = Math.max(1, f.awayMs);
     var t = now - m.start;
-    if (m.kind === 'in') return t >= move + STAGGER * Math.max(0, ui.cards.length - 1);
+    if (m.kind === 'in') return t >= move + TU.timing.cardStaggerMs * Math.max(0, ui.cards.length - 1);
     if (m.kind === 'clear') return t >= move;
     return !!m.vanishedAt;
   };
@@ -805,10 +807,10 @@
         var a = utilityActions()[i];
         if (a.enabled) G.flow.utility(a.action);
       }, function () { return utilityActions()[i].enabled; });
-      btn.addEventListener('pointerenter', function () { G.showTooltip(i); });
-      btn.addEventListener('pointerleave', function () { G.hideTooltip(i); });
-      btn.addEventListener('focus', function () { G.showTooltip(i); });
-      btn.addEventListener('blur', function () { G.hideTooltip(i); });
+      btn.addEventListener('pointerenter', function () { tipRequest(i); });
+      btn.addEventListener('pointerleave', function () { tipRelease(i); });
+      btn.addEventListener('focus', function () { tipRequest(i); });
+      btn.addEventListener('blur', function () { tipRelease(i); });
     });
     els.tooltip = el('div', 'tooltip', stage, { id: 'tooltip', role: 'tooltip' });
     els.tooltipText = el('canvas', '', els.tooltip, { 'aria-hidden': 'true' });
@@ -880,7 +882,23 @@
   }
 
   // Tooltip: a separate element beside the button. The button itself never changes on hover.
-  // Its box is a temporary treatment; only its face (Press Start 2P 2x, the Labels role) is chosen.
+  // Its box is CSS (docs/61); its face is Press Start 2P 2x, the Labels role. Hover and focus show
+  // it after TU.tooltip.showDelayMs and leaving hides it after hideDelayMs; both are 0 in
+  // production, so it shows and hides at once, exactly as before.
+  var tipTimer = null;
+  function tipRequest(i) {
+    clearTimeout(tipTimer);
+    tipTimer = null;
+    if (TU.tooltip.showDelayMs > 0) tipTimer = setTimeout(function () { tipTimer = null; G.showTooltip(i); }, TU.tooltip.showDelayMs);
+    else G.showTooltip(i);
+  }
+  function tipRelease(i) {
+    clearTimeout(tipTimer);
+    tipTimer = null;
+    if (TU.tooltip.hideDelayMs > 0) tipTimer = setTimeout(function () { tipTimer = null; G.hideTooltip(i); }, TU.tooltip.hideDelayMs);
+    else G.hideTooltip(i);
+  }
+
   G.showTooltip = function (i, text) {
     var a = utilityActions()[i];
     if (a.blank) return G.hideTooltip();
@@ -888,11 +906,12 @@
     ui.tooltip = { index: i, text: text };
     var size = T.label(els.tooltipText, label, 'light', 'labels');
     var comp = L.utility.buttons[i];
-    var w = size[0] + 20;
-    var h = size[1] + 14;
-    var x = clamp(comp.x + Math.floor((comp.displayWidth - w) / 2), 8, 1920 - 8 - w);
-    place(els.tooltip, x, comp.y - h - 4, w, h);
-    place(els.tooltipText, 10, 7, size[0], size[1]);
+    var tt = TU.tooltip;
+    var w = size[0] + 2 * tt.padX;
+    var h = size[1] + 2 * tt.padY;
+    var x = clamp(comp.x + Math.floor((comp.displayWidth - w) / 2) + tt.offsetX, 8, 1920 - 8 - w);
+    place(els.tooltip, x, comp.y - h - tt.gapY, w, h);
+    place(els.tooltipText, tt.padX, tt.padY, size[0], size[1]);
     els.tooltip.dataset.text = label;
     show(els.tooltip, true);
   };
@@ -927,7 +946,7 @@
     els.inspector = el('div', 'layer', stage, { id: 'inspector' });
     // The art area: holds either the item's own inspect image or the placeholder canvas.
     els.inspectArt = el('div', 'sprite-abs art-aperture', els.inspector, { id: 'inspectArt', 'aria-hidden': 'true' });
-    place(els.inspectArt, INSPECT_RECT[0], INSPECT_RECT[1], INSPECT_RECT[2], INSPECT_RECT[3]);
+    place(els.inspectArt, INSPECT_RECT[0] + TU.inspector.artDx, INSPECT_RECT[1] + TU.inspector.artDy, INSPECT_RECT[2], INSPECT_RECT[3]);
     els.inspectPlaceholder = document.createElement('canvas');
     els.inspectPlaceholder.id = 'inspectPlaceholder';
     els.inspectPlaceholder.className = 'sprite-abs';
@@ -947,7 +966,7 @@
     // The two approved 44x44 sprites, the very images preloaded before ready; the press swaps them.
     els.inspectCloseUp = closeSprite('closeUp', 'inspectCloseUp');
     els.inspectCloseDown = closeSprite('closeDown', 'inspectCloseDown');
-    place(els.inspectClose, INSPECT_RECT[0] + INSPECT_RECT[2] - CLOSE - 8, INSPECT_RECT[1] + 8, CLOSE, CLOSE);
+    place(els.inspectClose, INSPECT_RECT[0] + INSPECT_RECT[2] - CLOSE - 8 + TU.inspector.closeDx, INSPECT_RECT[1] + 8 + TU.inspector.closeDy, CLOSE, CLOSE);
     bindPress(els.inspectClose, 'inspect-close', renderInspector, function () { G.flow.closeInspector(); });
     show(els.inspector, false);
   }
@@ -1038,7 +1057,7 @@
       els.inspectText.dataset.key = key;
     }
     els.inspectText.dataset.item = id;
-    place(els.inspectText, C().text.offsetX, 12 - ui.inspector.scroll, vp.width - C().text.offsetX - 24, ui.inspector.height);
+    place(els.inspectText, C().text.offsetX + TU.inspector.textDx, TU.inspector.textY - ui.inspector.scroll, vp.width - C().text.offsetX - 24, ui.inspector.height);
   }
   G.renderInspector = renderInspector;
 
@@ -1049,16 +1068,17 @@
   // the shell), the body on the cream reading area (x 31-1222, y 122-776). The body keeps the
   // previous left edge and wrap width, so lines break exactly as before.
   G.OVERLAY_ART = { panel: { image: 'ui:notes_files_panel', path: 'art/ui/overlays/notes_files_panel.png' } };
-  var OVERLAY_TITLE = { x: 100, centerY: 60 };
-  var OVERLAY_BODY = [48, 140, 1159, 620]; // x, y, width, height
-  var OVERLAY_LH = 26;
+  // Title x / centre row, body box and line height come from TU.overlay (js/tuning.js).
+  function OV() {
+    return TU.overlay;
+  }
 
   function overlayTitle() {
     return ui.overlay === 'notes' ? 'NOTES: EVERYTHING SAID AT RECEPTION' : 'FILES: YOUR CASE FILE';
   }
 
   function overlayLines() {
-    var width = OVERLAY_BODY[2];
+    var width = OV().bodyWidth;
     var lines = [];
     function add(text, role, gap) {
       T.wrap(text, width, role).forEach(function (t, i) { lines.push({ text: t, role: role, gap: i === 0 ? gap || 0 : 0 }); });
@@ -1076,12 +1096,12 @@
 
   function overlayView(lines) {
     // How many rows fit from `start`, with gaps.
-    var h = OVERLAY_BODY[3];
+    var h = OV().bodyHeight;
     return function (start) {
       var y = 0;
       var n = 0;
       for (var i = start; i < lines.length; i++) {
-        y += (i > start ? lines[i].gap || 0 : 0) + 26;
+        y += (i > start ? lines[i].gap || 0 : 0) + OV().lineHeight;
         if (y > h) break;
         n++;
       }
@@ -1121,12 +1141,12 @@
     ctx.imageSmoothingEnabled = false;
     var title = overlayTitle();
     var head = document.createElement('canvas');
-    T.draw(head, [{ text: title, role: 'labels' }], 'light', OVERLAY_LH, OVERLAY_BODY[2], OVERLAY_LH, undefined, 'labels');
-    ctx.drawImage(head, OVERLAY_TITLE.x, OVERLAY_TITLE.centerY - Math.floor(T.capHeight('labels') / 2));
+    T.draw(head, [{ text: title, role: 'labels' }], 'light', OV().lineHeight, OV().bodyWidth, OV().lineHeight, undefined, 'labels');
+    ctx.drawImage(head, OV().titleX, OV().titleCenterY - Math.floor(T.capHeight('labels') / 2));
     var text = document.createElement('canvas');
     // Dark ink on the cream reading surface.
-    T.draw(text, shown.map(function (l, i) { return { text: l.text, role: l.role, gap: i ? l.gap : 0 }; }), 'dark', OVERLAY_LH, OVERLAY_BODY[2], OVERLAY_BODY[3], undefined, 'dialogue');
-    ctx.drawImage(text, OVERLAY_BODY[0], OVERLAY_BODY[1]);
+    T.draw(text, shown.map(function (l, i) { return { text: l.text, role: l.role, gap: i ? l.gap : 0 }; }), 'dark', OV().lineHeight, OV().bodyWidth, OV().bodyHeight, undefined, 'dialogue');
+    ctx.drawImage(text, OV().bodyX, OV().bodyY);
     c.dataset.kind = ui.overlay;
     c.dataset.title = title;
     c.dataset.lines = lines.length;
@@ -1165,22 +1185,20 @@
   // Item received ---------------------------------------------------------------------------
   // A slip that says an item was just added: label, item name and its slot art. It sits in the
   // scene window just above the inventory, clear of the dialogue and the choices, and goes by
-  // itself after NOTICE_MS or at a click. PROVISIONAL treatment, drawn in code until the owner
-  // approves art for it (docs/53): parchment, dark outline with stepped corners, locked fonts.
-  var NOTICE_RECT = [56, 738, 560, 116];
+  // itself after TU.notice.durationMs (3.6 s) or at a click. The slip is production art (docs/61);
+  // only the item art and the two text lines are drawn at runtime, in the locked fonts.
+  var NOTICE_SIZE = [560, 116]; // the slip art's own size; its position is TU.notice.x / y
   // Production slip (docs/61): art/ui/overlays/item_received_slip.png, 560x116, shown 1:1 as its own
   // image. A transparent canvas above it draws only the item's slot art and the two lines of text,
   // into the slip's blank regions (slip coordinates): the item compartment (x 8-115, y 7-105), the
   // upper text band (x 121-549, y 8-48) and the lower band (y 50-103). Generic for any item.
   G.NOTICE_ART = { slip: { image: 'ui:item_received_slip', path: 'art/ui/overlays/item_received_slip.png' } };
-  var NOTICE_ITEM = [14, 9]; // the 96x96 slot art, centred in the compartment
-  var NOTICE_TEXT_X = 134;
-  var NOTICE_LABEL_MID = 28; // middle of the upper band
-  var NOTICE_NAME_MID = 77; // middle of the lower band
+  // Item art at (TU.notice.itemX, itemY), centred in the compartment; ITEM RECEIVED at titleX,
+  // centred on titleMidY (the upper band's middle); the name at nameX, centred on nameMidY.
 
   function buildNotice() {
     els.notice = el('div', 'notice', stage, { id: 'itemNotice', role: 'status', 'aria-live': 'polite' });
-    place(els.notice, NOTICE_RECT[0], NOTICE_RECT[1], NOTICE_RECT[2], NOTICE_RECT[3]);
+    place(els.notice, TU.notice.x, TU.notice.y, NOTICE_SIZE[0], NOTICE_SIZE[1]);
     var bg = G.image(G.NOTICE_ART.slip.image);
     bg.id = 'itemNoticeBackground';
     bg.className = 'sprite-abs';
@@ -1216,23 +1234,23 @@
   }
 
   function drawNotice(canvas, id) {
-    canvas.width = NOTICE_RECT[2]; // also clears it: the canvas holds only the item and the text
-    canvas.height = NOTICE_RECT[3];
+    canvas.width = NOTICE_SIZE[0]; // also clears it: the canvas holds only the item and the text
+    canvas.height = NOTICE_SIZE[1];
     var ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
     var art = G.content.items[id].slotArt ? G.image('item:' + id) : null;
-    if (art) ctx.drawImage(art, NOTICE_ITEM[0], NOTICE_ITEM[1], 96, 96);
-    [['ITEM RECEIVED', 'labels', NOTICE_LABEL_MID], [G.content.items[id].name, 'choices', NOTICE_NAME_MID]].forEach(function (line) {
+    if (art) ctx.drawImage(art, TU.notice.itemX, TU.notice.itemY, 96, 96);
+    [['ITEM RECEIVED', 'labels', TU.notice.titleX, TU.notice.titleMidY], [G.content.items[id].name, 'choices', TU.notice.nameX, TU.notice.nameMidY]].forEach(function (line) {
       var c = document.createElement('canvas');
       T.label(c, line[0], 'dark', line[1]);
       var rows = inkRows(c);
-      ctx.drawImage(c, NOTICE_TEXT_X, line[2] - Math.round((rows[0] + rows[1]) / 2));
+      ctx.drawImage(c, line[2], line[3] - Math.round((rows[0] + rows[1]) / 2));
     });
   }
 
   function showNextNotice(now) {
     var id = ui.noticeQueue.shift();
-    ui.notice = id ? { id: id, until: now + NOTICE_MS } : null;
+    ui.notice = id ? { id: id, until: now + TU.notice.durationMs } : null;
     show(els.notice, !!id);
     if (!id) return;
     drawNotice(els.noticeArt, id);
