@@ -1,4 +1,7 @@
 # The Acceptable Error — Story Spine Laboratory 01
+
+> **OWNER DIRECTION SUPERSEDES THIS EARLIER PITCH COMPARISON (2026-11-07):** The Exposition of Everything is now the primary preferred story frame, **not** an unwanted-inspection procedural. The owner also supplied a more detailed pre-reception prologue: absurd employment, fly-caused mass layoff, denied bathroom access, mandatory departure, office-effects box, inventory reversal at Expo entry, then bathroom inquiry at reception. See [60 — Exposition Opening and Story Engine](60_EXPOSITION_OPENING_AND_STORY_ENGINE_V01.md). Earlier pitches below are preserved for history; do not treat this study's initial ranking as current direction.
+
 **Date:** 2026-11-07  
 **Status:** Exploratory story brainstorming, not approved story canon  
 **Track:** Story / gameplay PMO; independent of M2 reception UI and sprite work  
