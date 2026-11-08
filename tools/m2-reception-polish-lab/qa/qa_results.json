@@ -257,7 +257,7 @@
       "browser": "chromium",
       "name": "the stage shell is the canonical file (served bytes)",
       "ok": true,
-      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+      "detail": "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625"
     },
     {
       "browser": "chromium",
@@ -327,9 +327,9 @@
             51,
             52
           ],
-          "ms": 156
+          "ms": 160
         },
-        "href0": "http://127.0.0.1:51563/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -556,16 +556,16 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "106px",
-          "78px",
-          "56px",
-          "39px",
-          "27px",
-          "18px",
-          "13px",
-          "10px",
+          "111px",
+          "84px",
+          "59px",
+          "41px",
+          "29px",
+          "19px",
+          "11px",
           "9px",
-          "12px",
+          "10px",
+          "13px",
           "15px"
         ]
       }
@@ -588,8 +588,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:51563/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:51563/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -970,7 +970,7 @@
       "browser": "firefox",
       "name": "the stage shell is the canonical file (served bytes)",
       "ok": true,
-      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+      "detail": "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625"
     },
     {
       "browser": "firefox",
@@ -1042,7 +1042,7 @@
           ],
           "ms": 154
         },
-        "href0": "http://127.0.0.1:51563/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -1269,17 +1269,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "111px",
-          "81px",
-          "59px",
-          "41px",
-          "28px",
-          "19px",
+          "119px",
+          "88px",
+          "64px",
+          "45px",
+          "31px",
+          "21px",
+          "15px",
           "11px",
           "9px",
           "10px",
-          "13px",
-          "15px"
+          "12px"
         ]
       }
     },
@@ -1301,8 +1301,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:51563/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:51563/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {

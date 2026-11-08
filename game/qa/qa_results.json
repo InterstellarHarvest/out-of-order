@@ -7,13 +7,13 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 487,
-  "passed": 487,
+  "total": 488,
+  "passed": 488,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 41,
-      "passed": 41
+      "total": 42,
+      "passed": 42
     },
     "chromium": {
       "total": 223,
@@ -311,6 +311,11 @@
     },
     {
       "browser": "static",
+      "name": "shell regions and alpha census are identical to the M2 start",
+      "ok": true
+    },
+    {
+      "browser": "static",
       "name": "exactly the ten edited cards and three font atlases record an owner edit",
       "ok": true,
       "detail": [
@@ -484,7 +489,7 @@
       "browser": "chromium",
       "name": "served shell bytes are canonical",
       "ok": true,
-      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+      "detail": "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625"
     },
     {
       "browser": "chromium",
@@ -1502,8 +1507,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 103,
-        "r1": 115
+        "r0": 113,
+        "r1": 125
       }
     },
     {
@@ -1521,7 +1526,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217.09999990463257
+      "detail": 216.70000004768372
     },
     {
       "browser": "chromium",
@@ -1612,18 +1617,18 @@
         0,
         0,
         -2,
-        -4,
+        -2,
         -6,
-        -10,
-        -14,
+        -8,
+        -12,
         -18,
         -24,
         -30,
-        -38,
+        -36,
         -44,
         -54,
-        -64,
-        -74
+        -62,
+        -72
       ]
     },
     {
@@ -1670,7 +1675,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 417.39999985694885
+      "detail": 419
     },
     {
       "browser": "chromium",
@@ -1686,7 +1691,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948.8999998569489
+      "detail": 947.9000000953674
     },
     {
       "browser": "chromium",
@@ -2348,7 +2353,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3610
+        "ms": 3606
       }
     },
     {
@@ -3113,7 +3118,7 @@
       "browser": "firefox",
       "name": "served shell bytes are canonical",
       "ok": true,
-      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+      "detail": "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625"
     },
     {
       "browser": "firefox",
@@ -4131,8 +4136,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 102,
-        "r1": 114
+        "r0": 111,
+        "r1": 123
       }
     },
     {
@@ -4150,7 +4155,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 216
+      "detail": 218
     },
     {
       "browser": "firefox",
@@ -4241,19 +4246,19 @@
         0,
         0,
         0,
+        0,
         -2,
-        -2,
-        -6,
+        -4,
         -8,
-        -14,
-        -18,
-        -24,
-        -30,
+        -12,
+        -16,
+        -22,
+        -28,
         -36,
         -44,
-        -54,
-        -62,
-        -72
+        -52,
+        -60,
+        -70
       ]
     },
     {
@@ -4316,7 +4321,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 947
+      "detail": 945
     },
     {
       "browser": "firefox",
@@ -4978,7 +4983,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3609
+        "ms": 3615
       }
     },
     {
@@ -5302,23 +5307,23 @@
         "first": [
           [
             0,
-            14
+            -1
           ],
           [
             1,
-            130
+            115
           ],
           [
             2,
-            246
+            235
           ],
           [
             3,
-            362
+            356
           ],
           [
             4,
-            478
+            476
           ],
           [
             5,
