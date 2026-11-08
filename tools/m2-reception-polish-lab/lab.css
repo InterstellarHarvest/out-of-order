@@ -59,6 +59,13 @@ textarea { width: 100%; font: 12px/1.3 ui-monospace, Menlo, monospace; padding: 
 .row .unit { grid-area: unit; color: var(--muted); font-size: 11px; }
 .row .slider { grid-area: slider; width: 100%; }
 .row .hint { grid-area: hint; font-size: 11px; }
+/* Collapsible sections: the heading is a disclosure button; a folded section shows only it. */
+.fold { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
+.fold::before { content: "\25BE"; display: inline-block; width: 10px; color: var(--muted); }
+.fold:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.folded > .fold-head .fold::before { content: "\25B8"; }
+.folded > :not(.fold-head) { display: none !important; }
+.panel.folded .fold-head { margin-bottom: 0; }
 .lock { margin: 2px 0; color: var(--muted); }
 .lock b { color: var(--fg); font-weight: 600; }
 

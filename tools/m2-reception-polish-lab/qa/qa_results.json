@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-m2-reception-polish-lab-qa-v1",
-  "passed": 85,
-  "total": 85,
+  "passed": 67,
+  "total": 67,
   "failures": [],
   "checks": [
     {
@@ -213,16 +213,27 @@
     },
     {
       "browser": "chromium",
+      "name": "the OBSERVE state shows the thought, taken through the real first utility button (now spent)",
+      "ok": true,
+      "detail": [
+        1,
+        "thought",
+        "context",
+        false
+      ]
+    },
+    {
+      "browser": "chromium",
       "name": "FILES state shows the 4:52 record",
       "ok": true
     },
     {
       "browser": "chromium",
-      "name": "tooltip states show INSPECT / INSPECT - NO ITEMS / READ / SHOW - NOT AVAILABLE HERE",
+      "name": "tooltip states show OBSERVE / OBSERVE - NOTHING NEW TO NOTICE / READ / SHOW - NOT AVAILABLE HERE",
       "ok": true,
       "detail": {
-        "tooltip-enabled": "INSPECT",
-        "tooltip-disabled": "INSPECT - NO ITEMS",
+        "tooltip-enabled": "OBSERVE",
+        "tooltip-disabled": "OBSERVE - NOTHING NEW TO NOTICE",
         "tooltip-read": "READ",
         "tooltip-show": "SHOW - NOT AVAILABLE HERE"
       }
@@ -316,9 +327,9 @@
             51,
             52
           ],
-          "ms": 160
+          "ms": 153
         },
-        "href0": "http://127.0.0.1:65064/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:50769/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -405,12 +416,22 @@
     },
     {
       "browser": "chromium",
+      "name": "the hold-X UP/DOWN aid is gone (the X has no DOWN state)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
       "name": "visual helper toggles do not change the exported changes",
       "ok": true
     },
     {
       "browser": "chromium",
       "name": "hide-shell and bounds toggles act on the stage frames only",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "SHOW X HITBOX outlines the inspector X's 44x44 button",
       "ok": true
     },
     {
@@ -424,18 +445,18 @@
       "ok": true,
       "detail": [
         true,
-        "cyoa-m2-reception-polish-lab-v1",
+        "cyoa-m2-reception-polish-lab-ui-v1,cyoa-m2-reception-polish-lab-v1",
         "opening",
         1
       ]
     },
     {
       "browser": "chromium",
-      "name": "no story state is persisted: storage holds only the lab key, and a fresh game starts at the opening",
+      "name": "no story state is persisted: storage holds only the lab's values and UI keys, and a fresh game starts at the opening",
       "ok": true,
       "detail": [
         true,
-        "cyoa-m2-reception-polish-lab-v1",
+        "cyoa-m2-reception-polish-lab-ui-v1,cyoa-m2-reception-polish-lab-v1",
         "opening",
         1
       ]
@@ -498,478 +519,213 @@
     },
     {
       "browser": "chromium",
-      "name": "no console or page errors in the lab",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "the lab opens and both stage frames load",
-      "ok": true,
-      "detail": "Showing LAB values - state: opening"
-    },
-    {
-      "browser": "firefox",
-      "name": "lab defaults equal the values read from the actual production game (game/index.html)",
+      "name": "ITEM RECEIVED replays the production FACILITIES KEY slip, repeatedly, in the LAB view",
       "ok": true,
       "detail": {
-        "prod": {
-          "portrait.npcX": 0,
-          "portrait.npcY": 0,
-          "portrait.backgroundX": 0,
-          "portrait.backgroundY": 0,
-          "dialogue.textX": 1342,
-          "dialogue.textY": 360,
-          "dialogue.textWidth": 540,
-          "dialogue.textHeight": 144,
-          "dialogue.lineHeight": 24,
-          "dialogue.speakerGap": 8,
-          "choices.listY": 527,
-          "choices.gap": 5,
-          "choices.textX": 29,
-          "choices.textY": 0,
-          "scrollbar.x": 1880,
-          "scrollbar.top": 539,
-          "scrollbar.bottom": 851,
-          "inventory.slotsX": 92,
-          "inventory.slotsY": 935,
-          "inventory.slotGap": 20,
-          "inventory.leftArrowX": 33,
-          "inventory.leftArrowY": 948,
-          "inventory.rightArrowX": 782,
-          "inventory.rightArrowY": 948,
-          "utility.groupX": 1482,
-          "utility.spacing": 2,
-          "utility.rowY": 930,
-          "tooltip.offsetX": 0,
-          "tooltip.gapY": 4,
-          "tooltip.padX": 10,
-          "tooltip.padY": 7,
-          "notice.x": 56,
-          "notice.y": 738,
-          "notice.itemX": 14,
-          "notice.itemY": 9,
-          "notice.titleX": 134,
-          "notice.titleY": 28,
-          "notice.nameX": 134,
-          "notice.nameY": 77,
-          "inspector.artX": 0,
-          "inspector.artY": 0,
-          "inspector.closeX": 0,
-          "inspector.closeY": 0,
-          "inspector.textX": 0,
-          "inspector.textY": 12,
-          "overlay.titleX": 100,
-          "overlay.titleY": 60,
-          "overlay.filesTitleX": 630,
-          "overlay.filesTitleY": 70,
-          "overlay.bodyX": 48,
-          "overlay.bodyY": 140,
-          "overlay.bodyWidth": 1159,
-          "overlay.bodyHeight": 620,
-          "overlay.lineHeight": 26,
-          "overlay.notesPanel": 1,
-          "objective.titleAlignX": 0,
-          "objective.titleY": 907,
-          "objective.bodyX": 889,
-          "objective.bodyY": 958,
-          "objective.bodyWidth": 522,
-          "timing.npcCharsPerSecond": 40,
-          "timing.beforeChoicesMs": 200,
-          "timing.cardSlideMs": 160,
-          "timing.cardStaggerMs": 40,
-          "timing.sendDelayMs": 120,
-          "timing.sendRiseMs": 240,
-          "timing.replyBeatMs": 400,
-          "timing.inventorySlideMs": 275,
-          "notice.durationMs": 3600,
-          "tooltip.showDelayMs": 0,
-          "tooltip.hideDelayMs": 0
-        },
-        "gameValues": {
-          "portrait.npcX": 0,
-          "portrait.npcY": 0,
-          "portrait.backgroundX": 0,
-          "portrait.backgroundY": 0,
-          "dialogue.textX": 1342,
-          "dialogue.textY": 360,
-          "dialogue.textWidth": 540,
-          "dialogue.textHeight": 144,
-          "dialogue.lineHeight": 24,
-          "dialogue.speakerGap": 8,
-          "choices.listY": 527,
-          "choices.gap": 5,
-          "choices.textX": 29,
-          "choices.textY": 0,
-          "scrollbar.x": 1880,
-          "scrollbar.top": 539,
-          "scrollbar.bottom": 851,
-          "inventory.slotsX": 92,
-          "inventory.slotsY": 935,
-          "inventory.slotGap": 20,
-          "inventory.leftArrowX": 33,
-          "inventory.leftArrowY": 948,
-          "inventory.rightArrowX": 782,
-          "inventory.rightArrowY": 948,
-          "utility.groupX": 1482,
-          "utility.spacing": 2,
-          "utility.rowY": 930,
-          "tooltip.offsetX": 0,
-          "tooltip.gapY": 4,
-          "tooltip.padX": 10,
-          "tooltip.padY": 7,
-          "notice.x": 56,
-          "notice.y": 738,
-          "notice.itemX": 14,
-          "notice.itemY": 9,
-          "notice.titleX": 134,
-          "notice.titleY": 28,
-          "notice.nameX": 134,
-          "notice.nameY": 77,
-          "inspector.artX": 0,
-          "inspector.artY": 0,
-          "inspector.closeX": 0,
-          "inspector.closeY": 0,
-          "inspector.textX": 0,
-          "inspector.textY": 12,
-          "overlay.titleX": 100,
-          "overlay.titleY": 60,
-          "overlay.filesTitleX": 630,
-          "overlay.filesTitleY": 70,
-          "overlay.bodyX": 48,
-          "overlay.bodyY": 140,
-          "overlay.bodyWidth": 1159,
-          "overlay.bodyHeight": 620,
-          "overlay.lineHeight": 26,
-          "overlay.notesPanel": 1,
-          "objective.titleAlignX": 0,
-          "objective.titleY": 907,
-          "objective.bodyX": 889,
-          "objective.bodyY": 958,
-          "objective.bodyWidth": 522,
-          "timing.npcCharsPerSecond": 40,
-          "timing.beforeChoicesMs": 200,
-          "timing.cardSlideMs": 160,
-          "timing.cardStaggerMs": 40,
-          "timing.sendDelayMs": 120,
-          "timing.sendRiseMs": 240,
-          "timing.replyBeatMs": 400,
-          "timing.inventorySlideMs": 275,
-          "notice.durationMs": 3600,
-          "tooltip.showDelayMs": 0,
-          "tooltip.hideDelayMs": 0
-        }
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "the lab opens on exact production values (no changes)",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "every tunable has a production value that is a whole number",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "PRODUCTION and LAB are pixel-identical at defaults in every representative state",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "every representative state loads where it should (node, inspector, overlay, slip, READ mark)",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "FILES state shows the 4:52 record",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "tooltip states show INSPECT / INSPECT - NO ITEMS / READ / SHOW - NOT AVAILABLE HERE",
-      "ok": true,
-      "detail": {
-        "tooltip-enabled": "INSPECT",
-        "tooltip-disabled": "INSPECT - NO ITEMS",
-        "tooltip-read": "READ",
-        "tooltip-show": "SHOW - NOT AVAILABLE HERE"
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "choice samples show a 1-, 2- and 3-line card (display only)",
-      "ok": true,
-      "detail": [
-        1,
-        2,
-        3
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "choice samples show three 2-line cards",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the stage shell is the canonical file (served bytes)",
-      "ok": true,
-      "detail": "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
-    },
-    {
-      "browser": "firefox",
-      "name": "every image the lab loads is a production art file under art/",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "scene stays exactly 4x (314x206 -> 1256x824) in the lab frame",
-      "ok": true,
-      "detail": [
-        314,
-        206,
-        32,
-        44,
-        1256,
-        824
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "portrait stays native 1x (564x278) and a lab nudge moves only the NPC layer by whole pixels",
-      "ok": true,
-      "detail": {
-        "scene": [
-          314,
-          206,
-          32,
-          44,
-          1256,
-          824
+        "rItem": [
+          "ok",
+          "ok"
         ],
-        "npc": [
-          564,
-          278,
-          1333,
-          47,
-          564,
-          278
+        "shown1": "wc_key",
+        "shown2": "wc_key"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "REPLAY NPC TYPING retypes the latest line with the production typing, then the same choices arrive",
+      "ok": true,
+      "detail": {
+        "rType": "ok",
+        "typing": "typing,true,0,npc"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "REPLAY CHOICE ARRIVAL runs the production card arrival and returns to choosing",
+      "ok": true,
+      "detail": {
+        "rArrive": "ok",
+        "arriving": "arriving,in"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "REPLAY INVENTORY SLIDE runs the production slide and settles back",
+      "ok": true,
+      "detail": {
+        "rSlide": "ok",
+        "sliding": true
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "TRIGGER CONTEXT ACTION takes the real OBSERVE, and again on repeat (the state reloads first, so one thought each time)",
+      "ok": true,
+      "detail": {
+        "rCtx": [
+          "ok",
+          "ok"
         ],
-        "bg": [
-          564,
-          278,
-          1333,
-          44,
-          564,
-          278
-        ]
+        "th1": "1,opening,choosing",
+        "th2": "1,opening,choosing"
       }
     },
     {
-      "browser": "firefox",
-      "name": "the PRODUCTION frame is untouched by the lab change",
+      "browser": "chromium",
+      "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
+      "ok": true,
+      "detail": {
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:50769/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:50769/tools/m2-reception-polish-lab/stage.html?mode=production"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the triggers create no tunable change and nothing in COPY CHANGES",
       "ok": true
     },
     {
-      "browser": "firefox",
-      "name": "a slider drag updates the lab stage live, step by step (no debounce, no reload)",
+      "browser": "chromium",
+      "name": "a section folds from its heading (rows hidden, aria-expanded false)",
+      "ok": true,
+      "detail": "true,none,false,true"
+    },
+    {
+      "browser": "chromium",
+      "name": "and opens again",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "every lab section is collapsible (panels, every tunable section, trigger events)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "RESET ALL leaves the devtool UI preferences alone",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "lab UI state is never in COPY CHANGES (or COPY ALL)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "lab UI state is kept apart from the tunable values",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "after a reload: folded sections stay folded",
       "ok": true,
       "detail": {
-        "drag": {
-          "tops": [
-            48,
-            49,
-            50,
-            51,
-            52
-          ],
-          "ms": 163
+        "sec-portrait": true
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "after a reload: the sidebar scroll position is restored",
+      "ok": true,
+      "detail": {
+        "now": 700,
+        "was": 700
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "after a reload: the representative state is restored (FILES open in the frames)",
+      "ok": true,
+      "detail": {
+        "s": {
+          "state": "files",
+          "view": "production",
+          "fit": false,
+          "toggles": {
+            "hideShell": false,
+            "hideScene": false,
+            "hideBackground": false,
+            "hideNpc": false,
+            "hideRearFx": false,
+            "hideFrontFx": false,
+            "boundsScene": false,
+            "boundsPortrait": false,
+            "boundsChoices": false,
+            "boundsInventory": false,
+            "boundsUtility": false,
+            "boundsClose": false,
+            "coords": true
+          },
+          "folded": {
+            "sec-portrait": true
+          },
+          "scrolls": {
+            "side": 700,
+            "stageX": 0,
+            "stageY": 0
+          }
         },
-        "href0": "http://127.0.0.1:65064/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "scroll": 700,
+        "folded": true,
+        "sel": "files",
+        "overlay": "files",
+        "view": "production",
+        "fit": "View: 1:1 exact pixels"
       }
     },
     {
-      "browser": "firefox",
-      "name": "a live change keeps the state on show (NOTES stays open on the same lines and scroll)",
-      "ok": true,
-      "detail": [
-        "notes|NOTES: EVERYTHING SAID AT RECEPTION\nRECEPTIONIST:\nGOOD",
-        "notes|NOTES: EVERYTHING SAID AT RECEPTION\nRECEPTIONIST:\nGOOD"
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "NOTES shows the v1 panel in both frames by default",
-      "ok": true,
-      "detail": [
-        "art/ui/overlays/notes_files_panel.png",
-        "art/ui/overlays/notes_files_panel.png"
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "NOTES background v2 switches live in the lab frame only",
-      "ok": true,
-      "detail": [
-        "art/ui/overlays/notes_panel_v2.png",
-        "art/ui/overlays/notes_files_panel.png"
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "the NOTES background choice is exported with the changes",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "FILES shows its own panel (files_panel.png) in both frames, whatever the NOTES choice",
-      "ok": true,
-      "detail": [
-        "art/ui/overlays/files_panel.png",
-        "art/ui/overlays/files_panel.png"
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "the lab frame shows the v2 panel 1:1 (served bytes are the committed candidate)",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "reset returns NOTES to v1 live",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "after live changes and a reset, PRODUCTION and LAB are pixel-identical again (same frame, never reloaded)",
-      "ok": true,
-      "detail": []
-    },
-    {
-      "browser": "firefox",
-      "name": "spatial controls store whole numbers (6.6 -> 7)",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "COPY CHANGES contains only the changed keys, with schema and base SHA",
+      "browser": "chromium",
+      "name": "after a reload: the PRODUCTION / LAB choice and the 1:1 preview mode are restored",
       "ok": true,
       "detail": {
-        "schema": "cyoa-m2-reception-polish-lab-v1",
-        "baseSha": "6472cecb377a6e00484f92cdee55f6500858daa3",
-        "changes": {
-          "portrait.npcY": 3,
-          "tooltip.gapY": 7,
-          "notice.durationMs": 3200
-        }
+        "s": {
+          "state": "files",
+          "view": "production",
+          "fit": false,
+          "toggles": {
+            "hideShell": false,
+            "hideScene": false,
+            "hideBackground": false,
+            "hideNpc": false,
+            "hideRearFx": false,
+            "hideFrontFx": false,
+            "boundsScene": false,
+            "boundsPortrait": false,
+            "boundsChoices": false,
+            "boundsInventory": false,
+            "boundsUtility": false,
+            "boundsClose": false,
+            "coords": true
+          },
+          "folded": {
+            "sec-portrait": true
+          },
+          "scrolls": {
+            "side": 700,
+            "stageX": 0,
+            "stageY": 0
+          }
+        },
+        "scroll": 700,
+        "folded": true,
+        "sel": "files",
+        "overlay": "files",
+        "view": "production",
+        "fit": "View: 1:1 exact pixels"
       }
     },
     {
-      "browser": "firefox",
-      "name": "COPY ALL contains every declared tunable",
-      "ok": true,
-      "detail": 71
-    },
-    {
-      "browser": "firefox",
-      "name": "visual helper toggles do not change the exported changes",
+      "browser": "chromium",
+      "name": "a reload restores no narrative state from a trigger (no thought, no slip)",
       "ok": true
     },
     {
-      "browser": "firefox",
-      "name": "hide-shell and bounds toggles act on the stage frames only",
+      "browser": "chromium",
+      "name": "a reload keeps the values and the export as they were",
       "ok": true
     },
     {
-      "browser": "firefox",
-      "name": "lab values persist in localStorage across a reload",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "the production game ignores the lab storage (production values while lab changes are saved)",
-      "ok": true,
-      "detail": [
-        true,
-        "cyoa-m2-reception-polish-lab-v1",
-        "opening",
-        1
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "no story state is persisted: storage holds only the lab key, and a fresh game starts at the opening",
-      "ok": true,
-      "detail": [
-        true,
-        "cyoa-m2-reception-polish-lab-v1",
-        "opening",
-        1
-      ]
-    },
-    {
-      "browser": "firefox",
-      "name": "RESET FIELD restores one value",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "RESET SECTION restores only that section",
-      "ok": true,
-      "detail": {
-        "tooltip.gapY": 7
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "RESET ALL restores every production value",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "IMPORT round-trips exported changes",
-      "ok": true,
-      "detail": {
-        "ok": true,
-        "errors": [],
-        "changed": 3
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "IMPORT rejects unknown keys, non-integers, out-of-range spatial/timing values, a wrong schema and malformed JSON",
-      "ok": true,
-      "detail": {
-        "unknown": "unknown key: portrait.hatSize",
-        "nonInteger": "portrait.npcY: must be a whole number (got 2.5)",
-        "outOfRange": "portrait.npcY: 400 is outside -40..40",
-        "timingRange": "notice.durationMs: 999999 is outside 1000..10000",
-        "wrongSchema": "schema must be cyoa-m2-reception-polish-lab-v1 (got something-else)",
-        "stringValue": "portrait.npcY: must be a whole number (got \"3\")",
-        "malformed": "not valid JSON: JSON.parse: expected property name or '}' at line 1 column 2 of the JSON data"
-      }
-    },
-    {
-      "browser": "firefox",
-      "name": "a rejected import leaves the lab values unchanged",
-      "ok": true
-    },
-    {
-      "browser": "firefox",
-      "name": "a lab tooltip delay applies in the lab frame (hidden at 120 ms, shown after 400 ms)",
-      "ok": true,
-      "detail": {
-        "early": "none",
-        "late": ""
-      }
-    },
-    {
-      "browser": "firefox",
+      "browser": "chromium",
       "name": "no console or page errors in the lab",
       "ok": true,
       "detail": []

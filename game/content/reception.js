@@ -47,6 +47,24 @@
       }
     },
 
+    // The context action (docs/64): the first utility button in conversation, an optional thing to
+    // do in the current situation, separate from the choices. This one holds for the whole of
+    // reception (a node can override it with its own `contextAction`, or null for none). Taking it
+    // adds `text` to the history as the player's unspoken observation, drawn in parentheses; it
+    // never advances the conversation. `once`: it can be taken once per encounter, and after that
+    // the button stays on show, inactive, its tooltip ending in `spentWhy`. The glyph is the
+    // existing WATCH action glyph (art/actions/watch.png) for now.
+    // PROVISIONAL COPY: the observation is a placeholder proving the mechanism, not story canon; the
+    // Story/Narrative PMO may rewrite or replace it.
+    contextAction: {
+      id: 'observe-receptionist',
+      label: 'OBSERVE',
+      glyph: 'watch',
+      text: 'I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUSUAL. HER FACE REMAINED PROFESSIONALLY UNAVAILABLE.',
+      once: true,
+      spentWhy: 'NOTHING NEW TO NOTICE'
+    },
+
     // FILES shows every entry whose condition holds, in this order: the player's case file.
     files: [
       { if: { notFlag: 'appointed' }, text: 'VISITOR. PURPOSE OF VISIT: TO ASK WHERE THE BATHROOM IS.' },

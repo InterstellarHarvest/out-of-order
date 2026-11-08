@@ -17,6 +17,7 @@ const SHOTS = path.join(__dirname, 'screenshots');
 const SHELL_PATH = 'art/ui/shell/layout-final.png';
 const SHELL_SHA256 = '813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6';
 const STORE = 'cyoa-m2-reception-polish-lab-v1';
+const STORE_UI = 'cyoa-m2-reception-polish-lab-ui-v1';
 
 const results = [];
 function check(browser, name, ok, detail) {
@@ -74,7 +75,7 @@ async function suite(name, base) {
   const lab = (fn, arg) => page.evaluate(fn, arg);
   const ready = () => lab(() => window.POLISH_LAB.ready());
   await page.goto(`${base}/${LAB}`);
-  await lab((k) => localStorage.removeItem(k), STORE);
+  await lab((ks) => ks.forEach((k) => localStorage.removeItem(k)), [STORE, STORE_UI]);
   await openLab();
   c('the lab opens and both stage frames load', (await lab(() => document.body.dataset.labReady)) === 'true', await lab(() => document.getElementById('status').textContent));
 
@@ -100,7 +101,7 @@ async function suite(name, base) {
   };
   const both = async (v) => lab((x) => { window.POLISH_LAB.setView(x); }, v);
   const freezeBoth = (on) => lab((x) => ['frameProduction', 'frameLab'].forEach((id) => document.getElementById(id).contentWindow.LAB_STAGE.freeze(x)), on);
-  const abStates = ['opening', 'three-choices', 'long-history', 'item-received', 'inspector-before-read', 'inspector-after-read', 'notes', 'files', 'tooltip-disabled', 'tooltip-show', 'ending', 'choices-1-2-3', 'choices-three-2'];
+  const abStates = ['opening', 'three-choices', 'long-history', 'item-received', 'inspector-before-read', 'inspector-after-read', 'notes', 'files', 'observed', 'tooltip-disabled', 'tooltip-show', 'ending', 'choices-1-2-3', 'choices-three-2'];
   const abCompare = async (states, shots) => {
     const bad = [];
     for (const s of states) {
@@ -112,7 +113,7 @@ async function suite(name, base) {
       await both('lab');
       const b2 = await page.screenshot({ clip: await wrap() });
       if (!a.equals(b2)) bad.push(s);
-      if (shots && name === 'chromium' && ['opening', 'inspector-before-read', 'notes', 'files', 'item-received', 'choices-1-2-3'].includes(s)) fs.writeFileSync(path.join(SHOTS, `state_${s}.png`), b2);
+      if (shots && name === 'chromium' && ['opening', 'inspector-before-read', 'notes', 'files', 'observed', 'item-received', 'choices-1-2-3'].includes(s)) fs.writeFileSync(path.join(SHOTS, `state_${s}.png`), b2);
       await freezeBoth(false);
     }
     return bad;
@@ -124,7 +125,7 @@ async function suite(name, base) {
   const expect = {
     opening: ['opening', null, null], 'three-choices': ['misassign', null, null], 'long-history': ['facilities', null, null], 'item-received': ['issue', null, null],
     'inspector-before-read': ['issue', 'wc_key', null], 'inspector-after-read': ['issue', 'wc_key', null], notes: ['tag_question', null, 'notes'],
-    files: ['tag_question', null, 'files'], ending: ['ending', null, null]
+    files: ['tag_question', null, 'files'], observed: ['misassign', null, null], ending: ['ending', null, null]
   };
   const stBad = [];
   for (const s of Object.keys(expect)) {
@@ -135,6 +136,9 @@ async function suite(name, base) {
       || (s === 'inspector-after-read' && !/read/.test(got[5]))) stBad.push([s, got]);
   }
   c('every representative state loads where it should (node, inspector, overlay, slip, READ mark)', stBad.length === 0, stBad);
+  await lab(() => window.POLISH_LAB.setState('observed'));
+  const obs = await lab(() => { const G = document.getElementById('frameLab').contentWindow.CYOA_GAME; return [G.state.transcript.filter((t) => t.who === 'thought').length, G.ui.speech.parts.slice(-1)[0].who, G.utilityActions()[0].action, G.utilityActions()[0].enabled]; });
+  c('the OBSERVE state shows the thought, taken through the real first utility button (now spent)', obs.join() === '1,thought,context,false', obs);
   await lab(() => window.POLISH_LAB.setState('files'));
   c('FILES state shows the 4:52 record', /RETURNED AT 4:52/.test(await lab(() => document.getElementById('frameLab').contentWindow.document.getElementById('overlayCanvas').dataset.text)));
   const tips = {};
@@ -142,8 +146,8 @@ async function suite(name, base) {
     await lab((x) => window.POLISH_LAB.setState(x), s);
     tips[s] = await lab(() => { const t = document.getElementById('frameLab').contentWindow.document.getElementById('tooltip'); return t.style.display !== 'none' && t.dataset.text; });
   }
-  c('tooltip states show INSPECT / INSPECT - NO ITEMS / READ / SHOW - NOT AVAILABLE HERE',
-    JSON.stringify(tips) === JSON.stringify({ 'tooltip-enabled': 'INSPECT', 'tooltip-disabled': 'INSPECT - NO ITEMS', 'tooltip-read': 'READ', 'tooltip-show': 'SHOW - NOT AVAILABLE HERE' }), tips);
+  c('tooltip states show OBSERVE / OBSERVE - NOTHING NEW TO NOTICE / READ / SHOW - NOT AVAILABLE HERE',
+    JSON.stringify(tips) === JSON.stringify({ 'tooltip-enabled': 'OBSERVE', 'tooltip-disabled': 'OBSERVE - NOTHING NEW TO NOTICE', 'tooltip-read': 'READ', 'tooltip-show': 'SHOW - NOT AVAILABLE HERE' }), tips);
   await lab(() => window.POLISH_LAB.setState('choices-1-2-3'));
   const lines = await lab(() => { const G = document.getElementById('frameLab').contentWindow.CYOA_GAME; return G.ui.cards.map((k) => k.lines); });
   c('choice samples show a 1-, 2- and 3-line card (display only)', JSON.stringify(lines) === '[1,2,3]' && (await lab(() => document.getElementById('frameLab').contentWindow.CYOA_GAME.flow.phase)) === 'lab-sample', lines);
@@ -228,10 +232,13 @@ async function suite(name, base) {
   const all = JSON.parse(await lab(() => window.POLISH_LAB.exportAll()));
   c('COPY ALL contains every declared tunable', Object.keys(all.values).length === n && all.values['portrait.npcY'] === 3, Object.keys(all.values).length);
   // Toggles do not leak into exports.
-  await lab(() => { ['tg-hideShell', 'tg-boundsScene', 'tg-boundsUtility'].forEach((id) => document.getElementById(id).click()); document.getElementById('freeze').click(); document.getElementById('holdClose').value = 'down'; document.getElementById('holdClose').dispatchEvent(new Event('change')); });
+  c('the hold-X UP/DOWN aid is gone (the X has no DOWN state)', await lab(() => !document.getElementById('holdClose') && !window.frames[0].LAB_STAGE.holdClose));
+  await lab(() => { ['tg-hideShell', 'tg-boundsScene', 'tg-boundsUtility', 'tg-boundsClose'].forEach((id) => document.getElementById(id).click()); document.getElementById('freeze').click(); });
   c('visual helper toggles do not change the exported changes', (await lab(() => window.POLISH_LAB.exportChanges())) === JSON.stringify(ex, null, 2));
   c('hide-shell and bounds toggles act on the stage frames only', await lab(() => { const d = document.getElementById('frameLab').contentWindow.document; return getComputedStyle(d.getElementById('shell')).visibility === 'hidden' && d.querySelectorAll('#labBounds .lab-bound').length >= 4; }));
-  await lab(() => { ['tg-hideShell', 'tg-boundsScene', 'tg-boundsUtility'].forEach((id) => document.getElementById(id).click()); document.getElementById('freeze').click(); document.getElementById('holdClose').value = 'auto'; document.getElementById('holdClose').dispatchEvent(new Event('change')); });
+  const xBox = await lab(() => { const d = document.getElementById('frameLab').contentWindow.document; const b = Array.from(d.querySelectorAll('#labBounds .lab-bound')).find((e) => e.title === 'inspector X hit area'); const x = d.getElementById('inspectClose'); return b && [b.style.left, b.style.top, b.style.width, b.style.height].join() === [x.style.left, x.style.top, x.style.width, x.style.height].join() && b.style.width === '44px'; });
+  c('SHOW X HITBOX outlines the inspector X\'s 44x44 button', xBox);
+  await lab(() => { ['tg-hideShell', 'tg-boundsScene', 'tg-boundsUtility', 'tg-boundsClose'].forEach((id) => document.getElementById(id).click()); document.getElementById('freeze').click(); });
   // Persistence.
   await page.reload();
   await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
@@ -244,7 +251,7 @@ async function suite(name, base) {
   const g2v = await g2.evaluate(() => window.POLISH_TUNABLES.readAll(window.CYOA_GAME));
   const g2s = await g2.evaluate((k) => [!!localStorage.getItem(k), Object.keys(localStorage).join(), window.CYOA_GAME.state.node, window.CYOA_GAME.state.transcript.length], STORE);
   c('the production game ignores the lab storage (production values while lab changes are saved)', JSON.stringify(g2v) === JSON.stringify(prod) && g2s[0], g2s);
-  c('no story state is persisted: storage holds only the lab key, and a fresh game starts at the opening', g2s[1] === STORE && g2s[2] === 'opening' && g2s[3] === 1, g2s);
+  c('no story state is persisted: storage holds only the lab\'s values and UI keys, and a fresh game starts at the opening', g2s[1].split(',').sort().join() === [STORE, STORE_UI].sort().join() && g2s[2] === 'opening' && g2s[3] === 1, g2s);
   await g2.close();
   // Reset field / section / all.
   await lab(() => window.POLISH_LAB.resetField('notice.durationMs'));
@@ -292,8 +299,90 @@ async function suite(name, base) {
   await lab(() => window.POLISH_LAB.resetAll());
   await ready();
   if (name === 'chromium') await page.screenshot({ path: path.join(SHOTS, 'lab_overview.png') });
+
+  // TRIGGER EVENTS (docs/64): LAB frame only, repeatable, no value or export change ----------------
+  const exportBefore = await lab(() => window.POLISH_LAB.exportChanges());
+  const valuesBefore = JSON.stringify(await lab(() => window.POLISH_LAB.values()));
+  const prodWin = (fn) => lab(new Function('const w = document.getElementById("frameProduction").contentWindow; return (' + fn + ')(w, w.CYOA_GAME);'));
+  const labG = (fn) => lab(new Function('const w = document.getElementById("frameLab").contentWindow; return (' + fn + ')(w, w.CYOA_GAME);'));
+  const prodSnap = () => prodWin((w, G) => [G.state.node, G.state.transcript.length, G.flow.phase, !!G.ui.notice, G.ui.noticeLog.length, w.location.href].join('|'));
+  await lab(() => window.POLISH_LAB.setState('three-choices'));
+  const p0 = await prodSnap();
+  const log0 = await labG((w, G) => G.ui.noticeLog.length);
+  const rItem = [await lab(() => window.POLISH_LAB.trigger('item-received'))];
+  const shown1 = await labG((w, G) => !!G.ui.notice && w.document.getElementById('itemNotice').style.display !== 'none' && w.document.getElementById('itemNotice').dataset.item);
+  await labG((w, G) => G.dismissNotice());
+  rItem.push(await lab(() => window.POLISH_LAB.trigger('item-received')));
+  const shown2 = await labG((w, G) => !!G.ui.notice && w.document.getElementById('itemNotice').dataset.item);
+  c('ITEM RECEIVED replays the production FACILITIES KEY slip, repeatedly, in the LAB view', rItem.join() === 'ok,ok' && shown1 === 'wc_key' && shown2 === 'wc_key'
+    && (await labG((w, G) => G.ui.noticeLog.length)) === log0 + 2 && (await lab(() => document.getElementById('stageWrap').dataset.view)) === 'lab', { rItem, shown1, shown2 });
+  if (name === 'chromium') await page.screenshot({ path: path.join(SHOTS, 'trigger_item_received.png') });
+  const rType = await lab(() => window.POLISH_LAB.trigger('npc-typing'));
+  const typing = await labG((w, G) => [G.flow.phase, G.ui.speech.typing, G.ui.cards.length, G.ui.speech.parts.slice(-1)[0].who].join());
+  await lab(() => new Promise((r) => { const w = document.getElementById('frameLab').contentWindow; (function p() { if (w.CYOA_GAME.flow.phase === 'choosing') r(); else setTimeout(p, 50); })(); }));
+  c('REPLAY NPC TYPING retypes the latest line with the production typing, then the same choices arrive', rType === 'ok' && typing === 'typing,true,0,npc'
+    && (await labG((w, G) => G.ui.cards.map((k) => k.id).join())) === 'correct,cooperate,practical', { rType, typing });
+  const rArrive = await lab(() => window.POLISH_LAB.trigger('choice-arrival'));
+  const arriving = await labG((w, G) => [G.flow.phase, G.ui.motion && G.ui.motion.kind].join());
+  await lab(() => new Promise((r) => { const w = document.getElementById('frameLab').contentWindow; (function p() { if (w.CYOA_GAME.flow.phase === 'choosing' && !w.CYOA_GAME.ui.motion) r(); else setTimeout(p, 50); })(); }));
+  c('REPLAY CHOICE ARRIVAL runs the production card arrival and returns to choosing', rArrive === 'ok' && arriving === 'arriving,in'
+    && (await labG((w, G) => G.ui.cards.map((k) => k.id).join())) === 'correct,cooperate,practical', { rArrive, arriving });
+  const rSlide = await lab(() => window.POLISH_LAB.trigger('inventory-slide'));
+  const sliding = await labG((w, G) => !!G.ui.inv.slide && G.inventoryBusy(performance.now()));
+  await page.waitForTimeout(900);
+  c('REPLAY INVENTORY SLIDE runs the production slide and settles back', rSlide === 'ok' && sliding && (await labG((w, G) => !G.ui.inv.slide && G.ui.inv.start === 0)), { rSlide, sliding });
+  await lab(() => window.POLISH_LAB.setState('opening'));
+  const rCtx = [await lab(() => window.POLISH_LAB.trigger('context-action'))];
+  const th1 = await labG((w, G) => [G.state.transcript.filter((t) => t.who === 'thought').length, G.state.node, G.flow.phase].join());
+  rCtx.push(await lab(() => window.POLISH_LAB.trigger('context-action')));
+  const th2 = await labG((w, G) => [G.state.transcript.filter((t) => t.who === 'thought').length, G.state.node, G.flow.phase].join());
+  c('TRIGGER CONTEXT ACTION takes the real OBSERVE, and again on repeat (the state reloads first, so one thought each time)', rCtx.join() === 'ok,ok' && th1 === '1,opening,choosing' && th2 === th1, { rCtx, th1, th2 });
+  if (name === 'chromium') await page.screenshot({ path: path.join(SHOTS, 'trigger_context_action.png') });
+  await lab(() => window.POLISH_LAB.setState('three-choices'));
+  const p1 = await prodSnap();
+  c('the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)', p0 === p1 && !/\|true\|/.test(p1), { p0, p1 });
+  c('the triggers create no tunable change and nothing in COPY CHANGES', (await lab(() => window.POLISH_LAB.exportChanges())) === exportBefore
+    && JSON.stringify(await lab(() => window.POLISH_LAB.values())) === valuesBefore);
+
+  // Collapsible sections and remembered lab UI (STORE_UI; never exported; RESET leaves it) -------------
+  await lab(() => { document.querySelector('[data-fold="sec-portrait"] .fold').click(); document.querySelector('[data-fold="io"] .fold').click(); });
+  const foldNow = await lab(() => [document.querySelector('[data-fold="sec-portrait"]').classList.contains('folded'),
+    getComputedStyle(document.querySelector('[data-fold="sec-portrait"] .row')).display, document.querySelector('[data-fold="sec-portrait"] .fold').getAttribute('aria-expanded'),
+    document.querySelector('[data-fold="io"]').classList.contains('folded')].join());
+  c('a section folds from its heading (rows hidden, aria-expanded false)', foldNow === 'true,none,false,true', foldNow);
+  await lab(() => { document.querySelector('[data-fold="io"] .fold').click(); });
+  c('and opens again', await lab(() => !document.querySelector('[data-fold="io"]').classList.contains('folded')));
+  c('every lab section is collapsible (panels, every tunable section, trigger events)', await lab(() => {
+    const ids = Array.from(document.querySelectorAll('[data-fold]')).map((e) => e.dataset.fold);
+    return ['stage', 'triggers', 'io', 'values', 'locked'].every((k) => ids.includes(k)) && window.POLISH_TUNABLES.SECTIONS.every((sec) => ids.includes('sec-' + sec.id));
+  }));
+  await lab(() => window.POLISH_LAB.setState('files'));
+  await lab(() => window.POLISH_LAB.setView('production'));
+  await lab(() => { document.getElementById('side').scrollTop = 700; });
+  await page.waitForTimeout(400);
+  const ui0 = await lab(() => window.POLISH_LAB.uiState());
+  await lab(() => window.POLISH_LAB.resetAll());
+  await ready();
+  c('RESET ALL leaves the devtool UI preferences alone', JSON.stringify(await lab(() => window.POLISH_LAB.uiState())) === JSON.stringify(ui0));
+  const exUi = await lab(() => window.POLISH_LAB.exportChanges());
+  c('lab UI state is never in COPY CHANGES (or COPY ALL)', !/folded|scrolls|toggles|"view"|"state"|"fit"/.test(exUi + (await lab(() => window.POLISH_LAB.exportAll()))));
+  c('lab UI state is kept apart from the tunable values', await lab((k) => { const v = JSON.parse(localStorage.getItem(k[0])); const u = JSON.parse(localStorage.getItem(k[1])); return Object.keys(v).sort().join() === 'changes,schema' && !!u.folded && !!u.scrolls; }, [STORE, STORE_UI]));
+  await page.reload();
+  await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
+  await page.waitForTimeout(200);
+  const ui1 = await lab(() => ({ s: window.POLISH_LAB.uiState(), scroll: document.getElementById('side').scrollTop, folded: document.querySelector('[data-fold="sec-portrait"]').classList.contains('folded'),
+    sel: document.getElementById('stateSelect').value, overlay: document.getElementById('frameLab').contentWindow.CYOA_GAME.ui.overlay, view: document.getElementById('stageWrap').dataset.view,
+    fit: document.getElementById('fitToggle').textContent }));
+  c('after a reload: folded sections stay folded', ui1.folded && ui1.s.folded['sec-portrait'] === true, ui1.s.folded);
+  c('after a reload: the sidebar scroll position is restored', Math.abs(ui1.scroll - ui0.scrolls.side) <= 2 && ui0.scrolls.side > 300, { now: ui1.scroll, was: ui0.scrolls.side });
+  c('after a reload: the representative state is restored (FILES open in the frames)', ui1.sel === 'files' && ui1.overlay === 'files', ui1);
+  c('after a reload: the PRODUCTION / LAB choice and the 1:1 preview mode are restored', ui1.view === 'production' && ui1.s.fit === false && /1:1/.test(ui1.fit), ui1);
+  c('a reload restores no narrative state from a trigger (no thought, no slip)', await lab(() => { const G = document.getElementById('frameLab').contentWindow.CYOA_GAME; return !G.ui.notice && !G.state.transcript.some((t) => t.who === 'thought'); }));
+  c('a reload keeps the values and the export as they were', (await lab(() => window.POLISH_LAB.exportChanges())) === exUi);
+  await lab(() => { document.querySelector('[data-fold="sec-portrait"] .fold').click(); });
+
   c('no console or page errors in the lab', errors.length === 0, errors);
-  await lab((k) => localStorage.removeItem(k), STORE);
+  await lab((ks) => ks.forEach((k) => localStorage.removeItem(k)), [STORE, STORE_UI]);
   await browser.close();
 }
 

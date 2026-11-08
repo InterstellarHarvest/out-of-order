@@ -2,11 +2,14 @@
 // (?mode=production), one with the lab's values (?mode=lab). PRODUCTION / LAB flips between them
 // instantly. Production defaults are read from the production frame at runtime; nothing here copies
 // a production number. Lab values persist in this page's localStorage only; the game never reads it.
+// The lab's own UI (folded sections, scroll positions, state, view, preview mode, aids) persists
+// separately under STORE_UI: it is never exported and RESET never touches it (docs/64).
 (function () {
   'use strict';
 
   var TUN = window.POLISH_TUNABLES;
-  var STORE = 'cyoa-m2-reception-polish-lab-v1';
+  var STORE = 'cyoa-m2-reception-polish-lab-v1'; // tunable values: { schema, changes }
+  var STORE_UI = 'cyoa-m2-reception-polish-lab-ui-v1'; // devtool UI state only
   var $ = function (id) { return document.getElementById(id); };
 
   var prod = null; // production values, read from the production frame
@@ -14,10 +17,11 @@
   var view = 'lab';
   var stateId = 'opening';
   var fit = true;
-  var holdClose = 'auto';
   var frozen = false;
   var toggles = { hideShell: false, hideScene: false, hideBackground: false, hideNpc: false, hideRearFx: false, hideFrontFx: false,
-    boundsScene: false, boundsPortrait: false, boundsChoices: false, boundsInventory: false, boundsUtility: false, coords: true };
+    boundsScene: false, boundsPortrait: false, boundsChoices: false, boundsInventory: false, boundsUtility: false, boundsClose: false, coords: true };
+  var folded = {}; // section id -> true when collapsed
+  var scrolls = { side: 0, stageX: 0, stageY: 0 };
   var frames = {};
   var labN = 0;
   var reloadTimer = null;
@@ -26,21 +30,34 @@
   var frameReady = { production: null, lab: null };
 
   // Storage --------------------------------------------------------------------------------------
+  function readUi(s) {
+    if (!s) return;
+    if (typeof s.state === 'string') stateId = s.state;
+    if (s.view === 'production' || s.view === 'lab') view = s.view;
+    if (typeof s.fit === 'boolean') fit = s.fit;
+    if (s.toggles) Object.keys(toggles).forEach(function (k) { if (typeof s.toggles[k] === 'boolean') toggles[k] = s.toggles[k]; });
+    if (s.folded && typeof s.folded === 'object') Object.keys(s.folded).forEach(function (k) { if (s.folded[k] === true) folded[k] = true; });
+    if (s.scrolls) Object.keys(scrolls).forEach(function (k) { if (Number.isFinite(s.scrolls[k])) scrolls[k] = s.scrolls[k]; });
+  }
   function load() {
     try {
       var s = JSON.parse(localStorage.getItem(STORE) || 'null');
-      if (!s) return;
-      if (s.changes && typeof s.changes === 'object') changes = s.changes;
-      if (s.state) stateId = s.state;
-      if (s.view === 'production' || s.view === 'lab') view = s.view;
-      if (typeof s.fit === 'boolean') fit = s.fit;
-      if (s.toggles) Object.keys(toggles).forEach(function (k) { if (typeof s.toggles[k] === 'boolean') toggles[k] = s.toggles[k]; });
+      if (s && s.changes && typeof s.changes === 'object') changes = s.changes;
+      readUi(s); // UI fields an older lab kept beside the values
     } catch (e) { /* unreadable storage: start from production */ }
+    try {
+      readUi(JSON.parse(localStorage.getItem(STORE_UI) || 'null'));
+    } catch (e) { /* unreadable: default UI */ }
   }
   function save() {
     try {
-      localStorage.setItem(STORE, JSON.stringify({ schema: TUN.SCHEMA, changes: changes, state: stateId, view: view, fit: fit, toggles: toggles }));
+      localStorage.setItem(STORE, JSON.stringify({ schema: TUN.SCHEMA, changes: changes }));
     } catch (e) { /* storage blocked: the lab still works for this session */ }
+  }
+  function saveUi() {
+    try {
+      localStorage.setItem(STORE_UI, JSON.stringify({ schema: 'cyoa-m2-reception-polish-lab-ui-v1', state: stateId, view: view, fit: fit, toggles: toggles, folded: folded, scrolls: scrolls }));
+    } catch (e) { /* storage blocked */ }
   }
 
   // Values ---------------------------------------------------------------------------------------
@@ -122,7 +139,6 @@
     var w = await whenLoaded(mode);
     await w.LAB_STAGE.loadState(stateId);
     w.LAB_STAGE.setToggles(toggles);
-    w.LAB_STAGE.holdClose(holdClose);
     w.LAB_STAGE.freeze(frozen);
     return w;
   }
@@ -177,7 +193,7 @@
   function both(fn) { ['production', 'lab'].forEach(function (m) { try { var w = frameWin(m); if (w && w.LAB_STAGE) fn(w.LAB_STAGE); } catch (e) { /* loading */ } }); }
   async function setState(id) {
     stateId = id;
-    save();
+    saveUi();
     if ($('stateSelect').value !== id) $('stateSelect').value = id;
     $('status').textContent = 'Loading state...';
     await Promise.all(['production', 'lab'].map(async function (m) {
@@ -185,13 +201,12 @@
       var w = frameWin(m);
       await w.LAB_STAGE.loadState(id);
       w.LAB_STAGE.setToggles(toggles);
-      w.LAB_STAGE.holdClose(holdClose);
     }));
     renderStatus();
   }
   function setView(v) {
     view = v;
-    save();
+    saveUi();
     // Both frames stay rendered (a hidden frame is throttled by some browsers, which would slow its
     // clock and its state loads); the flip only changes which one is on top.
     frames.production.style.zIndex = v === 'production' ? '2' : '1';
@@ -224,8 +239,10 @@
     TUN.SECTIONS.forEach(function (sec) {
       var box = el('section', 'sec', side);
       box.id = 'sec-' + sec.id;
-      var head = el('div', 'sec-head', box);
-      el('h3', '', head, sec.title);
+      box.dataset.fold = 'sec-' + sec.id;
+      var head = el('div', 'sec-head fold-head', box);
+      var fb = el('button', 'fold', el('h3', '', head), sec.title);
+      fb.type = 'button';
       var count = el('span', 'sec-count', head);
       count.id = 'count-' + sec.id;
       var rs = el('button', 'small', head, 'Reset section');
@@ -308,7 +325,7 @@
       ['Scrollbar', 'width ' + L.scrollbar.track.width + ' px reserved; no arrows'],
       ['Inventory', L.inventory.slotCount + ' slots on show, ' + L.inventory.slotSize.join(' x ') + ' slot art; arrow art settled'],
       ['Utility buttons', L.utility.buttons.length + ' buttons, ' + L.utility.buttons[0].displayWidth + ' x ' + L.utility.buttons[0].displayHeight + '; sprites, glyphs, no-hover rule'],
-      ['Inspector', 'frame + item overlay; inspect art 565 x 451'],
+      ['Inspector', 'frame + item overlay; inspect art 565 x 451; X = one static 44 x 44 sprite (inspect_close.png), position tunable'],
       ['NOTES / FILES', 'each its own 1255 x 822 panel at 1x (FILES: files_panel.png), scene only, no scrollbar'],
       ['Item slip', '560 x 116 art at 1x, generic for any item']
     ];
@@ -328,11 +345,12 @@
     $('viewProduction').addEventListener('click', function () { setView('production'); });
     $('viewLab').addEventListener('click', function () { setView('lab'); });
     $('resetAll').addEventListener('click', function () { if (Object.keys(changes).length) resetAll(); });
-    $('fitToggle').addEventListener('click', function () { fit = !fit; save(); applyFit(); });
-    $('showNotice').addEventListener('click', function () { both(function (s) { s.showNotice(); }); });
+    $('fitToggle').addEventListener('click', function () { fit = !fit; saveUi(); applyFit(); });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-trigger]'), function (b) {
+      b.addEventListener('click', function () { trigger(b.dataset.trigger); });
+    });
     $('finishTyping').addEventListener('click', function () { both(function (s) { s.finishTyping(); }); });
     $('freeze').addEventListener('click', function () { frozen = !frozen; both(function (s) { s.freeze(frozen); }); $('freeze').classList.toggle('on', frozen); renderStatus(); });
-    $('holdClose').addEventListener('change', function () { holdClose = $('holdClose').value; both(function (s) { s.holdClose(holdClose); }); });
     $('copyChanges').addEventListener('click', function () { copy(exportChanges(), 'Changes JSON'); });
     $('copyAll').addEventListener('click', function () { copy(exportAll(), 'All values JSON'); });
     $('importBtn').addEventListener('click', function () {
@@ -343,14 +361,15 @@
     var tg = $('toggles');
     [['hideShell', 'Hide shell'], ['hideScene', 'Hide scene art'], ['hideBackground', 'Hide portrait background'], ['hideNpc', 'Hide receptionist'],
       ['hideRearFx', 'Hide rear FX'], ['hideFrontFx', 'Hide front FX'], ['boundsScene', 'Scene aperture bounds'], ['boundsPortrait', 'Portrait bounds'],
-      ['boundsChoices', 'Choice + scrollbar bounds'], ['boundsInventory', 'Inventory bounds'], ['boundsUtility', 'Utility-button bounds'], ['coords', 'Show coordinates']].forEach(function (p) {
+      ['boundsChoices', 'Choice + scrollbar bounds'], ['boundsInventory', 'Inventory bounds'], ['boundsUtility', 'Utility-button bounds'],
+      ['boundsClose', 'Show X hitbox (inspector)'], ['coords', 'Show coordinates']].forEach(function (p) {
       var l = el('label', 'tg', tg);
       var c = el('input', '', l);
       c.type = 'checkbox';
       c.id = 'tg-' + p[0];
       c.checked = toggles[p[0]];
       el('span', '', l, ' ' + p[1]);
-      c.addEventListener('change', function () { toggles[p[0]] = c.checked; save(); both(function (s) { s.setToggles(toggles); }); $('coords').hidden = !toggles.coords; });
+      c.addEventListener('change', function () { toggles[p[0]] = c.checked; saveUi(); both(function (s) { s.setToggles(toggles); }); $('coords').hidden = !toggles.coords; });
     });
     $('coords').hidden = !toggles.coords;
     document.addEventListener('keydown', function (e) {
@@ -359,6 +378,50 @@
       else if (e.key === 'l' || e.key === 'L') setView('lab');
       else if (e.key === ' ') { e.preventDefault(); setView(view === 'lab' ? 'production' : 'lab'); }
     });
+  }
+
+  // Collapsible sections and remembered scroll positions (UI state, STORE_UI) ---------------------
+  function setFolded(box, on) {
+    var id = box.dataset.fold;
+    box.classList.toggle('folded', on);
+    var b = box.querySelector('.fold-head .fold');
+    if (b) b.setAttribute('aria-expanded', on ? 'false' : 'true');
+    if (on) folded[id] = true;
+    else delete folded[id];
+  }
+  function initFolds() {
+    Array.prototype.forEach.call(document.querySelectorAll('[data-fold]'), function (box) {
+      setFolded(box, !!folded[box.dataset.fold]);
+      var b = box.querySelector('.fold-head .fold');
+      b.addEventListener('click', function () { setFolded(box, !box.classList.contains('folded')); saveUi(); });
+    });
+  }
+  function initScrolls() {
+    var side = $('side');
+    var area = $('stageArea');
+    side.scrollTop = scrolls.side;
+    area.scrollLeft = scrolls.stageX;
+    area.scrollTop = scrolls.stageY;
+    var t = null;
+    var keep = function () {
+      clearTimeout(t);
+      t = setTimeout(function () { scrolls.side = side.scrollTop; scrolls.stageX = area.scrollLeft; scrolls.stageY = area.scrollTop; saveUi(); }, 150);
+    };
+    side.addEventListener('scroll', keep);
+    area.addEventListener('scroll', keep);
+  }
+
+  // TRIGGER EVENTS: the LAB frame only (the PRODUCTION frame is the untouched comparison), shown
+  // in the LAB view. No value, export or file changes.
+  async function trigger(kind) {
+    if (view !== 'lab') setView('lab');
+    var r;
+    try {
+      await frameReady.lab;
+      r = await frameWin('lab').LAB_STAGE.trigger(kind);
+    } catch (e) { r = 'failed: ' + e.message; }
+    $('triggerStatus').textContent = r === 'ok' ? kind + ': replayed' : kind + ': ' + r;
+    return r;
   }
 
   // Public (also used by the lab's own QA) ----------------------------------------------------------
@@ -373,7 +436,8 @@
     values: allValues,
     setValue: setValue, resetField: resetField, resetSection: resetSection, resetAll: resetAll,
     exportChanges: exportChanges, exportAll: exportAll, importJSON: importJSON,
-    setView: setView, setState: setState,
+    setView: setView, setState: setState, trigger: trigger,
+    uiState: function () { return JSON.parse(JSON.stringify({ state: stateId, view: view, fit: fit, toggles: toggles, folded: folded, scrolls: scrolls })); },
     ready: function () {
       return (live || Promise.resolve()).then(function () { return pending || null; })
         .then(function () { return Promise.all([frameReady.production, frameReady.lab]); });
@@ -388,6 +452,8 @@
     frames.lab = $('frameLab');
     loadFrame('production');
     await whenLoaded('production');
+    // A remembered state that no longer exists falls back to the opening.
+    if (!frameWin('production').LAB_STAGE.STATES.some(function (st) { return st.id === stateId; })) stateId = 'opening';
     prod = frameWin('production').LAB_FRAME.production;
     var check = TUN.validate(changes, prod);
     if (!check.ok) {
@@ -400,8 +466,10 @@
     buildLocked(frameWin('production'));
     buildToolbar();
     renderSummary();
+    initFolds();
     setView(view);
     applyFit();
+    initScrolls();
     window.addEventListener('resize', applyFit);
     await window.POLISH_LAB.ready();
     document.body.dataset.labReady = 'true';

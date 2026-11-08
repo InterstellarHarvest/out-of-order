@@ -5,7 +5,7 @@
 //   typing      the receptionist's line types into the dialogue box (click/Enter finishes it)
 //   beat        a short pause after the line is complete
 //   arriving    the next choice cards slide in; input is ignored
-//   choosing    the only phase that accepts a choice, an item or INSPECT
+//   choosing    the only phase that accepts a choice, an item or the context action
 //   sending     the other cards slide away and the chosen card rises behind the divider
 //               (or, for SHOW/USE, every card leaves); input is ignored
 //   reply-beat  the player's line is already in the box; a beat before the reply types
@@ -24,7 +24,8 @@
   var known = []; // the inventory as last announced, so only new items get an item-received slip
 
   // Announce every item that has entered the inventory since the last look. Called after each
-  // rules step; READ, SHOW, USE and INSPECT add nothing, so they never announce.
+  // rules step; opening an item, READ, SHOW, USE and the context action add nothing, so they never
+  // announce.
   function announceNew() {
     var inv = G.state.inventory;
     inv.forEach(function (id) { if (known.indexOf(id) === -1) G.notifyItem(id); });
@@ -130,6 +131,8 @@
   }
 
   // Items -------------------------------------------------------------------------------------
+  // An item is inspected only because the player activated it: a click, or Enter / Space, on its
+  // own inventory slot (js/stage.js). Activating the item already open closes it.
   F.toggleInspect = function (id) {
     if (F.phase !== 'choosing') return;
     if (G.ui.inspector && G.ui.inspector.id === id) F.closeInspector();
@@ -181,10 +184,15 @@
       if (G.ui.overlay) G.els.overlay.focus({ preventScroll: true });
       return;
     }
-    if (action === 'inspect') {
-      if (F.phase !== 'choosing') return;
-      var id = G.selectedItem();
-      if (id) openInspector(id);
+    // The context action (docs/64): an optional observation into the history. The node, the
+    // choices on show and the phase all stay as they are.
+    if (action === 'context') {
+      if (F.phase !== 'choosing' || G.ui.inspector) return;
+      var a = Rules.contextAction(content, G.state);
+      if (!a || Rules.contextSpent(content, G.state)) return;
+      G.addSpeech(Rules.takeContextAction(content, G.state), 'thought');
+      G.renderUtility();
+      G.renderOverlay();
       return;
     }
     if (action === 'read') {

@@ -76,6 +76,14 @@
     await choose('question-tag');
   }
 
+  // The first utility button's own action, exactly as a press on it would take it.
+  async function observe() {
+    await settle();
+    var a = G.utilityActions()[0];
+    if (a.action !== 'context' || !a.enabled) throw new Error('no context action to take at ' + G.state.node);
+    G.flow.utility(a.action);
+  }
+
   var TO_KEY = ['ask-politely', 'practical', 'ask-key'];
   var LONG = ['ask-politely', 'correct', 'rule', 'sigh'];
 
@@ -110,8 +118,10 @@
     'inspector-after-read': { label: '6. Inspector - after READ', run: async function () { await path(TO_KEY); await inspectKey(); G.flow.utility('read'); } },
     notes: { label: '7. NOTES', run: async function () { await path(LONG.concat(['ask-key'])); await readTagAndQuestion(); G.flow.utility('notes'); } },
     files: { label: '8. FILES (with the 4:52 record)', run: async function () { await path(LONG.concat(['ask-key'])); await readTagAndQuestion(); G.flow.utility('files'); } },
-    'tooltip-enabled': { label: '9. Tooltip - INSPECT enabled', run: async function () { await path(TO_KEY); }, after: function () { G.showTooltip(0); } },
-    'tooltip-disabled': { label: '10. Tooltip - INSPECT disabled (reason)', run: async function () {}, after: function () { G.showTooltip(0); } },
+    // The context action (docs/64), taken through the real utility action.
+    observed: { label: '8a. OBSERVE taken (thought in the history)', run: async function () { await path(['ask-politely']); await observe(); } },
+    'tooltip-enabled': { label: '9. Tooltip - OBSERVE enabled', run: async function () {}, after: function () { G.showTooltip(0); } },
+    'tooltip-disabled': { label: '10. Tooltip - OBSERVE spent (reason)', run: async function () { await observe(); }, after: function () { G.showTooltip(0); } },
     'tooltip-read': { label: '10a. Tooltip - inspector READ', run: async function () { await path(TO_KEY); await inspectKey(); }, after: function () { G.showTooltip(0); } },
     'tooltip-show': { label: '10b. Tooltip - inspector SHOW unavailable', run: async function () { await path(TO_KEY); await inspectKey(); }, after: function () { G.showTooltip(1); } },
     ending: { label: '11. Ending', run: async function () { await path(TO_KEY.concat(['confirm-unread', 'onward-blind', 'unlock', 'enter-corridor'])); } },
@@ -185,11 +195,66 @@
   };
   LAB.finishTyping = function () { G.flow.skip(); };
 
-  // Close X held UP or DOWN for inspection ('auto' = normal behaviour).
-  LAB.holdClose = function (mode) {
-    if (mode === 'down') G.ui.pressed['inspect-close'] = true;
-    else delete G.ui.pressed['inspect-close'];
-    if (G.renderInspector) G.renderInspector();
+  // TRIGGER EVENTS (lab frame only, docs/64): replay a transient effect where the game stands, with
+  // the production functions that make it in play. None writes a tunable or a file, and none is
+  // saved: a reload or a state load starts over. Each returns 'ok' or why it could not run.
+  var resting = function () { return phase() === 'choosing' && !G.ui.motion && !G.ui.inspector; };
+  LAB.trigger = async function (kind) {
+    if (kind === 'item-received') { LAB.showNotice(); return 'ok'; }
+    if (kind === 'npc-typing') {
+      // The latest receptionist line types again (G.addSpeech starts the production typing); the
+      // flow then runs on as in play: the beat, then the same choices arrive.
+      var parts = G.ui.speech.parts;
+      if (!resting()) return 'only at rest in conversation (no inspector, nothing moving)';
+      if (!parts.length || parts[parts.length - 1].who !== 'npc') return 'the latest line in the history is not the receptionist\'s';
+      var text = parts.pop().text;
+      G.hideTooltip();
+      G.setChoices([]);
+      G.addSpeech(text, 'npc');
+      G.flow.phase = 'typing';
+      document.body.dataset.phase = 'typing';
+      G.renderAll();
+      return 'ok';
+    }
+    if (kind === 'choice-arrival') {
+      // The cards on show arrive again with the production 'in' motion; the flow takes them back
+      // to choosing when it ends (display-only sample cards stay display-only).
+      if (!(resting() || (phase() === 'lab-sample' && !G.ui.motion)) || !G.ui.cards.length) return 'only with cards at rest on show';
+      var list = G.ui.cards.map(function (c) { return { id: c.id, text: c.text }; });
+      var sample = phase() === 'lab-sample';
+      G.setChoices(list, { kind: 'in', start: performance.now() });
+      if (!sample) {
+        G.flow.phase = 'arriving';
+        document.body.dataset.phase = 'arriving';
+        G.renderUtility();
+      }
+      return 'ok';
+    }
+    if (kind === 'inventory-slide') {
+      // One arrow press's slide, from the production motion (js/stage.js slideCurve): the strip
+      // slides one step in from the right and settles back where it is (only one item is held, so
+      // there is nowhere for it to scroll to).
+      var inv = G.layout.inventory;
+      if (!inv.motion.slide) return 'inventory slide motion is off';
+      G.ui.inv.slide = { from: inv.stepPerPress * inv.pitch, start: performance.now() };
+      G.renderInventory();
+      return 'ok';
+    }
+    if (kind === 'context-action') {
+      // The real first utility button's action. Once taken it is spent for the encounter, so a
+      // repeat first reloads the representative state (through the real flow), then takes it again.
+      if (G.ui.inspector) return 'close the inspector first: the first button is READ while an item is open';
+      var a = G.utilityActions()[0];
+      if (a.action !== 'context') return 'no context action here';
+      if (G.rules.contextSpent(G.content, G.state)) {
+        await LAB.loadState(document.body.dataset.labState || 'opening');
+        if (G.ui.inspector) return 'this state opens the inspector';
+      }
+      await settle();
+      G.flow.utility('context');
+      return 'ok';
+    }
+    return 'unknown trigger ' + kind;
   };
 
   // Visibility and bounds aids (lab only; never part of exported values).
@@ -236,6 +301,11 @@
       });
     }
     if (t.boundsUtility) L.utility.buttons.forEach(function (b, i) { boxes.push([[b.x, b.y, b.displayWidth, b.displayHeight], '#ff9500', 'util-' + i]); });
+    if (t.boundsClose) {
+      // The inspector X's 44x44 hit area (the button; the sprite in it is passive).
+      var x = document.getElementById('inspectClose');
+      if (x) boxes.push([[parseInt(x.style.left), parseInt(x.style.top), parseInt(x.style.width), parseInt(x.style.height)], '#ff3b30', 'inspector X hit area']);
+    }
     boxes.forEach(function (b) {
       var d = document.createElement('div');
       d.className = 'lab-bound';

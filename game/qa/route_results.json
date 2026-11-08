@@ -7,8 +7,8 @@
     "endings": 1,
     "endingStates": 96
   },
-  "total": 38,
-  "passed": 38,
+  "total": 49,
+  "passed": 49,
   "failed": 0,
   "checks": [
     {
@@ -107,6 +107,34 @@
       "detail": [
         "no node is marked end: true",
         "node ending choice restart: restart is only allowed on an end node"
+      ]
+    },
+    {
+      "name": "validator rejects: a context action with no observation text",
+      "ok": true,
+      "detail": [
+        "contextAction text: empty text"
+      ]
+    },
+    {
+      "name": "validator rejects: a context action with an unknown field",
+      "ok": true,
+      "detail": [
+        "contextAction: unknown field setFlag"
+      ]
+    },
+    {
+      "name": "validator rejects: a once context action without its spent reason",
+      "ok": true,
+      "detail": [
+        "contextAction: a once action needs spentWhy for its spent tooltip"
+      ]
+    },
+    {
+      "name": "validator rejects: a context action text the fonts cannot draw",
+      "ok": true,
+      "detail": [
+        "contextAction text: characters the fonts cannot draw: —"
       ]
     },
     {
@@ -231,6 +259,46 @@
     },
     {
       "name": "after protesting, the door is still reachable by card and by USE",
+      "ok": true
+    },
+    {
+      "name": "reception defines one context action: OBSERVE, with the existing WATCH glyph, once per encounter",
+      "ok": true,
+      "detail": {
+        "id": "observe-receptionist",
+        "label": "OBSERVE",
+        "glyph": "watch",
+        "text": "I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUSUAL. HER FACE REMAINED PROFESSIONALLY UNAVAILABLE.",
+        "once": true,
+        "spentWhy": "NOTHING NEW TO NOTICE"
+      }
+    },
+    {
+      "name": "the context action holds at every reception node (no node overrides it)",
+      "ok": true
+    },
+    {
+      "name": "taking it adds the observation to the transcript as a thought, not as speech",
+      "ok": true,
+      "detail": {
+        "who": "thought",
+        "text": "I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUSUAL. HER FACE REMAINED PROFESSIONALLY UNAVAILABLE."
+      }
+    },
+    {
+      "name": "taking it changes no node, flag, item, objective or choice",
+      "ok": true
+    },
+    {
+      "name": "a once action is spent after use and refuses a second take (no duplicate line)",
+      "ok": true
+    },
+    {
+      "name": "a fresh start (restart) clears it",
+      "ok": true
+    },
+    {
+      "name": "the observation stays out of the route state: same reachable states as without it",
       "ok": true
     }
   ]

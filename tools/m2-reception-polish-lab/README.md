@@ -18,25 +18,26 @@ It needs the server, because it uses frames on the same origin. A window at leas
 
 ## Use it
 
-1. Pick a **State**: opening, the three-choice decision, long history, item received, the inspector before and after READ, NOTES, FILES, the tooltips, the ending, and the choice-card samples.
+1. Pick a **State**: opening, the three-choice decision, long history, item received, the inspector before and after READ, NOTES, FILES, OBSERVE taken, the tooltips, the ending, and the choice-card samples.
 2. Adjust values in **Tunable values**:
    - each row shows its production value;
    - edit a row with **−/+** (1 px or 1 ms), the number box or the slider; every change shows live;
    - **NOTES background** (NOTES / FILES section) switches the NOTES panel between v1 and the owner's v2 candidate;
    - **reset** returns one value to production; changed rows are highlighted.
 3. Flip **PRODUCTION / LAB** (keys **P**, **L**, or **Space**) to compare.
-4. Use the **Stage** aids as needed:
-   - **SHOW ITEM RECEIVED**, **Finish typing**, **Freeze motion**;
-   - hold the close X UP or DOWN;
+4. Use the **Stage / inspection aids** as needed:
+   - **Finish typing**, **Freeze motion**;
    - hide the shell, scene, portrait background, receptionist or FX;
-   - bounds outlines and the coordinates readout.
+   - bounds outlines, **Show X hitbox (inspector)**, and the coordinates readout.
 
    These aids are never exported.
-5. **COPY CHANGES JSON** and send the result back. **COPY ALL VALUES JSON** exports every tunable. **IMPORT JSON** loads an export after validating it.
+5. **Trigger events** replay a transient effect on the LAB frame, where the game stands, with the production code: **ITEM RECEIVED**, **REPLAY NPC TYPING**, **REPLAY CHOICE ARRIVAL**, **REPLAY INVENTORY SLIDE**, **TRIGGER CONTEXT ACTION (OBSERVE)**. They switch the view to LAB, change no value or export, and nothing they do is saved.
+6. Every section folds from its heading. Folded sections, scroll positions, the state, PRODUCTION / LAB and the preview mode are remembered across reloads.
+7. **COPY CHANGES JSON** and send the result back. **COPY ALL VALUES JSON** exports every tunable. **IMPORT JSON** loads an export after validating it.
 
 **Resets:** **RESET ALL TO PRODUCTION**, **Reset section**, and the per-row **reset**.
 
-**Storage:** lab values are saved in this page's `localStorage` (`cyoa-m2-reception-polish-lab-v1`). The game never reads it.
+**Storage:** lab values are saved in this page's `localStorage` (`cyoa-m2-reception-polish-lab-v1`); the lab's own UI state is kept apart under `cyoa-m2-reception-polish-lab-ui-v1`, is never exported, and RESET leaves it alone. The game never reads either.
 
 ## Files
 

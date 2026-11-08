@@ -50,10 +50,11 @@ const PRODUCTION_ART = {
   // expressions or poses of receptionist_idle. Committed and pinned; never loaded by the game.
   'art/portraits/receptionist/receptionist_idle2.png': '38488a228d237650c7b2fe7a0eb2cee74f1549cef63c1767376eb899b714ee35', // 564x278 RGBA
   'art/portraits/receptionist/receptionist_idle3.png': '95ead2a6de3b28061b77775ea12cb9abf25035e76590b4ff33322abfe69e6376', // 564x278 RGBA
-  // Inspector art pass (docs/58): FACILITIES KEY inspect art and the inspector X up/down.
+  // Inspector art pass (docs/58): FACILITIES KEY inspect art.
   'art/items/bathroom_pass_inspect.png': '9c8527a3fd85cfeddc01ce4a85b74b04cb54063ffc30100be19497e73e7fa722', // 565x451 RGB
-  'art/ui/sprites/inspect_close_up.png': '8247d4b6b23aac803debb405c3549054ea066d54e7561117499f0deb917dc530', // 44x44 RGBA
-  'art/ui/sprites/inspect_close_down.png': '576b4fbc5f50f5d6fcb57065dd350dcf7d81fd4442831cb2509a76f5008c41ba', // 44x44 RGBA
+  // Static inspector X (owner ruling 2026-11-07, docs/64): a surgical symmetric correction of the
+  // retired inspect_close_up.png (8247d4b6...); inspect_close_up/_down are gone from the runtime.
+  'art/ui/sprites/inspect_close.png': 'da492070f0fcd1f7acdf92f5822a73618c29f979997001b16718a52a4d2741d6', // 44x44 RGBA
   // NOTES/FILES pass (docs/60): the records panel, now behind NOTES only.
   'art/ui/overlays/notes_files_panel.png': 'bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783', // 1255x822 RGB
   // Owner art 2026-11-07 (docs/63): FILES gets its own case-file panel (files_records_background.png).
@@ -71,8 +72,8 @@ const SLIP_ART = 'art/ui/overlays/item_received_slip.png';
 const NOTICE_RECT = [56, 738, 560, 116]; // game/js/stage.js, unchanged
 const NOTICE_ITEM = [14, 9]; // the 96x96 slot art inside the slip
 const INSPECT_ART = 'art/items/bathroom_pass_inspect.png';
-const CLOSE_UP = 'art/ui/sprites/inspect_close_up.png';
-const CLOSE_DOWN = 'art/ui/sprites/inspect_close_down.png';
+const CLOSE_ART = 'art/ui/sprites/inspect_close.png';
+const RETIRED_X = ['art/ui/sprites/inspect_close_up.png', 'art/ui/sprites/inspect_close_down.png'];
 const INSPECT_RECT = [1331, 50, 565, 451]; // game/js/stage.js, unchanged
 const CLOSE_RECT = [1331 + 565 - 44 - 8, 50 + 8, 44, 44]; // the X, unchanged
 const SCENE_ART = 'art/scenes/conference_hall/reception/reception_scene.png';
@@ -234,13 +235,45 @@ function staticChecks() {
   check(b, 'FACILITIES KEY inspect art is 565x451 opaque RGB, the exact inspector art rectangle', ins.width === INSPECT_RECT[2] && ins.height === INSPECT_RECT[3] && ins.type === 2,
     [ins.width, ins.height, ins.type]);
   check(b, 'the FACILITIES KEY content entry points at its approved inspect art', content.items.wc_key.inspectArt === INSPECT_ART, content.items.wc_key.inspectArt);
-  const xs = [CLOSE_UP, CLOSE_DOWN].map((f) => {
-    const im = png(f), al = new Set();
-    for (let i = 0; i < im.width * im.height; i++) al.add(im.data[i * 4 + 3]);
-    return { f, size: [im.width, im.height], type: im.type, alpha: [...al].sort((x, y) => x - y).join() };
-  });
-  check(b, 'inspector X up/down sprites are 44x44 RGBA with hard alpha {0,255} and differ (a real pressed state)',
-    xs.every((x) => x.size.join() === '44,44' && x.type === 6 && x.alpha === '0,255') && !png(CLOSE_UP).data.equals(png(CLOSE_DOWN).data), xs);
+  // The static X (docs/64): one 44x44 sprite, hard pixels, symmetrical frame, X centred.
+  const xi = png(CLOSE_ART), xa = new Set();
+  for (let i = 0; i < 44 * 44; i++) xa.add(xi.data[i * 4 + 3]);
+  check(b, 'the inspector X is one 44x44 RGBA sprite with hard alpha {0,255}', xi.width === 44 && xi.height === 44 && xi.type === 6 && [...xa].sort((x, y) => x - y).join() === '0,255',
+    { size: [xi.width, xi.height], type: xi.type, alpha: [...xa] });
+  const xKey = (x, y) => pxAt(xi, x, y).join();
+  const H = '240,225,192,255', FACE = '54,84,93,255';
+  let silhouetteBad = 0;
+  for (let y = 0; y < 44; y++) for (let x = 0; x < 44; x++) {
+    const a = pxAt(xi, x, y)[3] > 0;
+    if (a !== (pxAt(xi, 43 - x, y)[3] > 0) || a !== (pxAt(xi, x, 43 - y)[3] > 0) || a !== (pxAt(xi, y, x)[3] > 0)) silhouetteBad++;
+  }
+  const bbox = (test) => { let x0 = 44, y0 = 44, x1 = -1, y1 = -1; for (let y = 0; y < 44; y++) for (let x = 0; x < 44; x++) if (test(xKey(x, y))) { x0 = Math.min(x0, x); y0 = Math.min(y0, y); x1 = Math.max(x1, x); y1 = Math.max(y1, y); } return [x0, y0, x1, y1]; };
+  const opaque = bbox((k) => !/,0$/.test(k)), face = bbox((k) => k === FACE || k === H), cross = bbox((k) => k === H);
+  // Frame weight: the opaque border around the face (the opening), on each side.
+  const weight = [face[0] - opaque[0], opaque[2] - face[2], face[1] - opaque[1], opaque[3] - face[3]];
+  // Ring geometry: walking in from each edge along the middle row/column, the colour BOUNDARIES fall at the same depths.
+  const edges = (cells) => cells.map((k, i) => (i && k !== cells[i - 1] ? i : -1)).filter((i) => i > 0);
+  const mid = 21;
+  const fromL = edges([...Array(14).keys()].map((i) => xKey(i, mid))), fromR = edges([...Array(14).keys()].map((i) => xKey(43 - i, mid)));
+  const fromT = edges([...Array(14).keys()].map((i) => xKey(mid, i))), fromB = edges([...Array(14).keys()].map((i) => xKey(mid, 43 - i)));
+  const centre = (bb) => [(bb[0] + bb[2]) / 2, (bb[1] + bb[3]) / 2];
+  let crossSym = 0;
+  for (let y = cross[1]; y <= cross[3]; y++) for (let x = cross[0]; x <= cross[2]; x++) {
+    const on = xKey(x, y) === H;
+    if (on !== (xKey(cross[0] + cross[2] - x, y) === H) || on !== (xKey(x, cross[1] + cross[3] - y) === H)) crossSym++;
+  }
+  check(b, 'X frame geometry is symmetrical: silhouette mirrors left/right, top/bottom and diagonally; equal frame weight on all four sides; ring boundaries at equal depths',
+    silhouetteBad === 0 && new Set(weight).size === 1 && fromL.join() === fromR.join() && fromT.join() === fromB.join() && fromL.join() === fromT.join(),
+    { silhouetteBad, weight, fromL, fromR, fromT, fromB });
+  check(b, 'the X and its opening are centred in the 44x44 square (within 1 px) and the X is itself symmetrical',
+    centre(cross).every((c) => Math.abs(c - 21.5) <= 1) && centre(face).every((c) => Math.abs(c - 21.5) <= 1) && crossSym === 0,
+    { cross, face, crossCentre: centre(cross), faceCentre: centre(face), crossSym });
+  const srcPalette = new Set(['16,33,39,255', '27,52,60,255', '124,146,147,255', '99,128,132,255', '12,26,32,255', '9,23,28,255', FACE, H]);
+  const used = new Set();
+  for (let y = 0; y < 44; y++) for (let x = 0; x < 44; x++) if (pxAt(xi, x, y)[3]) used.add(xKey(x, y));
+  check(b, 'the X keeps the retired UP sprite\'s palette exactly (no new colours, no antialiasing)', [...used].every((k) => srcPalette.has(k)), [...used].filter((k) => !srcPalette.has(k)));
+  check(b, 'the X UP/DOWN sprites are retired from the repository and the runtime', RETIRED_X.every((f) => !fs.existsSync(path.join(ROOT, f)))
+    && !/inspect_close_(up|down)|closeDown|closeUp/.test(['stage.js', 'main.js', 'flow.js'].map((f) => fs.readFileSync(path.join(ROOT, 'game/js', f), 'utf8')).join('\n')));
   const ph = fs.readFileSync(path.join(ROOT, 'game/js/placeholders.js'), 'utf8');
   check(b, 'the drawn X placeholder is retired (no caller remained); the inspect-art fallback placeholder stays', !/closeButton/.test(ph + fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8'))
     && /P\.inspectArt = function/.test(ph));
@@ -410,6 +443,64 @@ async function lookOf(page, sel) {
   });
 }
 
+// The context action (docs/64): reception's OBSERVE ---------------------------------------------
+async function observeChecks(browser, base, c) {
+  const { page, context, errors } = await openGame(browser, base);
+  await skipToChoices(page);
+  await page.waitForTimeout(150);
+  const text = content.contextAction.text;
+  const snap = () => game(page, () => {
+    const G = window.CYOA_GAME;
+    return { node: G.state.node, cards: G.ui.cards.map((k) => k.id).join(), phase: G.flow.phase, n: G.state.transcript.length,
+      thoughts: G.state.transcript.filter((t) => t.who === 'thought').length, last: G.state.transcript[G.state.transcript.length - 1],
+      part: G.ui.speech.parts[G.ui.speech.parts.length - 1], typing: G.ui.speech.typing,
+      btn: [document.getElementById('util-0').dataset.glyph, document.getElementById('util-0').getAttribute('aria-disabled')].join() };
+  });
+  const s0 = await snap();
+  c('OBSERVE: enabled before use, at rest in conversation', s0.btn === 'on,false' && s0.phase === 'choosing', s0);
+  await page.hover('#util-0');
+  c('OBSERVE: its tooltip names it', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'OBSERVE');
+  await page.screenshot({ path: path.join(SHOTS, '00l_tooltip_observe_enabled.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
+  await page.click('#util-0');
+  await page.waitForTimeout(100);
+  const s1 = await snap();
+  c('OBSERVE: does not advance the node, consume a choice or change the phase', s1.node === s0.node && s1.cards === s0.cards && s1.phase === 'choosing', { s0, s1 });
+  c('OBSERVE: adds one thought to the transcript (not NPC, not spoken player dialogue)', s1.n === s0.n + 1 && s1.thoughts === 1 && s1.last.who === 'thought' && s1.last.text === text, s1.last);
+  c('OBSERVE: the history shows it at once, in parentheses, in the player\'s face, as its own role', s1.part.text === '(' + text + ')' && s1.part.who === 'thought'
+    && s1.part.role === 'choices' && s1.typing === false, s1.part);
+  const lines = await game(page, () => window.CYOA_GAME.ui.speech.lines.filter((l) => l.who === 'thought').map((l) => l.text));
+  c('OBSERVE: the thought is on show in the dialogue box, opening and closing with a parenthesis', lines.length >= 1 && /^\(/.test(lines[0]) && /\)$/.test(lines[lines.length - 1])
+    && (await game(page, () => window.CYOA_GAME.ui.speech.scrollLine === window.CYOA_GAME.speechMaxScroll())), lines);
+  await page.mouse.move(600, 400);
+  await shot(page, '14_observe_thought_in_history.png');
+  await page.hover('#util-0');
+  c('OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE', s1.btn === 'inactive,true'
+    && (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE - NOTHING NEW TO NOTICE', s1.btn);
+  await page.screenshot({ path: path.join(SHOTS, '00m_tooltip_disabled_reason.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
+  await page.click('#util-0', { force: true });
+  await page.focus('#util-0');
+  await page.keyboard.press('Enter');
+  const s2 = await snap();
+  c('OBSERVE: a second activation (click or keyboard) adds nothing', s2.n === s1.n && s2.thoughts === 1 && s2.node === s0.node && s2.cards === s0.cards, s2);
+  await page.click('#util-1');
+  const notes = await page.$eval('#overlay canvas', (cv) => cv.dataset.text);
+  c('OBSERVE: NOTES keeps the observation in the transcript, once, in parentheses, with no speaker label', notes.split('(I WATCHED HER').length === 2
+    && /\(I WATCHED HER[\s\S]*UNAVAILABLE\.\)/.test(notes) && !/(YOU|RECEPTIONIST):\n\(I WATCHED/.test(notes), notes.slice(-400));
+  await page.$eval('#overlay canvas', () => window.CYOA_GAME.setOverlayScroll(1e9));
+  await shot(page, '09b_notes_with_observation.png');
+  await page.keyboard.press('Escape');
+  // Restart: the flow's restart path (an ending's BEGIN AGAIN calls G.flow.begin).
+  await game(page, () => window.CYOA_GAME.flow.begin());
+  await skipToChoices(page);
+  const s3 = await snap();
+  c('OBSERVE: a restart clears it (enabled again, no thought in the transcript)', s3.btn === 'on,false' && s3.thoughts === 0 && s3.node === 'opening', s3);
+  await page.focus('#util-0');
+  await page.keyboard.press('Enter');
+  c('OBSERVE: works from the keyboard (Enter on the focused button)', (await snap()).thoughts === 1);
+  c('OBSERVE: no console errors', errors.length === 0, errors);
+  await context.close();
+}
+
 // Production reception art (docs/57) ------------------------------------------------------------
 // A fresh page: the opening line finishes and the choices arrive, so nothing but the art and the
 // shell occupies the two apertures. Geometry, layer order and exact pixels; then a QA-only hide of
@@ -487,8 +578,11 @@ async function suite(name, base, requests) {
 
   // Load, assets, geometry -----------------------------------------------------------------
   c('page loads ready', (await page.evaluate(() => document.body.dataset.ready)) === 'true');
-  c('FACILITIES KEY inspect art and both X sprites are loaded and decoded before ready', await page.evaluate(() =>
-    ['inspect:wc_key', 'ui:inspect_close_up', 'ui:inspect_close_down'].every((n) => { const i = window.CYOA_GAME.image(n); return i && i.complete && i.naturalWidth > 0; })));
+  c('FACILITIES KEY inspect art and the one static X sprite are loaded and decoded before ready', await page.evaluate(() =>
+    ['inspect:wc_key', 'ui:inspect_close'].every((n) => { const i = window.CYOA_GAME.image(n); return i && i.complete && i.naturalWidth > 0; })));
+  c('only one close sprite is preloaded and no X UP/DOWN state is ever requested', (await page.evaluate(() => Object.keys(window.CYOA_GAME.INSPECTOR_ART).join()
+    + '|' + !window.CYOA_GAME.image('ui:inspect_close_up') + '|' + !window.CYOA_GAME.image('ui:inspect_close_down'))) === 'close|true|true'
+    && !requests.some((r) => /inspect_close_(up|down)\.png$/.test(r)), requests.filter((r) => /inspect_close/.test(r)));
   c('the NOTES and FILES panels are loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() =>
     ['ui:notes_files_panel', 'ui:files_panel'].every((n) => { const i = window.CYOA_GAME.image(n); return !!(i && i.complete && i.naturalWidth === 1255); })))
     && bodies[PANEL_ART] === PRODUCTION_ART[PANEL_ART] && bodies[FILES_PANEL] === PRODUCTION_ART[FILES_PANEL], [bodies[PANEL_ART], bodies[FILES_PANEL]]);
@@ -498,16 +592,18 @@ async function suite(name, base, requests) {
   c('the item-received slip is loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() => {
     const i = window.CYOA_GAME.image('ui:item_received_slip'); return !!(i && i.complete && i.naturalWidth === 560);
   })) && bodies[SLIP_ART] === PRODUCTION_ART[SLIP_ART], bodies[SLIP_ART]);
-  c('served inspector art bytes are the approved files', [INSPECT_ART, CLOSE_UP, CLOSE_DOWN].every((f) => bodies[f] === PRODUCTION_ART[f]),
-    [INSPECT_ART, CLOSE_UP, CLOSE_DOWN].map((f) => [f, bodies[f]]));
+  c('served inspector art bytes are the approved files', [INSPECT_ART, CLOSE_ART].every((f) => bodies[f] === PRODUCTION_ART[f]),
+    [INSPECT_ART, CLOSE_ART].map((f) => [f, bodies[f]]));
   c('obsolete 364x78 font atlas is never requested', !requests.some((r) => /locked_pixel_font_atlas\.png$/.test(r)));
   c('neither the brass tab nor the RETURN glyph is ever requested', !requests.some((r) => /choice_marker_tab\.png$|\/return\.png$/.test(r)), requests.filter((r) => /marker|return/.test(r)));
   c('served shell bytes are canonical', bodies[SHELL_PATH] === SHELL_SHA256, bodies[SHELL_PATH]);
   const served = Object.keys(sheet.sprites).filter((n) => n !== 'locked_pixel_font_atlas' && bodies['art/ui/' + sheet.sprites[n].package_path]);
   const servedBad = served.filter((n) => bodies['art/ui/' + sheet.sprites[n].package_path] !== sheet.sprites[n].sha256);
   c('served package sprites match manifest hashes', served.length >= 20 && servedBad.length === 0, { served: served.length, servedBad });
-  const glyphBad = ['inspect', 'notes', 'files'].filter((g) => bodies['art/actions/' + g + '.png'] !== actions.actions[g][0].sha256);
-  c('served action glyphs match actions.json', glyphBad.length === 0, glyphBad);
+  const glyphBad = ['watch', 'notes', 'files'].filter((g) => bodies['art/actions/' + g + '.png'] !== actions.actions[g][0].sha256);
+  c('served action glyphs match actions.json (watch, notes, files)', glyphBad.length === 0, glyphBad);
+  c('the old INSPECT glyph is no longer loaded for the first button (the context action names its own glyph)', !requests.some((r) => /art\/actions\/inspect\.png$/.test(r))
+    && !!(await page.evaluate(() => window.CYOA_GAME.image('glyph:watch'))));
   c('served bathroom pass bytes match the repository', bodies[PASS_PATH] === sha256(fs.readFileSync(path.join(ROOT, PASS_PATH))));
   const rect = (sel) => page.$eval(sel, (e) => [parseInt(e.style.left), parseInt(e.style.top), parseInt(e.style.width), parseInt(e.style.height)]);
   const vp = labDefaults.choices.viewport;
@@ -603,16 +699,16 @@ async function suite(name, base, requests) {
   c('font edit: every inked pixel lies inside its glyph box', fontCheck.dark.outside + fontCheck.light.outside === 0, fontCheck);
   c('pixel art renders without smoothing', await page.evaluate(() => Array.from(document.querySelectorAll('#stage img, #stage canvas'))
     .every((e) => /pixelated|crisp-edges/.test(getComputedStyle(e).imageRendering))));
-  c('utility buttons show the owner\'s glyphs in conversation', JSON.stringify(await page.$$eval('.utility', (bs) => bs.map((b) => b.dataset.action)))
-    === JSON.stringify(['inspect', 'notes', 'files']));
+  c('conversation utility row is the context action, NOTES, FILES (docs/64)', JSON.stringify(await page.$$eval('.utility', (bs) => bs.map((b) => b.dataset.action)))
+    === JSON.stringify(['context', 'notes', 'files']));
+  c('the context action here is OBSERVE with the WATCH glyph', (await page.$eval('#util-0', (b) => [b.getAttribute('aria-label'), /\/art\/actions\/watch\.png$/.test(b.querySelector('img.glyph').src)].join())) === 'OBSERVE,true');
 
-  // With nothing held, INSPECT keeps its glyph, unlit, does not press, and says why.
-  c('INSPECT is inactive while nothing is held', (await page.$eval('#util-0', (b) => [b.dataset.glyph, b.getAttribute('aria-disabled')].join())) === 'inactive,true');
+  // While the receptionist types, OBSERVE keeps its glyph, unlit, does not press, and says why.
+  c('OBSERVE is inactive while the receptionist is typing', (await phase(page)) === 'typing' && (await page.$eval('#util-0', (b) => [b.dataset.glyph, b.getAttribute('aria-disabled')].join())) === 'inactive,true');
   c('an inactive button keeps its glyph, in the inactive treatment', await page.$eval('#util-0', (b) => b.querySelector('img.glyph').style.display === 'none'
     && b.querySelector('canvas.glyph').style.display !== 'none' && b.querySelector('canvas.glyph').width === 96));
   await page.hover('#util-0');
-  c('the inactive button\'s tooltip says why', (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'INSPECT - NO ITEMS');
-  await page.screenshot({ path: path.join(SHOTS, '00m_tooltip_disabled_reason.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
+  c('the inactive button\'s tooltip says why', (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE - NOT NOW');
   await page.mouse.down();
   c('an inactive button does not press', (await page.$eval('#util-0', (b) => b.dataset.state)) === 'up');
   await page.mouse.up();
@@ -847,18 +943,17 @@ async function suite(name, base, requests) {
     await page.hover('#util-0');
     const t1 = await tipInfo();
     const overlap = (a, b2) => a[0] < b2[0] + b2[2] && b2[0] < a[0] + a[2] && a[1] < b2[1] + b2[3] && b2[1] < a[1] + a[3];
-    c('INSPECT tooltip shows on hover with the enabled label', t1.shown && t1.text === 'INSPECT', t1.text);
+    c('the first button\'s tooltip shows on hover (OBSERVE, unlit while she types)', t1.shown && t1.text === 'OBSERVE - NOT NOW', t1.text);
     c('the tooltip stays inside the 1920x1080 stage and never covers its button', t1.r[0] >= 0 && t1.r[1] >= 0 && t1.r[0] + t1.r[2] <= 1920 && t1.r[1] + t1.r[3] <= 1080
       && !overlap(t1.r, t1.br), { r: t1.r, br: t1.br });
     c('tooltip text is the baked Labels face in one light ink; box has no filter, transition or opacity change',
       t1.ch === t1.lh && t1.ink.length === 1 && t1.filter === 'none' && parseFloat(t1.transition) === 0 && t1.opacity === '1', t1);
-    await page.screenshot({ path: path.join(SHOTS, '00l_tooltip_inspect_enabled.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
     await page.mouse.move(600, 400);
     c('the tooltip disappears when the pointer leaves', (await page.$eval('#tooltip', (t) => t.style.display)) === 'none');
     await page.focus('#util-0');
     const tf = await tipInfo();
     await page.evaluate(() => document.activeElement.blur());
-    c('keyboard focus shows the tooltip, and losing focus hides it', tf.shown && tf.text === 'INSPECT' && (await page.$eval('#tooltip', (t) => t.style.display)) === 'none', tf.text);
+    c('keyboard focus shows the tooltip, and losing focus hides it', tf.shown && tf.text === 'OBSERVE - NOT NOW' && (await page.$eval('#tooltip', (t) => t.style.display)) === 'none', tf.text);
   }
   await page.click('#invWindow .slot[data-item="wc_key"]');
   c('the inventory is ignored while the NPC is typing', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
@@ -926,7 +1021,7 @@ async function suite(name, base, requests) {
       && g.img.st[3] === 'none' && parseFloat(g.img.st[4]) === 0 && g.anc.length === 0 && g.colAfter, g);
     // Every inspect-art pixel the overlay and the X leave visible is the file's own pixel, 1:1.
     const scr = decodePng(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }));
-    const ov = png(OVERLAY_ART), art = png(INSPECT_ART), up = png(CLOSE_UP);
+    const ov = png(OVERLAY_ART), art = png(INSPECT_ART), up = png(CLOSE_ART);
     let artChecked = 0, artBad = 0, xChecked = 0, xBad = 0;
     for (let y = INSPECT_RECT[1]; y < INSPECT_RECT[1] + INSPECT_RECT[3]; y++) for (let x = INSPECT_RECT[0]; x < INSPECT_RECT[0] + INSPECT_RECT[2]; x++) {
       const inX = x >= CLOSE_RECT[0] && x < CLOSE_RECT[0] + 44 && y >= CLOSE_RECT[1] && y < CLOSE_RECT[1] + 44;
@@ -940,12 +1035,14 @@ async function suite(name, base, requests) {
       if (!sameRgb(pxAt(art, x - INSPECT_RECT[0], y - INSPECT_RECT[1]), pxAt(scr, x, y))) artBad++;
     }
     c('every inspect-art pixel left visible by the overlay and the X equals the 565x451 file 1:1', artChecked > 200000 && artBad === 0, { artChecked, artBad });
-    c('the X shows its approved UP sprite, pixel for pixel, at its unchanged 44x44 place', xChecked > 1000 && xBad === 0
-      && (await page.evaluate(() => {
-        const b = document.getElementById('inspectClose'), r = b.getBoundingClientRect();
-        return [r.left, r.top, r.width, r.height].join() + '|' + b.dataset.state + '|' + document.getElementById('inspectCloseUp').style.display + '|' + document.getElementById('inspectCloseDown').style.display
-          + '|' + !b.querySelector('canvas');
-      })) === CLOSE_RECT.join() + '|up||none|true', { xChecked, xBad });
+    const xDom = await page.evaluate((r0) => {
+      const b = document.getElementById('inspectClose'), r = b.getBoundingClientRect(), imgs = b.querySelectorAll('img');
+      const hit = document.elementFromPoint(r0[0] + 22, r0[1] + 22);
+      return [r.left, r.top, r.width, r.height].join() + '|' + imgs.length + '|' + (imgs[0] && imgs[0].id) + '|' + (imgs[0] && getComputedStyle(imgs[0]).pointerEvents)
+        + '|' + (hit && hit.id) + '|' + !b.querySelector('canvas');
+    }, CLOSE_RECT);
+    c('the X shows its one static sprite, pixel for pixel, at its unchanged 44x44 place', xChecked > 1000 && xBad === 0, { xChecked, xBad });
+    c('the X sprite is passive (pointer-events: none) inside the 44x44 button, which takes the click', xDom === CLOSE_RECT.join() + '|1|inspectCloseImg|none|inspectClose|true', xDom);
   }
   {
     // The owner's item-column overlay still wins over the right column: wherever it is opaque the
@@ -983,6 +1080,7 @@ async function suite(name, base, requests) {
   c('after READ, SHOW is enabled here', (await game(page, () => window.CYOA_GAME.utilityActions()[1])).enabled === true);
   await shot(page, '07_inspector_after_read.png');
   await page.keyboard.press('Escape');
+  c('Escape closes the inspector', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
   await waitPhase(page, 'choosing');
   c('closing the inspector brings a new set reflecting the tag', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.cards.map((x) => x.id))) === '["confirm-read","question-tag"]');
   await shot(page, '08_choices_changed_by_item.png');
@@ -990,44 +1088,41 @@ async function suite(name, base, requests) {
     const cmp = compareScreen(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }), measured);
     c('closing the inspector restores the exact layered receptionist portrait and scene', cmp.portraitBad === 0 && cmp.npcShown > 10000 && cmp.sceneBad === 0, cmp);
   }
-  // Re-open with INSPECT, close with X, then SHOW.
-  await page.click('#util-0');
-  c('INSPECT opens the held item', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === 'wc_key');
+  // Holding the key does not make it a target: the first button is still OBSERVE. Re-open the
+  // key by activating its slot, close with X, then SHOW.
+  c('with the key held and nothing open, the first button is still OBSERVE (no implicit item)', (await game(page, () => window.CYOA_GAME.utilityActions()[0].action)) === 'context'
+    && !(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  await page.click('#invWindow .slot[data-item="wc_key"]');
+  c('clicking the key\'s slot opens it', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === 'wc_key');
   {
-    // No hover look on the X; a press shows the DOWN sprite; a release on it closes; off it does not.
+    // No hover look on the X; a press changes nothing on screen; a release on it closes; off it does not.
     const cx = CLOSE_RECT[0] + 22, cy = CLOSE_RECT[1] + 22, clip = { x: CLOSE_RECT[0], y: CLOSE_RECT[1], width: 44, height: 44 };
     await page.mouse.move(600, 400);
     const idleLook = await lookOf(page, '#inspectClose'), idlePx = await page.screenshot({ clip });
     await page.mouse.move(cx, cy);
     await page.waitForTimeout(150);
     c('hovering the X changes nothing (no hover styling)', (await lookOf(page, '#inspectClose')) === idleLook && idlePx.equals(await page.screenshot({ clip })));
-    await page.screenshot({ path: path.join(SHOTS, '00d_inspector_close_up.png'), clip: { x: CLOSE_RECT[0] - 38, y: CLOSE_RECT[1] - 8, width: 120, height: 120 } });
+    await page.screenshot({ path: path.join(SHOTS, '00d_inspector_close_static.png'), clip: { x: CLOSE_RECT[0] - 38, y: CLOSE_RECT[1] - 8, width: 120, height: 120 } });
     await page.mouse.down();
-    const st = () => page.evaluate(() => [document.getElementById('inspectClose').dataset.state, document.getElementById('inspectCloseUp').style.display,
-      document.getElementById('inspectCloseDown').style.display, !!window.CYOA_GAME.ui.inspector].join());
-    const pressed = await st();
-    const downShot = decodePng(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } })), dn = png(CLOSE_DOWN);
-    let dChecked = 0, dBad = 0;
-    for (let y = 0; y < 44; y++) for (let x = 0; x < 44; x++) {
-      const d = pxAt(dn, x, y);
-      if (d[3] === 255) { dChecked++; if (!sameRgb(d, pxAt(downShot, CLOSE_RECT[0] + x, CLOSE_RECT[1] + y))) dBad++; }
-    }
-    await page.screenshot({ path: path.join(SHOTS, '00e_inspector_close_down.png'), clip: { x: CLOSE_RECT[0] - 38, y: CLOSE_RECT[1] - 8, width: 120, height: 120 } });
-    c('pressing the X swaps to its DOWN sprite (pixel for pixel) and keeps the item open', pressed === 'down,none,,true' && dChecked > 1000 && dBad === 0, { pressed, dChecked, dBad });
+    const pressedPx = await page.screenshot({ clip });
+    const pressedLook = await lookOf(page, '#inspectClose');
+    c('pressing the X changes no visible pixel (no press look, no DOWN state) and keeps the item open', pressedPx.equals(idlePx) && pressedLook === idleLook
+      && !!(await game(page, () => window.CYOA_GAME.ui.inspector)));
     await page.mouse.move(600, 400);
     await page.mouse.up();
-    c('a press released off the X does not close the item and returns it to UP', (await st()) === 'up,,none,true', await st());
+    c('a press released off the X does not close the item, and the X looks the same', !!(await game(page, () => window.CYOA_GAME.ui.inspector)) && idlePx.equals(await page.screenshot({ clip })));
     await page.mouse.move(cx, cy);
     await page.mouse.down();
     await page.mouse.up();
   }
-  c('the X closes the inspector', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
-  await page.click('#util-0');
+  c('a press and release inside the X closes the inspector', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
+  await page.click('#invWindow .slot[data-item="wc_key"]');
   await page.focus('#inspectClose');
+  const kIdle = await page.screenshot({ clip: { x: CLOSE_RECT[0], y: CLOSE_RECT[1], width: 44, height: 44 } });
   await page.keyboard.down('Enter');
-  const kDown = await page.evaluate(() => document.getElementById('inspectClose').dataset.state + ',' + !!window.CYOA_GAME.ui.inspector);
+  const kDown = (await page.screenshot({ clip: { x: CLOSE_RECT[0], y: CLOSE_RECT[1], width: 44, height: 44 } })).equals(kIdle) + ',' + (await game(page, () => !!window.CYOA_GAME.ui.inspector));
   await page.keyboard.up('Enter');
-  c('the X works from the keyboard: Enter presses it (DOWN) and closes on release', kDown === 'down,true' && !(await game(page, () => window.CYOA_GAME.ui.inspector)), kDown);
+  c('the X works from the keyboard: Enter changes nothing on screen while held and closes on release', kDown === 'true,true' && !(await game(page, () => window.CYOA_GAME.ui.inspector)), kDown);
   const isOpen = () => game(page, () => !!window.CYOA_GAME.ui.inspector);
   await page.click('#invWindow .slot[data-item="wc_key"]');
   const open1 = await isOpen();
@@ -1051,7 +1146,7 @@ async function suite(name, base, requests) {
   await waitPhase(page, 'typing');
   c('USE on the key opens the door', (await game(page, () => window.CYOA_GAME.state.node)) === 'door');
   c('the closing line remembers the tag', /ACCORDING TO THE RECORD YOU ALREADY HAVE/.test(await game(page, () => window.CYOA_GAME.ui.speech.parts.slice(-1)[0].text)));
-  c('INSPECT, READ, SHOW and USE never re-announce the key', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.noticeLog)) === '["wc_key"]'
+  c('opening the item, READ, SHOW and USE never re-announce the key', JSON.stringify(await game(page, () => window.CYOA_GAME.ui.noticeLog)) === '["wc_key"]'
     && (await page.$eval('#itemNotice', (e) => e.style.display)) === 'none');
   // The slip goes by itself: time one through the same path a grant takes.
   const timed = await page.evaluate(() => new Promise((res) => {
@@ -1236,15 +1331,15 @@ async function suite(name, base, requests) {
   c('the strip stops at the last item', (await game(page, () => window.CYOA_GAME.ui.inv.start)) === 3);
   await page.waitForTimeout(400);
   await shot(page, '13_inventory_overflow_qa_items.png', { x: 0, y: 900, width: 860, height: 180 });
-  // INSPECT acts on the selected item, never on whichever slot happens to be leftmost.
-  const sel0 = await game(page, () => [window.CYOA_GAME.selectedItem(), window.CYOA_GAME.ui.selected, document.activeElement.outerHTML.slice(0, 80)]);
-  c('with several items and none selected, INSPECT is inactive', (await page.$eval('#util-0', (b) => b.dataset.glyph)) === 'inactive'
-    && sel0[0] === null, sel0);
+  // An item opens only when the player activates its own slot (docs/64); nothing is inferred.
+  const sel0 = await game(page, () => [window.CYOA_GAME.selectedItem(), window.CYOA_GAME.utilityActions()[0].action, !!window.CYOA_GAME.ui.inspector]);
+  c('with several items and none selected, the first button is the context action and nothing is open', sel0[0] === null && sel0[1] === 'context' && !sel0[2], sel0);
   await page.focus('#invWindow .slot[data-index="6"]');
   const focusedItem = await page.$eval('#invWindow .slot[data-index="6"]', (sl) => sl.dataset.item);
-  c('focusing a slot selects its item', (await game(page, () => window.CYOA_GAME.selectedItem())) === focusedItem && (await page.$eval('#util-0', (b) => b.dataset.glyph)) === 'on');
-  await page.click('#util-0');
-  c('INSPECT opens the selected item, not the leftmost one', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === focusedItem
+  c('focusing a slot marks its item but opens nothing, and the first button stays the context action', (await game(page, () => window.CYOA_GAME.selectedItem())) === focusedItem
+    && !(await game(page, () => window.CYOA_GAME.ui.inspector)) && (await game(page, () => window.CYOA_GAME.utilityActions()[0].action)) === 'context');
+  await page.keyboard.press('Enter');
+  c('Enter on a focused occupied slot opens that item, not the leftmost one', (await game(page, () => window.CYOA_GAME.ui.inspector && window.CYOA_GAME.ui.inspector.id)) === focusedItem
     && focusedItem !== (await page.$eval('#invWindow .slot[data-index="3"]', (sl) => sl.dataset.item)), focusedItem);
   await page.keyboard.press('Escape');
   await page.click('#invWindow .slot[data-index="4"]');
@@ -1260,9 +1355,10 @@ async function suite(name, base, requests) {
       && fb.kind === 'placeholder' && fb.kids.join() === 'CANVAS#inspectPlaceholder' && fb.size.join() === '565,451' && /INSPECT ART NOT YET APPROVED/.test(fb.label), fb);
   }
   await page.keyboard.press('Escape');
-  await page.click('#util-0');
-  c('INSPECT then reopens the last selected item', (await game(page, () => window.CYOA_GAME.ui.inspector.id)) === clickedItem);
-  c('an item with nothing to read shows READ unlit', (await page.$eval('#util-0', (b) => b.dataset.glyph)) === 'inactive');
+  c('after closing, the last selected item is not reopened by any button: the first is the context action again', !(await game(page, () => window.CYOA_GAME.ui.inspector))
+    && (await game(page, () => window.CYOA_GAME.utilityActions()[0].action)) === 'context');
+  await page.click('#invWindow .slot[data-index="4"]');
+  c('an item with nothing to read shows READ unlit', (await game(page, () => window.CYOA_GAME.ui.inspector.id)) === clickedItem && (await page.$eval('#util-0', (b) => b.dataset.glyph)) === 'inactive');
   await page.keyboard.press('Escape');
 
   // Hover never changes a control ------------------------------------------------------------
@@ -1295,6 +1391,7 @@ async function suite(name, base, requests) {
 
   c('no console errors or failed requests', errors.length === 0, errors);
   await context.close();
+  await observeChecks(browser, base, c);
 
   // file:// -----------------------------------------------------------------------------------
   const fctx = await browser.newContext({ viewport: { width: 1280, height: 720 } });

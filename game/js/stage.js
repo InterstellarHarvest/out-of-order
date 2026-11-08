@@ -28,7 +28,7 @@
     inv: { start: 0, slide: null },
     pressed: {},
     inspector: null, // { id, scroll }
-    selected: null, // the inventory item last clicked or focused (UI only; INSPECT acts on it)
+    selected: null, // the inventory item last clicked or focused (UI only; nothing acts on it implicitly)
     overlay: null, // 'notes' | 'files'
     overlayScroll: 0,
     tooltip: null,
@@ -179,13 +179,19 @@
 
   // NPC speech and history ----------------------------------------------------------------
   // Every line of the conversation stays in the box: the player's in the Choices face, the
-  // receptionist's in the Dialogue face, with the speaker gap where the speaker changes.
+  // receptionist's in the Dialogue face, with the speaker gap where the speaker changes. A
+  // `thought` (the player's unspoken observation, docs/64) is its own role: drawn in the player's
+  // Choices face, in parentheses, with no speaker label, and it never types.
+  var SPEECH_FACE = { npc: 'dialogue', player: 'choices', thought: 'choices' };
+  G.thoughtText = function (text) {
+    return '(' + text + ')';
+  };
   function S() {
     return L.speech.text;
   }
 
   function speakerGap(lines, start, i) {
-    return i > start && lines[i].role !== lines[i - 1].role ? S().speakerGap : 0;
+    return i > start && lines[i].who !== lines[i - 1].who ? S().speakerGap : 0;
   }
 
   function linesFrom(start) {
@@ -219,20 +225,21 @@
     var width = S().width;
     s.lines = [];
     s.parts.forEach(function (p, pi) {
-      T.wrap(p.text, width, p.role).forEach(function (text) { s.lines.push({ text: text, role: p.role, part: pi }); });
+      T.wrap(p.text, width, p.role).forEach(function (text) { s.lines.push({ text: text, role: p.role, who: p.who, part: pi }); });
     });
   }
 
-  // Adds a line to the history. NPC lines type; the player's line is there at once.
+  // Adds a line to the history. NPC lines type; the player's line or thought is there at once.
   G.addSpeech = function (text, who) {
     var s = ui.speech;
-    s.parts.push({ text: text, role: who === 'player' ? 'choices' : 'dialogue' });
+    if (!SPEECH_FACE[who]) throw new Error('Unknown speaker role: ' + who);
+    s.parts.push({ text: who === 'thought' ? G.thoughtText(text) : text, role: SPEECH_FACE[who], who: who });
     rewrap();
     var first = 0;
     while (first < s.lines.length && s.lines[first].part !== s.parts.length - 1) first++;
     s.newRow = first;
     s.base = charsBefore(s.lines, first);
-    if (who === 'player') {
+    if (who !== 'npc') {
       s.typing = false;
       s.revealed = charsBefore(s.lines, s.lines.length);
       s.scrollLine = speechMaxScroll();
@@ -752,20 +759,24 @@
   }
   G.renderInventory = renderInventory;
 
-  // The item INSPECT acts on: the one last clicked or focused, or the only one held.
+  // The item last clicked or focused (UI only: it marks the slot, data-selected). Nothing opens it
+  // implicitly: an item is inspected only when the player activates its slot (docs/64), and
+  // holding a single item never makes it a target.
   G.selectItem = function (id) {
     ui.selected = id;
     renderInventory();
-    renderUtility();
   };
   G.selectedItem = function () {
     var inv = G.state ? G.state.inventory : [];
-    if (ui.selected && inv.indexOf(ui.selected) !== -1) return ui.selected;
-    return inv.length === 1 ? inv[0] : null;
+    return ui.selected && inv.indexOf(ui.selected) !== -1 ? ui.selected : null;
   };
 
   // Utility buttons -----------------------------------------------------------------------
-  // Three physical buttons. In conversation: INSPECT, NOTES, FILES. While inspecting an item:
+  // Three physical buttons. In conversation: the CONTEXT ACTION, NOTES, FILES. The first is the
+  // optional thing to do in the current situation, read from content (G.rules.contextAction,
+  // docs/64): its label and glyph are data (reception: OBSERVE with the WATCH glyph); with none
+  // defined it is the bare button. It is live only while the player could choose, and a `once`
+  // action already taken stays on show, inactive, saying why. While inspecting an item:
   // READ, SHOW or USE (whichever this moment allows), and a blank third button: the X, Escape and
   // a second click on the item close the inspector, so no button does (docs/53). An action that belongs here but
   // cannot be taken now keeps its glyph in an inactive treatment, does not press, and its tooltip
@@ -782,9 +793,14 @@
         { action: 'none', glyph: null, label: '', enabled: false, blank: true }
       ];
     }
-    var held = !!G.selectedItem();
+    var ctx = G.state ? G.rules.contextAction(G.content, G.state) : null;
+    var first = { action: 'none', glyph: null, label: '', enabled: false, blank: true };
+    if (ctx) {
+      var spent = G.rules.contextSpent(G.content, G.state);
+      first = { action: 'context', glyph: ctx.glyph, label: ctx.label, enabled: !spent && G.flow.phase === 'choosing', why: spent ? ctx.spentWhy : 'NOT NOW' };
+    }
     return [
-      { action: 'inspect', glyph: 'inspect', label: 'INSPECT', enabled: held, why: G.state && G.state.inventory.length ? 'SELECT AN ITEM' : 'NO ITEMS' },
+      first,
       { action: 'notes', glyph: 'notes', label: 'NOTES', enabled: true },
       { action: 'files', glyph: 'files', label: 'FILES', enabled: true }
     ];
@@ -927,15 +943,15 @@
   // item fills it; the choices box holds the item's text; the buttons change; an X closes it.
   // The owner-provided item column overlay is production art. An item's inspect art comes from its
   // content entry (`inspectArt`, authored at 565x451 and drawn 1:1); an item without one falls back
-  // to the labelled development placeholder. The X uses its approved up/down sprites (docs/58).
+  // to the labelled development placeholder. The X is one static sprite (owner ruling, docs/64):
+  // centred, symmetrical, with no press look and no DOWN state.
   // The overlay's see-through window is hand-drawn (about x1332-1894, y51-499). The art fills a
   // rectangle just inside the frame and sits UNDER the overlay, so the frame's ragged inner edge
   // always wins and no rail is overpainted.
   var INSPECT_RECT = [1331, 50, 565, 451];
   var CLOSE = 44;
   G.INSPECTOR_ART = {
-    closeUp: { image: 'ui:inspect_close_up', path: 'art/ui/sprites/inspect_close_up.png' },
-    closeDown: { image: 'ui:inspect_close_down', path: 'art/ui/sprites/inspect_close_down.png' }
+    close: { image: 'ui:inspect_close', path: 'art/ui/sprites/inspect_close.png' }
   };
   // The preloaded image name for an item's inspect art (js/main.js decodes it before ready).
   G.inspectImageName = function (id) {
@@ -963,11 +979,12 @@
     });
     place(els.inspectColumn, 0, 0, 1920, 1080);
     els.inspectClose = el('button', 'hit', els.inspector, { id: 'inspectClose', type: 'button', 'aria-label': 'Close the item' });
-    // The two approved 44x44 sprites, the very images preloaded before ready; the press swaps them.
-    els.inspectCloseUp = closeSprite('closeUp', 'inspectCloseUp');
-    els.inspectCloseDown = closeSprite('closeDown', 'inspectCloseDown');
+    // The 44x44 button is the hit area; the one static sprite inside it (the preloaded image) is
+    // passive (pointer-events: none) and never changes. A release on the button, Enter / Space,
+    // Escape or activating the open item again closes the inspector.
+    els.inspectCloseImg = closeSprite('close', 'inspectCloseImg');
     place(els.inspectClose, INSPECT_RECT[0] + INSPECT_RECT[2] - CLOSE - 8 + TU.inspector.closeDx, INSPECT_RECT[1] + 8 + TU.inspector.closeDy, CLOSE, CLOSE);
-    bindPress(els.inspectClose, 'inspect-close', renderInspector, function () { G.flow.closeInspector(); });
+    bindPress(els.inspectClose, 'inspect-close', function () {}, function () { G.flow.closeInspector(); });
     show(els.inspector, false);
   }
 
@@ -1039,12 +1056,6 @@
       showInspectArt(id);
       els.inspectArt.dataset.item = id;
     }
-    var down = !!ui.pressed['inspect-close'];
-    if (els.inspectClose.dataset.state !== (down ? 'down' : 'up')) {
-      show(els.inspectCloseUp, !down);
-      show(els.inspectCloseDown, down);
-      els.inspectClose.dataset.state = down ? 'down' : 'up';
-    }
     var lines = inspectorLines();
     var lh = 24;
     var gaps = lines.reduce(function (n, l) { return n + (l.gap || 0); }, 0);
@@ -1115,9 +1126,11 @@
       T.wrap(text, width, role).forEach(function (t, i) { lines.push({ text: t, role: role, gap: i === 0 ? gap || 0 : 0 }); });
     }
     if (ui.overlay === 'notes') {
+      // A thought (docs/64) keeps its own treatment here too: parentheses, the player's face, no label.
       G.state.transcript.forEach(function (line, i) {
+        if (line.who === 'thought') return add(G.thoughtText(line.text), SPEECH_FACE.thought, i === 0 ? 18 : 14);
         add(line.who === 'npc' ? G.content.speaker + ':' : 'YOU:', 'labels', i === 0 ? 18 : 14);
-        add(line.text, line.who === 'npc' ? 'dialogue' : 'choices', 4);
+        add(line.text, SPEECH_FACE[line.who], 4);
       });
     } else {
       G.rules.files(G.content, G.state).forEach(function (t) { add(t, 'dialogue', 16); });

@@ -54,8 +54,8 @@
     items.push({ name: art.image, url: G.url(art.path) });
   });
 
-  // Approved item inspect art (an item's own `inspectArt`, if any) and the inspector's X up/down
-  // sprites (js/stage.js), decoded before ready like everything else.
+  // Approved item inspect art (an item's own `inspectArt`, if any) and the inspector's one static X
+  // sprite (js/stage.js), decoded before ready like everything else.
   Object.keys(G.content.items)
     .filter(function (id) { return G.content.items[id].inspectArt; })
     .forEach(function (id) { items.push({ name: G.inspectImageName(id), url: G.url(G.content.items[id].inspectArt) }); });
@@ -63,8 +63,13 @@
     items.push({ name: G.INSPECTOR_ART[k].image, url: G.url(G.INSPECTOR_ART[k].path) });
   });
 
-  // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front.
-  ['inspect', 'notes', 'files', 'read', 'use', 'show_badge'].forEach(function (g) {
+  // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front:
+  // NOTES, FILES, the inspector's READ / USE / SHOW, and every context action's glyph named in the
+  // content (docs/64; reception: watch).
+  var glyphs = ['notes', 'files', 'read', 'use', 'show_badge'];
+  [G.content.contextAction].concat(Object.keys(G.content.nodes).map(function (id) { return G.content.nodes[id].contextAction; }))
+    .forEach(function (a) { if (a && glyphs.indexOf(a.glyph) === -1) glyphs.push(a.glyph); });
+  glyphs.forEach(function (g) {
     items.push({ name: 'glyph:' + g, url: G.glyphUrl(g) });
   });
 

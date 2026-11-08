@@ -56,7 +56,7 @@ The owner decided this, so it is applied to the game rather than left as a lab o
 - **Timing:** applying a change takes one frame. QA drives a slider drag of five steps and checks that the receptionist moves 1 px on every step.
 - **No reload:** the lab frame never reloads for a value change. The reload path remains only as a fallback, for a frame that is mid-navigation.
 - **During a state load:** a change that arrives while a state is loading (with the fast timings in force) is held and applied once the load ends.
-- **Production game:** never calls `G.rebuildStage`, which QA checks. The lab-only aids (toggles, bounds outlines, hold-X, freeze) are reapplied after each rebuild.
+- **Production game:** never calls `G.rebuildStage`, which QA checks. The lab-only aids (toggles, bounds outlines, freeze) are reapplied after each rebuild. (The hold-X aid was removed in docs/64.)
 
 ## 4. QA
 

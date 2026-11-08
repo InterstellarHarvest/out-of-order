@@ -207,12 +207,13 @@ The states are reached by **driving the production flow** through its real choic
 | 2 | Three choices | `ask-politely` → the misassign decision (three 2–3-line cards) |
 | 3 | Long dialogue / history | `ask-politely`, `correct`, `rule`, `sigh` |
 | 4 | Item received | `ask-politely`, `practical`, `ask-key`, then a fresh FACILITIES KEY slip |
-| 5 | Inspector, before READ | as 4, then INSPECT |
+| 5 | Inspector, before READ | as 4, then the key's slot is activated |
 | 6 | Inspector, after READ | as 5, then READ |
 | 7 | NOTES | the long path + `ask-key`, inspect / READ / close, `question-tag`, then NOTES |
 | 8 | FILES | as 7, then FILES (appointment, dispute, key issued, returned at 4:52) |
-| 9 | Tooltip, INSPECT enabled | as 4, with the INSPECT tooltip |
-| 10 | Tooltip, INSPECT disabled | opening, with `INSPECT - NO ITEMS` |
+| 8a | OBSERVE taken (docs/64) | `ask-politely`, then the first utility button's OBSERVE: the thought in the history |
+| 9 | Tooltip, OBSERVE enabled (docs/64) | opening, with the `OBSERVE` tooltip |
+| 10 | Tooltip, OBSERVE spent (docs/64) | opening, OBSERVE taken, with `OBSERVE - NOTHING NEW TO NOTICE` |
 | 10a / 10b | Inspector READ / SHOW-unavailable tooltips | as 5, with `READ` / `SHOW - NOT AVAILABLE HERE` |
 | 11 | Ending | as 4, `confirm-unread`, `onward-blind`, `unlock`, `enter-corridor` |
 | – | Card samples | 1-, 2- and 3-line cards, and three 2-line cards. These are lab-only display text fitted to exact line counts, through the production `setChoices`, and the flow will not take them. |
@@ -223,8 +224,10 @@ The states are reached by **driving the production flow** through its real choic
 - **Every tunable:** shows its production value, the current lab value, −/+ (1 px or 1 ms), a number box, a slider, its bounds, and a reset. Changed rows and sections are highlighted.
 - **Resets:** **Reset section** and **RESET ALL TO PRODUCTION**.
 - **Comparison:** **PRODUCTION / LAB** buttons, or the keys P / L / Space.
-- **Stage aids:** SHOW ITEM RECEIVED (UI only), Finish typing, Freeze motion, and hold the close X UP / DOWN.
-- **Visual QA toggles:** hide the shell, scene art, portrait background, receptionist, rear FX or front FX; bounds for the scene aperture, portrait, choices + scrollbar, inventory and utility buttons; the coordinates and element-under-pointer readout.
+- **Stage aids:** Finish typing and Freeze motion. The hold-X UP / DOWN aid is gone: the X has no DOWN state (docs/64).
+- **Trigger events (docs/64):** ITEM RECEIVED (formerly SHOW ITEM RECEIVED), REPLAY NPC TYPING, REPLAY CHOICE ARRIVAL, REPLAY INVENTORY SLIDE and TRIGGER CONTEXT ACTION, on the LAB frame only.
+- **Visual QA toggles:** hide the shell, scene art, portrait background, receptionist, rear FX or front FX; bounds for the scene aperture, portrait, choices + scrollbar, inventory and utility buttons; SHOW X HITBOX (the inspector X's 44 × 44 button); the coordinates and element-under-pointer readout.
+- **Collapsible sections (docs/64):** every panel and every tunable section folds from its heading.
 - **Inspection aids:** never exported, and they apply to both frames.
 - **View:** fit-to-window is a scaled preview, clearly labelled; 1:1 shows exact pixels.
 
@@ -248,13 +251,13 @@ The states are reached by **driving the production flow** through its real choic
 
 ## 9. Persistence
 
-The lab page saves the changes, the selected state, the view, fit and toggles in its own `localStorage` key, `cyoa-m2-reception-polish-lab-v1`. The production game has no storage access and ignores it (QA). No story state is ever stored.
+The lab page saves the tunable changes in its own `localStorage` key, `cyoa-m2-reception-polish-lab-v1` (`{ schema, changes }`). Since docs/64 the lab's UI state (selected state, view, fit, toggles, folded sections, scroll positions) has its own key, `cyoa-m2-reception-polish-lab-ui-v1`; it is never exported, and RESET leaves it alone. The production game has no storage access and ignores both (QA). No story state is ever stored.
 
 ## 10. QA
 
 ### Lab QA
 
-`NODE_PATH="$(npm root -g)" node tools/m2-reception-polish-lab/qa/run_qa.js` passes **85/85** in Chromium 147 and Firefox 148 (static 5, Chromium 40, Firefox 40). The run includes the live-value, NOTES v2 and FILES-panel checks from docs/63. Results are in `tools/m2-reception-polish-lab/qa/qa_results.json`.
+`NODE_PATH="$(npm root -g)" node tools/m2-reception-polish-lab/qa/run_qa.js`: see docs/64 §8 for the current run, which adds the trigger-event, UI-persistence and OBSERVE-state checks. At docs/63 it passed **85/85** in Chromium 147 and Firefox 148 (static 5, Chromium 40, Firefox 40), including the live-value, NOTES v2 and FILES-panel checks. Results are in `tools/m2-reception-polish-lab/qa/qa_results.json`.
 
 - **Static checks:**
   - the lab folder holds no images;
@@ -266,7 +269,7 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
 - **States:**
   - every state loads where it should (node, inspector, overlay, slip, READ mark);
   - FILES shows the 4:52 record;
-  - the tooltip states show `INSPECT` / `INSPECT - NO ITEMS` / `READ` / `SHOW - NOT AVAILABLE HERE`;
+  - the tooltip states show `OBSERVE` / `OBSERVE - NOTHING NEW TO NOTICE` / `READ` / `SHOW - NOT AVAILABLE HERE` (before docs/64: `INSPECT` / `INSPECT - NO ITEMS`);
   - the card samples have 1 / 2 / 3 lines and 2 / 2 / 2 lines.
 - **Rendering:**
   - the shell's served bytes are canonical, and every loaded image is a production file under `art/`;
@@ -275,12 +278,12 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
 - **Values and export:**
   - values are whole numbers (6.6 → 7);
   - COPY CHANGES holds only the changed keys, with the schema and base SHA; COPY ALL holds all 71;
-  - the helper toggles, freeze and hold-X never change the export;
+  - the helper toggles and freeze never change the export;
   - the hide-shell and bounds toggles act on the stage frames only.
 - **Persistence:** values persist across a reload.
 - **The game and lab storage:**
   - the production game ignores the lab storage (production values while lab changes are saved);
-  - storage holds only the lab key, and a fresh game starts at the opening.
+  - storage holds only the lab's values and UI keys, and a fresh game starts at the opening.
 - **Resets:** RESET FIELD, RESET SECTION and RESET ALL work.
 - **Import:**
   - IMPORT round-trips an export;
@@ -300,8 +303,8 @@ Lab screenshots (Chromium): `tools/m2-reception-polish-lab/qa/screenshots/lab_ov
 
 The checks were run on the final commit:
 
-- `node game/qa/validate_route.js`: **38/38**.
-- `game/qa/run_qa.js`: **447/447** (static 37/37, Chromium 205/205, Firefox 205/205), including the separate FILES panel and its `YOUR FILES` plate title (docs/63). Before docs/63 it was 431/431.
+- At docs/63: `node game/qa/validate_route.js` **38/38**; `game/qa/run_qa.js` **447/447** (static 37/37, Chromium 205/205, Firefox 205/205), including the separate FILES panel and its `YOUR FILES` plate title. Before docs/63 it was 431/431.
+- The current run (static X, context action) is in docs/64 §8.
 
 The production values are unchanged (§3).
 

@@ -3,7 +3,8 @@
 // what the validator proves is what the game does.
 //
 // Deliberately small. It knows about exactly what the reception slice needs: nodes, choices,
-// flags, an inventory, per-item marks, READ/SHOW/USE. It is not a narrative engine.
+// flags, an inventory, per-item marks, READ/SHOW/USE and one optional context action (docs/64).
+// It is not a narrative engine.
 (function (root) {
   'use strict';
 
@@ -19,7 +20,11 @@
     var s = clone(content.initialState);
     s.node = null;
     s.objective = '';
-    s.transcript = []; // { who: 'npc' | 'player', text }
+    s.transcript = []; // { who: 'npc' | 'player' | 'thought', text }
+    // Ids of `once` context actions already taken this encounter (docs/64). Encounter state only:
+    // it is not a flag, never in a condition, and not part of the route validator's state key, so
+    // a flavour observation never branches the route. A restart starts a fresh state, clearing it.
+    s.contextDone = [];
     return s;
   }
 
@@ -143,6 +148,34 @@
     return { say: e.say, to: e.to, restart: false };
   }
 
+  // Context action (docs/64) -----------------------------------------------------------------
+  // The optional thing the player can do in the current situation: the first utility button in
+  // conversation. Defined as data, for the whole location (content.contextAction) or per node
+  // (node.contextAction; null there means none at that node):
+  //   { id, label, glyph, text, once, spentWhy }
+  // M2 proves one effect only: it adds `text` to the transcript as the player's unspoken
+  // observation (who: 'thought'). It never advances the node, consumes a choice or changes the
+  // choices. Later kinds of consequence (knowledge, flags, choice changes) are not built.
+  function contextAction(content, state) {
+    var n = node(content, state);
+    var a = n && Object.prototype.hasOwnProperty.call(n, 'contextAction') ? n.contextAction : content.contextAction;
+    return a || null;
+  }
+
+  function contextSpent(content, state) {
+    var a = contextAction(content, state);
+    return !!a && !!a.once && state.contextDone.indexOf(a.id) !== -1;
+  }
+
+  function takeContextAction(content, state) {
+    var a = contextAction(content, state);
+    if (!a) throw new Error('No context action at ' + state.node);
+    if (contextSpent(content, state)) throw new Error('Context action already taken: ' + a.id);
+    if (state.contextDone.indexOf(a.id) === -1) state.contextDone.push(a.id);
+    state.transcript.push({ who: 'thought', text: a.text });
+    return a.text;
+  }
+
   function description(content, state, id) {
     return pick(content.items[id].description, state);
   }
@@ -217,6 +250,21 @@
       checkText('files[' + i + ']', f.text);
       checkCond('files[' + i + ']', f.if);
     });
+    function checkContext(where, a) {
+      if (a === null) return;
+      if (!a || typeof a !== 'object') return errors.push(where + ': must be an object or null');
+      Object.keys(a).forEach(function (k) {
+        if (['id', 'label', 'glyph', 'text', 'once', 'spentWhy'].indexOf(k) === -1) errors.push(where + ': unknown field ' + k);
+      });
+      if (typeof a.id !== 'string' || !a.id) errors.push(where + ': needs an id');
+      checkText(where + ' label', a.label);
+      if (typeof a.glyph !== 'string' || !/^[a-z0-9_]+$/.test(a.glyph)) errors.push(where + ': needs an action glyph name');
+      checkText(where + ' text', a.text);
+      if (a.once !== undefined && typeof a.once !== 'boolean') errors.push(where + ': once must be true or false');
+      if (a.spentWhy !== undefined) checkText(where + ' spentWhy', a.spentWhy);
+      if (a.once && a.spentWhy === undefined) errors.push(where + ': a once action needs spentWhy for its spent tooltip');
+    }
+    if (content.contextAction !== undefined) checkContext('contextAction', content.contextAction);
     var endings = ids.filter(function (id) { return nodes[id].end; });
     if (!endings.length) errors.push('no node is marked end: true');
     ids.forEach(function (id) {
@@ -225,6 +273,7 @@
       checkField(where + ' npc', n.npc);
       if (n.objective) checkText(where + ' objective', n.objective);
       checkEffects(where + ' effects', n.effects);
+      if (Object.prototype.hasOwnProperty.call(n, 'contextAction')) checkContext(where + ' contextAction', n.contextAction);
       if (!Array.isArray(n.choices) || !n.choices.length) errors.push(where + ': has no choices (every node needs at least a CONTINUE-style card)');
       var seen = {};
       (n.choices || []).forEach(function (c) {
@@ -383,6 +432,9 @@
     itemAction: itemAction,
     description: description,
     files: files,
+    contextAction: contextAction,
+    contextSpent: contextSpent,
+    takeContextAction: takeContextAction,
     validate: validate,
     clone: clone
   };

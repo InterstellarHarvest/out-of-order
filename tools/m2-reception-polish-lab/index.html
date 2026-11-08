@@ -23,28 +23,33 @@
 </header>
 
 <div class="main">
-  <aside class="side">
-    <section class="panel">
-      <h2>Stage</h2>
+  <aside id="side" class="side">
+    <section class="panel" data-fold="stage">
+      <h2 class="fold-head"><button class="fold" type="button">Stage / inspection aids</button></h2>
       <div class="buttons">
         <button id="fitToggle" type="button"></button>
-        <button id="showNotice" type="button">SHOW ITEM RECEIVED</button>
         <button id="finishTyping" type="button">Finish typing</button>
         <button id="freeze" type="button">Freeze motion</button>
-        <label class="field">Close X
-          <select id="holdClose" aria-label="Hold the close X">
-            <option value="auto">normal</option>
-            <option value="up">hold UP</option>
-            <option value="down">hold DOWN</option>
-          </select>
-        </label>
       </div>
       <p id="fitNote" class="note"></p>
       <div id="toggles" class="toggles"></div>
     </section>
 
-    <section class="panel">
-      <h2>Export / import</h2>
+    <section class="panel" data-fold="triggers">
+      <h2 class="fold-head"><button class="fold" type="button">Trigger events</button></h2>
+      <p class="note">LAB view only. Replays a transient effect where the game stands, with the production code that makes it in play. Never changes values, exports or files; nothing is saved.</p>
+      <div class="buttons">
+        <button id="trigItemReceived" type="button" data-trigger="item-received">ITEM RECEIVED</button>
+        <button id="trigNpcTyping" type="button" data-trigger="npc-typing">REPLAY NPC TYPING</button>
+        <button id="trigChoiceArrival" type="button" data-trigger="choice-arrival">REPLAY CHOICE ARRIVAL</button>
+        <button id="trigInventorySlide" type="button" data-trigger="inventory-slide">REPLAY INVENTORY SLIDE</button>
+        <button id="trigContextAction" type="button" data-trigger="context-action">TRIGGER CONTEXT ACTION (OBSERVE)</button>
+      </div>
+      <pre id="triggerStatus" class="note"></pre>
+    </section>
+
+    <section class="panel" data-fold="io">
+      <h2 class="fold-head"><button class="fold" type="button">Export / import</button></h2>
       <div class="buttons">
         <button id="copyChanges" type="button">COPY CHANGES JSON</button>
         <button id="copyAll" type="button">COPY ALL VALUES JSON</button>
@@ -54,14 +59,14 @@
       <pre id="ioStatus" class="note"></pre>
     </section>
 
-    <section class="panel">
-      <h2>Tunable values</h2>
+    <section class="panel" data-fold="values">
+      <h2 class="fold-head"><button class="fold" type="button">Tunable values</button></h2>
       <p class="note">Each row shows its production value. Changed rows are highlighted. Spatial values are whole pixels; timings are whole milliseconds.</p>
       <div id="controls"></div>
     </section>
 
-    <section class="panel">
-      <h2>Locked (not tunable here)</h2>
+    <section class="panel" data-fold="locked">
+      <h2 class="fold-head"><button class="fold" type="button">Locked (not tunable here)</button></h2>
       <div id="locked"></div>
     </section>
   </aside>

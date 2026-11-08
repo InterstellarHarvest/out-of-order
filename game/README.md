@@ -19,7 +19,8 @@ then open <http://localhost:8137/game/index.html>.
 
 - Click the dialogue box (or press Enter/Space) to finish a line. Scroll it to read back.
 - Pick a card by clicking it, or with the arrow keys and Enter. Scroll long choice lists with the wheel or the thumb.
-- Click an item in the inventory to inspect it; clicking or focusing an item also selects it, and INSPECT opens the selected item (or the only one held). READ, SHOW/USE and RETURN replace the buttons there; X or Esc closes.
+- Click an item in the inventory (or press Enter / Space on its focused slot) to inspect it. Nothing else opens an item: holding a single item never makes it a target (docs/64). READ, SHOW or USE and a blank button replace the buttons there; the X, Esc or activating the item again closes it.
+- The first utility button in conversation is the **context action**, an optional thing to do in the current situation, defined in content (docs/64). At reception it is OBSERVE (WATCH glyph): it adds a parenthesised, unspoken observation to the history and NOTES, once per encounter, without advancing the conversation.
 - A button whose action is not available here keeps its glyph unlit, does not press, and its tooltip says why.
 - Keyboard focus on a choice brings out the brass tab at the card's left edge; the mouse never does.
 - NOTES shows everything said so far; FILES shows your case file. Press the button again or Esc to close.
@@ -54,7 +55,7 @@ then open <http://localhost:8137/game/index.html>.
     - the scene `art/scenes/conference_hall/reception/reception_scene.png`, 314×206 shown at 4×;
     - the portrait background `art/portraits/receptionist/reception_background.png`, 564×278 at 1×;
     - the receptionist `art/portraits/receptionist/receptionist_idle.png`, 564×278 at 1×.
-  - the inspector art (docs/58): `art/items/bathroom_pass_inspect.png` and the X `art/ui/sprites/inspect_close_up.png` / `_down.png`;
+  - the inspector art (docs/58): `art/items/bathroom_pass_inspect.png`, and the one static X `art/ui/sprites/inspect_close.png` (docs/64; the UP/DOWN pair is retired);
   - the NOTES/FILES panel `art/ui/overlays/notes_files_panel.png` (docs/60) and the item-received slip `art/ui/overlays/item_received_slip.png` (docs/61).
 
   The tooltip box is CSS (docs/61). The only remaining placeholders are development safety paths (`js/placeholders.js`): QA-only slot art, and the inspect-art fallback for an item whose `inspectArt` is null.
@@ -74,6 +75,11 @@ then open <http://localhost:8137/game/index.html>.
     }
   },
   files: [ { if, text } ],                  // FILES shows every entry whose `if` holds
+  contextAction: {                          // optional (docs/64): the first utility button
+    id, label, glyph,                       // glyph: an art/actions name, e.g. 'watch'
+    text,                                   // the unspoken observation added to the transcript
+    once, spentWhy                          // once per encounter; tooltip reason once spent
+  },
   nodes: {
     id: {
       npc: TEXT,                            // what the receptionist says on arrival
@@ -82,6 +88,7 @@ then open <http://localhost:8137/game/index.html>.
       choices: [ { id, text, say?, if?, effects?, to | restart } ],
       show: { itemId: { if?, say, to, effects? } },  // optional: SHOW in the inspector, here
       use:  { itemId: { if?, say, to, effects? } },  // optional: USE in the inspector, here
+      contextAction: {...} | null,          // optional: overrides the location's context action here
       end: true                             // optional: an ending; only it may `restart`
     }
   }
@@ -117,7 +124,8 @@ The whole of the narrative state, in `G.state`:
 | `inventory` | items held, in order |
 | `items[id]` | marks on each item: `inspected`, `read`, `shown`, `used` |
 | `objective` | current objective text |
-| `transcript` | every line said, `{ who: 'npc' | 'player', text }` (NOTES) |
+| `transcript` | every line, `{ who: 'npc' | 'player' | 'thought', text }` (NOTES); `thought` is an unspoken observation (docs/64) |
+| `contextDone` | ids of `once` context actions taken this encounter (not a flag; outside the route state; a restart clears it) |
 
 Presentation state (scroll positions, card motion, pressed buttons, the selected inventory item, which overlay is open) lives in
 `G.ui` and never affects the story.
