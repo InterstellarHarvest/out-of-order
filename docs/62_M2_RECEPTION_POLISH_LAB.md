@@ -384,3 +384,15 @@ Owner-approved changes to the ITEM RECEIVED slip, now the production baseline in
   - TRIGGER EVENTS → ITEM RECEIVED now uses the production grant path (`G.notifyItem`), so a press while a slip is up queues behind it exactly as in play, with the LAB frame's current fade values. The PRODUCTION frame keeps the production values.
 - **Unchanged.** Slip art, item art, notice text, queue semantics, and every other UI geometry. Nothing in the context-action / thought presentation was touched.
 
+- **QA (2026-11-08, Chromium 147 + Firefox 148):**
+
+  | Suite | Result |
+  |---|---|
+  | Route validation | 49/49 |
+  | `game/qa/run_qa.js` | **519/519** (static 41, Chromium 239, Firefox 239) |
+  | Polish-lab QA | **141/141** (static 5, Chromium 68, Firefox 68) |
+
+  - The game QA adds a frame-by-frame lifecycle record covering: y 730; the rise to exactly 1 at ~180 ms; exactly 1 through the hold; a monotonic fall; removal at ~3600 ms; opacity-only CSS; and accessible text set once. It also covers early dismiss from the hold (~220 ms) and during the fade-in (from the current opacity, never back to 1), the queue (B's fade-in only after A is gone), and restart mid-fade.
+  - The slip's 1:1 pixel checks are made at opacity 1.
+  - The lab QA adds: production defaults 730 / 180 / 220 / 3600; fade sliders live in the LAB frame only; ITEM RECEIVED using the LAB fades; fades in COPY CHANGES; the lifecycle clamp; and the IMPORT rejection.
+  - The game's opening-typewriter check ("types character by character") failed twice in Chromium while another session's M1 layout-lab QA was loading the CPU. That check runs before any slip code; it passed on the idle re-run recorded above.
