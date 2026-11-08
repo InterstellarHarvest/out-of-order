@@ -1,5 +1,8 @@
 # The Acceptable Error — Story Lab 02: The House of Tomorrow
 
+> **SUPERSEDED FOR CURRENT CREATIVE DIRECTION — 2026-11-07:** The owner specified a mistaken bathroom-sign entrance, automatic demo registration via Expo badge, speaker/camera wall portrait, tiny background hint of a family stuck for years, and mostly light domestic satire. Rescue/technician arcs, explicit sinister reveals, and long artificial-neighborhood plot are no longer primary. Use [62 House of Tomorrow Owner Revision v0.2](62_HOUSE_OF_TOMORROW_OWNER_REVISION_V02.md) for active direction. Keep this earlier study as an archive of alternatives.
+
+
 **Date:** 2026-11-07  
 **Status:** Exploratory story concept for owner review; no art, scene, plot, or implementation lock  
 **Role:** First potential post-reception adventure in **The Exposition of Everything**  
