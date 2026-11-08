@@ -18,7 +18,7 @@ const GAME_URL = 'game/index.html?qa';
 const SHOTS = path.join(__dirname, 'screenshots');
 const START_SHA = '5d42b524e8499c7ef3da724ba02f439c1cc660ff'; // main when M2 began
 const SHELL_PATH = 'art/ui/shell/layout-final.png';
-const SHELL_SHA256 = '813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6';
+const SHELL_SHA256 = '79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625';
 const PASS_PATH = 'art/items/bathroom_pass_slot.png';
 // New owner art added on this branch, pinned by hash.
 const OWNER_ART = {
@@ -36,7 +36,10 @@ const MAINTENANCE = CLEANED.map((n) => `art/ui/sprites/choice_cards/${n}.png`).c
   'art/ui/m1_approved_sprite_sheet.png', 'art/ui/m1_approved_sprite_sheet.json', 'art/ui/m1_approved_sprite_sheet.manifest.js',
   'tools/layout-lab/data/placement.default.json', 'tools/layout-lab/data/lab_data.js', 'tools/layout-lab/data/snapshot_assets.js',
   'tools/layout-lab/qa/fixtures/placement.qa_baseline.json', 'tools/layout-lab/js/core.js', 'tools/layout-lab/qa/run_qa.js',
-  'tools/layout-lab/README.md']);
+  'tools/layout-lab/README.md',
+  // The owner's top-frame pixel fix to the shell (2026-11-08, 2376 opaque pixels in x1325-1897 y25-47;
+  // alpha mask unchanged), with the re-measured identity and notes that follow from it.
+  SHELL_PATH, 'tools/layout-lab/data/measured_shell_regions.json', 'tools/layout-lab/FIT_AND_SCALE_NOTES.md']);
 
 const content = require('../content/reception.js');
 const Rules = require('../js/rules.js');
@@ -73,6 +76,11 @@ function staticChecks() {
   const working = git('status', '--porcelain', '--', ...protectedPaths).split('\n')
     .filter((l) => l && !/^\?\? docs\//.test(l) && !/tools\/layout-lab\/qa\/(qa_results\.json|screenshots\/)/.test(l)).join('\n');
   check(b, 'no uncommitted change to M1 art, design, lab or docs', working === '', working);
+  // The shell may change only in opaque artwork: every measured region and the alpha census match the M2 start.
+  const measuredNow = JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/layout-lab/data/measured_shell_regions.json')));
+  const measuredStart = JSON.parse(git('show', `${START_SHA}:tools/layout-lab/data/measured_shell_regions.json`));
+  check(b, 'shell regions and alpha census are identical to the M2 start', JSON.stringify(measuredNow.regions) === JSON.stringify(measuredStart.regions)
+    && JSON.stringify(measuredNow.shell.alpha) === JSON.stringify(measuredStart.shell.alpha) && measuredNow.shell.sha256 === SHELL_SHA256);
   const blobSha = (rev, f) => sha256(execFileSync('git', ['show', `${rev}:${f}`], { cwd: ROOT }));
   const cardFix = Object.keys(sheet.sprites).filter((n) => sheet.sprites[n].correction && sheet.sprites[n].correction.owner_edit);
   check(b, 'exactly the ten edited cards and three font atlases record an owner edit', cardFix.sort().join() === OWNER_EDITED.join(), cardFix);
