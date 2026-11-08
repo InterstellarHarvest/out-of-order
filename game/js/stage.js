@@ -53,6 +53,15 @@
       node.style.height = h + 'px';
     }
   }
+  // The stage's two full-size static images (shell, item overlay) are made once and reused if the
+  // stage is rebuilt (G.rebuildStage), so a rebuild never re-requests them.
+  var kept = {};
+  function keptImg(key, cls, parent, attrs) {
+    if (kept[key]) parent.appendChild(kept[key]);
+    else kept[key] = el('img', cls, parent, attrs);
+    return kept[key];
+  }
+
   function show(node, on) {
     node.style.display = on ? '' : 'none';
   }
@@ -149,19 +158,10 @@
     els.portraitFrontFx = fxLayer(els.portrait, 'portraitFrontFx', pr);
     els.overlay = el('div', 'aperture overlay', stage, { id: 'overlay', tabindex: '-1' });
     place(els.overlay, sc[0], sc[1], sc[2], sc[3]);
-    // NOTES/FILES (docs/60): the static production panel, 1:1 at the overlay's origin, with a
-    // transparent canvas above it that draws only the dynamic title and text.
-    var panel = G.image(G.OVERLAY_ART.panel.image);
-    panel.id = 'notesFilesPanel';
-    panel.className = 'layer art';
-    panel.alt = '';
-    panel.draggable = false;
-    panel.setAttribute('aria-hidden', 'true');
-    panel.width = panel.naturalWidth;
-    panel.height = panel.naturalHeight;
-    place(panel, 0, 0, panel.naturalWidth, panel.naturalHeight);
-    els.overlay.appendChild(panel);
-    els.overlayPanel = panel;
+    // NOTES/FILES (docs/60, docs/63): the static panel image for the overlay on show, 1:1 at the
+    // overlay's origin (renderOverlay puts it in), with a transparent canvas above it that draws
+    // only the dynamic title and text.
+    els.overlayPanel = null;
     els.overlayCanvas = el('canvas', 'layer', els.overlay, { id: 'overlayCanvas', 'aria-hidden': 'true' });
     place(els.overlayCanvas, 0, 0, sc[2], sc[3]);
     show(els.overlay, false);
@@ -952,7 +952,7 @@
     els.inspectPlaceholder.className = 'sprite-abs';
     // Full-canvas RGBA overlay: transparent everywhere except the replacement right-column frame.
     // Keep it at 1:1 stage coordinates; never crop/rescale it into the old placeholder rectangle.
-    els.inspectColumn = el('img', 'sprite-abs', els.inspector, {
+    els.inspectColumn = keptImg('inspectColumn', 'sprite-abs', els.inspector, {
       id: 'inspectColumn',
       src: G.url('art/ui/shell/item-overlay.png'),
       width: '1920',
@@ -1062,12 +1062,43 @@
   G.renderInspector = renderInspector;
 
   // NOTES (transcript) and FILES (case file) ---------------------------------------------
-  // Shown over the scene window, which they never leave, on the production records panel
-  // (art/ui/overlays/notes_files_panel.png, docs/60). Text regions, in panel coordinates, fit the
-  // panel's blank areas: the title sits on the teal title plate (x 76-1175, y 11-108 visible under
-  // the shell), the body on the cream reading area (x 31-1222, y 122-776). The body keeps the
-  // previous left edge and wrap width, so lines break exactly as before.
-  G.OVERLAY_ART = { panel: { image: 'ui:notes_files_panel', path: 'art/ui/overlays/notes_files_panel.png' } };
+  // Shown over the scene window, which they never leave, each on its own production panel
+  // (1255x822, the scene aperture, docs/60 and docs/63): NOTES on the records panel, FILES on the
+  // case-file panel. Text regions, in panel coordinates, fit both panels' blank areas: the title on
+  // the teal band (y 11-108), the body on the cream reading area (NOTES x 31-1222 y 122-776, FILES
+  // x 28-1225 y 133-767). The body keeps the previous left edge and wrap width, so lines break
+  // exactly as before.
+  G.OVERLAY_ART = {
+    notes: { image: 'ui:notes_files_panel', path: 'art/ui/overlays/notes_files_panel.png' },
+    files: { image: 'ui:files_panel', path: 'art/ui/overlays/files_panel.png' },
+    // The owner's NOTES v2 candidate (docs/63): loaded only when TU.overlay.notesPanel is 2.
+    notesV2: { image: 'ui:notes_panel_v2', path: 'art/ui/overlays/notes_panel_v2.png' }
+  };
+  // The OVERLAY_ART key of the panel behind an overlay ('notes' | 'files').
+  G.overlayPanelKey = function (kind) {
+    if (kind === 'files') return 'files';
+    return TU.overlay.notesPanel === 2 ? 'notesV2' : 'notes';
+  };
+
+  // Puts the overlay's own panel image (the preloaded image itself) under the text canvas.
+  function showOverlayPanel(kind) {
+    var art = G.OVERLAY_ART[G.overlayPanelKey(kind)];
+    if (els.overlayPanel && els.overlayPanel.dataset.art === art.path) return;
+    var panel = G.image(art.image);
+    panel.id = 'overlayPanel';
+    panel.className = 'layer art';
+    panel.alt = '';
+    panel.draggable = false;
+    panel.setAttribute('aria-hidden', 'true');
+    panel.width = panel.naturalWidth;
+    panel.height = panel.naturalHeight;
+    panel.dataset.art = art.path;
+    place(panel, 0, 0, panel.naturalWidth, panel.naturalHeight);
+    if (els.overlayPanel) els.overlay.replaceChild(panel, els.overlayPanel);
+    else els.overlay.insertBefore(panel, els.overlayCanvas);
+    els.overlayPanel = panel;
+  }
+
   // Title x / centre row, body box and line height come from TU.overlay (js/tuning.js).
   function OV() {
     return TU.overlay;
@@ -1134,6 +1165,7 @@
     ui.overlayScroll = clamp(ui.overlayScroll, 0, overlayMax(lines));
     var fit = overlayView(lines)(ui.overlayScroll);
     var shown = lines.slice(ui.overlayScroll, ui.overlayScroll + fit);
+    showOverlayPanel(ui.overlay);
     var c = els.overlayCanvas;
     c.width = sc[2]; // also clears it: the canvas holds only text over the panel image
     c.height = sc[3];
@@ -1290,10 +1322,47 @@
     renderObjective();
   };
 
+  // Rebuilds the stage from the current G.layout / G.TUNING and redraws it exactly where the game
+  // is: the history, the choices, the inventory, the inspector, NOTES/FILES, the slip and the
+  // tooltip on show all stay. The game never calls it; the polish lab does, so a value it changes
+  // shows at once (tools/m2-reception-polish-lab, docs/62).
+  G.rebuildStage = function () {
+    clearTimeout(tipTimer);
+    tipTimer = null;
+    var tip = ui.tooltip;
+    stage.replaceChildren();
+    Object.keys(els).forEach(function (k) { delete els[k]; });
+    els.slots = [];
+    els.cards = [];
+    els.utility = [];
+    G.buildStage();
+    // The history rewraps to the (maybe new) width; the newest line keeps its place.
+    var s = ui.speech;
+    rewrap();
+    var first = 0;
+    while (first < s.lines.length && s.lines[first].part !== s.parts.length - 1) first++;
+    s.newRow = first;
+    s.base = charsBefore(s.lines, first);
+    if (!s.typing) s.revealed = charsBefore(s.lines, s.lines.length);
+    s.scrollLine = clamp(s.scrollLine, 0, speechMaxScroll());
+    ui.cards = G.layoutCards(ui.cards);
+    ui.choiceScroll = clamp(ui.choiceScroll, 0, choiceMaxScroll());
+    G.renderAll();
+    if (ui.notice) {
+      show(els.notice, true);
+      drawNotice(els.noticeArt, ui.notice.id);
+      els.notice.dataset.item = ui.notice.id;
+      els.notice.dataset.text = 'ITEM RECEIVED: ' + G.content.items[ui.notice.id].name;
+      els.notice.setAttribute('aria-label', els.notice.dataset.text);
+    }
+    ui.tooltip = null;
+    if (tip) G.showTooltip(tip.index, tip.text);
+  };
+
   G.buildStage = function () {
     stage = document.getElementById('stage');
     buildApertures();
-    var shell = el('img', '', stage, { id: 'shell', src: G.url('art/ui/shell/layout-final.png'), width: '1920', height: '1080', alt: '', draggable: 'false' });
+    var shell = keptImg('shell', '', stage, { id: 'shell', src: G.url('art/ui/shell/layout-final.png'), width: '1920', height: '1080', alt: '', draggable: 'false' });
     shell.style.position = 'absolute';
     buildSpeech();
     buildChoices();

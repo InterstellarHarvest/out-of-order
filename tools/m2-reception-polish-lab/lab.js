@@ -57,17 +57,17 @@
     save();
     renderRow(key);
     renderSummary();
-    if (!quiet) scheduleLabReload();
+    if (!quiet) applyLab();
   }
   function resetField(key) { setValue(key, prod[key]); }
   function resetSection(sec) {
     TUN.LIST.filter(function (t) { return t.s === sec; }).forEach(function (t) { delete changes[t.key]; renderRow(t.key); });
-    save(); renderSummary(); scheduleLabReload();
+    save(); renderSummary(); applyLab();
   }
   function resetAll() {
     changes = {};
     TUN.LIST.forEach(function (t) { renderRow(t.key); });
-    save(); renderSummary(); scheduleLabReload();
+    save(); renderSummary(); applyLab();
   }
 
   // Export / import -------------------------------------------------------------------------------
@@ -90,7 +90,7 @@
     save();
     TUN.LIST.forEach(function (t) { renderRow(t.key); });
     renderSummary();
-    scheduleLabReload();
+    applyLab();
     return { ok: true, errors: [], changed: Object.keys(changes).length };
   }
   function copy(text, note) {
@@ -137,6 +137,31 @@
     frameReady[mode] = loaded.then(function () { return prepare(mode); });
     frameReady[mode].then(function () { renderStatus(); }, function (e) { $('status').textContent = 'Stage error: ' + e.message; });
     return frameReady[mode];
+  }
+  // Live: once per animation frame at most, the lab frame rebuilds its stage in place with the
+  // current values (LAB_STAGE.applyValues). Only if it cannot (it is mid-navigation) does the lab
+  // frame reload instead.
+  var live = null;
+  function applyLab() {
+    if (live) return live;
+    live = new Promise(function (res) {
+      requestAnimationFrame(function () {
+        live = null;
+        var r = 'reload';
+        try {
+          var w = frameWin('lab');
+          if (w && w.LAB_STAGE && w.LAB_STAGE.applyValues) r = w.LAB_STAGE.applyValues(allValues());
+        } catch (e) { r = 'reload'; }
+        if (r === 'reload') {
+          scheduleLabReload();
+          pending.then(res);
+        } else {
+          if (r === 'invalid') $('status').textContent = 'Lab values rejected by the stage frame';
+          res(r);
+        }
+      });
+    });
+    return live;
   }
   function scheduleLabReload() {
     clearTimeout(reloadTimer);
@@ -228,7 +253,7 @@
         var slider = el('input', 'slider', row);
         slider.type = 'range'; slider.min = b[0]; slider.max = b[1]; slider.step = '1';
         slider.setAttribute('aria-label', t.label + ' slider');
-        var hint = el('span', 'hint', row, b[0] + '..' + b[1]);
+        var hint = el('span', 'hint', row, t.options ? '' : b[0] + '..' + b[1]);
         minus.addEventListener('click', function () { setValue(t.key, valueOf(t.key) - 1); });
         plus.addEventListener('click', function () { setValue(t.key, valueOf(t.key) + 1); });
         input.addEventListener('change', function () { setValue(t.key, input.value); });
@@ -249,6 +274,7 @@
     r.row.classList.toggle('changed', key in changes);
     r.row.dataset.value = v;
     if (t.unit === 'cps') r.unit.textContent = 'cps (' + Math.round(1000 / v) + ' ms/char)';
+    if (t.options) r.unit.textContent = t.options[v];
   }
   function renderSummary() {
     var n = Object.keys(changes).length;
@@ -277,13 +303,13 @@
       ['Scene density', '314 x 206 logical at exactly 4x = 1256 x 824, clipped by the aperture'],
       ['Portrait aperture', R.portraitAperture.rect.join(', ')],
       ['Portrait density', '564 x 278 at 1x; layers background -> rear FX -> NPC -> front FX -> shell'],
-      ['Art', 'approved scene, portrait background, receptionist_idle, inspector frame, FACILITIES KEY, NOTES/FILES panel, item slip, action sprites: production files only'],
+      ['Art', 'approved scene, portrait background, receptionist_idle, inspector frame, FACILITIES KEY, NOTES and FILES panels, item slip, action sprites: production files only'],
       ['Choice cards', 'width ' + ch.cardWidth + '; heights 1-4 lines ' + [1, 2, 3, 4].map(function (n) { return ch.cardHeights[n]; }).join(' / ')],
       ['Scrollbar', 'width ' + L.scrollbar.track.width + ' px reserved; no arrows'],
       ['Inventory', L.inventory.slotCount + ' slots on show, ' + L.inventory.slotSize.join(' x ') + ' slot art; arrow art settled'],
       ['Utility buttons', L.utility.buttons.length + ' buttons, ' + L.utility.buttons[0].displayWidth + ' x ' + L.utility.buttons[0].displayHeight + '; sprites, glyphs, no-hover rule'],
       ['Inspector', 'frame + item overlay; inspect art 565 x 451'],
-      ['NOTES / FILES', '1255 x 822 panel at 1x, scene only, no scrollbar'],
+      ['NOTES / FILES', 'each its own 1255 x 822 panel at 1x (FILES: files_panel.png), scene only, no scrollbar'],
       ['Item slip', '560 x 116 art at 1x, generic for any item']
     ];
     var box = $('locked');
@@ -348,7 +374,10 @@
     setValue: setValue, resetField: resetField, resetSection: resetSection, resetAll: resetAll,
     exportChanges: exportChanges, exportAll: exportAll, importJSON: importJSON,
     setView: setView, setState: setState,
-    ready: function () { return (pending || Promise.resolve()).then(function () { return Promise.all([frameReady.production, frameReady.lab]); }); },
+    ready: function () {
+      return (live || Promise.resolve()).then(function () { return pending || null; })
+        .then(function () { return Promise.all([frameReady.production, frameReady.lab]); });
+    },
     frame: function (mode) { return frames[mode]; }
   };
 

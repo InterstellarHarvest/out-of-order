@@ -154,6 +154,10 @@
       read: function (G) { return tun(G).overlay.bodyHeight; }, write: function (G, v) { tun(G).overlay.bodyHeight = v; } },
     { key: 'overlay.lineHeight', s: 'overlay', label: 'Line height', unit: 'px', src: 'G.TUNING.overlay.lineHeight', range: [18, 40], rel: false,
       read: function (G) { return tun(G).overlay.lineHeight; }, write: function (G, v) { tun(G).overlay.lineHeight = v; } },
+    // An art choice, not a measurement: which NOTES panel to show (FILES always has its own).
+    { key: 'overlay.notesPanel', s: 'overlay', label: 'NOTES background', unit: '', src: 'G.TUNING.overlay.notesPanel', range: [1, 2], rel: false,
+      options: { 1: 'v1: notes_files_panel.png', 2: 'v2: notes_panel_v2.png (new)' },
+      read: function (G) { return tun(G).overlay.notesPanel; }, write: function (G, v) { tun(G).overlay.notesPanel = v; } },
 
     // Objective text (the frame and plate are locked).
     { key: 'objective.titleAlignX', s: 'objective', label: 'Title centring adjustment', unit: 'px', src: 'G.layout.objective.title.alignOffsetX', range: [-30, 30], rel: true,

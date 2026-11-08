@@ -54,12 +54,19 @@ const PRODUCTION_ART = {
   'art/items/bathroom_pass_inspect.png': '9c8527a3fd85cfeddc01ce4a85b74b04cb54063ffc30100be19497e73e7fa722', // 565x451 RGB
   'art/ui/sprites/inspect_close_up.png': '8247d4b6b23aac803debb405c3549054ea066d54e7561117499f0deb917dc530', // 44x44 RGBA
   'art/ui/sprites/inspect_close_down.png': '576b4fbc5f50f5d6fcb57065dd350dcf7d81fd4442831cb2509a76f5008c41ba', // 44x44 RGBA
-  // NOTES/FILES pass (docs/60): the records panel behind both overlays.
+  // NOTES/FILES pass (docs/60): the records panel, now behind NOTES only.
   'art/ui/overlays/notes_files_panel.png': 'bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783', // 1255x822 RGB
+  // Owner art 2026-11-07 (docs/63): FILES gets its own case-file panel (files_records_background.png).
+  'art/ui/overlays/files_panel.png': 'e1107f217c4a5281bd6ecdc731db64e06cb9e3919d8385744d40de7ea3f92baa', // 1255x822 RGB
+  // Owner NOTES v2 candidate (docs/63, notes_files_records_background_v2.png): committed and pinned;
+  // the game loads it only if G.TUNING.overlay.notesPanel is 2 (production: 1). The polish lab toggles it.
+  'art/ui/overlays/notes_panel_v2.png': '4bc4bf47809fd1e5cc9a9e560fa689a48addf5d6d18a6548ad6da5c3e29c3fa2', // 1255x822 RGB
   // Transient UI pass (docs/61): the item-received slip.
   'art/ui/overlays/item_received_slip.png': '993ecdb6fb11e27b41c0eec07221a3421398458fa1a06d82aae22e8eb423797c' // 560x116 RGBA, hard alpha
 };
-const PANEL_ART = 'art/ui/overlays/notes_files_panel.png';
+const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES
+const FILES_PANEL = 'art/ui/overlays/files_panel.png';
+const NOTES_V2 = 'art/ui/overlays/notes_panel_v2.png';
 const SLIP_ART = 'art/ui/overlays/item_received_slip.png';
 const NOTICE_RECT = [56, 738, 560, 116]; // game/js/stage.js, unchanged
 const NOTICE_ITEM = [14, 9]; // the 96x96 slot art inside the slip
@@ -237,8 +244,11 @@ function staticChecks() {
   const ph = fs.readFileSync(path.join(ROOT, 'game/js/placeholders.js'), 'utf8');
   check(b, 'the drawn X placeholder is retired (no caller remained); the inspect-art fallback placeholder stays', !/closeButton/.test(ph + fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8'))
     && /P\.inspectArt = function/.test(ph));
-  const pa = png(PANEL_ART);
-  check(b, 'NOTES/FILES panel is 1255x822 opaque RGB, exactly the scene aperture', pa.width === 1255 && pa.height === 822 && pa.type === 2, [pa.width, pa.height, pa.type]);
+  const panels = [PANEL_ART, FILES_PANEL, NOTES_V2].map((f) => { const im = png(f); return [f, im.width, im.height, im.type]; });
+  check(b, 'NOTES, FILES and NOTES v2 panels are each 1255x822 opaque RGB, exactly the scene aperture', panels.every((x) => x[1] === 1255 && x[2] === 822 && x[3] === 2), panels);
+  check(b, 'the FILES panel is its own art, not the NOTES panel', !png(FILES_PANEL).data.equals(png(PANEL_ART).data) && !png(NOTES_V2).data.equals(png(PANEL_ART).data));
+  const tuningSrc = fs.readFileSync(path.join(ROOT, 'game/js/tuning.js'), 'utf8');
+  check(b, 'production NOTES panel is v1 (G.TUNING.overlay.notesPanel: 1)', /notesPanel: 1\b/.test(tuningSrc));
   const stageSrc = fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8');
   check(b, 'NOTES/FILES no longer use the P.panel placeholder; P.panel stays for the inspect-art fallback', !/P\.panel\(/.test(stageSrc)
     && /P\.panel = function/.test(ph) && /P\.panel\(canvas/.test(ph));
@@ -479,9 +489,12 @@ async function suite(name, base, requests) {
   c('page loads ready', (await page.evaluate(() => document.body.dataset.ready)) === 'true');
   c('FACILITIES KEY inspect art and both X sprites are loaded and decoded before ready', await page.evaluate(() =>
     ['inspect:wc_key', 'ui:inspect_close_up', 'ui:inspect_close_down'].every((n) => { const i = window.CYOA_GAME.image(n); return i && i.complete && i.naturalWidth > 0; })));
-  c('the NOTES/FILES panel is loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() => {
-    const i = window.CYOA_GAME.image('ui:notes_files_panel'); return !!(i && i.complete && i.naturalWidth === 1255);
-  })) && bodies[PANEL_ART] === PRODUCTION_ART[PANEL_ART], bodies[PANEL_ART]);
+  c('the NOTES and FILES panels are loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() =>
+    ['ui:notes_files_panel', 'ui:files_panel'].every((n) => { const i = window.CYOA_GAME.image(n); return !!(i && i.complete && i.naturalWidth === 1255); })))
+    && bodies[PANEL_ART] === PRODUCTION_ART[PANEL_ART] && bodies[FILES_PANEL] === PRODUCTION_ART[FILES_PANEL], [bodies[PANEL_ART], bodies[FILES_PANEL]]);
+  c('the NOTES v2 candidate is never requested by the production game', !requests.some((r) => /notes_panel_v2\.png$/.test(r))
+    && !(await page.evaluate(() => window.CYOA_GAME.image('ui:notes_panel_v2'))));
+  c('the production game exposes no live-rebuild caller (G.rebuildStage is the polish lab\'s only)', !/rebuildStage/.test(['flow.js', 'main.js'].map((f) => fs.readFileSync(path.join(ROOT, 'game/js', f), 'utf8')).join('')));
   c('the item-received slip is loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() => {
     const i = window.CYOA_GAME.image('ui:item_received_slip'); return !!(i && i.complete && i.naturalWidth === 560);
   })) && bodies[SLIP_ART] === PRODUCTION_ART[SLIP_ART], bodies[SLIP_ART]);
@@ -1054,6 +1067,28 @@ async function suite(name, base, requests) {
   }));
   c('an unclicked slip dismisses itself after about 3.6 s', timed.shown && timed.ms >= 3500 && timed.ms < 4500, timed);
 
+  // Pixels: where the text canvas is empty and the shell is clear, the screen is the overlay's own
+  // panel file, 1:1 (NOTES: notes_files_panel.png, FILES: files_panel.png).
+  async function panelPixels(label, art) {
+    const S = measured.sceneAperture.rect;
+    c(label + ' shows its own panel image', (await page.$eval('#overlayPanel', (e) => e.dataset.art)) === art, art);
+    const scr = decodePng(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }));
+    const cvPng = decodePng(Buffer.from((await page.$eval('#overlayCanvas', (c2) => c2.toDataURL('image/png'))).split(',')[1], 'base64'));
+    const panel = png(art), shell = png(SHELL_PATH);
+    let checked = 0, bad = 0, textPx = 0, first = null;
+    const inks = { title: new Set(), body: new Set() };
+    for (let y = 0; y < 822; y++) for (let x = 0; x < 1255; x++) {
+      const t = pxAt(cvPng, x, y);
+      if (t[3] !== 0) { textPx++; (y < 116 ? inks.title : inks.body).add(t.slice(0, 3).join()); continue; }
+      if (pxAt(shell, S[0] + x, S[1] + y)[3] !== 0) continue;
+      checked++;
+      if (!sameRgb(pxAt(panel, x, y), pxAt(scr, S[0] + x, S[1] + y))) { bad++; first = first || { x, y }; }
+    }
+    c(label + ': every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1', checked > 800000 && bad === 0 && textPx > 1000, { checked, bad, textPx, first });
+    c(label + ' ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)',
+      inks.title.size === 1 && inks.body.size === 1 && [...inks.body][0] === '32,48,55', { title: [...inks.title], body: [...inks.body] });
+  }
+
   // Transcript: NOTES and FILES ---------------------------------------------------------------
   await page.click('#util-1');
   c('NOTES opens the transcript over the scene', (await page.$eval('#overlay', (e) => e.style.display !== 'none')) && (await page.$eval('#overlay canvas', (c2) => c2.dataset.kind)) === 'notes');
@@ -1067,35 +1102,20 @@ async function suite(name, base, requests) {
     // Structure: the production panel image at 1x under a transparent text-only canvas.
     const g = await page.evaluate(() => {
       const box = (e) => { const r = e.getBoundingClientRect(); return [r.left, r.top, r.width, r.height]; };
-      const o = document.getElementById('overlay'), img = document.getElementById('notesFilesPanel'), cv = document.getElementById('overlayCanvas'), s = getComputedStyle(img);
+      const o = document.getElementById('overlay'), img = document.getElementById('overlayPanel'), cv = document.getElementById('overlayCanvas'), s = getComputedStyle(img);
       const anc = [];
       for (let e = img; e; e = e.parentElement) if (getComputedStyle(e).transform !== 'none') anc.push(e.id || e.tagName);
       return { kids: Array.from(o.children).map((k) => k.tagName + '#' + k.id), natural: [img.naturalWidth, img.naturalHeight], imgBox: box(img), cvBox: box(cv),
         cvSize: [cv.width, cv.height], st: [s.transform, s.imageRendering, s.opacity, s.filter, s.transitionDuration], anc, title: cv.dataset.title };
     });
     const S = measured.sceneAperture.rect;
-    c('NOTES/FILES overlay = img#notesFilesPanel under canvas#overlayCanvas (text only)', g.kids.join() === 'IMG#notesFilesPanel,CANVAS#overlayCanvas', g.kids);
+    c('NOTES/FILES overlay = img#overlayPanel under canvas#overlayCanvas (text only)', g.kids.join() === 'IMG#overlayPanel,CANVAS#overlayCanvas', g.kids);
     c('panel: 1255x822 natural, displayed 1:1 at the scene-aperture origin, no transform/filter/opacity/transition, smoothing off',
       g.natural.join() === '1255,822' && JSON.stringify(g.imgBox) === JSON.stringify(S) && JSON.stringify(g.cvBox) === JSON.stringify(S) && g.cvSize.join() === '1255,822'
       && g.st[0] === 'none' && /pixelated|crisp-edges/.test(g.st[1]) && g.st[2] === '1' && g.st[3] === 'none' && parseFloat(g.st[4]) === 0 && g.anc.length === 0, g);
     c('the NOTES title sits on the panel, fixed outside the scrolled body', g.title === 'NOTES: EVERYTHING SAID AT RECEPTION'
       && notesText.split('\n')[0] === g.title, g.title);
-    // Pixels: where the text canvas is empty and the shell is clear, the screen is the panel, 1:1.
-    const scr = decodePng(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }));
-    const cvPng = decodePng(Buffer.from((await page.$eval('#overlayCanvas', (c2) => c2.toDataURL('image/png'))).split(',')[1], 'base64'));
-    const panel = png(PANEL_ART), shell = png(SHELL_PATH);
-    let checked = 0, bad = 0, textPx = 0, first = null;
-    const inks = { title: new Set(), body: new Set() };
-    for (let y = 0; y < 822; y++) for (let x = 0; x < 1255; x++) {
-      const t = pxAt(cvPng, x, y);
-      if (t[3] !== 0) { textPx++; (y < 116 ? inks.title : inks.body).add(t.slice(0, 3).join()); continue; }
-      if (pxAt(shell, S[0] + x, S[1] + y)[3] !== 0) continue;
-      checked++;
-      if (!sameRgb(pxAt(panel, x, y), pxAt(scr, S[0] + x, S[1] + y))) { bad++; first = first || { x, y }; }
-    }
-    c('every clear-shell, text-free overlay pixel equals the 1255x822 panel file 1:1', checked > 800000 && bad === 0 && textPx > 5000, { checked, bad, textPx, first });
-    c('ink: light title on the teal plate, dark text on the cream reading area (one ink each, hard-edged)',
-      inks.title.size === 1 && inks.body.size === 1 && [...inks.body][0] === '32,48,55', { title: [...inks.title], body: [...inks.body] });
+    await panelPixels('NOTES', PANEL_ART);
   }
   await page.mouse.move(600, 400);
   for (let i = 0; i < 40; i++) await page.mouse.wheel(0, -100);
@@ -1121,6 +1141,7 @@ async function suite(name, base, requests) {
     && /RETURNED AT 4:52/.test(await page.$eval('#overlay canvas', (c2) => c2.dataset.text)));
   await shot(page, '10_files_case_file.png');
   await shot(page, '00h_files_open.png');
+  await panelPixels('FILES', FILES_PANEL);
   c('the FILES title sits on the panel, fixed outside the scrolled body', (await page.$eval('#overlayCanvas', (c2) => c2.dataset.title)) === 'FILES: YOUR CASE FILE'
     && /^FILES: YOUR CASE FILE\nAPPOINTMENT: EXAMINER/.test(await page.$eval('#overlayCanvas', (c2) => c2.dataset.text)));
   await page.click('#util-2');

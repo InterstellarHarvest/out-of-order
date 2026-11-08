@@ -18,6 +18,7 @@ Art complete is not polish complete. The lab is the final visual and interaction
   - `?mode=production`: the game exactly as committed;
   - `?mode=lab`: `lab-apply.js` writes the lab values into `G.TUNING` / `G.layout` **before** `stage.js` builds anything.
 - **PRODUCTION / LAB** flips between the frames instantly, without losing the lab values.
+- **Live values (docs/63):** after load, every change reaches the lab frame live, at most once per animation frame. `LAB_STAGE.applyValues` writes the values and calls `G.rebuildStage()`, which rebuilds the production stage in place where it stands. There is no reload and no state replay.
 - **The game never loads the lab:** `game/index.html` loads no lab script, and the game has no storage access at all (static QA).
 
 ## 3. Production values source
@@ -54,13 +55,13 @@ Art complete is not polish complete. The lab is the final visual and interaction
 - **Shell and stage:** the canonical shell pixels (`art/ui/shell/layout-final.png`, `813e0884…`), the 1920 × 1080 stage, and the three-utility-button structure.
 - **Scene:** aperture (32, 44) 1255 × 822; 314 × 206 density; exact 4× rendering.
 - **Portrait:** aperture (1333, 44) 564 × 278; 564 × 278 density; 1× rendering; layer contract background → rear FX → NPC → front FX → shell.
-- **Approved art:** the scene, portrait background, `receptionist_idle`, the inspector frame / item overlay, FACILITIES KEY inspect art (565 × 451), the NOTES/FILES panel (1255 × 822), the item-received slip (560 × 116), and the action-button sprite family.
+- **Approved art:** the scene, portrait background, `receptionist_idle`, the inspector frame / item overlay, FACILITIES KEY inspect art (565 × 451), the NOTES panel and the FILES panel (each 1255 × 822; FILES has its own since docs/63), the item-received slip (560 × 116), and the action-button sprite family.
 - **Choice cards:** the width and height contract as committed in production, `placement.default.json`: **width 535, heights 79 / 107 / 135 / 162** (1–4 lines). The scrollbar width (20) is reserved, with no arrows.
   - The brief quoted 548 and 80 / 108 / 136. Those are not the production values; the lab locks what production actually uses.
 - **Inventory:** the slot concept and slot / arrow art.
   - Production shows **6 slots** (`slotCount` 6; a 7-slot layout exists in the data). The brief said "7-slot". The lab keeps the count locked as committed and does not reopen it.
 
-## 5. Tunables (68)
+## 5. Tunables (69)
 
 Spatial values are whole pixels, and timings whole milliseconds; both must be integers. "Bounds" are the import / control limits.
 
@@ -160,6 +161,7 @@ Spatial values are whole pixels, and timings whole milliseconds; both must be in
 | `overlay.bodyWidth` | Body width | 1159 px | 1039...1189 | `G.TUNING.overlay.bodyWidth` |
 | `overlay.bodyHeight` | Body height | 620 px | 500...650 | `G.TUNING.overlay.bodyHeight` |
 | `overlay.lineHeight` | Line height | 26 px | 18...40 | `G.TUNING.overlay.lineHeight` |
+| `overlay.notesPanel` | NOTES background: 1 = v1 `notes_files_panel.png`, 2 = v2 `notes_panel_v2.png` (owner candidate, docs/63) | 1 | 1...2 | `G.TUNING.overlay.notesPanel` |
 
 **Objective**
 
@@ -215,6 +217,7 @@ The states are reached by **driving the production flow** through its real choic
 
 ## 7. Lab controls
 
+- **Live:** every change shows in the lab frame at once, including while a slider is being dragged (docs/63).
 - **Every tunable:** shows its production value, the current lab value, −/+ (1 px or 1 ms), a number box, a slider, its bounds, and a reset. Changed rows and sections are highlighted.
 - **Resets:** **Reset section** and **RESET ALL TO PRODUCTION**.
 - **Comparison:** **PRODUCTION / LAB** buttons, or the keys P / L / Space.
@@ -256,7 +259,7 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
   - the game has no storage API or lab identifier, and `game/index.html` loads no lab script;
   - the lab stage loads the production scripts and CSS from `game/` (no copies);
   - the state shortcuts never assign narrative state.
-- **Defaults:** the lab opens on exact production values, which equal the registry read on a plain `game/index.html`. All 68 are integers, and there are no changes at start.
+- **Defaults:** the lab opens on exact production values, which equal the registry read on a plain `game/index.html`. All 69 are integers, and there are no changes at start.
 - **PRODUCTION vs LAB:** **pixel-identical at defaults** in 13 representative states (1920 × 1080, 1:1, after CSS transitions settle).
 - **States:**
   - every state loads where it should (node, inspector, overlay, slip, READ mark);
@@ -269,7 +272,7 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
   - the portrait stays native 1×, a lab nudge (`portrait.npcY` 3) moves only the NPC layer by whole pixels, and the PRODUCTION frame is unaffected.
 - **Values and export:**
   - values are whole numbers (6.6 → 7);
-  - COPY CHANGES holds only the changed keys, with the schema and base SHA; COPY ALL holds all 68;
+  - COPY CHANGES holds only the changed keys, with the schema and base SHA; COPY ALL holds all 69;
   - the helper toggles, freeze and hold-X never change the export;
   - the hide-shell and bounds toggles act on the stage frames only.
 - **Persistence:** values persist across a reload.

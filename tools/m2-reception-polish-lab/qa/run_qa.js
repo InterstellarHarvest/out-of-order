@@ -101,19 +101,23 @@ async function suite(name, base) {
   const both = async (v) => lab((x) => { window.POLISH_LAB.setView(x); }, v);
   const freezeBoth = (on) => lab((x) => ['frameProduction', 'frameLab'].forEach((id) => document.getElementById(id).contentWindow.LAB_STAGE.freeze(x)), on);
   const abStates = ['opening', 'three-choices', 'long-history', 'item-received', 'inspector-before-read', 'inspector-after-read', 'notes', 'files', 'tooltip-disabled', 'tooltip-show', 'ending', 'choices-1-2-3', 'choices-three-2'];
-  const abBad = [];
-  for (const s of abStates) {
-    await lab((x) => window.POLISH_LAB.setState(x), s);
-    await page.waitForTimeout(400); // let the production CSS transitions (speech indicator, 0.15 s) settle
-    await freezeBoth(true);
-    await both('production');
-    const a = await page.screenshot({ clip: await wrap() });
-    await both('lab');
-    const b2 = await page.screenshot({ clip: await wrap() });
-    if (!a.equals(b2)) abBad.push(s);
-    if (name === 'chromium' && ['opening', 'inspector-before-read', 'notes', 'files', 'item-received', 'choices-1-2-3'].includes(s)) fs.writeFileSync(path.join(SHOTS, `state_${s}.png`), b2);
-    await freezeBoth(false);
-  }
+  const abCompare = async (states, shots) => {
+    const bad = [];
+    for (const s of states) {
+      await lab((x) => window.POLISH_LAB.setState(x), s);
+      await page.waitForTimeout(400); // let the production CSS transitions (speech indicator, 0.15 s) settle
+      await freezeBoth(true);
+      await both('production');
+      const a = await page.screenshot({ clip: await wrap() });
+      await both('lab');
+      const b2 = await page.screenshot({ clip: await wrap() });
+      if (!a.equals(b2)) bad.push(s);
+      if (shots && name === 'chromium' && ['opening', 'inspector-before-read', 'notes', 'files', 'item-received', 'choices-1-2-3'].includes(s)) fs.writeFileSync(path.join(SHOTS, `state_${s}.png`), b2);
+      await freezeBoth(false);
+    }
+    return bad;
+  };
+  const abBad = await abCompare(abStates, true);
   c('PRODUCTION and LAB are pixel-identical at defaults in every representative state', abBad.length === 0, abBad);
 
   // Representative states reach the right place through the real flow.
@@ -162,6 +166,57 @@ async function suite(name, base) {
   c('scene stays exactly 4x (314x206 -> 1256x824) in the lab frame', geo.scene.join() === '314,206,32,44,1256,824', geo.scene);
   c('portrait stays native 1x (564x278) and a lab nudge moves only the NPC layer by whole pixels', geo.npc.join() === '564,278,1333,47,564,278' && geo.bg.join() === '564,278,1333,44,564,278', geo);
   c('the PRODUCTION frame is untouched by the lab change', (await lab(() => { const b = document.getElementById('frameProduction').contentWindow.document.getElementById('portraitNpc').getBoundingClientRect(); return [b.left, b.top].join(); })) === '1333,44');
+
+  // Live values: a change rebuilds the lab frame's production stage in place, at once, with no
+  // frame reload, and keeps the state on show.
+  const labWin = (fn, arg) => lab(new Function('arg', 'const w = document.getElementById("frameLab").contentWindow; const d = w.document; return (' + fn + ')(w, d, arg);'), arg);
+  const href0 = await labWin((w) => w.location.href);
+  const applied0 = Number(await labWin((w, d) => d.body.dataset.labApplied || 0));
+  const drag = await lab(async () => {
+    // A slider drag: input events, one per frame; the NPC must follow every step.
+    const w = document.getElementById('frameLab').contentWindow;
+    const sl = document.querySelector('.row[data-key="portrait.npcY"] .slider');
+    const tops = [];
+    const t0 = performance.now();
+    for (const v of [4, 5, 6, 7, 8]) {
+      sl.value = String(v);
+      sl.dispatchEvent(new Event('input', { bubbles: true }));
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      tops.push(w.document.getElementById('portraitNpc').getBoundingClientRect().top);
+    }
+    return { tops, ms: Math.round(performance.now() - t0) };
+  });
+  c('a slider drag updates the lab stage live, step by step (no debounce, no reload)', drag.tops.join() === '48,49,50,51,52'
+    && (await labWin((w) => w.location.href)) === href0 && Number(await labWin((w, d) => d.body.dataset.labApplied)) >= applied0 + 5, { drag, href0 });
+  await lab(() => window.POLISH_LAB.setState('notes'));
+  const ov0 = await labWin((w, d) => { const cv = d.getElementById('overlayCanvas'); return [w.CYOA_GAME.ui.overlay, cv.dataset.text, cv.dataset.scroll, d.getElementById('overlayPanel').dataset.art].join('|'); });
+  await lab(() => window.POLISH_LAB.setValue('overlay.bodyX', window.POLISH_LAB.production()['overlay.bodyX'] + 20));
+  await ready();
+  const ov1 = await labWin((w, d) => { const cv = d.getElementById('overlayCanvas'); return [w.CYOA_GAME.ui.overlay, cv.dataset.text, cv.dataset.scroll, d.getElementById('overlayPanel').dataset.art].join('|'); });
+  c('a live change keeps the state on show (NOTES stays open on the same lines and scroll)', ov0 === ov1 && /^notes\|/.test(ov1) && (await labWin((w) => w.location.href)) === href0, [ov0.slice(0, 60), ov1.slice(0, 60)]);
+
+  // NOTES background v1 / v2: a lab choice, live, exported like any value; FILES has its own panel.
+  const art = (id) => lab((f) => document.getElementById(f).contentWindow.document.getElementById('overlayPanel').dataset.art, id);
+  c('NOTES shows the v1 panel in both frames by default', (await art('frameProduction')) === 'art/ui/overlays/notes_files_panel.png'
+    && /notes_files_panel\.png$/.test(ov1.split('|')[3]), [await art('frameProduction'), ov1.split('|')[3]]);
+  await lab(() => window.POLISH_LAB.setValue('overlay.notesPanel', 2));
+  await ready();
+  c('NOTES background v2 switches live in the lab frame only', (await art('frameLab')) === 'art/ui/overlays/notes_panel_v2.png'
+    && (await art('frameProduction')) === 'art/ui/overlays/notes_files_panel.png' && (await labWin((w) => w.location.href)) === href0, [await art('frameLab'), await art('frameProduction')]);
+  c('the NOTES background choice is exported with the changes', JSON.parse(await lab(() => window.POLISH_LAB.exportChanges())).changes['overlay.notesPanel'] === 2);
+  await lab(() => window.POLISH_LAB.setState('files'));
+  c('FILES shows its own panel (files_panel.png) in both frames, whatever the NOTES choice', (await art('frameLab')) === 'art/ui/overlays/files_panel.png'
+    && (await art('frameProduction')) === 'art/ui/overlays/files_panel.png', [await art('frameLab'), await art('frameProduction')]);
+  c('the lab frame shows the v2 panel 1:1 (served bytes are the committed candidate)', bodies['art/ui/overlays/notes_panel_v2.png'] === sha256(fs.readFileSync(path.join(ROOT, 'art/ui/overlays/notes_panel_v2.png'))));
+  await lab(() => window.POLISH_LAB.resetAll());
+  await ready();
+  await lab(() => window.POLISH_LAB.setState('notes'));
+  c('reset returns NOTES to v1 live', (await art('frameLab')) === 'art/ui/overlays/notes_files_panel.png' && (await labWin((w) => w.location.href)) === href0);
+  const abLive = await abCompare(['long-history', 'item-received', 'inspector-after-read', 'notes', 'files']);
+  c('after live changes and a reset, PRODUCTION and LAB are pixel-identical again (same frame, never reloaded)', abLive.length === 0
+    && (await labWin((w) => w.location.href)) === href0, abLive);
+  await lab(() => window.POLISH_LAB.setValue('portrait.npcY', 3));
+  await ready();
 
   // Integer rules, export, reset.
   await lab(() => window.POLISH_LAB.setValue('tooltip.gapY', 6.6));

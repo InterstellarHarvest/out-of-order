@@ -8,7 +8,12 @@
   'use strict';
 
   var G = window.CYOA_GAME;
+  var TUN = window.POLISH_TUNABLES;
   var LAB = (window.LAB_STAGE = {});
+  var loading = false; // a state is being reached (fast timings in force)
+  var queued = null; // values that arrived while loading, applied once it ends
+  var lastToggles = null;
+  var applied = 0;
 
   // Freeze: route the game's clocks through one switchable time source. The flow's frame loop uses
   // requestAnimationFrame timestamps; everything else uses performance.now().
@@ -121,12 +126,24 @@
     var wasFrozen = frozenAt !== null;
     LAB.freeze(false);
     G.hideTooltip();
-    await fast(async function () {
-      G.flow.begin();
-      await settle();
-      await s.run();
-      await settle();
-    });
+    loading = true;
+    try {
+      await fast(async function () {
+        G.flow.begin();
+        await settle();
+        await s.run();
+        await settle();
+      });
+    } finally {
+      loading = false;
+    }
+    if (queued) {
+      var q = queued;
+      queued = null;
+      TUN.writeAll(G, q);
+      window.LAB_FRAME.applied = q;
+      G.rebuildStage();
+    }
     // A slip granted on the way here would long since have gone in real play: clear it, except in
     // the item-received state, which shows a fresh one.
     G.clearNotices();
@@ -139,6 +156,26 @@
     document.body.dataset.labState = id;
     if (wasFrozen) LAB.freeze(true);
     return id;
+  };
+
+  // Live values (lab frame only): writes a full values map into G.TUNING / G.layout and rebuilds the
+  // production stage in place where it stands (G.rebuildStage, js/stage.js), so a slider shows at
+  // once with no reload. Returns 'live', 'queued' (a state is loading; applied when it ends),
+  // 'reload' (the frame must reload) or 'invalid'.
+  LAB.applyValues = function (all) {
+    if (!window.LAB_FRAME || window.LAB_FRAME.mode !== 'lab') return 'invalid';
+    var full = {};
+    TUN.LIST.forEach(function (t) { full[t.key] = t.key in all ? all[t.key] : window.LAB_FRAME.production[t.key]; });
+    if (!TUN.validate(full, window.LAB_FRAME.production).ok) return 'invalid';
+    if (loading || document.body.dataset.ready !== 'true' || !G.rebuildStage) { queued = full; return 'queued'; }
+    TUN.writeAll(G, full);
+    window.LAB_FRAME.applied = full;
+    var notes = G.OVERLAY_ART[G.overlayPanelKey('notes')];
+    if (!G.image(notes.image)) return 'reload';
+    G.rebuildStage();
+    if (lastToggles) LAB.setToggles(lastToggles);
+    document.body.dataset.labApplied = String(++applied);
+    return 'live';
   };
 
   // The production FACILITIES KEY slip, without touching story state.
@@ -161,6 +198,7 @@
   document.head.appendChild(style);
   var boundsLayer = null;
   LAB.setToggles = function (t) {
+    lastToggles = t;
     var css = [];
     if (t.hideShell) css.push('#shell { visibility: hidden !important; }');
     if (t.hideScene) css.push('#sceneArt { visibility: hidden !important; }');
@@ -170,7 +208,7 @@
     if (t.hideFrontFx) css.push('#portraitFrontFx { visibility: hidden !important; }');
     style.textContent = css.join('\n');
     var stage = document.getElementById('stage');
-    if (!boundsLayer && stage) {
+    if ((!boundsLayer || !boundsLayer.isConnected) && stage) { // a live rebuild replaces the stage's children
       boundsLayer = document.createElement('div');
       boundsLayer.id = 'labBounds';
       boundsLayer.style.cssText = 'position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:2147483647';

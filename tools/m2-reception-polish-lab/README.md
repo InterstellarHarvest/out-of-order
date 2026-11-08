@@ -21,7 +21,8 @@ It needs the server, because it uses frames on the same origin. A window at leas
 1. Pick a **State**: opening, the three-choice decision, long history, item received, the inspector before and after READ, NOTES, FILES, the tooltips, the ending, and the choice-card samples.
 2. Adjust values in **Tunable values**:
    - each row shows its production value;
-   - edit a row with **−/+** (1 px or 1 ms), the number box or the slider;
+   - edit a row with **−/+** (1 px or 1 ms), the number box or the slider; every change shows live;
+   - **NOTES background** (NOTES / FILES section) switches the NOTES panel between v1 and the owner's v2 candidate;
    - **reset** returns one value to production; changed rows are highlighted.
 3. Flip **PRODUCTION / LAB** (keys **P**, **L**, or **Space**) to compare.
 4. Use the **Stage** aids as needed:
@@ -45,5 +46,5 @@ It needs the server, because it uses frames on the same origin. A window at leas
 | `tunables.js` | the registry of every tunable: key, label, production source path, bounds, read / write |
 | `stage.html` | a stage frame that loads the production game scripts and CSS from `game/` |
 | `lab-apply.js` | in a stage frame, before the stage is built: `?mode=lab` writes the lab values into `G.TUNING` / `G.layout`; `?mode=production` writes nothing |
-| `lab-stage.js` | in a stage frame, after boot: representative states (driven through the real flow), inspection aids |
+| `lab-stage.js` | in a stage frame, after boot: representative states (driven through the real flow), live values (`applyValues` → `G.rebuildStage`), inspection aids |
 | `qa/run_qa.js` | lab QA (`NODE_PATH="$(npm root -g)" node tools/m2-reception-polish-lab/qa/run_qa.js`) |

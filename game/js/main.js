@@ -48,8 +48,11 @@
   // The item-received slip (js/stage.js, docs/61).
   items.push({ name: G.NOTICE_ART.slip.image, url: G.url(G.NOTICE_ART.slip.path) });
 
-  // The NOTES/FILES records panel (js/stage.js, docs/60).
-  items.push({ name: G.OVERLAY_ART.panel.image, url: G.url(G.OVERLAY_ART.panel.path) });
+  // The NOTES and FILES panels (js/stage.js, docs/60, docs/63): each overlay's own, as chosen.
+  ['notes', 'files'].forEach(function (kind) {
+    var art = G.OVERLAY_ART[G.overlayPanelKey(kind)];
+    items.push({ name: art.image, url: G.url(art.path) });
+  });
 
   // Approved item inspect art (an item's own `inspectArt`, if any) and the inspector's X up/down
   // sprites (js/stage.js), decoded before ready like everything else.

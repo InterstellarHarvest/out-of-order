@@ -32,7 +32,9 @@
 
     // NOTES / FILES overlay (js/stage.js), in panel coordinates: title on the teal plate, body on
     // the cream reading area, and the body line height.
-    overlay: { titleX: 100, titleCenterY: 60, bodyX: 48, bodyY: 140, bodyWidth: 1159, bodyHeight: 620, lineHeight: 26 },
+    // notesPanel picks the NOTES panel art: 1 = notes_files_panel.png (production), 2 = the owner's
+    // notes_panel_v2.png candidate (docs/63). FILES always uses its own files_panel.png.
+    overlay: { titleX: 100, titleCenterY: 60, bodyX: 48, bodyY: 140, bodyWidth: 1159, bodyHeight: 620, lineHeight: 26, notesPanel: 1 },
 
     // Dialogue-turn timing not held in the layout bundle: the beat between a finished line and
     // the choices arriving (js/flow.js), and the stagger between arriving cards (js/stage.js).
