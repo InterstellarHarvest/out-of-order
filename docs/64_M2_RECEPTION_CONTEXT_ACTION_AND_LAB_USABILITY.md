@@ -238,4 +238,59 @@ All of the following are unchanged:
 
 ## 8. QA
 
-QA_RESULTS_PENDING
+These were run sequentially on the implementation commit `32ada74` plus the QA fix, in Chromium 147 and Firefox 148.
+
+| Suite | Result |
+|---|---|
+| `node game/qa/validate_route.js` | **49/49**; 449 reachable states, unchanged |
+| `NODE_PATH="$(npm root -g)" node game/qa/run_qa.js` | **487/487** (static 41, Chromium 223, Firefox 223) |
+| `NODE_PATH="$(npm root -g)" node tools/m2-reception-polish-lab/qa/run_qa.js` | **129/129** (static 5, Chromium 62, Firefox 62) |
+
+No M1 layout-lab file changed, so the M1 lab was not re-run.
+
+**The X:**
+- `inspect_close.png` is 44 × 44 RGBA with hard alpha and the source palette only.
+- Its silhouette mirrors left/right, top/bottom and diagonally.
+- The frame weight is 7 / 7 / 7 / 7, and the ring boundaries fall at equal depths from every edge.
+- The X and the opening are centred (21.5, 21.5) and the X is itself symmetrical.
+- Only one close sprite is preloaded; UP/DOWN are never requested and are gone from the repository.
+- On screen, the X equals the file pixel for pixel. The sprite is `pointer-events: none` inside the button, which takes the click.
+- A press changes no pixel. A release outside does not close; a release inside closes.
+- Enter changes nothing while held and closes on release. Escape closes. Re-activating the item closes.
+
+**The context action:**
+- The conversation row is `context / notes / files`, and OBSERVE uses `watch.png`. The old `inspect.png` glyph is never requested.
+- OBSERVE is unlit while the receptionist types (`OBSERVE - NOT NOW`) and enabled at rest.
+- Taking it keeps the node, the choices and the phase.
+- It adds exactly one `thought`, which shows at once in parentheses in the player's face and scrolls into view.
+- Once used it is inactive, with `OBSERVE - NOTHING NEW TO NOTICE`. A second click or Enter adds nothing.
+- NOTES holds the observation once, unlabelled.
+- A restart clears it, and keyboard activation works.
+- Holding one or several items never makes the first button act on an item.
+- Focusing a slot opens nothing. A click, or Enter on a focused slot, opens that item.
+- The inspector row is still READ / SHOW-or-USE / blank.
+- The route validator rejects malformed context actions (4 new mutants). It shows that OBSERVE changes no node, flag, item, objective or choice, is spent after one use, and is cleared by a fresh start.
+
+**The lab:**
+- PRODUCTION and LAB are pixel-identical at defaults in 14 states, including OBSERVE taken.
+- The OBSERVE state and tooltips are correct, and the hold-X aid is gone. SHOW X HITBOX outlines the 44 × 44 button.
+- ITEM RECEIVED replays twice, and NPC typing, choice arrival and the inventory slide replay through production code (the slide is recorded frame by frame).
+- TRIGGER CONTEXT ACTION takes OBSERVE again on repeat, with one thought each time.
+- The PRODUCTION frame is untouched by the triggers, and the triggers create no value or export change.
+- Sections fold and unfold, and every section is collapsible.
+- RESET ALL keeps the UI preferences, and the UI state is never exported and is stored apart from the values.
+- After a reload, the folds, sidebar scroll, state, view and 1:1 mode are restored, and no trigger state is restored.
+- All earlier lab checks still pass.
+
+**Proof screenshots:**
+- `game/qa/screenshots/`:
+  - `00d_inspector_close_static.png`;
+  - `00l_tooltip_observe_enabled.png`;
+  - `00m_tooltip_disabled_reason.png` (OBSERVE spent);
+  - `14_observe_thought_in_history.png`;
+  - `09b_notes_with_observation.png`.
+- `tools/m2-reception-polish-lab/qa/screenshots/`:
+  - `state_observed.png`;
+  - `trigger_item_received.png`;
+  - `trigger_context_action.png`;
+  - `lab_overview.png`.

@@ -327,10 +327,18 @@ async function suite(name, base) {
   await lab(() => new Promise((r) => { const w = document.getElementById('frameLab').contentWindow; (function p() { if (w.CYOA_GAME.flow.phase === 'choosing' && !w.CYOA_GAME.ui.motion) r(); else setTimeout(p, 50); })(); }));
   c('REPLAY CHOICE ARRIVAL runs the production card arrival and returns to choosing', rArrive === 'ok' && arriving === 'arriving,in'
     && (await labG((w, G) => G.ui.cards.map((k) => k.id).join())) === 'correct,cooperate,practical', { rArrive, arriving });
+  // Record the first slot's x on every frame of the lab frame while the slide runs.
+  await labG((w) => {
+    const slot = () => w.document.querySelector('#invWindow .slot');
+    w.__slideLog = { xs: [slot().style.left], done: false };
+    const t0 = w.performance.now();
+    (function rec() { w.__slideLog.xs.push(slot().style.left); if (w.performance.now() - t0 < 1500) w.requestAnimationFrame(rec); else w.__slideLog.done = true; })();
+  });
   const rSlide = await lab(() => window.POLISH_LAB.trigger('inventory-slide'));
-  const sliding = await labG((w, G) => !!G.ui.inv.slide && G.inventoryBusy(performance.now()));
-  await page.waitForTimeout(900);
-  c('REPLAY INVENTORY SLIDE runs the production slide and settles back', rSlide === 'ok' && sliding && (await labG((w, G) => !G.ui.inv.slide && G.ui.inv.start === 0)), { rSlide, sliding });
+  await lab(() => new Promise((r) => { const w = document.getElementById('frameLab').contentWindow; (function p() { if (w.__slideLog.done) r(); else setTimeout(p, 50); })(); }));
+  const slideXs = await labG((w) => w.__slideLog.xs);
+  const sliding = new Set(slideXs).size > 1 && slideXs[slideXs.length - 1] === slideXs[0];
+  c('REPLAY INVENTORY SLIDE runs the production slide and settles back', rSlide === 'ok' && sliding && (await labG((w, G) => !G.ui.inv.slide && G.ui.inv.start === 0)), { rSlide, xs: [...new Set(slideXs)].slice(0, 12) });
   await lab(() => window.POLISH_LAB.setState('opening'));
   const rCtx = [await lab(() => window.POLISH_LAB.trigger('context-action'))];
   const th1 = await labG((w, G) => [G.state.transcript.filter((t) => t.who === 'thought').length, G.state.node, G.flow.phase].join());
