@@ -1,5 +1,8 @@
 # CYOA Parallel Creative Track — Decision Plan v0.1
 
+> **CURRENT SEQUENCING OVERRIDE — owner direction, 2026-11-07:** Establish the stories, protagonist motivation, adventure beats, and a provisional narrative spine **before** attempting branch/dice playtests or assigning Claude a mechanics lab. The earlier P2/experiment recommendation and options A/B/C below are preserved as historical proposals but are **not the current next action**. Start with [59 Story Spine Laboratory 01](59_STORY_SPINE_LAB_01.md), select a promising narrative engine, and only then design branches motivated by the story. The M2 UI/sprite PMO stays fully separate.
+
+
 **Date:** 2026-11-07  
 **Status:** Proposal for owner review; independent of the M2 reception UI/sprite implementation.  
 **Repo branch:** `docs/story-gameplay-study-v01`  
