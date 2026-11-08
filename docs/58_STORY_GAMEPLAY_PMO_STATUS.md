@@ -1,6 +1,6 @@
 # The Acceptable Error — Story & Gameplay PMO Status
 
-**Last updated:** 2026-11-07  
+**Last updated:** 2026-11-07 (story-first revision)  
 **PMO scope:** Gameplay grammar, narrative systems, dice/odds, item utility, branching, world and chapter/story arc.  
 **Independent implementation:** M2 reception UI/sprite lab belongs to the other PMO and Claude. Do not touch it here.  
 **Documentation branch:** `docs/story-gameplay-study-v01` (unmerged; proposals stay reviewable).  
@@ -12,7 +12,8 @@
 3. [04 Idea Archive](04_IDEA_ARCHIVE.md) — prior optional story beats, abandoned avenues and hypotheses.
 4. [55 Gameplay & Narrative Presentation Study](55_GAMEPLAY_NARRATIVE_PRESENTATION_STUDY_V01.md) — draft incident grammar and semantic right column.
 5. [56 Parallel Creative Track Plan](56_PARALLEL_CREATIVE_TRACK_PLAN_V01.md) — Detroit/House of Danger comparison, ownership boundaries, staged creative gates.
-6. [57 Branching & Dice Paper Test](57_BRANCHING_DICE_PAPER_TEST_V01.md) — explicit non-NPC mini-story graph, optional items, check alternatives, branch QA.
+6. [57 Branching & Dice Paper Test](57_BRANCHING_DICE_PAPER_TEST_V01.md) — historical mechanics idea; ON HOLD until story material exists.
+7. [59 Story Spine Laboratory 01](59_STORY_SPINE_LAB_01.md) — **CURRENT CREATIVE WORK**: story engines, bathroom motive ladder, adventure/character/mystery seeds and provisional arc.
 
 ## Owner-confirmed foundation
 
@@ -35,7 +36,7 @@
 - Optional chapter-end branch-path visualization (Detroit inspired).
 - d6 with item modifiers versus d100 percentages; UI for showing odds undecided.
 - One post-reception “Washroom Access” proof encounter (57); not actual canon or M2 content.
-- Suggested next action: isolated text-only local playtester or paper test, then evaluate mechanics.
+- Previous suggestion of an isolated text-only local playtester is superseded by owner's story-first sequencing. Brainstorm the actual stories before building branching tests.
 
 ## Rejected/deferred at this time
 
@@ -52,8 +53,11 @@
 - [x] Recover initial narrative archive and owner mechanics intent.
 - [x] Make parallel-creative-track charter, ownership boundary and Detroit study (`docs/56`).
 - [x] Make three-route sample branch and two candidate dice systems (`docs/57`).
-- [ ] **Owner choice:** branches-first (A), balanced text-playtest (B, recommended), or story-spine-first (C).
-- [ ] If B: have Claude create isolated **offline narrative branch lab** in separate worktree with deterministic seeds, no art or production game coupling; user may elect to have this PMO review its logs. Alternatively PMO runs paper test without code.
+- [x] **Owner sequencing decision:** story-first (C) before mechanical branch testing.
+- [x] Start story laboratory / candidate story engines in doc 59.
+- [ ] Owner selects/refines a promising macro-story engine and a credible reason for the protagonist to continue after reception.
+- [ ] Develop story-spine beats, relevant supporting characters, a few memorable episodes and possible difficult outcomes without locking the mystery too early.
+- [ ] **Later**, after concrete scenes exist, evaluate House of Danger item/dice checks and Detroit-style chapter divergence. No Claude branch lab yet.
 - [ ] Review failed and successful item-assisted routes, chapter divergence, and later state callbacks; record owner rulings.
 - [ ] Only then expand to preliminary larger story spine, source-of-truth world rules, or implementation handoff.
 
