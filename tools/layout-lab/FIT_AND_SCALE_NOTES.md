@@ -1,6 +1,6 @@
 # Fit and scale notes
 
-Measured from `layout-final.png` (blob `1849c8ec192c…`) by `scripts/measure_shell.py`. All rectangles are x, y, width, height in shell pixels. Everything under "Proposed" is unapproved.
+Measured from `layout-final.png` (blob `bd28ac18b210…`) by `scripts/measure_shell.py`. Re-measured 2026-11-08 after the owner's top-frame pixel fix: every figure is identical to the previous shell (blob `1849c8ec192c…`). All rectangles are x, y, width, height in shell pixels. Everything under "Proposed" is unapproved.
 
 The figures in `docs/28` and `docs/29` came from an earlier source PNG with a different hash, so they differ slightly from these.
 

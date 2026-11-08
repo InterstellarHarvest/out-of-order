@@ -7,6 +7,9 @@
   var PACKAGE_ROOT = '../../art/ui/';
   var STORAGE_KEY = 'm1-ui-placement-lab/v1';
   var EXPORT_KEY = STORAGE_KEY + ':exported';
+  // Shells a placement may have been saved against. The owner's 2026-11-08 top-frame pixel fix
+  // (1849c8ec -> bd28ac18) left the alpha mask and every measured region unchanged.
+  var PREVIOUS_SHELLS = ['1849c8ec192cd639dd8550de0dcdda1aa88d2e4f'];
   var PREVIOUS_ATLASES = ['25e96344eba4d09b84d4e4baf85ef11f34fd3bba3f83f4ca5ab88343a0b237ee', 'bf636c757c30fa33b45f8ae370374d0349fb615a0d64a23cde873099b64a7013', '1c5990ba16a88c4986709187628d7ba81460c985bcd0b290c83cdca540bd8d2e', '1f7094a543124dda679382b0ad3eebf06876d3173108126b2c5ad3113a911826', '002786f60dec4929cf0120b6c399105c0420a7414c1a48a69a4f10bda7192cb5', '15572035d8d2c39acad00bee31f74837d8cda1a3912eb1e985b1a9da5ec9a844'];
 
   // QA pins a baseline of its own, so its expectations do not move each time the owner's
@@ -393,6 +396,10 @@
     }
     if (!value || value.schema !== lab.baseline.schema) {
       throw new Error('Expected schema ' + lab.baseline.schema + '.');
+    }
+    if (value && value.shell && PREVIOUS_SHELLS.indexOf(value.shell.gitBlob) !== -1) {
+      value.shell.gitBlob = lab.baseline.shell.gitBlob;
+      value.shell.sha256 = lab.baseline.shell.sha256;
     }
     if (!value.shell || value.shell.gitBlob !== lab.baseline.shell.gitBlob) {
       throw new Error('This placement was made for a different shell.');

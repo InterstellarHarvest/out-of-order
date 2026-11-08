@@ -15,7 +15,7 @@ const LAB = 'tools/m2-reception-polish-lab/index.html';
 const GAME = 'game/index.html';
 const SHOTS = path.join(__dirname, 'screenshots');
 const SHELL_PATH = 'art/ui/shell/layout-final.png';
-const SHELL_SHA256 = '813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6';
+const SHELL_SHA256 = '79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625';
 const STORE = 'cyoa-m2-reception-polish-lab-v1';
 const STORE_UI = 'cyoa-m2-reception-polish-lab-ui-v1';
 

@@ -21,8 +21,8 @@ const SHOTS = path.join(__dirname, 'screenshots');
 const START_SHA = 'ca049418ccdf4607acc99fe421de80da4c2bd7f5'; // the accepted sprite package (tag archive/agent/m1-approved-spritesheet-toggle-demo)
 const MARKER_PATH = 'art/ui/sprites/choice_cards/choice_marker_tab.png';
 const MARKER_SHA256 = '982ed250b40d661340d09d569b5cf437884223816afe28be68e28c4053ee05b8';
-const SHELL_BLOB = '1849c8ec192cd639dd8550de0dcdda1aa88d2e4f';
-const SHELL_SHA256 = '813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6';
+const SHELL_BLOB = 'bd28ac18b210de2a0d1b79bdbef82dc89f865766';
+const SHELL_SHA256 = '79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625';
 
 const sheet = JSON.parse(fs.readFileSync(path.join(ROOT, PKG, 'm1_approved_sprite_sheet.json')));
 // The behaviour checks run against a fixed test layout, not the owner's current defaults, which
@@ -1705,6 +1705,7 @@ async function liveTuning(page, name, base, c) {
   await page.waitForTimeout(30);
   const upgraded = await page.evaluate(() => ({ schema: JSON.parse(M1Lab.exportJson()).schema, x: M1Lab.state.utility.buttons[1].x, left: M1Lab.state.inventory.leftArrow.x, gap: M1Lab.state.inventory.gap }));
   c('v1 placement imports and upgrades', upgraded.schema === 'm1-ui-placement-v2' && upgraded.x === 1640 && upgraded.left === 30 && upgraded.gap === 6, upgraded);
+  c('a placement saved for the previous shell (1849c8ec) opens on the current shell', JSON.parse(v1).shell.gitBlob === '1849c8ec192cd639dd8550de0dcdda1aa88d2e4f' && JSON.parse(await page.evaluate(() => M1Lab.exportJson())).shell.gitBlob === SHELL_BLOB);
   await page.fill('#jsonBox', '');
   await reset(page);
 
