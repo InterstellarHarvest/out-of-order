@@ -124,6 +124,12 @@
       read: function (G) { return tun(G).notice.nameX; }, write: function (G, v) { tun(G).notice.nameX = v; } },
     { key: 'notice.nameY', s: 'notice', label: 'Item name middle row Y', unit: 'px', src: 'G.TUNING.notice.nameMidY', range: [-12, 12], rel: true,
       read: function (G) { return tun(G).notice.nameMidY; }, write: function (G, v) { tun(G).notice.nameMidY = v; } },
+    // Opacity fades inside the total lifecycle (notice.durationMs, Interaction timing); docs/62 §12.
+    // fadeInMs + fadeOutMs may not exceed durationMs (FADE_RULE below).
+    { key: 'notice.fadeInMs', s: 'notice', label: 'Fade in', unit: 'ms', src: 'G.TUNING.notice.fadeInMs', range: [0, 600], rel: false,
+      read: function (G) { return tun(G).notice.fadeInMs; }, write: function (G, v) { tun(G).notice.fadeInMs = v; } },
+    { key: 'notice.fadeOutMs', s: 'notice', label: 'Fade out', unit: 'ms', src: 'G.TUNING.notice.fadeOutMs', range: [0, 600], rel: false,
+      read: function (G) { return tun(G).notice.fadeOutMs; }, write: function (G, v) { tun(G).notice.fadeOutMs = v; } },
 
     // Inspector (frame, item overlay and the 565x451 art size are locked).
     { key: 'inspector.artX', s: 'inspector', label: 'Inspect art X nudge', unit: 'px', src: 'G.TUNING.inspector.artDx', range: [-20, 20], rel: true,
@@ -222,6 +228,13 @@
 
   // Validates a { key: value } map against the registry and production bounds. Returns
   // { ok, errors }. Rejects unknown keys, non-integers and out-of-range values.
+  function fadeTotals(map, prod) {
+    var get = function (k) { return k in map ? map[k] : prod && prod[k]; };
+    var a = get('notice.fadeInMs'), b = get('notice.fadeOutMs'), d = get('notice.durationMs');
+    if (![a, b, d].every(function (v) { return typeof v === 'number'; })) return null;
+    return { fades: a + b, duration: d };
+  }
+
   function validate(map, prod) {
     var errors = [];
     if (!map || typeof map !== 'object' || Array.isArray(map)) return { ok: false, errors: ['values must be an object of key: integer'] };
@@ -233,6 +246,9 @@
       var b = bounds(t, prod);
       if (v < b[0] || v > b[1]) errors.push(k + ': ' + v + ' is outside ' + b[0] + '..' + b[1]);
     });
+    // The fades must fit inside the slip's total lifecycle (no negative hold).
+    var f = fadeTotals(map, prod);
+    if (f && f.fades > f.duration) errors.push('notice.fadeInMs + notice.fadeOutMs (' + f.fades + ' ms) must not exceed notice.durationMs (' + f.duration + ' ms)');
     return { ok: errors.length === 0, errors: errors };
   }
 

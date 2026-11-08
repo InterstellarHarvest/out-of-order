@@ -69,6 +69,11 @@
     v = Math.round(Number(v));
     if (!Number.isFinite(v)) return;
     v = Math.min(b[1], Math.max(b[0], v));
+    // The slip's fades must fit inside its total lifecycle (docs/62 §12): a fade is clamped to what
+    // the duration leaves, and the duration to at least both fades. Import rejects such a set instead.
+    if (key === 'notice.fadeInMs') v = Math.min(v, valueOf('notice.durationMs') - valueOf('notice.fadeOutMs'));
+    if (key === 'notice.fadeOutMs') v = Math.min(v, valueOf('notice.durationMs') - valueOf('notice.fadeInMs'));
+    if (key === 'notice.durationMs') v = Math.max(v, valueOf('notice.fadeInMs') + valueOf('notice.fadeOutMs'));
     if (v === prod[key]) delete changes[key];
     else changes[key] = v;
     save();

@@ -200,7 +200,9 @@
   // saved: a reload or a state load starts over. Each returns 'ok' or why it could not run.
   var resting = function () { return phase() === 'choosing' && !G.ui.motion && !G.ui.inspector; };
   LAB.trigger = async function (kind) {
-    if (kind === 'item-received') { LAB.showNotice(); return 'ok'; }
+    // The production grant path: the slip queues behind one already on show, exactly as in play,
+    // and fades with the LAB frame's current fade values (G.TUNING.notice).
+    if (kind === 'item-received') { G.notifyItem('wc_key'); return 'ok'; }
     if (kind === 'npc-typing') {
       // The latest receptionist line types again (G.addSpeech starts the production typing); the
       // flow then runs on as in play: the beat, then the same choices arrive.

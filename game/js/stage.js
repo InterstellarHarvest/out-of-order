@@ -32,7 +32,7 @@
     overlay: null, // 'notes' | 'files'
     overlayScroll: 0,
     tooltip: null,
-    notice: null, // { id, until }: the item-received slip on show
+    notice: null, // { id, start, until, fadeIn, fadeOut, out }: the item-received slip on show
     noticeQueue: [], // items received while a slip was already up
     noticeLog: [] // every item announced since load, in order (read by QA)
   });
@@ -1239,6 +1239,11 @@
   // scene window just above the inventory, clear of the dialogue and the choices, and goes by
   // itself after TU.notice.durationMs (3.6 s) or at a click. The slip is production art (docs/61);
   // only the item art and the two text lines are drawn at runtime, in the locked fonts.
+  // Fades (owner-approved, docs/62 §12): the whole slip fades by opacity only, linearly, driven from the
+  // frame loop (no CSS transition). durationMs is the WHOLE lifecycle: 0 -> fadeInMs rises 0 -> 1,
+  // then exactly 1, then the last fadeOutMs falls 1 -> 0, then the slip is removed and the next
+  // queued one starts with its own fade-in (never a crossfade). A click starts the fade-out at once,
+  // from the current opacity.
   var NOTICE_SIZE = [560, 116]; // the slip art's own size; its position is TU.notice.x / y
   // Production slip (docs/61): art/ui/overlays/item_received_slip.png, 560x116, shown 1:1 as its own
   // image. A transparent canvas above it draws only the item's slot art and the two lines of text,
@@ -1300,11 +1305,31 @@
     });
   }
 
+  // The slip's opacity at `now`: the lower of the rise and the fall, so a lifecycle shorter than
+  // both fades never holds a negative time. After a click (`out`) it falls linearly from the opacity
+  // it had then to 0 at `until`.
+  function noticeOpacity(n, now) {
+    if (n.out) return clamp(n.until > n.out.at ? (n.out.from * (n.until - now)) / (n.until - n.out.at) : 0, 0, 1);
+    var rise = n.fadeIn > 0 ? (now - n.start) / n.fadeIn : 1;
+    var fall = n.fadeOut > 0 ? (n.until - now) / n.fadeOut : 1;
+    return clamp(Math.min(rise, fall), 0, 1);
+  }
+  G.noticeOpacity = function (now) {
+    return ui.notice ? noticeOpacity(ui.notice, now === undefined ? performance.now() : now) : 0;
+  };
+  // Opacity only: no transform, filter or transition. At 1 the slip is drawn exactly as before.
+  function applyNoticeOpacity(now) {
+    if (!ui.notice || !els.notice) return;
+    var o = String(noticeOpacity(ui.notice, now));
+    if (els.notice.style.opacity !== o) els.notice.style.opacity = o;
+  }
+
   function showNextNotice(now) {
     var id = ui.noticeQueue.shift();
-    ui.notice = id ? { id: id, until: now + TU.notice.durationMs } : null;
+    ui.notice = id ? { id: id, start: now, until: now + TU.notice.durationMs, fadeIn: TU.notice.fadeInMs, fadeOut: TU.notice.fadeOutMs, out: null } : null;
     show(els.notice, !!id);
     if (!id) return;
+    applyNoticeOpacity(now);
     drawNotice(els.noticeArt, id);
     var text = 'ITEM RECEIVED: ' + G.content.items[id].name;
     els.notice.dataset.item = id;
@@ -1317,18 +1342,35 @@
     ui.noticeQueue.push(id);
     if (!ui.notice) showNextNotice(performance.now());
   };
+  // A click: the fade-out starts now, from the current opacity, at the fade-out's own rate. A slip
+  // already leaving early is left to finish.
   G.dismissNotice = function () {
-    if (!ui.notice) return;
-    ui.notice = null;
-    showNextNotice(performance.now());
+    var n = ui.notice;
+    if (!n || n.out) return;
+    var now = performance.now();
+    var from = noticeOpacity(n, now);
+    n.out = { at: now, from: from };
+    n.until = now + n.fadeOut * from;
+    if (now >= n.until) return finishNotice(now);
+    applyNoticeOpacity(now);
   };
+  // The slip has faded out: remove it, and the next queued slip (if any) starts its own fade-in.
+  function finishNotice(now) {
+    ui.notice = null;
+    showNextNotice(now);
+  }
   G.clearNotices = function () {
     ui.noticeQueue = [];
     ui.notice = null;
-    if (els.notice) show(els.notice, false);
+    if (els.notice) {
+      show(els.notice, false);
+      els.notice.style.opacity = '';
+    }
   };
   G.noticeTick = function (now) {
-    if (ui.notice && now >= ui.notice.until) G.dismissNotice();
+    if (!ui.notice) return;
+    if (now >= ui.notice.until) finishNotice(now);
+    else applyNoticeOpacity(now);
   };
 
   G.renderAll = function () {
@@ -1374,6 +1416,7 @@
       els.notice.dataset.item = ui.notice.id;
       els.notice.dataset.text = 'ITEM RECEIVED: ' + G.content.items[ui.notice.id].name;
       els.notice.setAttribute('aria-label', els.notice.dataset.text);
+      applyNoticeOpacity(performance.now());
     }
     ui.tooltip = null;
     if (tip) G.showTooltip(tip.index, tip.text);

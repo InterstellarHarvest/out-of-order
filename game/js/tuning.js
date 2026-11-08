@@ -24,7 +24,9 @@
 
     // Item-received slip (js/stage.js): stage position of the 560x116 slip and, in slip
     // coordinates, the 96x96 item art and the two text lines (each centred on a middle row).
-    notice: { x: 56, y: 738, durationMs: 3600, itemX: 14, itemY: 9, titleX: 134, titleMidY: 28, nameX: 134, nameMidY: 77 },
+    // Owner-approved notice polish (docs/62 §12): y 738 -> 730; opacity fades of fadeInMs / fadeOutMs
+    // inside the unchanged durationMs, which is the whole on-screen lifecycle.
+    notice: { x: 56, y: 730, durationMs: 3600, fadeInMs: 180, fadeOutMs: 220, itemX: 14, itemY: 9, titleX: 134, titleMidY: 28, nameX: 134, nameMidY: 77 },
 
     // Item inspector (js/stage.js): whole-pixel nudges of the inspect art (565x451) and the X,
     // the item text's x relative to the choice text inset, and its top.

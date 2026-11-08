@@ -352,6 +352,31 @@ async function suite(name, base) {
   c('the triggers create no tunable change and nothing in COPY CHANGES', (await lab(() => window.POLISH_LAB.exportChanges())) === exportBefore
     && JSON.stringify(await lab(() => window.POLISH_LAB.values())) === valuesBefore);
 
+  // Item-received slip: production Y / fades as the lab defaults; fade tunables live in the LAB frame only.
+  const pn = await lab(() => { const p = window.POLISH_LAB.production(); return [p['notice.y'], p['notice.fadeInMs'], p['notice.fadeOutMs'], p['notice.durationMs']].join(); });
+  c('the lab opens with the production slip values: y 730, fade in 180, fade out 220, lifecycle 3600', pn === '730,180,220,3600', pn);
+  await lab(() => window.POLISH_LAB.setState('three-choices'));
+  await lab(() => { window.POLISH_LAB.setValue('notice.fadeInMs', 500); window.POLISH_LAB.setValue('notice.fadeOutMs', 400); });
+  await ready();
+  const fadeVals = await lab(() => ['frameLab', 'frameProduction'].map((id) => { const n = document.getElementById(id).contentWindow.CYOA_GAME.TUNING.notice; return n.fadeInMs + '/' + n.fadeOutMs; }).join());
+  const hrefF = await labWin((w) => w.location.href);
+  c('fade sliders apply live to the LAB frame only (production keeps 180/220, no reload)', fadeVals === '500/400,180/220' && hrefF === href0, fadeVals);
+  await labG((w, G) => { G.clearNotices(); });
+  await lab(() => window.POLISH_LAB.trigger('item-received'));
+  const trig = await lab(() => new Promise((r) => { const w = document.getElementById('frameLab').contentWindow; const G = w.CYOA_GAME;
+    setTimeout(() => r([G.ui.notice && G.ui.notice.fadeIn, G.ui.notice && G.ui.notice.fadeOut, G.noticeOpacity(), w.document.getElementById('itemNotice').style.top].join()), 250); }));
+  const tparts = trig.split(',');
+  c('ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730', tparts[0] === '500' && tparts[1] === '400' && Number(tparts[2]) > 0.3 && Number(tparts[2]) < 0.7 && tparts[3] === '730px', trig);
+  c('COPY CHANGES carries the changed fade values', /"notice.fadeInMs": 500/.test(await lab(() => window.POLISH_LAB.exportChanges())) && /"notice.fadeOutMs": 400/.test(await lab(() => window.POLISH_LAB.exportChanges())));
+  await lab(() => { window.POLISH_LAB.setValue('notice.durationMs', 1000); window.POLISH_LAB.setValue('notice.fadeInMs', 600); window.POLISH_LAB.setValue('notice.fadeOutMs', 600); });
+  const clamped = await lab(() => { const ch = window.POLISH_LAB.values(); return [ch['notice.durationMs'], ch['notice.fadeInMs'], ch['notice.fadeOutMs']].join(); });
+  c('the lab keeps fade-in + fade-out within the lifecycle (clamped, never a negative hold)', clamped === '1000,600,400', clamped);
+  const badFade = await lab(() => window.POLISH_LAB.importJSON(JSON.stringify({ schema: 'cyoa-m2-reception-polish-lab-v1', changes: { 'notice.durationMs': 1000, 'notice.fadeInMs': 600, 'notice.fadeOutMs': 600 } })));
+  c('IMPORT rejects fades longer than the lifecycle, with a clear error', !badFade.ok && badFade.errors.some((e) => /fadeInMs \+ notice\.fadeOutMs .*must not exceed notice\.durationMs/.test(e)), badFade.errors);
+  await lab(() => window.POLISH_LAB.resetAll());
+  await ready();
+  await labG((w, G) => { G.clearNotices(); });
+
   // Collapsible sections and remembered lab UI (STORE_UI; never exported; RESET leaves it) -------------
   await lab(() => { document.querySelector('[data-fold="sec-portrait"] .fold').click(); document.querySelector('[data-fold="io"] .fold').click(); });
   const foldNow = await lab(() => [document.querySelector('[data-fold="sec-portrait"]').classList.contains('folded'),

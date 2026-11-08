@@ -73,7 +73,7 @@ const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES
 const FILES_PANEL = 'art/ui/overlays/files_panel.png';
 const NOTES_V2 = 'art/ui/overlays/notes_panel_v2.png';
 const SLIP_ART = 'art/ui/overlays/item_received_slip.png';
-const NOTICE_RECT = [56, 738, 560, 116]; // game/js/stage.js, unchanged
+const NOTICE_RECT = [56, 730, 560, 116]; // owner-approved y 738 -> 730 (docs/62 §12)
 const NOTICE_ITEM = [14, 9]; // the 96x96 slot art inside the slip
 const INSPECT_ART = 'art/items/bathroom_pass_inspect.png';
 const CLOSE_ART = 'art/ui/sprites/inspect_close.png';
@@ -510,6 +510,84 @@ async function observeChecks(browser, base, c) {
   await context.close();
 }
 
+// Item-received slip fades (owner-approved, docs/62 §12) -----------------------------------------
+// Records the slip frame by frame through the production grant path (G.notifyItem).
+async function noticeFadeChecks(browser, base, c) {
+  const { page, context, errors } = await openGame(browser, base);
+  await skipToChoices(page);
+  const tun = await game(page, () => window.CYOA_GAME.TUNING.notice);
+  c('slip production values: y 730, fade in 180 ms, fade out 220 ms, total lifecycle 3600 ms', tun.y === 730 && tun.fadeInMs === 180 && tun.fadeOutMs === 220 && tun.durationMs === 3600, tun);
+  // record(fn): run fn in the page, then log { t, o, shown, start } every frame until the slip and its queue are gone.
+  const record = (setup, ms) => page.evaluate(([src, limit]) => new Promise((res) => {
+    const G = window.CYOA_GAME, n = document.getElementById('itemNotice');
+    const log = [], aria = [];
+    const mo = new MutationObserver((ms2) => ms2.forEach((m) => aria.push(m.attributeName)));
+    mo.observe(n, { attributes: true, attributeFilter: ['aria-label', 'data-text', 'role', 'aria-live'] });
+    const t0 = performance.now();
+    new Function('G', src)(G);
+    (function tick() {
+      const now = performance.now();
+      const st = getComputedStyle(n);
+      log.push({ t: Math.round(now - t0), o: n.style.display === 'none' ? null : Number(n.style.opacity), start: G.ui.notice && Math.round(G.ui.notice.start - t0),
+        css: [st.transitionDuration, st.transform, st.filter].join() });
+      if ((!G.ui.notice && !G.ui.noticeQueue.length && now - t0 > 50) || now - t0 > limit) { mo.disconnect(); return res({ log, aria, top: n.style.top }); }
+      requestAnimationFrame(tick);
+    })();
+  }), [setup, ms]);
+
+  const life = await record("G.notifyItem('wc_key');", 6000);
+  const L = life.log.filter((x) => x.o !== null);
+  const end = life.log.find((x, i) => i > 0 && x.o === null);
+  const firstFull = L.find((x) => x.o === 1);
+  const hold = L.filter((x) => x.t >= 230 && x.t <= 3330);
+  const out = L.filter((x) => x.t > 3380);
+  const rising = L.filter((x) => x.t < 180), falling = out;
+  const mono = (a, dir) => a.every((x, i) => !i || (dir > 0 ? x.o >= a[i - 1].o : x.o <= a[i - 1].o));
+  c('slip position: top 730 on the stage', life.top === '730px', life.top);
+  c('fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~180 ms', L[0].o < 0.2 && mono(rising, 1) && firstFull && firstFull.t >= 170 && firstFull.t <= 260,
+    { first: L[0], firstFull });
+  c('hold: exactly opacity 1 from the end of the fade-in to the start of the fade-out', hold.length > 50 && hold.every((x) => x.o === 1), hold.filter((x) => x.o !== 1).slice(0, 3));
+  c('fade out: opacity falls below 1 before removal, never rising', falling.length >= 3 && falling.some((x) => x.o > 0 && x.o < 1) && mono(falling, -1), falling.slice(0, 4));
+  c('total lifecycle ~3600 ms, then removed', end && end.t >= 3560 && end.t <= 3720, end);
+  c('opacity only: no CSS transition, transform or filter on the slip at any frame', life.log.every((x) => x.css === '0s,none,none'), [...new Set(life.log.map((x) => x.css))]);
+  c('the accessible text is set once per slip, not on animation frames', life.aria.filter((a) => a === 'aria-label').length <= 1 && life.aria.filter((a) => a === 'data-text').length <= 1, life.aria);
+
+  // Early dismiss in the hold: the click starts a 220 ms fade-out from 1.
+  const early = await record("G.notifyItem('wc_key'); setTimeout(() => document.getElementById('itemNotice').click(), 1000);", 3000);
+  const E = early.log.filter((x) => x.t >= 1000);
+  const eEnd = early.log.find((x) => x.t > 1000 && x.o === null);
+  const eFade = E.filter((x) => x.o !== null && x.o < 1);
+  c('early dismiss: a click in the hold starts the fade-out at once (no instant vanish), removed after ~220 ms', eFade.length >= 3 && mono(eFade, -1) && eEnd
+    && eEnd.t - 1000 >= 180 && eEnd.t - 1000 <= 340, { eEnd, n: eFade.length });
+  // Early dismiss during the fade-in: falls from the current opacity, never back up to 1.
+  const mid = await record("G.notifyItem('wc_key'); setTimeout(() => document.getElementById('itemNotice').click(), 90);", 3000);
+  const at = mid.log.filter((x) => x.t <= 90 && x.o !== null).pop();
+  const M = mid.log.filter((x) => x.t > 95 && x.o !== null);
+  const mEnd = mid.log.find((x) => x.t > 90 && x.o === null);
+  c('early dismiss during fade-in: turns into a fade-out from the current opacity (never reaching 1), removed in proportion', at && at.o > 0 && at.o < 1
+    && M.every((x) => x.o <= at.o + 0.06) && mono(M, -1) && mEnd && mEnd.t - 90 <= 220 * 0.8 + 80, { at, mEnd });
+
+  // Queue: B waits for A's whole fade-out, then has its own fade-in; never two at once.
+  const q = await record("G.notifyItem('wc_key'); G.notifyItem('wc_key'); setTimeout(() => document.getElementById('itemNotice').click(), 600);", 6000);
+  const starts = [...new Set(q.log.filter((x) => x.start !== null && x.start !== undefined).map((x) => x.start))];
+  const aLast = q.log.filter((x) => x.start === starts[0] && x.o !== null).pop();
+  const bFirst = q.log.find((x) => x.start === starts[1]);
+  c('queue: the second slip starts only after the first has faded out, with its own fade-in (no crossfade)', starts.length === 2 && aLast && bFirst
+    && bFirst.t >= aLast.t && aLast.o < 0.2 && bFirst.o < 0.2 && bFirst.t - 600 >= 180, { starts, aLast, bFirst });
+  const bFull = q.log.filter((x) => x.start === starts[1] && x.o === 1);
+  c('queue: the second slip reaches full opacity and holds, then leaves on its own', bFull.length > 20 && !q.log[q.log.length - 1].start, bFull.length);
+
+  // Restart mid-fade clears everything.
+  await game(page, () => { window.CYOA_GAME.notifyItem('wc_key'); window.CYOA_GAME.notifyItem('wc_key'); });
+  await page.waitForTimeout(90);
+  await game(page, () => window.CYOA_GAME.flow.begin());
+  await page.waitForTimeout(600);
+  c('restart mid-fade clears the slip, its opacity and the queue, and nothing reappears', await game(page, () => !window.CYOA_GAME.ui.notice && !window.CYOA_GAME.ui.noticeQueue.length
+    && document.getElementById('itemNotice').style.display === 'none' && document.getElementById('itemNotice').style.opacity === ''));
+  c('slip fades: no console errors', errors.length === 0, errors);
+  await context.close();
+}
+
 // Production reception art (docs/57) ------------------------------------------------------------
 // A fresh page: the opening line finishes and the choices arrive, so nothing but the art and the
 // shell occupies the two apertures. Geometry, layer order and exact pixels; then a QA-only hide of
@@ -894,6 +972,8 @@ async function suite(name, base, requests) {
     return { soft, iconInk, w: cv.width, h: cv.height, smoothing: getComputedStyle(cv).imageRendering };
   }, NOTICE_ITEM);
   c('the slip carries the item\'s slot art, drawn crisp at 1:1 with hard alpha', slip.soft === 0 && slip.iconInk > 200 && slip.w === notice.w && /pixelated|crisp-edges/.test(slip.smoothing), slip);
+  // The pixel checks below are made at full opacity (the hold), where the slip is exactly 1:1.
+  await page.waitForFunction(() => window.CYOA_GAME.noticeOpacity() === 1, null, { timeout: 3000 });
   await shot(page, '05b_item_received.png');
   await shot(page, '00j_item_received_slip.png');
   {
@@ -931,8 +1011,11 @@ async function suite(name, base, requests) {
     c('ITEM RECEIVED (upper band) and the item name (lower band) are drawn dynamically in one dark ink', inks.label.size === 1 && inks.name.size === 1
       && [...inks.label][0] === '32,48,55' && [...inks.name][0] === '32,48,55', { label: [...inks.label], name: [...inks.name] });
   }
+  c('the pixel checks above ran at full opacity (still in the hold)', (await game(page, () => window.CYOA_GAME.noticeOpacity())) === 1);
   await page.click('#itemNotice');
-  c('clicking the slip dismisses it early', (await page.$eval('#itemNotice', (e) => e.style.display)) === 'none' && !(await game(page, () => window.CYOA_GAME.ui.notice)));
+  const fading = await page.$eval('#itemNotice', (e) => e.style.display !== 'none' && !!window.CYOA_GAME.ui.notice && !!window.CYOA_GAME.ui.notice.out);
+  await page.waitForFunction(() => document.getElementById('itemNotice').style.display === 'none' && !window.CYOA_GAME.ui.notice, null, { timeout: 2000 });
+  c('clicking the slip dismisses it early, fading out rather than vanishing', fading);
   c('the slot shows the approved bathroom pass art', await page.$eval('#invWindow .slot[data-item="wc_key"] img.item-art', (i) => /bathroom_pass_slot\.png$/.test(i.src) && i.naturalWidth === 96));
   await shot(page, '00k_after_slip_dismissed.png');
   {
@@ -1282,8 +1365,11 @@ async function suite(name, base, requests) {
     await game(page, () => { window.CYOA_GAME.notifyItem('wc_key'); window.CYOA_GAME.notifyItem('wc_key'); });
     const q1 = await game(page, () => [!!window.CYOA_GAME.ui.notice, window.CYOA_GAME.ui.noticeQueue.length].join());
     await page.click('#itemNotice');
+    await page.waitForFunction(() => window.CYOA_GAME.ui.noticeQueue.length === 0, null, { timeout: 2000 }); // the first has faded out
     const q2 = await game(page, () => [!!window.CYOA_GAME.ui.notice, window.CYOA_GAME.ui.noticeQueue.length].join());
+    await page.waitForFunction(() => window.CYOA_GAME.noticeOpacity() > 0, null, { timeout: 2000 });
     await page.click('#itemNotice');
+    await page.waitForFunction(() => !window.CYOA_GAME.ui.notice, null, { timeout: 2000 });
     const q3 = await game(page, () => [!!window.CYOA_GAME.ui.notice, window.CYOA_GAME.ui.noticeQueue.length, document.getElementById('itemNotice').style.display].join());
     c('queued grants show one slip after another, each dismissed in turn', q1 === 'true,1' && q2 === 'true,0' && q3 === 'false,0,none'
       && (await game(page, () => window.CYOA_GAME.ui.noticeLog.length)) === before + 2, { q1, q2, q3 });
@@ -1297,8 +1383,10 @@ async function suite(name, base, requests) {
   await shot(page, '11_ending.png');
   await game(page, () => { window.CYOA_GAME.notifyItem('wc_key'); window.CYOA_GAME.notifyItem('wc_key'); }); // QA-only: a slip up and one queued
   await chooseById(page, 'restart');
-  c('restart clears the slip and its queue', await game(page, () => !window.CYOA_GAME.ui.notice && window.CYOA_GAME.ui.noticeQueue.length === 0
-    && document.getElementById('itemNotice').style.display === 'none'));
+  c('restart clears the slip, its fade state and its queue', await game(page, () => !window.CYOA_GAME.ui.notice && window.CYOA_GAME.ui.noticeQueue.length === 0
+    && document.getElementById('itemNotice').style.display === 'none' && document.getElementById('itemNotice').style.opacity === ''));
+  await page.waitForTimeout(400);
+  c('no residual slip timer survives the restart', await game(page, () => !window.CYOA_GAME.ui.notice && document.getElementById('itemNotice').style.display === 'none'));
   c('BEGIN AGAIN restarts the slice cleanly', (await game(page, () => window.CYOA_GAME.state.node)) === 'opening'
     && (await game(page, () => window.CYOA_GAME.state.transcript.length)) === 1
     && (await game(page, () => window.CYOA_GAME.state.inventory.length)) === 0
@@ -1401,6 +1489,7 @@ async function suite(name, base, requests) {
   c('no console errors or failed requests', errors.length === 0, errors);
   await context.close();
   await observeChecks(browser, base, c);
+  await noticeFadeChecks(browser, base, c);
 
   // file:// -----------------------------------------------------------------------------------
   const fctx = await browser.newContext({ viewport: { width: 1280, height: 720 } });

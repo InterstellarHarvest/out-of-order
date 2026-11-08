@@ -61,7 +61,7 @@ Art complete is not polish complete. The lab is the final visual and interaction
 - **Inventory:** the slot concept and slot / arrow art.
   - Production shows **6 slots** (`slotCount` 6; a 7-slot layout exists in the data). The brief said "7-slot". The lab keeps the count locked as committed and does not reopen it.
 
-## 5. Tunables (71)
+## 5. Tunables (73)
 
 Spatial values are whole pixels, and timings whole milliseconds; both must be integers. "Bounds" are the import / control limits.
 
@@ -131,13 +131,15 @@ Spatial values are whole pixels, and timings whole milliseconds; both must be in
 | Key | Meaning | Production | Bounds | Source |
 |---|---|---|---|---|
 | `notice.x` | Slip X | 56 px | -4...116 | `G.TUNING.notice.x` |
-| `notice.y` | Slip Y | 738 px | 678...798 | `G.TUNING.notice.y` |
+| `notice.y` | Slip Y | 730 px (was 738; §12) | 670...790 | `G.TUNING.notice.y` |
 | `notice.itemX` | Item art X (in slip) | 14 px | 2...26 | `G.TUNING.notice.itemX` |
 | `notice.itemY` | Item art Y (in slip) | 9 px | -3...21 | `G.TUNING.notice.itemY` |
 | `notice.titleX` | ITEM RECEIVED X | 134 px | 104...164 | `G.TUNING.notice.titleX` |
 | `notice.titleY` | ITEM RECEIVED middle row Y | 28 px | 16...40 | `G.TUNING.notice.titleMidY` |
 | `notice.nameX` | Item name X | 134 px | 104...164 | `G.TUNING.notice.nameX` |
 | `notice.nameY` | Item name middle row Y | 77 px | 65...89 | `G.TUNING.notice.nameMidY` |
+| `notice.fadeInMs` | Fade in (§12) | 180 ms | 0...600 | `G.TUNING.notice.fadeInMs` |
+| `notice.fadeOutMs` | Fade out (§12) | 220 ms | 0...600 | `G.TUNING.notice.fadeOutMs` |
 
 **Inspector**
 
@@ -187,7 +189,7 @@ Spatial values are whole pixels, and timings whole milliseconds; both must be in
 | `timing.sendRiseMs` | Send: chosen card rise | 240 ms | 1...2000 | `G.layout.choices.feedback.send.durationMs` |
 | `timing.replyBeatMs` | Reply beat (your line, then the reply) | 400 ms | 0...3000 | `G.layout.choices.feedback.send.beatMs` |
 | `timing.inventorySlideMs` | Inventory slide | 275 ms | 1...1000 | `G.layout.inventory.motion.durationMs` |
-| `notice.durationMs` | Item-received slip duration | 3600 ms | 1000...10000 | `G.TUNING.notice.durationMs` |
+| `notice.durationMs` | Item-received slip duration (the whole lifecycle, fades included; §12) | 3600 ms | 1000...10000 | `G.TUNING.notice.durationMs` |
 | `tooltip.showDelayMs` | Tooltip appearance delay | 0 ms | 0...1000 | `G.TUNING.tooltip.showDelayMs` |
 | `tooltip.hideDelayMs` | Tooltip hide delay | 0 ms | 0...1000 | `G.TUNING.tooltip.hideDelayMs` |
 
@@ -264,7 +266,7 @@ The lab page saves the tunable changes in its own `localStorage` key, `cyoa-m2-r
   - the game has no storage API or lab identifier, and `game/index.html` loads no lab script;
   - the lab stage loads the production scripts and CSS from `game/` (no copies);
   - the state shortcuts never assign narrative state.
-- **Defaults:** the lab opens on exact production values, which equal the registry read on a plain `game/index.html`. All 71 are integers, and there are no changes at start.
+- **Defaults:** the lab opens on exact production values, which equal the registry read on a plain `game/index.html`. All 71 (73 since §12) are integers, and there are no changes at start.
 - **PRODUCTION vs LAB:** **pixel-identical at defaults** in 13 representative states (1920 × 1080, 1:1, after CSS transitions settle).
 - **States:**
   - every state loads where it should (node, inspector, overlay, slip, READ mark);
@@ -277,7 +279,7 @@ The lab page saves the tunable changes in its own `localStorage` key, `cyoa-m2-r
   - the portrait stays native 1×, a lab nudge (`portrait.npcY` 3) moves only the NPC layer by whole pixels, and the PRODUCTION frame is unaffected.
 - **Values and export:**
   - values are whole numbers (6.6 → 7);
-  - COPY CHANGES holds only the changed keys, with the schema and base SHA; COPY ALL holds all 71;
+  - COPY CHANGES holds only the changed keys, with the schema and base SHA; COPY ALL holds all 71 (73 since §12);
   - the helper toggles and freeze never change the export;
   - the hide-shell and bounds toggles act on the stage frames only.
 - **Persistence:** values persist across a reload.
@@ -344,3 +346,41 @@ The older M1 documents that specify seven slots / 548-wide cards are historical 
 The previous `placement.default.json` metadata still said `PROPOSED_FOR_OWNER_REVIEW` and `approvedForProduction: false`; those flags were stale. The values themselves were already the owner's final selections. The metadata has now been corrected without changing runtime geometry.
 
 **No geometry correction is required before owner polish tuning.** The owner should tune from the existing six-slot / 535-wide baseline.
+
+
+## 12. Owner-approved notice polish — 2026-11-08
+
+Owner-approved changes to the ITEM RECEIVED slip, now the production baseline in `game/js/tuning.js` (the lab reads them as its production defaults):
+
+| Value | Before | Now |
+|---|---|---|
+| `notice.y` | 738 | **730** |
+| `notice.fadeInMs` | none | **180 ms** |
+| `notice.fadeOutMs` | none | **220 ms** |
+| `notice.durationMs` | 3600 | 3600, unchanged: the **whole** on-screen lifecycle |
+
+**Lifecycle (linear opacity, the whole slip together):**
+
+| Time from show | Opacity |
+|---|---|
+| 0 → 180 ms | 0 → 1 |
+| 180 → 3380 ms | exactly 1 |
+| 3380 → 3600 ms | 1 → 0 |
+| 3600 ms | removed; the next queued slip (if any) starts its own fade-in |
+
+- **Mechanism.** `#itemNotice` (the slip art, item sprite and both text lines) gets one `style.opacity`, set from the game's frame loop (`G.noticeTick`). There is no CSS transition, transform, filter or new dependency. At opacity 1 the slip is drawn exactly as before, and the 1:1 pixel checks are made in the hold.
+- **Formula.** Opacity is the lower of the rise (`elapsed / fadeIn`) and the fall (`remaining / fadeOut`), clamped to 0–1, so fades that would overlap can never produce a negative hold.
+- **Click.** A click starts the fade-out at once, from the current opacity and at the fade-out's own rate:
+  - from the hold, it takes 220 ms;
+  - during the fade-in, it falls from wherever it had reached, in 220 ms × that opacity, and never brightens.
+  
+  A second click while leaving does nothing. Then the next queued slip fades in.
+- **Queue.** Each slip runs fade-in → hold → fade-out on its own. The next one starts only after the previous one is removed, so there is never a crossfade.
+- **Restart.** Restart clears the slip, its opacity and its queue. No timer survives, because the fade is computed from the slip's own start time each frame.
+- **Accessibility.** `role="status"`, `aria-live="polite"`. The accessible text is set once, when the slip is shown, and never on opacity frames.
+- **Lab.**
+  - New tunables **Fade in** (`notice.fadeInMs`) and **Fade out** (`notice.fadeOutMs`), 0–600 ms whole milliseconds, in *Item-received slip*. `notice.durationMs` stays in *Interaction timing* as the total.
+  - The fades must fit the lifecycle: the lab clamps a fade to what the duration leaves (and the duration to at least both fades), and IMPORT rejects a set where fade-in + fade-out exceeds the duration.
+  - TRIGGER EVENTS → ITEM RECEIVED now uses the production grant path (`G.notifyItem`), so a press while a slip is up queues behind it exactly as in play, with the LAB frame's current fade values. The PRODUCTION frame keeps the production values.
+- **Unchanged.** Slip art, item art, notice text, queue semantics, and every other UI geometry. Nothing in the context-action / thought presentation was touched.
+
