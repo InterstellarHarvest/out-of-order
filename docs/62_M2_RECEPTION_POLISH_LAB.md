@@ -311,3 +311,22 @@ Open <http://127.0.0.1:8137/tools/m2-reception-polish-lab/index.html>.
 5. COPY CHANGES JSON.
 6. Send the exported JSON back to PMO/Claude.
 7. Do NOT call M2 complete yet. The approved changes are applied to production in a separate step, and that step closes the polish gate.
+
+
+## Owner-final layout baseline ruling — 2026-11-07
+
+The owner supplied the final layout-lab export `m1-layout-20261107-190916.json` (SHA-256 `7a728120da84ba0233f9e01b97daac1a5a5e1f17fbdb8c297d4c4da8e007f540`) and confirmed that it is the locked default.
+
+This export matches the geometry currently used by production and by this polish lab. Therefore these are the authoritative baseline values for M2 owner tuning:
+
+- inventory: **6 visible slots**, 96×96, **20 px gap**, **116 px pitch**, six-slot origin x=92 y=935;
+- choices: viewport **x=1324 y=527 w=535 h=331**;
+- choice-card width **535**;
+- choice-card heights **79 / 107 / 135 / 162** for 1/2/3/4 lines;
+- choice-card gap **5**.
+
+The older M1 documents that specify seven slots / 548-wide cards are historical and are superseded by this later owner-final layout-lab output where they conflict.
+
+The previous `placement.default.json` metadata still said `PROPOSED_FOR_OWNER_REVIEW` and `approvedForProduction: false`; those flags were stale. The values themselves were already the owner's final selections. The metadata has now been corrected without changing runtime geometry.
+
+**No geometry correction is required before owner polish tuning.** The owner should tune from the existing six-slot / 535-wide baseline.
