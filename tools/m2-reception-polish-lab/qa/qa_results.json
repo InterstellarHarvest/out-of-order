@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-m2-reception-polish-lab-qa-v1",
-  "passed": 129,
-  "total": 129,
+  "passed": 141,
+  "total": 141,
   "failures": [],
   "checks": [
     {
@@ -74,13 +74,15 @@
           "tooltip.padX": 10,
           "tooltip.padY": 7,
           "notice.x": 56,
-          "notice.y": 738,
+          "notice.y": 730,
           "notice.itemX": 14,
           "notice.itemY": 9,
           "notice.titleX": 134,
           "notice.titleY": 28,
           "notice.nameX": 134,
           "notice.nameY": 77,
+          "notice.fadeInMs": 180,
+          "notice.fadeOutMs": 220,
           "inspector.artX": 0,
           "inspector.artY": 0,
           "inspector.closeX": 0,
@@ -147,13 +149,15 @@
           "tooltip.padX": 10,
           "tooltip.padY": 7,
           "notice.x": 56,
-          "notice.y": 738,
+          "notice.y": 730,
           "notice.itemX": 14,
           "notice.itemY": 9,
           "notice.titleX": 134,
           "notice.titleY": 28,
           "notice.nameX": 134,
           "notice.nameY": 77,
+          "notice.fadeInMs": 180,
+          "notice.fadeOutMs": 220,
           "inspector.artX": 0,
           "inspector.artY": 0,
           "inspector.closeX": 0,
@@ -327,9 +331,9 @@
             51,
             52
           ],
-          "ms": 160
+          "ms": 159
         },
-        "href0": "http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -412,7 +416,7 @@
       "browser": "chromium",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 71
+      "detail": 73
     },
     {
       "browser": "chromium",
@@ -556,17 +560,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "111px",
-          "84px",
-          "59px",
-          "41px",
-          "29px",
-          "19px",
-          "11px",
-          "9px",
+          "101px",
+          "74px",
+          "53px",
+          "36px",
+          "24px",
+          "17px",
+          "12px",
           "10px",
-          "13px",
-          "15px"
+          "9px",
+          "11px",
+          "13px"
         ]
       }
     },
@@ -588,14 +592,51 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
       "browser": "chromium",
       "name": "the triggers create no tunable change and nothing in COPY CHANGES",
       "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the lab opens with the production slip values: y 730, fade in 180, fade out 220, lifecycle 3600",
+      "ok": true,
+      "detail": "730,180,220,3600"
+    },
+    {
+      "browser": "chromium",
+      "name": "fade sliders apply live to the LAB frame only (production keeps 180/220, no reload)",
+      "ok": true,
+      "detail": "500/400,180/220"
+    },
+    {
+      "browser": "chromium",
+      "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
+      "ok": true,
+      "detail": "500,400,0.5044000000953675,730px"
+    },
+    {
+      "browser": "chromium",
+      "name": "COPY CHANGES carries the changed fade values",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the lab keeps fade-in + fade-out within the lifecycle (clamped, never a negative hold)",
+      "ok": true,
+      "detail": "1000,600,400"
+    },
+    {
+      "browser": "chromium",
+      "name": "IMPORT rejects fades longer than the lifecycle, with a clear error",
+      "ok": true,
+      "detail": [
+        "notice.fadeInMs + notice.fadeOutMs (1200 ms) must not exceed notice.durationMs (1000 ms)"
+      ]
     },
     {
       "browser": "chromium",
@@ -787,13 +828,15 @@
           "tooltip.padX": 10,
           "tooltip.padY": 7,
           "notice.x": 56,
-          "notice.y": 738,
+          "notice.y": 730,
           "notice.itemX": 14,
           "notice.itemY": 9,
           "notice.titleX": 134,
           "notice.titleY": 28,
           "notice.nameX": 134,
           "notice.nameY": 77,
+          "notice.fadeInMs": 180,
+          "notice.fadeOutMs": 220,
           "inspector.artX": 0,
           "inspector.artY": 0,
           "inspector.closeX": 0,
@@ -860,13 +903,15 @@
           "tooltip.padX": 10,
           "tooltip.padY": 7,
           "notice.x": 56,
-          "notice.y": 738,
+          "notice.y": 730,
           "notice.itemX": 14,
           "notice.itemY": 9,
           "notice.titleX": 134,
           "notice.titleY": 28,
           "notice.nameX": 134,
           "notice.nameY": 77,
+          "notice.fadeInMs": 180,
+          "notice.fadeOutMs": 220,
           "inspector.artX": 0,
           "inspector.artY": 0,
           "inspector.closeX": 0,
@@ -1040,9 +1085,9 @@
             51,
             52
           ],
-          "ms": 154
+          "ms": 158
         },
-        "href0": "http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -1125,7 +1170,7 @@
       "browser": "firefox",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 71
+      "detail": 73
     },
     {
       "browser": "firefox",
@@ -1269,17 +1314,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "119px",
-          "88px",
-          "64px",
-          "45px",
-          "31px",
-          "21px",
-          "15px",
-          "11px",
-          "9px",
+          "124px",
+          "104px",
+          "75px",
+          "52px",
+          "33px",
+          "26px",
+          "17px",
+          "12px",
           "10px",
-          "12px"
+          "9px",
+          "13px"
         ]
       }
     },
@@ -1301,14 +1346,51 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:60359/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
       "browser": "firefox",
       "name": "the triggers create no tunable change and nothing in COPY CHANGES",
       "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the lab opens with the production slip values: y 730, fade in 180, fade out 220, lifecycle 3600",
+      "ok": true,
+      "detail": "730,180,220,3600"
+    },
+    {
+      "browser": "firefox",
+      "name": "fade sliders apply live to the LAB frame only (production keeps 180/220, no reload)",
+      "ok": true,
+      "detail": "500/400,180/220"
+    },
+    {
+      "browser": "firefox",
+      "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
+      "ok": true,
+      "detail": "500,400,0.522,730px"
+    },
+    {
+      "browser": "firefox",
+      "name": "COPY CHANGES carries the changed fade values",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the lab keeps fade-in + fade-out within the lifecycle (clamped, never a negative hold)",
+      "ok": true,
+      "detail": "1000,600,400"
+    },
+    {
+      "browser": "firefox",
+      "name": "IMPORT rejects fades longer than the lifecycle, with a clear error",
+      "ok": true,
+      "detail": [
+        "notice.fadeInMs + notice.fadeOutMs (1200 ms) must not exceed notice.durationMs (1000 ms)"
+      ]
     },
     {
       "browser": "firefox",

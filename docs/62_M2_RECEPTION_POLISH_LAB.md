@@ -389,7 +389,7 @@ Owner-approved changes to the ITEM RECEIVED slip, now the production baseline in
   | Suite | Result |
   |---|---|
   | Route validation | 49/49 |
-  | `game/qa/run_qa.js` | **519/519** (static 41, Chromium 239, Firefox 239) |
+  | `game/qa/run_qa.js` | **520/520** (static 42, Chromium 239, Firefox 239), on top of the owner frame / overlay fix (464f3ab, 122dc82) |
   | Polish-lab QA | **141/141** (static 5, Chromium 68, Firefox 68) |
 
   - The game QA adds a frame-by-frame lifecycle record covering: y 730; the rise to exactly 1 at ~180 ms; exactly 1 through the hold; a monotonic fall; removal at ~3600 ms; opacity-only CSS; and accessible text set once. It also covers early dismiss from the hold (~220 ms) and during the fade-in (from the current opacity, never back to 1), the queue (B's fade-in only after A is gone), and restart mid-fade.

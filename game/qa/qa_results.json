@@ -7,8 +7,8 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 488,
-  "passed": 488,
+  "total": 520,
+  "passed": 520,
   "failed": 0,
   "byBrowser": {
     "static": {
@@ -16,12 +16,12 @@
       "passed": 42
     },
     "chromium": {
-      "total": 223,
-      "passed": 223
+      "total": 239,
+      "passed": 239
     },
     "firefox": {
-      "total": 223,
-      "passed": 223
+      "total": 239,
+      "passed": 239
     }
   },
   "failures": [],
@@ -1507,8 +1507,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 113,
-        "r1": 125
+        "r0": 106,
+        "r1": 118
       }
     },
     {
@@ -1526,7 +1526,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 216.70000004768372
+      "detail": 217
     },
     {
       "browser": "chromium",
@@ -1622,11 +1622,11 @@
         -8,
         -12,
         -18,
-        -24,
+        -22,
         -30,
         -36,
         -44,
-        -54,
+        -52,
         -62,
         -72
       ]
@@ -1675,7 +1675,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 419
+      "detail": 418.7000000476837
     },
     {
       "browser": "chromium",
@@ -1691,7 +1691,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 947.9000000953674
+      "detail": 947.3000001907349
     },
     {
       "browser": "chromium",
@@ -1817,7 +1817,7 @@
         "role": "status",
         "live": "polite",
         "x": 56,
-        "y": 738,
+        "y": 730,
         "w": 560,
         "h": 116
       }
@@ -1834,7 +1834,7 @@
         "role": "status",
         "live": "polite",
         "x": 56,
-        "y": 738,
+        "y": 730,
         "w": 560,
         "h": 116
       }
@@ -1881,13 +1881,13 @@
         ],
         "bgBox": [
           56,
-          738,
+          730,
           560,
           116
         ],
         "nBox": [
           56,
-          738,
+          730,
           560,
           116
         ],
@@ -1934,7 +1934,12 @@
     },
     {
       "browser": "chromium",
-      "name": "clicking the slip dismisses it early",
+      "name": "the pixel checks above ran at full opacity (still in the hold)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "clicking the slip dismisses it early, fading out rather than vanishing",
       "ok": true
     },
     {
@@ -2353,7 +2358,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3606
+        "ms": 3605
       }
     },
     {
@@ -2619,7 +2624,12 @@
     },
     {
       "browser": "chromium",
-      "name": "restart clears the slip and its queue",
+      "name": "restart clears the slip, its fade state and its queue",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "no residual slip timer survives the restart",
       "ok": true
     },
     {
@@ -3022,6 +3032,187 @@
     },
     {
       "browser": "chromium",
+      "name": "slip production values: y 730, fade in 180 ms, fade out 220 ms, total lifecycle 3600 ms",
+      "ok": true,
+      "detail": {
+        "x": 56,
+        "y": 730,
+        "durationMs": 3600,
+        "fadeInMs": 180,
+        "fadeOutMs": 220,
+        "itemX": 14,
+        "itemY": 9,
+        "titleX": 134,
+        "titleMidY": 28,
+        "nameX": 134,
+        "nameMidY": 77
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "slip position: top 730 on the stage",
+      "ok": true,
+      "detail": "730px"
+    },
+    {
+      "browser": "chromium",
+      "name": "fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~180 ms",
+      "ok": true,
+      "detail": {
+        "first": {
+          "t": 1,
+          "o": 0,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        "firstFull": {
+          "t": 195,
+          "o": 1,
+          "start": 0,
+          "css": "0s,none,none"
+        }
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "hold: exactly opacity 1 from the end of the fade-in to the start of the fade-out",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
+      "name": "fade out: opacity falls below 1 before removal, never rising",
+      "ok": true,
+      "detail": [
+        {
+          "t": 3394,
+          "o": 0.937727,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        {
+          "t": 3411,
+          "o": 0.861818,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        {
+          "t": 3428,
+          "o": 0.786364,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        {
+          "t": 3444,
+          "o": 0.710455,
+          "start": 0,
+          "css": "0s,none,none"
+        }
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "total lifecycle ~3600 ms, then removed",
+      "ok": true,
+      "detail": {
+        "t": 3611,
+        "o": null,
+        "start": null,
+        "css": "0s,none,none"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "opacity only: no CSS transition, transform or filter on the slip at any frame",
+      "ok": true,
+      "detail": [
+        "0s,none,none"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "the accessible text is set once per slip, not on animation frames",
+      "ok": true,
+      "detail": [
+        "data-text",
+        "aria-label"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "early dismiss: a click in the hold starts the fade-out at once (no instant vanish), removed after ~220 ms",
+      "ok": true,
+      "detail": {
+        "eEnd": {
+          "t": 1237,
+          "o": null,
+          "start": null,
+          "css": "0s,none,none"
+        },
+        "n": 14
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "early dismiss during fade-in: turns into a fade-out from the current opacity (never reaching 1), removed in proportion",
+      "ok": true,
+      "detail": {
+        "at": {
+          "t": 78,
+          "o": 0.425,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        "mEnd": {
+          "t": 211,
+          "o": null,
+          "start": null,
+          "css": "0s,none,none"
+        }
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "queue: the second slip starts only after the first has faded out, with its own fade-in (no crossfade)",
+      "ok": true,
+      "detail": {
+        "starts": [
+          0,
+          830
+        ],
+        "aLast": {
+          "t": 814,
+          "o": 0.04,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        "bFirst": {
+          "t": 831,
+          "o": 0,
+          "start": 830,
+          "css": "0s,none,none"
+        }
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "queue: the second slip reaches full opacity and holds, then leaves on its own",
+      "ok": true,
+      "detail": 192
+    },
+    {
+      "browser": "chromium",
+      "name": "restart mid-fade clears the slip, its opacity and the queue, and nothing reappears",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "slip fades: no console errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "chromium",
       "name": "opens from file:// with no server",
       "ok": true,
       "detail": []
@@ -3057,6 +3248,7 @@
       "name": "only one close sprite is preloaded and no X UP/DOWN state is ever requested",
       "ok": true,
       "detail": [
+        "/art/ui/sprites/inspect_close.png",
         "/art/ui/sprites/inspect_close.png",
         "/art/ui/sprites/inspect_close.png",
         "/art/ui/sprites/inspect_close.png",
@@ -4136,8 +4328,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 111,
-        "r1": 123
+        "r0": 103,
+        "r1": 115
       }
     },
     {
@@ -4155,7 +4347,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 218
+      "detail": 217
     },
     {
       "browser": "firefox",
@@ -4246,19 +4438,19 @@
         0,
         0,
         0,
-        0,
         -2,
-        -4,
+        -2,
+        -6,
         -8,
         -12,
-        -16,
+        -18,
         -22,
-        -28,
+        -30,
         -36,
         -44,
         -52,
-        -60,
-        -70
+        -62,
+        -72
       ]
     },
     {
@@ -4305,7 +4497,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 417
+      "detail": 419
     },
     {
       "browser": "firefox",
@@ -4321,7 +4513,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 945
+      "detail": 948
     },
     {
       "browser": "firefox",
@@ -4447,7 +4639,7 @@
         "role": "status",
         "live": "polite",
         "x": 56,
-        "y": 738,
+        "y": 730,
         "w": 560,
         "h": 116
       }
@@ -4464,7 +4656,7 @@
         "role": "status",
         "live": "polite",
         "x": 56,
-        "y": 738,
+        "y": 730,
         "w": 560,
         "h": 116
       }
@@ -4511,13 +4703,13 @@
         ],
         "bgBox": [
           56,
-          738,
+          730,
           560,
           116
         ],
         "nBox": [
           56,
-          738,
+          730,
           560,
           116
         ],
@@ -4564,7 +4756,12 @@
     },
     {
       "browser": "firefox",
-      "name": "clicking the slip dismisses it early",
+      "name": "the pixel checks above ran at full opacity (still in the hold)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "clicking the slip dismisses it early, fading out rather than vanishing",
       "ok": true
     },
     {
@@ -4983,7 +5180,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3615
+        "ms": 3606
       }
     },
     {
@@ -5249,7 +5446,12 @@
     },
     {
       "browser": "firefox",
-      "name": "restart clears the slip and its queue",
+      "name": "restart clears the slip, its fade state and its queue",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "no residual slip timer survives the restart",
       "ok": true
     },
     {
@@ -5307,23 +5509,23 @@
         "first": [
           [
             0,
-            -1
+            -3
           ],
           [
             1,
-            115
+            113
           ],
           [
             2,
-            235
+            233
           ],
           [
             3,
-            356
+            353
           ],
           [
             4,
-            476
+            474
           ],
           [
             5,
@@ -5647,6 +5849,187 @@
     {
       "browser": "firefox",
       "name": "OBSERVE: no console errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "slip production values: y 730, fade in 180 ms, fade out 220 ms, total lifecycle 3600 ms",
+      "ok": true,
+      "detail": {
+        "x": 56,
+        "y": 730,
+        "durationMs": 3600,
+        "fadeInMs": 180,
+        "fadeOutMs": 220,
+        "itemX": 14,
+        "itemY": 9,
+        "titleX": 134,
+        "titleMidY": 28,
+        "nameX": 134,
+        "nameMidY": 77
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "slip position: top 730 on the stage",
+      "ok": true,
+      "detail": "730px"
+    },
+    {
+      "browser": "firefox",
+      "name": "fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~180 ms",
+      "ok": true,
+      "detail": {
+        "first": {
+          "t": 1,
+          "o": 0,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        "firstFull": {
+          "t": 193,
+          "o": 1,
+          "start": 0,
+          "css": "0s,none,none"
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "hold: exactly opacity 1 from the end of the fade-in to the start of the fade-out",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "firefox",
+      "name": "fade out: opacity falls below 1 before removal, never rising",
+      "ok": true,
+      "detail": [
+        {
+          "t": 3395,
+          "o": 0.933727,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        {
+          "t": 3411,
+          "o": 0.858,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        {
+          "t": 3428,
+          "o": 0.783909,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        {
+          "t": 3444,
+          "o": 0.710273,
+          "start": 0,
+          "css": "0s,none,none"
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "total lifecycle ~3600 ms, then removed",
+      "ok": true,
+      "detail": {
+        "t": 3611,
+        "o": null,
+        "start": null,
+        "css": "0s,none,none"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "opacity only: no CSS transition, transform or filter on the slip at any frame",
+      "ok": true,
+      "detail": [
+        "0s,none,none"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "the accessible text is set once per slip, not on animation frames",
+      "ok": true,
+      "detail": [
+        "data-text",
+        "aria-label"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "early dismiss: a click in the hold starts the fade-out at once (no instant vanish), removed after ~220 ms",
+      "ok": true,
+      "detail": {
+        "eEnd": {
+          "t": 1237,
+          "o": null,
+          "start": null,
+          "css": "0s,none,none"
+        },
+        "n": 13
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "early dismiss during fade-in: turns into a fade-out from the current opacity (never reaching 1), removed in proportion",
+      "ok": true,
+      "detail": {
+        "at": {
+          "t": 76,
+          "o": 0.419333,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        "mEnd": {
+          "t": 209,
+          "o": null,
+          "start": null,
+          "css": "0s,none,none"
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "queue: the second slip starts only after the first has faded out, with its own fade-in (no crossfade)",
+      "ok": true,
+      "detail": {
+        "starts": [
+          1,
+          830
+        ],
+        "aLast": {
+          "t": 813,
+          "o": 0.0705455,
+          "start": 1,
+          "css": "0s,none,none"
+        },
+        "bFirst": {
+          "t": 831,
+          "o": 0,
+          "start": 830,
+          "css": "0s,none,none"
+        }
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "queue: the second slip reaches full opacity and holds, then leaves on its own",
+      "ok": true,
+      "detail": 192
+    },
+    {
+      "browser": "firefox",
+      "name": "restart mid-fade clears the slip, its opacity and the queue, and nothing reappears",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "slip fades: no console errors",
       "ok": true,
       "detail": []
     },
