@@ -22,7 +22,8 @@ const SHELL_SHA256 = '79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806fe
 const PASS_PATH = 'art/items/bathroom_pass_slot.png';
 // New owner art added on this branch, pinned by hash.
 const OWNER_ART = {
-  'art/ui/shell/item-overlay.png': '4566079c985b7efaeeba0140dd5c6b8b8b371713391604118e3de123738a8dfb' // inspector column, 1920x1080
+  // Owner re-export 2026-11-08 carrying the top-frame fix (was 4566079c...; alpha unchanged).
+  'art/ui/shell/item-overlay.png': 'aaac746ad182cf558c7579580a21d73c31f83709963cd287ac14ddb3d1252728' // inspector column, 1920x1080
 };
 // The changes to M1 art since M2 began: the owner's hand edit of ten choice-card outlines
 // (2026-11-05), which superseded the PMO-authorised rows-0-1 cleanup (docs/49 section 2.7), and the
