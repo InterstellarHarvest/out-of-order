@@ -88,6 +88,8 @@ Plausible institutionally normal pretexts:
 - **Unclaimed-property conversion:** The gate identifies the box as belonging to the institution, not the person, and transfers it to a lost-property conveyor.
 - **Demonstration contamination policy:** Everything entering a scientific pavilion must be inventoried; most objects are confiscated or scheduled for reclaim at a separate exit.
 
+**Additional callback seed: “Museum of Formerly Owned Property.”** Confiscated possessions might be catalogued as artifacts of yesterday and appear much later behind glass in an exhibit. The protagonist's pathetic plaque, mug or stapler could suddenly be treated as culturally significant. This makes early item loss a *story promise* with possible payoff rather than a pure tutorial reset. Not locked.
+
 **Narrative fairness:** This is an intentional early comic reversal, but do not teach that inventory is pointless. Prefer a record/claim ticket, one retained keepsake, or a future possibility of retrieval. Multiple possible reactions can determine which thing survives, where confiscated objects end up, and whether a later route can reclaim one. The owner specifically wants most items gone; the exact quantity is open.
 
 ### E. How the player gets drawn through the Exposition
