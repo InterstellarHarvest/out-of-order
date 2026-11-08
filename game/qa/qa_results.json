@@ -1378,8 +1378,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 112,
-        "r1": 124
+        "r0": 104,
+        "r1": 116
       }
     },
     {
@@ -1397,7 +1397,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217.5
+      "detail": 215.5
     },
     {
       "browser": "chromium",
@@ -1488,7 +1488,7 @@
         0,
         0,
         -2,
-        -4,
+        -2,
         -6,
         -8,
         -12,
@@ -1497,7 +1497,7 @@
         -30,
         -36,
         -44,
-        -54,
+        -52,
         -62,
         -72
       ]
@@ -1544,7 +1544,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.5
+      "detail": 418.09999990463257
     },
     {
       "browser": "chromium",
@@ -1559,7 +1559,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948.4000000953674
+      "detail": 948.7000000476837
     },
     {
       "browser": "chromium",
@@ -2211,7 +2211,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3608
+        "ms": 3609
       }
     },
     {
@@ -3734,8 +3734,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 105,
-        "r1": 117
+        "r0": 115,
+        "r1": 127
       }
     },
     {
@@ -3753,7 +3753,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 218
+      "detail": 216
     },
     {
       "browser": "firefox",
@@ -3844,19 +3844,19 @@
         0,
         0,
         0,
+        0,
         -2,
-        -4,
         -6,
         -8,
         -12,
-        -18,
-        -24,
-        -30,
+        -16,
+        -22,
+        -28,
         -36,
-        -44,
-        -54,
-        -62,
-        -74
+        -42,
+        -52,
+        -60,
+        -70
       ]
     },
     {
@@ -3901,7 +3901,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 419
+      "detail": 417
     },
     {
       "browser": "firefox",
@@ -3916,7 +3916,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 950
+      "detail": 946
     },
     {
       "browser": "firefox",
@@ -4568,7 +4568,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3609
+        "ms": 3607
       }
     },
     {
@@ -4831,27 +4831,27 @@
         "first": [
           [
             0,
-            -7
+            14
           ],
           [
             1,
-            109
+            130
           ],
           [
             2,
-            229
+            246
           ],
           [
             3,
-            349
+            362
           ],
           [
             4,
-            469
+            478
           ],
           [
             5,
-            590
+            594
           ]
         ],
         "rest": [

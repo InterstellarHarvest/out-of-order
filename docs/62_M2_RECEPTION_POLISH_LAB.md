@@ -247,7 +247,52 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
 
 ## 10. QA
 
-QA_PLACEHOLDER
+### Lab QA
+
+`NODE_PATH="$(npm root -g)" node tools/m2-reception-polish-lab/qa/run_qa.js` passes **67/67** in Chromium 147 and Firefox 148 (static 5, Chromium 31, Firefox 31). Results are in `tools/m2-reception-polish-lab/qa/qa_results.json`.
+
+- **Static checks:**
+  - the lab folder holds no images;
+  - the game has no storage API or lab identifier, and `game/index.html` loads no lab script;
+  - the lab stage loads the production scripts and CSS from `game/` (no copies);
+  - the state shortcuts never assign narrative state.
+- **Defaults:** the lab opens on exact production values, which equal the registry read on a plain `game/index.html`. All 68 are integers, and there are no changes at start.
+- **PRODUCTION vs LAB:** **pixel-identical at defaults** in 13 representative states (1920 × 1080, 1:1, after CSS transitions settle).
+- **States:**
+  - every state loads where it should (node, inspector, overlay, slip, READ mark);
+  - FILES shows the 4:52 record;
+  - the tooltip states show `INSPECT` / `INSPECT - NO ITEMS` / `READ` / `SHOW - NOT AVAILABLE HERE`;
+  - the card samples have 1 / 2 / 3 lines and 2 / 2 / 2 lines.
+- **Rendering:**
+  - the shell's served bytes are canonical, and every loaded image is a production file under `art/`;
+  - the scene stays exactly 4× (314 × 206 → 1256 × 824);
+  - the portrait stays native 1×, a lab nudge (`portrait.npcY` 3) moves only the NPC layer by whole pixels, and the PRODUCTION frame is unaffected.
+- **Values and export:**
+  - values are whole numbers (6.6 → 7);
+  - COPY CHANGES holds only the changed keys, with the schema and base SHA; COPY ALL holds all 68;
+  - the helper toggles, freeze and hold-X never change the export;
+  - the hide-shell and bounds toggles act on the stage frames only.
+- **Persistence:** values persist across a reload.
+- **The game and lab storage:**
+  - the production game ignores the lab storage (production values while lab changes are saved);
+  - storage holds only the lab key, and a fresh game starts at the opening.
+- **Resets:** RESET FIELD, RESET SECTION and RESET ALL work.
+- **Import:**
+  - IMPORT round-trips an export;
+  - IMPORT rejects unknown keys, non-integers, out-of-range spatial and timing values, a wrong schema, string values and malformed JSON, and a rejected import changes nothing.
+- **Timing:** a lab tooltip delay applies in the lab frame (hidden at 120 ms, shown after 400 ms).
+- **Errors:** there are no console or page errors.
+
+Lab screenshots (Chromium): `tools/m2-reception-polish-lab/qa/screenshots/lab_overview.png` and `state_{opening,inspector-before-read,notes,files,item-received,choices-1-2-3}.png`.
+
+### Production game
+
+The checks were run on the final commit:
+
+- `node game/qa/validate_route.js`: **38/38**.
+- `game/qa/run_qa.js`: **431/431** (static 35/35, Chromium 198/198, Firefox 198/198).
+
+The production values are unchanged (§3).
 
 ## 11. Owner workflow
 
