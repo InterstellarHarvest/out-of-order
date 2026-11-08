@@ -1,7 +1,8 @@
 // The polish lab's value controls, shared by the production tunables (lab.js) and the Narrative
 // Study (narrative-study-panel.js). One widget per kind of value (owner, 2026-11-08: not every value
 // is a slider):
-//   nudge  - a pixel position, size or count: [-] [box] [+], whole steps (Shift: 10 at a time);
+//   nudge  - a pixel position, size or count: a slider to drag and watch live, plus [-] [box] [+]
+//            for exact whole steps (Shift: 10 at a time);
 //   slider - a wide range felt by eye, such as a timing: a slider with an exact box beside it;
 //   radio  - one of a few named choices, all visible at once;
 //   select - one of many named choices, in a dropdown;
@@ -98,7 +99,7 @@
     parts.reset.title = 'Back to the ' + (o.refName === 'prod' ? 'production value' : 'study default');
     parts.reset.addEventListener('click', o.onReset);
 
-    if (kind === 'slider') {
+    if (kind === 'slider' || kind === 'nudge') {
       el('span', 'break', row); // the slider and its reset take the second line
       parts.slider = el('input', 'slider', row);
       parts.slider.type = 'range';

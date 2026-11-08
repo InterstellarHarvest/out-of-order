@@ -64,9 +64,9 @@ textarea { width: 100%; font: 12px/1.3 ui-monospace, Menlo, monospace; padding: 
 .row .unit { color: var(--muted); font-size: 11px; min-width: 18px; }
 .row .reset { margin-left: auto; }
 .row .break { flex-basis: 100%; height: 0; }
-.ctl-slider .slider { flex: 1 1 200px; margin: 0; order: 9; }
-.ctl-slider .reset { order: 10; }
-.ctl-slider .break { order: 8; }
+.ctl-slider .slider, .ctl-nudge .slider { flex: 1 1 200px; margin: 0; order: 9; }
+.ctl-slider .reset, .ctl-nudge .reset { order: 10; }
+.ctl-slider .break, .ctl-nudge .break { order: 8; }
 .ctl-select .lbl { flex-basis: auto; }
 .row .pick { max-width: 100%; padding: 2px 4px; }
 .row .opts { flex-basis: 100%; display: flex; flex-direction: column; gap: 2px; padding-left: 4px; }

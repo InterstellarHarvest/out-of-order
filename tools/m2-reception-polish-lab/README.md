@@ -21,7 +21,7 @@ It needs the server, because it uses frames on the same origin. A window at leas
 1. Pick a **State**: opening, the three-choice decision, long history, item received, the inspector before and after READ, NOTES, FILES, OBSERVE taken, the tooltips, the ending, and the choice-card samples.
 2. Adjust values in **Tunable values**:
    - each row shows its production value;
-   - edit a row with the control that fits the value (owner, 2026-11-08; `controls.js`): positions, sizes and counts with **−/+** (1 px; Shift: 10) or the number box; timings and speeds with a slider and an exact number box; a few named choices with radio buttons (the production or study value is tagged); many named choices (the narration face) in a dropdown; on / off with a checkbox. A row's **reset** appears once it is changed. Every change shows live;
+   - edit a row with the control that fits the value (owner, 2026-11-08; `controls.js`): positions, sizes and counts with a slider to drag and watch live, plus **−/+** (1 px; Shift: 10) and the number box for exact steps; timings and speeds with a slider and an exact number box; a few named choices with radio buttons (the production or study value is tagged); many named choices (the narration face) in a dropdown; on / off with a checkbox. A row's **reset** appears once it is changed. Every change shows live;
    - **NOTES background** (NOTES / FILES section) switches the NOTES panel between v1 and the owner's v2 candidate;
    - **reset** returns one value to production; changed rows are highlighted.
 3. Flip **PRODUCTION / LAB** (keys **P**, **L**, or **Space**) to compare.
@@ -93,7 +93,7 @@ Changes apply live to the LAB frame. The other frame keeps the study defaults.
 | File | Role |
 |---|---|
 | `index.html`, `lab.css`, `lab.js` | the lab page: PRODUCTION / LAB, export / import, persistence |
-| `controls.js` | the value controls shared by both panels: one widget per kind of value (nudge, slider, radio, dropdown, checkbox) |
+| `controls.js` | the value controls shared by both panels: one widget per kind of value (slider with −/+, slider, radio, dropdown, checkbox) |
 | `tunables.js` | the registry of every tunable: key, label, production source path, bounds, read / write |
 | `stage.html` | a stage frame that loads the production game scripts and CSS from `game/` |
 | `lab-apply.js` | in a stage frame, before the stage is built: `?mode=lab` writes the lab values into `G.TUNING` / `G.layout`; `?mode=production` writes nothing |

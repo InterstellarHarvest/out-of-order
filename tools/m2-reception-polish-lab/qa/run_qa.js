@@ -228,6 +228,20 @@ async function suite(name, base) {
   });
   c('nudging with + updates the lab stage live, step by step (no debounce, no reload)', drag.tops.join() === '48,49,50,51,52'
     && (await labWin((w) => w.location.href)) === href0 && Number(await labWin((w, d) => d.body.dataset.labApplied)) >= applied0 + 5, { drag, href0 });
+  const drag2 = await lab(async () => {
+    // Dragging a position's slider: input events, one per frame; the NPC follows every step.
+    const w = document.getElementById('frameLab').contentWindow;
+    const sl = document.querySelector('.row[data-key="portrait.npcY"] input[type=range]');
+    const tops = [];
+    for (const v of [9, 10, 11]) {
+      sl.value = String(v);
+      sl.dispatchEvent(new Event('input', { bubbles: true }));
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+      tops.push(w.document.getElementById('portraitNpc').getBoundingClientRect().top);
+    }
+    return { tops, box: document.querySelector('.row[data-key="portrait.npcY"] input[type=number]').value };
+  });
+  c('dragging a position slider updates the lab stage live, step by step, and its number box follows', drag2.tops.join() === '53,54,55' && drag2.box === '11', drag2);
   await lab(() => window.POLISH_LAB.setState('notes'));
   const ov0 = await labWin((w, d) => { const cv = d.getElementById('overlayCanvas'); return [w.CYOA_GAME.ui.overlay, cv.dataset.text, cv.dataset.scroll, d.getElementById('overlayPanel').dataset.art].join('|'); });
   await lab(() => window.POLISH_LAB.setValue('overlay.bodyX', window.POLISH_LAB.production()['overlay.bodyX'] + 20));
@@ -1002,13 +1016,13 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
     const r = ctl.rows[k];
     if (!r || r.kind !== kind || r.reset !== 'hidden') return true;
     const n = (ctl.tun.find((t) => t[0] === k) || ctl.ns.find((t) => t[0] === k))[2];
-    if (kind === 'nudge') return !r.nudge || !r.num || r.slider || r.radios || r.select || r.check;
+    if (kind === 'nudge') return !r.nudge || !r.num || !r.slider || r.radios || r.select || r.check;
     if (kind === 'slider') return !r.slider || !r.num || r.nudge || r.radios || r.select || r.check;
     if (kind === 'radio') return r.radios !== n || r.slider || r.nudge || r.num || r.select || r.check;
     if (kind === 'select') return r.select !== n || r.slider || r.nudge || r.num || r.radios || r.check;
     return r.check !== 1 || r.slider || r.nudge || r.num || r.radios || r.select;
   });
-  c('every value has the widget that fits it: pixels and counts - / box / + (no slider), timings and speeds a slider with a box, few named choices radio buttons, many a dropdown, on/off a checkbox; no row shows a reset until changed',
+  c('every value has the widget that fits it: pixels and counts a slider plus - / box / +, timings and speeds a slider with a box, few named choices radio buttons, many a dropdown, on/off a checkbox; no row shows a reset until changed',
     ctlBad.length === 0 && Object.keys(ctl.rows).length === ctl.tun.length + ctl.ns.length && ctl.rows['text.font'].kind === 'select' && ctl.rows['marking.actionCards'].kind === 'check'
     && ctl.rows['marking.ink'].swatches === 3 && ctl.rows['overlay.notesPanel'].refTag === '1' && ctl.rows['marking.style'].refTag === '2', { ctlBad, n: Object.keys(ctl.rows).length });
   const ui = await lab(async () => {

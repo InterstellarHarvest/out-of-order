@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-m2-reception-polish-lab-qa-v1",
-  "passed": 278,
-  "total": 278,
+  "passed": 280,
+  "total": 280,
   "failures": [],
   "checks": [
     {
@@ -381,9 +381,22 @@
             51,
             52
           ],
-          "ms": 159
+          "ms": 157
         },
-        "href0": "http://127.0.0.1:59823/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "dragging a position slider updates the lab stage live, step by step, and its number box follows",
+      "ok": true,
+      "detail": {
+        "tops": [
+          53,
+          54,
+          55
+        ],
+        "box": "11"
       }
     },
     {
@@ -622,16 +635,16 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "100px",
-          "72px",
-          "51px",
-          "35px",
-          "25px",
-          "17px",
-          "12px",
+          "105px",
+          "77px",
+          "55px",
+          "38px",
+          "26px",
+          "18px",
+          "13px",
           "10px",
           "9px",
-          "13px",
+          "12px",
           "15px"
         ]
       }
@@ -654,8 +667,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:59823/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:59823/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -679,7 +692,7 @@
       "browser": "chromium",
       "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.505,730px"
+      "detail": "500,400,0.5055999999046326,730px"
     },
     {
       "browser": "chromium",
@@ -1764,7 +1777,7 @@
       "browser": "chromium",
       "name": "a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value",
       "ok": true,
-      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:59823/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
     },
     {
       "browser": "chromium",
@@ -1775,7 +1788,7 @@
       "browser": "chromium",
       "name": "the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)",
       "ok": true,
-      "detail": "0.645125,,0"
+      "detail": "0.66675,,0"
     },
     {
       "browser": "chromium",
@@ -1872,7 +1885,7 @@
     },
     {
       "browser": "chromium",
-      "name": "every value has the widget that fits it: pixels and counts - / box / + (no slider), timings and speeds a slider with a box, few named choices radio buttons, many a dropdown, on/off a checkbox; no row shows a reset until changed",
+      "name": "every value has the widget that fits it: pixels and counts a slider plus - / box / +, timings and speeds a slider with a box, few named choices radio buttons, many a dropdown, on/off a checkbox; no row shows a reset until changed",
       "ok": true,
       "detail": {
         "ctlBad": [],
@@ -2241,9 +2254,22 @@
             51,
             52
           ],
-          "ms": 159
+          "ms": 160
         },
-        "href0": "http://127.0.0.1:59823/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "dragging a position slider updates the lab stage live, step by step, and its number box follows",
+      "ok": true,
+      "detail": {
+        "tops": [
+          53,
+          54,
+          55
+        ],
+        "box": "11"
       }
     },
     {
@@ -2483,8 +2509,8 @@
         "xs": [
           "14px",
           "109px",
-          "77px",
-          "54px",
+          "74px",
+          "57px",
           "38px",
           "28px",
           "17px",
@@ -2514,8 +2540,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:59823/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:59823/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -3624,7 +3650,7 @@
       "browser": "firefox",
       "name": "a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value",
       "ok": true,
-      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:59823/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
     },
     {
       "browser": "firefox",
@@ -3635,7 +3661,7 @@
       "browser": "firefox",
       "name": "the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)",
       "ok": true,
-      "detail": "0.64625,,0"
+      "detail": "0.6425,,0"
     },
     {
       "browser": "firefox",
@@ -3732,7 +3758,7 @@
     },
     {
       "browser": "firefox",
-      "name": "every value has the widget that fits it: pixels and counts - / box / + (no slider), timings and speeds a slider with a box, few named choices radio buttons, many a dropdown, on/off a checkbox; no row shows a reset until changed",
+      "name": "every value has the widget that fits it: pixels and counts a slider plus - / box / +, timings and speeds a slider with a box, few named choices radio buttons, many a dropdown, on/off a checkbox; no row shows a reset until changed",
       "ok": true,
       "detail": {
         "ctlBad": [],
