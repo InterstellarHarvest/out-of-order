@@ -13,7 +13,17 @@
 4. [55 Gameplay & Narrative Presentation Study](55_GAMEPLAY_NARRATIVE_PRESENTATION_STUDY_V01.md) — draft incident grammar and semantic right column.
 5. [56 Parallel Creative Track Plan](56_PARALLEL_CREATIVE_TRACK_PLAN_V01.md) — Detroit/House of Danger comparison, ownership boundaries, staged creative gates.
 6. [57 Branching & Dice Paper Test](57_BRANCHING_DICE_PAPER_TEST_V01.md) — historical mechanics idea; ON HOLD until story material exists.
-7. [59 Story Spine Laboratory 01](59_STORY_SPINE_LAB_01.md) — **CURRENT CREATIVE WORK**: story engines, bathroom motive ladder, adventure/character/mystery seeds and provisional arc.
+7. [59 Story Spine Laboratory 01](59_STORY_SPINE_LAB_01.md) — earlier story-pitch comparison; ranking superseded by owner Expo direction.
+8. [60 The Exposition of Everything — Opening & Story Engine](60_EXPOSITION_OPENING_AND_STORY_ENGINE_V01.md) — **CURRENT CREATIVE WORK**: detailed owner opening and novel Expo adventure framework.
+
+## Most recent owner story direction (2026-11-07)
+
+- **The Exposition of Everything** is the preferred adventure engine: intentionally very different exhibit rooms, floors and buildings, allowing humorous book/film allegories and strange environments. Earlier inspector-procedural direction is no longer the lead.
+- Narrative generally moves forward like a CYOA rather than looping back through an explorable hub. Normal-person attempts to return to mundane objectives are continually redirected by circumstances and rules; decisions should still matter within that predicament.
+- **Pre-reception full-game opening:** ridiculous employer and job, fly/printer-caused accidental inclusion among 500,000 laid off, fired while heading to office bathroom, access revoked, forced exit, personal-effects box outside. The player may inspect and collect assorted office items; one funny but sentimental thing is hard to abandon. Expo-entry policy then takes most accumulated possessions; the player seeks the nearby Expo bathroom and reaches reception.
+- The bathroom is essential at the beginning but should become a **rare callback later**, not a constant gag or timer.
+- Brainstorm **stories and specific adventures first**. Mechanic and branching tests remain on hold until there is narrative worth branching.
+- Everything else in current work remains on a docs-only review branch; no changes to other PMO's M2 implementation.
 
 ## Owner-confirmed foundation
 
@@ -55,7 +65,9 @@
 - [x] Make three-route sample branch and two candidate dice systems (`docs/57`).
 - [x] **Owner sequencing decision:** story-first (C) before mechanical branch testing.
 - [x] Start story laboratory / candidate story engines in doc 59.
-- [ ] Owner selects/refines a promising macro-story engine and a credible reason for the protagonist to continue after reception.
+- [x] Owner selected the Expo as primary story generator and provided pre-reception sequence (doc 60).
+- [ ] Explore and select one or more first *post-reception* Expo adventures, and plausible reasons circumstances continue pushing the protagonist forward.
+- [ ] Resolve open creative details of the former job, memorable keepsake, first exhibit, and how many different exhibit worlds the larger plot can sustain.
 - [ ] Develop story-spine beats, relevant supporting characters, a few memorable episodes and possible difficult outcomes without locking the mystery too early.
 - [ ] **Later**, after concrete scenes exist, evaluate House of Danger item/dice checks and Detroit-style chapter divergence. No Claude branch lab yet.
 - [ ] Review failed and successful item-assisted routes, chapter divergence, and later state callbacks; record owner rulings.
