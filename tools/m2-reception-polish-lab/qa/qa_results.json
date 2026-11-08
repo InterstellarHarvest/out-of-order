@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-m2-reception-polish-lab-qa-v1",
-  "passed": 233,
-  "total": 233,
+  "passed": 268,
+  "total": 268,
   "failures": [],
   "checks": [
     {
@@ -32,7 +32,16 @@
     },
     {
       "browser": "static",
-      "name": "Narrative Study: the review overlays are the art-study branch files, byte-identical, outside the lab folder (review/)",
+      "name": "Narrative Study: the review overlays are pinned (column-1919 fix) and live outside the lab folder (review/)",
+      "ok": true,
+      "detail": [
+        "ebc7ccd00f4e5575673ad5e404f31453985ef24d34a64662166ab4370c65514c",
+        "dddb6be4d1d5f5c03eff0f0a82c3e3377109ec6bdb28f2c5eaaa5a496b8769c4"
+      ]
+    },
+    {
+      "browser": "static",
+      "name": "Narrative Study: their sources are the art-study branch files (origin/agent/narrative-mode-b-art-study)",
       "ok": true,
       "detail": [
         "0dca8af319f3c67ca4f382f365d4ab642ec5cced0f81031ca34e36d9efdd88f7",
@@ -97,6 +106,8 @@
           "tooltip.gapY": 4,
           "tooltip.padX": 10,
           "tooltip.padY": 7,
+          "tooltip.reasonFace": 1,
+          "tooltip.reasonGapY": 5,
           "notice.x": 56,
           "notice.y": 730,
           "notice.itemX": 14,
@@ -172,6 +183,8 @@
           "tooltip.gapY": 4,
           "tooltip.padX": 10,
           "tooltip.padY": 7,
+          "tooltip.reasonFace": 1,
+          "tooltip.reasonGapY": 5,
           "notice.x": 56,
           "notice.y": 730,
           "notice.itemX": 14,
@@ -219,8 +232,21 @@
     },
     {
       "browser": "chromium",
-      "name": "the lab opens on exact production values (no changes)",
-      "ok": true
+      "name": "a fresh lab opens on production values plus only the owner's lab defaults (item slip fade-in 500 ms, NOTES background v2)",
+      "ok": true,
+      "detail": {
+        "fresh": {
+          "notice.fadeInMs": 500,
+          "overlay.notesPanel": 2
+        },
+        "others": []
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "RESET ALL TO PRODUCTION clears the owner defaults (the lab records that it added them, so a reload does not add them again)",
+      "ok": true,
+      "detail": "owner-2026-11-08"
     },
     {
       "browser": "chromium",
@@ -257,13 +283,13 @@
     },
     {
       "browser": "chromium",
-      "name": "tooltip states show OBSERVE / OBSERVE - NOTHING NEW TO NOTICE / READ / SHOW - NOT AVAILABLE HERE",
+      "name": "tooltip states show OBSERVE / OBSERVE + NOTHING NEW TO NOTICE / READ / SHOW + NOT AVAILABLE HERE (the reason on its own line)",
       "ok": true,
       "detail": {
         "tooltip-enabled": "OBSERVE",
-        "tooltip-disabled": "OBSERVE - NOTHING NEW TO NOTICE",
+        "tooltip-disabled": "OBSERVE\nNOTHING NEW TO NOTICE",
         "tooltip-read": "READ",
-        "tooltip-show": "SHOW - NOT AVAILABLE HERE"
+        "tooltip-show": "SHOW\nNOT AVAILABLE HERE"
       }
     },
     {
@@ -355,9 +381,9 @@
             51,
             52
           ],
-          "ms": 157
+          "ms": 158
         },
-        "href0": "http://127.0.0.1:53389/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -440,7 +466,7 @@
       "browser": "chromium",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 73
+      "detail": 75
     },
     {
       "browser": "chromium",
@@ -547,6 +573,18 @@
     },
     {
       "browser": "chromium",
+      "name": "tooltip reason line: production is the Labels face at half size (9 px rows) 5 px below the label; the lab can switch it live to the Dialogue face and another gap (LAB frame only)",
+      "ok": true,
+      "detail": {
+        "why0": "9,30,46",
+        "why2": [
+          "21,33,61",
+          "9,30,46"
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "ITEM RECEIVED replays the production FACILITIES KEY slip, repeatedly, in the LAB view",
       "ok": true,
       "detail": {
@@ -584,17 +622,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "113px",
-          "83px",
-          "60px",
-          "42px",
-          "30px",
-          "20px",
+          "115px",
+          "88px",
+          "64px",
+          "46px",
+          "31px",
+          "21px",
+          "15px",
           "11px",
           "9px",
           "10px",
-          "13px",
-          "15px"
+          "13px"
         ]
       }
     },
@@ -616,8 +654,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:53389/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:53389/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -641,7 +679,7 @@
       "browser": "chromium",
       "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.5042000002861023,730px"
+      "detail": "500,400,0.5075999999046326,730px"
     },
     {
       "browser": "chromium",
@@ -820,6 +858,15 @@
     },
     {
       "browser": "chromium",
+      "name": "Narrative Study: the narration is in the second person, present tense (no I / me / my; an action's result opens \"YOU ...\")",
+      "ok": true,
+      "detail": {
+        "firstPerson": [],
+        "results": []
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "Narrative Study: in a preview the header says STUDY DEFAULTS / LAB + STUDY VALUES and shows the EXPERIMENTAL badge (never PRODUCTION)",
       "ok": true,
       "detail": [
@@ -842,13 +889,19 @@
           "pages": 1,
           "capacity": 16,
           "lines": 5,
-          "maxInk": 518,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
+          "maxInk": 513,
           "width": 522,
           "box": "1350,77,522,411",
           "revealed": true,
-          "text": "THE RECEPTIONIST WAS BUSY WITH A FORM AND DID NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STOOD\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITED IN\nITS SLOT.",
+          "text": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
+          "all": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"],[\"wait\",\"action\"]]",
           "taken": "[]"
         },
@@ -882,13 +935,19 @@
           "pages": 1,
           "capacity": 16,
           "lines": 5,
-          "maxInk": 518,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
+          "maxInk": 513,
           "width": 522,
           "box": "1350,77,522,411",
           "revealed": true,
-          "text": "THE RECEPTIONIST WAS BUSY WITH A FORM AND DID NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STOOD\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITED IN\nITS SLOT.",
+          "text": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
+          "all": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"],[\"wait\",\"action\"]]",
           "taken": "[]"
         },
@@ -903,6 +962,25 @@
         "hidden": "hidden,hidden,hidden",
         "state": "opening,1,1"
       }
+    },
+    {
+      "browser": "chromium",
+      "name": "the stray 1 px cream line at the panel's right edge is gone: in both overlays only column 1919 changed (459 px), each now repeating column 1918; no cream left there",
+      "ok": true,
+      "detail": [
+        {
+          "elsewhere": 0,
+          "fixed": 459,
+          "wrong": 0,
+          "cream": 0
+        },
+        {
+          "elsewhere": 0,
+          "fixed": 459,
+          "wrong": 0,
+          "cream": 0
+        }
+      ]
     },
     {
       "browser": "chromium",
@@ -946,7 +1024,7 @@
     },
     {
       "browser": "chromium",
-      "name": "Overflowing passage, page 1: only one 1-line CONTINUE card, no authored decision on show",
+      "name": "Long passage, first part: only one 1-line CONTINUE card; whole paragraphs that fit the panel together (no scroll yet)",
       "ok": true,
       "detail": {
         "p1": {
@@ -957,13 +1035,19 @@
           "pages": 2,
           "capacity": 16,
           "lines": 12,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
           "maxInk": 520,
           "width": 522,
           "box": "1350,77,522,411",
           "revealed": true,
-          "text": "A NOTICE WAS PINNED BESIDE THE DOUBLE DOORS,\nTYPED ON THE BUILDING'S OWN FORM. I READ IT BECAUSE\nTHERE WAS NOTHING ELSE TO DO, AND BECAUSE THE\nFORM HAD BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAID THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.",
+          "text": "A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED\nON THE BUILDING'S OWN FORM. YOU READ IT BECAUSE\nTHERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM\nHAS BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.",
+          "all": "A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED\nON THE BUILDING'S OWN FORM. YOU READ IT BECAUSE\nTHERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM\nHAS BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"continue\",\"continue\"]]",
           "taken": "[]"
         },
@@ -972,7 +1056,7 @@
     },
     {
       "browser": "chromium",
-      "name": "CONTINUE replaces the passage with the next page (no history) and only the final page reveals the decisions",
+      "name": "CONTINUE adds the next part BELOW the first (nothing replaced); the box scrolls to it; with more than fits, the dialogue's scroll thumb shows once the text has stopped",
       "ok": true,
       "detail": {
         "p2": {
@@ -982,22 +1066,45 @@
           "page": 1,
           "pages": 2,
           "capacity": 16,
-          "lines": 12,
-          "maxInk": 517,
+          "lines": 25,
+          "scroll": 9,
+          "maxScroll": 9,
+          "thumb": true,
+          "maxInk": 520,
           "width": 522,
           "box": "1350,77,522,411",
           "revealed": true,
-          "text": "BELOW THAT, IN SMALLER TYPE, IT EXPLAINED THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN THE HOURS OF NINE AND NINE FIFTEEN, ON ANY\nDAY THE DESK IS STAFFED. THE DESK IS STAFFED BY\nVISITORS, AS OF TODAY.\n\nAT THE VERY BOTTOM SOMEONE HAD ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR WAS FOR THE USE\nOF STAFF ONLY, AND THAT THIS RULE HAD NOT CHANGED.\nTHE HANDWRITING WAS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
+          "text": "THE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.\n\nBELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK\nIS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, \"IT IS\nPERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.\"\n\nAT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF\nSTAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.\nTHE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
+          "all": "A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED\nON THE BUILDING'S OWN FORM. YOU READ IT BECAUSE\nTHERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM\nHAS BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.\n\nBELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK\nIS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, \"IT IS\nPERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.\"\n\nAT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF\nSTAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.\nTHE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"reclassify\",\"action\"],[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"]]",
           "taken": "[[\"continue\",\"continue\"]]"
+        },
+        "thumb2": {
+          "cls": "speech-indicator on",
+          "on": true,
+          "r": [
+            1899,
+            224,
+            8,
+            252
+          ],
+          "op": "1"
         }
       }
     },
     {
       "browser": "chromium",
-      "name": "the final-page state is reached by taking CONTINUE (page 2 of 2, three actions)",
+      "name": "only the last part reveals the decisions (three actions)",
+      "ok": true,
+      "detail": "[[\"reclassify\",\"action\"],[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"]]"
+    },
+    {
+      "browser": "chromium",
+      "name": "the final state is reached by taking CONTINUE (part 2 of 2, the whole passage in the narration, three actions)",
       "ok": true,
       "detail": {
         "active": true,
@@ -1006,55 +1113,88 @@
         "page": 1,
         "pages": 2,
         "capacity": 16,
-        "lines": 12,
-        "maxInk": 517,
+        "lines": 25,
+        "scroll": 9,
+        "maxScroll": 9,
+        "thumb": true,
+        "maxInk": 520,
         "width": 522,
         "box": "1350,77,522,411",
         "revealed": true,
-        "text": "BELOW THAT, IN SMALLER TYPE, IT EXPLAINED THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN THE HOURS OF NINE AND NINE FIFTEEN, ON ANY\nDAY THE DESK IS STAFFED. THE DESK IS STAFFED BY\nVISITORS, AS OF TODAY.\n\nAT THE VERY BOTTOM SOMEONE HAD ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR WAS FOR THE USE\nOF STAFF ONLY, AND THAT THIS RULE HAD NOT CHANGED.\nTHE HANDWRITING WAS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
+        "text": "THE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.\n\nBELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK\nIS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, \"IT IS\nPERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.\"\n\nAT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF\nSTAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.\nTHE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
+        "all": "A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED\nON THE BUILDING'S OWN FORM. YOU READ IT BECAUSE\nTHERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM\nHAS BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.\n\nBELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK\nIS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, \"IT IS\nPERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.\"\n\nAT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF\nSTAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.\nTHE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
         "candidate": 1,
         "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+        "flow": 1,
+        "marking": 2,
         "kinds": "[[\"reclassify\",\"action\"],[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"]]",
         "taken": "[[\"continue\",\"continue\"]]"
       }
     },
     {
       "browser": "chromium",
-      "name": "a 3+ page passage: CONTINUE alone on every page but the last; the decisions appear only on the last",
+      "name": "the wheel scrolls the narration back to its first line (clamped at the top) and on again a line at a time; the thumb sits at the top of its rail",
+      "ok": true,
+      "detail": {
+        "top": 0,
+        "thumbTop": 83,
+        "one": 1
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "a 3+ part passage: CONTINUE alone on every part but the last; each part adds on; the decisions appear only on the last",
       "ok": true,
       "detail": [
         [
           0,
           3,
           "continue",
-          12,
-          16
+          true
         ],
         [
           1,
           3,
           "continue",
-          12,
-          16
+          true
         ],
         [
           2,
           3,
           "reclassify+examine-keypad+pull-lever",
-          14,
-          16
+          true
         ]
       ]
     },
     {
       "browser": "chromium",
-      "name": "no clipping or lost text: 4 faces x 3 fixtures x 3 break rules x 3 line spacings fit the page budget and the parchment",
+      "name": "a paragraph longer than the panel is one part (no CONTINUE): it types on, the box follows the newest line, the thumb waits until it stops, then shows",
+      "ok": true,
+      "detail": {
+        "during": 30,
+        "last": [
+          true,
+          5,
+          true,
+          1
+        ],
+        "tl": [
+          1,
+          5,
+          5,
+          true
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "no clipping or lost text: 4 faces x 3 fixtures x 3 line spacings x 5 continuation rules fit the panel budget and the parchment (180 cases)",
       "ok": true,
       "detail": []
     },
     {
       "browser": "chromium",
-      "name": "a single paragraph longer than a page breaks at sentence ends, never mid-sentence (break at paragraph)",
+      "name": "separate pages (the earlier study, still selectable): a single paragraph longer than a page breaks at sentence ends",
       "ok": true,
       "detail": [
         [
@@ -1126,7 +1266,7 @@
         [
           4,
           44,
-          4,
+          3,
           true
         ]
       ]
@@ -1145,13 +1285,19 @@
           "pages": 1,
           "capacity": 6,
           "lines": 3,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
           "maxInk": 538,
           "width": 540,
           "box": "1342,360,540,141",
           "revealed": true,
           "text": "A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN\nSMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY.\nCODES ARE ISSUED, NOT GUESSED.",
+          "all": "A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN\nSMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY.\nCODES ARE ISSUED, NOT GUESSED.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"press-keys\",\"action\"],[\"stop\",\"action\"]]",
           "taken": "[[\"examine-keypad\",\"action\"]]"
         }
@@ -1171,13 +1317,19 @@
           "pages": 1,
           "capacity": 6,
           "lines": 3,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
           "maxInk": 538,
           "width": 540,
           "box": "1342,360,540,141",
           "revealed": true,
           "text": "A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN\nSMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY.\nCODES ARE ISSUED, NOT GUESSED.",
+          "all": "A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN\nSMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY.\nCODES ARE ISSUED, NOT GUESSED.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"press-keys\",\"action\"],[\"stop\",\"action\"]]",
           "taken": "[[\"examine-keypad\",\"action\"]]"
         }
@@ -1197,25 +1349,11 @@
     },
     {
       "browser": "chromium",
-      "name": "A -> B: STOP EXAMINING returns to Narrative B with a fresh passage on page 1 (no log of the earlier passage or the description)",
+      "name": "A -> B: STOP EXAMINING returns to Narrative B and the narration CONTINUES: the earlier passage stays, the new one is added below it (the description is not)",
       "ok": true,
       "detail": {
-        "active": true,
-        "mode": "B",
-        "node": "hall-return",
-        "page": 0,
-        "pages": 1,
-        "capacity": 16,
-        "lines": 3,
-        "maxInk": 521,
-        "width": 522,
-        "box": "1350,77,522,411",
-        "revealed": true,
-        "text": "I STEPPED BACK FROM THE DOORS. THE KEYPAD WENT ON\nGLOWING FAINTLY, AS IF IT HAD MADE A NOTE OF ME.\nSOMEWHERE BEHIND THE DESK A TUBE THUMPED, ONCE.",
-        "candidate": 1,
-        "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
-        "kinds": "[[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"],[\"wait\",\"action\"]]",
-        "taken": "[[\"examine-keypad\",\"action\"],[\"stop\",\"action\"]]"
+        "b1": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
+        "b2": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.\n\nYOU STEP BACK FROM THE DOORS. THE KEYPAD GOES ON\nGLOWING FAINTLY, AS IF IT HAS MADE A NOTE OF YOU.\nSOMEWHERE BEHIND THE DESK A TUBE THUMPS, ONCE."
       }
     },
     {
@@ -1234,6 +1372,18 @@
     },
     {
       "browser": "chromium",
+      "name": "the NB-6 state shows the same continued narration (the hallway, then stepping back)",
+      "ok": true,
+      "detail": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.\n\nYOU STEP BACK FROM THE DOORS. THE KEYPAD GOES ON\nGLOWING FAINTLY, AS IF IT HAS MADE A NOTE OF YOU.\nSOMEWHERE BEHIND THE DESK A TUBE THUMPS, ONCE."
+    },
+    {
+      "browser": "chromium",
+      "name": "\"Replaces the narration\" (earlier study, selectable): back from A, only the new passage is on show",
+      "ok": true,
+      "detail": "YOU STEP BACK FROM THE DOORS. THE KEYPAD GOES ON\nGLOWING FAINTLY, AS IF IT HAS MADE A NOTE OF YOU.\nSOMEWHERE BEHIND THE DESK A TUBE THUMPS, ONCE."
+    },
+    {
+      "browser": "chromium",
       "name": "the comparison state offers ACTION and SPOKEN cards on the same approved card art, plain wording, no \"A:\" marker",
       "ok": true,
       "detail": {
@@ -1244,13 +1394,19 @@
         "pages": 1,
         "capacity": 16,
         "lines": 2,
-        "maxInk": 517,
+        "scroll": 0,
+        "maxScroll": 0,
+        "thumb": false,
+        "maxInk": 493,
         "width": 522,
         "box": "1350,77,522,411",
         "revealed": true,
-        "text": "THE LOBBY WAS QUIET. SOMEWHERE BEHIND THE DOUBLE\nDOORS, A CHAIR SCRAPED ACROSS A TILED FLOOR.",
+        "text": "THE LOBBY IS QUIET. SOMEWHERE BEHIND THE DOUBLE\nDOORS, A CHAIR SCRAPES ACROSS A TILED FLOOR.",
+        "all": "THE LOBBY IS QUIET. SOMEWHERE BEHIND THE DOUBLE\nDOORS, A CHAIR SCRAPES ACROSS A TILED FLOOR.",
         "candidate": 1,
         "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+        "flow": 1,
+        "marking": 2,
         "kinds": "[[\"examine-keypad\",\"action\"],[\"call-out\",\"spoken\"],[\"knock\",\"action\"]]",
         "taken": "[]"
       }
@@ -1263,13 +1419,127 @@
     },
     {
       "browser": "chromium",
-      "name": "the narrated result does not repeat the card as a line of speech",
+      "name": "the result continues the narration, and what you said is told as speech: in quotation marks (the default candidate), the narration around it plain",
+      "ok": true,
+      "detail": "THE LOBBY IS QUIET. SOMEWHERE BEHIND THE DOUBLE\nDOORS, A CHAIR SCRAPES ACROSS A TILED FLOOR.\n\nYOU CALL OUT, \"HELLO? IS ANYONE BACK THERE?\" YOUR\nVOICE COMES BACK OFF THE TILES. THE CHAIR STOPS\nSCRAPING. A MAN ANSWERS THROUGH THE DOORS, \"NOT\nFOR VISITORS, THERE ISN'T.\""
+    },
+    {
+      "browser": "chromium",
+      "name": "talking vs action candidates apply live to the narration: 1 plain, 2 quotes, 3 unspoken words in a second ink (red ribbon), 4 both; the ink choice switches it (faded brown)",
+      "ok": true,
+      "detail": {
+        "1": {
+          "inks": "#203037",
+          "quotes": false
+        },
+        "2": {
+          "inks": "#203037",
+          "quotes": true
+        },
+        "3": {
+          "inks": "#203037,#8e2c1f",
+          "quotes": false
+        },
+        "4": {
+          "inks": "#203037,#8e2c1f",
+          "quotes": true
+        },
+        "brown": "#203037,#6b5536"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "spoken quotation marks on the card are only a selectable candidate (lab frame only)",
       "ok": true
     },
     {
       "browser": "chromium",
-      "name": "spoken quotation marks are only a selectable candidate (lab frame only)",
-      "ok": true
+      "name": "NB-8 is the real conversation through the production flow (directions, the player's [SIGH.] and an OBSERVE thought), story state untouched",
+      "ok": true,
+      "detail": [
+        "npc",
+        "player",
+        "npc",
+        "player",
+        "npc",
+        "player",
+        "npc",
+        "player",
+        "npc",
+        "thought"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-8, quotes (default): every spoken line in quotation marks, directions without brackets, the thought without parentheses; transcript keeps the production text",
+      "ok": true,
+      "detail": [
+        "\"GOOD MORNING, AND WELCOME TO RECEPTION. PLEASE ST",
+        "\"WHERE IS THE BATHROOM, PLEASE?\"",
+        "\"ONE MOMENT.\" STAMP. \"THE FACILITIES ARE NOT A PUB",
+        "\"THERE HAS BEEN A MISTAKE. I AM NOT AN EXAMINER. I",
+        "\"OF COURSE. YOU WISH TO DISPUTE YOUR APPOINTMENT. ",
+        "\"THEN, AS EXAMINER, I RULE THAT I AM NOT THE EXAMI",
+        "\"A RULING MUST BE MADE FROM ROOM FOUR, ON THE PROP",
+        "SIGH. \"AND THE BATHROOM?\"",
+        "\"THE FACILITIES ARE BEHIND THE EXAMINERS DOOR, OVE",
+        "I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUS"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-8 opens where the history mixes most (at the player's [SIGH.] line), scrollable like any dialogue",
+      "ok": true,
+      "detail": {
+        "scroll": 23,
+        "max": 25
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-8, style 1 is the production text exactly (brackets, parentheses), re-marked live in the LAB frame only (no reload)",
+      "ok": true,
+      "detail": [
+        "GOOD MORNING, AND WELCOME TO RECEPTION. ",
+        "WHERE IS THE BATHROOM, PLEASE?",
+        "ONE MOMENT. [STAMP.] THE FACILITIES ARE ",
+        "THERE HAS BEEN A MISTAKE. I AM NOT AN EX",
+        "OF COURSE. YOU WISH TO DISPUTE YOUR APPO",
+        "THEN, AS EXAMINER, I RULE THAT I AM NOT ",
+        "A RULING MUST BE MADE FROM ROOM FOUR, ON",
+        "[SIGH.] AND THE BATHROOM?",
+        "THE FACILITIES ARE BEHIND THE EXAMINERS ",
+        "(I WATCHED HER FOR A SIGN THAT ANY OF TH"
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-8, second ink: directions and the thought in red ribbon, speech in the production dark ink, no brackets or quotes",
+      "ok": true,
+      "detail": {
+        "marked": [
+          "npc",
+          "npc",
+          "player",
+          "thought"
+        ],
+        "unspoken": [
+          2,
+          4,
+          7,
+          9
+        ],
+        "speechInks": "#203037,#8e2c1f"
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-8 refuses the reception triggers that would re-add a line (NPC typing, context action)",
+      "ok": true,
+      "detail": [
+        "not in a Narrative Study state: its dialogue is re-marked for the talking vs action study",
+        "not in a Narrative Study state: its dialogue is re-marked for the talking vs action study"
+      ]
     },
     {
       "browser": "chromium",
@@ -1312,13 +1582,19 @@
         "pages": 1,
         "capacity": 13,
         "lines": 7,
+        "scroll": 0,
+        "maxScroll": 0,
+        "thumb": false,
         "maxInk": 544,
         "width": 548,
         "box": "1360,97,548,378",
         "revealed": true,
-        "text": "THE RECEPTIONIST WAS BUSY WITH A\nFORM AND DID NOT LOOK UP. THE\nDOUBLE DOORS BESIDE THE DESK STOOD\nSHUT, WITH A BRASS KEYPAD SET INTO\nTHEIR FRAME. ABOVE IT, A LEVER\nMARKED CALL ATTENDANT WAITED IN\nITS SLOT.",
+        "text": "THE RECEPTIONIST IS BUSY WITH A\nFORM AND DOES NOT LOOK UP. THE\nDOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO\nTHEIR FRAME. ABOVE IT, A LEVER\nMARKED CALL ATTENDANT WAITS IN ITS\nSLOT.",
+        "all": "THE RECEPTIONIST IS BUSY WITH A\nFORM AND DOES NOT LOOK UP. THE\nDOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO\nTHEIR FRAME. ABOVE IT, A LEVER\nMARKED CALL ATTENDANT WAITS IN ITS\nSLOT.",
         "candidate": 2,
         "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-b-overlay.png",
+        "flow": 1,
+        "marking": 2,
         "kinds": "[[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"],[\"wait\",\"action\"]]",
         "taken": "[]"
       }
@@ -1327,17 +1603,22 @@
       "browser": "chromium",
       "name": "a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value",
       "ok": true,
-      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:53389/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+    },
+    {
+      "browser": "chromium",
+      "name": "the narration types at the dialogue's own speed by default (40 chars / s = G.layout.speech.text.charsPerSecond)",
+      "ok": true
     },
     {
       "browser": "chromium",
       "name": "the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)",
       "ok": true,
-      "detail": "0.645,,0"
+      "detail": "0.666125,,0"
     },
     {
       "browser": "chromium",
-      "name": "the reveal types the page at the set speed, a click on the text finishes it, and the choices follow only then",
+      "name": "the text types at the set speed, a click on it finishes it, and the choices follow only then",
       "ok": true,
       "detail": {
         "rev": false,
@@ -1393,7 +1674,8 @@
         "unknown": "unknown narrative study key: portrait.npcY",
         "range": "text.lineHeight: 400 is outside 16..44",
         "offParchment": "text.x + text.width (2000) must stay inside the parchment (<= 1908)",
-        "fraction": "text.y: must be a whole number (got 80.5)"
+        "fraction": "text.y: must be a whole number (got 80.5)",
+        "style": "marking.style: 5 is outside 1..4"
       }
     },
     {
@@ -1429,16 +1711,16 @@
     },
     {
       "browser": "chromium",
-      "name": "the reference state is the real reception dialogue (production flow, receptionist on show, no preview layer, PRODUCTION / LAB labels)",
+      "name": "the reference state is the real reception dialogue (production flow and text, receptionist on show, no preview layer, PRODUCTION / LAB labels)",
       "ok": true,
       "detail": {
-        "ref": "misassign|correct+cooperate+practical|visible|false|",
+        "ref": "misassign|correct+cooperate+practical|visible|false||true",
         "refHdr": "PRODUCTION,true"
       }
     },
     {
       "browser": "chromium",
-      "name": "after every preview, the reception opening is pixel-identical to before (no layer, overlay or style left behind)",
+      "name": "after every preview, the reception opening is pixel-identical to before (no layer, overlay, marking or style left behind)",
       "ok": true
     },
     {
@@ -1490,6 +1772,8 @@
           "tooltip.gapY": 4,
           "tooltip.padX": 10,
           "tooltip.padY": 7,
+          "tooltip.reasonFace": 1,
+          "tooltip.reasonGapY": 5,
           "notice.x": 56,
           "notice.y": 730,
           "notice.itemX": 14,
@@ -1565,6 +1849,8 @@
           "tooltip.gapY": 4,
           "tooltip.padX": 10,
           "tooltip.padY": 7,
+          "tooltip.reasonFace": 1,
+          "tooltip.reasonGapY": 5,
           "notice.x": 56,
           "notice.y": 730,
           "notice.itemX": 14,
@@ -1612,8 +1898,21 @@
     },
     {
       "browser": "firefox",
-      "name": "the lab opens on exact production values (no changes)",
-      "ok": true
+      "name": "a fresh lab opens on production values plus only the owner's lab defaults (item slip fade-in 500 ms, NOTES background v2)",
+      "ok": true,
+      "detail": {
+        "fresh": {
+          "notice.fadeInMs": 500,
+          "overlay.notesPanel": 2
+        },
+        "others": []
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "RESET ALL TO PRODUCTION clears the owner defaults (the lab records that it added them, so a reload does not add them again)",
+      "ok": true,
+      "detail": "owner-2026-11-08"
     },
     {
       "browser": "firefox",
@@ -1650,13 +1949,13 @@
     },
     {
       "browser": "firefox",
-      "name": "tooltip states show OBSERVE / OBSERVE - NOTHING NEW TO NOTICE / READ / SHOW - NOT AVAILABLE HERE",
+      "name": "tooltip states show OBSERVE / OBSERVE + NOTHING NEW TO NOTICE / READ / SHOW + NOT AVAILABLE HERE (the reason on its own line)",
       "ok": true,
       "detail": {
         "tooltip-enabled": "OBSERVE",
-        "tooltip-disabled": "OBSERVE - NOTHING NEW TO NOTICE",
+        "tooltip-disabled": "OBSERVE\nNOTHING NEW TO NOTICE",
         "tooltip-read": "READ",
-        "tooltip-show": "SHOW - NOT AVAILABLE HERE"
+        "tooltip-show": "SHOW\nNOT AVAILABLE HERE"
       }
     },
     {
@@ -1748,9 +2047,9 @@
             51,
             52
           ],
-          "ms": 156
+          "ms": 157
         },
-        "href0": "http://127.0.0.1:53389/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -1833,7 +2132,7 @@
       "browser": "firefox",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 73
+      "detail": 75
     },
     {
       "browser": "firefox",
@@ -1940,6 +2239,18 @@
     },
     {
       "browser": "firefox",
+      "name": "tooltip reason line: production is the Labels face at half size (9 px rows) 5 px below the label; the lab can switch it live to the Dialogue face and another gap (LAB frame only)",
+      "ok": true,
+      "detail": {
+        "why0": "9,30,46",
+        "why2": [
+          "21,33,61",
+          "9,30,46"
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
       "name": "ITEM RECEIVED replays the production FACILITIES KEY slip, repeatedly, in the LAB view",
       "ok": true,
       "detail": {
@@ -1980,13 +2291,13 @@
           "119px",
           "89px",
           "62px",
-          "42px",
-          "31px",
-          "21px",
-          "15px",
+          "44px",
+          "34px",
+          "20px",
           "11px",
           "9px",
-          "12px"
+          "12px",
+          "15px"
         ]
       }
     },
@@ -2008,8 +2319,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:53389/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:53389/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -2033,7 +2344,7 @@
       "browser": "firefox",
       "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.512,730px"
+      "detail": "500,400,0.548,730px"
     },
     {
       "browser": "firefox",
@@ -2212,6 +2523,15 @@
     },
     {
       "browser": "firefox",
+      "name": "Narrative Study: the narration is in the second person, present tense (no I / me / my; an action's result opens \"YOU ...\")",
+      "ok": true,
+      "detail": {
+        "firstPerson": [],
+        "results": []
+      }
+    },
+    {
+      "browser": "firefox",
       "name": "Narrative Study: in a preview the header says STUDY DEFAULTS / LAB + STUDY VALUES and shows the EXPERIMENTAL badge (never PRODUCTION)",
       "ok": true,
       "detail": [
@@ -2234,13 +2554,19 @@
           "pages": 1,
           "capacity": 16,
           "lines": 5,
-          "maxInk": 518,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
+          "maxInk": 513,
           "width": 522,
           "box": "1350,77,522,411",
           "revealed": true,
-          "text": "THE RECEPTIONIST WAS BUSY WITH A FORM AND DID NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STOOD\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITED IN\nITS SLOT.",
+          "text": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
+          "all": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"],[\"wait\",\"action\"]]",
           "taken": "[]"
         },
@@ -2274,13 +2600,19 @@
           "pages": 1,
           "capacity": 16,
           "lines": 5,
-          "maxInk": 518,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
+          "maxInk": 513,
           "width": 522,
           "box": "1350,77,522,411",
           "revealed": true,
-          "text": "THE RECEPTIONIST WAS BUSY WITH A FORM AND DID NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STOOD\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITED IN\nITS SLOT.",
+          "text": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
+          "all": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"],[\"wait\",\"action\"]]",
           "taken": "[]"
         },
@@ -2295,6 +2627,25 @@
         "hidden": "hidden,hidden,hidden",
         "state": "opening,1,1"
       }
+    },
+    {
+      "browser": "firefox",
+      "name": "the stray 1 px cream line at the panel's right edge is gone: in both overlays only column 1919 changed (459 px), each now repeating column 1918; no cream left there",
+      "ok": true,
+      "detail": [
+        {
+          "elsewhere": 0,
+          "fixed": 459,
+          "wrong": 0,
+          "cream": 0
+        },
+        {
+          "elsewhere": 0,
+          "fixed": 459,
+          "wrong": 0,
+          "cream": 0
+        }
+      ]
     },
     {
       "browser": "firefox",
@@ -2338,7 +2689,7 @@
     },
     {
       "browser": "firefox",
-      "name": "Overflowing passage, page 1: only one 1-line CONTINUE card, no authored decision on show",
+      "name": "Long passage, first part: only one 1-line CONTINUE card; whole paragraphs that fit the panel together (no scroll yet)",
       "ok": true,
       "detail": {
         "p1": {
@@ -2349,13 +2700,19 @@
           "pages": 2,
           "capacity": 16,
           "lines": 12,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
           "maxInk": 520,
           "width": 522,
           "box": "1350,77,522,411",
           "revealed": true,
-          "text": "A NOTICE WAS PINNED BESIDE THE DOUBLE DOORS,\nTYPED ON THE BUILDING'S OWN FORM. I READ IT BECAUSE\nTHERE WAS NOTHING ELSE TO DO, AND BECAUSE THE\nFORM HAD BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAID THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.",
+          "text": "A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED\nON THE BUILDING'S OWN FORM. YOU READ IT BECAUSE\nTHERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM\nHAS BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.",
+          "all": "A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED\nON THE BUILDING'S OWN FORM. YOU READ IT BECAUSE\nTHERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM\nHAS BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"continue\",\"continue\"]]",
           "taken": "[]"
         },
@@ -2364,7 +2721,7 @@
     },
     {
       "browser": "firefox",
-      "name": "CONTINUE replaces the passage with the next page (no history) and only the final page reveals the decisions",
+      "name": "CONTINUE adds the next part BELOW the first (nothing replaced); the box scrolls to it; with more than fits, the dialogue's scroll thumb shows once the text has stopped",
       "ok": true,
       "detail": {
         "p2": {
@@ -2374,22 +2731,45 @@
           "page": 1,
           "pages": 2,
           "capacity": 16,
-          "lines": 12,
-          "maxInk": 517,
+          "lines": 25,
+          "scroll": 9,
+          "maxScroll": 9,
+          "thumb": true,
+          "maxInk": 520,
           "width": 522,
           "box": "1350,77,522,411",
           "revealed": true,
-          "text": "BELOW THAT, IN SMALLER TYPE, IT EXPLAINED THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN THE HOURS OF NINE AND NINE FIFTEEN, ON ANY\nDAY THE DESK IS STAFFED. THE DESK IS STAFFED BY\nVISITORS, AS OF TODAY.\n\nAT THE VERY BOTTOM SOMEONE HAD ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR WAS FOR THE USE\nOF STAFF ONLY, AND THAT THIS RULE HAD NOT CHANGED.\nTHE HANDWRITING WAS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
+          "text": "THE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.\n\nBELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK\nIS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, \"IT IS\nPERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.\"\n\nAT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF\nSTAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.\nTHE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
+          "all": "A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED\nON THE BUILDING'S OWN FORM. YOU READ IT BECAUSE\nTHERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM\nHAS BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.\n\nBELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK\nIS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, \"IT IS\nPERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.\"\n\nAT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF\nSTAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.\nTHE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"reclassify\",\"action\"],[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"]]",
           "taken": "[[\"continue\",\"continue\"]]"
+        },
+        "thumb2": {
+          "cls": "speech-indicator on",
+          "on": true,
+          "r": [
+            1899,
+            224,
+            8,
+            252
+          ],
+          "op": "1"
         }
       }
     },
     {
       "browser": "firefox",
-      "name": "the final-page state is reached by taking CONTINUE (page 2 of 2, three actions)",
+      "name": "only the last part reveals the decisions (three actions)",
+      "ok": true,
+      "detail": "[[\"reclassify\",\"action\"],[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"]]"
+    },
+    {
+      "browser": "firefox",
+      "name": "the final state is reached by taking CONTINUE (part 2 of 2, the whole passage in the narration, three actions)",
       "ok": true,
       "detail": {
         "active": true,
@@ -2398,55 +2778,88 @@
         "page": 1,
         "pages": 2,
         "capacity": 16,
-        "lines": 12,
-        "maxInk": 517,
+        "lines": 25,
+        "scroll": 9,
+        "maxScroll": 9,
+        "thumb": true,
+        "maxInk": 520,
         "width": 522,
         "box": "1350,77,522,411",
         "revealed": true,
-        "text": "BELOW THAT, IN SMALLER TYPE, IT EXPLAINED THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN THE HOURS OF NINE AND NINE FIFTEEN, ON ANY\nDAY THE DESK IS STAFFED. THE DESK IS STAFFED BY\nVISITORS, AS OF TODAY.\n\nAT THE VERY BOTTOM SOMEONE HAD ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR WAS FOR THE USE\nOF STAFF ONLY, AND THAT THIS RULE HAD NOT CHANGED.\nTHE HANDWRITING WAS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
+        "text": "THE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.\n\nBELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK\nIS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, \"IT IS\nPERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.\"\n\nAT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF\nSTAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.\nTHE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
+        "all": "A NOTICE IS PINNED BESIDE THE DOUBLE DOORS, TYPED\nON THE BUILDING'S OWN FORM. YOU READ IT BECAUSE\nTHERE IS NOTHING ELSE TO DO, AND BECAUSE THE FORM\nHAS BEEN STAMPED THREE TIMES, WHICH IN THIS\nBUILDING MEANS SOMEBODY EXPECTS IT TO BE READ.\n\nIT SAYS THAT FROM TODAY ALL VISITORS ARE TO BE\nTREATED AS STAFF, AND ALL STAFF AS VISITORS, UNTIL\nTHE MATTER OF WHO IS WHICH HAS BEEN SETTLED BY\nTHE OFFICE CONCERNED. THE OFFICE CONCERNED IS NOT\nNAMED. A SPACE HAS BEEN LEFT FOR ITS NAME, AND THE\nSPACE HAS BEEN INITIALLED.\n\nBELOW THAT, IN SMALLER TYPE, IT EXPLAINS THAT ANY\nPERSON WHO BELIEVES THEY HAVE BEEN MISCLASSIFIED\nMAY APPLY FOR RECLASSIFICATION AT THE DESK,\nBETWEEN NINE AND NINE FIFTEEN, ON ANY DAY THE DESK\nIS STAFFED. BEHIND YOU, THE RECEPTIONIST SAYS, \"IT IS\nPERFECTLY CLEAR ONCE YOU HAVE READ IT TWICE.\"\n\nAT THE VERY BOTTOM SOMEONE HAS ADDED, BY HAND,\nTHAT THE BATHROOM ON THIS FLOOR IS FOR THE USE OF\nSTAFF ONLY, AND THAT THIS RULE HAS NOT CHANGED.\nTHE HANDWRITING IS NEAT AND VERY SMALL, AS IF IT\nWERE EMBARRASSED TO BE THERE AT ALL.",
         "candidate": 1,
         "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+        "flow": 1,
+        "marking": 2,
         "kinds": "[[\"reclassify\",\"action\"],[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"]]",
         "taken": "[[\"continue\",\"continue\"]]"
       }
     },
     {
       "browser": "firefox",
-      "name": "a 3+ page passage: CONTINUE alone on every page but the last; the decisions appear only on the last",
+      "name": "the wheel scrolls the narration back to its first line (clamped at the top) and on again a line at a time; the thumb sits at the top of its rail",
+      "ok": true,
+      "detail": {
+        "top": 0,
+        "thumbTop": 83,
+        "one": 1
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "a 3+ part passage: CONTINUE alone on every part but the last; each part adds on; the decisions appear only on the last",
       "ok": true,
       "detail": [
         [
           0,
           3,
           "continue",
-          12,
-          16
+          true
         ],
         [
           1,
           3,
           "continue",
-          12,
-          16
+          true
         ],
         [
           2,
           3,
           "reclassify+examine-keypad+pull-lever",
-          14,
-          16
+          true
         ]
       ]
     },
     {
       "browser": "firefox",
-      "name": "no clipping or lost text: 4 faces x 3 fixtures x 3 break rules x 3 line spacings fit the page budget and the parchment",
+      "name": "a paragraph longer than the panel is one part (no CONTINUE): it types on, the box follows the newest line, the thumb waits until it stops, then shows",
+      "ok": true,
+      "detail": {
+        "during": 30,
+        "last": [
+          true,
+          5,
+          true,
+          1
+        ],
+        "tl": [
+          1,
+          5,
+          5,
+          true
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "no clipping or lost text: 4 faces x 3 fixtures x 3 line spacings x 5 continuation rules fit the panel budget and the parchment (180 cases)",
       "ok": true,
       "detail": []
     },
     {
       "browser": "firefox",
-      "name": "a single paragraph longer than a page breaks at sentence ends, never mid-sentence (break at paragraph)",
+      "name": "separate pages (the earlier study, still selectable): a single paragraph longer than a page breaks at sentence ends",
       "ok": true,
       "detail": [
         [
@@ -2518,7 +2931,7 @@
         [
           4,
           44,
-          4,
+          3,
           true
         ]
       ]
@@ -2537,13 +2950,19 @@
           "pages": 1,
           "capacity": 6,
           "lines": 3,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
           "maxInk": 538,
           "width": 540,
           "box": "1342,360,540,141",
           "revealed": true,
           "text": "A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN\nSMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY.\nCODES ARE ISSUED, NOT GUESSED.",
+          "all": "A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN\nSMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY.\nCODES ARE ISSUED, NOT GUESSED.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"press-keys\",\"action\"],[\"stop\",\"action\"]]",
           "taken": "[[\"examine-keypad\",\"action\"]]"
         }
@@ -2563,13 +2982,19 @@
           "pages": 1,
           "capacity": 6,
           "lines": 3,
+          "scroll": 0,
+          "maxScroll": 0,
+          "thumb": false,
           "maxInk": 538,
           "width": 540,
           "box": "1342,360,540,141",
           "revealed": true,
           "text": "A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN\nSMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY.\nCODES ARE ISSUED, NOT GUESSED.",
+          "all": "A BRASS KEYPAD, TWELVE KEYS, THE NUMBERS WORN\nSMOOTH. A STAMPED PLATE BELOW IT READS: STAFF ONLY.\nCODES ARE ISSUED, NOT GUESSED.",
           "candidate": 1,
           "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+          "flow": 1,
+          "marking": 2,
           "kinds": "[[\"press-keys\",\"action\"],[\"stop\",\"action\"]]",
           "taken": "[[\"examine-keypad\",\"action\"]]"
         }
@@ -2589,25 +3014,11 @@
     },
     {
       "browser": "firefox",
-      "name": "A -> B: STOP EXAMINING returns to Narrative B with a fresh passage on page 1 (no log of the earlier passage or the description)",
+      "name": "A -> B: STOP EXAMINING returns to Narrative B and the narration CONTINUES: the earlier passage stays, the new one is added below it (the description is not)",
       "ok": true,
       "detail": {
-        "active": true,
-        "mode": "B",
-        "node": "hall-return",
-        "page": 0,
-        "pages": 1,
-        "capacity": 16,
-        "lines": 3,
-        "maxInk": 521,
-        "width": 522,
-        "box": "1350,77,522,411",
-        "revealed": true,
-        "text": "I STEPPED BACK FROM THE DOORS. THE KEYPAD WENT ON\nGLOWING FAINTLY, AS IF IT HAD MADE A NOTE OF ME.\nSOMEWHERE BEHIND THE DESK A TUBE THUMPED, ONCE.",
-        "candidate": 1,
-        "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
-        "kinds": "[[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"],[\"wait\",\"action\"]]",
-        "taken": "[[\"examine-keypad\",\"action\"],[\"stop\",\"action\"]]"
+        "b1": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.",
+        "b2": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.\n\nYOU STEP BACK FROM THE DOORS. THE KEYPAD GOES ON\nGLOWING FAINTLY, AS IF IT HAS MADE A NOTE OF YOU.\nSOMEWHERE BEHIND THE DESK A TUBE THUMPS, ONCE."
       }
     },
     {
@@ -2626,6 +3037,18 @@
     },
     {
       "browser": "firefox",
+      "name": "the NB-6 state shows the same continued narration (the hallway, then stepping back)",
+      "ok": true,
+      "detail": "THE RECEPTIONIST IS BUSY WITH A FORM AND DOES NOT\nLOOK UP. THE DOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO THEIR FRAME.\nABOVE IT, A LEVER MARKED CALL ATTENDANT WAITS IN\nITS SLOT.\n\nYOU STEP BACK FROM THE DOORS. THE KEYPAD GOES ON\nGLOWING FAINTLY, AS IF IT HAS MADE A NOTE OF YOU.\nSOMEWHERE BEHIND THE DESK A TUBE THUMPS, ONCE."
+    },
+    {
+      "browser": "firefox",
+      "name": "\"Replaces the narration\" (earlier study, selectable): back from A, only the new passage is on show",
+      "ok": true,
+      "detail": "YOU STEP BACK FROM THE DOORS. THE KEYPAD GOES ON\nGLOWING FAINTLY, AS IF IT HAS MADE A NOTE OF YOU.\nSOMEWHERE BEHIND THE DESK A TUBE THUMPS, ONCE."
+    },
+    {
+      "browser": "firefox",
       "name": "the comparison state offers ACTION and SPOKEN cards on the same approved card art, plain wording, no \"A:\" marker",
       "ok": true,
       "detail": {
@@ -2636,13 +3059,19 @@
         "pages": 1,
         "capacity": 16,
         "lines": 2,
-        "maxInk": 517,
+        "scroll": 0,
+        "maxScroll": 0,
+        "thumb": false,
+        "maxInk": 493,
         "width": 522,
         "box": "1350,77,522,411",
         "revealed": true,
-        "text": "THE LOBBY WAS QUIET. SOMEWHERE BEHIND THE DOUBLE\nDOORS, A CHAIR SCRAPED ACROSS A TILED FLOOR.",
+        "text": "THE LOBBY IS QUIET. SOMEWHERE BEHIND THE DOUBLE\nDOORS, A CHAIR SCRAPES ACROSS A TILED FLOOR.",
+        "all": "THE LOBBY IS QUIET. SOMEWHERE BEHIND THE DOUBLE\nDOORS, A CHAIR SCRAPES ACROSS A TILED FLOOR.",
         "candidate": 1,
         "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-a-overlay.png",
+        "flow": 1,
+        "marking": 2,
         "kinds": "[[\"examine-keypad\",\"action\"],[\"call-out\",\"spoken\"],[\"knock\",\"action\"]]",
         "taken": "[]"
       }
@@ -2655,13 +3084,127 @@
     },
     {
       "browser": "firefox",
-      "name": "the narrated result does not repeat the card as a line of speech",
+      "name": "the result continues the narration, and what you said is told as speech: in quotation marks (the default candidate), the narration around it plain",
+      "ok": true,
+      "detail": "THE LOBBY IS QUIET. SOMEWHERE BEHIND THE DOUBLE\nDOORS, A CHAIR SCRAPES ACROSS A TILED FLOOR.\n\nYOU CALL OUT, \"HELLO? IS ANYONE BACK THERE?\" YOUR\nVOICE COMES BACK OFF THE TILES. THE CHAIR STOPS\nSCRAPING. A MAN ANSWERS THROUGH THE DOORS, \"NOT\nFOR VISITORS, THERE ISN'T.\""
+    },
+    {
+      "browser": "firefox",
+      "name": "talking vs action candidates apply live to the narration: 1 plain, 2 quotes, 3 unspoken words in a second ink (red ribbon), 4 both; the ink choice switches it (faded brown)",
+      "ok": true,
+      "detail": {
+        "1": {
+          "inks": "#203037",
+          "quotes": false
+        },
+        "2": {
+          "inks": "#203037",
+          "quotes": true
+        },
+        "3": {
+          "inks": "#203037,#8e2c1f",
+          "quotes": false
+        },
+        "4": {
+          "inks": "#203037,#8e2c1f",
+          "quotes": true
+        },
+        "brown": "#203037,#6b5536"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "spoken quotation marks on the card are only a selectable candidate (lab frame only)",
       "ok": true
     },
     {
       "browser": "firefox",
-      "name": "spoken quotation marks are only a selectable candidate (lab frame only)",
-      "ok": true
+      "name": "NB-8 is the real conversation through the production flow (directions, the player's [SIGH.] and an OBSERVE thought), story state untouched",
+      "ok": true,
+      "detail": [
+        "npc",
+        "player",
+        "npc",
+        "player",
+        "npc",
+        "player",
+        "npc",
+        "player",
+        "npc",
+        "thought"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-8, quotes (default): every spoken line in quotation marks, directions without brackets, the thought without parentheses; transcript keeps the production text",
+      "ok": true,
+      "detail": [
+        "\"GOOD MORNING, AND WELCOME TO RECEPTION. PLEASE ST",
+        "\"WHERE IS THE BATHROOM, PLEASE?\"",
+        "\"ONE MOMENT.\" STAMP. \"THE FACILITIES ARE NOT A PUB",
+        "\"THERE HAS BEEN A MISTAKE. I AM NOT AN EXAMINER. I",
+        "\"OF COURSE. YOU WISH TO DISPUTE YOUR APPOINTMENT. ",
+        "\"THEN, AS EXAMINER, I RULE THAT I AM NOT THE EXAMI",
+        "\"A RULING MUST BE MADE FROM ROOM FOUR, ON THE PROP",
+        "SIGH. \"AND THE BATHROOM?\"",
+        "\"THE FACILITIES ARE BEHIND THE EXAMINERS DOOR, OVE",
+        "I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUS"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-8 opens where the history mixes most (at the player's [SIGH.] line), scrollable like any dialogue",
+      "ok": true,
+      "detail": {
+        "scroll": 23,
+        "max": 25
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-8, style 1 is the production text exactly (brackets, parentheses), re-marked live in the LAB frame only (no reload)",
+      "ok": true,
+      "detail": [
+        "GOOD MORNING, AND WELCOME TO RECEPTION. ",
+        "WHERE IS THE BATHROOM, PLEASE?",
+        "ONE MOMENT. [STAMP.] THE FACILITIES ARE ",
+        "THERE HAS BEEN A MISTAKE. I AM NOT AN EX",
+        "OF COURSE. YOU WISH TO DISPUTE YOUR APPO",
+        "THEN, AS EXAMINER, I RULE THAT I AM NOT ",
+        "A RULING MUST BE MADE FROM ROOM FOUR, ON",
+        "[SIGH.] AND THE BATHROOM?",
+        "THE FACILITIES ARE BEHIND THE EXAMINERS ",
+        "(I WATCHED HER FOR A SIGN THAT ANY OF TH"
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-8, second ink: directions and the thought in red ribbon, speech in the production dark ink, no brackets or quotes",
+      "ok": true,
+      "detail": {
+        "marked": [
+          "npc",
+          "npc",
+          "player",
+          "thought"
+        ],
+        "unspoken": [
+          2,
+          4,
+          7,
+          9
+        ],
+        "speechInks": "#203037,#8e2c1f"
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-8 refuses the reception triggers that would re-add a line (NPC typing, context action)",
+      "ok": true,
+      "detail": [
+        "not in a Narrative Study state: its dialogue is re-marked for the talking vs action study",
+        "not in a Narrative Study state: its dialogue is re-marked for the talking vs action study"
+      ]
     },
     {
       "browser": "firefox",
@@ -2704,13 +3247,19 @@
         "pages": 1,
         "capacity": 13,
         "lines": 7,
+        "scroll": 0,
+        "maxScroll": 0,
+        "thumb": false,
         "maxInk": 544,
         "width": 548,
         "box": "1360,97,548,378",
         "revealed": true,
-        "text": "THE RECEPTIONIST WAS BUSY WITH A\nFORM AND DID NOT LOOK UP. THE\nDOUBLE DOORS BESIDE THE DESK STOOD\nSHUT, WITH A BRASS KEYPAD SET INTO\nTHEIR FRAME. ABOVE IT, A LEVER\nMARKED CALL ATTENDANT WAITED IN\nITS SLOT.",
+        "text": "THE RECEPTIONIST IS BUSY WITH A\nFORM AND DOES NOT LOOK UP. THE\nDOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO\nTHEIR FRAME. ABOVE IT, A LEVER\nMARKED CALL ATTENDANT WAITS IN ITS\nSLOT.",
+        "all": "THE RECEPTIONIST IS BUSY WITH A\nFORM AND DOES NOT LOOK UP. THE\nDOUBLE DOORS BESIDE THE DESK STAND\nSHUT, WITH A BRASS KEYPAD SET INTO\nTHEIR FRAME. ABOVE IT, A LEVER\nMARKED CALL ATTENDANT WAITS IN ITS\nSLOT.",
         "candidate": 2,
         "overlay": "review/narrative-mode-b-art-study/narrative-mode-b-candidate-b-overlay.png",
+        "flow": 1,
+        "marking": 2,
         "kinds": "[[\"examine-keypad\",\"action\"],[\"pull-lever\",\"action\"],[\"wait\",\"action\"]]",
         "taken": "[]"
       }
@@ -2719,17 +3268,22 @@
       "browser": "firefox",
       "name": "a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value",
       "ok": true,
-      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:53389/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:50873/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+    },
+    {
+      "browser": "firefox",
+      "name": "the narration types at the dialogue's own speed by default (40 chars / s = G.layout.speech.text.charsPerSecond)",
+      "ok": true
     },
     {
       "browser": "firefox",
       "name": "the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)",
       "ok": true,
-      "detail": "0.645,,0"
+      "detail": "0.6525,,0"
     },
     {
       "browser": "firefox",
-      "name": "the reveal types the page at the set speed, a click on the text finishes it, and the choices follow only then",
+      "name": "the text types at the set speed, a click on it finishes it, and the choices follow only then",
       "ok": true,
       "detail": {
         "rev": false,
@@ -2785,7 +3339,8 @@
         "unknown": "unknown narrative study key: portrait.npcY",
         "range": "text.lineHeight: 400 is outside 16..44",
         "offParchment": "text.x + text.width (2000) must stay inside the parchment (<= 1908)",
-        "fraction": "text.y: must be a whole number (got 80.5)"
+        "fraction": "text.y: must be a whole number (got 80.5)",
+        "style": "marking.style: 5 is outside 1..4"
       }
     },
     {
@@ -2821,16 +3376,16 @@
     },
     {
       "browser": "firefox",
-      "name": "the reference state is the real reception dialogue (production flow, receptionist on show, no preview layer, PRODUCTION / LAB labels)",
+      "name": "the reference state is the real reception dialogue (production flow and text, receptionist on show, no preview layer, PRODUCTION / LAB labels)",
       "ok": true,
       "detail": {
-        "ref": "misassign|correct+cooperate+practical|visible|false|",
+        "ref": "misassign|correct+cooperate+practical|visible|false||true",
         "refHdr": "PRODUCTION,true"
       }
     },
     {
       "browser": "firefox",
-      "name": "after every preview, the reception opening is pixel-identical to before (no layer, overlay or style left behind)",
+      "name": "after every preview, the reception opening is pixel-identical to before (no layer, overlay, marking or style left behind)",
       "ok": true
     },
     {
