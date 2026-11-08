@@ -24,7 +24,8 @@ That is the current committed shell measured in
 `tools/layout-lab/data/measured_shell_regions.json`; the older hash in doc 27
 refers to an earlier owner PNG. The item-inspector precedent is
 `art/ui/shell/item-overlay.png`, SHA-256
-`4566079c985b7efaeeba0140dd5c6b8b8b371713391604118e3de123738a8dfb`.
+`4566079c985b7efaeeba0140dd5c6b8b8b371713391604118e3de123738a8dfb` when this study
+was made. The owner re-exported it on 2026-11-08 with the top-frame fix (`aaac746a…`).
 It was examined for the full-canvas, right-column-only compositing approach;
 its picture-window artwork was not copied into the narration overlays.
 
