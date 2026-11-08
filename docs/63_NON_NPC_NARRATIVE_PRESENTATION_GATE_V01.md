@@ -1,5 +1,8 @@
 # CYOA — Non-NPC Narrative Presentation Design Gate
 
+> **OWNER DECISION 2026-11-07 / SUPERSEDED STUDY FRAMING:** This original A/B/C comparison is no longer current. [64 — Narrative B-first / Focus A owner rules](64_NON_NPC_MODE_OWNER_RULES_AND_ART_BRIEF.md) supersedes it. B expands the narration panel upward across the portrait area while choices remain; A is an authored close-up reached via a choice from B; C is merged into A. New B overlay art and action-vs-spoken visual semantics are now the outstanding design tests. Keep the older candidates here only as historical options.
+
+
 **Date:** 2026-11-07
 **Status:** PMO design-test charter, not owner-locked and not production code authorization
 **Original directive:** The first PMO assignment was to establish the full CYOA gameplay/narrative presentation language beyond NPC dialogue, **not** to write the complete story. The original 12 requested study sections included non-NPC choice scenes, right-column semantics, narration, objectives, chapter transitions, branching, mechanics and one worked non-NPC incident.
