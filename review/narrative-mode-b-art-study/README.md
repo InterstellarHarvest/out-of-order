@@ -15,7 +15,11 @@ only the altered right-column panel. They contain
 no narration, choices, scene, objective, inventory, or footer controls.
 
 The starting shell is exactly `art/ui/shell/layout-final.png`, SHA-256
-`813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6`.
+`79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625`
+(the owner's 2026-11-08 top-frame pixel fix; see `docs/CANONICAL_UI_SHELL.md`). The study was first
+built on `813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6`. The fix
+changed only opaque top-frame pixels above the overlay's top edge, so both overlay PNGs rebuilt
+byte-identical and the exact-shell proofs differ only in those 2,376 frame pixels.
 That is the current committed shell measured in
 `tools/layout-lab/data/measured_shell_regions.json`; the older hash in doc 27
 refers to an earlier owner PNG. The item-inspector precedent is

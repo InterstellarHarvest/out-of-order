@@ -33,7 +33,8 @@ lines plus one blank separator, within the 16-line Narrative B reading area.
 ## QA notes
 
 - The shell is the exact committed `art/ui/shell/layout-final.png` (SHA-256
-  `813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6`).
+  `79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625`, the owner's 2026-11-08 top-frame fix; the proofs were rebuilt on it and differ from
+  the `813e0884…` build only in the 2,376 corrected frame pixels).
   All five native proofs are 1920×1080 RGBA. The scene remains a neutral matte.
 - Narrative B text uses the existing dialogue face at `x1350 y77`, 522px wrap
   width, 26px leading. Both continuation pages use 13 of 16 available lines;

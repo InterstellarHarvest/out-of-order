@@ -17,7 +17,7 @@ from PIL import Image, ImageDraw
 ROOT = Path(__file__).resolve().parents[2]
 OUT = Path(__file__).resolve().parent
 SHELL_PATH = ROOT / "art/ui/shell/layout-final.png"
-SHELL_SHA = "813e08848797f628beecc3d45f136a247a36fcedbce6a0bbd63d6e42923233c6"
+SHELL_SHA = "79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625"
 SHELL = Image.open(SHELL_PATH).convert("RGBA")
 QA_FOOTER = Image.open(ROOT / "game/qa/screenshots/01_opening_typing.png").convert("RGBA")
 assert SHELL.size == (1920, 1080)
