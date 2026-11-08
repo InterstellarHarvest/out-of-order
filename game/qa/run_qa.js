@@ -1069,7 +1069,7 @@ async function suite(name, base, requests) {
 
   // Pixels: where the text canvas is empty and the shell is clear, the screen is the overlay's own
   // panel file, 1:1 (NOTES: notes_files_panel.png, FILES: files_panel.png).
-  async function panelPixels(label, art) {
+  async function panelPixels(label, art, plate) {
     const S = measured.sceneAperture.rect;
     c(label + ' shows its own panel image', (await page.$eval('#overlayPanel', (e) => e.dataset.art)) === art, art);
     const scr = decodePng(await page.screenshot({ clip: { x: 0, y: 0, width: 1920, height: 1080 } }));
@@ -1077,16 +1077,31 @@ async function suite(name, base, requests) {
     const panel = png(art), shell = png(SHELL_PATH);
     let checked = 0, bad = 0, textPx = 0, first = null;
     const inks = { title: new Set(), body: new Set() };
+    const tb = [1e9, 1e9, -1, -1];
     for (let y = 0; y < 822; y++) for (let x = 0; x < 1255; x++) {
       const t = pxAt(cvPng, x, y);
-      if (t[3] !== 0) { textPx++; (y < 116 ? inks.title : inks.body).add(t.slice(0, 3).join()); continue; }
+      if (t[3] !== 0) {
+        textPx++;
+        (y < 116 ? inks.title : inks.body).add(t.slice(0, 3).join());
+        if (y < 116) { tb[0] = Math.min(tb[0], x); tb[1] = Math.min(tb[1], y); tb[2] = Math.max(tb[2], x); tb[3] = Math.max(tb[3], y); }
+        continue;
+      }
       if (pxAt(shell, S[0] + x, S[1] + y)[3] !== 0) continue;
       checked++;
       if (!sameRgb(pxAt(panel, x, y), pxAt(scr, S[0] + x, S[1] + y))) { bad++; first = first || { x, y }; }
     }
     c(label + ': every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1', checked > 800000 && bad === 0 && textPx > 1000, { checked, bad, textPx, first });
-    c(label + ' ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)',
-      inks.title.size === 1 && inks.body.size === 1 && [...inks.body][0] === '32,48,55', { title: [...inks.title], body: [...inks.body] });
+    if (!plate) {
+      c(label + ' ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)',
+        inks.title.size === 1 && [...inks.title][0] !== '32,48,55' && inks.body.size === 1 && [...inks.body][0] === '32,48,55', { title: [...inks.title], body: [...inks.body] });
+    } else {
+      // plate = [x0, y0, x1, y1] inside the label plate's border, inclusive; centre [cx, cy].
+      const cx = (tb[0] + tb[2] + 1) / 2, cy = (tb[1] + tb[3] + 1) / 2;
+      c(label + ' ink: dark title and dark text (one ink each, hard-edged)', inks.title.size === 1 && [...inks.title][0] === '32,48,55'
+        && inks.body.size === 1 && [...inks.body][0] === '32,48,55', { title: [...inks.title], body: [...inks.body] });
+      c(label + ' title sits wholly inside the label plate, centred on it (within 1 px)', tb[0] > plate[0] && tb[1] > plate[1] && tb[2] < plate[2] && tb[3] < plate[3]
+        && Math.abs(cx - plate[4]) <= 1 && Math.abs(cy - plate[5]) <= 1, { inkBox: tb, centre: [cx, cy], plate });
+    }
   }
 
   // Transcript: NOTES and FILES ---------------------------------------------------------------
@@ -1141,9 +1156,9 @@ async function suite(name, base, requests) {
     && /RETURNED AT 4:52/.test(await page.$eval('#overlay canvas', (c2) => c2.dataset.text)));
   await shot(page, '10_files_case_file.png');
   await shot(page, '00h_files_open.png');
-  await panelPixels('FILES', FILES_PANEL);
-  c('the FILES title sits on the panel, fixed outside the scrolled body', (await page.$eval('#overlayCanvas', (c2) => c2.dataset.title)) === 'FILES: YOUR CASE FILE'
-    && /^FILES: YOUR CASE FILE\nAPPOINTMENT: EXAMINER/.test(await page.$eval('#overlayCanvas', (c2) => c2.dataset.text)));
+  await panelPixels('FILES', FILES_PANEL, [512, 52, 748, 87, 630, 70]);
+  c('the FILES title is YOUR FILES, fixed outside the scrolled body', (await page.$eval('#overlayCanvas', (c2) => c2.dataset.title)) === 'YOUR FILES'
+    && /^YOUR FILES\nAPPOINTMENT: EXAMINER/.test(await page.$eval('#overlayCanvas', (c2) => c2.dataset.text)));
   await page.click('#util-2');
   c('pressing FILES again closes the overlay', await page.$eval('#overlay', (e) => e.style.display === 'none'));
   await page.click('#util-2');

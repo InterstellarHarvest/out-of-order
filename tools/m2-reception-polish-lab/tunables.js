@@ -140,10 +140,14 @@
       read: function (G) { return tun(G).inspector.textY; }, write: function (G, v) { tun(G).inspector.textY = v; } },
 
     // NOTES / FILES text (1255x822 panel art at 1x, scene-only, no scrollbar).
-    { key: 'overlay.titleX', s: 'overlay', label: 'Title X', unit: 'px', src: 'G.TUNING.overlay.titleX', range: [-60, 60], rel: true,
+    { key: 'overlay.titleX', s: 'overlay', label: 'NOTES title X', unit: 'px', src: 'G.TUNING.overlay.titleX', range: [-60, 60], rel: true,
       read: function (G) { return tun(G).overlay.titleX; }, write: function (G, v) { tun(G).overlay.titleX = v; } },
-    { key: 'overlay.titleY', s: 'overlay', label: 'Title middle row Y', unit: 'px', src: 'G.TUNING.overlay.titleCenterY', range: [-30, 30], rel: true,
+    { key: 'overlay.titleY', s: 'overlay', label: 'NOTES title middle row Y', unit: 'px', src: 'G.TUNING.overlay.titleCenterY', range: [-30, 30], rel: true,
       read: function (G) { return tun(G).overlay.titleCenterY; }, write: function (G, v) { tun(G).overlay.titleCenterY = v; } },
+    { key: 'overlay.filesTitleX', s: 'overlay', label: 'FILES title centre X (label plate)', unit: 'px', src: 'G.TUNING.overlay.filesTitleCenterX', range: [-40, 40], rel: true,
+      read: function (G) { return tun(G).overlay.filesTitleCenterX; }, write: function (G, v) { tun(G).overlay.filesTitleCenterX = v; } },
+    { key: 'overlay.filesTitleY', s: 'overlay', label: 'FILES title middle row Y (label plate)', unit: 'px', src: 'G.TUNING.overlay.filesTitleCenterY', range: [-12, 12], rel: true,
+      read: function (G) { return tun(G).overlay.filesTitleCenterY; }, write: function (G, v) { tun(G).overlay.filesTitleCenterY = v; } },
     { key: 'overlay.bodyX', s: 'overlay', label: 'Body X', unit: 'px', src: 'G.TUNING.overlay.bodyX', range: [-30, 40], rel: true,
       read: function (G) { return tun(G).overlay.bodyX; }, write: function (G, v) { tun(G).overlay.bodyX = v; } },
     { key: 'overlay.bodyY', s: 'overlay', label: 'Body Y', unit: 'px', src: 'G.TUNING.overlay.bodyY', range: [-30, 40], rel: true,

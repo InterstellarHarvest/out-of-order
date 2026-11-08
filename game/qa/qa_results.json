@@ -7,8 +7,8 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 445,
-  "passed": 445,
+  "total": 447,
+  "passed": 447,
   "failed": 0,
   "byBrowser": {
     "static": {
@@ -16,12 +16,12 @@
       "passed": 37
     },
     "chromium": {
-      "total": 204,
-      "passed": 204
+      "total": 205,
+      "passed": 205
     },
     "firefox": {
-      "total": 204,
-      "passed": 204
+      "total": 205,
+      "passed": 205
     }
   },
   "failures": [],
@@ -1435,7 +1435,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 218.60000014305115
+      "detail": 217.40000009536743
     },
     {
       "browser": "chromium",
@@ -1525,19 +1525,19 @@
         0,
         0,
         0,
-        0,
         -2,
-        -4,
+        -2,
+        -6,
         -8,
         -12,
-        -16,
-        -22,
-        -28,
-        -34,
-        -42,
-        -52,
-        -60,
-        -70
+        -18,
+        -24,
+        -30,
+        -36,
+        -44,
+        -54,
+        -62,
+        -72
       ]
     },
     {
@@ -1582,7 +1582,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418
+      "detail": 417.7999999523163
     },
     {
       "browser": "chromium",
@@ -1597,7 +1597,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 944.3999998569489
+      "detail": 947.7999999523163
     },
     {
       "browser": "chromium",
@@ -2407,19 +2407,19 @@
       "name": "FILES: every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1",
       "ok": true,
       "detail": {
-        "checked": 977843,
+        "checked": 978667,
         "bad": 0,
-        "textPx": 19174,
+        "textPx": 18350,
         "first": null
       }
     },
     {
       "browser": "chromium",
-      "name": "FILES ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)",
+      "name": "FILES ink: dark title and dark text (one ink each, hard-edged)",
       "ok": true,
       "detail": {
         "title": [
-          "241,216,152"
+          "32,48,55"
         ],
         "body": [
           "32,48,55"
@@ -2428,7 +2428,32 @@
     },
     {
       "browser": "chromium",
-      "name": "the FILES title sits on the panel, fixed outside the scrolled body",
+      "name": "FILES title sits wholly inside the label plate, centred on it (within 1 px)",
+      "ok": true,
+      "detail": {
+        "inkBox": [
+          552,
+          63,
+          707,
+          76
+        ],
+        "centre": [
+          630,
+          70
+        ],
+        "plate": [
+          512,
+          52,
+          748,
+          87,
+          630,
+          70
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "the FILES title is YOUR FILES, fixed outside the scrolled body",
       "ok": true
     },
     {
@@ -3821,8 +3846,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 104,
-        "r1": 116
+        "r0": 105,
+        "r1": 117
       }
     },
     {
@@ -3840,7 +3865,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 215
+      "detail": 214
     },
     {
       "browser": "firefox",
@@ -3988,7 +4013,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 417
+      "detail": 411
     },
     {
       "browser": "firefox",
@@ -4003,7 +4028,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 943
+      "detail": 945
     },
     {
       "browser": "firefox",
@@ -4655,7 +4680,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3609
+        "ms": 3610
       }
     },
     {
@@ -4813,19 +4838,19 @@
       "name": "FILES: every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1",
       "ok": true,
       "detail": {
-        "checked": 977843,
+        "checked": 978667,
         "bad": 0,
-        "textPx": 19174,
+        "textPx": 18350,
         "first": null
       }
     },
     {
       "browser": "firefox",
-      "name": "FILES ink: light title on the teal band, dark text on the cream reading area (one ink each, hard-edged)",
+      "name": "FILES ink: dark title and dark text (one ink each, hard-edged)",
       "ok": true,
       "detail": {
         "title": [
-          "241,216,152"
+          "32,48,55"
         ],
         "body": [
           "32,48,55"
@@ -4834,7 +4859,32 @@
     },
     {
       "browser": "firefox",
-      "name": "the FILES title sits on the panel, fixed outside the scrolled body",
+      "name": "FILES title sits wholly inside the label plate, centred on it (within 1 px)",
+      "ok": true,
+      "detail": {
+        "inkBox": [
+          552,
+          63,
+          707,
+          76
+        ],
+        "centre": [
+          630,
+          70
+        ],
+        "plate": [
+          512,
+          52,
+          748,
+          87,
+          630,
+          70
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "the FILES title is YOUR FILES, fixed outside the scrolled body",
       "ok": true
     },
     {

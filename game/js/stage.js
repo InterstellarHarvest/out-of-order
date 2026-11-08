@@ -1064,8 +1064,8 @@
   // NOTES (transcript) and FILES (case file) ---------------------------------------------
   // Shown over the scene window, which they never leave, each on its own production panel
   // (1255x822, the scene aperture, docs/60 and docs/63): NOTES on the records panel, FILES on the
-  // case-file panel. Text regions, in panel coordinates, fit both panels' blank areas: the title on
-  // the teal band (y 11-108), the body on the cream reading area (NOTES x 31-1222 y 122-776, FILES
+  // case-file panel. Text regions, in panel coordinates, fit both panels' blank areas: the NOTES
+  // title on the teal band (y 11-108), the FILES title in its label plate, the body on the cream reading area (NOTES x 31-1222 y 122-776, FILES
   // x 28-1225 y 133-767). The body keeps the previous left edge and wrap width, so lines break
   // exactly as before.
   G.OVERLAY_ART = {
@@ -1105,7 +1105,7 @@
   }
 
   function overlayTitle() {
-    return ui.overlay === 'notes' ? 'NOTES: EVERYTHING SAID AT RECEPTION' : 'FILES: YOUR CASE FILE';
+    return ui.overlay === 'notes' ? 'NOTES: EVERYTHING SAID AT RECEPTION' : 'YOUR FILES';
   }
 
   function overlayLines() {
@@ -1173,8 +1173,15 @@
     ctx.imageSmoothingEnabled = false;
     var title = overlayTitle();
     var head = document.createElement('canvas');
-    T.draw(head, [{ text: title, role: 'labels' }], 'light', OV().lineHeight, OV().bodyWidth, OV().lineHeight, undefined, 'labels');
-    ctx.drawImage(head, OV().titleX, OV().titleCenterY - Math.floor(T.capHeight('labels') / 2));
+    if (ui.overlay === 'files') {
+      // Dark ink, centred in the FILES panel's label plate.
+      var size = T.label(head, title, 'dark', 'labels');
+      var rows = inkRows(head);
+      ctx.drawImage(head, OV().filesTitleCenterX - Math.floor(size[0] / 2), OV().filesTitleCenterY - Math.round((rows[0] + rows[1]) / 2));
+    } else {
+      T.draw(head, [{ text: title, role: 'labels' }], 'light', OV().lineHeight, OV().bodyWidth, OV().lineHeight, undefined, 'labels');
+      ctx.drawImage(head, OV().titleX, OV().titleCenterY - Math.floor(T.capHeight('labels') / 2));
+    }
     var text = document.createElement('canvas');
     // Dark ink on the cream reading surface.
     T.draw(text, shown.map(function (l, i) { return { text: l.text, role: l.role, gap: i ? l.gap : 0 }; }), 'dark', OV().lineHeight, OV().bodyWidth, OV().bodyHeight, undefined, 'dialogue');
@@ -1184,7 +1191,7 @@
     c.dataset.lines = lines.length;
     c.dataset.scroll = ui.overlayScroll;
     c.dataset.text = [title].concat(lines.map(function (l) { return l.text; })).join('\n');
-    els.overlay.setAttribute('aria-label', ui.overlay === 'notes' ? 'Notes: transcript' : 'Files: case file');
+    els.overlay.setAttribute('aria-label', ui.overlay === 'notes' ? 'Notes: transcript' : 'Files: your files');
   }
   G.renderOverlay = renderOverlay;
 

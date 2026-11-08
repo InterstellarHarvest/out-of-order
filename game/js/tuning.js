@@ -30,11 +30,15 @@
     // the item text's x relative to the choice text inset, and its top.
     inspector: { artDx: 0, artDy: 0, closeDx: 0, closeDy: 0, textDx: 0, textY: 12 },
 
-    // NOTES / FILES overlay (js/stage.js), in panel coordinates: title on the teal plate, body on
-    // the cream reading area, and the body line height.
+    // NOTES / FILES overlay (js/stage.js), in panel coordinates: the NOTES title at (titleX, centred
+    // on titleCenterY) in light ink on the teal band; the FILES title (YOUR FILES, owner ruling
+    // 2026-11-07, docs/63) in dark ink centred on (filesTitleCenterX, filesTitleCenterY), the middle
+    // of the FILES panel's label plate (inside x 512-748, y 52-87); the body box on the cream
+    // reading area, and the body line height.
     // notesPanel picks the NOTES panel art: 1 = notes_files_panel.png (production), 2 = the owner's
     // notes_panel_v2.png candidate (docs/63). FILES always uses its own files_panel.png.
-    overlay: { titleX: 100, titleCenterY: 60, bodyX: 48, bodyY: 140, bodyWidth: 1159, bodyHeight: 620, lineHeight: 26, notesPanel: 1 },
+    overlay: { titleX: 100, titleCenterY: 60, bodyX: 48, bodyY: 140, bodyWidth: 1159, bodyHeight: 620, lineHeight: 26, notesPanel: 1,
+      filesTitleCenterX: 630, filesTitleCenterY: 70 },
 
     // Dialogue-turn timing not held in the layout bundle: the beat between a finished line and
     // the choices arriving (js/flow.js), and the stagger between arriving cards (js/stage.js).

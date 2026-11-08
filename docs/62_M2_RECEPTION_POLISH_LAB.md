@@ -61,7 +61,7 @@ Art complete is not polish complete. The lab is the final visual and interaction
 - **Inventory:** the slot concept and slot / arrow art.
   - Production shows **6 slots** (`slotCount` 6; a 7-slot layout exists in the data). The brief said "7-slot". The lab keeps the count locked as committed and does not reopen it.
 
-## 5. Tunables (69)
+## 5. Tunables (71)
 
 Spatial values are whole pixels, and timings whole milliseconds; both must be integers. "Bounds" are the import / control limits.
 
@@ -154,8 +154,10 @@ Spatial values are whole pixels, and timings whole milliseconds; both must be in
 
 | Key | Meaning | Production | Bounds | Source |
 |---|---|---|---|---|
-| `overlay.titleX` | Title X | 100 px | 40...160 | `G.TUNING.overlay.titleX` |
-| `overlay.titleY` | Title middle row Y | 60 px | 30...90 | `G.TUNING.overlay.titleCenterY` |
+| `overlay.titleX` | NOTES title X | 100 px | 40...160 | `G.TUNING.overlay.titleX` |
+| `overlay.titleY` | NOTES title middle row Y | 60 px | 30...90 | `G.TUNING.overlay.titleCenterY` |
+| `overlay.filesTitleX` | FILES title (`YOUR FILES`) centre X, in the label plate (docs/63) | 630 px | 590...670 | `G.TUNING.overlay.filesTitleCenterX` |
+| `overlay.filesTitleY` | FILES title middle row Y, in the label plate | 70 px | 58...82 | `G.TUNING.overlay.filesTitleCenterY` |
 | `overlay.bodyX` | Body X | 48 px | 18...88 | `G.TUNING.overlay.bodyX` |
 | `overlay.bodyY` | Body Y | 140 px | 110...180 | `G.TUNING.overlay.bodyY` |
 | `overlay.bodyWidth` | Body width | 1159 px | 1039...1189 | `G.TUNING.overlay.bodyWidth` |
@@ -259,7 +261,7 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
   - the game has no storage API or lab identifier, and `game/index.html` loads no lab script;
   - the lab stage loads the production scripts and CSS from `game/` (no copies);
   - the state shortcuts never assign narrative state.
-- **Defaults:** the lab opens on exact production values, which equal the registry read on a plain `game/index.html`. All 69 are integers, and there are no changes at start.
+- **Defaults:** the lab opens on exact production values, which equal the registry read on a plain `game/index.html`. All 71 are integers, and there are no changes at start.
 - **PRODUCTION vs LAB:** **pixel-identical at defaults** in 13 representative states (1920 × 1080, 1:1, after CSS transitions settle).
 - **States:**
   - every state loads where it should (node, inspector, overlay, slip, READ mark);
@@ -272,7 +274,7 @@ The lab page saves the changes, the selected state, the view, fit and toggles in
   - the portrait stays native 1×, a lab nudge (`portrait.npcY` 3) moves only the NPC layer by whole pixels, and the PRODUCTION frame is unaffected.
 - **Values and export:**
   - values are whole numbers (6.6 → 7);
-  - COPY CHANGES holds only the changed keys, with the schema and base SHA; COPY ALL holds all 69;
+  - COPY CHANGES holds only the changed keys, with the schema and base SHA; COPY ALL holds all 71;
   - the helper toggles, freeze and hold-X never change the export;
   - the hide-shell and bounds toggles act on the stage frames only.
 - **Persistence:** values persist across a reload.
@@ -299,7 +301,7 @@ Lab screenshots (Chromium): `tools/m2-reception-polish-lab/qa/screenshots/lab_ov
 The checks were run on the final commit:
 
 - `node game/qa/validate_route.js`: **38/38**.
-- `game/qa/run_qa.js`: **445/445** (static 37/37, Chromium 204/204, Firefox 204/204), including the separate FILES panel (docs/63). Before docs/63 it was 431/431.
+- `game/qa/run_qa.js`: **447/447** (static 37/37, Chromium 205/205, Firefox 205/205), including the separate FILES panel and its `YOUR FILES` plate title (docs/63). Before docs/63 it was 431/431.
 
 The production values are unchanged (§3).
 

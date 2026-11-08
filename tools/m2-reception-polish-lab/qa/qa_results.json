@@ -89,6 +89,8 @@
           "inspector.textY": 12,
           "overlay.titleX": 100,
           "overlay.titleY": 60,
+          "overlay.filesTitleX": 630,
+          "overlay.filesTitleY": 70,
           "overlay.bodyX": 48,
           "overlay.bodyY": 140,
           "overlay.bodyWidth": 1159,
@@ -160,6 +162,8 @@
           "inspector.textY": 12,
           "overlay.titleX": 100,
           "overlay.titleY": 60,
+          "overlay.filesTitleX": 630,
+          "overlay.filesTitleY": 70,
           "overlay.bodyX": 48,
           "overlay.bodyY": 140,
           "overlay.bodyWidth": 1159,
@@ -312,9 +316,9 @@
             51,
             52
           ],
-          "ms": 158
+          "ms": 160
         },
-        "href0": "http://127.0.0.1:56344/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:65064/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -397,7 +401,7 @@
       "browser": "chromium",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 69
+      "detail": 71
     },
     {
       "browser": "chromium",
@@ -557,6 +561,8 @@
           "inspector.textY": 12,
           "overlay.titleX": 100,
           "overlay.titleY": 60,
+          "overlay.filesTitleX": 630,
+          "overlay.filesTitleY": 70,
           "overlay.bodyX": 48,
           "overlay.bodyY": 140,
           "overlay.bodyWidth": 1159,
@@ -628,6 +634,8 @@
           "inspector.textY": 12,
           "overlay.titleX": 100,
           "overlay.titleY": 60,
+          "overlay.filesTitleX": 630,
+          "overlay.filesTitleY": 70,
           "overlay.bodyX": 48,
           "overlay.bodyY": 140,
           "overlay.bodyWidth": 1159,
@@ -780,9 +788,9 @@
             51,
             52
           ],
-          "ms": 157
+          "ms": 163
         },
-        "href0": "http://127.0.0.1:56344/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:65064/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -865,7 +873,7 @@
       "browser": "firefox",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 69
+      "detail": 71
     },
     {
       "browser": "firefox",

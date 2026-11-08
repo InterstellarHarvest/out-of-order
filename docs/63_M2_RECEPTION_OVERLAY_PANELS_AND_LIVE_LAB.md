@@ -21,11 +21,13 @@ The owner decided this, so it is applied to the game rather than left as a lab o
   - `G.OVERLAY_ART` in `game/js/stage.js` is now per overlay: `notes`, `files`, and the `notesV2` candidate (§2).
   - `renderOverlay` puts the open overlay's own preloaded image under the text canvas, as `#overlay > img#overlayPanel, canvas#overlayCanvas`. The image was formerly `img#notesFilesPanel`.
   - `main.js` decodes the NOTES panel and the FILES panel before ready.
-- **The text:** the title and body regions are unchanged and fit the FILES panel. The title at (100, centred on 60) sits on the teal band. The body box (48, 140, 1159 × 620) lies inside the FILES cream area (x 28–1225, y 133–767).
-- **Open owner question:** the FILES panel has a small cream label plate at the top centre (inside about x 512–745, y 54–86). In production it is left blank, and the title stays at the left in light ink.
-  - The current title, `FILES: YOUR CASE FILE`, is 336 px wide in the Labels face, so it does not fit the plate.
-  - `FILES` (80 px) or `CASE FILE` (144 px) would fit, centred in dark ink.
-  - That is a copy and layout decision for the owner, so nothing has been changed.
+- **The body:** the body box (48, 140, 1159 × 620) is unchanged. It lies inside the FILES cream area (x 28–1225, y 133–767).
+- **The FILES title (owner ruling, 2026-11-07):** **`YOUR FILES`**, in dark ink, centred in the panel's label plate.
+  - The plate's inside spans x 512–748 and y 52–87, so the title is centred on (630, 70).
+  - The title is 160 px wide in the Labels face. The owner's fallback, `FILES` alone, was not needed.
+  - The old `FILES: YOUR CASE FILE` (336 px) did not fit the plate.
+  - The position comes from `G.TUNING.overlay.filesTitleCenterX` / `filesTitleCenterY`. In the lab these are `overlay.filesTitleX` / `overlay.filesTitleY`.
+  - The NOTES title is unchanged.
 
 ## 2. NOTES background v2: a lab toggle
 
@@ -66,7 +68,9 @@ See docs/62 §10 for the full run, which includes these checks.
 - both production panels are decoded before ready and served as the approved bytes;
 - v2 is never requested;
 - the overlay structure is checked;
-- every text-free, clear-shell pixel equals the overlay's own panel 1:1, for **both** NOTES and FILES, with the ink rules unchanged.
+- every text-free, clear-shell pixel equals the overlay's own panel 1:1, for **both** NOTES and FILES;
+- the NOTES title is light ink on the teal band;
+- the FILES title is `YOUR FILES` in dark ink, wholly inside the label plate and centred on it (within 1 px).
 
 **Lab QA:**
 - a slider drag is live, step by step, with no reload;
