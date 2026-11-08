@@ -294,3 +294,24 @@ No M1 layout-lab file changed, so the M1 lab was not re-run.
   - `trigger_item_received.png`;
   - `trigger_context_action.png`;
   - `lab_overview.png`.
+
+
+## PMO acceptance — 2026-11-07
+
+**Outcome: ACCEPTED FOR OWNER POLISH TUNING.**
+
+PMO accepts the owner-directed revision at `62b79da6335c98a3e61c1f21f8aa0f2b1e6ec2d2`.
+
+Accepted rulings:
+- inspector close control uses one static, centred, symmetrical X sprite with no DOWN visual state;
+- item inspection begins from direct activation of the inventory item, not from an implicit only-item fallback;
+- normal-scene utility slot 1 is now a generic context-action slot rather than permanently INSPECT;
+- reception proves the grammar with provisional OBSERVE;
+- OBSERVE remains unavailable while NPC typing is active and becomes available when the turn reaches the choosing phase;
+- context-action transcript lines are semantically distinct `thought` entries and appear in NOTES;
+- polish-lab sections are collapsible and restore their UI state;
+- transient gameplay events can be explicitly replayed from the lab without affecting exported tuning values.
+
+The reception OBSERVE wording remains provisional/non-canon. The broader narrative/gameplay PMO may later replace the action, wording, or consequence model without changing the accepted generic context-action plumbing.
+
+No further implementation pass is requested before owner tuning. M2 remains open until owner review of the polish lab and application of the exported approved changes.
