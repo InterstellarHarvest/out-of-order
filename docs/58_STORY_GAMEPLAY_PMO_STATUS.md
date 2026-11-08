@@ -15,7 +15,8 @@
 6. [57 Branching & Dice Paper Test](57_BRANCHING_DICE_PAPER_TEST_V01.md) — historical mechanics idea; ON HOLD until story material exists.
 7. [59 Story Spine Laboratory 01](59_STORY_SPINE_LAB_01.md) — earlier story-pitch comparison; ranking superseded by owner Expo direction.
 8. [60 The Exposition of Everything — Opening & Story Engine](60_EXPOSITION_OPENING_AND_STORY_ENGINE_V01.md) — detailed owner opening and Expo adventure framework.
-9. [61 House of Tomorrow Story Laboratory](61_HOUSE_OF_TOMORROW_STORY_LAB_V01.md) — **CURRENT CREATIVE WORK**: first post-reception exhibit concept, scenes, characters, escalating automated-home absurdity, and proposed transition.
+9. [61 House of Tomorrow Story Laboratory](61_HOUSE_OF_TOMORROW_STORY_LAB_V01.md) — earlier, broader concept; now superseded on tone and entry specifics.
+10. [62 House of Tomorrow Owner Revision v0.2](62_HOUSE_OF_TOMORROW_OWNER_REVISION_V02.md) — **CURRENT CREATIVE WORK**: mistaken bathroom sign, badge-triggered house demo, speaker/camera focus portrait, light domestic satire and brief uncanny family hint.
 
 ## Most recent owner story direction (2026-11-07)
 
@@ -31,6 +32,15 @@
 - Owner selected **House of Tomorrow** for conceptual development as the first post-reception Expo adventure (not necessarily locked as the final playable first chapter).
 - PMO created doc 61, proposing a rotating model home, domestic-labor paradox, environmental incident sequence, one or two human characters, and a dramatic relocation into Transport Miracle. These details are proposals, not owner-approved.
 - Next creative checkpoint: owner evaluates whether this has the right degree of wildness and character, then we revise before selecting its plot beats. Keep branch/dice testing on hold and M2 untouched.
+
+## House of Tomorrow owner corrections (2026-11-07)
+
+- Reception simply directs the protagonist **down the hall** toward a bathroom. An ambiguous symbol that looks like a bathroom sign leads into the House of Tomorrow.
+- Existing Expo badge automatically identifies the protagonist as the demonstration subject; no need for a new extended recruitment conversation.
+- The house can speak as an AI through a **wall-mounted speaker with camera**; the higher-detail right-column portrait is a close-up of that fixture, not a character face.
+- **Mostly domestic satire** with a little extraordinary-house flavor. A family apparently stuck for years is a **brief passing oddity**, not a subplot, direct sinister reveal or investigation.
+- Protagonist still wants to leave and use a bathroom. Larger mystery remains almost completely submerged.
+- See doc 62 for current scene direction. All specific gadgets, route, characters and exit remain proposals.
 
 ## Owner-confirmed foundation
 
@@ -74,7 +84,8 @@
 - [x] Start story laboratory / candidate story engines in doc 59.
 - [x] Owner selected the Expo as primary story generator and provided pre-reception sequence (doc 60).
 - [x] Draft first post-reception candidate House of Tomorrow in doc 61, including a reason the house keeps moving protagonist forward.
-- [ ] Review/revise House of Tomorrow with owner (tone, originality, incidents, characters and next-pavilion transition).
+- [x] Owner refined House of Tomorrow entry, AI portrait and tone; recorded doc 62.
+- [ ] Next owner choice: tune the AI house's personality and two main comic situations, or choose its forward-only transition into a new Expo world; do not implement yet.
 - [ ] Resolve open creative details of the former job, memorable keepsake, first exhibit, and how many different exhibit worlds the larger plot can sustain.
 - [ ] Develop story-spine beats, relevant supporting characters, a few memorable episodes and possible difficult outcomes without locking the mystery too early.
 - [ ] **Later**, after concrete scenes exist, evaluate House of Danger item/dice checks and Detroit-style chapter divergence. No Claude branch lab yet.
