@@ -51,6 +51,22 @@ Two kinds of saved data stay compatible. Placement-lab saves made against the pr
 because `tools/layout-lab/js/core.js` lists it in `PREVIOUS_SHELLS`. The game QA also checks that the
 shell regions and the alpha census still equal those at the M2 start.
 
+## Item-inspector overlay
+
+`art/ui/shell/item-overlay.png` is drawn over the shell while an item is inspected. Its top band holds
+its own copy of the frame hardware, so it must follow shell fixes.
+
+| Field | Value |
+| --- | --- |
+| SHA-256 | `aaac746ad182cf558c7579580a21d73c31f83709963cd287ac14ddb3d1252728` (owner re-export 2026-11-08) |
+| Previous | `4566079c985b7efaeeba0140dd5c6b8b8b371713391604118e3de123738a8dfb` (2026-11-06, ed667f8) |
+
+The re-export changes 2,230 opaque pixels, all at top-frame-fix positions (x 1325–1897, y 25–43). Each
+one now equals the corrected shell, and the alpha channel is byte-identical. 146 of the shell's 2,376
+corrected pixels still hold the previous shell's values in the overlay: 122 on row 44 (the frame's lower
+lip), 21 at x 1325–1331 y 44–47, and 9 at x 1605–1629 y 39–41 and 44. They are kept exactly as the
+owner exported them. The overlay is pinned in `game/qa/run_qa.js` (`OWNER_ART`).
+
 ## Hash pins (update together)
 
 - `game/qa/run_qa.js` (`SHELL_SHA256`)
