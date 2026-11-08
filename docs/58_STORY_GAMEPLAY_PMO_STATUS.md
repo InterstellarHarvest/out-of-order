@@ -16,7 +16,16 @@
 7. [59 Story Spine Laboratory 01](59_STORY_SPINE_LAB_01.md) — earlier story-pitch comparison; ranking superseded by owner Expo direction.
 8. [60 The Exposition of Everything — Opening & Story Engine](60_EXPOSITION_OPENING_AND_STORY_ENGINE_V01.md) — detailed owner opening and Expo adventure framework.
 9. [61 House of Tomorrow Story Laboratory](61_HOUSE_OF_TOMORROW_STORY_LAB_V01.md) — earlier, broader concept; now superseded on tone and entry specifics.
-10. [62 House of Tomorrow Owner Revision v0.2](62_HOUSE_OF_TOMORROW_OWNER_REVISION_V02.md) — **CURRENT CREATIVE WORK**: mistaken bathroom sign, badge-triggered house demo, speaker/camera focus portrait, light domestic satire and brief uncanny family hint.
+10. [62 House of Tomorrow Owner Revision v0.2](62_HOUSE_OF_TOMORROW_OWNER_REVISION_V02.md) — current story concept for later reference, not current design gate.
+11. [63 Non-NPC Narrative Presentation Gate](63_NON_NPC_NARRATIVE_PRESENTATION_GATE_V01.md) — **CURRENT ACTIVE DESIGN TASK**: no-NPC right-column layout semantics, narration versus spoken lines, action-card behavior, and design-only A/B/C comparison.
+
+## Priority reset to original PMO directive (2026-11-07)
+
+- The original assignment is **gameplay/narrative presentation beyond reception**, not immediately authoring the entire Expo story. We drifted into chapter plotting too early.
+- The immediate open question: **What does the right-hand portrait/dialogue/choice region look like and do when there is no NPC portrait and the player is simply reading narration and selecting actions?**
+- [Doc 63](63_NON_NPC_NARRATIVE_PRESENTATION_GATE_V01.md) defines design-only A/B/C comparison candidates, test cases and owner acceptance questions.
+- Explicitly separate **action/observation/continuation choices** from **spoken dialogue** so a chosen narrative action is not treated as dialogue sent to an NPC. No M2 runtime edits in this phase.
+- Keep all Expo/House of Tomorrow development as archived creative context. Do not keep generating story chapters ahead of the UI grammar decision.
 
 ## Most recent owner story direction (2026-11-07)
 
@@ -85,7 +94,10 @@
 - [x] Owner selected the Expo as primary story generator and provided pre-reception sequence (doc 60).
 - [x] Draft first post-reception candidate House of Tomorrow in doc 61, including a reason the house keeps moving protagonist forward.
 - [x] Owner refined House of Tomorrow entry, AI portrait and tone; recorded doc 62.
-- [ ] Next owner choice: tune the AI house's personality and two main comic situations, or choose its forward-only transition into a new Expo world; do not implement yet.
+- [x] Owner recalled original PMO priority: non-NPC gameplay presentation before more story expansion.
+- [x] Define conceptual A/B/C visual comparison gate (doc 63).
+- [ ] **Next owner gate:** compare fixed-shell contextual visual focus vs scene-first narrative treatment using the same test scenes; decide which no-image fallback works.
+- [ ] Decide whether action choices require a different send/transcript behavior from spoken NPC choices; later hand off tested semantics to other PMO.
 - [ ] Resolve open creative details of the former job, memorable keepsake, first exhibit, and how many different exhibit worlds the larger plot can sustain.
 - [ ] Develop story-spine beats, relevant supporting characters, a few memorable episodes and possible difficult outcomes without locking the mystery too early.
 - [ ] **Later**, after concrete scenes exist, evaluate House of Danger item/dice checks and Detroit-style chapter divergence. No Claude branch lab yet.
