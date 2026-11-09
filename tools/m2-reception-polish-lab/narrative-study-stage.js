@@ -44,11 +44,13 @@
   // Text is a list of runs, each spoken or not. A word of an unspoken run that takes the second ink
   // is prefixed with MARK, a zero-width glyph added (in this frame only) to every face, so wrapping
   // and widths are the production ones and every wrapped line carries its own inks.
+  // MARK2 does the same for slate: OBSERVE's thought in the dialogue box (owner, 2026-11-08).
   var MARK = '\u0001';
+  var MARK2 = '\u0002';
   var INK1 = '#203037'; // the production dark ink
   ['dialogue', 'choices', 'labels', 'objective'].forEach(function (r) {
     var m = T.face(r).mapping;
-    if (!m[MARK]) m[MARK] = { x: 0, y: 0, w: 0, h: 0, advance: 0, bearingX: 0, bearingY: 0 };
+    [MARK, MARK2].forEach(function (k) { if (!m[k]) m[k] = { x: 0, y: 0, w: 0, h: 0, advance: 0, bearingX: 0, bearingY: 0 }; });
   });
   // Fixture markup: {{...}} is spoken.
   function parseRuns(text) {
@@ -90,9 +92,12 @@
     }).filter(Boolean).join(' ');
   }
   function inked(t) { return t.trim().split(/\s+/).map(function (w) { return MARK + w; }).join(' '); }
+  function slated(t) { return t.trim().split(/\s+/).map(function (w) { return MARK2 + w; }).join(' '); }
   // The dialogue box under the owner's rule: nobody's speech is quoted; the player's actions take the
   // second ink, without brackets; the NPC's stage directions read as plain descriptions in the dark
-  // ink; a thought keeps the game's own presentation (owned elsewhere, see the lab README).
+  // ink; a thought keeps the game's parentheses and, by default, is drawn in slate (owner, 2026-11-08:
+  // "action buttons have parentheses as their distinguishing style ... make their text in the
+  // dialogue box slate colored").
   // Choices whose whole line is an action carry no brackets in the content, so the study names them.
   var ACTION_CHOICES = ['unlock', 'unlock-after', 'to-door', 'enter-corridor'];
   var NPC_DESCRIPTIONS = { 'STAMP.': 'SHE STAMPS SOMETHING.' }; // every other direction is a description already
@@ -115,7 +120,7 @@
     return hit;
   }
   function markLine(o) {
-    if (o.who === 'thought') return o.text;
+    if (o.who === 'thought') return V('marking.thoughtInk') ? slated(o.text) : o.text;
     var runs = dialogueRuns(o.text, o.who);
     if (o.who === 'npc') {
       return runs.map(function (r) { var t = r.t.trim(); return r.spoken ? t : (NPC_DESCRIPTIONS[t] || t); }).filter(Boolean).join(' ');
@@ -123,7 +128,7 @@
     if (actionSays()[o.text]) return inked(o.text);
     return runs.map(function (r) { var t = r.t.trim(); return !t ? '' : r.spoken || sound(t) ? t : inked(t); }).filter(Boolean).join(' ');
   }
-  function plain(t) { return t.split(MARK).join(''); }
+  function plain(t) { return t.split(MARK).join('').split(MARK2).join(''); }
 
   // Draws wrapped lines like G.text.draw (same faces, glyph maps, tops and typewriter budget), with
   // each word in the first ink or, after MARK, the second.
@@ -149,33 +154,62 @@
       var face = T.face(line.role);
       var atlas = face.id === 'locked' ? G.image('locked_pixel_font_atlas_dark') : G.image('font:' + face.id);
       var x = 0;
-      var two = false;
+      var ink = 1;
       var start = true;
       for (var i = 0; i < line.text.length && left > 0; i++, left--) {
         var ch = line.text[i];
         if (ch === ' ') start = true;
-        else if (start) { two = ch === MARK; start = false; }
+        else if (start) { ink = ch === MARK ? 2 : ch === MARK2 ? 3 : 1; start = false; }
         var g = face.mapping[ch] || face.mapping['?'];
-        if (g.w && g.h) layer(two ? 2 : 1).drawImage(atlas, g.x, g.y, g.w, g.h, x + (g.bearingX || 0), y + (g.bearingY || 0), g.w, g.h);
+        if (g.w && g.h) layer(ink).drawImage(atlas, g.x, g.y, g.w, g.h, x + (g.bearingX || 0), y + (g.bearingY || 0), g.w, g.h);
         x += g.advance;
       }
       y += lh;
     });
     ctx.imageSmoothingEnabled = false;
-    [1, 2].forEach(function (k) {
+    [1, 2, 3].forEach(function (k) {
       var l = layers[k];
       if (!l) return;
       l.globalCompositeOperation = 'source-in';
-      l.fillStyle = k === 1 ? INK1 : NS.INKS[V('marking.ink')];
+      l.fillStyle = k === 1 ? INK1 : k === 2 ? NS.INKS[V('marking.ink')] : NS.INKS[3];
       l.fillRect(0, 0, width, height);
       ctx.drawImage(l.canvas, 0, 0);
     });
   }
   // The production dialogue box draws through G.text.draw: a line with a second-ink word is painted
   // here instead (only ever in states NB-8 and NB-9); every other call is the production routine, untouched.
-  // Action choice cards in the action ink (a toggle, owner 2026-11-08): a card whose whole line is an
-  // action - an action choice in NB-8 / NB-9, or an action card in Narrative B / Focus A - is painted
-  // here too. The card's text itself (and its accessible name) is never changed.
+  // The choice cards under the owner's rule (2026-11-08): a card whose whole line is an action - an
+  // action choice in NB-8 / NB-9, or an action card in Narrative B / Focus A - is painted in the action
+  // ink; a spoken card shows its words in quotation marks (a sigh is speech, so it is quoted with the
+  // rest). Taken, the line reaches the dialogue box without the quotes. Only the card's drawing
+  // changes: its text, its accessible name and the line it sends are the production ones.
+  var NOT_SAID = ['restart']; // BEGIN AGAIN. is the game's own, not the player's
+  function cardSay(choice) {
+    if (V('marking.style') !== 2) return choice.text;
+    if (talk) {
+      if (actionSays()[choice.text] || NOT_SAID.indexOf(choice.id) !== -1 || !V('marking.spokenCards')) return choice.text;
+      var out = [];
+      var said = [];
+      var flush = function () { if (said.length) out.push('"' + said.join(' ') + '"'); said = []; };
+      dialogueRuns(choice.text, 'player').forEach(function (r) {
+        var t = r.t.trim();
+        if (!t) return;
+        if (r.spoken || sound(t)) said.push(t);
+        else { flush(); out.push(V('marking.actionCards') ? inked(t) : t); }
+      });
+      flush();
+      return out.join(' ');
+    }
+    if (active && V('marking.spokenCards') && choicesFor().some(function (c) { return c.kind === 'spoken' && c.id === choice.id; })) return '"' + choice.text + '"';
+    return choice.text;
+  }
+  var prodLayout = G.layoutCards;
+  G.layoutCards = function (list) {
+    if (!talk && !active) return prodLayout.apply(this, arguments);
+    var cards = prodLayout.call(this, list.map(function (c) { return { id: c.id, text: cardSay(c) }; }));
+    cards.forEach(function (card, i) { card.shown = plain(card.text); card.text = list[i].text; });
+    return cards;
+  };
   var prodDraw = T.draw;
   function actionCard(text) {
     if (V('marking.style') !== 2 || !V('marking.actionCards')) return false;
@@ -188,7 +222,7 @@
       lines = lines.map(function (l) { return inked(str(l)); });
       return paint(canvas, lines.map(function (l) { return { text: l, role: role }; }), lineHeight, width, height, maxChars);
     }
-    var marked = lines.some(function (l) { return str(l).indexOf(MARK) !== -1; });
+    var marked = lines.some(function (l) { return str(l).indexOf(MARK) !== -1 || str(l).indexOf(MARK2) !== -1; });
     if (!marked) return prodDraw.apply(this, arguments);
     paint(canvas, lines.map(function (l) { return typeof l === 'string' ? { text: l, role: role } : l; }), lineHeight, width, height, maxChars);
   };
@@ -843,7 +877,7 @@
     if (!check.ok) return 'invalid';
     var was = vals;
     vals = Object.assign(NS.defaults(), map);
-    var marking = ['marking.style', 'marking.ink', 'marking.actionCards'].some(function (k) { return was[k] !== V(k); });
+    var marking = ['marking.style', 'marking.ink', 'marking.actionCards', 'marking.spokenCards', 'marking.thoughtInk'].some(function (k) { return was[k] !== V(k); });
     if (talk && marking) markDialogue();
     if (!active) return 'live';
     if (marking) { G.rebuildStage(); if (lastToggles) LAB.setToggles(lastToggles); } // repaints the cards
@@ -914,8 +948,10 @@
   S.talkInfo = function () {
     return { on: !!talk, style: V('marking.style'), actionChoices: ACTION_CHOICES.filter(function (id) { return choiceText(id) !== null; }),
       parts: G.ui.speech.parts.map(function (p) {
-        return { who: p.who, text: plain(p.text), marked: p.text.indexOf(MARK) !== -1, inked: p.text.split(' ').filter(function (w) { return w[0] === MARK; }).map(plain).join(' ') };
+        return { who: p.who, text: plain(p.text), marked: p.text.indexOf(MARK) !== -1, inked: p.text.split(' ').filter(function (w) { return w[0] === MARK; }).map(plain).join(' '),
+          slate: p.text.split(' ').filter(function (w) { return w[0] === MARK2; }).map(plain).join(' ') };
       }),
+      cards: G.ui.cards.map(function (c) { return { id: c.id, text: c.text, shown: c.shown || c.text, lines: c.wrapped.length, overflow: c.overflowLines }; }),
       origs: talk ? talk.origs.map(function (o) { return o.text; }) : [] };
   };
 

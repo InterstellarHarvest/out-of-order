@@ -26,8 +26,8 @@
     { id: 'marking', title: 'Talking vs action (narration and dialogue)' }
   ];
 
-  // The second ink for the player's actions in the dialogue box (never in the narration); the first
-  // ink is the production dark ink.
+  // The second ink for the player's actions in the dialogue box and on action cards (never in the
+  // narration); the first ink is the production dark ink. Slate (3) is also OBSERVE's ink.
   var INKS = { 1: '#8e2c1f', 2: '#6b5536', 3: '#3f5f6b' };
 
   var FONTS = { 1: 'Dialogue face (Jersey 15 1x)', 2: 'Choices face (locked atlas)', 3: 'Labels face (Press Start 2P 2x)', 4: 'Objective face (Tiny5 3x)' };
@@ -73,7 +73,12 @@
       options: { 2: "Owner's rule (narration: speech in quotes; dialogue: the player's actions in ink)", 1: 'Brackets / parentheses (the game today)' } },
     { key: 'marking.ink', s: 'marking', label: "Action ink (the player's actions, never the narration)", def: 1, min: 1, max: 3, control: 'radio', swatches: INKS,
       options: { 1: 'Red ribbon', 2: 'Faded brown', 3: 'Slate' } },
-    { key: 'marking.actionCards', s: 'marking', label: 'Action choice cards in the action ink too', def: 0, min: 0, max: 1, control: 'check' }
+    // The choice cards (owner, 2026-11-08): an action card is in the action ink and a spoken card is
+    // in quotation marks; once taken, the line goes to the dialogue box without them. OBSERVE's
+    // thought keeps its parentheses there and is drawn in slate.
+    { key: 'marking.actionCards', s: 'marking', label: 'Action choice cards in the action ink', def: 1, min: 0, max: 1, control: 'check' },
+    { key: 'marking.spokenCards', s: 'marking', label: 'Spoken choice cards in quotation marks (none in the dialogue box)', def: 1, min: 0, max: 1, control: 'check' },
+    { key: 'marking.thoughtInk', s: 'marking', label: "OBSERVE's lines (in parentheses) in slate in the dialogue box", def: 1, min: 0, max: 1, control: 'check' }
   ];
 
   // Saved or imported values from retired study options (2026-11-08): what still means something

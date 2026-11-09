@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-m2-reception-polish-lab-qa-v1",
-  "passed": 280,
-  "total": 280,
+  "passed": 292,
+  "total": 292,
   "failures": [],
   "checks": [
     {
@@ -381,9 +381,9 @@
             51,
             52
           ],
-          "ms": 157
+          "ms": 158
         },
-        "href0": "http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:49166/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -635,17 +635,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "105px",
-          "77px",
-          "55px",
-          "38px",
-          "26px",
-          "18px",
-          "13px",
+          "122px",
+          "91px",
+          "65px",
+          "47px",
+          "32px",
+          "22px",
+          "15px",
+          "11px",
           "10px",
           "9px",
-          "12px",
-          "15px"
+          "12px"
         ]
       }
     },
@@ -667,8 +667,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:49166/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:49166/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -692,7 +692,7 @@
       "browser": "chromium",
       "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.5055999999046326,730px"
+      "detail": "500,400,0.505,730px"
     },
     {
       "browser": "chromium",
@@ -1531,14 +1531,190 @@
     },
     {
       "browser": "chromium",
-      "name": "NB-8 opens at the player's SIGH. line, scrollable like any dialogue; with no player action on show, the box is one dark ink",
+      "name": "NB-8 opens at the player's SIGH. line, scrollable like any dialogue; with no player action on show, the box is the dark ink plus OBSERVE's slate",
       "ok": true,
       "detail": {
         "scroll": 24,
         "max": 26,
         "topPart": 7,
-        "sighAt": 7
+        "sighAt": 7,
+        "ink8": "#203037,#3f5f6b"
       }
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-8: OBSERVE's line keeps its parentheses and is wholly slate; nothing else is slate",
+      "ok": true,
+      "detail": [
+        [
+          "npc",
+          ""
+        ],
+        [
+          "player",
+          ""
+        ],
+        [
+          "npc",
+          ""
+        ],
+        [
+          "player",
+          ""
+        ],
+        [
+          "npc",
+          ""
+        ],
+        [
+          "player",
+          ""
+        ],
+        [
+          "npc",
+          ""
+        ],
+        [
+          "player",
+          ""
+        ],
+        [
+          "npc",
+          ""
+        ],
+        [
+          "thought",
+          "(I WATCHED HER FOR A SIGN THAT"
+        ]
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-8: with the slate option off, OBSERVE's line is dark again (same text, parentheses kept)",
+      "ok": true,
+      "detail": "#203037"
+    },
+    {
+      "browser": "chromium",
+      "name": "every spoken reception choice shown as a quoted card fits its card (at most 4 lines, nothing cut); the action and BEGIN AGAIN. cards carry no quotes; a sigh is quoted with its words",
+      "ok": true,
+      "detail": [
+        [
+          "ask-politely",
+          1,
+          "\"WHERE IS THE BATHROOM, PLEASE"
+        ],
+        [
+          "ask-bluntly",
+          2,
+          "\"BATHROOM. QUICKLY, IF POSSIBL"
+        ],
+        [
+          "correct",
+          3,
+          "\"THERE HAS BEEN A MISTAKE. I A"
+        ],
+        [
+          "cooperate",
+          2,
+          "\"ALL RIGHT. WHAT EXACTLY DOES "
+        ],
+        [
+          "practical",
+          2,
+          "\"EXAMINER, FINE, WHATEVER YOU "
+        ],
+        [
+          "rule",
+          2,
+          "\"THEN, AS EXAMINER, I RULE THA"
+        ],
+        [
+          "give-up",
+          2,
+          "\"FORGET IT. JUST TELL ME WHERE"
+        ],
+        [
+          "sigh",
+          1,
+          "\"SIGH. AND THE BATHROOM?\""
+        ],
+        [
+          "standard-issue",
+          1,
+          "\"STANDARD ISSUE?\""
+        ],
+        [
+          "bathroom-first",
+          2,
+          "\"BEFORE ANY OF THAT, COULD I P"
+        ],
+        [
+          "ask-key",
+          1,
+          "\"THEN PLEASE ISSUE ME THE KEY."
+        ],
+        [
+          "confirm-unread",
+          2,
+          "\"I AM SURE THE DETAILS ARE IN "
+        ],
+        [
+          "confirm-read",
+          2,
+          "\"THE DETAILS ARE IN ORDER. I T"
+        ],
+        [
+          "question-tag",
+          3,
+          "\"THE TAG SAYS I ALREADY RETURN"
+        ],
+        [
+          "onward-blind",
+          1,
+          "\"SO WHERE DOES THE KEY GO?\""
+        ],
+        [
+          "onward-read",
+          1,
+          "\"SO WHERE DOES THE KEY GO?\""
+        ],
+        [
+          "onward-tag",
+          2,
+          "\"I HAVE NEVER SEEN THIS KEY BE"
+        ],
+        [
+          "unlock",
+          2,
+          "UNLOCK THE EXAMINERS DOOR WITH"
+        ],
+        [
+          "protest",
+          2,
+          "\"ONE LAST TIME: I AM NOT AN EX"
+        ],
+        [
+          "to-door",
+          1,
+          "GO TO THE EXAMINERS DOOR."
+        ],
+        [
+          "unlock-after",
+          2,
+          "UNLOCK THE EXAMINERS DOOR WITH"
+        ],
+        [
+          "enter-corridor",
+          1,
+          "STEP THROUGH INTO THE CORRIDOR"
+        ],
+        [
+          "restart",
+          1,
+          "BEGIN AGAIN."
+        ]
+      ]
     },
     {
       "browser": "chromium",
@@ -1688,7 +1864,33 @@
     },
     {
       "browser": "chromium",
-      "name": "action choice cards: off by default (dark); on, the action card STEP THROUGH INTO THE CORRIDOR. is in the action ink; the ink choice switches the box and the card live (faded brown); its accessible name is unchanged",
+      "name": "NB-9: the spoken choice ONE LAST TIME... was a quoted card, and in the dialogue box it is unquoted and dark",
+      "ok": true,
+      "detail": {
+        "who": "player",
+        "text": "ONE LAST TIME: I AM NOT AN EXAMINER.",
+        "marked": false,
+        "inked": "",
+        "slate": ""
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "NB-9 cards (defaults): the action card STEP THROUGH INTO THE CORRIDOR. is unquoted, in the action ink; nothing else is on offer at the door",
+      "ok": true,
+      "detail": [
+        {
+          "id": "enter-corridor",
+          "text": "STEP THROUGH INTO THE CORRIDOR.",
+          "shown": "STEP THROUGH INTO THE CORRIDOR.",
+          "lines": 1,
+          "overflow": 0
+        }
+      ]
+    },
+    {
+      "browser": "chromium",
+      "name": "action choice cards: on by default (the action card STEP THROUGH INTO THE CORRIDOR. in the action ink, in both frames); off, dark; the ink choice switches the box and the card live (faded brown); its accessible name is unchanged",
       "ok": true,
       "detail": {
         "cardsOff": {
@@ -1707,13 +1909,43 @@
     },
     {
       "browser": "chromium",
-      "name": "action choice cards in Narrative B too: EXAMINE THE KEYPAD and KNOCK in the action ink, the spoken card (HELLO?) dark; the narration stays dark",
+      "name": "choice cards in Narrative B too: EXAMINE THE KEYPAD and KNOCK in the action ink, unquoted; the spoken card shows \"HELLO? IS ANYONE BACK THERE?\" in quotes, dark, its accessible name unquoted; the narration stays dark",
       "ok": true,
       "detail": {
-        "examine-keypad": "#8e2c1f|EXAMINE THE KEYPAD",
-        "call-out": "#203037|HELLO? IS ANYONE BACK THERE?",
-        "knock": "#8e2c1f|KNOCK ON THE DOUBLE DOORS"
+        "spokenCards": {
+          "examine-keypad": "#8e2c1f|EXAMINE THE KEYPAD",
+          "call-out": "#203037|HELLO? IS ANYONE BACK THERE?",
+          "knock": "#8e2c1f|KNOCK ON THE DOUBLE DOORS"
+        },
+        "shownB": [
+          {
+            "id": "examine-keypad",
+            "text": "EXAMINE THE KEYPAD",
+            "shown": "EXAMINE THE KEYPAD",
+            "lines": 1,
+            "overflow": 0
+          },
+          {
+            "id": "call-out",
+            "text": "HELLO? IS ANYONE BACK THERE?",
+            "shown": "\"HELLO? IS ANYONE BACK THERE?\"",
+            "lines": 1,
+            "overflow": 0
+          },
+          {
+            "id": "knock",
+            "text": "KNOCK ON THE DOUBLE DOORS",
+            "shown": "KNOCK ON THE DOUBLE DOORS",
+            "lines": 1,
+            "overflow": 0
+          }
+        ]
       }
+    },
+    {
+      "browser": "chromium",
+      "name": "Narrative B: with the quotes option off, the spoken card is its plain line again",
+      "ok": true
     },
     {
       "browser": "chromium",
@@ -1777,7 +2009,7 @@
       "browser": "chromium",
       "name": "a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value",
       "ok": true,
-      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:49166/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
     },
     {
       "browser": "chromium",
@@ -1788,7 +2020,7 @@
       "browser": "chromium",
       "name": "the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)",
       "ok": true,
-      "detail": "0.66675,,0"
+      "detail": "0.64575,,0"
     },
     {
       "browser": "chromium",
@@ -1889,7 +2121,7 @@
       "ok": true,
       "detail": {
         "ctlBad": [],
-        "n": 95
+        "n": 97
       }
     },
     {
@@ -2254,9 +2486,9 @@
             51,
             52
           ],
-          "ms": 160
+          "ms": 155
         },
-        "href0": "http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:49166/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -2508,12 +2740,12 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "109px",
-          "74px",
-          "57px",
+          "105px",
+          "75px",
+          "54px",
           "38px",
-          "28px",
-          "17px",
+          "26px",
+          "18px",
           "13px",
           "10px",
           "9px",
@@ -2540,8 +2772,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:49166/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:49166/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -2565,7 +2797,7 @@
       "browser": "firefox",
       "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.508,730px"
+      "detail": "500,400,0.504,730px"
     },
     {
       "browser": "firefox",
@@ -3404,14 +3636,190 @@
     },
     {
       "browser": "firefox",
-      "name": "NB-8 opens at the player's SIGH. line, scrollable like any dialogue; with no player action on show, the box is one dark ink",
+      "name": "NB-8 opens at the player's SIGH. line, scrollable like any dialogue; with no player action on show, the box is the dark ink plus OBSERVE's slate",
       "ok": true,
       "detail": {
         "scroll": 24,
         "max": 26,
         "topPart": 7,
-        "sighAt": 7
+        "sighAt": 7,
+        "ink8": "#203037,#3f5f6b"
       }
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-8: OBSERVE's line keeps its parentheses and is wholly slate; nothing else is slate",
+      "ok": true,
+      "detail": [
+        [
+          "npc",
+          ""
+        ],
+        [
+          "player",
+          ""
+        ],
+        [
+          "npc",
+          ""
+        ],
+        [
+          "player",
+          ""
+        ],
+        [
+          "npc",
+          ""
+        ],
+        [
+          "player",
+          ""
+        ],
+        [
+          "npc",
+          ""
+        ],
+        [
+          "player",
+          ""
+        ],
+        [
+          "npc",
+          ""
+        ],
+        [
+          "thought",
+          "(I WATCHED HER FOR A SIGN THAT"
+        ]
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-8: with the slate option off, OBSERVE's line is dark again (same text, parentheses kept)",
+      "ok": true,
+      "detail": "#203037"
+    },
+    {
+      "browser": "firefox",
+      "name": "every spoken reception choice shown as a quoted card fits its card (at most 4 lines, nothing cut); the action and BEGIN AGAIN. cards carry no quotes; a sigh is quoted with its words",
+      "ok": true,
+      "detail": [
+        [
+          "ask-politely",
+          1,
+          "\"WHERE IS THE BATHROOM, PLEASE"
+        ],
+        [
+          "ask-bluntly",
+          2,
+          "\"BATHROOM. QUICKLY, IF POSSIBL"
+        ],
+        [
+          "correct",
+          3,
+          "\"THERE HAS BEEN A MISTAKE. I A"
+        ],
+        [
+          "cooperate",
+          2,
+          "\"ALL RIGHT. WHAT EXACTLY DOES "
+        ],
+        [
+          "practical",
+          2,
+          "\"EXAMINER, FINE, WHATEVER YOU "
+        ],
+        [
+          "rule",
+          2,
+          "\"THEN, AS EXAMINER, I RULE THA"
+        ],
+        [
+          "give-up",
+          2,
+          "\"FORGET IT. JUST TELL ME WHERE"
+        ],
+        [
+          "sigh",
+          1,
+          "\"SIGH. AND THE BATHROOM?\""
+        ],
+        [
+          "standard-issue",
+          1,
+          "\"STANDARD ISSUE?\""
+        ],
+        [
+          "bathroom-first",
+          2,
+          "\"BEFORE ANY OF THAT, COULD I P"
+        ],
+        [
+          "ask-key",
+          1,
+          "\"THEN PLEASE ISSUE ME THE KEY."
+        ],
+        [
+          "confirm-unread",
+          2,
+          "\"I AM SURE THE DETAILS ARE IN "
+        ],
+        [
+          "confirm-read",
+          2,
+          "\"THE DETAILS ARE IN ORDER. I T"
+        ],
+        [
+          "question-tag",
+          3,
+          "\"THE TAG SAYS I ALREADY RETURN"
+        ],
+        [
+          "onward-blind",
+          1,
+          "\"SO WHERE DOES THE KEY GO?\""
+        ],
+        [
+          "onward-read",
+          1,
+          "\"SO WHERE DOES THE KEY GO?\""
+        ],
+        [
+          "onward-tag",
+          2,
+          "\"I HAVE NEVER SEEN THIS KEY BE"
+        ],
+        [
+          "unlock",
+          2,
+          "UNLOCK THE EXAMINERS DOOR WITH"
+        ],
+        [
+          "protest",
+          2,
+          "\"ONE LAST TIME: I AM NOT AN EX"
+        ],
+        [
+          "to-door",
+          1,
+          "GO TO THE EXAMINERS DOOR."
+        ],
+        [
+          "unlock-after",
+          2,
+          "UNLOCK THE EXAMINERS DOOR WITH"
+        ],
+        [
+          "enter-corridor",
+          1,
+          "STEP THROUGH INTO THE CORRIDOR"
+        ],
+        [
+          "restart",
+          1,
+          "BEGIN AGAIN."
+        ]
+      ]
     },
     {
       "browser": "firefox",
@@ -3561,7 +3969,33 @@
     },
     {
       "browser": "firefox",
-      "name": "action choice cards: off by default (dark); on, the action card STEP THROUGH INTO THE CORRIDOR. is in the action ink; the ink choice switches the box and the card live (faded brown); its accessible name is unchanged",
+      "name": "NB-9: the spoken choice ONE LAST TIME... was a quoted card, and in the dialogue box it is unquoted and dark",
+      "ok": true,
+      "detail": {
+        "who": "player",
+        "text": "ONE LAST TIME: I AM NOT AN EXAMINER.",
+        "marked": false,
+        "inked": "",
+        "slate": ""
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "NB-9 cards (defaults): the action card STEP THROUGH INTO THE CORRIDOR. is unquoted, in the action ink; nothing else is on offer at the door",
+      "ok": true,
+      "detail": [
+        {
+          "id": "enter-corridor",
+          "text": "STEP THROUGH INTO THE CORRIDOR.",
+          "shown": "STEP THROUGH INTO THE CORRIDOR.",
+          "lines": 1,
+          "overflow": 0
+        }
+      ]
+    },
+    {
+      "browser": "firefox",
+      "name": "action choice cards: on by default (the action card STEP THROUGH INTO THE CORRIDOR. in the action ink, in both frames); off, dark; the ink choice switches the box and the card live (faded brown); its accessible name is unchanged",
       "ok": true,
       "detail": {
         "cardsOff": {
@@ -3580,13 +4014,43 @@
     },
     {
       "browser": "firefox",
-      "name": "action choice cards in Narrative B too: EXAMINE THE KEYPAD and KNOCK in the action ink, the spoken card (HELLO?) dark; the narration stays dark",
+      "name": "choice cards in Narrative B too: EXAMINE THE KEYPAD and KNOCK in the action ink, unquoted; the spoken card shows \"HELLO? IS ANYONE BACK THERE?\" in quotes, dark, its accessible name unquoted; the narration stays dark",
       "ok": true,
       "detail": {
-        "examine-keypad": "#8e2c1f|EXAMINE THE KEYPAD",
-        "call-out": "#203037|HELLO? IS ANYONE BACK THERE?",
-        "knock": "#8e2c1f|KNOCK ON THE DOUBLE DOORS"
+        "spokenCards": {
+          "examine-keypad": "#8e2c1f|EXAMINE THE KEYPAD",
+          "call-out": "#203037|HELLO? IS ANYONE BACK THERE?",
+          "knock": "#8e2c1f|KNOCK ON THE DOUBLE DOORS"
+        },
+        "shownB": [
+          {
+            "id": "examine-keypad",
+            "text": "EXAMINE THE KEYPAD",
+            "shown": "EXAMINE THE KEYPAD",
+            "lines": 1,
+            "overflow": 0
+          },
+          {
+            "id": "call-out",
+            "text": "HELLO? IS ANYONE BACK THERE?",
+            "shown": "\"HELLO? IS ANYONE BACK THERE?\"",
+            "lines": 1,
+            "overflow": 0
+          },
+          {
+            "id": "knock",
+            "text": "KNOCK ON THE DOUBLE DOORS",
+            "shown": "KNOCK ON THE DOUBLE DOORS",
+            "lines": 1,
+            "overflow": 0
+          }
+        ]
       }
+    },
+    {
+      "browser": "firefox",
+      "name": "Narrative B: with the quotes option off, the spoken card is its plain line again",
+      "ok": true
     },
     {
       "browser": "firefox",
@@ -3650,7 +4114,7 @@
       "browser": "firefox",
       "name": "a production tunable changed during a preview rebuilds the stage live: overlay and passage stay, the cards follow the value",
       "ok": true,
-      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:52808/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+      "detail": "true|labNarrativeB|narrative-mode-b-candidate-a-overlay.png|537|http://127.0.0.1:49166/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
     },
     {
       "browser": "firefox",
@@ -3661,7 +4125,7 @@
       "browser": "firefox",
       "name": "the B -> A cross-fade runs over the set time (overlay part-faded mid-way, close-up beneath, no cards yet)",
       "ok": true,
-      "detail": "0.6425,,0"
+      "detail": "0.64625,,0"
     },
     {
       "browser": "firefox",
@@ -3762,7 +4226,7 @@
       "ok": true,
       "detail": {
         "ctlBad": [],
-        "n": 95
+        "n": 97
       }
     },
     {

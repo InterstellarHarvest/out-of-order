@@ -69,8 +69,10 @@ function staticChecks() {
     !/NARRATIVE_STUDY|NARRATIVE_LAB|NARRATIVE_STAGE|narrative-study/.test(game) && !/narrative-study/.test(html));
   check(s, 'Narrative Study: no stage-frame code reads browser storage (values arrive from the lab page in memory)',
     ['lab-apply.js', 'lab-stage.js', 'narrative-study.js', 'narrative-study-stage.js'].every((f) => !/localStorage|sessionStorage|indexedDB/.test(fs.readFileSync(path.join(dir, f), 'utf8'))));
+  // G.layout is matched as a whole name: G.layoutCards (the card layout routine, which the study wraps
+  // to draw quotation marks) is not the layout values.
   check(s, 'Narrative Study: the adapter never writes story state or production values (G.state, G.TUNING, G.layout)',
-    !/G\.state\s*=|G\.state\.[a-z]+\s*=(?!=)|state\.flags\.[a-z]+\s*=(?!=)|G\.TUNING[\w.[\]]*\s*=(?!=)|G\.layout[\w.[\]]*\s*=(?!=)/i.test(nsStage) && !/G\.TUNING|G\.layout/.test(nsReg.replace(/\/\/.*$/gm, '')));
+    !/G\.state\s*=|G\.state\.[a-z]+\s*=(?!=)|state\.flags\.[a-z]+\s*=(?!=)|G\.TUNING[\w.[\]]*\s*=(?!=)|G\.layout(?!\w)[\w.[\]]*\s*=(?!=)/i.test(nsStage) && !/G\.TUNING|G\.layout/.test(nsReg.replace(/\/\/.*$/gm, '')));
 }
 // The two review overlays: the art-study branch files with one correction (owner, 2026-11-08): a stray
 // cream column at x 1919, outside the frame's dark edge, now repeats column 1918 (checked by pixel below).
@@ -828,8 +830,27 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
     && byWho(t2, 'npc').some((x) => /^ONE MOMENT\. SHE STAMPS SOMETHING\. THE FACILITIES/.test(x)) && byWho(t2, 'npc').some((x) => /CONDITIONS\. SHE WAITS FOR YOU TO WORK OUT WHO THAT IS\.$/.test(x))
     && byWho(t2, 'thought').length === 1 && byWho(t2, 'thought').every((x) => /^\(.*\)$/.test(x))
     && t2.t.parts.every((p) => !/"/.test(p.text) && (p.who === 'thought' || !/[[\]()]/.test(p.text))) && t2.transcript.every((x) => !/^"/.test(x)), t2.t.parts.map((p) => [p.text.slice(0, 50), p.inked]));
-  c('NB-8 opens at the player\'s SIGH. line, scrollable like any dialogue; with no player action on show, the box is one dark ink',
-    t2.scroll > 0 && t2.scroll <= t2.max && t2.topPart === sighAt && (await speechInks()) === '#203037', { scroll: t2.scroll, max: t2.max, topPart: t2.topPart, sighAt });
+  const ink8 = await speechInks();
+  c('NB-8 opens at the player\'s SIGH. line, scrollable like any dialogue; with no player action on show, the box is the dark ink plus OBSERVE\'s slate',
+    t2.scroll > 0 && t2.scroll <= t2.max && t2.topPart === sighAt && ink8 === '#203037,#3f5f6b', { scroll: t2.scroll, max: t2.max, topPart: t2.topPart, sighAt, ink8 });
+  const thought8 = byWho(t2, 'thought')[0];
+  c('NB-8: OBSERVE\'s line keeps its parentheses and is wholly slate; nothing else is slate',
+    t2.t.parts.find((p) => p.who === 'thought').slate === thought8 && t2.t.parts.filter((p) => p.who !== 'thought').every((p) => !p.slate), t2.t.parts.map((p) => [p.who, p.slate.slice(0, 30)]));
+  await lab(() => window.NARRATIVE_LAB.setValue('marking.thoughtInk', 0));
+  await page.waitForTimeout(200);
+  const t2d = await talk();
+  c('NB-8: with the slate option off, OBSERVE\'s line is dark again (same text, parentheses kept)',
+    (await speechInks()) === '#203037' && byWho(t2d, 'thought')[0] === thought8 && t2d.t.parts.every((p) => !p.slate), await speechInks());
+  await lab(() => window.NARRATIVE_LAB.setValue('marking.thoughtInk', 1));
+  await page.waitForTimeout(200);
+  // Every player line in the reception content as a quoted card: none may grow past the four card lines.
+  const fit = await labG((w) => { const G = w.CYOA_GAME; const out = [];
+    Object.keys(G.content.nodes).forEach((n) => (G.content.nodes[n].choices || []).forEach((ch) => out.push({ id: ch.id, text: ch.text })));
+    return G.layoutCards(out).map((c) => ({ id: c.id, shown: c.shown, lines: c.wrapped.length, overflow: c.overflowLines })); });
+  const quotedFit = fit.filter((f) => /^".*"$/.test(f.shown));
+  c('every spoken reception choice shown as a quoted card fits its card (at most 4 lines, nothing cut); the action and BEGIN AGAIN. cards carry no quotes; a sigh is quoted with its words',
+    fit.every((f) => f.overflow === 0 && f.lines <= 4) && quotedFit.length === fit.length - 5 && fit.filter((f) => ['unlock', 'unlock-after', 'to-door', 'enter-corridor', 'restart'].includes(f.id)).every((f) => !/"/.test(f.shown))
+    && fit.find((f) => f.id === 'sigh').shown === '"SIGH. AND THE BATHROOM?"', fit.map((f) => [f.id, f.lines, f.shown.slice(0, 30)]));
   await freezeBoth(true);
   save(await shoot(), 'narrative_talk_dialogue_owner_rule.png');
   await freezeBoth(false);
@@ -859,24 +880,33 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
     && t9.t.parts.filter((p) => p.who === 'npc').every((p) => !p.marked && !/[[\]"]/.test(p.text)) && /OTHERS\. SHE OPENS A DRAWER\. IT IS FULL\.$/.test(t9.t.parts[drawerAt].text),
     t9.t.parts.map((p) => [p.who, p.text.slice(0, 40), p.inked]));
   c('NB-9 opens on her drawer line, with both actions and her replies below it', t9.topPart === drawerAt && t9.scroll <= t9.max && (await speechInks()) === '#203037,#8e2c1f', { scroll: t9.scroll, max: t9.max, topPart: t9.topPart, drawerAt });
+  const protestAt = t9.t.origs.indexOf('ONE LAST TIME: I AM NOT AN EXAMINER.');
+  c('NB-9: the spoken choice ONE LAST TIME... was a quoted card, and in the dialogue box it is unquoted and dark',
+    protestAt > 0 && t9.t.parts[protestAt].text === 'ONE LAST TIME: I AM NOT AN EXAMINER.' && !t9.t.parts[protestAt].marked, t9.t.parts[protestAt]);
   await freezeBoth(true);
   save(await shoot(), 'narrative_talk_door_owner_rule.png');
   await freezeBoth(false);
-  // Action choice cards in the action ink: a toggle (off by default); the card's text never changes.
+  // Choice cards: action cards in the action ink, spoken cards quoted (both on by default); the card's
+  // text, accessible name and sent line never change.
   const cardInks = (mode) => lab((m) => { const w = document.getElementById(m === 'production' ? 'frameProduction' : 'frameLab').contentWindow; const out = {};
     w.document.querySelectorAll('#choiceViewport .choice').forEach((e) => { const c = e.querySelector('canvas.card-text'); const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; const s = new Set();
       for (let i = 0; i < d.length; i += 4) if (d[i + 3]) s.add('#' + [d[i], d[i + 1], d[i + 2]].map((v) => v.toString(16).padStart(2, '0')).join('')); out[e.dataset.choice] = [...s].sort().join() + '|' + e.getAttribute('aria-label'); });
     return out; }, mode || 'lab');
+  const cardsOn = await cardInks();
+  const shown9 = (await talk()).t.cards;
+  c('NB-9 cards (defaults): the action card STEP THROUGH INTO THE CORRIDOR. is unquoted, in the action ink; nothing else is on offer at the door',
+    shown9.length >= 1 && shown9.find((x) => x.id === 'enter-corridor').shown === 'STEP THROUGH INTO THE CORRIDOR.', shown9);
+  await lab(() => window.NARRATIVE_LAB.setValue('marking.actionCards', 0));
+  await page.waitForTimeout(250);
   const cardsOff = await cardInks();
   await lab(() => window.NARRATIVE_LAB.setValue('marking.actionCards', 1));
   await page.waitForTimeout(250);
-  const cardsOn = await cardInks();
   await lab(() => window.NARRATIVE_LAB.setValue('marking.ink', 2));
   await page.waitForTimeout(250);
   const brown9 = [await speechInks(), await cardInks()];
-  c('action choice cards: off by default (dark); on, the action card STEP THROUGH INTO THE CORRIDOR. is in the action ink; the ink choice switches the box and the card live (faded brown); its accessible name is unchanged',
+  c('action choice cards: on by default (the action card STEP THROUGH INTO THE CORRIDOR. in the action ink, in both frames); off, dark; the ink choice switches the box and the card live (faded brown); its accessible name is unchanged',
     cardsOff['enter-corridor'] === '#203037|STEP THROUGH INTO THE CORRIDOR.' && cardsOn['enter-corridor'] === '#8e2c1f|STEP THROUGH INTO THE CORRIDOR.'
-    && brown9[0] === '#203037,#6b5536' && brown9[1]['enter-corridor'] === '#6b5536|STEP THROUGH INTO THE CORRIDOR.' && (await cardInks('production'))['enter-corridor'] === '#203037|STEP THROUGH INTO THE CORRIDOR.',
+    && brown9[0] === '#203037,#6b5536' && brown9[1]['enter-corridor'] === '#6b5536|STEP THROUGH INTO THE CORRIDOR.' && (await cardInks('production'))['enter-corridor'] === '#8e2c1f|STEP THROUGH INTO THE CORRIDOR.',
     { cardsOff, cardsOn, brown9 });
   await freezeBoth(true);
   await lab(() => window.NARRATIVE_LAB.setValue('marking.ink', 1));
@@ -885,8 +915,16 @@ async function narrativeStudy({ c, page, lab, labG, labWin, wrap, ready, freezeB
   await freezeBoth(false);
   await setState('ns-spoken');
   const spokenCards = await cardInks();
-  c('action choice cards in Narrative B too: EXAMINE THE KEYPAD and KNOCK in the action ink, the spoken card (HELLO?) dark; the narration stays dark',
-    spokenCards['examine-keypad'].startsWith('#8e2c1f|') && spokenCards.knock.startsWith('#8e2c1f|') && spokenCards['call-out'] === '#203037|HELLO? IS ANYONE BACK THERE?' && (await inks()) === '#203037', spokenCards);
+  const shownB = (await talk()).t.cards;
+  c('choice cards in Narrative B too: EXAMINE THE KEYPAD and KNOCK in the action ink, unquoted; the spoken card shows "HELLO? IS ANYONE BACK THERE?" in quotes, dark, its accessible name unquoted; the narration stays dark',
+    spokenCards['examine-keypad'].startsWith('#8e2c1f|') && spokenCards.knock.startsWith('#8e2c1f|') && spokenCards['call-out'] === '#203037|HELLO? IS ANYONE BACK THERE?' && (await inks()) === '#203037'
+    && shownB.find((x) => x.id === 'call-out').shown === '"HELLO? IS ANYONE BACK THERE?"' && shownB.filter((x) => x.id !== 'call-out').every((x) => !/"/.test(x.shown)), { spokenCards, shownB });
+  await freezeBoth(true);
+  save(await shoot(), 'narrative_spoken_cards_quoted.png');
+  await freezeBoth(false);
+  await lab(() => window.NARRATIVE_LAB.setValue('marking.spokenCards', 0));
+  await page.waitForTimeout(250);
+  c('Narrative B: with the quotes option off, the spoken card is its plain line again', (await talk()).t.cards.find((x) => x.id === 'call-out').shown === 'HELLO? IS ANYONE BACK THERE?');
   await lab(() => window.NARRATIVE_LAB.reset());
 
   // Tuning, live, LAB frame only; candidate 2; timings --------------------------------------------
