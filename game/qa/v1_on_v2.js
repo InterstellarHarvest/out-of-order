@@ -93,8 +93,8 @@ const API = {
     }
     return commit(content, h, { item: id, verb: kind });
   },
-  description: (content, h, id) => Rules.description(storyFor(content), v2Of(h), id),
-  files: (content, h) => Rules.files(storyFor(content), v2Of(h)),
+  description: (content, h, id) => Rules.describe(storyFor(content), v2Of(h), id),
+  files: (content, h) => Rules.view(storyFor(content), v2Of(h)).files,
   // The same object every time (v1 callers compare identity).
   contextAction(content, h) {
     const story = storyFor(content);

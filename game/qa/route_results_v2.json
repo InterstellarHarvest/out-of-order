@@ -7,7 +7,8 @@
     "choices": 23,
     "reachableStates": 449,
     "endings": 1,
-    "endingStates": 96
+    "endingStates": 96,
+    "checks": 0
   },
   "total": 49,
   "passed": 49,
@@ -27,7 +28,8 @@
         "choices": 23,
         "reachableStates": 449,
         "endings": 1,
-        "endingStates": 96
+        "endingStates": 96,
+        "checks": 0
       }
     },
     {
@@ -63,8 +65,8 @@
       "name": "validator rejects: a node whose only choice is conditional and can fail",
       "ok": true,
       "detail": [
-        "dead end: no choice is available at reception:door with state [\"reception\",\"door\",null,{\"appointed\":true,\"blunt\":false,\"approach\":\"cooperated\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]],[]]",
-        "dead end: no choice is available at reception:door with state [\"reception\",\"door\",null,{\"appointed\":true,\"blunt\":false,\"approach\":\"practical\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]],[]]"
+        "dead end: no choice is available at reception:door with state [\"reception\",\"door\",null,{\"appointed\":true,\"blunt\":false,\"approach\":\"cooperated\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]],[],[]]",
+        "dead end: no choice is available at reception:door with state [\"reception\",\"door\",null,{\"appointed\":true,\"blunt\":false,\"approach\":\"practical\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]],[],[]]"
       ]
     },
     {
@@ -72,7 +74,7 @@
       "ok": true,
       "detail": [
         "unreachable node: reception:ending",
-        "cannot reach an ending from state [\"reception\",\"opening\",null,{\"appointed\":false,\"blunt\":false,\"approach\":\"\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[],[],[]]"
+        "cannot reach an ending from state [\"reception\",\"opening\",null,{\"appointed\":false,\"blunt\":false,\"approach\":\"\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[],[],[],[]]"
       ]
     },
     {

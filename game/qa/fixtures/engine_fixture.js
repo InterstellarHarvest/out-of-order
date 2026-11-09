@@ -3,13 +3,14 @@
 // uses it to prove the v2 rules. All art is null (fixture profile: labelled DEV PLACEHOLDERs
 // once S7 renders it). S7 may promote it to game/content/fixture/story.js.
 //
-// S1 version: the keypad has no dice yet. Knowing the code opens the door; guessing raises the
-// alarm. S2 replaces those two cards with one checked attempt.
+// The keypad is one hidden d6 check (the fixture's provisional default, not an owner decision:
+// docs/73), with a bonus for reading the card and for asking the attendant. Its outcome is
+// remembered (passed / failed) by the corridor, FILES and chapter two.
 (function (root) {
   'use strict';
   var STORY = {
     schema: 'cyoa-story-v2', id: 'engine-fixture', version: 1, profile: 'fixture', save: true, start: 'fx_one',
-    initialState: { flags: { askedCode: false, usedCard: false, doorOpened: false, alarm: false }, inventory: [], items: {} },
+    initialState: { flags: { askedCode: false, usedCard: false }, inventory: [], items: {} },
     cast: { attendant: { name: 'ATTENDANT', portrait: 'attendant' } },
     assets: {
       scenes: { 'fixture/room_a': null, 'fixture/room_b': null, 'fixture/room_c': null },
@@ -27,8 +28,8 @@
     files: [
       { text: 'SUBJECT: PRESENT. PURPOSE: UNDER TEST.' },
       { if: { has: 'fx_card' }, text: 'ISSUED: ONE BLUE CARD. NOT SIGNED FOR.' },
-      { if: { flag: 'doorOpened' }, text: 'DOOR: OPENED BY CODE.' },
-      { if: { flag: 'alarm' }, text: 'DOOR: ALARM RAISED. NO DISCREPANCY NOTED.' }
+      { if: { passed: 'fx_door' }, text: 'DOOR: OPENED BY CODE.' },
+      { if: { failed: 'fx_door' }, text: 'DOOR: ALARM RAISED. NO DISCREPANCY NOTED.' }
     ],
     chapters: {
       fx_one: { title: 'FIXTURE ONE', scene: 'fixture/room_a', start: 'wake', nodes: {
@@ -50,10 +51,11 @@
           mode: 'focus', focus: 'fixture/room_a/keypad',
           text: 'TWELVE KEYS AND A SMALL RED LAMP. A PLATE UNDER IT SAYS: FOUR DIGITS. ONE TRY. THEN WE TALK.',
           choices: [
-            { id: 'enter-code', kind: 'action', text: 'ENTER THE CODE', if: { flag: 'askedCode' }, effects: { set: { doorOpened: true } },
-              result: 'THE LAMP TURNS GREEN. THE DOOR CLICKS OPEN.', to: 'corridor' },
-            { id: 'guess-code', kind: 'action', text: 'GUESS A CODE', if: { notFlag: 'askedCode' }, effects: { set: { alarm: true } },
-              result: 'THE LAMP STAYS RED. SOMEWHERE, A BELL RINGS ONCE.', to: 'side_hatch' },
+            { id: 'try-code', kind: 'action', text: 'TRY A CODE',
+              check: { id: 'fx_door', sides: 6, need: 4, fumble: 1,
+                       mods: [ { if: { item: ['fx_card', 'read'] }, add: 1 }, { if: { flag: 'askedCode' }, add: 1 } ] },
+              pass: { result: 'THE LAMP TURNS GREEN. THE DOOR CLICKS OPEN.', to: 'corridor' },
+              fail: { result: 'THE LAMP STAYS RED. SOMEWHERE, A BELL RINGS ONCE.', to: 'side_hatch' } },
             { id: 'stop', kind: 'action', text: 'STOP EXAMINING', back: true, result: 'YOU STEP BACK FROM THE KEYPAD.' }
           ]
         },
@@ -86,7 +88,7 @@
         corridor: {
           mode: 'narrative', scene: 'fixture/room_b', objective: 'TAKE THE LIFT UP.',
           text: [
-            { if: { flag: 'doorOpened' }, text: 'YOU WALK THROUGH THE PROPER DOOR INTO A LONG CORRIDOR. AT THE END IS A LIFT WITH A CARD SLOT.' },
+            { if: { passed: 'fx_door' }, text: 'YOU WALK THROUGH THE PROPER DOOR INTO A LONG CORRIDOR. AT THE END IS A LIFT WITH A CARD SLOT.' },
             { text: 'YOU CLIMB OUT INTO A LONG CORRIDOR, DUSTY TO THE ELBOWS. AT THE END IS A LIFT WITH A CARD SLOT.' }
           ],
           choices: [
@@ -109,9 +111,9 @@
         arrive: {
           mode: 'narrative', objective: 'END OF THE FIXTURE.',
           text: [
-            { if: { flag: 'alarm' }, text: 'THE LIFT OPENS ON A WHITE ROOM. A NOTICE SAYS THAT AN ALARM WAS RAISED ON THE FLOOR BELOW, AND THAT IT HAS BEEN FILED.' },
-            { if: { item: ['fx_card', 'read'] }, text: 'THE LIFT OPENS ON A WHITE ROOM. A NOTE ON THE WALL SAYS: THE CODE STARTS WITH A FOUR. YOU KNEW THAT TWICE.' },
-            { text: 'THE LIFT OPENS ON A WHITE ROOM. A NOTE ON THE WALL SAYS: THE CODE STARTS WITH A FOUR. THE ATTENDANT, IT SEEMS, WRITES THINGS DOWN.' }
+            { if: { failed: 'fx_door' }, text: 'THE LIFT OPENS ON A WHITE ROOM. A NOTICE SAYS THAT AN ALARM WAS RAISED ON THE FLOOR BELOW, AND THAT IT HAS BEEN FILED.' },
+            { if: { flag: 'askedCode' }, text: 'THE LIFT OPENS ON A WHITE ROOM. A NOTE ON THE WALL SAYS: THE CODE STARTS WITH A FOUR. THE ATTENDANT, IT SEEMS, WRITES THINGS DOWN.' },
+            { text: 'THE LIFT OPENS ON A WHITE ROOM. IT IS EMPTY, AND VERY CLEAN.' }
           ],
           choices: [ { id: 'finish', kind: 'continue', to: 'end' } ]
         },

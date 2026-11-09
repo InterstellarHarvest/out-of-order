@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-engine-story-validation-v1",
-  "total": 91,
-  "passed": 91,
+  "total": 146,
+  "passed": 146,
   "failed": 0,
   "groups": {
     "reception": {
@@ -13,8 +13,20 @@
       "passed": 40
     },
     "mutants": {
-      "total": 39,
-      "passed": 39
+      "total": 59,
+      "passed": 59
+    },
+    "checks": {
+      "total": 18,
+      "passed": 18
+    },
+    "saves": {
+      "total": 9,
+      "passed": 9
+    },
+    "presentation": {
+      "total": 8,
+      "passed": 8
     }
   },
   "checks": [
@@ -68,7 +80,8 @@
           "choices": 23,
           "reachableStates": 449,
           "endings": 1,
-          "endingStates": 96
+          "endingStates": 96,
+          "checks": 0
         }
       }
     },
@@ -132,10 +145,11 @@
       "detail": {
         "chapters": 2,
         "nodes": 9,
-        "choices": 16,
-        "reachableStates": 336,
+        "choices": 15,
+        "reachableStates": 602,
         "endings": 1,
-        "endingStates": 72
+        "endingStates": 144,
+        "checks": 1
       }
     },
     {
@@ -277,7 +291,7 @@
     },
     {
       "group": "fixture",
-      "name": "a focus outcome that leaves: mode event, the result on the destination (B) surface, then the arrival",
+      "name": "a focus outcome that leaves: check event, mode event, the result on the destination (B) surface, then the arrival",
       "ok": true
     },
     {
@@ -302,7 +316,7 @@
     },
     {
       "group": "fixture",
-      "name": "EF-N10: the chapter-two arrival differs by what happened in chapter one",
+      "name": "EF-N10: the chapter-two arrival differs by the check outcome and by whether the attendant was asked",
       "ok": true
     },
     {
@@ -625,8 +639,8 @@
       "name": "rejects: a dead end (a node whose only card can be unavailable)",
       "ok": true,
       "detail": [
-        "dead end: no choice is available at fx_one:side_hatch with state [\"fx_one\",\"side_hatch\",null,{\"askedCode\":false,\"usedCard\":false,\"doorOpened\":false,\"alarm\":true},[],[],[]]",
-        "dead end: no choice is available at fx_one:side_hatch with state [\"fx_one\",\"side_hatch\",null,{\"askedCode\":false,\"usedCard\":false,\"doorOpened\":false,\"alarm\":true},[\"fx_card\"],[],[\"fx_one:wake:open-drawer\"]]"
+        "dead end: no choice is available at fx_one:side_hatch with state [\"fx_one\",\"side_hatch\",null,{\"askedCode\":false,\"usedCard\":false},[],[],[],[[\"fx_door\",false]]]",
+        "dead end: no choice is available at fx_one:side_hatch with state [\"fx_one\",\"side_hatch\",null,{\"askedCode\":false,\"usedCard\":false},[\"fx_card\"],[],[\"fx_one:wake:open-drawer\"],[[\"fx_door\",false]]]"
       ]
     },
     {
@@ -652,6 +666,442 @@
       "detail": [
         "node reception:ruling choice sigh: restart is only allowed on an end node"
       ]
+    },
+    {
+      "group": "checks",
+      "name": "d6 need 4, a raw 1 always fails: exact odds 3/6 with no preparation, 4/6 with the card read or the attendant asked, 5/6 with both",
+      "ok": true,
+      "detail": {
+        "none": {
+          "rate": 0.505,
+          "chance": 0.5,
+          "bonus": 0,
+          "both": true
+        },
+        "card": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "asked": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "both": {
+          "rate": 0.88,
+          "chance": 0.8333333333333334,
+          "bonus": 2,
+          "both": true
+        }
+      }
+    },
+    {
+      "group": "checks",
+      "name": "EF-N5: across seeds 1-200 both outcomes occur with and without the item, for every preparation",
+      "ok": true,
+      "detail": {
+        "none": {
+          "rate": 0.505,
+          "chance": 0.5,
+          "bonus": 0,
+          "both": true
+        },
+        "card": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "asked": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "both": {
+          "rate": 0.88,
+          "chance": 0.8333333333333334,
+          "bonus": 2,
+          "both": true
+        }
+      }
+    },
+    {
+      "group": "checks",
+      "name": "EF-N5: the item raises the measured success rate (card over none, both over asked), and each rate is near its odds",
+      "ok": true,
+      "detail": {
+        "none": {
+          "rate": 0.505,
+          "chance": 0.5,
+          "bonus": 0,
+          "both": true
+        },
+        "card": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "asked": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "both": {
+          "rate": 0.88,
+          "chance": 0.8333333333333334,
+          "bonus": 2,
+          "both": true
+        }
+      }
+    },
+    {
+      "group": "checks",
+      "name": "EF-N5: the same seed gives the same roll, outcome, state and transcript",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "the roll does not depend on the order of play (same seed, preparation in another order)",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "the check event carries id, sides, roll, bonus, need, ok and the exact chance, and comes first in its step",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "hidden by default: the card shows no odds, die or check data (the view's card is only id, kind and text)",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "each outcome has its own explicit consequence: pass narrates and leads to the corridor, fail to the side hatch",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "passed / failed / untried and the callbacks that read them: FILES, the corridor and chapter two",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "the decision log records the check and its outcome",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "EF-N4: the bonus is computed before the effects of the same step (the card is taken and still counts)",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "EF-N6: after resolution the checked card is gone, and step() refuses it",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "EF-N6: still gone after serialize/restore, with checks[id] unchanged",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "EF-N6: leaving and revisiting the node does not offer the check again",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "a new playthrough (BEGIN AGAIN) gets a new seed derived from the old one: deterministic, not the same seed, no checks resolved",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "d100 is supported: the fixture validates as a d100 check; exact odds 45% and 65%; measured rates within 4 points over 2000 seeds",
+      "ok": true,
+      "detail": {
+        "errors": [],
+        "base": 0.455,
+        "card": 0.6475
+      }
+    },
+    {
+      "group": "checks",
+      "name": "d100 fumble 5 is a 95% ceiling however large the bonus",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "rolls are spread evenly: each d6 face within 10% of 1000 over seeds 1-6000",
+      "ok": true,
+      "detail": [
+        978,
+        975,
+        1003,
+        1015,
+        1019,
+        1010
+      ]
+    },
+    {
+      "group": "saves",
+      "name": "EF-N7: restore(serialize(s)) deep-equals s for every state along 90 complete playthroughs (both check outcomes, a restart)",
+      "ok": true,
+      "detail": {
+        "trips": 1110
+      }
+    },
+    {
+      "group": "saves",
+      "name": "EF-N7: a playthrough saved and restored before every step ends in the same state, with the same events at every step, as one never interrupted",
+      "ok": true,
+      "detail": {
+        "runs": 90
+      }
+    },
+    {
+      "group": "saves",
+      "name": "EF-N7: 60 random 40-step walks, restored at random points, never diverge from their uninterrupted twins (state and events)",
+      "ok": true,
+      "detail": {
+        "walkSteps": 2400
+      }
+    },
+    {
+      "group": "saves",
+      "name": "EF-N7: after a restore the inventory has no duplicates and once choices stay spent",
+      "ok": true
+    },
+    {
+      "group": "saves",
+      "name": "the save is a versioned envelope: schema cyoa-save-v1, story id, story version, savedAt only when the caller gives it, the state",
+      "ok": true
+    },
+    {
+      "group": "saves",
+      "name": "the rules read no clock and no random source (only the caller's seed)",
+      "ok": true
+    },
+    {
+      "group": "saves",
+      "name": "the reception (via fromV1) round-trips too, and stays save: false (it still starts fresh on reload until S9)",
+      "ok": true
+    },
+    {
+      "group": "saves",
+      "name": "EF-N8: every corrupt, foreign or outdated save is refused with a reason, without a throw (23 cases)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "saves",
+      "name": "a good save restores (positive control)",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "a reload part-way through a passage replays exactly the paragraphs not yet presented: none twice, none skipped, state untouched",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "after a committed check, the resume replays only its text: no check event, no item slip, no objective event, and the roll is unchanged",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "restoring and resuming twice gives the same replay and never grows the transcript, the decision log or the step count",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "in dialogue, the resume replays the echo then the direction, as the step presented them",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "a step that moved surfaces (dialogue echo, then the B result): the resume types the B part; the echo stays in the history, not lost",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "the cursor is clamped: never past the transcript, never back before the latest step (earlier steps were presented before it was taken)",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "presentation-only CONTINUE never re-runs a committed decision: pacing reads the state and changes nothing, and step({ continue }) is refused",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "an authored continue choice is a committed decision: after a reload it is in the log once and not offered again",
+      "ok": true
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a check id used twice in one chapter",
+      "ok": true,
+      "detail": [
+        "check fx_door: id is used more than once (fx_one:keypad choice try-code; fx_one:corridor choice risk); check ids must be unique across the story"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a check id reused in another chapter",
+      "ok": true,
+      "detail": [
+        "check fx_door: id is used more than once (fx_one:keypad choice try-code; fx_two:arrive choice risk); check ids must be unique across the story"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a check id shared by a choice and a USE entry",
+      "ok": true,
+      "detail": [
+        "check fx_door: id is used more than once (fx_one:keypad choice try-code; fx_one:corridor use fx_card); check ids must be unique across the story"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: mods that can reach 100% without certain",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: mods can make it certain (100%); an item must not be a guaranteed bypass unless the check is marked certain"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a base chance of 0%",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: base chance is 0% (gate the choice with if instead)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: sides other than 6 or 100",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: sides must be 6 or 100"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a fumble as large as the die",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: fumble must be a whole number from 0 below sides"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a mod that adds 0",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check mods[0]: add must be a whole number other than 0"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown condition in a mod",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check mods[0]: unknown condition carrying"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown check field",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: unknown field dc"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a destination on a checked choice (it belongs in pass/fail)",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code: to goes in pass and fail when there is a check"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a result on a checked choice (it belongs in pass/fail)",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code: result goes in pass and fail when there is a check"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a checked choice without a fail outcome",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code fail: needs a pass and a fail outcome"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: pass and fail without a check",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice examine-keypad: pass and fail are only for a choice with a check"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an outcome with two destinations",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code fail: has more than one destination (to back)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an outcome going back from a narrative node",
+      "ok": true,
+      "detail": [
+        "node fx_one:side_hatch choice risk fail: back is only for focus or dialogue nodes (a return from an excursion)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: passed naming a check the story does not have",
+      "ok": true,
+      "detail": [
+        "files[2]: passed names an unknown check fx_vault"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a check whose fail can never happen (certain, and only offered when the bonus makes it certain)",
+      "ok": true,
+      "detail": [
+        "check fx_door (fx_one:keypad:try-code): fail never happens in any reachable state",
+        "unreachable node: fx_one:side_hatch"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "the odds guards still run when an unrelated error is also present (both are reported)",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake: unknown field npc",
+        "node fx_one:keypad choice try-code check: mods can make it certain (100%); an item must not be a guaranteed bypass unless the check is marked certain"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "accepts (positive control): the same 100%-capable mods when the check is marked certain",
+      "ok": true,
+      "detail": []
     }
   ]
 }
