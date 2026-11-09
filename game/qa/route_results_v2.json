@@ -1,0 +1,307 @@
+{
+  "schema": "cyoa-m2-route-validation-v1",
+  "engine": "cyoa-story-v2 via Rules.fromV1 (qa/v1_on_v2.js)",
+  "stats": {
+    "chapters": 1,
+    "nodes": 15,
+    "choices": 23,
+    "reachableStates": 449,
+    "endings": 1,
+    "endingStates": 96
+  },
+  "total": 49,
+  "passed": 49,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "route validation: every reachable state has an intentional continuation",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "name": "route validation explored more than one state",
+      "ok": true,
+      "detail": {
+        "chapters": 1,
+        "nodes": 15,
+        "choices": 23,
+        "reachableStates": 449,
+        "endings": 1,
+        "endingStates": 96
+      }
+    },
+    {
+      "name": "validator rejects: a choice leading to a missing node",
+      "ok": true,
+      "detail": [
+        "node reception:dispute choice rule: leads to missing node nowhere"
+      ]
+    },
+    {
+      "name": "validator rejects: a node with no choices",
+      "ok": true,
+      "detail": [
+        "node reception:ruling: has no choices (every node needs at least one card)"
+      ]
+    },
+    {
+      "name": "validator rejects: a node nobody can reach",
+      "ok": true,
+      "detail": [
+        "unreachable node: reception:orphan"
+      ]
+    },
+    {
+      "name": "validator rejects: a choice whose condition can never hold",
+      "ok": true,
+      "detail": [
+        "choice never available: reception:issue:confirm-read",
+        "unreachable node: reception:confirm_read"
+      ]
+    },
+    {
+      "name": "validator rejects: a node whose only choice is conditional and can fail",
+      "ok": true,
+      "detail": [
+        "dead end: no choice is available at reception:door with state [\"reception\",\"door\",null,{\"appointed\":true,\"blunt\":false,\"approach\":\"cooperated\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]],[]]",
+        "dead end: no choice is available at reception:door with state [\"reception\",\"door\",null,{\"appointed\":true,\"blunt\":false,\"approach\":\"practical\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[\"wc_key\"],[[\"wc_key\",[\"used\"]]],[]]"
+      ]
+    },
+    {
+      "name": "validator rejects: a loop with no way out",
+      "ok": true,
+      "detail": [
+        "unreachable node: reception:ending",
+        "cannot reach an ending from state [\"reception\",\"opening\",null,{\"appointed\":false,\"blunt\":false,\"approach\":\"\",\"disputeFiled\":false,\"tagQuestioned\":false,\"protested\":false},[],[],[]]"
+      ]
+    },
+    {
+      "name": "validator rejects: a typo in a flag name",
+      "ok": true,
+      "detail": [
+        "node reception:ruling effects: sets unknown flag disputFiled"
+      ]
+    },
+    {
+      "name": "validator rejects: a character the fonts cannot draw",
+      "ok": true,
+      "detail": [
+        "node reception:opening text: characters the fonts cannot draw: —"
+      ]
+    },
+    {
+      "name": "validator rejects: an NPC line whose last variant is conditional",
+      "ok": true,
+      "detail": [
+        "node reception:facilities text: last variant must have no condition, so something is always said"
+      ]
+    },
+    {
+      "name": "validator rejects: restart outside an ending",
+      "ok": true,
+      "detail": [
+        "node reception:ruling choice sigh: restart is only allowed on an end node"
+      ]
+    },
+    {
+      "name": "validator rejects: no ending at all",
+      "ok": true,
+      "detail": [
+        "node reception:ending choice restart: restart is only allowed on an end node",
+        "story: no node is marked end: true"
+      ]
+    },
+    {
+      "name": "validator rejects: a context action with no observation text",
+      "ok": true,
+      "detail": [
+        "contextAction text: empty text"
+      ]
+    },
+    {
+      "name": "validator rejects: a context action with an unknown field",
+      "ok": true,
+      "detail": [
+        "contextAction: unknown field setFlag"
+      ]
+    },
+    {
+      "name": "validator rejects: a once context action without its spent reason",
+      "ok": true,
+      "detail": [
+        "contextAction: a once action needs spentWhy for its spent tooltip"
+      ]
+    },
+    {
+      "name": "validator rejects: a context action text the fonts cannot draw",
+      "ok": true,
+      "detail": [
+        "contextAction text: characters the fonts cannot draw: —"
+      ]
+    },
+    {
+      "name": "opening offers the bathroom request",
+      "ok": true,
+      "detail": [
+        "ask-politely",
+        "ask-bluntly"
+      ]
+    },
+    {
+      "name": "the misassignment offers correct / cooperate / practical",
+      "ok": true,
+      "detail": [
+        "correct",
+        "cooperate",
+        "practical"
+      ]
+    },
+    {
+      "name": "the misassignment converts the request into an appointment",
+      "ok": true
+    },
+    {
+      "name": "a blunt request changes her reply",
+      "ok": true
+    },
+    {
+      "name": "the send-off line differs for each opening decision",
+      "ok": true,
+      "detail": [
+        "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR IS THE FIRST ON THE LEFT. YOUR DISPUTE IS ALREADY ON THE DESK. IT ARRIVED BEFORE YOU DID. MOST THINGS DO.",
+        "THE EXAMINERS DOOR, BEHIND ME. ROOM FOUR IS THE FIRST ON THE LEFT. YOUR PREDECESSOR LEFT EVERYTHING EXACTLY AS IT WAS. SO DID THE ONE BEFORE.",
+        "THE EXAMINERS DOOR, BEHIND ME. THE FACILITIES ARE THE SECOND DOOR. ROOM FOUR IS THE FIRST. PLEASE DO NOT CONFUSE THEM. THE LAST EXAMINER DID."
+      ]
+    },
+    {
+      "name": "a filed dispute is remembered at the send-off",
+      "ok": true
+    },
+    {
+      "name": "the key is issued into the inventory",
+      "ok": true
+    },
+    {
+      "name": "before reading the tag: only the blind confirmation",
+      "ok": true,
+      "detail": [
+        "confirm-unread"
+      ]
+    },
+    {
+      "name": "before reading the tag: SHOW is disabled",
+      "ok": true
+    },
+    {
+      "name": "the tag description is withheld until READ",
+      "ok": true
+    },
+    {
+      "name": "READ reveals the tag",
+      "ok": true
+    },
+    {
+      "name": "after reading the tag: the tag question appears",
+      "ok": true,
+      "detail": [
+        "confirm-read",
+        "question-tag"
+      ]
+    },
+    {
+      "name": "after reading the tag: SHOW is enabled here",
+      "ok": true
+    },
+    {
+      "name": "USE is not available at the desk yet",
+      "ok": true
+    },
+    {
+      "name": "SHOW on the key reaches the tag question",
+      "ok": true
+    },
+    {
+      "name": "USE is available at the door",
+      "ok": true
+    },
+    {
+      "name": "USE on the key opens the door",
+      "ok": true
+    },
+    {
+      "name": "the closing line changes when the tag was questioned",
+      "ok": true
+    },
+    {
+      "name": "no line predicts or explains the 4:52 record",
+      "ok": true
+    },
+    {
+      "name": "the 4:52 contradiction is still on the tag and in the record",
+      "ok": true
+    },
+    {
+      "name": "blind confirmation gets its own reply",
+      "ok": true
+    },
+    {
+      "name": "the ending offers a single restart card",
+      "ok": true,
+      "detail": [
+        "restart"
+      ]
+    },
+    {
+      "name": "the transcript records both speakers in order",
+      "ok": true
+    },
+    {
+      "name": "a protest can be made once only",
+      "ok": true
+    },
+    {
+      "name": "after protesting, the door is still reachable by card and by USE",
+      "ok": true
+    },
+    {
+      "name": "reception defines one context action: OBSERVE, with the existing WATCH glyph, once per encounter",
+      "ok": true,
+      "detail": {
+        "id": "observe-receptionist",
+        "label": "OBSERVE",
+        "glyph": "watch",
+        "text": "I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUSUAL. HER FACE REMAINED PROFESSIONALLY UNAVAILABLE.",
+        "once": true,
+        "spentWhy": "NOTHING NEW TO NOTICE"
+      }
+    },
+    {
+      "name": "the context action holds at every reception node (no node overrides it)",
+      "ok": true
+    },
+    {
+      "name": "taking it adds the observation to the transcript as a thought, not as speech",
+      "ok": true,
+      "detail": {
+        "who": "thought",
+        "text": "I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUSUAL. HER FACE REMAINED PROFESSIONALLY UNAVAILABLE."
+      }
+    },
+    {
+      "name": "taking it changes no node, flag, item, objective or choice",
+      "ok": true
+    },
+    {
+      "name": "a once action is spent after use and refuses a second take (no duplicate line)",
+      "ok": true
+    },
+    {
+      "name": "a fresh start (restart) clears it",
+      "ok": true
+    },
+    {
+      "name": "the observation stays out of the route state: same reachable states as without it",
+      "ok": true
+    }
+  ]
+}

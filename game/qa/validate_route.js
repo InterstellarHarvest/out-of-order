@@ -4,13 +4,17 @@
 // 1. rules.validate() walks every reachable state: no dead ends, no missing targets, no unreachable
 //    node/choice/variant, an ending reachable from everywhere, and only drawable characters.
 // 2. Scripted playthroughs pin the consequences the slice exists to prove.
+//
+// With --v2 the same checks run against the story-v2 engine instead (Rules.fromV1 + begin/step/
+// view, through the QA adapter qa/v1_on_v2.js) and write route_results_v2.json (docs/74, EF-N1).
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '../..');
 const content = require('../content/reception.js');
-const Rules = require('../js/rules.js');
+const V2 = process.argv.includes('--v2');
+const Rules = V2 ? require('./v1_on_v2.js') : require('../js/rules.js');
 
 const results = [];
 function check(name, ok, detail) {
@@ -141,7 +145,8 @@ check('the observation stays out of the route state: same reachable states as wi
 })());
 
 const passed = results.filter((r) => r.ok).length;
-const out = { schema: 'cyoa-m2-route-validation-v1', stats: report.stats, total: results.length, passed, failed: results.length - passed, checks: results };
-fs.writeFileSync(path.join(__dirname, 'route_results.json'), JSON.stringify(out, null, 2) + '\n');
-console.log(`route validation ${passed}/${results.length} passed`, JSON.stringify(report.stats));
+const out = { schema: 'cyoa-m2-route-validation-v1', ...(V2 ? { engine: 'cyoa-story-v2 via Rules.fromV1 (qa/v1_on_v2.js)' } : {}),
+  stats: report.stats, total: results.length, passed, failed: results.length - passed, checks: results };
+fs.writeFileSync(path.join(__dirname, V2 ? 'route_results_v2.json' : 'route_results.json'), JSON.stringify(out, null, 2) + '\n');
+console.log(`route validation${V2 ? ' (v2 engine)' : ''} ${passed}/${results.length} passed`, JSON.stringify(report.stats));
 process.exit(passed === results.length ? 0 : 1);
