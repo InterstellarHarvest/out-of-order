@@ -1,0 +1,657 @@
+{
+  "schema": "cyoa-engine-story-validation-v1",
+  "total": 91,
+  "passed": 91,
+  "failed": 0,
+  "groups": {
+    "reception": {
+      "total": 12,
+      "passed": 12
+    },
+    "fixture": {
+      "total": 40,
+      "passed": 40
+    },
+    "mutants": {
+      "total": 39,
+      "passed": 39
+    }
+  },
+  "checks": [
+    {
+      "group": "reception",
+      "name": "fromV1 leaves the v1 content untouched",
+      "ok": true
+    },
+    {
+      "group": "reception",
+      "name": "fromV1 gives a one-chapter, no-save, production v2 story of dialogue nodes with the receptionist",
+      "ok": true
+    },
+    {
+      "group": "reception",
+      "name": "every v1 choice is kind spoken (BEGIN AGAIN is system): nothing is reclassified by its wording before S9",
+      "ok": true,
+      "detail": [
+        [
+          "restart",
+          "system"
+        ]
+      ]
+    },
+    {
+      "group": "reception",
+      "name": "fromV1 keeps every authored string exactly, brackets included",
+      "ok": true
+    },
+    {
+      "group": "reception",
+      "name": "the v2 validator passes the reception",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "reception",
+      "name": "the v2 walk finds exactly the v1 route: same nodes, choices, reachable states, endings and ending states",
+      "ok": true,
+      "detail": {
+        "v1": {
+          "nodes": 15,
+          "choices": 23,
+          "reachableStates": 449,
+          "endings": 1,
+          "endingStates": 96
+        },
+        "v2": {
+          "chapters": 1,
+          "nodes": 15,
+          "choices": 23,
+          "reachableStates": 449,
+          "endings": 1,
+          "endingStates": 96
+        }
+      }
+    },
+    {
+      "group": "reception",
+      "name": "fromV1 registers exactly the art stage.js draws (scene, portrait background, receptionist)",
+      "ok": true,
+      "detail": [
+        "art/scenes/conference_hall/reception/reception_scene.png",
+        "art/portraits/receptionist/reception_background.png",
+        "art/portraits/receptionist/receptionist_idle.png"
+      ]
+    },
+    {
+      "group": "reception",
+      "name": "the opening line is the same",
+      "ok": true
+    },
+    {
+      "group": "reception",
+      "name": "lock-step over every reachable reception state: v2 offers the same cards, item verbs, descriptions, FILES, context action, objective and state as v1",
+      "ok": true,
+      "detail": {
+        "compared": 449,
+        "diffs": []
+      }
+    },
+    {
+      "group": "reception",
+      "name": "lock-step over every move (choices, READ, SHOW, USE, OBSERVE, restart): v2 writes exactly the v1 lines, in order, with presentFrom at the step start",
+      "ok": true,
+      "detail": {
+        "moves": 1515
+      }
+    },
+    {
+      "group": "reception",
+      "name": "validate_route.js --v2: all of the route suite's checks pass on the v2 engine, with the v1 stats",
+      "ok": true,
+      "detail": {
+        "passed": 49,
+        "total": 49,
+        "failed": []
+      }
+    },
+    {
+      "group": "reception",
+      "name": "OBSERVE through step(): one thought entry, nothing else changes, and a second take is refused",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N2: the fixture validates (no dead end; every node, choice, variant, file entry reachable; an ending from every state)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N2: the walk explores both chapters and many states",
+      "ok": true,
+      "detail": {
+        "chapters": 2,
+        "nodes": 9,
+        "choices": 16,
+        "reachableStates": 336,
+        "endings": 1,
+        "endingStates": 72
+      }
+    },
+    {
+      "group": "fixture",
+      "name": "begin: events are chapter, scene, mode, objective, text, in that order",
+      "ok": true,
+      "detail": [
+        "chapter",
+        "scene",
+        "mode",
+        "objective",
+        "text"
+      ]
+    },
+    {
+      "group": "fixture",
+      "name": "begin: the three-paragraph B passage is three narration paragraphs on the narrative surface",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "begin: state is v2 at the start node, nothing yet presented",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "step() never modifies the state it is given (the caller swaps in the new one)",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a refused step throws and changes nothing",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "presentation-only CONTINUE is not a rules step: step({ continue }) is refused",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "unknown inputs are refused",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "open-drawer: an items event (gained the card), then the result as narration; the card is once and gone",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a stay does not repeat the node's arrival text",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "conditional effect: the drawer does not change the objective when the code was not asked",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "conditional effect: after asking, the drawer also changes the objective (objective event after the items event)",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "conditional effect, other order: asking while holding the card changes the objective",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N4: a conditional effect sees the effects listed before it in the same step",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "entering a dialogue: a mode event, then the line; a desc run is a direction, the plain string is the speaker's speech",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "an action choice in dialogue: echoed as an action by you (not speech), then its result as a direction",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a spoken choice in dialogue: echoed as speech by you, unquoted, then the move and the reply",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "view cards carry their kind for presentation (spoken / action / continue / system)",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a spoken choice in B is not echoed: its result narrates it, with the speech as a run by you",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "B -> A: a mode event, the focus description on the focus surface; returnTo is the opener",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N9: back lands on the opener without its arrival effects or text; the result is appended to B",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N9: the opener's spent once choice stays gone after the return",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "history: on return, the B window is the whole B log so far plus the result; the focus text is not in it",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "history: the focus window is the current visit only",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "back is not offered without an opener",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "dialogue -> dialogue keeps the opener; back from the second returns to B",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a scene change: scene event (no mode event: B to B), the objective, then the passage",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a focus outcome that leaves: mode event, the result on the destination (B) surface, then the arrival",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "USE in B: no echo, the item leaves (items event), the result narrates, then the arrival variant reflects the use",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "SHOW is unavailable in B (no one to show it to)",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a chapter transition: chapter event, scene event, objective, passage; the opener is cleared",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "history: NOTES is the current chapter only",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N10: the chapter-two arrival differs by what happened in chapter one",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a continue choice is a real, committed step with the default CONTINUE card; reaching an end emits end",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "BEGIN AGAIN (system): a restart event, then a fresh playthrough from the start",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N11: an action is never stored as speech; echoes are unquoted; B and A results are narration; dialogue results are direction",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "every transcript entry records its step, source, surface, chapter, scene and node",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "the decision log records every committed choice and item action, in order",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "paras(): \\n splits paragraphs; roles come from the context, never from the words",
+      "ok": true
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a choice with no kind",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice examine-keypad: kind must be spoken, action, continue or system"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown kind",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice examine-keypad: kind must be spoken, action, continue or system"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: quotes authored in card text",
+      "ok": true,
+      "detail": [
+        "node fx_two:arrive choice finish: card text may not author quotes or brackets (marking is presentation)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: brackets authored in card text",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter choice lean: card text may not author quotes or brackets (marking is presentation)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: back in a narrative node",
+      "ok": true,
+      "detail": [
+        "node fx_one:side_hatch choice b: back is only for focus or dialogue nodes (a return from an excursion)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a back choice reachable with no opener (the chapter starts in the dialogue)",
+      "ok": true,
+      "detail": [
+        "a back choice at fx_one:counter is reachable with no opener to return to (enter it from a narrative node, or split the node)",
+        "a back choice at fx_one:counter_code is reachable with no opener to return to (enter it from a narrative node, or split the node)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a focus node without a focus id",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad: a focus node needs a focus id",
+        "assets.focus fixture/room_a/keypad: registered but never used"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a dialogue node without a speaker",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter: a dialogue node needs a speaker from the cast"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a dialogue node whose speaker is not in the cast",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter: a dialogue node needs a speaker from the cast"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown run key",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter text run 0: unknown run key gesture",
+        "node fx_one:counter text run 0: a run needs exactly one of say, act, desc, think (has none)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a run with two role keys",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter text run 0: a run needs exactly one of say, act, desc, think (has desc say)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a think run before the thought contract",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice open-drawer result run 1: think runs are reserved for the thought contract (docs/72 section 8.3)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a say run naming an unknown speaker",
+      "ok": true,
+      "detail": [
+        "node fx_one:corridor choice call-out result run 0: unknown speaker ghost"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a stay choice that changes nothing",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter choice lean: stays here and changes nothing (needs once or effects, or a destination)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a choice leading to a missing chapter",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift choice go-up: leads to missing chapter fx_three"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a choice leading to a node in another chapter (to is within the chapter)",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift choice go-up: leads to missing node arrive"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: two destinations on one choice",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift choice go-up: has more than one destination (to chapter)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: SHOW in a B node",
+      "ok": true,
+      "detail": [
+        "node fx_one:corridor: show is for dialogue nodes only"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: say on a choice in a B node (it would never be echoed)",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice examine-keypad: say is only echoed in dialogue nodes"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: USE in a dialogue node without the line it echoes",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter use fx_card: needs say: the line echoed in the dialogue box"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a conditional last variant",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift text: last variant must have no condition, so something is always said"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a text mixing runs and variants",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift text: mixes runs and { if, text } variants"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unregistered scene id",
+      "ok": true,
+      "detail": [
+        "node fx_one:corridor: unregistered scene fixture/room_z"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unregistered focus id",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad: unregistered focus fixture/room_a/lamp",
+        "assets.focus fixture/room_a/keypad: registered but never used"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a registered asset nobody uses",
+      "ok": true,
+      "detail": [
+        "assets.focus fixture/room_a/desk: registered but never used"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: null art in a production story",
+      "ok": true,
+      "detail": [
+        "assets.scenes fixture/room_a: null art is only allowed in a fixture story",
+        "assets.scenes fixture/room_b: null art is only allowed in a fixture story"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown condition in a conditional effect",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice open-drawer effects[1]: unknown condition flagged"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a conditional effect setting an undeclared flag",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter choice ask-code effects[0]: sets unknown flag askedCdoe"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an objective the fonts cannot draw",
+      "ok": true,
+      "detail": [
+        "node fx_one:corridor objective: characters the fonts cannot draw: ↑"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: restart outside an end node",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift choice r: restart is only allowed on an end node"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: restart on a non-system choice",
+      "ok": true,
+      "detail": [
+        "node fx_two:end choice restart: restart is a system choice"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a start node in focus mode",
+      "ok": true,
+      "detail": [
+        "chapter fx_one: start node must be narrative or dialogue"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a context action on a B node",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake: the context action is dialogue-only until the thought contract"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown node field",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake: unknown field npc"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a node nobody can reach",
+      "ok": true,
+      "detail": [
+        "unreachable node: fx_two:orphan"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a dead end (a node whose only card can be unavailable)",
+      "ok": true,
+      "detail": [
+        "dead end: no choice is available at fx_one:side_hatch with state [\"fx_one\",\"side_hatch\",null,{\"askedCode\":false,\"usedCard\":false,\"doorOpened\":false,\"alarm\":true},[],[],[]]",
+        "dead end: no choice is available at fx_one:side_hatch with state [\"fx_one\",\"side_hatch\",null,{\"askedCode\":false,\"usedCard\":false,\"doorOpened\":false,\"alarm\":true},[\"fx_card\"],[],[\"fx_one:wake:open-drawer\"]]"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a result variant nobody can see",
+      "ok": true,
+      "detail": [
+        "result of fx_one:keypad:stop variant 0 never shown"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: no ending",
+      "ok": true,
+      "detail": [
+        "story: no node is marked end: true"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: the v1 restart-outside-an-ending mutant, through fromV1",
+      "ok": true,
+      "detail": [
+        "node reception:ruling choice sigh: restart is only allowed on an end node"
+      ]
+    }
+  ]
+}
