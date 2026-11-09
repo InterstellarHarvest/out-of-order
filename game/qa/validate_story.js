@@ -41,6 +41,14 @@ function play(story, script, opts) {
   return { state: r.state, events: r.events, trail };
 }
 const cards = (story, s) => Rules.view(story, s).cards.map((c) => c.id);
+// The first seed (1, 2, ...) under which a script's check comes out as wanted.
+function seedFor(story, script, check, ok) {
+  for (let i = 1; i < 1000; i++) {
+    const r = play(story, script, { seed: String(i) });
+    if (r.state.checks[check] && r.state.checks[check].ok === ok) return String(i);
+  }
+  throw new Error('no seed gives ' + check + ' ' + ok);
+}
 
 // ================================================================================================
 // 1. Reception compatibility (EF-N1)
@@ -243,7 +251,8 @@ const cards = (story, s) => Rules.view(story, s).cards.map((c) => c.id);
     same(Rules.view(story, enterCounter.state).cards.map((c) => c.kind), ['spoken', 'action', 'action']));
 
   // Narrative B: spoken choices are not echoed; their result narrates them.
-  const callOut = play(story, ['go-counter', 'ask-code', 'thanks', 'examine-keypad', 'enter-code', 'call-out']);
+  const passAsked = ['go-counter', 'ask-code', 'thanks', 'examine-keypad', 'try-code'];
+  const callOut = play(story, passAsked.concat(['call-out']), { seed: seedFor(story, passAsked, 'fx_door', true) });
   check(G, 'a spoken choice in B is not echoed: its result narrates it, with the speech as a run by you',
     same(callOut.events.map((e) => e.t), ['text']) && same(callOut.events[0].paras[0].map((x) => [x.role, x.who]), [['narration', null], ['speech', 'you'], ['narration', null]]));
 
@@ -269,14 +278,14 @@ const cards = (story, s) => Rules.view(story, s).cards.map((c) => c.id);
     viaDialogue.trail[2].state.returnTo === 'wake' && viaDialogue.state.node === 'wake' && viaDialogue.state.returnTo === null);
 
   // Chapters, scenes, USE in B, SHOW in B, end and restart.
-  const route = ['open-drawer', 'read:fx_card', 'examine-keypad', 'guess-code', 'crawl', 'use:fx_card', 'go-up'];
-  const full = play(story, route);
+  const route = ['open-drawer', 'read:fx_card', 'examine-keypad', 'try-code', 'crawl', 'use:fx_card', 'go-up'];
+  const full = play(story, route, { seed: seedFor(story, route.slice(0, 4), 'fx_door', false) });
   const crawl = full.trail[5];
   check(G, 'a scene change: scene event (no mode event: B to B), the objective, then the passage',
     same(crawl.events.map((e) => e.t), ['scene', 'objective', 'text']) && crawl.events[0].id === 'fixture/room_b');
   const guess = full.trail[4];
-  check(G, 'a focus outcome that leaves: mode event, the result on the destination (B) surface, then the arrival',
-    same(guess.events.map((e) => e.t), ['mode', 'text', 'text']) && guess.events[1].surface === 'narrative' && guess.state.returnTo === null);
+  check(G, 'a focus outcome that leaves: check event, mode event, the result on the destination (B) surface, then the arrival',
+    same(guess.events.map((e) => e.t), ['check', 'mode', 'text', 'text']) && guess.events[2].surface === 'narrative' && guess.state.returnTo === null);
   const use = full.trail[6];
   check(G, 'USE in B: no echo, the item leaves (items event), the result narrates, then the arrival variant reflects the use',
     same(use.events.map((e) => e.t), ['items', 'text', 'text']) && same(use.events[0].lost, ['fx_card'])
@@ -288,11 +297,11 @@ const cards = (story, s) => Rules.view(story, s).cards.map((c) => c.id);
     same(up.events.map((e) => e.t), ['chapter', 'scene', 'objective', 'text']) && up.events[0].title === 'FIXTURE TWO'
     && up.state.chapter === 'fx_two' && up.state.returnTo === null);
   check(G, 'history: NOTES is the current chapter only', same(Rules.view(story, up.state).history.notes, [up.state.transcript.length - 1]));
-  check(G, 'EF-N10: the chapter-two arrival differs by what happened in chapter one',
+  check(G, 'EF-N10: the chapter-two arrival differs by the check outcome and by whether the attendant was asked',
     new Set([
       up.events[3].paras[0][0].text,
-      play(story, ['go-counter', 'ask-code', 'thanks', 'open-drawer', 'read:fx_card', 'examine-keypad', 'enter-code', 'call-lift', 'go-up']).events[3].paras[0][0].text,
-      play(story, ['go-counter', 'ask-code', 'thanks', 'examine-keypad', 'enter-code', 'call-lift', 'go-up']).events[3].paras[0][0].text
+      play(story, passAsked.concat(['call-lift', 'go-up']), { seed: seedFor(story, passAsked, 'fx_door', true) }).events[3].paras[0][0].text,
+      ((sc) => play(story, sc.concat(['call-lift', 'go-up']), { seed: seedFor(story, sc, 'fx_door', true) }))(['open-drawer', 'read:fx_card', 'examine-keypad', 'try-code']).events[3].paras[0][0].text
     ]).size === 3);
   const fin = Rules.step(story, up.state, { choice: 'finish' });
   check(G, 'a continue choice is a real, committed step with the default CONTINUE card; reaching an end emits end',
@@ -313,7 +322,7 @@ const cards = (story, s) => Rules.view(story, s).cards.map((c) => c.id);
   check(G, 'every transcript entry records its step, source, surface, chapter, scene and node',
     everyone.every((e) => e.n >= 1 && ['text', 'echo', 'result', 'thought'].includes(e.src) && Rules.MODES.includes(e.mode) && e.chapter && e.scene && e.node && Array.isArray(e.runs)));
   check(G, 'the decision log records every committed choice and item action, in order',
-    same(full.state.taken.map((t) => t.c || t.verb + ':' + t.item), ['open-drawer', 'examine-keypad', 'guess-code', 'crawl', 'use:fx_card', 'go-up']));
+    same(full.state.taken.map((t) => t.c || t.verb + ':' + t.item), ['open-drawer', 'examine-keypad', 'try-code', 'crawl', 'use:fx_card', 'go-up']));
   check(G, 'paras(): \\n splits paragraphs; roles come from the context, never from the words',
     same(Rules.paras('[SIGH.] OK.\nNEXT.', { role: 'speech', who: 'you', speaker: 'you' }), [[{ role: 'speech', who: 'you', text: '[SIGH.] OK.' }], [{ role: 'speech', who: 'you', text: 'NEXT.' }]]));
 }
@@ -366,11 +375,359 @@ const cards = (story, s) => Rules.view(story, s).cards.map((c) => c.id);
   mutant('an unknown node field', (c) => { N(c, 'fx_one', 'wake').npc = 'HELLO.'; });
   mutant('a node nobody can reach', (c) => { c.chapters.fx_two.nodes.orphan = { mode: 'narrative', text: 'NOBODY.', choices: [{ id: 'x', kind: 'continue', to: 'end' }] }; });
   mutant('a dead end (a node whose only card can be unavailable)', (c) => { N(c, 'fx_one', 'side_hatch').choices[0].if = { flag: 'usedCard' }; });
-  mutant('a result variant nobody can see', (c) => { N(c, 'fx_one', 'keypad').choices[2].result = [{ if: { flag: 'usedCard' }, text: 'NEVER.' }, { text: 'YOU STEP BACK.' }]; });
+  mutant('a result variant nobody can see', (c) => { N(c, 'fx_one', 'keypad').choices[1].result = [{ if: { flag: 'usedCard' }, text: 'NEVER.' }, { text: 'YOU STEP BACK.' }]; });
   mutant('no ending', (c) => { delete N(c, 'fx_two', 'end').end; N(c, 'fx_two', 'end').choices[0] = { id: 'loop', kind: 'continue', to: 'end' }; });
   mutant('the v1 restart-outside-an-ending mutant, through fromV1',
     (c) => { c.nodes.ruling.choices[0] = { id: 'sigh', text: 'X.', restart: true }; Object.assign(c, Rules.fromV1(c)); delete c.nodes; delete c.location; delete c.speaker; },
     reception);
+}
+
+// ================================================================================================
+// 4. Checks (S2): grammar, seeded rolls, item and knowledge modifiers, outcomes, no re-roll
+// ================================================================================================
+{
+  const G = 'checks';
+  const story = fixture();
+  const preps = {
+    none: ['examine-keypad', 'try-code'],
+    card: ['open-drawer', 'read:fx_card', 'examine-keypad', 'try-code'],
+    asked: ['go-counter', 'ask-code', 'thanks', 'examine-keypad', 'try-code'],
+    both: ['open-drawer', 'read:fx_card', 'go-counter', 'ask-code', 'thanks', 'examine-keypad', 'try-code']
+  };
+  const SEEDS = 200;
+  const m = {};
+  Object.keys(preps).forEach((k) => {
+    let ok = 0;
+    const seen = new Set();
+    let ev = null;
+    for (let i = 1; i <= SEEDS; i++) {
+      ev = play(story, preps[k], { seed: String(i) }).events.find((e) => e.t === 'check');
+      ok += ev.ok ? 1 : 0;
+      seen.add(ev.ok);
+    }
+    m[k] = { rate: ok / SEEDS, chance: ev.chance, bonus: ev.bonus, both: seen.size === 2 };
+  });
+  check(G, 'd6 need 4, a raw 1 always fails: exact odds 3/6 with no preparation, 4/6 with the card read or the attendant asked, 5/6 with both',
+    m.none.chance === 3 / 6 && m.card.chance === 4 / 6 && m.asked.chance === 4 / 6 && m.both.chance === 5 / 6
+    && m.none.bonus === 0 && m.card.bonus === 1 && m.asked.bonus === 1 && m.both.bonus === 2, m);
+  check(G, 'EF-N5: across seeds 1-200 both outcomes occur with and without the item, for every preparation', Object.values(m).every((x) => x.both), m);
+  check(G, 'EF-N5: the item raises the measured success rate (card over none, both over asked), and each rate is near its odds',
+    m.card.rate > m.none.rate && m.both.rate > m.asked.rate && Object.values(m).every((x) => Math.abs(x.rate - x.chance) < 0.1), m);
+  const a = play(story, preps.both, { seed: 'k3v9q2' });
+  const b = play(story, preps.both, { seed: 'k3v9q2' });
+  check(G, 'EF-N5: the same seed gives the same roll, outcome, state and transcript', same(a.state, b.state) && same(a.trail.map((t) => t.events), b.trail.map((t) => t.events)));
+  const reordered = play(story, ['go-counter', 'ask-code', 'thanks', 'open-drawer', 'read:fx_card', 'examine-keypad', 'try-code'], { seed: 'k3v9q2' });
+  check(G, 'the roll does not depend on the order of play (same seed, preparation in another order)',
+    reordered.state.checks.fx_door.roll === a.state.checks.fx_door.roll && reordered.state.checks.fx_door.roll === Rules.roll('k3v9q2', 'fx_door', 6));
+  const ev = a.events[0];
+  check(G, 'the check event carries id, sides, roll, bonus, need, ok and the exact chance, and comes first in its step',
+    ev.t === 'check' && same(Object.keys(ev), ['t', 'id', 'sides', 'roll', 'bonus', 'need', 'ok', 'chance']) && ev.id === 'fx_door' && ev.need === 4);
+  const kv = Rules.view(story, play(story, ['examine-keypad']).state);
+  check(G, 'hidden by default: the card shows no odds, die or check data (the view\'s card is only id, kind and text)',
+    same(Object.keys(kv.cards[0]), ['id', 'kind', 'text']) && kv.cards[0].text === 'TRY A CODE');
+  const pass = play(story, preps.none, { seed: seedFor(story, preps.none, 'fx_door', true) });
+  const fail = play(story, preps.none, { seed: seedFor(story, preps.none, 'fx_door', false) });
+  check(G, 'each outcome has its own explicit consequence: pass narrates and leads to the corridor, fail to the side hatch',
+    pass.state.node === 'corridor' && /LAMP TURNS GREEN/.test(pass.events.find((e) => e.t === 'text').paras[0][0].text)
+    && fail.state.node === 'side_hatch' && /LAMP STAYS RED/.test(fail.events.find((e) => e.t === 'text').paras[0][0].text));
+  check(G, 'passed / failed / untried and the callbacks that read them: FILES, the corridor and chapter two',
+    Rules.holds({ untried: 'fx_door' }, play(story, []).state) && Rules.holds({ passed: 'fx_door' }, pass.state) && !Rules.holds({ failed: 'fx_door' }, pass.state)
+    && Rules.holds({ failed: 'fx_door' }, fail.state) && !Rules.holds({ untried: 'fx_door' }, fail.state)
+    && Rules.view(story, pass.state).files.includes('DOOR: OPENED BY CODE.') && Rules.view(story, fail.state).files.includes('DOOR: ALARM RAISED. NO DISCREPANCY NOTED.'));
+  check(G, 'the decision log records the check and its outcome', same(pass.state.taken.slice(-1)[0], { n: pass.state.steps, at: 'fx_one:keypad', c: 'try-code', check: 'fx_door', ok: true }));
+
+  // EF-N4 (first half): an attempt that uses up the item still gets its bonus.
+  const spend = fixture();
+  const tc = spend.chapters.fx_one.nodes.keypad.choices[0];
+  tc.check.mods = [{ if: { has: 'fx_card' }, add: 1 }];
+  tc.effects = { take: ['fx_card'] };
+  const sp = play(spend, ['open-drawer', 'examine-keypad', 'try-code'], { seed: '7' });
+  check(G, 'EF-N4: the bonus is computed before the effects of the same step (the card is taken and still counts)',
+    sp.events[0].t === 'check' && sp.events[0].bonus === 1 && !sp.state.inventory.includes('fx_card') && sp.events[1].t === 'items' && same(sp.events[1].lost, ['fx_card']));
+
+  // EF-N6: no re-roll. A check that stays (no destination), so its card could be offered again.
+  const stay = fixture();
+  const st = stay.chapters.fx_one.nodes.keypad.choices[0];
+  st.pass = { result: 'GREEN.' };
+  st.fail = { result: 'RED.' };
+  const once = play(stay, ['examine-keypad', 'try-code'], { seed: '11' });
+  const resolved = JSON.stringify(once.state.checks);
+  const restored = Rules.restore(stay, Rules.serialize(stay, once.state)).state;
+  check(G, 'EF-N6: after resolution the checked card is gone, and step() refuses it', !cards(stay, once.state).includes('try-code')
+    && throws(() => Rules.step(stay, once.state, { choice: 'try-code' }), /not available/));
+  check(G, 'EF-N6: still gone after serialize/restore, with checks[id] unchanged',
+    !cards(stay, restored).includes('try-code') && JSON.stringify(restored.checks) === resolved && throws(() => Rules.step(stay, restored, { choice: 'try-code' })));
+  const back = play(stay, ['examine-keypad', 'try-code', 'stop', 'examine-keypad'], { seed: '11' });
+  check(G, 'EF-N6: leaving and revisiting the node does not offer the check again', !cards(stay, back.state).includes('try-code') && JSON.stringify(back.state.checks) === resolved);
+  const won = play(story, preps.none, { seed: seedFor(story, preps.none, 'fx_door', true) });
+  let last = won.state;
+  ['call-lift', 'go-up', 'finish'].forEach((c) => { last = Rules.step(story, last, { choice: c }).state; });
+  const x = Rules.step(story, last, { choice: 'restart' });
+  const y = Rules.step(story, last, { choice: 'restart' });
+  check(G, 'a new playthrough (BEGIN AGAIN) gets a new seed derived from the old one: deterministic, not the same seed, no checks resolved',
+    x.state.seed !== last.seed && x.state.seed === y.state.seed && same(x.state.checks, {}));
+
+  // d100 (docs/57 model B) is the same grammar: base 45%, +20 points, a 95% ceiling.
+  const d100 = fixture();
+  const dc = d100.chapters.fx_one.nodes.keypad.choices[0].check;
+  Object.assign(dc, { sides: 100, need: 56, fumble: 5, mods: [{ if: { item: ['fx_card', 'read'] }, add: 20 }] });
+  const dv = Rules.validateStory(d100, charset);
+  let okBase = 0, okCard = 0;
+  const N = 2000;
+  for (let i = 1; i <= N; i++) {
+    okBase += play(d100, preps.none, { seed: 'd' + i }).state.checks.fx_door.ok ? 1 : 0;
+    okCard += play(d100, preps.card, { seed: 'd' + i }).state.checks.fx_door.ok ? 1 : 0;
+  }
+  check(G, 'd100 is supported: the fixture validates as a d100 check; exact odds 45% and 65%; measured rates within 4 points over 2000 seeds',
+    dv.ok && Rules.chance(dc, 0) === 0.45 && Rules.chance(dc, 20) === 0.65 && Math.abs(okBase / N - 0.45) < 0.04 && Math.abs(okCard / N - 0.65) < 0.04,
+    { errors: dv.errors, base: okBase / N, card: okCard / N });
+  check(G, 'd100 fumble 5 is a 95% ceiling however large the bonus', Rules.chance(dc, 500) === 0.95);
+  const faces = new Array(7).fill(0);
+  for (let i = 1; i <= 6000; i++) faces[Rules.roll(String(i), 'fx_door', 6)]++;
+  check(G, 'rolls are spread evenly: each d6 face within 10% of 1000 over seeds 1-6000', faces.slice(1).every((f) => Math.abs(f - 1000) < 100), faces.slice(1));
+}
+
+// ================================================================================================
+// 5. Saves (S2): versioned serialization, restore, identical outcomes across the boundary
+// ================================================================================================
+{
+  const G = 'saves';
+  const story = fixture();
+  const scripts = [
+    ['open-drawer', 'read:fx_card', 'go-counter', 'lean', 'ask-code', 'thanks', 'examine-keypad', 'try-code'],
+    ['examine-keypad', 'stop', 'open-drawer', 'inspect:fx_card', 'examine-keypad', 'try-code'],
+    ['go-counter', 'ask-code', 'thanks', 'examine-keypad', 'try-code']
+  ];
+  // Finish whichever way the check went, through chapter two to the end and BEGIN AGAIN.
+  const tails = { corridor: ['call-out', 'use:fx_card', 'go-up', 'finish', 'restart', 'open-drawer'], side_hatch: ['crawl', 'call-lift', 'go-up', 'finish', 'restart', 'open-drawer'] };
+  function full(script, seed) {
+    const head = play(story, script, { seed });
+    const tail = tails[head.state.node].map((x) => (x === 'use:fx_card' && !head.state.inventory.includes('fx_card') ? 'call-lift' : x));
+    return script.concat(tail);
+  }
+  function run(script, seed, interrupt) {
+    let r = Rules.begin(story, { seed });
+    const evs = [r.events];
+    script.forEach((st, i) => {
+      let s = r.state;
+      if (interrupt) {
+        const saved = Rules.serialize(story, s, { savedAt: 'T' + i });
+        const back = Rules.restore(story, saved);
+        if (!back.ok) throw new Error('restore refused: ' + back.reason);
+        s = back.state;
+      }
+      const mm = /^(inspect|read|show|use):(.+)$/.exec(st);
+      r = Rules.step(story, s, mm ? { item: mm[2], verb: mm[1] } : { choice: st });
+      evs.push(r.events);
+    });
+    return { state: r.state, evs };
+  }
+  let trips = 0, runs = 0, roundTrip = true, identical = true;
+  for (let seed = 1; seed <= 30; seed++) {
+    scripts.forEach((sc) => {
+      const script = full(sc, String(seed));
+      const plain = run(script, String(seed), false);
+      const cut = run(script, String(seed), true);
+      runs++;
+      if (!same(plain, cut)) identical = false;
+      // Round trip every intermediate state.
+      let r = Rules.begin(story, { seed: String(seed) });
+      script.forEach((st) => {
+        const mm = /^(inspect|read|show|use):(.+)$/.exec(st);
+        r = Rules.step(story, r.state, mm ? { item: mm[2], verb: mm[1] } : { choice: st });
+        const back = Rules.restore(story, Rules.serialize(story, r.state));
+        trips++;
+        if (!back.ok || !same(back.state, r.state)) roundTrip = false;
+      });
+    });
+  }
+  check(G, 'EF-N7: restore(serialize(s)) deep-equals s for every state along 90 complete playthroughs (both check outcomes, a restart)', roundTrip && trips > 500, { trips });
+  check(G, 'EF-N7: a playthrough saved and restored before every step ends in the same state, with the same events at every step, as one never interrupted',
+    identical, { runs });
+
+  // Random walks over everything the view offers, interrupted at random points.
+  function rng(seed) { let t = seed >>> 0; return () => { t += 0x6d2b79f5; let x = Math.imul(t ^ (t >>> 15), 1 | t); x ^= x + Math.imul(x ^ (x >>> 7), 61 | x); return ((x ^ (x >>> 14)) >>> 0) / 4294967296; }; }
+  let walksSame = true, walkSteps = 0;
+  for (let w = 1; w <= 60; w++) {
+    const pick = rng(w);
+    const seed = 'w' + w;
+    let a = Rules.begin(story, { seed }).state;
+    let b = a;
+    for (let i = 0; i < 40; i++) {
+      const v = Rules.view(story, a);
+      const inputs = v.cards.map((c) => ({ choice: c.id }));
+      v.items.forEach((it) => {
+        inputs.push({ item: it.id, verb: 'inspect' });
+        if (it.read) inputs.push({ item: it.id, verb: 'read' });
+        if (it.use) inputs.push({ item: it.id, verb: 'use' });
+      });
+      const input = inputs[Math.floor(pick() * inputs.length)];
+      const ra = Rules.step(story, a, input);
+      if (pick() < 0.5) b = Rules.restore(story, Rules.serialize(story, b)).state;
+      const rb = Rules.step(story, b, input);
+      if (!same(ra, rb)) walksSame = false;
+      a = ra.state;
+      b = rb.state;
+      walkSteps++;
+    }
+  }
+  check(G, 'EF-N7: 60 random 40-step walks, restored at random points, never diverge from their uninterrupted twins (state and events)', walksSame, { walkSteps });
+
+  const mid = play(story, ['open-drawer', 'go-counter', 'lean'], { seed: '3' }).state;
+  const r = Rules.restore(story, Rules.serialize(story, mid)).state;
+  check(G, 'EF-N7: after a restore the inventory has no duplicates and once choices stay spent',
+    same(r.inventory, ['fx_card']) && !cards(story, r).includes('lean') && (() => { const w = Rules.step(story, r, { choice: 'leave' }).state; return !cards(story, w).includes('open-drawer'); })());
+  const env = JSON.parse(Rules.serialize(story, mid, { savedAt: '2026-11-08T00:00:00Z' }));
+  check(G, 'the save is a versioned envelope: schema cyoa-save-v1, story id, story version, savedAt only when the caller gives it, the state',
+    env.schema === 'cyoa-save-v1' && env.story === 'engine-fixture' && env.version === 1 && env.savedAt === '2026-11-08T00:00:00Z' && same(env.state, mid)
+    && !('savedAt' in JSON.parse(Rules.serialize(story, mid))));
+  check(G, 'the rules read no clock and no random source (only the caller\'s seed)',
+    !/Date\.|Math\.random|crypto\.|performance\./.test(fs.readFileSync(path.join(ROOT, 'game/js/rules.js'), 'utf8')));
+  const rec = Rules.fromV1(reception);
+  const recState = play(rec, ['ask-politely', 'practical', 'ask-key', 'read:wc_key']).state;
+  check(G, 'the reception (via fromV1) round-trips too, and stays save: false (it still starts fresh on reload until S9)',
+    rec.save === false && same(Rules.restore(rec, Rules.serialize(rec, recState)).state, recState));
+
+  // EF-N8: refused, never thrown.
+  const good = play(story, ['open-drawer', 'examine-keypad', 'try-code'], { seed: '4' }).state;
+  const edit = (fn) => { const s = Rules.clone(good); fn(s); return Rules.serialize(story, s); };
+  const v2story = Object.assign(fixture(), { version: 2 });
+  const otherStory = Object.assign(fixture(), { id: 'other-story' });
+  const bad = {
+    'a save from another version': Rules.serialize(story, good).replace('"version":1', '"version":2'),
+    'this save under a newer story version': [v2story, Rules.serialize(story, good)],
+    'a save from another story': [otherStory, Rules.serialize(story, good)],
+    'an unknown node': edit((s) => { s.node = 'roof'; }),
+    'an unknown chapter': edit((s) => { s.chapter = 'fx_nine'; }),
+    'an undeclared flag': edit((s) => { s.flags.cheated = true; }),
+    'a declared flag missing': edit((s) => { delete s.flags.usedCard; }),
+    'an unknown item': edit((s) => { s.inventory.push('gold_bar'); }),
+    'a duplicated item': edit((s) => { s.inventory = ['fx_card', 'fx_card']; }),
+    'an unknown item mark': edit((s) => { s.items.fx_card = ['eaten']; }),
+    'a changed roll': edit((s) => { s.checks.fx_door.roll = s.checks.fx_door.roll % 6 + 1; }),
+    'a flipped outcome': edit((s) => { s.checks.fx_door.ok = !s.checks.fx_door.ok; }),
+    'a check this story does not have': edit((s) => { s.checks.fx_vault = { roll: 1, bonus: 0, ok: false }; }),
+    'an extra state field': edit((s) => { s.gold = 5; }),
+    'a missing state field': edit((s) => { delete s.seed; }),
+    'presentFrom beyond the transcript': edit((s) => { s.presentFrom = 999; }),
+    'a returnTo that is not a narrative opener': edit((s) => { s.node = 'keypad'; s.returnTo = 'counter'; }),
+    'a transcript entry with an unknown role': edit((s) => { s.transcript[0].runs[0].role = 'shout'; }),
+    'a state version other than 2': edit((s) => { s.v = 1; }),
+    'a wrong envelope schema': Rules.serialize(story, good).replace('cyoa-save-v1', 'cyoa-save-v0'),
+    'malformed JSON': '{"schema":"cyoa-save-v1",',
+    'an empty string': '',
+    'null': null
+  };
+  const outcomes = Object.keys(bad).map((k) => {
+    const [st, saved] = Array.isArray(bad[k]) ? bad[k] : [story, bad[k]];
+    let res;
+    try { res = Rules.restore(st, saved); } catch (e) { res = { threw: e.message }; }
+    return [k, res];
+  });
+  check(G, 'EF-N8: every corrupt, foreign or outdated save is refused with a reason, without a throw (' + outcomes.length + ' cases)',
+    outcomes.every(([, res]) => res.ok === false && typeof res.reason === 'string' && res.reason.length > 0),
+    outcomes.filter(([, res]) => res.ok !== false).map(([k, res]) => [k, res]));
+  check(G, 'a good save restores (positive control)', Rules.restore(story, Rules.serialize(story, good)).ok);
+}
+
+// ================================================================================================
+// 6. Presentation contract (docs/73 C3): commit once, present from a safe point, never replay effects
+// ================================================================================================
+{
+  const G = 'presentation';
+  const story = fixture();
+  const b = Rules.begin(story, { seed: '1' });
+  // A reload at every paragraph of the opening passage.
+  let ok = true;
+  for (let p = 0; p <= 3; p++) {
+    const back = Rules.restore(story, Rules.serialize(story, b.state, { presented: p }));
+    const res = Rules.resume(story, back.state, back.cursor);
+    const replay = res.events.flatMap((e) => e.paras);
+    const shownBefore = b.state.transcript.slice(0, p).map((e) => e.runs);
+    if (!(back.ok && res.from === p && same(shownBefore.concat(replay), b.events[4].paras) && res.events.every((e) => e.t === 'text') && same(back.state, b.state))) ok = false;
+  }
+  check(G, 'a reload part-way through a passage replays exactly the paragraphs not yet presented: none twice, none skipped, state untouched', ok);
+  const mid = play(story, ['examine-keypad', 'try-code'], { seed: seedFor(story, ['examine-keypad', 'try-code'], 'fx_door', true) });
+  const saved = Rules.serialize(story, mid.state);
+  const r1 = Rules.restore(story, saved);
+  const res1 = Rules.resume(story, r1.state, r1.cursor);
+  const r2 = Rules.restore(story, Rules.serialize(story, r1.state, r1.cursor));
+  const res2 = Rules.resume(story, r2.state, r2.cursor);
+  check(G, 'after a committed check, the resume replays only its text: no check event, no item slip, no objective event, and the roll is unchanged',
+    res1.events.every((e) => e.t === 'text') && same(res1.events.map((e) => e.paras), mid.events.filter((e) => e.t === 'text').map((e) => e.paras))
+    && same(r1.state.checks, mid.state.checks));
+  check(G, 'restoring and resuming twice gives the same replay and never grows the transcript, the decision log or the step count',
+    same(res1, res2) && r2.state.transcript.length === mid.state.transcript.length && r2.state.taken.length === mid.state.taken.length && r2.state.steps === mid.state.steps);
+  const lean = play(story, ['go-counter', 'lean']);
+  const rl = Rules.resume(story, lean.state, null);
+  check(G, 'in dialogue, the resume replays the echo then the direction, as the step presented them',
+    same(rl.events, lean.events.filter((e) => e.t === 'echo' || e.t === 'text')));
+  const leave = play(story, ['go-counter', 'leave']);
+  const rv = Rules.resume(story, leave.state, null);
+  check(G, 'a step that moved surfaces (dialogue echo, then the B result): the resume types the B part; the echo stays in the history, not lost',
+    same(rv.elsewhere, [leave.state.presentFrom]) && leave.state.transcript[rv.elsewhere[0]].src === 'echo'
+    && same(rv.events.flatMap((e) => e.paras), leave.state.transcript.slice(rv.from).map((e) => e.runs))
+    && Rules.view(story, leave.state).history.notes.includes(rv.elsewhere[0]));
+  const clamp = Rules.restore(story, Rules.serialize(story, b.state, { presented: 99 }));
+  const before = play(story, ['open-drawer']);
+  const low = Rules.restore(story, Rules.serialize(story, before.state, { presented: 0 }));
+  check(G, 'the cursor is clamped: never past the transcript, never back before the latest step (earlier steps were presented before it was taken)',
+    clamp.cursor.presented === 3 && Rules.resume(story, clamp.state, clamp.cursor).events.length === 0 && low.cursor.presented === before.state.presentFrom);
+  // A renderer pacing B with presentation-only CONTINUE: it moves its own cursor and never calls step().
+  const paced = Rules.clone(b.state);
+  for (let p = 0; p <= 3; p++) Rules.resume(story, paced, { presented: p });
+  check(G, 'presentation-only CONTINUE never re-runs a committed decision: pacing reads the state and changes nothing, and step({ continue }) is refused',
+    same(paced, b.state) && throws(() => Rules.step(story, paced, { continue: true }), /presentation only/));
+  const fin = play(story, ['go-counter', 'ask-code', 'thanks', 'examine-keypad', 'try-code'], { seed: seedFor(story, ['go-counter', 'ask-code', 'thanks', 'examine-keypad', 'try-code'], 'fx_door', true) });
+  let s = fin.state;
+  ['call-lift', 'go-up', 'finish'].forEach((c) => { s = Rules.step(story, s, { choice: c }).state; });
+  const rs = Rules.restore(story, Rules.serialize(story, s, { presented: s.presentFrom }));
+  check(G, 'an authored continue choice is a committed decision: after a reload it is in the log once and not offered again',
+    rs.state.taken.filter((t) => t.c === 'finish').length === 1 && !cards(story, rs.state).includes('finish'));
+}
+
+// ================================================================================================
+// 7. S2 mutants: invalid checks the validator must reject
+// ================================================================================================
+{
+  const G = 'mutants';
+  function mutant(name, edit) {
+    const copy = fixture();
+    edit(copy);
+    const r = Rules.validateStory(copy, charset);
+    check(G, 'rejects: ' + name, !r.ok, r.errors && r.errors.slice(0, 2));
+  }
+  const K = (c) => c.chapters.fx_one.nodes.keypad.choices[0];
+  const extra = (id) => ({ id: 'risk', kind: 'action', text: 'TRY YOUR LUCK', check: { id, sides: 6, need: 4 }, pass: { result: 'YES.' }, fail: { result: 'NO.' } });
+  mutant('a check id used twice in one chapter', (c) => { c.chapters.fx_one.nodes.corridor.choices.push(extra('fx_door')); });
+  mutant('a check id reused in another chapter', (c) => { c.chapters.fx_two.nodes.arrive.choices.push(extra('fx_door')); });
+  mutant('a check id shared by a choice and a USE entry', (c) => { c.chapters.fx_one.nodes.corridor.use.fx_card = { check: { id: 'fx_door', sides: 6, need: 4 }, pass: { to: 'lift' }, fail: { to: 'lift' } }; });
+  mutant('mods that can reach 100% without certain', (c) => { Object.assign(K(c).check, { fumble: 0, mods: [{ if: { item: ['fx_card', 'read'] }, add: 1 }, { if: { flag: 'askedCode' }, add: 2 }] }); });
+  mutant('a base chance of 0%', (c) => { K(c).check.need = 9; });
+  mutant('sides other than 6 or 100', (c) => { K(c).check.sides = 20; });
+  mutant('a fumble as large as the die', (c) => { K(c).check.fumble = 6; });
+  mutant('a mod that adds 0', (c) => { K(c).check.mods[0].add = 0; });
+  mutant('an unknown condition in a mod', (c) => { K(c).check.mods[0].if = { carrying: 'fx_card' }; });
+  mutant('an unknown check field', (c) => { K(c).check.dc = 4; });
+  mutant('a destination on a checked choice (it belongs in pass/fail)', (c) => { K(c).to = 'corridor'; });
+  mutant('a result on a checked choice (it belongs in pass/fail)', (c) => { K(c).result = 'YOU TRY.'; });
+  mutant('a checked choice without a fail outcome', (c) => { delete K(c).fail; });
+  mutant('pass and fail without a check', (c) => { c.chapters.fx_one.nodes.wake.choices[0].pass = { to: 'keypad' }; });
+  mutant('an outcome with two destinations', (c) => { K(c).fail.back = true; });
+  mutant('an outcome going back from a narrative node', (c) => { c.chapters.fx_one.nodes.side_hatch.choices.push(Object.assign(extra('fx_hatch'), { fail: { back: true } })); });
+  mutant('passed naming a check the story does not have', (c) => { c.files[2].if = { passed: 'fx_vault' }; });
+  mutant('a check whose fail can never happen (certain, and only offered when the bonus makes it certain)',
+    (c) => { Object.assign(K(c), { if: { flag: 'askedCode' } }); Object.assign(K(c).check, { fumble: 0, certain: true, mods: [{ if: { flag: 'askedCode' }, add: 3 }] }); });
+  const twoFaults = fixture();
+  Object.assign(K(twoFaults).check, { fumble: 0, mods: [{ add: 3 }] });
+  twoFaults.chapters.fx_one.nodes.wake.npc = 'X';
+  const tf = Rules.validateStory(twoFaults, charset);
+  check(G, 'the odds guards still run when an unrelated error is also present (both are reported)',
+    tf.errors.some((e) => /unknown field npc/.test(e)) && tf.errors.some((e) => /can make it certain/.test(e)), tf.errors);
+  const certain = fixture();
+  Object.assign(K(certain).check, { fumble: 0, certain: true, mods: [{ if: { item: ['fx_card', 'read'] }, add: 1 }, { if: { flag: 'askedCode' }, add: 2 }] });
+  const cv = Rules.validateStory(certain, charset);
+  check(G, 'accepts (positive control): the same 100%-capable mods when the check is marked certain', cv.ok, cv.errors);
 }
 
 // ================================================================================================

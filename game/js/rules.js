@@ -418,7 +418,7 @@
   }
 
   // =============================================================================================
-  // Story v2 (docs/72 S1; API in docs/74). Everything above this line is the v1 reception API,
+  // Story v2 (docs/72 S1 + S2; API in docs/74). Everything above this line is the v1 reception API,
   // unchanged: the game and the polish lab still run on it until the renderer moves to events
   // (S4). Everything below is new and is used by nothing in the browser yet.
   //
@@ -428,6 +428,7 @@
   //   view(story, state)        -> what the renderer draws (cards, verbs, portrait, windows)
   //   fromV1(content)           -> the reception's v1 content as a one-chapter v2 story
   //   validateStory(story, charset) -> { ok, errors, stats }: shape, then every reachable state
+  //   serialize(story, state, meta) / restore(story, saved) / resume(story, state, cursor): S2 saves
   //
   // begin() and step() never modify their arguments: they return a new state, so a step either
   // commits completely or (when it throws) not at all. Events are plain data, in commit order.
@@ -442,15 +443,24 @@
   var KINDS = ['spoken', 'action', 'continue', 'system'];
   // A run object has exactly one of these keys (plus `who`, with `say` only).
   var RUN_ROLES = { say: 'speech', act: 'action', desc: 'direction', think: 'thought' };
-  var COND_KEYS_V2 = COND_KEYS.concat([]);
+  var CHECK_CONDS = ['passed', 'failed', 'untried'];
+  var COND_KEYS_V2 = COND_KEYS.concat(CHECK_CONDS);
   var EFFECT_KEYS_V2 = EFFECT_KEYS.concat(['objective']);
   var STORY_KEYS = ['schema', 'id', 'version', 'profile', 'save', 'compat', 'start', 'initialState', 'cast', 'items', 'files',
     'contextAction', 'assets', 'chapters'];
   var CHAPTER_KEYS = ['title', 'start', 'scene', 'nodes'];
   var NODE_KEYS = ['mode', 'scene', 'speaker', 'pose', 'backdrop', 'focus', 'objective', 'effects', 'text', 'choices', 'show', 'use',
     'contextAction', 'end'];
-  var CHOICE_KEYS = ['id', 'kind', 'text', 'say', 'if', 'effects', 'once', 'result', 'to', 'back', 'chapter', 'restart'];
-  var ENTRY_KEYS = ['kind', 'say', 'if', 'effects', 'once', 'result', 'to', 'back', 'chapter'];
+  var CHOICE_KEYS = ['id', 'kind', 'text', 'say', 'if', 'effects', 'once', 'result', 'check', 'pass', 'fail', 'to', 'back', 'chapter', 'restart'];
+  var ENTRY_KEYS = ['kind', 'say', 'if', 'effects', 'once', 'result', 'check', 'pass', 'fail', 'to', 'back', 'chapter'];
+  var CHECK_KEYS = ['id', 'sides', 'need', 'fumble', 'mods', 'cap', 'certain'];
+  var OUTCOME_KEYS = ['result', 'effects', 'to', 'back', 'chapter'];
+  var SIDES = [6, 100];
+  var SAVE_SCHEMA = 'cyoa-save-v1';
+  var STATE_FIELDS = ['flags', 'inventory', 'items', 'v', 'story', 'chapter', 'node', 'returnTo', 'objective', 'transcript', 'presentFrom',
+    'steps', 'taken', 'contextDone', 'checks', 'seed'];
+  var SOURCES = ['text', 'echo', 'result', 'thought'];
+  var ROLES = ['narration', 'speech', 'action', 'direction', 'thought'];
   var DESTINATIONS = ['to', 'back', 'chapter', 'restart'];
   // Which part of the one transcript each surface shows (docs/72 section 3.6; owner decision O3
   // may change it, here only).
@@ -557,13 +567,88 @@
     return state.chapter + ':' + state.node;
   }
 
+  // Conditions: v1's keys (test) plus the check outcomes. untried = not yet resolved.
+  function holds(cond, state) {
+    if (!cond) return true;
+    var rest = null;
+    var ok = Object.keys(cond).every(function (k) {
+      var r = (state.checks || {})[cond[k]];
+      if (k === 'passed') return !!r && r.ok === true;
+      if (k === 'failed') return !!r && r.ok === false;
+      if (k === 'untried') return !r;
+      (rest = rest || {})[k] = cond[k];
+      return true;
+    });
+    return ok && test(rest, state);
+  }
+
+  // Checks (S2) ----------------------------------------------------------------------------------
+  // CHECK = { id, sides: 6 | 100, need, fumble?, mods?: [{ if?, add }], cap?, certain? }
+  // success  <=>  raw > fumble  AND  raw + clamp(sum of the adds whose `if` holds, -cap, cap) >= need
+  // raw = 1 + (FNV-1a 32-bit of seed + ':' + check id) mod sides. The roll depends only on the
+  // playthrough's seed and the check's id: not on the order of play, the time, or how many
+  // times the state has been saved and restored. A resolved check is stored in state.checks and
+  // its choice is gone, so nothing can roll it again. A deliberate retry is a new check id.
+  function fnv1a(str) {
+    var h = 0x811c9dc5;
+    for (var i = 0; i < str.length; i++) {
+      h ^= str.charCodeAt(i);
+      h = Math.imul(h, 0x01000193) >>> 0;
+    }
+    return h >>> 0;
+  }
+  function rollFor(seed, id, sides) {
+    return 1 + (fnv1a(seed + ':' + id) % sides);
+  }
+  function checkBonus(check, state) {
+    var sum = 0;
+    (check.mods || []).forEach(function (m) { if (holds(m.if, state)) sum += m.add; });
+    return check.cap ? Math.max(-check.cap, Math.min(check.cap, sum)) : sum;
+  }
+  function passes(check, raw, bonus) {
+    return raw > (check.fumble || 0) && raw + bonus >= check.need;
+  }
+  // The exact chance of success with this bonus, as a fraction (for any later presentation).
+  function chanceOf(check, bonus) {
+    var n = 0;
+    for (var raw = 1; raw <= check.sides; raw++) if (passes(check, raw, bonus)) n++;
+    return n / check.sides;
+  }
+  // The highest bonus any combination of mods can give (every positive add, capped).
+  function maxBonus(check) {
+    var sum = 0;
+    (check.mods || []).forEach(function (m) { if (m.add > 0) sum += m.add; });
+    return check.cap ? Math.min(check.cap, sum) : sum;
+  }
+  // Every check in a story, by id (the validator rejects duplicates; restore() needs the index).
+  function checksOf(story) {
+    var out = {};
+    Object.keys(story.chapters || {}).forEach(function (ch) {
+      var nodes = story.chapters[ch].nodes || {};
+      Object.keys(nodes).forEach(function (id) {
+        var n = nodes[id];
+        (n.choices || []).forEach(function (c) { if (c && c.check) (out[c.check.id] = out[c.check.id] || []).push({ check: c.check, at: ch + ':' + id + ' choice ' + c.id }); });
+        ['show', 'use'].forEach(function (verb) {
+          Object.keys(n[verb] || {}).forEach(function (item) {
+            var e = n[verb][item];
+            if (e && e.check) (out[e.check.id] = out[e.check.id] || []).push({ check: e.check, at: ch + ':' + id + ' ' + verb + ' ' + item });
+          });
+        });
+      });
+    });
+    return out;
+  }
+  function nextSeed(seed) {
+    return fnv1a(seed + ':restart').toString(36);
+  }
+
   // Effects ------------------------------------------------------------------------------------
   // One object, or a list applied in order; each entry's `if` is tested against the state as it
   // stands at that entry (so it sees what the entries before it did).
   function applyEffects(effects, state) {
     if (!effects) return;
     (Array.isArray(effects) ? effects : [effects]).forEach(function (e) {
-      if (!test(e.if, state)) return;
+      if (!holds(e.if, state)) return;
       Object.keys(e).forEach(function (k) {
         if (k === 'if') return;
         if (k === 'objective') { state.objective = pickText(e.objective, state); return; }
@@ -584,7 +669,7 @@
   }
   function variantIndex2(field, state) {
     if (!isVariants(field)) return 0;
-    for (var i = 0; i < field.length; i++) if (test(field[i].if, state)) return i;
+    for (var i = 0; i < field.length; i++) if (holds(field[i].if, state)) return i;
     return -1;
   }
   function pickText(field, state) {
@@ -631,7 +716,7 @@
   }
 
   // State --------------------------------------------------------------------------------------
-  function freshState(story) {
+  function freshState(story, opts) {
     var s = clone(story.initialState);
     s.v = STATE_VERSION;
     s.story = story.id;
@@ -644,6 +729,10 @@
     s.steps = 0; // committed steps so far; transcript entries carry the step number `n`
     s.taken = []; // decision log: { n, at, c } for choices, { n, at, item, verb } for SHOW/USE
     s.contextDone = [];
+    s.checks = {}; // resolved checks: { id: { roll, bonus, ok } }; never rolled again
+    // Rolls derive from this. The caller supplies a fresh random seed per playthrough (S8);
+    // QA passes fixed ones. Rules never read a clock or a random source.
+    s.seed = opts && opts.seed !== undefined ? String(opts.seed) : '0';
     return s;
   }
 
@@ -656,8 +745,9 @@
 
   // Availability: the one definition the view, step() and the validator share.
   function choiceOpen(story, state, c) {
-    if (!test(c.if, state)) return false;
+    if (!holds(c.if, state)) return false;
     if (c.once && wasTaken(state, at(state), c.id)) return false;
+    if (c.check && state.checks[c.check.id]) return false;
     if (c.back && !state.returnTo) return false;
     return true;
   }
@@ -672,8 +762,9 @@
     if (state.inventory.indexOf(item) === -1) return null;
     if (verb === 'show' && n.mode !== 'dialogue') return null; // nobody to show it to
     var e = n[verb] && n[verb][item];
-    if (!e || !test(e.if, state)) return null;
+    if (!e || !holds(e.if, state)) return null;
     if (e.once && entryTaken(state, at(state), item, verb)) return null;
+    if (e.check && state.checks[e.check.id]) return null;
     if (e.back && !state.returnTo) return null;
     return e;
   }
@@ -718,9 +809,16 @@
       }),
       context: ctx ? { id: ctx.id, label: ctx.label, glyph: ctx.glyph, spent: contextUsed(story, state), spentWhy: ctx.spentWhy || null } : null,
       objective: state.objective,
-      files: files(story, state),
+      files: filesOf(story, state),
       history: history(story, state)
     };
+  }
+
+  function filesOf(story, state) {
+    return (story.files || []).filter(function (f) { return holds(f.if, state); }).map(function (f) { return f.text; });
+  }
+  function describe(story, state, id) {
+    return pickText(story.items[id].description, state);
   }
 
   // Transcript windows (indices into state.transcript), per HISTORY.
@@ -871,7 +969,8 @@
     return stepCore(story, state, input, null);
   }
 
-  // opts (validator only): { obs } coverage notes.
+  // opts (validator only): { obs } coverage notes, { force: 'pass' | 'fail' } to explore a check's
+  // outcome without rolling (the raw used is the lowest that gives that outcome).
   function stepCore(story, state, input, opts) {
     requireStory(story);
     var r = resolve(story, state, input);
@@ -898,14 +997,36 @@
     var fromNode = here(story, s);
     var where = at(s);
     var outcome = null;
+    var which = null;
+
+    // 2. Check: the bonus comes from the state BEFORE this step's effects (so an attempt that
+    // uses up an item still gets its bonus); then the roll; then the outcome is recorded.
+    if (e.check) {
+      var ck = e.check;
+      var bonus = checkBonus(ck, s);
+      var raw = rollFor(s.seed, ck.id, ck.sides);
+      if (opts && opts.force) {
+        raw = 0;
+        for (var x = 1; x <= ck.sides && !raw; x++) if (passes(ck, x, bonus) === (opts.force === 'pass')) raw = x;
+        if (!raw) throw new Error('Check ' + ck.id + ' cannot ' + opts.force + ' here');
+      }
+      var ok = passes(ck, raw, bonus);
+      s.checks[ck.id] = { roll: raw, bonus: bonus, ok: ok };
+      which = ok ? 'pass' : 'fail';
+      outcome = e[which];
+      tx.see('outcome ' + ck.id + ':' + which);
+      tx.events.push({ t: 'check', id: ck.id, sides: ck.sides, roll: raw, bonus: bonus, need: ck.need, ok: ok, chance: chanceOf(ck, bonus) });
+    }
 
     // 3. Effects: the verb's mark, the entry's effects, then the outcome's.
     if (r.type === 'entry') mark(s, r.item, r.verb === 'show' ? 'shown' : 'used');
     tx.effects(e.effects);
+    if (outcome) tx.effects(outcome.effects);
 
     // 4. Record.
-    if (r.type === 'choice') s.taken.push({ n: tx.n, at: where, c: e.id });
-    else s.taken.push({ n: tx.n, at: where, item: r.item, verb: r.verb });
+    var rec = r.type === 'choice' ? { n: tx.n, at: where, c: e.id } : { n: tx.n, at: where, item: r.item, verb: r.verb };
+    if (e.check) { rec.check = e.check.id; rec.ok = s.checks[e.check.id].ok; }
+    s.taken.push(rec);
 
     // 5. Echo: dialogue mode only, spoken and action kinds only.
     if (fromNode.mode === 'dialogue' && (r.kind === 'spoken' || r.kind === 'action')) {
@@ -916,7 +1037,7 @@
     // 6. Destination: chapter, then to, then back, then stay. restart starts a new playthrough.
     var dest = outcome || e;
     if (e.restart) {
-      var again = begin(story, {});
+      var again = begin(story, { seed: nextSeed(s.seed) });
       again.events.unshift({ t: 'restart' });
       return again;
     }
@@ -941,7 +1062,7 @@
     var result = outcome ? outcome.result : e.result;
     if (result !== undefined) {
       var dn = here(story, s);
-      var rkey = 'result ' + where + ':' + (r.type === 'choice' ? e.id : r.verb + ':' + r.item) + (outcome ? ':' + outcome.which : '');
+      var rkey = 'result ' + where + ':' + (r.type === 'choice' ? e.id : r.verb + ':' + r.item) + (which ? ':' + which : '');
       tx.write('result', dn.mode, toParas(tx.pick(rkey, result), resultCtx(dn)), { t: 'text', surface: dn.mode });
     }
 
@@ -950,6 +1071,125 @@
 
     // 9. Mark.
     return tx.done(from);
+  }
+
+  // Saves (S2) -----------------------------------------------------------------------------------
+  // The rules only turn a state into text and back. Where the text is kept, and when it is
+  // written, is the browser's business (S8).
+  //
+  // The data contract for presentation (docs/73 C3):
+  // - A step commits once, before anything is animated: the saved state is always a whole
+  //   committed state, never half a step. Saving happens after a commit, never on a
+  //   presentation-only CONTINUE, a scroll or an overlay.
+  // - Every paragraph the player is shown is stored once, in order, in state.transcript, with the
+  //   step number (n) and source that produced it. Restoring never adds to it.
+  // - state.presentFrom is the first entry the latest step produced. Entries before it were
+  //   presented before that step was taken. An optional cursor { presented } (saved beside the
+  //   state, never inside it) says how far the renderer got through the latest step's text.
+  // - resume() replays from the safe point max(presentFrom, presented), whole paragraphs only,
+  //   on the surface now showing. It replays text and echoes only: never effects, checks, item
+  //   slips or objective changes, which the restored state already holds.
+  // - Not a retry checkpoint (docs/73 C1): a save is the state after its step. A recoverable
+  //   state before a terminal choice, if the owner wants one, is a separate, later contract.
+  function serialize(story, state, meta) {
+    requireStory(story);
+    var env = { schema: SAVE_SCHEMA, story: story.id, version: story.version };
+    if (meta && meta.savedAt !== undefined) env.savedAt = meta.savedAt;
+    env.state = state;
+    if (meta && meta.presented !== undefined) env.cursor = { presented: meta.presented };
+    return JSON.stringify(env);
+  }
+
+  // A save from another story or version, or one that does not fit this story exactly, is
+  // refused ({ ok: false, reason }), never half-migrated and never thrown.
+  function restore(story, saved) {
+    try {
+      requireStory(story);
+      var env = typeof saved === 'string' ? JSON.parse(saved) : clone(saved);
+      var s = env && env.state;
+      var fail = function (why) { throw new Error(why); };
+      var obj = function (v) { return !!v && typeof v === 'object' && !Array.isArray(v); };
+      var whole = function (v, lo, hi) { return typeof v === 'number' && v % 1 === 0 && v >= lo && v <= hi; };
+      if (!obj(env) || env.schema !== SAVE_SCHEMA) fail('not a ' + SAVE_SCHEMA + ' save');
+      if (env.story !== story.id) fail('save is for another story (' + env.story + ')');
+      if (env.version !== story.version) fail('save is for version ' + env.version + ' of this story, not ' + story.version);
+      if (!obj(s) || s.v !== STATE_VERSION || s.story !== story.id) fail('state is not a v' + STATE_VERSION + ' state of this story');
+      var keys = Object.keys(s).sort().join();
+      if (keys !== STATE_FIELDS.slice().sort().join()) fail('state fields differ: ' + keys);
+      var ch = story.chapters[s.chapter];
+      if (!ch || !ch.nodes[s.node]) fail('unknown node ' + s.chapter + ':' + s.node);
+      var n = ch.nodes[s.node];
+      if (s.returnTo !== null) {
+        var opener = ch.nodes[s.returnTo];
+        if (!opener || opener.mode !== 'narrative' || n.mode === 'narrative') fail('returnTo ' + s.returnTo + ' is not an opener of this excursion');
+      }
+      var flags = Object.keys(story.initialState.flags).sort().join();
+      if (!obj(s.flags) || Object.keys(s.flags).sort().join() !== flags) fail('flags are not exactly the declared flags');
+      Object.keys(s.flags).forEach(function (f) { if (s.flags[f] !== null && typeof s.flags[f] === 'object') fail('flag ' + f + ' is not a plain value'); });
+      if (!Array.isArray(s.inventory) || s.inventory.some(function (id, i) { return !story.items[id] || s.inventory.indexOf(id) !== i; })) fail('inventory has an unknown or repeated item');
+      if (!obj(s.items)) fail('items must be an object');
+      Object.keys(s.items).forEach(function (id) {
+        var m = s.items[id];
+        if (!story.items[id] || !Array.isArray(m) || m.some(function (x, i) { return MARKS.indexOf(x) === -1 || m.indexOf(x) !== i; })) fail('bad marks on item ' + id);
+      });
+      if (typeof s.objective !== 'string') fail('objective must be text');
+      if (typeof s.seed !== 'string' || !s.seed) fail('missing seed');
+      if (!whole(s.steps, 1, Infinity)) fail('steps must be a whole number from 1');
+      if (!Array.isArray(s.transcript)) fail('transcript must be a list');
+      var lastN = 0;
+      s.transcript.forEach(function (e, i) {
+        var ok = obj(e) && whole(e.n, lastN, s.steps) && SOURCES.indexOf(e.src) !== -1 && MODES.indexOf(e.mode) !== -1
+          && !!story.chapters[e.chapter] && typeof e.scene === 'string' && typeof e.node === 'string' && Array.isArray(e.runs)
+          && e.runs.every(function (r) { return obj(r) && ROLES.indexOf(r.role) !== -1 && typeof r.text === 'string' && (r.who === null || typeof r.who === 'string'); });
+        if (!ok) fail('transcript entry ' + i + ' is malformed');
+        lastN = e.n;
+      });
+      if (!whole(s.presentFrom, 0, s.transcript.length)) fail('presentFrom is outside the transcript');
+      if (!Array.isArray(s.taken) || s.taken.some(function (t) { return !obj(t) || !whole(t.n, 1, s.steps) || typeof t.at !== 'string' || (typeof t.c !== 'string' && typeof t.item !== 'string'); })) fail('decision log is malformed');
+      if (!Array.isArray(s.contextDone) || s.contextDone.some(function (x) { return typeof x !== 'string'; })) fail('contextDone must be a list of ids');
+      // Every resolved check must be a check of this story, with the roll this seed gives it.
+      if (!obj(s.checks)) fail('checks must be an object');
+      var known = checksOf(story);
+      Object.keys(s.checks).forEach(function (id) {
+        var r = s.checks[id];
+        if (!known[id] || known[id].length !== 1) fail('unknown check ' + id);
+        var ck = known[id][0].check;
+        if (!obj(r) || !whole(r.roll, 1, ck.sides) || !whole(r.bonus, -Infinity, Infinity) || typeof r.ok !== 'boolean') fail('check ' + id + ' is malformed');
+        if (r.roll !== rollFor(s.seed, id, ck.sides) || r.ok !== passes(ck, r.roll, r.bonus)) fail('check ' + id + ' does not match its seed: refusing a changed roll');
+      });
+      var presented = s.presentFrom;
+      if (env.cursor !== undefined) {
+        if (!obj(env.cursor) || !whole(env.cursor.presented, 0, Infinity)) fail('cursor is malformed');
+        presented = Math.max(s.presentFrom, Math.min(s.transcript.length, env.cursor.presented));
+      }
+      return { ok: true, state: s, cursor: { presented: presented } };
+    } catch (e) {
+      return { ok: false, reason: e.message };
+    }
+  }
+
+  // What to present after a restore: the latest step's paragraphs from the safe point on, as the
+  // text and echo events step() gave, on the surface now showing. Earlier unpresented entries
+  // that belong to another surface (an echo in the dialogue box before the step moved to B) are
+  // not replayed there; they are already in the history (`elsewhere`). Nothing else is replayed.
+  function resume(story, state, cursor) {
+    requireStory(story);
+    var t = state.transcript;
+    var from = state.presentFrom;
+    if (cursor && typeof cursor.presented === 'number') from = Math.max(from, Math.min(t.length, cursor.presented));
+    var mode = here(story, state).mode;
+    var elsewhere = [];
+    while (from < t.length && t[from].mode !== mode) elsewhere.push(from++);
+    var events = [];
+    var last = null;
+    for (var i = from; i < t.length; i++) {
+      var e = t[i];
+      if (last && last.n === e.n && last.src === e.src && last.mode === e.mode) { last.ev.paras.push(e.runs); continue; }
+      var ev = e.src === 'echo' ? { t: 'echo', role: e.runs[0].role, who: YOU, paras: [e.runs] } : { t: 'text', surface: e.mode, paras: [e.runs] };
+      events.push(ev);
+      last = { n: e.n, src: e.src, mode: e.mode, ev: ev };
+    }
+    return { from: from, elsewhere: elsewhere, events: events };
   }
 
   // Validation of a v2 story --------------------------------------------------------------------
@@ -987,6 +1227,12 @@
     if (!obj(story.assets)) err('story', 'assets must be an object');
     var knownFlags = Object.keys(init.flags);
     init.inventory.forEach(function (id) { if (!items[id]) err('initialState', 'unknown item ' + id); });
+    // Check ids are unique across the whole story (every chapter, choice and SHOW/USE entry):
+    // the roll and state.checks are keyed by id alone (docs/73 C2).
+    var allChecks = checksOf(story);
+    Object.keys(allChecks).forEach(function (id) {
+      if (allChecks[id].length > 1) err('check ' + id, 'id is used more than once (' + allChecks[id].map(function (c) { return c.at; }).join('; ') + '); check ids must be unique across the story');
+    });
 
     function text(where, s) {
       if (typeof s !== 'string' || !s.trim()) return err(where, 'empty text');
@@ -1001,6 +1247,7 @@
       Object.keys(c).forEach(function (k) {
         if (COND_KEYS_V2.indexOf(k) === -1) return err(where, 'unknown condition ' + k);
         var v = c[k];
+        if (CHECK_CONDS.indexOf(k) !== -1) { if (!allChecks[v]) err(where, k + ' names an unknown check ' + v); return; }
         var flag = k === 'flagIs' ? v[0] : (k === 'flag' || k === 'notFlag') ? v : null;
         if (flag !== null && knownFlags.indexOf(flag) === -1) err(where, 'unknown flag ' + flag);
         var item = k === 'item' || k === 'itemNot' ? v[0] : (k === 'has' || k === 'lacks') ? v : null;
@@ -1077,6 +1324,50 @@
       if (a.once !== undefined && typeof a.once !== 'boolean') err(where, 'once must be true or false');
       if (a.spentWhy !== undefined) text(where + ' spentWhy', a.spentWhy);
       if (a.once && a.spentWhy === undefined) err(where, 'a once action needs spentWhy for its spent tooltip');
+    }
+
+    function checkSpec(where, ck) {
+      if (!obj(ck)) return err(where, 'check must be an object');
+      var before = errors.length;
+      onlyKeys(where, ck, CHECK_KEYS);
+      if (typeof ck.id !== 'string' || !/^[a-z0-9_-]+$/.test(ck.id)) err(where, 'check needs a lower-case id');
+      if (SIDES.indexOf(ck.sides) === -1) return err(where, 'sides must be 6 or 100');
+      var whole = function (v) { return typeof v === 'number' && v % 1 === 0; };
+      if (!whole(ck.need)) return err(where, 'need must be a whole number');
+      if (ck.fumble !== undefined && !(whole(ck.fumble) && ck.fumble >= 0 && ck.fumble < ck.sides)) err(where, 'fumble must be a whole number from 0 below sides');
+      if (ck.cap !== undefined && !(whole(ck.cap) && ck.cap > 0)) err(where, 'cap must be a whole number above 0');
+      if (ck.certain !== undefined && ck.certain !== true) err(where, 'certain must be true when present');
+      if (ck.mods !== undefined) {
+        if (!Array.isArray(ck.mods)) err(where, 'mods must be a list');
+        else ck.mods.forEach(function (m, i) {
+          var w = where + ' mods[' + i + ']';
+          if (!obj(m)) return err(w, 'must be an object');
+          onlyKeys(w, m, ['if', 'add']);
+          if (!whole(m.add) || m.add === 0) err(w, 'add must be a whole number other than 0');
+          cond(w, m.if);
+        });
+      }
+      if (errors.length > before) return; // odds are only meaningful for a well-formed check
+      if (chanceOf(ck, 0) === 0) err(where, 'base chance is 0% (gate the choice with if instead)');
+      if (!ck.certain && chanceOf(ck, maxBonus(ck)) === 1) err(where, 'mods can make it certain (100%); an item must not be a guaranteed bypass unless the check is marked certain');
+    }
+    function outcomeSpec(where, o, n, chId) {
+      if (!obj(o)) return err(where, 'needs a pass and a fail outcome');
+      onlyKeys(where, o, OUTCOME_KEYS);
+      if (o.result !== undefined) textField(where + ' result', o.result);
+      effects(where, o.effects);
+      destinations(where, o, n, chId, false);
+    }
+    // A choice or SHOW/USE entry with a check: its consequences live in pass and fail.
+    function checked(where, c, n, chId) {
+      if (!c.check) {
+        if (has(c, 'pass') || has(c, 'fail')) err(where, 'pass and fail are only for a choice with a check');
+        return;
+      }
+      checkSpec(where + ' check', c.check);
+      DESTINATIONS.concat(['result']).forEach(function (k) { if (has(c, k)) err(where, k + ' goes in pass and fail when there is a check'); });
+      outcomeSpec(where + ' pass', c.pass, n, chId);
+      outcomeSpec(where + ' fail', c.fail, n, chId);
     }
 
     // Assets: registered ids, and every registered id referenced (nothing orphaned).
@@ -1230,12 +1521,13 @@
           if (c.once) onceKeys[chId + ':' + id + ':' + c.id] = true;
           if (c.result !== undefined) textField(x + ' result', c.result);
           var ds = destinations(x, c, n, chId, true);
+          checked(x, c, n, chId);
           if (has(c, 'restart')) {
             if (c.restart !== true) err(x, 'restart must be true');
             if (c.kind !== 'system') err(x, 'restart is a system choice');
             if (!n.end) err(x, 'restart is only allowed on an end node');
           } else if (c.kind === 'system') err(x, 'a system choice must restart');
-          if (!ds.length && !c.once && c.effects === undefined) err(x, 'stays here and changes nothing (needs once or effects, or a destination)');
+          if (!ds.length && !c.once && !c.check && c.effects === undefined) err(x, 'stays here and changes nothing (needs once or effects, or a destination)');
         });
         ['show', 'use'].forEach(function (verb) {
           if (n[verb] === undefined) return;
@@ -1258,7 +1550,8 @@
             if (e.once) onceKeys[chId + ':' + id + ':' + item + ':' + verb] = true;
             if (e.result !== undefined) textField(x + ' result', e.result);
             var ds = destinations(x, e, n, chId, false);
-            if (!ds.length && !e.once && e.effects === undefined) err(x, 'stays here and changes nothing (needs once or effects, or a destination)');
+            checked(x, e, n, chId);
+            if (!ds.length && !e.once && !e.check && e.effects === undefined) err(x, 'stays here and changes nothing (needs once or effects, or a destination)');
           });
         });
       });
@@ -1277,13 +1570,15 @@
 
     // Walk every reachable state ------------------------------------------------------------
     // The key is v1's (node, flags, inventory, item marks) plus what v2 adds to the route:
-    // chapter, the excursion opener and which `once` entries are spent. The transcript, the
-    // objective and the context action are presentation history, not route state.
+    // chapter, the excursion opener, which `once` entries are spent and each resolved check's
+    // outcome (not its roll). The transcript, the objective and the context action are
+    // presentation history, not route state.
     function key(s) {
       var spent = s.taken.map(function (t) { return t.at + ':' + (t.c || t.item + ':' + t.verb); })
         .filter(function (k) { return onceKeys[k]; }).sort();
       return JSON.stringify([s.chapter, s.node, s.returnTo, s.flags, s.inventory.slice().sort(),
-        Object.keys(s.items).sort().map(function (k) { return [k, s.items[k].slice().sort()]; }), spent]);
+        Object.keys(s.items).sort().map(function (k) { return [k, s.items[k].slice().sort()]; }), spent,
+        Object.keys(s.checks).sort().map(function (k) { return [k, s.checks[k].ok]; })]);
     }
     function bare(s) {
       var c = clone(s);
@@ -1308,11 +1603,20 @@
     function walkStep(s, input) {
       return stepCore(story, s, input, { obs: seen }).state;
     }
+    // Every outcome an input can have here: one, or each possible outcome of its check.
+    function walkAll(s, input, entry) {
+      if (!entry.check) return [walkStep(s, input)];
+      var p = chanceOf(entry.check, checkBonus(entry.check, s));
+      var out = [];
+      if (p > 0) out.push(stepCore(story, s, input, { obs: seen, force: 'pass' }).state);
+      if (p < 1) out.push(stepCore(story, s, input, { obs: seen, force: 'fail' }).state);
+      return out;
+    }
     while (queue.length) {
       var s = queue.shift();
       var n = here(story, s);
       var where = at(s);
-      (story.files || []).forEach(function (f, i) { if (test(f.if, s)) seen['files[' + i + ']'] = true; });
+      (story.files || []).forEach(function (f, i) { if (holds(f.if, s)) seen['files[' + i + ']'] = true; });
       if (!s.returnTo && n.choices.some(function (c) { return c.back; }) && !backless[where]) {
         backless[where] = true;
         errors.push('a back choice at ' + where + ' is reachable with no opener to return to (enter it from a narrative node, or split the node)');
@@ -1322,7 +1626,7 @@
       avail.forEach(function (c) {
         used.choices[where + ':' + c.id] = true;
         if (c.restart) { restartFrom.push(key(s)); return; }
-        follow(s, bare(walkStep(s, { choice: c.id })));
+        walkAll(s, { choice: c.id }, c).forEach(function (t) { follow(s, bare(t)); });
       });
       s.inventory.forEach(function (id) {
         seen['item ' + id + ' description[' + variantIndex2(items[id].description, s) + ']'] = true;
@@ -1331,7 +1635,7 @@
         ['show', 'use'].forEach(function (verb) {
           if (!openEntry(story, s, id, verb)) return;
           used.entries[where + ':' + verb + ':' + id] = true;
-          follow(s, bare(walkStep(s, { item: id, verb: verb })));
+          walkAll(s, { item: id, verb: verb }, openEntry(story, s, id, verb)).forEach(function (t) { follow(s, bare(t)); });
         });
       });
     }
@@ -1340,6 +1644,14 @@
     function variantsSeen(field, prefix, label) {
       if (!isVariants(field)) { if (!seen[prefix + '[0]']) errors.push(label + ' never shown'); return; }
       field.forEach(function (v, i) { if (!seen[prefix + '[' + i + ']']) errors.push(label + ' variant ' + i + ' never shown'); });
+    }
+    // Both outcomes of every check must happen in some reachable state.
+    function outcomesSeen(c, label) {
+      if (!c.check) return;
+      ['pass', 'fail'].forEach(function (which) {
+        if (!seen['outcome ' + c.check.id + ':' + which]) return errors.push('check ' + c.check.id + ' (' + label + '): ' + which + ' never happens in any reachable state');
+        if (c[which].result !== undefined) variantsSeen(c[which].result, 'result ' + label + ':' + which, 'result of ' + label + ' ' + which);
+      });
     }
     chapterIds.forEach(function (chId) {
       Object.keys(story.chapters[chId].nodes).forEach(function (id) {
@@ -1351,12 +1663,14 @@
         n.choices.forEach(function (c) {
           if (!used.choices[w + ':' + c.id]) return errors.push('choice never available: ' + w + ':' + c.id);
           if (c.result !== undefined) variantsSeen(c.result, 'result ' + w + ':' + c.id, 'result of ' + w + ':' + c.id);
+          outcomesSeen(c, w + ':' + c.id);
         });
         ['show', 'use'].forEach(function (verb) {
           Object.keys(n[verb] || {}).forEach(function (item) {
             if (!used.entries[w + ':' + verb + ':' + item]) return errors.push(verb + ' never available: ' + w + ':' + item);
             var e = n[verb][item];
             if (e.result !== undefined) variantsSeen(e.result, 'result ' + w + ':' + verb + ':' + item, 'result of ' + w + ' ' + verb + ' ' + item);
+            outcomesSeen(e, w + ':' + verb + ':' + item);
           });
         });
       });
@@ -1366,6 +1680,9 @@
       if (isVariants(d)) d.forEach(function (v, i) { if (!seen['item ' + id + ' description[' + i + ']']) errors.push('description variant never seen: ' + id + '[' + i + ']'); });
     });
     (story.files || []).forEach(function (f, i) { if (!seen['files[' + i + ']']) errors.push('case-file entry never shown: files[' + i + ']'); });
+    Object.keys(items).forEach(function (id) {
+      if (!Object.keys(seen).some(function (k) { return k.indexOf('item ' + id + ' description[') === 0; })) errors.push('item never held: ' + id);
+    });
 
     // From every reachable state an ending must still be reachable.
     var canFinish = {};
@@ -1389,7 +1706,8 @@
         choices: counts.choices,
         reachableStates: Object.keys(states).length,
         endings: endings,
-        endingStates: restartFrom.length
+        endingStates: restartFrom.length,
+        checks: Object.keys(allChecks).length
       }
     };
   }
@@ -1426,7 +1744,16 @@
     view: view,
     paras: toParas,
     applyEffects: applyEffects,
-    validateStory: validateStory
+    holds: holds,
+    describe: describe,
+    validateStory: validateStory,
+    // Checks and saves (docs/72 S2, docs/74).
+    SAVE_SCHEMA: SAVE_SCHEMA,
+    roll: rollFor,
+    chance: chanceOf,
+    serialize: serialize,
+    restore: restore,
+    resume: resume
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = Rules;
