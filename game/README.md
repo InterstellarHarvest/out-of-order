@@ -30,15 +30,17 @@ then open <http://localhost:8137/game/index.html>.
 | Path | What it is |
 |---|---|
 | `content/reception.js` | **All narrative content and starting state**, as plain data. Edit this to change the route. |
-| `js/rules.js` | Pure state rules (conditions, effects, choices, item actions) and the route validator. Shared by the browser and Node. |
+| `js/rules.js` | Pure state rules (conditions, effects, choices, item actions) and the route validator. Shared by the browser and Node. Its second half is the story-v2 engine (docs/74), not yet used by the game. |
 | `js/flow.js` | The dialogue-turn phase machine: typing, beat, cards arrive, choosing, sending, reply beat. |
 | `js/stage.js` | Presentation: dialogue box and history, choice cards and thumb, inventory, utility buttons and tooltip, inspector, NOTES/FILES, objective. |
 | `js/pixeltext.js` | Asset paths, image loading and bitmap text (ported from the lab's `core.js`). |
 | `js/placeholders.js` | Labelled grey dev placeholders, drawn at runtime: only development safety paths now (QA-only slot art, inspect-art fallback). |
 | `js/main.js` | Boot and fit-to-window scaling. `?qa` in the URL exposes QA-only hooks. |
-| `qa/validate_route.js` | Node route/state validation: `node game/qa/validate_route.js` |
+| `qa/validate_route.js` | Node route/state validation: `node game/qa/validate_route.js` (`--v2`: the same checks on the story-v2 engine) |
+| `qa/validate_story.js` | Node story-v2 validation (docs/74): reception compatibility, the fixture, checks, saves, mutants: `node game/qa/validate_story.js` |
+| `qa/v1_on_v2.js`, `qa/fixtures/engine_fixture.js` | QA only: the v1 API over the v2 engine, and the neutral engine fixture (not canon, never loaded by the game). |
 | `qa/run_qa.js` | Playwright browser QA: `NODE_PATH="$(npm root -g)" node game/qa/run_qa.js` |
-| `qa/route_results.json`, `qa/qa_results.json`, `qa/screenshots/` | Last results and owner-review evidence. |
+| `qa/route_results.json`, `qa/route_results_v2.json`, `qa/story_results.json`, `qa/qa_results.json`, `qa/screenshots/` | Last results and owner-review evidence. |
 
 ### What it reuses, and what it leaves alone
 
@@ -107,6 +109,16 @@ then open <http://localhost:8137/game/index.html>.
 `node game/qa/validate_route.js` rejects unknown keys, flags or items, missing destinations, nodes
 without a card, unreachable nodes, choices or text variants nobody can see, any reachable state with
 no available choice, any state from which the ending cannot be reached, and undrawable characters.
+
+## Story-v2 engine (engine v0 S1 + S2, not yet used by the game)
+
+`js/rules.js` also holds the general engine from docs/72: the `cyoa-story-v2` schema (chapters,
+dialogue / narrative B / focus A nodes, typed text and choices, conditional effects, Focus return,
+d6/d100 checks), the pure `Rules.begin` / `Rules.step` / `Rules.view`, `Rules.fromV1` (this slice
+as a v2 story), `Rules.validateStory`, and versioned `Rules.serialize` / `Rules.restore` /
+`Rules.resume`. The game still runs on the v1 functions above; the renderer moves onto events in
+S3-S8. The API, schema, events and save contract are in
+`docs/74_ENGINE_V0_S1_S2_RULES_IMPLEMENTATION.md`.
 
 ## State
 
