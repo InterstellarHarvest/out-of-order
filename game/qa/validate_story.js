@@ -78,12 +78,17 @@ function seedFor(story, script, check, ok) {
   check(G, 'the v2 walk finds exactly the v1 route: same nodes, choices, reachable states, endings and ending states',
     ['nodes', 'choices', 'reachableStates', 'endings', 'endingStates'].every((k) => v1.stats[k] === v2.stats[k]), { v1: v1.stats, v2: v2.stats });
 
-  // The art ids fromV1 registers are the files stage.js draws today.
+  // The art ids fromV1 registers are the files the game draws, and (engine S3, docs/83) the only
+  // copy of them: stage.js builds G.ART from story.assets and names no story art path itself.
+  // game/qa/validate_assets.js checks the registry, the files and the browser's use of them.
   const stage = fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8');
-  const stagePaths = ['scene', 'portraitBackground', 'portraitNpc'].map((k) => new RegExp(k + ":\\s*\\{[^}]*path:\\s*'([^']+)'").exec(stage)[1]);
   const p = story.assets.portraits.receptionist;
-  check(G, 'fromV1 registers exactly the art stage.js draws (scene, portrait background, receptionist)',
-    same(stagePaths, [story.assets.scenes['conference_hall/reception'], p.backgrounds[p.background], p.poses[p.pose]]), stagePaths);
+  const drawn = ['art/scenes/conference_hall/reception/reception_scene.png', 'art/portraits/receptionist/reception_background.png',
+    'art/portraits/receptionist/receptionist_idle.png'];
+  check(G, 'fromV1 registers exactly the art the game draws (scene, portrait background, receptionist), and stage.js holds no second copy',
+    same(drawn, [story.assets.scenes['conference_hall/reception'], p.backgrounds[p.background], p.poses[p.pose]])
+    && !/art\/(scenes|portraits|items)\//.test(stage) && !/RECEPTION_ART/.test(stage) && /G\.artRegistry = function \(story\)/.test(stage),
+    { declared: [story.assets.scenes, p] });
 
   // Lock-step walk: every reachable v1 state next to its v2 twin, every move compared.
   const key = (s) => JSON.stringify([s.node, s.flags, s.inventory.slice().sort(), Object.keys(s.items).sort().map((k) => [k, s.items[k].slice().sort()])]);

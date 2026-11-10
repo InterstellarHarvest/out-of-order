@@ -113,26 +113,143 @@
   // the NPC and the background can later animate or change independently.
   // The <img> elements are the very images js/main.js preloaded and decoded before boot, so the
   // page never announces ready with art still to pop in.
-  G.RECEPTION_ART = {
-    scene: { image: 'art:scene', path: 'art/scenes/conference_hall/reception/reception_scene.png', scale: 4 },
-    portraitBackground: { image: 'art:portraitBackground', path: 'art/portraits/receptionist/reception_background.png', scale: 1,
-      offset: function () { return [TU.portrait.backgroundX, TU.portrait.backgroundY]; } },
-    portraitNpc: { image: 'art:portraitNpc', path: 'art/portraits/receptionist/receptionist_idle.png', scale: 1,
-      offset: function () { return [TU.portrait.npcX, TU.portrait.npcY]; } }
+  //
+  // The art registry (engine S3, docs/72 section 4, docs/83). Story art is declared once, in the
+  // story's `assets` and its items' slotArt / inspectArt; the reception's declaration is
+  // Rules.fromV1's. G.registerArt(story) turns it into G.ART, one entry per image, keyed by the
+  // stable image name that G.image and the preload use:
+  //   scene:<location>/<scene>                   scene, 314x206, drawn at 4x
+  //   portrait:<portrait>:background:<id>        portrait background, 564x278 at 1x
+  //   portrait:<portrait>:pose:<id>              portrait pose (the character), 564x278 at 1x
+  //   focus:<location>/<scene>/<target>          Focus A close-up, 564x278 at 1x (drawn from S6)
+  //   item:<id>  /  inspect:<id>                 item slot 96x96 / inspect 565x451 (names as in M2)
+  // UI art (shell, item overlay, panels, slip, sprites, glyphs) is engine-owned and stays out of it.
+  var ART_CLASS = (G.ART_CLASS = {
+    scene: { size: [314, 206], scale: 4 },
+    background: { size: [564, 278], scale: 1, offset: function () { return [TU.portrait.backgroundX, TU.portrait.backgroundY]; } },
+    pose: { size: [564, 278], scale: 1, offset: function () { return [TU.portrait.npcX, TU.portrait.npcY]; } },
+    focus: { size: [564, 278], scale: 1 },
+    slot: { size: [96, 96] },
+    inspect: { size: [565, 451] }
+  });
+  var artKey = (G.artKey = {
+    scene: function (id) { return 'scene:' + id; },
+    background: function (portrait, id) { return 'portrait:' + portrait + ':background:' + id; },
+    pose: function (portrait, id) { return 'portrait:' + portrait + ':pose:' + id; },
+    focus: function (id) { return 'focus:' + id; },
+    slot: function (id) { return 'item:' + id; },
+    inspect: function (id) { return G.inspectImageName(id); }
+  });
+
+  // One story's registry: { key: { key, cls, id, path, portrait? } }. `path` null is a fixture's
+  // DEV PLACEHOLDER art: registered, never requested (game/qa/validate_assets.js refuses it in a
+  // production story). A key claimed twice is an error.
+  G.artRegistry = function (story) {
+    var reg = {};
+    var a = story.assets || {};
+    function add(key, cls, id, path, portrait) {
+      if (Object.prototype.hasOwnProperty.call(reg, key)) throw new Error('Art registered twice: ' + key);
+      if (path !== null && typeof path !== 'string') throw new Error('Art path must be a string or null: ' + key);
+      reg[key] = { key: key, cls: cls, id: id, path: path };
+      if (portrait) reg[key].portrait = portrait;
+    }
+    Object.keys(a.scenes || {}).forEach(function (id) { add(artKey.scene(id), 'scene', id, a.scenes[id]); });
+    Object.keys(a.portraits || {}).forEach(function (pid) {
+      var p = a.portraits[pid];
+      Object.keys(p.backgrounds || {}).forEach(function (id) { add(artKey.background(pid, id), 'background', id, p.backgrounds[id], pid); });
+      Object.keys(p.poses || {}).forEach(function (id) { add(artKey.pose(pid, id), 'pose', id, p.poses[id], pid); });
+    });
+    Object.keys(a.focus || {}).forEach(function (id) { add(artKey.focus(id), 'focus', id, a.focus[id]); });
+    Object.keys(story.items || {}).forEach(function (id) {
+      var it = story.items[id];
+      if (it.slotArt !== undefined) add(artKey.slot(id), 'slot', id, it.slotArt);
+      if (it.inspectArt !== undefined) add(artKey.inspect(id), 'inspect', id, it.inspectArt);
+    });
+    return reg;
+  };
+
+  // The image keys one chapter shows, in first-use order: its scenes, the portrait layers of
+  // everyone who speaks in it (each portrait's default background and pose, plus any node's
+  // backdrop / pose), and its focus targets. Items are story-wide (G.itemArtKeys).
+  G.chapterArtKeys = function (story, chapterId) {
+    var ch = story.chapters && story.chapters[chapterId];
+    if (!ch) throw new Error('Unknown chapter: ' + chapterId);
+    var keys = [];
+    function use(k) { if (keys.indexOf(k) === -1) keys.push(k); }
+    use(artKey.scene(ch.scene));
+    Object.keys(ch.nodes).forEach(function (nid) {
+      var n = ch.nodes[nid];
+      if (n.scene) use(artKey.scene(n.scene));
+      if (n.mode === 'dialogue') {
+        var cast = story.cast && story.cast[n.speaker];
+        var p = cast && story.assets.portraits && story.assets.portraits[cast.portrait];
+        if (!p) throw new Error('No registered portrait for speaker ' + n.speaker + ' (' + chapterId + ':' + nid + ')');
+        use(artKey.background(cast.portrait, p.background));
+        use(artKey.pose(cast.portrait, p.pose));
+        if (n.backdrop) use(artKey.background(cast.portrait, n.backdrop));
+        if (n.pose) use(artKey.pose(cast.portrait, n.pose));
+      }
+      if (n.mode === 'focus') use(artKey.focus(n.focus));
+    });
+    return keys;
+  };
+  G.itemArtKeys = function (story) {
+    var keys = [];
+    Object.keys(story.items || {}).forEach(function (id) {
+      if (story.items[id].slotArt !== undefined) keys.push(artKey.slot(id));
+      if (story.items[id].inspectArt !== undefined) keys.push(artKey.inspect(id));
+    });
+    return keys;
+  };
+
+  // Accessible names for the two art apertures. cyoa-story-v2 has no human-readable scene or cast
+  // label yet, so the reception keeps its Round 2 names through this adapter (keyed by scene id
+  // and cast id); anything else falls back to the scene id / the cast member's name. Future
+  // metadata need (docs/83): a label on each assets.scenes entry and on each cast entry.
+  var LEGACY_LABELS = {
+    scene: { 'conference_hall/reception': 'The reception lobby' },
+    cast: { receptionist: 'The receptionist' }
+  };
+
+  // What the apertures show. S3 still plays the reception on the v1 rules (js/flow.js), so this is
+  // the story's opening: its first chapter's scene and the first speaker's portrait layers. From S4
+  // the scene / portrait the v2 events announce replaces it.
+  function openingArt(story) {
+    var ch = story.chapters[story.start];
+    var node = ch.nodes[ch.start];
+    var pid = story.cast[node.speaker].portrait;
+    var p = story.assets.portraits[pid];
+    var scene = node.scene || ch.scene;
+    return {
+      scene: artKey.scene(scene),
+      sceneLabel: LEGACY_LABELS.scene[scene] || scene,
+      background: artKey.background(pid, node.backdrop || p.background),
+      pose: artKey.pose(pid, node.pose || p.pose),
+      castLabel: LEGACY_LABELS.cast[node.speaker] || story.cast[node.speaker].name
+    };
+  }
+
+  // Makes `story` the one the stage draws from (js/main.js calls it at boot, before preloading).
+  G.registerArt = function (story) {
+    G.ART = G.artRegistry(story);
+    G.ART_ON_SHOW = openingArt(story);
+    return G.ART;
   };
 
   function artLayer(parent, key, id) {
-    var spec = G.RECEPTION_ART[key];
-    var img = G.image(spec.image);
+    var spec = G.ART[key];
+    var cls = spec && ART_CLASS[spec.cls];
+    var img = G.image(key);
+    if (!img) throw new Error('Art not decoded before the stage was built: ' + key);
     img.id = id;
     img.className = 'layer art';
     img.alt = '';
     img.draggable = false;
     img.setAttribute('aria-hidden', 'true');
     // Whole-number scale of the file's own pixels.
-    img.width = img.naturalWidth * spec.scale;
-    img.height = img.naturalHeight * spec.scale;
-    var off = spec.offset ? spec.offset() : [0, 0];
+    img.width = img.naturalWidth * cls.scale;
+    img.height = img.naturalHeight * cls.scale;
+    var off = cls.offset ? cls.offset() : [0, 0];
     place(img, off[0], off[1], img.width, img.height);
     parent.appendChild(img);
     return img;
@@ -146,15 +263,16 @@
 
   function buildApertures() {
     var sc = R.sceneAperture.rect;
-    els.scene = el('div', 'aperture art-aperture', stage, { id: 'scene', role: 'img', 'aria-label': 'The reception lobby' });
+    var on = G.ART_ON_SHOW;
+    els.scene = el('div', 'aperture art-aperture', stage, { id: 'scene', role: 'img', 'aria-label': on.sceneLabel });
     place(els.scene, sc[0], sc[1], sc[2], sc[3]);
-    els.sceneArt = artLayer(els.scene, 'scene', 'sceneArt');
+    els.sceneArt = artLayer(els.scene, on.scene, 'sceneArt');
     var pr = R.portraitAperture.rect;
-    els.portrait = el('div', 'aperture art-aperture', stage, { id: 'portrait', role: 'img', 'aria-label': 'The receptionist' });
+    els.portrait = el('div', 'aperture art-aperture', stage, { id: 'portrait', role: 'img', 'aria-label': on.castLabel });
     place(els.portrait, pr[0], pr[1], pr[2], pr[3]);
-    els.portraitBackground = artLayer(els.portrait, 'portraitBackground', 'portraitBackground');
+    els.portraitBackground = artLayer(els.portrait, on.background, 'portraitBackground');
     els.portraitRearFx = fxLayer(els.portrait, 'portraitRearFx', pr);
-    els.portraitNpc = artLayer(els.portrait, 'portraitNpc', 'portraitNpc');
+    els.portraitNpc = artLayer(els.portrait, on.pose, 'portraitNpc');
     els.portraitFrontFx = fxLayer(els.portrait, 'portraitFrontFx', pr);
     els.overlay = el('div', 'aperture overlay', stage, { id: 'overlay', tabindex: '-1' });
     place(els.overlay, sc[0], sc[1], sc[2], sc[3]);
@@ -981,7 +1099,8 @@
   G.INSPECTOR_ART = {
     close: { image: 'ui:inspect_close', path: 'art/ui/sprites/inspect_close.png' }
   };
-  // The preloaded image name for an item's inspect art (js/main.js decodes it before ready).
+  // The preloaded image name for an item's inspect art (js/main.js decodes it before ready; it is
+  // also the item's G.ART key, G.artKey.inspect).
   G.inspectImageName = function (id) {
     return 'inspect:' + id;
   };

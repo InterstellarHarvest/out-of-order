@@ -100,13 +100,25 @@
     },
     {
       "group": "reception",
-      "name": "fromV1 registers exactly the art stage.js draws (scene, portrait background, receptionist)",
+      "name": "fromV1 registers exactly the art the game draws (scene, portrait background, receptionist), and stage.js holds no second copy",
       "ok": true,
-      "detail": [
-        "art/scenes/conference_hall/reception/reception_scene.png",
-        "art/portraits/receptionist/reception_background.png",
-        "art/portraits/receptionist/receptionist_idle.png"
-      ]
+      "detail": {
+        "declared": [
+          {
+            "conference_hall/reception": "art/scenes/conference_hall/reception/reception_scene.png"
+          },
+          {
+            "backgrounds": {
+              "reception": "art/portraits/receptionist/reception_background.png"
+            },
+            "poses": {
+              "idle": "art/portraits/receptionist/receptionist_idle.png"
+            },
+            "background": "reception",
+            "pose": "idle"
+          }
+        ]
+      }
     },
     {
       "group": "reception",
