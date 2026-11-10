@@ -1,7 +1,7 @@
 # CYOA — Engine v0 S1 + S2: Story-v2 Rules, Checks and Saves
 
 **Date:** 2026-11-08
-**Status:** Implementation checkpoint for PMO review. **Not merged** into M2 or main. S3 (renderer integration) has not started.
+**Status:** S1/S2 **passed PMO architecture review** (docs/80 on `docs/story-gameplay-study-v01`). S2.1 owner-decision alignment added 2026-11-09 (section 7), for PMO review. **Not merged** into M2 or main. S3 (renderer integration) has not started.
 **Branch:** `agent/engine-v0-rules`, from `origin/agent/m2-reception-polish-lab` at `e66e7bf` (its remote head on 2026-11-08).
 **Authority:** [72 — General Adventure Engine Foundation](https://github.com/InterstellarHarvest/CYOA/blob/agent/engine-foundation-design/docs/72_GENERAL_ADVENTURE_ENGINE_FOUNDATION_V01.md) (`53205b6`), gated by 73 — Engine Foundation PMO Review and S1/S2 Gate (`docs/story-gameplay-study-v01`). This branch's 74 is free on both doc lines.
 
@@ -14,6 +14,7 @@
 | `game/qa/validate_route.js` | Gained `--v2`: the same 49 checks against the v2 engine, written to `route_results_v2.json`. Without the flag it behaves and writes exactly as before. |
 | `game/qa/v1_on_v2.js` | **New**, QA only: the v1 API re-implemented over `fromV1` + `begin`/`step`/`view`, so the route suite can run unchanged on v2. |
 | `game/qa/fixtures/engine_fixture.js` | **New**, QA only: docs/72's neutral fixture. Engine test content, not canon, never loaded by the game. |
+| `game/qa/fixtures/endings_fixture.js` | **New in S2.1**, QA only: one shared incident, two independent chapters, two authored endings, plus the risk-marker cases (section 7). Not canon. |
 
 **Untouched:** `stage.js`, `flow.js`, `main.js`, `pixeltext.js`, `tuning.js`, `placeholders.js`, `content/reception.js`, all art, UI assets, the polish lab and every other worktree. No browser storage, autosave or seed UI is wired.
 
@@ -84,17 +85,19 @@ The schema is docs/72 section 2, with these additions and clarifications:
 
 ```js
 { story, chapter, title, node, mode, scene, speaker, portrait: { cast, id, background, pose } | null, focus, returnTo, end,
-  cards: [{ id, kind, text }],            // hidden checks: no odds or die data on a card
-  items: [{ id, read, show, use }],       // SHOW is false outside dialogue
+  cards: [{ id, kind, text, hasCheck }],  // hasCheck: a hidden roll decides it (S2.1); no other check data
+  items: [{ id, read, show, use, showHasCheck, useHasCheck }],   // SHOW is false outside dialogue
   context: { id, label, glyph, spent, spentWhy } | null,   // dialogue mode only
   objective, files: [text],
   history: { dialogue: [i], narrative: [i], focus: [i], notes: [i] } }   // transcript indices, per HISTORY
 ```
 
-`HISTORY` is the docs/72 section 3.6 default, kept in one constant until owner decision O3:
-- the dialogue and B windows reset when the scene changes;
+`HISTORY` (one constant):
+- the dialogue and B windows reset when the scene changes (docs/72 section 3.6);
 - the A window is the current visit;
-- NOTES is the current chapter.
+- **NOTES is the whole playthrough** (owner lock [76], S2.1): every chapter, scene and surface, in order. BEGIN AGAIN starts a new playthrough, so a new NOTES.
+
+`hasCheck`, `showHasCheck` and `useHasCheck` (owner lock [74], S2.1) say only that the outcome depends on a hidden roll. They come from the authored `check` alone, never from `kind` or wording, and they are false when the action is unavailable. They stay true when bonuses make a check certain, because a marker that disappeared at 100% would leak the odds. The view carries no die, target, odds, modifier, bonus, seed, roll, outcome or check id. (The step's `check` event does carry them, for logs and QA; the renderer shows no roll or odds by default.)
 
 ### 2.5 Events, in commit order
 
@@ -156,7 +159,8 @@ The envelope is `{ schema: 'cyoa-save-v1', story, version, savedAt?, state, curs
 
 No fatal outcome, retry or checkpoint exists.
 - A save is the state **after** its step, so it is never a pre-fatal checkpoint.
-- If the owner chooses a retry policy, its recoverable state is a separate, later contract.
+- The owner has since chosen retry from the last protected safe checkpoint for fatal ends ([75]). That is a separate, later save-and-retry contract, and not in S1/S2/S2.1.
+- An **authored ending** is a node marked `end: true`, nothing more. There is no `fatal` field: the validator rejects one as unknown.
 
 ## 3. Validation
 
@@ -185,7 +189,7 @@ No fatal outcome, retry or checkpoint exists.
 - The state key is v1's, plus the chapter, `returnTo`, spent `once` entries and each check's outcome (not its roll).
 - **Both outcomes of every check** are explored wherever each is possible.
 - It fails on:
-  - a dead end, or a state from which no ending is reachable;
+  - a dead end, or a state from which no authored ending (an `end: true` node) is reachable. Since S2.1, reaching an end node is what counts as finishing; it no longer depends on the state offering BEGIN AGAIN. For the reception and the engine fixture the two give identical results and stats;
   - an unreachable node or never-available choice or entry;
   - a variant never shown: text, result, objective, description or FILES entry;
   - a check outcome that never happens;
@@ -198,7 +202,7 @@ No fatal outcome, retry or checkpoint exists.
 |---|---|---|
 | `node game/qa/validate_route.js` (v1, unchanged) | **49/49** | Stats unchanged: 15 nodes, 23 choices, 449 states, 1 ending, 96 ending states. `route_results.json` is byte-identical. |
 | `node game/qa/validate_route.js --v2` | **49/49** | The same 49 checks, including the 15 v1 mutants, run on `fromV1` + `begin`/`step`/`view`, with the same stats. **EF-N1.** |
-| `node game/qa/validate_story.js` | **146/146** | Six groups (below). |
+| `node game/qa/validate_story.js` | **146/146** (S2); **176/176** after S2.1 | Six groups (below), plus three S2.1 groups (section 7). |
 | Game browser QA `run_qa.js` | **519/520**, the same as the untouched base | See 4.1. |
 | Polish-lab browser QA | **141/141** | See 4.1. |
 
@@ -291,6 +295,8 @@ The game loads `rules.js`, so the full browser suites were run on this branch. F
 
 ## 6. Not done here, and next
 
+(Written at the S1/S2 checkpoint. For the S2.1 state of the open decisions, see section 7.4.)
+
 **Not done:** browser saves and storage, `?seed`, `?new`, `?nosave`, asset files, renderer, flow, inks, surfaces, Narrative B and Focus A on screen, the fixture page, and any reception migration. These are S3–S9.
 
 **Before S3:**
@@ -304,3 +310,48 @@ The game loads `rules.js`, so the full browser suites were run on this branch. F
 - O3: history windows (the `HISTORY` constant).
 - O4: the B overlay.
 - O5: a chapter title beat.
+
+## 7. S2.1: owner-decision alignment (2026-11-09)
+
+docs/80 (`docs/story-gameplay-study-v01`) accepted S1/S2 and asked for three narrow deltas before S3. Only `rules.js` (v2 half), `validate_story.js`, the new endings fixture and this document changed; the v1 half of `rules.js` is still byte-identical to `e66e7bf`.
+
+### 7.1 What changed in the rules
+
+| Owner lock | Change |
+|---|---|
+| [76] NOTES = entire playthrough | `HISTORY.notes` is now `'all'`, a new anchor at transcript index 0. Dialogue/B scene windows and the Focus A visit window are unchanged. No schema or save change: the full transcript was already saved. |
+| [74] Risk marker | `view().cards[]` gained `hasCheck`; `view().items[]` gained `showHasCheck` and `useHasCheck`, beside the unchanged `show` / `use` availability booleans. See 2.4. |
+| [78] Independent endings | The validator's "an ending is reachable from every state" proof now starts from states on an `end: true` node rather than states offering BEGIN AGAIN. `stats.endingsReached` (distinct end nodes reached) is new. Reception and the engine fixture give the same results and stats as before. |
+
+### 7.2 The endings fixture
+
+`game/qa/fixtures/endings_fixture.js`: hall → desk (a dialogue) → **the incident** (a fire bell), from which `follow-clerk` departs into chapter `ie_archive` and `take-exit` into chapter `ie_street`. A checked USE of the pass at the incident is itself a departure: pass → archive, fail → street. Each chapter has its own `end: true` node, and nothing leads back. The desk carries the risk cases: a checked spoken bluff, an unchecked spoken line, an unchecked action and a checked SHOW. Hidden d6 throughout. It validates with 3 chapters, 7 nodes, 266 reachable states, 2 endings (both reached) and 3 checks.
+
+### 7.3 QA
+
+| Suite | Result |
+|---|---|
+| `validate_route.js` (v1) | **49/49**; `route_results.json` unchanged |
+| `validate_route.js --v2` | **49/49**; stats as before plus `endingsReached: 1` |
+| `validate_story.js` | **176/176**: the 146 before (one assertion updated for each of NOTES and the card shape) plus 30 new |
+| Game browser QA | **520/520** (the timing-flaky "early dismiss during fade-in" passed on this run; it is still timing debt, see 4.1) |
+| Polish-lab browser QA | **140/141** on the first run, then **141/141** on two reruns. The one failure was Firefox reporting `art/ui/shell/layout-final.png` as "corrupt or truncated"; that file is byte-identical to the base and the lab never reads the v2 half. Treated as a decode flake, not a regression. |
+
+The regenerated browser results and screenshots were not committed (as in 4.1).
+
+New `validate_story.js` groups:
+- **notes, 10 checks.** NOTES is the whole transcript at every step of a two-chapter run, including chapter one's room and keypad text after the chapter change. B resets per scene (inside a chapter and at a chapter change) and Focus A stays per visit. After a restore at the ending, and from a save made in chapter one then continued into chapter two, NOTES and state are identical to an uninterrupted run. BEGIN AGAIN starts a new NOTES. On the three-chapter endings fixture, NOTES after a restore holds hall, desk and archive in order. In the reception (one chapter, one scene), NOTES and the dialogue window are the whole transcript, as before.
+- **risk, 10 checks.** Checked action marked and unchecked action not (keypad). Checked spoken bluff marked; unchecked spoken and action not (desk). Checked SHOW and checked USE marked through `showHasCheck` / `useHasCheck`, with the availability booleans unchanged. An unchecked USE is unmarked. The marker follows the check, not kind or words: the keypad as a spoken line stays marked, and the bluff's words without a check are unmarked. A check made certain keeps its marker. Over 100+ views on both fixtures and both outcomes, no check data appears anywhere in the view. The reception never marks anything.
+- **endings, 10 checks.** The validator accepts the fixture. Every check goes both ways. The incident reaches both paths, and every route out of the hall passes through it. The two paths share no node, never return to the hall, and each reaches its own ending. Both endings are ordinary ends (an `end` event, `view.end`, only BEGIN AGAIN). A check outcome can be the departure. Negative controls: a street path that rejoins the archive still validates (braiding is legal) but the independence check reports it; a path that circles forever is rejected ("cannot reach an ending"); a `fatal` field is rejected; a terminal node not marked `end` is rejected.
+
+Mutation check: setting NOTES back to `'chapter'` fails 5 checks; dropping `hasCheck` fails 5; dropping `useHasCheck` fails 1.
+
+### 7.4 Decisions now locked, and still not done
+
+- [76] NOTES: done here.
+- [74] Risk marker: rules data done here. The pixel icon, its placement and any narrative foreshadowing are renderer and content work (UI lab review), not rules.
+- [78] Independent endings: proven here. A non-restart terminal UI, if wanted later, needs its own contract.
+- [75] Fatal → retry from the last protected checkpoint: a later save-and-retry contract. Not started.
+- [77] Chapter-boundary dossier: renderer/flow. Not started.
+- D6 is the owner-preferred die. d100 stays supported.
+- S3 remains on hold until M2 Round 2 lands and the M2 PMO coordinates.

@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-engine-story-validation-v1",
-  "total": 146,
-  "passed": 146,
+  "total": 176,
+  "passed": 176,
   "failed": 0,
   "groups": {
     "reception": {
@@ -27,6 +27,18 @@
     "presentation": {
       "total": 8,
       "passed": 8
+    },
+    "notes": {
+      "total": 10,
+      "passed": 10
+    },
+    "risk": {
+      "total": 10,
+      "passed": 10
+    },
+    "endings": {
+      "total": 10,
+      "passed": 10
     }
   },
   "checks": [
@@ -81,6 +93,7 @@
           "reachableStates": 449,
           "endings": 1,
           "endingStates": 96,
+          "endingsReached": 1,
           "checks": 0
         }
       }
@@ -149,6 +162,7 @@
         "reachableStates": 602,
         "endings": 1,
         "endingStates": 144,
+        "endingsReached": 1,
         "checks": 1
       }
     },
@@ -311,7 +325,7 @@
     },
     {
       "group": "fixture",
-      "name": "history: NOTES is the current chapter only",
+      "name": "history (S2.1, owner lock [76]): NOTES is the whole playthrough, chapter one included; B in chapter two starts again",
       "ok": true
     },
     {
@@ -777,7 +791,7 @@
     },
     {
       "group": "checks",
-      "name": "hidden by default: the card shows no odds, die or check data (the view's card is only id, kind and text)",
+      "name": "hidden by default: the card shows no odds, die or check data (the view's card is only id, kind, text and the S2.1 hasCheck marker)",
       "ok": true
     },
     {
@@ -1102,6 +1116,212 @@
       "name": "accepts (positive control): the same 100%-capable mods when the check is marked certain",
       "ok": true,
       "detail": []
+    },
+    {
+      "group": "notes",
+      "name": "NOTES is the whole transcript at every step of a two-chapter playthrough (focus, B, scene change, chapter change, ending)",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "in chapter two, NOTES still indexes every chapter-one paragraph (the opening room, the keypad, the crawl)",
+      "ok": true,
+      "detail": {
+        "ch1": 10
+      }
+    },
+    {
+      "group": "notes",
+      "name": "the local windows are unchanged: B and dialogue read the current scene only (chapter two), Focus A is empty outside a visit",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "a scene change inside a chapter resets B (room_b only) but not NOTES",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "inside a Focus A visit: focus is the visit, NOTES is everything so far",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "after serialize/restore at the ending, NOTES is identical and still holds chapter one",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "saved in chapter one, restored, then into chapter two: the same NOTES (and state) as a playthrough never interrupted",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "BEGIN AGAIN starts a new playthrough, so a new NOTES (only the new opening)",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "three chapters: at the archive ending, after a restore, NOTES holds the hall, the desk dialogue and the archive in order",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "reception (one chapter, one scene, all dialogue): NOTES and the dialogue window both stay the whole transcript, as before",
+      "ok": true,
+      "detail": {
+        "steps": 187
+      }
+    },
+    {
+      "group": "risk",
+      "name": "a checked action is marked; an unchecked action beside it is not (the keypad)",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "a checked spoken line (a bluff) is marked; an unchecked spoken line and an unchecked action are not (the desk)",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "unchecked spoken and action cards elsewhere are never marked (wake, counter)",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "a checked SHOW: show stays the availability boolean, showHasCheck marks the risk; USE is unavailable and unmarked",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "a checked USE: use available and useHasCheck; SHOW unavailable in B and unmarked; the plain departures are unmarked",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "an unchecked USE is available and unmarked (the blue card in the corridor)",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "the marker follows the check, not kind or words: the keypad as a spoken line is still marked; the same bluff words without a check are not",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "a check the player has made certain (100%, marked certain) keeps its marker: the marker never changes with the odds",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "no die, target, odds, modifiers, bonus, seed, roll, outcome or check id appears anywhere in the view (both fixtures, both outcomes)",
+      "ok": true,
+      "detail": {
+        "views": 180,
+        "leak": null
+      }
+    },
+    {
+      "group": "risk",
+      "name": "the reception (no checks) never marks a card or an item action",
+      "ok": true,
+      "detail": {
+        "marked": 0
+      }
+    },
+    {
+      "group": "endings",
+      "name": "the validator accepts the independent-endings fixture: every node, choice, SHOW/USE, check outcome and text reachable, an ending reachable from every state",
+      "ok": true,
+      "detail": {
+        "errors": [],
+        "stats": {
+          "chapters": 3,
+          "nodes": 7,
+          "choices": 11,
+          "reachableStates": 266,
+          "endings": 2,
+          "endingStates": 120,
+          "endingsReached": 2,
+          "checks": 3
+        }
+      }
+    },
+    {
+      "group": "endings",
+      "name": "every check goes both ways in the exploration (the bluff, the checked SHOW, the checked USE)",
+      "ok": true,
+      "detail": [
+        "ie_bluff:true",
+        "ie_show:true",
+        "ie_gate:true",
+        "ie_bluff:false",
+        "ie_gate:false",
+        "ie_show:false"
+      ]
+    },
+    {
+      "group": "endings",
+      "name": "one shared incident leads to both paths: the incident reaches the archive and the street, and every route out of the hall passes through it",
+      "ok": true
+    },
+    {
+      "group": "endings",
+      "name": "the two paths never reconverge, never return to the hall, and each reaches its own ending",
+      "ok": true,
+      "detail": {
+        "shared": [],
+        "back": [],
+        "ea": [
+          "ie_archive:archive_end"
+        ],
+        "eb": [
+          "ie_street:street_end"
+        ]
+      }
+    },
+    {
+      "group": "endings",
+      "name": "both endings are ordinary authored ends: an end event, view.end, and only BEGIN AGAIN offered",
+      "ok": true
+    },
+    {
+      "group": "endings",
+      "name": "a check outcome can itself be the permanent departure: the gate passes into the archive, fails into the street (and keeps the pass)",
+      "ok": true
+    },
+    {
+      "group": "endings",
+      "name": "negative control: a street path that rejoins the archive is still a valid (braided) story, but is reported as reconverging",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "endings",
+      "name": "rejects: a path that can never reach an ending (the street walks in circles)",
+      "ok": true,
+      "detail": [
+        "unreachable node: ie_street:street_end",
+        "cannot reach an ending from state [\"ie_street\",\"pavement\",null,{\"stamped\":true},[\"ie_pass\"],[],[],[[\"ie_bluff\",true]]]",
+        "cannot reach an ending from state [\"ie_street\",\"pavement\",null,{\"stamped\":true},[],[[\"ie_pass\",[\"used\"]]],[],[[\"ie_bluff\",true],[\"ie_gate\",false]]]"
+      ]
+    },
+    {
+      "group": "endings",
+      "name": "rejects: a fatal marker (fatal / retry is a later contract, owner lock [75]; an authored ending is only end: true)",
+      "ok": true,
+      "detail": [
+        "node ie_street:street_end: unknown field fatal"
+      ]
+    },
+    {
+      "group": "endings",
+      "name": "rejects: a terminal node not marked end (BEGIN AGAIN is only allowed on an authored ending)",
+      "ok": true,
+      "detail": [
+        "node ie_street:street_end choice restart: restart is only allowed on an end node"
+      ]
     }
   ]
 }
