@@ -6,6 +6,9 @@
 // 2. The neutral fixture (qa/fixtures/engine_fixture.js): validation, event order, conditional
 //    effects, kinds, Focus return, chapters, history windows, transcript roles, purity.
 // 3. Mutants: invalid stories the validator must reject.
+// 4-7. S2: checks, saves, the presentation contract, check mutants.
+// 8. S2.1 (docs/80): whole-playthrough NOTES, risk markers in the view, independent endings
+//    (qa/fixtures/endings_fixture.js).
 // Writes qa/story_results.json.
 'use strict';
 
@@ -16,6 +19,7 @@ const ROOT = path.resolve(__dirname, '../..');
 const Rules = require('../js/rules.js');
 const reception = require('../content/reception.js');
 const FIXTURE = require('./fixtures/engine_fixture.js');
+const ENDINGS = require('./fixtures/endings_fixture.js');
 const { lines } = require('./v1_on_v2.js');
 
 const charset = Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping);
@@ -296,7 +300,9 @@ function seedFor(story, script, check, ok) {
   check(G, 'a chapter transition: chapter event, scene event, objective, passage; the opener is cleared',
     same(up.events.map((e) => e.t), ['chapter', 'scene', 'objective', 'text']) && up.events[0].title === 'FIXTURE TWO'
     && up.state.chapter === 'fx_two' && up.state.returnTo === null);
-  check(G, 'history: NOTES is the current chapter only', same(Rules.view(story, up.state).history.notes, [up.state.transcript.length - 1]));
+  check(G, 'history (S2.1, owner lock [76]): NOTES is the whole playthrough, chapter one included; B in chapter two starts again',
+    same(Rules.view(story, up.state).history.notes, up.state.transcript.map((e, i) => i))
+    && same(Rules.view(story, up.state).history.narrative, [up.state.transcript.length - 1]));
   check(G, 'EF-N10: the chapter-two arrival differs by the check outcome and by whether the attendant was asked',
     new Set([
       up.events[3].paras[0][0].text,
@@ -423,8 +429,8 @@ function seedFor(story, script, check, ok) {
   check(G, 'the check event carries id, sides, roll, bonus, need, ok and the exact chance, and comes first in its step',
     ev.t === 'check' && same(Object.keys(ev), ['t', 'id', 'sides', 'roll', 'bonus', 'need', 'ok', 'chance']) && ev.id === 'fx_door' && ev.need === 4);
   const kv = Rules.view(story, play(story, ['examine-keypad']).state);
-  check(G, 'hidden by default: the card shows no odds, die or check data (the view\'s card is only id, kind and text)',
-    same(Object.keys(kv.cards[0]), ['id', 'kind', 'text']) && kv.cards[0].text === 'TRY A CODE');
+  check(G, 'hidden by default: the card shows no odds, die or check data (the view\'s card is only id, kind, text and the S2.1 hasCheck marker)',
+    same(Object.keys(kv.cards[0]), ['id', 'kind', 'text', 'hasCheck']) && kv.cards[0].text === 'TRY A CODE' && kv.cards[0].hasCheck === true);
   const pass = play(story, preps.none, { seed: seedFor(story, preps.none, 'fx_door', true) });
   const fail = play(story, preps.none, { seed: seedFor(story, preps.none, 'fx_door', false) });
   check(G, 'each outcome has its own explicit consequence: pass narrates and leads to the corridor, fail to the side hatch',
@@ -728,6 +734,230 @@ function seedFor(story, script, check, ok) {
   Object.assign(K(certain).check, { fumble: 0, certain: true, mods: [{ if: { item: ['fx_card', 'read'] }, add: 1 }, { if: { flag: 'askedCode' }, add: 2 }] });
   const cv = Rules.validateStory(certain, charset);
   check(G, 'accepts (positive control): the same 100%-capable mods when the check is marked certain', cv.ok, cv.errors);
+}
+
+// ================================================================================================
+// 8. S2.1 owner alignment (docs/80): whole-playthrough NOTES [76], risk markers [74], independent
+//    endings [78]
+// ================================================================================================
+{
+  const G = 'notes';
+  const story = fixture();
+  const route = ['open-drawer', 'read:fx_card', 'examine-keypad', 'try-code', 'crawl', 'use:fx_card', 'go-up', 'finish'];
+  const seed = seedFor(story, route.slice(0, 4), 'fx_door', false);
+  const p = play(story, route, { seed });
+  const all = (s) => s.transcript.map((e, i) => i);
+  const notesAt = (s) => Rules.view(story, s).history.notes;
+  check(G, 'NOTES is the whole transcript at every step of a two-chapter playthrough (focus, B, scene change, chapter change, ending)',
+    p.trail.every((r) => same(notesAt(r.state), all(r.state))));
+  const up = p.trail[7].state;
+  const ch1 = up.transcript.filter((e) => e.chapter === 'fx_one').length;
+  check(G, 'in chapter two, NOTES still indexes every chapter-one paragraph (the opening room, the keypad, the crawl)',
+    ch1 > 5 && notesAt(up).filter((i) => up.transcript[i].chapter === 'fx_one').length === ch1
+    && text(notesAt(up).map((i) => up.transcript[i])).some((x) => /SMALL GREY ROOM/.test(x)) && text(notesAt(up).map((i) => up.transcript[i])).some((x) => /TWELVE KEYS/.test(x)), { ch1 });
+  const v = Rules.view(story, up);
+  check(G, 'the local windows are unchanged: B and dialogue read the current scene only (chapter two), Focus A is empty outside a visit',
+    v.history.narrative.every((i) => up.transcript[i].chapter === 'fx_two') && v.history.narrative.length === 1 && same(v.history.dialogue, []) && same(v.history.focus, []));
+  const crawl = p.trail[5].state;
+  const cv = Rules.view(story, crawl).history;
+  check(G, 'a scene change inside a chapter resets B (room_b only) but not NOTES',
+    cv.narrative.every((i) => crawl.transcript[i].scene === 'fixture/room_b') && same(cv.notes, all(crawl)) && cv.notes.length > cv.narrative.length);
+  const key = p.trail[3].state;
+  check(G, 'inside a Focus A visit: focus is the visit, NOTES is everything so far',
+    same(Rules.view(story, key).history.focus, [key.transcript.length - 1]) && same(notesAt(key), all(key)));
+  // Across a save/restore boundary.
+  const end = p.state;
+  const back = Rules.restore(story, Rules.serialize(story, end));
+  check(G, 'after serialize/restore at the ending, NOTES is identical and still holds chapter one',
+    back.ok && same(Rules.view(story, back.state).history, Rules.view(story, end).history) && notesAt(back.state).some((i) => back.state.transcript[i].chapter === 'fx_one'));
+  const lift = p.trail[6].state;
+  const r1 = Rules.restore(story, Rules.serialize(story, lift));
+  const cont = Rules.step(story, r1.state, { choice: 'go-up' });
+  check(G, 'saved in chapter one, restored, then into chapter two: the same NOTES (and state) as a playthrough never interrupted',
+    r1.ok && same(cont.state, up) && same(notesAt(cont.state), notesAt(up)));
+  const again = Rules.step(story, end, { choice: 'restart' }).state;
+  check(G, 'BEGIN AGAIN starts a new playthrough, so a new NOTES (only the new opening)', same(notesAt(again), [0, 1, 2]) && again.transcript.every((e) => e.chapter === 'fx_one'));
+  // Three chapters (the endings fixture), saved and restored on the far side of the fork.
+  const es = Rules.clone(ENDINGS);
+  const ep = play(es, ['approach', 'wait', 'follow-clerk', 'look-shelf', 'open-file']);
+  const er = Rules.restore(es, Rules.serialize(es, ep.state));
+  const en = Rules.view(es, er.state).history.notes;
+  check(G, 'three chapters: at the archive ending, after a restore, NOTES holds the hall, the desk dialogue and the archive in order',
+    er.ok && same(en, all(er.state)) && same([...new Set(en.map((i) => er.state.transcript[i].chapter))], ['ie_shared', 'ie_archive'])
+    && en.some((i) => er.state.transcript[i].mode === 'dialogue'));
+  // The reception is one chapter: whole playthrough = the old chapter window, so nothing it shows changes.
+  const rs = Rules.fromV1(reception);
+  let ok = true, steps = 0;
+  for (let w = 1; w <= 20; w++) {
+    let s = Rules.begin(rs).state;
+    for (let i = 0; i < 30; i++) {
+      const cs = Rules.view(rs, s).cards.filter((c) => c.id !== 'restart');
+      if (!cs.length) break;
+      s = Rules.step(rs, s, { choice: cs[(w * 7 + i * 3) % cs.length].id }).state;
+      steps++;
+      const h = Rules.view(rs, s).history;
+      if (!same(h.notes, all(s)) || !same(h.dialogue, all(s))) ok = false;
+    }
+  }
+  check(G, 'reception (one chapter, one scene, all dialogue): NOTES and the dialogue window both stay the whole transcript, as before', ok, { steps });
+}
+{
+  const G = 'risk';
+  const story = fixture();
+  const es = Rules.clone(ENDINGS);
+  const cardsOf = (st, s) => Rules.view(st, s).cards.map((c) => [c.id, c.kind, c.hasCheck]);
+  check(G, 'a checked action is marked; an unchecked action beside it is not (the keypad)',
+    same(cardsOf(story, play(story, ['examine-keypad']).state), [['try-code', 'action', true], ['stop', 'action', false]]));
+  const desk = play(es, ['approach']).state;
+  check(G, 'a checked spoken line (a bluff) is marked; an unchecked spoken line and an unchecked action are not (the desk)',
+    same(cardsOf(es, desk), [['bluff', 'spoken', true], ['ask', 'spoken', false], ['wait', 'action', false]]));
+  check(G, 'unchecked spoken and action cards elsewhere are never marked (wake, counter)',
+    cardsOf(story, Rules.begin(story).state).every((c) => c[2] === false) && cardsOf(story, play(story, ['go-counter']).state).every((c) => c[2] === false));
+  const it = (st, s) => Rules.view(st, s).items[0];
+  check(G, 'a checked SHOW: show stays the availability boolean, showHasCheck marks the risk; USE is unavailable and unmarked',
+    same(it(es, desk), { id: 'ie_pass', read: false, show: true, use: false, showHasCheck: true, useHasCheck: false }));
+  const inc = play(es, ['approach', 'wait']).state;
+  check(G, 'a checked USE: use available and useHasCheck; SHOW unavailable in B and unmarked; the plain departures are unmarked',
+    same(it(es, inc), { id: 'ie_pass', read: false, show: false, use: true, showHasCheck: false, useHasCheck: true })
+    && cardsOf(es, inc).every((c) => c[2] === false));
+  const corridor = play(story, ['open-drawer', 'examine-keypad', 'try-code'], { seed: seedFor(story, ['open-drawer', 'examine-keypad', 'try-code'], 'fx_door', true) }).state;
+  check(G, 'an unchecked USE is available and unmarked (the blue card in the corridor)',
+    same(it(story, corridor), { id: 'fx_card', read: true, show: false, use: true, showHasCheck: false, useHasCheck: false }));
+  // Derived only from the authored check: not from kind, not from wording.
+  const kindSwap = fixture();
+  kindSwap.chapters.fx_one.nodes.keypad.choices[0].kind = 'spoken';
+  kindSwap.chapters.fx_one.nodes.keypad.choices[0].text = 'SAY THE CODE ALOUD';
+  const plain = Rules.clone(ENDINGS);
+  const b = plain.chapters.ie_shared.nodes.desk.choices[0];
+  delete b.check; delete b.pass; delete b.fail; b.to = 'incident';
+  check(G, 'the marker follows the check, not kind or words: the keypad as a spoken line is still marked; the same bluff words without a check are not',
+    Rules.view(kindSwap, play(kindSwap, ['examine-keypad']).state).cards[0].hasCheck === true
+    && Rules.view(plain, play(plain, ['approach']).state).cards[0].hasCheck === false && Rules.view(plain, play(plain, ['approach']).state).cards[0].text === 'I AM EXPECTED UPSTAIRS.');
+  const certain = fixture();
+  Object.assign(certain.chapters.fx_one.nodes.keypad.choices[0].check, { fumble: 0, certain: true, mods: [{ if: { item: ['fx_card', 'read'] }, add: 1 }, { if: { flag: 'askedCode' }, add: 2 }] });
+  const sure = play(certain, ['open-drawer', 'read:fx_card', 'go-counter', 'ask-code', 'thanks', 'examine-keypad']).state;
+  check(G, 'a check the player has made certain (100%, marked certain) keeps its marker: the marker never changes with the odds',
+    Rules.step(certain, sure, { choice: 'try-code' }).events[0].chance === 1 && Rules.view(certain, sure).cards[0].hasCheck === true);
+  // Nothing else about the check reaches the view, before or after the roll.
+  const secret = /"(need|sides|fumble|mods|cap|certain|roll|rolls|bonus|chance|seed|checks|check|ok|pass|fail)"|fx_door|ie_bluff|ie_show|ie_gate/;
+  let views = 0, leak = null, shape = true;
+  [[story, ['open-drawer', 'read:fx_card', 'go-counter', 'ask-code', 'thanks', 'examine-keypad', 'try-code']], [es, ['approach', 'show:ie_pass', 'use:ie_pass']], [es, ['approach', 'bluff']]].forEach(([st, sc]) => {
+    for (let sd = 1; sd <= 12; sd++) {
+      play(st, sc, { seed: 'r' + sd }).trail.forEach((r) => {
+        const vw = Rules.view(st, r.state);
+        views++;
+        const j = JSON.stringify(vw);
+        if (secret.test(j) && !leak) leak = j.match(secret)[0];
+        if (!vw.cards.every((c) => same(Object.keys(c), ['id', 'kind', 'text', 'hasCheck']))) shape = false;
+        if (!vw.items.every((x) => same(Object.keys(x), ['id', 'read', 'show', 'use', 'showHasCheck', 'useHasCheck']))) shape = false;
+      });
+    }
+  });
+  check(G, 'no die, target, odds, modifiers, bonus, seed, roll, outcome or check id appears anywhere in the view (both fixtures, both outcomes)', !leak && shape && views > 100, { views, leak });
+  // The reception has no checks: nothing is ever marked.
+  const rs = Rules.fromV1(reception);
+  const v1 = Rules.validateStory(rs, charset);
+  let marked = 0;
+  for (let w = 1; w <= 20; w++) {
+    let s = Rules.begin(rs).state;
+    for (let i = 0; i < 30; i++) {
+      const vw = Rules.view(rs, s);
+      marked += vw.cards.filter((c) => c.hasCheck).length + vw.items.filter((x) => x.showHasCheck || x.useHasCheck).length;
+      const cs = vw.cards.filter((c) => c.id !== 'restart');
+      if (!cs.length) break;
+      s = Rules.step(rs, s, { choice: cs[(w * 5 + i) % cs.length].id }).state;
+    }
+  }
+  check(G, 'the reception (no checks) never marks a card or an item action', v1.ok && v1.stats.checks === 0 && marked === 0, { marked });
+}
+{
+  const G = 'endings';
+  const story = Rules.clone(ENDINGS);
+  const v = Rules.validateStory(story, charset);
+  check(G, 'the validator accepts the independent-endings fixture: every node, choice, SHOW/USE, check outcome and text reachable, an ending reachable from every state',
+    v.ok && v.stats.chapters === 3 && v.stats.endings === 2 && v.stats.endingsReached === 2 && v.stats.checks === 3, { errors: v.errors, stats: v.stats });
+
+  // The position graph (chapter:node), over many seeds so every check goes both ways.
+  function graph(st) {
+    const edges = {};
+    const outcomes = new Set();
+    for (let sd = 1; sd <= 40; sd++) {
+      const queue = [Rules.begin(st, { seed: 's' + sd }).state];
+      while (queue.length) {
+        const s = queue.shift();
+        const vw = Rules.view(st, s);
+        const inputs = vw.cards.filter((c) => c.id !== 'restart').map((c) => ({ choice: c.id }));
+        vw.items.forEach((x) => { if (x.show) inputs.push({ item: x.id, verb: 'show' }); if (x.use) inputs.push({ item: x.id, verb: 'use' }); });
+        inputs.forEach((inp) => {
+          const t = Rules.step(st, s, inp).state;
+          Object.keys(t.checks).forEach((k) => outcomes.add(k + ':' + t.checks[k].ok));
+          (edges[s.chapter + ':' + s.node] = edges[s.chapter + ':' + s.node] || new Set()).add(t.chapter + ':' + t.node);
+          queue.push(t);
+        });
+      }
+    }
+    return { edges, outcomes };
+  }
+  function reach(edges, from) {
+    const seen = new Set([from]);
+    const q = [from];
+    while (q.length) (edges[q.shift()] || new Set()).forEach((n) => { if (!seen.has(n)) { seen.add(n); q.push(n); } });
+    return seen;
+  }
+  const ends = (st) => Object.keys(st.chapters).flatMap((c) => Object.keys(st.chapters[c].nodes).filter((n) => st.chapters[c].nodes[n].end).map((n) => c + ':' + n));
+  // Independent: the two paths share no position, never return to the shared chapter, and each
+  // reaches exactly one ending of its own.
+  function independent(st) {
+    const g = graph(st);
+    const a = reach(g.edges, 'ie_archive:stacks');
+    const b = reach(g.edges, 'ie_street:pavement');
+    const e = ends(st);
+    const shared = [...a].filter((x) => b.has(x));
+    const back = [...a, ...b].filter((x) => x.startsWith('ie_shared:'));
+    const ea = e.filter((x) => a.has(x));
+    const eb = e.filter((x) => b.has(x));
+    return { ok: !shared.length && !back.length && ea.length === 1 && eb.length === 1 && ea[0] !== eb[0], shared, back, ea, eb, g };
+  }
+  const ind = independent(story);
+  check(G, 'every check goes both ways in the exploration (the bluff, the checked SHOW, the checked USE)',
+    ['ie_bluff', 'ie_show', 'ie_gate'].every((k) => ind.g.outcomes.has(k + ':true') && ind.g.outcomes.has(k + ':false')), [...ind.g.outcomes]);
+  check(G, 'one shared incident leads to both paths: the incident reaches the archive and the street, and every route out of the hall passes through it',
+    ['ie_archive:stacks', 'ie_street:pavement'].every((x) => ind.g.edges['ie_shared:incident'].has(x))
+    && Object.keys(ind.g.edges).filter((k) => k.startsWith('ie_shared:') && k !== 'ie_shared:incident').every((k) => [...ind.g.edges[k]].every((t) => t.startsWith('ie_shared:'))));
+  check(G, 'the two paths never reconverge, never return to the hall, and each reaches its own ending',
+    ind.ok && same(ind.ea, ['ie_archive:archive_end']) && same(ind.eb, ['ie_street:street_end']), { shared: ind.shared, back: ind.back, ea: ind.ea, eb: ind.eb });
+  // Each ending is an ordinary authored end: an end event, view.end, BEGIN AGAIN only. No fatal,
+  // no retry, nothing restored.
+  const pa = play(story, ['approach', 'wait', 'follow-clerk', 'open-file']);
+  const pb = play(story, ['approach', 'wait', 'take-exit', 'walk-home']);
+  const endOk = (r) => r.events.slice(-1)[0].t === 'end' && Rules.view(story, r.state).end === true
+    && same(Rules.view(story, r.state).cards, [{ id: 'restart', kind: 'system', text: 'BEGIN AGAIN.', hasCheck: false }]);
+  check(G, 'both endings are ordinary authored ends: an end event, view.end, and only BEGIN AGAIN offered',
+    endOk(pa) && endOk(pb) && pa.state.chapter === 'ie_archive' && pb.state.chapter === 'ie_street');
+  const gate = (ok) => play(story, ['approach', 'wait', 'use:ie_pass'], { seed: seedFor(story, ['approach', 'wait', 'use:ie_pass'], 'ie_gate', ok) });
+  check(G, 'a check outcome can itself be the permanent departure: the gate passes into the archive, fails into the street (and keeps the pass)',
+    gate(true).state.chapter === 'ie_archive' && gate(false).state.chapter === 'ie_street' && !gate(false).state.inventory.includes('ie_pass'));
+  // Negative controls: the detector and the validator are not vacuous.
+  const rejoin = Rules.clone(ENDINGS);
+  rejoin.chapters.ie_street.nodes.pavement.choices.push({ id: 'sneak-back', kind: 'action', text: 'SNEAK BACK IN TO THE ARCHIVE', chapter: 'ie_archive' });
+  const rv = Rules.validateStory(rejoin, charset);
+  check(G, 'negative control: a street path that rejoins the archive is still a valid (braided) story, but is reported as reconverging',
+    rv.ok && !independent(rejoin).ok && independent(rejoin).shared.includes('ie_archive:archive_end'), rv.errors);
+  const loop = Rules.clone(ENDINGS);
+  loop.chapters.ie_street.nodes.pavement.choices[0].to = 'pavement';
+  const lv = Rules.validateStory(loop, charset);
+  check(G, 'rejects: a path that can never reach an ending (the street walks in circles)',
+    !lv.ok && lv.errors.some((e) => /cannot reach an ending/.test(e)) && lv.errors.some((e) => /unreachable node: ie_street:street_end/.test(e)), lv.errors.slice(0, 3));
+  const fatal = Rules.clone(ENDINGS);
+  fatal.chapters.ie_street.nodes.street_end.fatal = true;
+  const fv = Rules.validateStory(fatal, charset);
+  check(G, 'rejects: a fatal marker (fatal / retry is a later contract, owner lock [75]; an authored ending is only end: true)',
+    !fv.ok && fv.errors.some((e) => /unknown field fatal/.test(e)), fv.errors.slice(0, 2));
+  const noEnd = Rules.clone(ENDINGS);
+  delete noEnd.chapters.ie_street.nodes.street_end.end;
+  const nv = Rules.validateStory(noEnd, charset);
+  check(G, 'rejects: a terminal node not marked end (BEGIN AGAIN is only allowed on an authored ending)',
+    !nv.ok && nv.errors.some((e) => /restart is only allowed on an end node/.test(e)), nv.errors.slice(0, 2));
 }
 
 // ================================================================================================

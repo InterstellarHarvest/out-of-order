@@ -462,9 +462,10 @@
   var SOURCES = ['text', 'echo', 'result', 'thought'];
   var ROLES = ['narration', 'speech', 'action', 'direction', 'thought'];
   var DESTINATIONS = ['to', 'back', 'chapter', 'restart'];
-  // Which part of the one transcript each surface shows (docs/72 section 3.6; owner decision O3
-  // may change it, here only).
-  var HISTORY = { dialogue: 'scene', narrative: 'scene', focus: 'visit', notes: 'chapter' };
+  // Which part of the one transcript each surface shows (docs/72 section 3.6). Dialogue and B
+  // read the current scene, Focus A the current visit; NOTES is the whole playthrough (owner lock
+  // [76], S2.1). A restart begins a new playthrough, so it begins a new NOTES too.
+  var HISTORY = { dialogue: 'scene', narrative: 'scene', focus: 'visit', notes: 'all' };
 
   // The reception's art as v2 asset ids. These paths are the ones stage.js registers today
   // (G.RECEPTION_ART); validate_story.js fails if the two ever differ. S3 makes this the only copy.
@@ -803,9 +804,16 @@
       focus: n.mode === 'focus' ? n.focus : null,
       returnTo: state.returnTo,
       end: !!n.end,
-      cards: openChoices(story, state).map(function (c) { return { id: c.id, kind: c.kind, text: cardText(c) }; }),
+      // hasCheck: the outcome depends on a hidden roll (owner lock [74]: a risk marker). It comes
+      // only from the authored check, never from kind or wording, and is the only check data in
+      // the view: no die, odds, target, bonus, seed or roll (a marker that vanished when the bonus
+      // reached 100% would leak odds, so a `certain` check is still marked).
+      cards: openChoices(story, state).map(function (c) { return { id: c.id, kind: c.kind, text: cardText(c), hasCheck: !!c.check }; }),
       items: state.inventory.map(function (id) {
-        return { id: id, read: !!story.items[id].read, show: !!openEntry(story, state, id, 'show'), use: !!openEntry(story, state, id, 'use') };
+        var show = openEntry(story, state, id, 'show');
+        var use = openEntry(story, state, id, 'use');
+        return { id: id, read: !!story.items[id].read, show: !!show, use: !!use,
+          showHasCheck: !!(show && show.check), useHasCheck: !!(use && use.check) };
       }),
       context: ctx ? { id: ctx.id, label: ctx.label, glyph: ctx.glyph, spent: contextUsed(story, state), spentWhy: ctx.spentWhy || null } : null,
       objective: state.objective,
@@ -832,7 +840,7 @@
     while (sceneFrom > chapterFrom && t[sceneFrom - 1].scene === scene) sceneFrom--;
     var visitFrom = t.length;
     if (mode === 'focus') while (visitFrom > 0 && t[visitFrom - 1].mode === 'focus' && t[visitFrom - 1].node === state.node) visitFrom--;
-    var from = { scene: sceneFrom, chapter: chapterFrom, visit: visitFrom };
+    var from = { all: 0, scene: sceneFrom, chapter: chapterFrom, visit: visitFrom };
     var out = {};
     Object.keys(HISTORY).forEach(function (surface) {
       out[surface] = [];
@@ -1594,6 +1602,7 @@
     states[key(first)] = queue[0];
     var used = { choices: {}, entries: {} };
     var restartFrom = [];
+    var endAt = {}; // reachable states standing on an authored ending (end: true), by node
     var backless = {};
     function follow(from, s) {
       var k = key(s);
@@ -1621,6 +1630,7 @@
         backless[where] = true;
         errors.push('a back choice at ' + where + ' is reachable with no opener to return to (enter it from a narrative node, or split the node)');
       }
+      if (n.end) (endAt[where] = endAt[where] || []).push(key(s));
       var avail = openChoices(story, s);
       if (!avail.length) errors.push('dead end: no choice is available at ' + where + ' with state ' + key(s));
       avail.forEach(function (c) {
@@ -1684,9 +1694,11 @@
       if (!Object.keys(seen).some(function (k) { return k.indexOf('item ' + id + ' description[') === 0; })) errors.push('item never held: ' + id);
     });
 
-    // From every reachable state an ending must still be reachable.
+    // From every reachable state an authored ending (a node marked end: true) must still be
+    // reachable. Reaching one is finishing: it does not depend on BEGIN AGAIN, and there is no
+    // fatal / retry outcome in the rules yet (owner lock [75] is a later, separate contract).
     var canFinish = {};
-    restartFrom.forEach(function (k) { canFinish[k] = true; });
+    Object.keys(endAt).forEach(function (w) { endAt[w].forEach(function (k) { canFinish[k] = true; }); });
     var changed = true;
     while (changed) {
       changed = false;
@@ -1707,6 +1719,7 @@
         reachableStates: Object.keys(states).length,
         endings: endings,
         endingStates: restartFrom.length,
+        endingsReached: Object.keys(endAt).length,
         checks: Object.keys(allChecks).length
       }
     };

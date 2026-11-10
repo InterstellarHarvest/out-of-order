@@ -8,6 +8,7 @@
     "reachableStates": 449,
     "endings": 1,
     "endingStates": 96,
+    "endingsReached": 1,
     "checks": 0
   },
   "total": 49,
@@ -29,6 +30,7 @@
         "reachableStates": 449,
         "endings": 1,
         "endingStates": 96,
+        "endingsReached": 1,
         "checks": 0
       }
     },

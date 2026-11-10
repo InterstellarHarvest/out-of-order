@@ -38,7 +38,7 @@ then open <http://localhost:8137/game/index.html>.
 | `js/main.js` | Boot and fit-to-window scaling. `?qa` in the URL exposes QA-only hooks. |
 | `qa/validate_route.js` | Node route/state validation: `node game/qa/validate_route.js` (`--v2`: the same checks on the story-v2 engine) |
 | `qa/validate_story.js` | Node story-v2 validation (docs/74): reception compatibility, the fixture, checks, saves, mutants: `node game/qa/validate_story.js` |
-| `qa/v1_on_v2.js`, `qa/fixtures/engine_fixture.js` | QA only: the v1 API over the v2 engine, and the neutral engine fixture (not canon, never loaded by the game). |
+| `qa/v1_on_v2.js`, `qa/fixtures/engine_fixture.js`, `qa/fixtures/endings_fixture.js` | QA only: the v1 API over the v2 engine, the neutral engine fixture, and the independent-endings fixture (S2.1). Not canon, never loaded by the game. |
 | `qa/run_qa.js` | Playwright browser QA: `NODE_PATH="$(npm root -g)" node game/qa/run_qa.js` |
 | `qa/route_results.json`, `qa/route_results_v2.json`, `qa/story_results.json`, `qa/qa_results.json`, `qa/screenshots/` | Last results and owner-review evidence. |
 
