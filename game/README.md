@@ -21,7 +21,7 @@ then open <http://localhost:8137/game/index.html>.
 - Pick a card by clicking it, or with the arrow keys and Enter. Scroll long choice lists with the wheel or the thumb.
 - Click an item in the inventory (or press Enter / Space on its focused slot) to inspect it. Nothing else opens an item: holding a single item never makes it a target (docs/64). READ, SHOW or USE and a blank button replace the buttons there; the X, Esc or activating the item again closes it.
 - The first utility button in conversation is the **context action**, an optional thing to do in the current situation, defined in content (docs/64). At reception it is OBSERVE (WATCH glyph): it adds a parenthesised, unspoken observation to the history and NOTES, once per encounter, without advancing the conversation.
-- A button whose action is not available here keeps its glyph unlit, does not press, and its tooltip says why.
+- A button whose action is not available here keeps its glyph unlit, does not press, and its tooltip says why: the label as is on the first line, the reason on a second, smaller line (the Labels face at half size; `G.TUNING.tooltip.reasonFace` / `reasonGapY`).
 - Keyboard focus on a choice brings out the brass tab at the card's left edge; the mouse never does.
 - NOTES shows everything said so far; FILES shows your case file. Press the button again or Esc to close.
 
@@ -56,7 +56,7 @@ then open <http://localhost:8137/game/index.html>.
     - the portrait background `art/portraits/receptionist/reception_background.png`, 564×278 at 1×;
     - the receptionist `art/portraits/receptionist/receptionist_idle.png`, 564×278 at 1×.
   - the inspector art (docs/58): `art/items/bathroom_pass_inspect.png`, and the one static X `art/ui/sprites/inspect_close.png` (docs/64; the UP/DOWN pair is retired);
-  - the NOTES/FILES panel `art/ui/overlays/notes_files_panel.png` (docs/60) and the item-received slip `art/ui/overlays/item_received_slip.png` (docs/61).
+  - the NOTES panel `art/ui/overlays/notes_panel_v2.png` (docs/63; production since Round 2, docs/82; the earlier `notes_files_panel.png` stays as the polish lab's v1 option), the FILES panel `art/ui/overlays/files_panel.png` (docs/63) and the item-received slip `art/ui/overlays/item_received_slip.png` (docs/61; 500 ms fade-in since Round 2).
 
   The tooltip box is CSS (docs/61). The only remaining placeholders are development safety paths (`js/placeholders.js`): QA-only slot art, and the inspect-art fallback for an item whose `inspectArt` is null.
 

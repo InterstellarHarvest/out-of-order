@@ -830,6 +830,7 @@
     });
     els.tooltip = el('div', 'tooltip', stage, { id: 'tooltip', role: 'tooltip' });
     els.tooltipText = el('canvas', '', els.tooltip, { 'aria-hidden': 'true' });
+    els.tooltipWhy = el('canvas', '', els.tooltip, { id: 'tooltipWhy', 'aria-hidden': 'true' });
     show(els.tooltip, false);
   }
 
@@ -915,20 +916,47 @@
     else G.hideTooltip(i);
   }
 
+  // The reason line of an unavailable action, in a smaller face (TU.tooltip.reasonFace). Face 1
+  // is the Labels face drawn at exactly half size: every glyph pixel of the 2x face is a 2x2
+  // block on even coordinates, so a nearest-neighbour halving gives the same face at 1x.
+  var REASON_ROLE = { 1: 'labels', 2: 'dialogue', 3: 'objective' };
+  function reasonLabel(canvas, text) {
+    var face = TU.tooltip.reasonFace;
+    var role = REASON_ROLE[face] || 'labels';
+    if (face !== 1) return T.label(canvas, text, 'light', role);
+    var full = document.createElement('canvas');
+    var size = T.label(full, text, 'light', role);
+    canvas.width = Math.ceil(size[0] / 2);
+    canvas.height = Math.ceil(size[1] / 2);
+    var ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(full, 0, 0, canvas.width * 2, canvas.height * 2, 0, 0, canvas.width, canvas.height);
+    return [canvas.width, canvas.height];
+  }
+
+  // The label as is on the first line; an unavailable action's reason on a second, smaller line.
+  // Both lines are centred in the box. `text` (a fixed one-line text) is for the polish lab.
   G.showTooltip = function (i, text) {
     var a = utilityActions()[i];
     if (a.blank) return G.hideTooltip();
-    var label = text || (a.enabled ? a.label : a.label + ' - ' + (a.why || 'NOT AVAILABLE HERE'));
+    var label = text || a.label;
+    var why = (text || a.enabled) ? '' : (a.why || 'NOT AVAILABLE HERE');
     ui.tooltip = { index: i, text: text };
-    var size = T.label(els.tooltipText, label, 'light', 'labels');
-    var comp = L.utility.buttons[i];
     var tt = TU.tooltip;
-    var w = size[0] + 2 * tt.padX;
-    var h = size[1] + 2 * tt.padY;
+    var size = T.label(els.tooltipText, label, 'light', 'labels');
+    var wsize = why ? reasonLabel(els.tooltipWhy, why) : [0, 0];
+    var inner = Math.max(size[0], wsize[0]);
+    var comp = L.utility.buttons[i];
+    var w = inner + 2 * tt.padX;
+    var h = size[1] + (why ? tt.reasonGapY + wsize[1] : 0) + 2 * tt.padY;
     var x = clamp(comp.x + Math.floor((comp.displayWidth - w) / 2) + tt.offsetX, 8, 1920 - 8 - w);
     place(els.tooltip, x, comp.y - h - tt.gapY, w, h);
-    place(els.tooltipText, tt.padX, tt.padY, size[0], size[1]);
-    els.tooltip.dataset.text = label;
+    place(els.tooltipText, tt.padX + Math.floor((inner - size[0]) / 2), tt.padY, size[0], size[1]);
+    if (why) place(els.tooltipWhy, tt.padX + Math.floor((inner - wsize[0]) / 2), tt.padY + size[1] + tt.reasonGapY, wsize[0], wsize[1]);
+    show(els.tooltipWhy, !!why);
+    els.tooltip.dataset.text = why ? label + '\n' + why : label;
+    els.tooltip.dataset.label = label;
+    els.tooltip.dataset.why = why;
     show(els.tooltip, true);
   };
   G.hideTooltip = function (i) {
@@ -1082,7 +1110,8 @@
   G.OVERLAY_ART = {
     notes: { image: 'ui:notes_files_panel', path: 'art/ui/overlays/notes_files_panel.png' },
     files: { image: 'ui:files_panel', path: 'art/ui/overlays/files_panel.png' },
-    // The owner's NOTES v2 candidate (docs/63): loaded only when TU.overlay.notesPanel is 2.
+    // NOTES v2 (docs/63; production since Round 2, docs/82): loaded when TU.overlay.notesPanel is 2,
+    // which is production; the earlier `notes` panel only when it is 1 (the polish lab can pick it).
     notesV2: { image: 'ui:notes_panel_v2', path: 'art/ui/overlays/notes_panel_v2.png' }
   };
   // The OVERLAY_ART key of the panel behind an overlay ('notes' | 'files').

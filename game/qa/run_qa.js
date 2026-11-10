@@ -59,19 +59,19 @@ const PRODUCTION_ART = {
   // Static inspector X (owner ruling 2026-11-07, docs/64): a surgical symmetric correction of the
   // retired inspect_close_up.png (8247d4b6...); inspect_close_up/_down are gone from the runtime.
   'art/ui/sprites/inspect_close.png': 'da492070f0fcd1f7acdf92f5822a73618c29f979997001b16718a52a4d2741d6', // 44x44 RGBA
-  // NOTES/FILES pass (docs/60): the records panel, now behind NOTES only.
+  // NOTES/FILES pass (docs/60): the records panel; since Round 2 (docs/82) only the lab's NOTES v1 option.
   'art/ui/overlays/notes_files_panel.png': 'bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783', // 1255x822 RGB
   // Owner art 2026-11-07 (docs/63): FILES gets its own case-file panel (files_records_background.png).
   'art/ui/overlays/files_panel.png': 'e1107f217c4a5281bd6ecdc731db64e06cb9e3919d8385744d40de7ea3f92baa', // 1255x822 RGB
-  // Owner NOTES v2 candidate (docs/63, notes_files_records_background_v2.png): committed and pinned;
-  // the game loads it only if G.TUNING.overlay.notesPanel is 2 (production: 1). The polish lab toggles it.
+  // NOTES v2 (docs/63, notes_files_records_background_v2.png): production since Round 2 (docs/82,
+  // G.TUNING.overlay.notesPanel: 2). The polish lab can still pick v1.
   'art/ui/overlays/notes_panel_v2.png': '4bc4bf47809fd1e5cc9a9e560fa689a48addf5d6d18a6548ad6da5c3e29c3fa2', // 1255x822 RGB
   // Transient UI pass (docs/61): the item-received slip.
   'art/ui/overlays/item_received_slip.png': '993ecdb6fb11e27b41c0eec07221a3421398458fa1a06d82aae22e8eb423797c' // 560x116 RGBA, hard alpha
 };
-const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES
+const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES v1 (lab option only since Round 2)
 const FILES_PANEL = 'art/ui/overlays/files_panel.png';
-const NOTES_V2 = 'art/ui/overlays/notes_panel_v2.png';
+const NOTES_V2 = 'art/ui/overlays/notes_panel_v2.png'; // NOTES (production since Round 2, docs/82)
 const SLIP_ART = 'art/ui/overlays/item_received_slip.png';
 const NOTICE_RECT = [56, 730, 560, 116]; // owner-approved y 738 -> 730 (docs/62 §12)
 const NOTICE_ITEM = [14, 9]; // the 96x96 slot art inside the slip
@@ -283,9 +283,11 @@ function staticChecks() {
     && /P\.inspectArt = function/.test(ph));
   const panels = [PANEL_ART, FILES_PANEL, NOTES_V2].map((f) => { const im = png(f); return [f, im.width, im.height, im.type]; });
   check(b, 'NOTES, FILES and NOTES v2 panels are each 1255x822 opaque RGB, exactly the scene aperture', panels.every((x) => x[1] === 1255 && x[2] === 822 && x[3] === 2), panels);
-  check(b, 'the FILES panel is its own art, not the NOTES panel', !png(FILES_PANEL).data.equals(png(PANEL_ART).data) && !png(NOTES_V2).data.equals(png(PANEL_ART).data));
+  check(b, 'the FILES panel is its own art, not either NOTES panel', !png(FILES_PANEL).data.equals(png(PANEL_ART).data) && !png(FILES_PANEL).data.equals(png(NOTES_V2).data)
+    && !png(NOTES_V2).data.equals(png(PANEL_ART).data));
   const tuningSrc = fs.readFileSync(path.join(ROOT, 'game/js/tuning.js'), 'utf8');
-  check(b, 'production NOTES panel is v1 (G.TUNING.overlay.notesPanel: 1)', /notesPanel: 1\b/.test(tuningSrc));
+  check(b, 'Round 2: production NOTES panel is v2 (G.TUNING.overlay.notesPanel: 2)', /notesPanel: 2\b/.test(tuningSrc) && !/notesPanel: 1\b/.test(tuningSrc));
+  check(b, 'Round 2: production item slip is y 730, 3600 ms, fade in 500 ms, fade out 220 ms', /notice: \{ x: 56, y: 730, durationMs: 3600, fadeInMs: 500, fadeOutMs: 220,/.test(tuningSrc));
   const stageSrc = fs.readFileSync(path.join(ROOT, 'game/js/stage.js'), 'utf8');
   check(b, 'NOTES/FILES no longer use the P.panel placeholder; P.panel stays for the inspect-art fallback', !/P\.panel\(/.test(stageSrc)
     && /P\.panel = function/.test(ph) && /P\.panel\(canvas/.test(ph));
@@ -483,8 +485,8 @@ async function observeChecks(browser, base, c) {
   await page.mouse.move(600, 400);
   await shot(page, '14_observe_thought_in_history.png');
   await page.hover('#util-0');
-  c('OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE', s1.btn === 'inactive,true'
-    && (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE - NOTHING NEW TO NOTICE', s1.btn);
+  c('OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE (second line)', s1.btn === 'inactive,true'
+    && (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE\nNOTHING NEW TO NOTICE', s1.btn);
   await page.screenshot({ path: path.join(SHOTS, '00m_tooltip_disabled_reason.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
   await page.click('#util-0', { force: true });
   await page.focus('#util-0');
@@ -516,7 +518,8 @@ async function noticeFadeChecks(browser, base, c) {
   const { page, context, errors } = await openGame(browser, base);
   await skipToChoices(page);
   const tun = await game(page, () => window.CYOA_GAME.TUNING.notice);
-  c('slip production values: y 730, fade in 180 ms, fade out 220 ms, total lifecycle 3600 ms', tun.y === 730 && tun.fadeInMs === 180 && tun.fadeOutMs === 220 && tun.durationMs === 3600, tun);
+  c('slip production values (Round 2): y 730, fade in 500 ms, fade out 220 ms, total lifecycle 3600 ms', tun.y === 730 && tun.fadeInMs === 500 && tun.fadeOutMs === 220 && tun.durationMs === 3600, tun);
+  const FI = tun.fadeInMs;
   // record(fn): run fn in the page, then log { t, o, shown, start } every frame until the slip and its queue are gone.
   const record = (setup, ms) => page.evaluate(([src, limit]) => new Promise((res) => {
     const G = window.CYOA_GAME, n = document.getElementById('itemNotice');
@@ -539,13 +542,14 @@ async function noticeFadeChecks(browser, base, c) {
   const L = life.log.filter((x) => x.o !== null);
   const end = life.log.find((x, i) => i > 0 && x.o === null);
   const firstFull = L.find((x) => x.o === 1);
-  const hold = L.filter((x) => x.t >= 230 && x.t <= 3330);
+  const hold = L.filter((x) => x.t >= FI + 50 && x.t <= 3330);
   const out = L.filter((x) => x.t > 3380);
-  const rising = L.filter((x) => x.t < 180), falling = out;
+  const rising = L.filter((x) => x.t < FI), falling = out;
   const mono = (a, dir) => a.every((x, i) => !i || (dir > 0 ? x.o >= a[i - 1].o : x.o <= a[i - 1].o));
   c('slip position: top 730 on the stage', life.top === '730px', life.top);
-  c('fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~180 ms', L[0].o < 0.2 && mono(rising, 1) && firstFull && firstFull.t >= 170 && firstFull.t <= 260,
-    { first: L[0], firstFull });
+  const midRise = L.filter((x) => x.t >= FI * 0.3 && x.t <= FI * 0.7);
+  c('fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~500 ms', L[0].o < 0.2 && mono(rising, 1) && firstFull && firstFull.t >= FI - 10 && firstFull.t <= FI + 80
+    && midRise.length >= 3 && midRise.every((x) => Math.abs(x.o - x.t / FI) < 0.15), { first: L[0], firstFull, midRise: midRise.slice(0, 3) });
   c('hold: exactly opacity 1 from the end of the fade-in to the start of the fade-out', hold.length > 50 && hold.every((x) => x.o === 1), hold.filter((x) => x.o !== 1).slice(0, 3));
   c('fade out: opacity falls below 1 before removal, never rising', falling.length >= 3 && falling.some((x) => x.o > 0 && x.o < 1) && mono(falling, -1), falling.slice(0, 4));
   c('total lifecycle ~3600 ms, then removed', end && end.t >= 3560 && end.t <= 3720, end);
@@ -670,11 +674,13 @@ async function suite(name, base, requests) {
   c('only one close sprite is preloaded and no X UP/DOWN state is ever requested', (await page.evaluate(() => Object.keys(window.CYOA_GAME.INSPECTOR_ART).join()
     + '|' + !window.CYOA_GAME.image('ui:inspect_close_up') + '|' + !window.CYOA_GAME.image('ui:inspect_close_down'))) === 'close|true|true'
     && !requests.some((r) => /inspect_close_(up|down)\.png$/.test(r)), requests.filter((r) => /inspect_close/.test(r)));
-  c('the NOTES and FILES panels are loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() =>
-    ['ui:notes_files_panel', 'ui:files_panel'].every((n) => { const i = window.CYOA_GAME.image(n); return !!(i && i.complete && i.naturalWidth === 1255); })))
-    && bodies[PANEL_ART] === PRODUCTION_ART[PANEL_ART] && bodies[FILES_PANEL] === PRODUCTION_ART[FILES_PANEL], [bodies[PANEL_ART], bodies[FILES_PANEL]]);
-  c('the NOTES v2 candidate is never requested by the production game', !requests.some((r) => /notes_panel_v2\.png$/.test(r))
-    && !(await page.evaluate(() => window.CYOA_GAME.image('ui:notes_panel_v2'))));
+  c('the NOTES (v2) and FILES panels are loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() =>
+    ['ui:notes_panel_v2', 'ui:files_panel'].every((n) => { const i = window.CYOA_GAME.image(n); return !!(i && i.complete && i.naturalWidth === 1255); })))
+    && bodies[NOTES_V2] === PRODUCTION_ART[NOTES_V2] && bodies[FILES_PANEL] === PRODUCTION_ART[FILES_PANEL]
+    && requests.some((r) => /notes_panel_v2\.png$/.test(r)), [bodies[NOTES_V2], bodies[FILES_PANEL]]);
+  c('Round 2: production requests NOTES v2 and never the v1 panel (v1 is not a hidden default)', (await page.evaluate(() => window.CYOA_GAME.overlayPanelKey('notes') + '|' + window.CYOA_GAME.overlayPanelKey('files')))
+    === 'notesV2|files' && !requests.some((r) => /notes_files_panel\.png$/.test(r)) && !(await page.evaluate(() => window.CYOA_GAME.image('ui:notes_files_panel'))),
+    requests.filter((r) => /overlays\//.test(r)));
   c('the production game exposes no live-rebuild caller (G.rebuildStage is the polish lab\'s only)', !/rebuildStage/.test(['flow.js', 'main.js'].map((f) => fs.readFileSync(path.join(ROOT, 'game/js', f), 'utf8')).join('')));
   c('the item-received slip is loaded and decoded before ready, and served as the approved bytes', (await page.evaluate(() => {
     const i = window.CYOA_GAME.image('ui:item_received_slip'); return !!(i && i.complete && i.naturalWidth === 560);
@@ -795,7 +801,7 @@ async function suite(name, base, requests) {
   c('an inactive button keeps its glyph, in the inactive treatment', await page.$eval('#util-0', (b) => b.querySelector('img.glyph').style.display === 'none'
     && b.querySelector('canvas.glyph').style.display !== 'none' && b.querySelector('canvas.glyph').width === 96));
   await page.hover('#util-0');
-  c('the inactive button\'s tooltip says why', (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE - NOT NOW');
+  c('the inactive button\'s tooltip says why (on its second line)', (await page.$eval('#tooltip', (t) => t.dataset.text)) === 'OBSERVE\nNOT NOW');
   await page.mouse.down();
   c('an inactive button does not press', (await page.$eval('#util-0', (b) => b.dataset.state)) === 'up');
   await page.mouse.up();
@@ -1035,17 +1041,44 @@ async function suite(name, base, requests) {
     await page.hover('#util-0');
     const t1 = await tipInfo();
     const overlap = (a, b2) => a[0] < b2[0] + b2[2] && b2[0] < a[0] + a[2] && a[1] < b2[1] + b2[3] && b2[1] < a[1] + a[3];
-    c('the first button\'s tooltip shows on hover (OBSERVE, unlit while she types)', t1.shown && t1.text === 'OBSERVE - NOT NOW', t1.text);
+    c('the first button\'s tooltip shows on hover (OBSERVE, unlit while she types)', t1.shown && t1.text === 'OBSERVE\nNOT NOW', t1.text);
     c('the tooltip stays inside the 1920x1080 stage and never covers its button', t1.r[0] >= 0 && t1.r[1] >= 0 && t1.r[0] + t1.r[2] <= 1920 && t1.r[1] + t1.r[3] <= 1080
       && !overlap(t1.r, t1.br), { r: t1.r, br: t1.br });
     c('tooltip text is the baked Labels face in one light ink; box has no filter, transition or opacity change',
       t1.ch === t1.lh && t1.ink.length === 1 && t1.filter === 'none' && parseFloat(t1.transition) === 0 && t1.opacity === '1', t1);
+    // Owner, 2026-11-08: the label as is on the first line; the reason on a second, smaller line.
+    const two = await page.evaluate(() => {
+      const G = window.CYOA_GAME, t = document.getElementById('tooltip'), [a, b] = t.querySelectorAll('canvas');
+      const px = (e) => [parseInt(e.style.left), parseInt(e.style.top), parseInt(e.style.width), parseInt(e.style.height)];
+      const ra = px(a), rb = px(b), box = px(t), tt = G.TUNING.tooltip;
+      // Reason face 1: the Labels face at exactly half size (every 2x2 block of the 2x face is one pixel).
+      const full = document.createElement('canvas');
+      const size = G.text.label(full, t.dataset.why, 'light', 'labels');
+      const fd = full.getContext('2d').getImageData(0, 0, size[0], size[1]).data, bd = b.getContext('2d').getImageData(0, 0, b.width, b.height).data;
+      let diff = 0;
+      for (let y = 0; y < b.height; y++) for (let x = 0; x < b.width; x++) {
+        const k = (y * b.width + x) * 4, j = ((2 * y) * size[0] + 2 * x) * 4;
+        for (let q = 0; q < 4; q++) if (bd[k + q] !== fd[j + q]) { diff++; break; }
+      }
+      const ink = new Set();
+      for (let i = 0; i < bd.length; i += 4) if (bd[i + 3]) ink.add([bd[i], bd[i + 1], bd[i + 2], bd[i + 3]].join());
+      return { label: t.dataset.label, why: t.dataset.why, shown: b.style.display !== 'none', ra, rb, box, face: tt.reasonFace, gap: tt.reasonGapY, padY: tt.padY,
+        half: b.width === size[0] / 2 && b.height === size[1] / 2 && diff === 0, diff, ink: ink.size,
+        below: rb[1] === ra[1] + ra[3] + tt.reasonGapY, inside: [ra, rb].every((r) => r[0] >= 0 && r[1] >= 0 && r[0] + r[2] <= box[2] && r[1] + r[3] <= box[3] - tt.padY + 1),
+        centred: Math.abs((ra[0] + ra[2] / 2) - (rb[0] + rb[2] / 2)) <= 1 };
+    });
+    c('an unavailable action\'s tooltip: the label as is, then the reason below it in the Labels face at half size (production reasonFace 1), centred, inside the box',
+      two.label === 'OBSERVE' && two.why === 'NOT NOW' && two.shown && two.face === 1 && two.half && two.ink === 1 && two.below && two.inside && two.centred, two);
+    await page.mouse.move(600, 400);
+    await page.hover('#util-1');
+    const one = await page.evaluate(() => { const t = document.getElementById('tooltip'); return [t.dataset.text, t.dataset.why, t.querySelectorAll('canvas')[1].style.display].join('|'); });
+    c('an available action\'s tooltip is its label alone (no reason line)', one === 'NOTES||none', one);
     await page.mouse.move(600, 400);
     c('the tooltip disappears when the pointer leaves', (await page.$eval('#tooltip', (t) => t.style.display)) === 'none');
     await page.focus('#util-0');
     const tf = await tipInfo();
     await page.evaluate(() => document.activeElement.blur());
-    c('keyboard focus shows the tooltip, and losing focus hides it', tf.shown && tf.text === 'OBSERVE - NOT NOW' && (await page.$eval('#tooltip', (t) => t.style.display)) === 'none', tf.text);
+    c('keyboard focus shows the tooltip, and losing focus hides it', tf.shown && tf.text === 'OBSERVE\nNOT NOW' && (await page.$eval('#tooltip', (t) => t.style.display)) === 'none', tf.text);
   }
   await page.click('#invWindow .slot[data-item="wc_key"]');
   c('the inventory is ignored while the NPC is typing', !(await game(page, () => window.CYOA_GAME.ui.inspector)));
@@ -1162,7 +1195,7 @@ async function suite(name, base, requests) {
       && portraitStill / clear < 0.01, { order, portraitStill, clear });
   }
   await page.hover('#util-1');
-  c('a disabled button explains itself in its tooltip', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW - NOT AVAILABLE HERE');
+  c('a disabled button explains itself in its tooltip (label, then the reason on a second line)', (await page.$eval('#tooltip', (t) => t.style.display !== 'none' && t.dataset.text)) === 'SHOW\nNOT AVAILABLE HERE');
   await page.screenshot({ path: path.join(SHOTS, '00n_tooltip_inspector_show_disabled.png'), clip: { x: 1000, y: 700, width: 920, height: 380 } });
   await page.click('#util-1', { force: true }); // aria-disabled: Playwright would otherwise refuse
   c('pressing the disabled button does not press', (await page.$eval('#util-1', (b) => b.dataset.state)) === 'up');
@@ -1255,7 +1288,7 @@ async function suite(name, base, requests) {
   c('an unclicked slip dismisses itself after about 3.6 s', timed.shown && timed.ms >= 3500 && timed.ms < 4500, timed);
 
   // Pixels: where the text canvas is empty and the shell is clear, the screen is the overlay's own
-  // panel file, 1:1 (NOTES: notes_files_panel.png, FILES: files_panel.png).
+  // panel file, 1:1 (NOTES: notes_panel_v2.png since Round 2, FILES: files_panel.png).
   async function panelPixels(label, art, plate) {
     const S = measured.sceneAperture.rect;
     c(label + ' shows its own panel image', (await page.$eval('#overlayPanel', (e) => e.dataset.art)) === art, art);
@@ -1317,7 +1350,7 @@ async function suite(name, base, requests) {
       && g.st[0] === 'none' && /pixelated|crisp-edges/.test(g.st[1]) && g.st[2] === '1' && g.st[3] === 'none' && parseFloat(g.st[4]) === 0 && g.anc.length === 0, g);
     c('the NOTES title sits on the panel, fixed outside the scrolled body', g.title === 'NOTES: EVERYTHING SAID AT RECEPTION'
       && notesText.split('\n')[0] === g.title, g.title);
-    await panelPixels('NOTES', PANEL_ART);
+    await panelPixels('NOTES', NOTES_V2);
   }
   await page.mouse.move(600, 400);
   for (let i = 0; i < 40; i++) await page.mouse.wheel(0, -100);

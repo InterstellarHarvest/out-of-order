@@ -22,7 +22,7 @@ It needs the server, because it uses frames on the same origin. A window at leas
 2. Adjust values in **Tunable values**:
    - each row shows its production value;
    - edit a row with **−/+** (1 px or 1 ms), the number box or the slider; every change shows live;
-   - **NOTES background** (NOTES / FILES section) switches the NOTES panel between v1 and the owner's v2 candidate;
+   - **NOTES background** (NOTES / FILES section) switches the NOTES panel between v2 (production since Round 2, docs/82) and the earlier v1;
    - **reset** returns one value to production; changed rows are highlighted.
 3. Flip **PRODUCTION / LAB** (keys **P**, **L**, or **Space**) to compare.
 4. Use the **Stage / inspection aids** as needed:
@@ -36,6 +36,10 @@ It needs the server, because it uses frames on the same origin. A window at leas
 7. **COPY CHANGES JSON** and send the result back. **COPY ALL VALUES JSON** exports every tunable. **IMPORT JSON** loads an export after validating it.
 
 **Resets:** **RESET ALL TO PRODUCTION**, **Reset section**, and the per-row **reset**.
+
+**Tooltip reason line:** an action that is not available keeps its label as is on the first line; the reason (NOT NOW, NOT AVAILABLE HERE...) is on a second, smaller line. **Tooltip → Reason line face** compares the Labels face at half size (production) with the Dialogue and Objective faces; **Gap between label and reason** sets the spacing.
+
+**Round 2 (docs/82):** the item slip's 500 ms fade-in and NOTES background v2 are now **production** values, so a fresh lab opens on them with no LAB change.
 
 **Storage:** lab values are saved in this page's `localStorage` (`cyoa-m2-reception-polish-lab-v1`); the lab's own UI state is kept apart under `cyoa-m2-reception-polish-lab-ui-v1`, is never exported, and RESET leaves it alone. The game never reads either.
 

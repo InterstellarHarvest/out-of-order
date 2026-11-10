@@ -106,6 +106,12 @@
       read: function (G) { return tun(G).tooltip.padX; }, write: function (G, v) { tun(G).tooltip.padX = v; } },
     { key: 'tooltip.padY', s: 'tooltip', label: 'Vertical padding', unit: 'px', src: 'G.TUNING.tooltip.padY', range: [2, 20], rel: false,
       read: function (G) { return tun(G).tooltip.padY; }, write: function (G, v) { tun(G).tooltip.padY = v; } },
+    // An unavailable action: its reason on a second, smaller line (owner, 2026-11-08).
+    { key: 'tooltip.reasonFace', s: 'tooltip', label: 'Reason line face (second line)', unit: '', src: 'G.TUNING.tooltip.reasonFace', range: [1, 3], rel: false,
+      options: { 1: 'Labels face at half size', 2: 'Dialogue face (Jersey 15)', 3: 'Objective face (Tiny5)' },
+      read: function (G) { return tun(G).tooltip.reasonFace; }, write: function (G, v) { tun(G).tooltip.reasonFace = v; } },
+    { key: 'tooltip.reasonGapY', s: 'tooltip', label: 'Gap between label and reason', unit: 'px', src: 'G.TUNING.tooltip.reasonGapY', range: [0, 20], rel: false,
+      read: function (G) { return tun(G).tooltip.reasonGapY; }, write: function (G, v) { tun(G).tooltip.reasonGapY = v; } },
 
     // Item-received slip (560x116 art at 1x; generic for any item).
     { key: 'notice.x', s: 'notice', label: 'Slip X', unit: 'px', src: 'G.TUNING.notice.x', range: [-60, 60], rel: true,
@@ -166,7 +172,7 @@
       read: function (G) { return tun(G).overlay.lineHeight; }, write: function (G, v) { tun(G).overlay.lineHeight = v; } },
     // An art choice, not a measurement: which NOTES panel to show (FILES always has its own).
     { key: 'overlay.notesPanel', s: 'overlay', label: 'NOTES background', unit: '', src: 'G.TUNING.overlay.notesPanel', range: [1, 2], rel: false,
-      options: { 1: 'v1: notes_files_panel.png', 2: 'v2: notes_panel_v2.png (new)' },
+      options: { 1: 'v1: notes_files_panel.png (earlier)', 2: 'v2: notes_panel_v2.png (production, Round 2)' },
       read: function (G) { return tun(G).overlay.notesPanel; }, write: function (G, v) { tun(G).overlay.notesPanel = v; } },
 
     // Objective text (the frame and plate are locked).

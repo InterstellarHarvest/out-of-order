@@ -107,6 +107,11 @@ async function suite(name, base) {
     for (const s of states) {
       await lab((x) => window.POLISH_LAB.setState(x), s);
       await page.waitForTimeout(400); // let the production CSS transitions (speech indicator, 0.15 s) settle
+      // Round 2 (docs/82): the slip's production fade-in is 500 ms, longer than that wait; compare a
+      // slip in its hold (opacity exactly 1 in both frames), never mid-fade.
+      await lab(() => new Promise((r) => { const t0 = performance.now(); (function p() {
+        const ok = ['frameProduction', 'frameLab'].every((id) => { const G = document.getElementById(id).contentWindow.CYOA_GAME; return !G.ui.notice || G.noticeOpacity() === 1; });
+        if (ok || performance.now() - t0 > 2000) r(); else setTimeout(p, 20); })(); }));
       await freezeBoth(true);
       await both('production');
       const a = await page.screenshot({ clip: await wrap() });
@@ -146,8 +151,8 @@ async function suite(name, base) {
     await lab((x) => window.POLISH_LAB.setState(x), s);
     tips[s] = await lab(() => { const t = document.getElementById('frameLab').contentWindow.document.getElementById('tooltip'); return t.style.display !== 'none' && t.dataset.text; });
   }
-  c('tooltip states show OBSERVE / OBSERVE - NOTHING NEW TO NOTICE / READ / SHOW - NOT AVAILABLE HERE',
-    JSON.stringify(tips) === JSON.stringify({ 'tooltip-enabled': 'OBSERVE', 'tooltip-disabled': 'OBSERVE - NOTHING NEW TO NOTICE', 'tooltip-read': 'READ', 'tooltip-show': 'SHOW - NOT AVAILABLE HERE' }), tips);
+  c('tooltip states show OBSERVE / OBSERVE + NOTHING NEW TO NOTICE / READ / SHOW + NOT AVAILABLE HERE (the reason on its own line)',
+    JSON.stringify(tips) === JSON.stringify({ 'tooltip-enabled': 'OBSERVE', 'tooltip-disabled': 'OBSERVE\nNOTHING NEW TO NOTICE', 'tooltip-read': 'READ', 'tooltip-show': 'SHOW\nNOT AVAILABLE HERE' }), tips);
   await lab(() => window.POLISH_LAB.setState('choices-1-2-3'));
   const lines = await lab(() => { const G = document.getElementById('frameLab').contentWindow.CYOA_GAME; return G.ui.cards.map((k) => k.lines); });
   c('choice samples show a 1-, 2- and 3-line card (display only)', JSON.stringify(lines) === '[1,2,3]' && (await lab(() => document.getElementById('frameLab').contentWindow.CYOA_GAME.flow.phase)) === 'lab-sample', lines);
@@ -199,23 +204,26 @@ async function suite(name, base) {
   const ov1 = await labWin((w, d) => { const cv = d.getElementById('overlayCanvas'); return [w.CYOA_GAME.ui.overlay, cv.dataset.text, cv.dataset.scroll, d.getElementById('overlayPanel').dataset.art].join('|'); });
   c('a live change keeps the state on show (NOTES stays open on the same lines and scroll)', ov0 === ov1 && /^notes\|/.test(ov1) && (await labWin((w) => w.location.href)) === href0, [ov0.slice(0, 60), ov1.slice(0, 60)]);
 
-  // NOTES background v1 / v2: a lab choice, live, exported like any value; FILES has its own panel.
+  // NOTES background v1 / v2 (Round 2, docs/82: v2 is production): a lab choice, live, exported like any
+  // value; FILES has its own panel.
   const art = (id) => lab((f) => document.getElementById(f).contentWindow.document.getElementById('overlayPanel').dataset.art, id);
-  c('NOTES shows the v1 panel in both frames by default', (await art('frameProduction')) === 'art/ui/overlays/notes_files_panel.png'
-    && /notes_files_panel\.png$/.test(ov1.split('|')[3]), [await art('frameProduction'), ov1.split('|')[3]]);
-  await lab(() => window.POLISH_LAB.setValue('overlay.notesPanel', 2));
+  c('Round 2: NOTES shows the v2 panel in both frames by default (production notesPanel 2, no lab change needed)', (await art('frameProduction')) === 'art/ui/overlays/notes_panel_v2.png'
+    && /notes_panel_v2\.png$/.test(ov1.split('|')[3]) && (await lab(() => window.POLISH_LAB.production()['overlay.notesPanel'])) === 2
+    && !('overlay.notesPanel' in (await lab(() => window.POLISH_LAB.changes()))), [await art('frameProduction'), ov1.split('|')[3]]);
+  await lab(() => window.POLISH_LAB.setValue('overlay.notesPanel', 1));
   await ready();
-  c('NOTES background v2 switches live in the lab frame only', (await art('frameLab')) === 'art/ui/overlays/notes_panel_v2.png'
-    && (await art('frameProduction')) === 'art/ui/overlays/notes_files_panel.png' && (await labWin((w) => w.location.href)) === href0, [await art('frameLab'), await art('frameProduction')]);
-  c('the NOTES background choice is exported with the changes', JSON.parse(await lab(() => window.POLISH_LAB.exportChanges())).changes['overlay.notesPanel'] === 2);
+  c('NOTES background v1 can still be picked live in the lab frame only', (await art('frameLab')) === 'art/ui/overlays/notes_files_panel.png'
+    && (await art('frameProduction')) === 'art/ui/overlays/notes_panel_v2.png' && (await labWin((w) => w.location.href)) === href0, [await art('frameLab'), await art('frameProduction')]);
+  c('the NOTES background choice is exported with the changes', JSON.parse(await lab(() => window.POLISH_LAB.exportChanges())).changes['overlay.notesPanel'] === 1);
   await lab(() => window.POLISH_LAB.setState('files'));
   c('FILES shows its own panel (files_panel.png) in both frames, whatever the NOTES choice', (await art('frameLab')) === 'art/ui/overlays/files_panel.png'
     && (await art('frameProduction')) === 'art/ui/overlays/files_panel.png', [await art('frameLab'), await art('frameProduction')]);
-  c('the lab frame shows the v2 panel 1:1 (served bytes are the committed candidate)', bodies['art/ui/overlays/notes_panel_v2.png'] === sha256(fs.readFileSync(path.join(ROOT, 'art/ui/overlays/notes_panel_v2.png'))));
+  c('both NOTES panels are served as their committed bytes (v2 production, v1 the lab option)', bodies['art/ui/overlays/notes_panel_v2.png'] === sha256(fs.readFileSync(path.join(ROOT, 'art/ui/overlays/notes_panel_v2.png')))
+    && bodies['art/ui/overlays/notes_files_panel.png'] === sha256(fs.readFileSync(path.join(ROOT, 'art/ui/overlays/notes_files_panel.png'))));
   await lab(() => window.POLISH_LAB.resetAll());
   await ready();
   await lab(() => window.POLISH_LAB.setState('notes'));
-  c('reset returns NOTES to v1 live', (await art('frameLab')) === 'art/ui/overlays/notes_files_panel.png' && (await labWin((w) => w.location.href)) === href0);
+  c('reset returns NOTES to production v2 live', (await art('frameLab')) === 'art/ui/overlays/notes_panel_v2.png' && (await labWin((w) => w.location.href)) === href0);
   const abLive = await abCompare(['long-history', 'item-received', 'inspector-after-read', 'notes', 'files']);
   c('after live changes and a reset, PRODUCTION and LAB are pixel-identical again (same frame, never reloaded)', abLive.length === 0
     && (await labWin((w) => w.location.href)) === href0, abLive);
@@ -298,6 +306,17 @@ async function suite(name, base) {
   await page.mouse.move(box.x + 600, box.y + 400);
   await lab(() => window.POLISH_LAB.resetAll());
   await ready();
+  // The tooltip's reason line (owner, 2026-11-08): its face and gap are lab values, live, LAB frame only.
+  await lab(() => window.POLISH_LAB.setState('tooltip-disabled'));
+  const why = (id) => lab((f) => { const t = document.getElementById(f).contentWindow.document.getElementById('tooltip'); const b = t.querySelectorAll('canvas')[1]; return [b.height, parseInt(b.style.top), parseInt(t.style.height)].join(); }, id);
+  const why0 = await why('frameLab');
+  await lab(() => { window.POLISH_LAB.setValue('tooltip.reasonFace', 2); window.POLISH_LAB.setValue('tooltip.reasonGapY', 8); });
+  await ready();
+  const why2 = [await why('frameLab'), await why('frameProduction')];
+  c('tooltip reason line: production is the Labels face at half size (9 px rows) 5 px below the label; the lab can switch it live to the Dialogue face and another gap (LAB frame only)',
+    why0 === '9,30,46' && why2[0] === '21,33,61' && why2[1] === '9,30,46', { why0, why2 });
+  await lab(() => window.POLISH_LAB.resetAll());
+  await ready();
   if (name === 'chromium') await page.screenshot({ path: path.join(SHOTS, 'lab_overview.png') });
 
   // TRIGGER EVENTS (docs/64): LAB frame only, repeatable, no value or export change ----------------
@@ -354,20 +373,21 @@ async function suite(name, base) {
 
   // Item-received slip: production Y / fades as the lab defaults; fade tunables live in the LAB frame only.
   const pn = await lab(() => { const p = window.POLISH_LAB.production(); return [p['notice.y'], p['notice.fadeInMs'], p['notice.fadeOutMs'], p['notice.durationMs']].join(); });
-  c('the lab opens with the production slip values: y 730, fade in 180, fade out 220, lifecycle 3600', pn === '730,180,220,3600', pn);
+  c('Round 2: the lab opens with the production slip values: y 730, fade in 500, fade out 220, lifecycle 3600 (production, not a lab change)', pn === '730,500,220,3600'
+    && !Object.keys(await lab(() => window.POLISH_LAB.changes())).some((k) => /^notice\./.test(k)), pn);
   await lab(() => window.POLISH_LAB.setState('three-choices'));
-  await lab(() => { window.POLISH_LAB.setValue('notice.fadeInMs', 500); window.POLISH_LAB.setValue('notice.fadeOutMs', 400); });
+  await lab(() => { window.POLISH_LAB.setValue('notice.fadeInMs', 600); window.POLISH_LAB.setValue('notice.fadeOutMs', 400); });
   await ready();
   const fadeVals = await lab(() => ['frameLab', 'frameProduction'].map((id) => { const n = document.getElementById(id).contentWindow.CYOA_GAME.TUNING.notice; return n.fadeInMs + '/' + n.fadeOutMs; }).join());
   const hrefF = await labWin((w) => w.location.href);
-  c('fade sliders apply live to the LAB frame only (production keeps 180/220, no reload)', fadeVals === '500/400,180/220' && hrefF === href0, fadeVals);
+  c('fade sliders apply live to the LAB frame only (production keeps 500/220, no reload)', fadeVals === '600/400,500/220' && hrefF === href0, fadeVals);
   await labG((w, G) => { G.clearNotices(); });
   await lab(() => window.POLISH_LAB.trigger('item-received'));
   const trig = await lab(() => new Promise((r) => { const w = document.getElementById('frameLab').contentWindow; const G = w.CYOA_GAME;
     setTimeout(() => r([G.ui.notice && G.ui.notice.fadeIn, G.ui.notice && G.ui.notice.fadeOut, G.noticeOpacity(), w.document.getElementById('itemNotice').style.top].join()), 250); }));
   const tparts = trig.split(',');
-  c('ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730', tparts[0] === '500' && tparts[1] === '400' && Number(tparts[2]) > 0.3 && Number(tparts[2]) < 0.7 && tparts[3] === '730px', trig);
-  c('COPY CHANGES carries the changed fade values', /"notice.fadeInMs": 500/.test(await lab(() => window.POLISH_LAB.exportChanges())) && /"notice.fadeOutMs": 400/.test(await lab(() => window.POLISH_LAB.exportChanges())));
+  c('ITEM RECEIVED uses the current LAB fade values (600 ms fade-in still rising at 250 ms) at y 730', tparts[0] === '600' && tparts[1] === '400' && Number(tparts[2]) > 0.3 && Number(tparts[2]) < 0.7 && tparts[3] === '730px', trig);
+  c('COPY CHANGES carries the changed fade values', /"notice.fadeInMs": 600/.test(await lab(() => window.POLISH_LAB.exportChanges())) && /"notice.fadeOutMs": 400/.test(await lab(() => window.POLISH_LAB.exportChanges())));
   await lab(() => { window.POLISH_LAB.setValue('notice.durationMs', 1000); window.POLISH_LAB.setValue('notice.fadeInMs', 600); window.POLISH_LAB.setValue('notice.fadeOutMs', 600); });
   const clamped = await lab(() => { const ch = window.POLISH_LAB.values(); return [ch['notice.durationMs'], ch['notice.fadeInMs'], ch['notice.fadeOutMs']].join(); });
   c('the lab keeps fade-in + fade-out within the lifecycle (clamped, never a negative hold)', clamped === '1000,600,400', clamped);
