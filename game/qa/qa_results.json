@@ -7,21 +7,21 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 520,
-  "passed": 520,
+  "total": 525,
+  "passed": 525,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 42,
-      "passed": 42
+      "total": 43,
+      "passed": 43
     },
     "chromium": {
-      "total": 239,
-      "passed": 239
+      "total": 241,
+      "passed": 241
     },
     "firefox": {
-      "total": 239,
-      "passed": 239
+      "total": 241,
+      "passed": 241
     }
   },
   "failures": [],
@@ -256,12 +256,17 @@
     },
     {
       "browser": "static",
-      "name": "the FILES panel is its own art, not the NOTES panel",
+      "name": "the FILES panel is its own art, not either NOTES panel",
       "ok": true
     },
     {
       "browser": "static",
-      "name": "production NOTES panel is v1 (G.TUNING.overlay.notesPanel: 1)",
+      "name": "Round 2: production NOTES panel is v2 (G.TUNING.overlay.notesPanel: 2)",
+      "ok": true
+    },
+    {
+      "browser": "static",
+      "name": "Round 2: production item slip is y 730, 3600 ms, fade in 500 ms, fade out 220 ms",
       "ok": true
     },
     {
@@ -436,17 +441,22 @@
     },
     {
       "browser": "chromium",
-      "name": "the NOTES and FILES panels are loaded and decoded before ready, and served as the approved bytes",
+      "name": "the NOTES (v2) and FILES panels are loaded and decoded before ready, and served as the approved bytes",
       "ok": true,
       "detail": [
-        "bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783",
+        "4bc4bf47809fd1e5cc9a9e560fa689a48addf5d6d18a6548ad6da5c3e29c3fa2",
         "e1107f217c4a5281bd6ecdc731db64e06cb9e3919d8385744d40de7ea3f92baa"
       ]
     },
     {
       "browser": "chromium",
-      "name": "the NOTES v2 candidate is never requested by the production game",
-      "ok": true
+      "name": "Round 2: production requests NOTES v2 and never the v1 panel (v1 is not a hidden default)",
+      "ok": true,
+      "detail": [
+        "/art/ui/overlays/item_received_slip.png",
+        "/art/ui/overlays/notes_panel_v2.png",
+        "/art/ui/overlays/files_panel.png"
+      ]
     },
     {
       "browser": "chromium",
@@ -1478,7 +1488,7 @@
     },
     {
       "browser": "chromium",
-      "name": "the inactive button's tooltip says why",
+      "name": "the inactive button's tooltip says why (on its second line)",
       "ok": true
     },
     {
@@ -1507,8 +1517,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 106,
-        "r1": 118
+        "r0": 96,
+        "r1": 108
       }
     },
     {
@@ -1526,7 +1536,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217
+      "detail": 218.79999995231628
     },
     {
       "browser": "chromium",
@@ -1621,9 +1631,9 @@
         -6,
         -8,
         -12,
-        -18,
+        -16,
         -22,
-        -30,
+        -28,
         -36,
         -44,
         -52,
@@ -1675,7 +1685,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418.7000000476837
+      "detail": 420.7999999523163
     },
     {
       "browser": "chromium",
@@ -1691,7 +1701,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 947.3000001907349
+      "detail": 948.2999999523163
     },
     {
       "browser": "chromium",
@@ -1951,7 +1961,7 @@
       "browser": "chromium",
       "name": "the first button's tooltip shows on hover (OBSERVE, unlit while she types)",
       "ok": true,
-      "detail": "OBSERVE - NOT NOW"
+      "detail": "OBSERVE\nNOT NOW"
     },
     {
       "browser": "chromium",
@@ -1959,10 +1969,10 @@
       "ok": true,
       "detail": {
         "r": [
-          1403,
-          894,
-          292,
-          32
+          1483,
+          880,
+          132,
+          46
         ],
         "br": [
           1482,
@@ -1978,12 +1988,12 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "text": "OBSERVE - NOT NOW",
+        "text": "OBSERVE\nNOT NOW",
         "r": [
-          1403,
-          894,
-          292,
-          32
+          1483,
+          880,
+          132,
+          46
         ],
         "br": [
           1482,
@@ -2003,6 +2013,49 @@
     },
     {
       "browser": "chromium",
+      "name": "an unavailable action's tooltip: the label as is, then the reason below it in the Labels face at half size (production reasonFace 1), centred, inside the box",
+      "ok": true,
+      "detail": {
+        "label": "OBSERVE",
+        "why": "NOT NOW",
+        "shown": true,
+        "ra": [
+          10,
+          7,
+          112,
+          18
+        ],
+        "rb": [
+          38,
+          30,
+          56,
+          9
+        ],
+        "box": [
+          1483,
+          880,
+          132,
+          46
+        ],
+        "face": 1,
+        "gap": 5,
+        "padY": 7,
+        "half": true,
+        "diff": 0,
+        "ink": 1,
+        "below": true,
+        "inside": true,
+        "centred": true
+      }
+    },
+    {
+      "browser": "chromium",
+      "name": "an available action's tooltip is its label alone (no reason line)",
+      "ok": true,
+      "detail": "NOTES||none"
+    },
+    {
+      "browser": "chromium",
       "name": "the tooltip disappears when the pointer leaves",
       "ok": true
     },
@@ -2010,7 +2063,7 @@
       "browser": "chromium",
       "name": "keyboard focus shows the tooltip, and losing focus hides it",
       "ok": true,
-      "detail": "OBSERVE - NOT NOW"
+      "detail": "OBSERVE\nNOT NOW"
     },
     {
       "browser": "chromium",
@@ -2222,7 +2275,7 @@
     },
     {
       "browser": "chromium",
-      "name": "a disabled button explains itself in its tooltip",
+      "name": "a disabled button explains itself in its tooltip (label, then the reason on a second line)",
       "ok": true
     },
     {
@@ -2358,7 +2411,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3605
+        "ms": 3608
       }
     },
     {
@@ -2446,16 +2499,16 @@
       "browser": "chromium",
       "name": "NOTES shows its own panel image",
       "ok": true,
-      "detail": "art/ui/overlays/notes_files_panel.png"
+      "detail": "art/ui/overlays/notes_panel_v2.png"
     },
     {
       "browser": "chromium",
       "name": "NOTES: every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1",
       "ok": true,
       "detail": {
-        "checked": 919906,
+        "checked": 919905,
         "bad": 0,
-        "textPx": 77111,
+        "textPx": 77112,
         "first": null
       }
     },
@@ -2963,7 +3016,7 @@
     },
     {
       "browser": "chromium",
-      "name": "OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE",
+      "name": "OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE (second line)",
       "ok": true,
       "detail": "inactive,true"
     },
@@ -3032,13 +3085,13 @@
     },
     {
       "browser": "chromium",
-      "name": "slip production values: y 730, fade in 180 ms, fade out 220 ms, total lifecycle 3600 ms",
+      "name": "slip production values (Round 2): y 730, fade in 500 ms, fade out 220 ms, total lifecycle 3600 ms",
       "ok": true,
       "detail": {
         "x": 56,
         "y": 730,
         "durationMs": 3600,
-        "fadeInMs": 180,
+        "fadeInMs": 500,
         "fadeOutMs": 220,
         "itemX": 14,
         "itemY": 9,
@@ -3056,7 +3109,7 @@
     },
     {
       "browser": "chromium",
-      "name": "fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~180 ms",
+      "name": "fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~500 ms",
       "ok": true,
       "detail": {
         "first": {
@@ -3066,11 +3119,31 @@
           "css": "0s,none,none"
         },
         "firstFull": {
-          "t": 195,
+          "t": 512,
           "o": 1,
           "start": 0,
           "css": "0s,none,none"
-        }
+        },
+        "midRise": [
+          {
+            "t": 161,
+            "o": 0.321,
+            "start": 0,
+            "css": "0s,none,none"
+          },
+          {
+            "t": 178,
+            "o": 0.3546,
+            "start": 0,
+            "css": "0s,none,none"
+          },
+          {
+            "t": 195,
+            "o": 0.3878,
+            "start": 0,
+            "css": "0s,none,none"
+          }
+        ]
       }
     },
     {
@@ -3085,25 +3158,25 @@
       "ok": true,
       "detail": [
         {
-          "t": 3394,
-          "o": 0.937727,
+          "t": 3396,
+          "o": 0.937273,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3411,
+          "t": 3412,
           "o": 0.861818,
           "start": 0,
           "css": "0s,none,none"
         },
         {
           "t": 3428,
-          "o": 0.786364,
+          "o": 0.785909,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3444,
+          "t": 3446,
           "o": 0.710455,
           "start": 0,
           "css": "0s,none,none"
@@ -3115,7 +3188,7 @@
       "name": "total lifecycle ~3600 ms, then removed",
       "ok": true,
       "detail": {
-        "t": 3611,
+        "t": 3613,
         "o": null,
         "start": null,
         "css": "0s,none,none"
@@ -3144,12 +3217,12 @@
       "ok": true,
       "detail": {
         "eEnd": {
-          "t": 1237,
+          "t": 1235,
           "o": null,
           "start": null,
           "css": "0s,none,none"
         },
-        "n": 14
+        "n": 13
       }
     },
     {
@@ -3158,13 +3231,13 @@
       "ok": true,
       "detail": {
         "at": {
-          "t": 78,
-          "o": 0.425,
+          "t": 79,
+          "o": 0.1544,
           "start": 0,
           "css": "0s,none,none"
         },
         "mEnd": {
-          "t": 211,
+          "t": 145,
           "o": null,
           "start": null,
           "css": "0s,none,none"
@@ -3181,13 +3254,13 @@
           830
         ],
         "aLast": {
-          "t": 814,
-          "o": 0.04,
+          "t": 815,
+          "o": 0.0404545,
           "start": 0,
           "css": "0s,none,none"
         },
         "bFirst": {
-          "t": 831,
+          "t": 833,
           "o": 0,
           "start": 830,
           "css": "0s,none,none"
@@ -3198,7 +3271,7 @@
       "browser": "chromium",
       "name": "queue: the second slip reaches full opacity and holds, then leaves on its own",
       "ok": true,
-      "detail": 192
+      "detail": 172
     },
     {
       "browser": "chromium",
@@ -3257,17 +3330,34 @@
     },
     {
       "browser": "firefox",
-      "name": "the NOTES and FILES panels are loaded and decoded before ready, and served as the approved bytes",
+      "name": "the NOTES (v2) and FILES panels are loaded and decoded before ready, and served as the approved bytes",
       "ok": true,
       "detail": [
-        "bc9c35a880874a5f290dc3174b88fb46cd982bd1321502f39d2781dcbe94e783",
+        "4bc4bf47809fd1e5cc9a9e560fa689a48addf5d6d18a6548ad6da5c3e29c3fa2",
         "e1107f217c4a5281bd6ecdc731db64e06cb9e3919d8385744d40de7ea3f92baa"
       ]
     },
     {
       "browser": "firefox",
-      "name": "the NOTES v2 candidate is never requested by the production game",
-      "ok": true
+      "name": "Round 2: production requests NOTES v2 and never the v1 panel (v1 is not a hidden default)",
+      "ok": true,
+      "detail": [
+        "/art/ui/overlays/item_received_slip.png",
+        "/art/ui/overlays/notes_panel_v2.png",
+        "/art/ui/overlays/files_panel.png",
+        "/art/ui/overlays/item_received_slip.png",
+        "/art/ui/overlays/notes_panel_v2.png",
+        "/art/ui/overlays/files_panel.png",
+        "/art/ui/overlays/item_received_slip.png",
+        "/art/ui/overlays/notes_panel_v2.png",
+        "/art/ui/overlays/files_panel.png",
+        "/art/ui/overlays/item_received_slip.png",
+        "/art/ui/overlays/notes_panel_v2.png",
+        "/art/ui/overlays/files_panel.png",
+        "/art/ui/overlays/item_received_slip.png",
+        "/art/ui/overlays/notes_panel_v2.png",
+        "/art/ui/overlays/files_panel.png"
+      ]
     },
     {
       "browser": "firefox",
@@ -4299,7 +4389,7 @@
     },
     {
       "browser": "firefox",
-      "name": "the inactive button's tooltip says why",
+      "name": "the inactive button's tooltip says why (on its second line)",
       "ok": true
     },
     {
@@ -4328,8 +4418,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 103,
-        "r1": 115
+        "r0": 92,
+        "r1": 104
       }
     },
     {
@@ -4347,7 +4437,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 217
+      "detail": 214
     },
     {
       "browser": "firefox",
@@ -4438,19 +4528,19 @@
         0,
         0,
         0,
+        0,
         -2,
-        -2,
-        -6,
+        -4,
         -8,
         -12,
-        -18,
+        -16,
         -22,
-        -30,
-        -36,
-        -44,
-        -52,
-        -62,
-        -72
+        -28,
+        -34,
+        -42,
+        -50,
+        -60,
+        -70
       ]
     },
     {
@@ -4497,7 +4587,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 419
+      "detail": 418
     },
     {
       "browser": "firefox",
@@ -4513,7 +4603,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948
+      "detail": 947
     },
     {
       "browser": "firefox",
@@ -4773,7 +4863,7 @@
       "browser": "firefox",
       "name": "the first button's tooltip shows on hover (OBSERVE, unlit while she types)",
       "ok": true,
-      "detail": "OBSERVE - NOT NOW"
+      "detail": "OBSERVE\nNOT NOW"
     },
     {
       "browser": "firefox",
@@ -4781,10 +4871,10 @@
       "ok": true,
       "detail": {
         "r": [
-          1403,
-          894,
-          292,
-          32
+          1483,
+          880,
+          132,
+          46
         ],
         "br": [
           1482,
@@ -4800,12 +4890,12 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "text": "OBSERVE - NOT NOW",
+        "text": "OBSERVE\nNOT NOW",
         "r": [
-          1403,
-          894,
-          292,
-          32
+          1483,
+          880,
+          132,
+          46
         ],
         "br": [
           1482,
@@ -4825,6 +4915,49 @@
     },
     {
       "browser": "firefox",
+      "name": "an unavailable action's tooltip: the label as is, then the reason below it in the Labels face at half size (production reasonFace 1), centred, inside the box",
+      "ok": true,
+      "detail": {
+        "label": "OBSERVE",
+        "why": "NOT NOW",
+        "shown": true,
+        "ra": [
+          10,
+          7,
+          112,
+          18
+        ],
+        "rb": [
+          38,
+          30,
+          56,
+          9
+        ],
+        "box": [
+          1483,
+          880,
+          132,
+          46
+        ],
+        "face": 1,
+        "gap": 5,
+        "padY": 7,
+        "half": true,
+        "diff": 0,
+        "ink": 1,
+        "below": true,
+        "inside": true,
+        "centred": true
+      }
+    },
+    {
+      "browser": "firefox",
+      "name": "an available action's tooltip is its label alone (no reason line)",
+      "ok": true,
+      "detail": "NOTES||none"
+    },
+    {
+      "browser": "firefox",
       "name": "the tooltip disappears when the pointer leaves",
       "ok": true
     },
@@ -4832,7 +4965,7 @@
       "browser": "firefox",
       "name": "keyboard focus shows the tooltip, and losing focus hides it",
       "ok": true,
-      "detail": "OBSERVE - NOT NOW"
+      "detail": "OBSERVE\nNOT NOW"
     },
     {
       "browser": "firefox",
@@ -5044,7 +5177,7 @@
     },
     {
       "browser": "firefox",
-      "name": "a disabled button explains itself in its tooltip",
+      "name": "a disabled button explains itself in its tooltip (label, then the reason on a second line)",
       "ok": true
     },
     {
@@ -5180,7 +5313,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3606
+        "ms": 3611
       }
     },
     {
@@ -5268,16 +5401,16 @@
       "browser": "firefox",
       "name": "NOTES shows its own panel image",
       "ok": true,
-      "detail": "art/ui/overlays/notes_files_panel.png"
+      "detail": "art/ui/overlays/notes_panel_v2.png"
     },
     {
       "browser": "firefox",
       "name": "NOTES: every clear-shell, text-free overlay pixel equals its 1255x822 panel file 1:1",
       "ok": true,
       "detail": {
-        "checked": 919906,
+        "checked": 919905,
         "bad": 0,
-        "textPx": 77111,
+        "textPx": 77112,
         "first": null
       }
     },
@@ -5509,23 +5642,23 @@
         "first": [
           [
             0,
-            -3
+            14
           ],
           [
             1,
-            113
+            130
           ],
           [
             2,
-            233
+            246
           ],
           [
             3,
-            353
+            362
           ],
           [
             4,
-            474
+            478
           ],
           [
             5,
@@ -5785,7 +5918,7 @@
     },
     {
       "browser": "firefox",
-      "name": "OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE",
+      "name": "OBSERVE: once used, it stays on show, inactive, and its tooltip says NOTHING NEW TO NOTICE (second line)",
       "ok": true,
       "detail": "inactive,true"
     },
@@ -5854,13 +5987,13 @@
     },
     {
       "browser": "firefox",
-      "name": "slip production values: y 730, fade in 180 ms, fade out 220 ms, total lifecycle 3600 ms",
+      "name": "slip production values (Round 2): y 730, fade in 500 ms, fade out 220 ms, total lifecycle 3600 ms",
       "ok": true,
       "detail": {
         "x": 56,
         "y": 730,
         "durationMs": 3600,
-        "fadeInMs": 180,
+        "fadeInMs": 500,
         "fadeOutMs": 220,
         "itemX": 14,
         "itemY": 9,
@@ -5878,7 +6011,7 @@
     },
     {
       "browser": "firefox",
-      "name": "fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~180 ms",
+      "name": "fade in: the slip starts below full opacity and rises linearly to exactly 1 at ~500 ms",
       "ok": true,
       "detail": {
         "first": {
@@ -5888,11 +6021,31 @@
           "css": "0s,none,none"
         },
         "firstFull": {
-          "t": 193,
+          "t": 511,
           "o": 1,
           "start": 0,
           "css": "0s,none,none"
-        }
+        },
+        "midRise": [
+          {
+            "t": 156,
+            "o": 0.31112,
+            "start": 0,
+            "css": "0s,none,none"
+          },
+          {
+            "t": 177,
+            "o": 0.34444,
+            "start": 0,
+            "css": "0s,none,none"
+          },
+          {
+            "t": 193,
+            "o": 0.37776,
+            "start": 0,
+            "css": "0s,none,none"
+          }
+        ]
       }
     },
     {
@@ -5908,25 +6061,25 @@
       "detail": [
         {
           "t": 3395,
-          "o": 0.933727,
+          "o": 0.959636,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3411,
-          "o": 0.858,
+          "t": 3410,
+          "o": 0.883818,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3428,
-          "o": 0.783909,
+          "t": 3423,
+          "o": 0.808091,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3444,
-          "o": 0.710273,
+          "t": 3446,
+          "o": 0.732364,
           "start": 0,
           "css": "0s,none,none"
         }
@@ -5937,7 +6090,7 @@
       "name": "total lifecycle ~3600 ms, then removed",
       "ok": true,
       "detail": {
-        "t": 3611,
+        "t": 3610,
         "o": null,
         "start": null,
         "css": "0s,none,none"
@@ -5966,7 +6119,7 @@
       "ok": true,
       "detail": {
         "eEnd": {
-          "t": 1237,
+          "t": 1239,
           "o": null,
           "start": null,
           "css": "0s,none,none"
@@ -5980,13 +6133,13 @@
       "ok": true,
       "detail": {
         "at": {
-          "t": 76,
-          "o": 0.419333,
+          "t": 80,
+          "o": 0.14576,
           "start": 0,
           "css": "0s,none,none"
         },
         "mEnd": {
-          "t": 209,
+          "t": 159,
           "o": null,
           "start": null,
           "css": "0s,none,none"
@@ -5999,19 +6152,19 @@
       "ok": true,
       "detail": {
         "starts": [
-          1,
-          830
+          0,
+          843
         ],
         "aLast": {
-          "t": 813,
-          "o": 0.0705455,
-          "start": 1,
+          "t": 834,
+          "o": 0.0110909,
+          "start": 0,
           "css": "0s,none,none"
         },
         "bFirst": {
-          "t": 831,
+          "t": 848,
           "o": 0,
-          "start": 830,
+          "start": 843,
           "css": "0s,none,none"
         }
       }
@@ -6020,7 +6173,7 @@
       "browser": "firefox",
       "name": "queue: the second slip reaches full opacity and holds, then leaves on its own",
       "ok": true,
-      "detail": 192
+      "detail": 173
     },
     {
       "browser": "firefox",

@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-m2-reception-polish-lab-qa-v1",
-  "passed": 141,
-  "total": 141,
+  "passed": 143,
+  "total": 143,
   "failures": [],
   "checks": [
     {
@@ -73,6 +73,8 @@
           "tooltip.gapY": 4,
           "tooltip.padX": 10,
           "tooltip.padY": 7,
+          "tooltip.reasonFace": 1,
+          "tooltip.reasonGapY": 5,
           "notice.x": 56,
           "notice.y": 730,
           "notice.itemX": 14,
@@ -81,7 +83,7 @@
           "notice.titleY": 28,
           "notice.nameX": 134,
           "notice.nameY": 77,
-          "notice.fadeInMs": 180,
+          "notice.fadeInMs": 500,
           "notice.fadeOutMs": 220,
           "inspector.artX": 0,
           "inspector.artY": 0,
@@ -98,7 +100,7 @@
           "overlay.bodyWidth": 1159,
           "overlay.bodyHeight": 620,
           "overlay.lineHeight": 26,
-          "overlay.notesPanel": 1,
+          "overlay.notesPanel": 2,
           "objective.titleAlignX": 0,
           "objective.titleY": 907,
           "objective.bodyX": 889,
@@ -148,6 +150,8 @@
           "tooltip.gapY": 4,
           "tooltip.padX": 10,
           "tooltip.padY": 7,
+          "tooltip.reasonFace": 1,
+          "tooltip.reasonGapY": 5,
           "notice.x": 56,
           "notice.y": 730,
           "notice.itemX": 14,
@@ -156,7 +160,7 @@
           "notice.titleY": 28,
           "notice.nameX": 134,
           "notice.nameY": 77,
-          "notice.fadeInMs": 180,
+          "notice.fadeInMs": 500,
           "notice.fadeOutMs": 220,
           "inspector.artX": 0,
           "inspector.artY": 0,
@@ -173,7 +177,7 @@
           "overlay.bodyWidth": 1159,
           "overlay.bodyHeight": 620,
           "overlay.lineHeight": 26,
-          "overlay.notesPanel": 1,
+          "overlay.notesPanel": 2,
           "objective.titleAlignX": 0,
           "objective.titleY": 907,
           "objective.bodyX": 889,
@@ -233,13 +237,13 @@
     },
     {
       "browser": "chromium",
-      "name": "tooltip states show OBSERVE / OBSERVE - NOTHING NEW TO NOTICE / READ / SHOW - NOT AVAILABLE HERE",
+      "name": "tooltip states show OBSERVE / OBSERVE + NOTHING NEW TO NOTICE / READ / SHOW + NOT AVAILABLE HERE (the reason on its own line)",
       "ok": true,
       "detail": {
         "tooltip-enabled": "OBSERVE",
-        "tooltip-disabled": "OBSERVE - NOTHING NEW TO NOTICE",
+        "tooltip-disabled": "OBSERVE\nNOTHING NEW TO NOTICE",
         "tooltip-read": "READ",
-        "tooltip-show": "SHOW - NOT AVAILABLE HERE"
+        "tooltip-show": "SHOW\nNOT AVAILABLE HERE"
       }
     },
     {
@@ -331,9 +335,9 @@
             51,
             52
           ],
-          "ms": 159
+          "ms": 156
         },
-        "href0": "http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:54949/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -347,20 +351,20 @@
     },
     {
       "browser": "chromium",
-      "name": "NOTES shows the v1 panel in both frames by default",
+      "name": "Round 2: NOTES shows the v2 panel in both frames by default (production notesPanel 2, no lab change needed)",
       "ok": true,
       "detail": [
-        "art/ui/overlays/notes_files_panel.png",
-        "art/ui/overlays/notes_files_panel.png"
+        "art/ui/overlays/notes_panel_v2.png",
+        "art/ui/overlays/notes_panel_v2.png"
       ]
     },
     {
       "browser": "chromium",
-      "name": "NOTES background v2 switches live in the lab frame only",
+      "name": "NOTES background v1 can still be picked live in the lab frame only",
       "ok": true,
       "detail": [
-        "art/ui/overlays/notes_panel_v2.png",
-        "art/ui/overlays/notes_files_panel.png"
+        "art/ui/overlays/notes_files_panel.png",
+        "art/ui/overlays/notes_panel_v2.png"
       ]
     },
     {
@@ -379,12 +383,12 @@
     },
     {
       "browser": "chromium",
-      "name": "the lab frame shows the v2 panel 1:1 (served bytes are the committed candidate)",
+      "name": "both NOTES panels are served as their committed bytes (v2 production, v1 the lab option)",
       "ok": true
     },
     {
       "browser": "chromium",
-      "name": "reset returns NOTES to v1 live",
+      "name": "reset returns NOTES to production v2 live",
       "ok": true
     },
     {
@@ -416,7 +420,7 @@
       "browser": "chromium",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 73
+      "detail": 75
     },
     {
       "browser": "chromium",
@@ -523,6 +527,18 @@
     },
     {
       "browser": "chromium",
+      "name": "tooltip reason line: production is the Labels face at half size (9 px rows) 5 px below the label; the lab can switch it live to the Dialogue face and another gap (LAB frame only)",
+      "ok": true,
+      "detail": {
+        "why0": "9,30,46",
+        "why2": [
+          "21,33,61",
+          "9,30,46"
+        ]
+      }
+    },
+    {
+      "browser": "chromium",
       "name": "ITEM RECEIVED replays the production FACILITIES KEY slip, repeatedly, in the LAB view",
       "ok": true,
       "detail": {
@@ -560,17 +576,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "101px",
-          "74px",
-          "53px",
-          "36px",
-          "24px",
-          "17px",
-          "12px",
-          "10px",
-          "9px",
+          "108px",
+          "80px",
+          "59px",
+          "42px",
+          "28px",
+          "19px",
           "11px",
-          "13px"
+          "9px",
+          "10px",
+          "13px",
+          "15px"
         ]
       }
     },
@@ -592,8 +608,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:54949/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:54949/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -603,21 +619,21 @@
     },
     {
       "browser": "chromium",
-      "name": "the lab opens with the production slip values: y 730, fade in 180, fade out 220, lifecycle 3600",
+      "name": "Round 2: the lab opens with the production slip values: y 730, fade in 500, fade out 220, lifecycle 3600 (production, not a lab change)",
       "ok": true,
-      "detail": "730,180,220,3600"
+      "detail": "730,500,220,3600"
     },
     {
       "browser": "chromium",
-      "name": "fade sliders apply live to the LAB frame only (production keeps 180/220, no reload)",
+      "name": "fade sliders apply live to the LAB frame only (production keeps 500/220, no reload)",
       "ok": true,
-      "detail": "500/400,180/220"
+      "detail": "600/400,500/220"
     },
     {
       "browser": "chromium",
-      "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
+      "name": "ITEM RECEIVED uses the current LAB fade values (600 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.5044000000953675,730px"
+      "detail": "600,400,0.4210000002384186,730px"
     },
     {
       "browser": "chromium",
@@ -827,6 +843,8 @@
           "tooltip.gapY": 4,
           "tooltip.padX": 10,
           "tooltip.padY": 7,
+          "tooltip.reasonFace": 1,
+          "tooltip.reasonGapY": 5,
           "notice.x": 56,
           "notice.y": 730,
           "notice.itemX": 14,
@@ -835,7 +853,7 @@
           "notice.titleY": 28,
           "notice.nameX": 134,
           "notice.nameY": 77,
-          "notice.fadeInMs": 180,
+          "notice.fadeInMs": 500,
           "notice.fadeOutMs": 220,
           "inspector.artX": 0,
           "inspector.artY": 0,
@@ -852,7 +870,7 @@
           "overlay.bodyWidth": 1159,
           "overlay.bodyHeight": 620,
           "overlay.lineHeight": 26,
-          "overlay.notesPanel": 1,
+          "overlay.notesPanel": 2,
           "objective.titleAlignX": 0,
           "objective.titleY": 907,
           "objective.bodyX": 889,
@@ -902,6 +920,8 @@
           "tooltip.gapY": 4,
           "tooltip.padX": 10,
           "tooltip.padY": 7,
+          "tooltip.reasonFace": 1,
+          "tooltip.reasonGapY": 5,
           "notice.x": 56,
           "notice.y": 730,
           "notice.itemX": 14,
@@ -910,7 +930,7 @@
           "notice.titleY": 28,
           "notice.nameX": 134,
           "notice.nameY": 77,
-          "notice.fadeInMs": 180,
+          "notice.fadeInMs": 500,
           "notice.fadeOutMs": 220,
           "inspector.artX": 0,
           "inspector.artY": 0,
@@ -927,7 +947,7 @@
           "overlay.bodyWidth": 1159,
           "overlay.bodyHeight": 620,
           "overlay.lineHeight": 26,
-          "overlay.notesPanel": 1,
+          "overlay.notesPanel": 2,
           "objective.titleAlignX": 0,
           "objective.titleY": 907,
           "objective.bodyX": 889,
@@ -987,13 +1007,13 @@
     },
     {
       "browser": "firefox",
-      "name": "tooltip states show OBSERVE / OBSERVE - NOTHING NEW TO NOTICE / READ / SHOW - NOT AVAILABLE HERE",
+      "name": "tooltip states show OBSERVE / OBSERVE + NOTHING NEW TO NOTICE / READ / SHOW + NOT AVAILABLE HERE (the reason on its own line)",
       "ok": true,
       "detail": {
         "tooltip-enabled": "OBSERVE",
-        "tooltip-disabled": "OBSERVE - NOTHING NEW TO NOTICE",
+        "tooltip-disabled": "OBSERVE\nNOTHING NEW TO NOTICE",
         "tooltip-read": "READ",
-        "tooltip-show": "SHOW - NOT AVAILABLE HERE"
+        "tooltip-show": "SHOW\nNOT AVAILABLE HERE"
       }
     },
     {
@@ -1085,9 +1105,9 @@
             51,
             52
           ],
-          "ms": 158
+          "ms": 153
         },
-        "href0": "http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:54949/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -1101,20 +1121,20 @@
     },
     {
       "browser": "firefox",
-      "name": "NOTES shows the v1 panel in both frames by default",
+      "name": "Round 2: NOTES shows the v2 panel in both frames by default (production notesPanel 2, no lab change needed)",
       "ok": true,
       "detail": [
-        "art/ui/overlays/notes_files_panel.png",
-        "art/ui/overlays/notes_files_panel.png"
+        "art/ui/overlays/notes_panel_v2.png",
+        "art/ui/overlays/notes_panel_v2.png"
       ]
     },
     {
       "browser": "firefox",
-      "name": "NOTES background v2 switches live in the lab frame only",
+      "name": "NOTES background v1 can still be picked live in the lab frame only",
       "ok": true,
       "detail": [
-        "art/ui/overlays/notes_panel_v2.png",
-        "art/ui/overlays/notes_files_panel.png"
+        "art/ui/overlays/notes_files_panel.png",
+        "art/ui/overlays/notes_panel_v2.png"
       ]
     },
     {
@@ -1133,12 +1153,12 @@
     },
     {
       "browser": "firefox",
-      "name": "the lab frame shows the v2 panel 1:1 (served bytes are the committed candidate)",
+      "name": "both NOTES panels are served as their committed bytes (v2 production, v1 the lab option)",
       "ok": true
     },
     {
       "browser": "firefox",
-      "name": "reset returns NOTES to v1 live",
+      "name": "reset returns NOTES to production v2 live",
       "ok": true
     },
     {
@@ -1170,7 +1190,7 @@
       "browser": "firefox",
       "name": "COPY ALL contains every declared tunable",
       "ok": true,
-      "detail": 73
+      "detail": 75
     },
     {
       "browser": "firefox",
@@ -1277,6 +1297,18 @@
     },
     {
       "browser": "firefox",
+      "name": "tooltip reason line: production is the Labels face at half size (9 px rows) 5 px below the label; the lab can switch it live to the Dialogue face and another gap (LAB frame only)",
+      "ok": true,
+      "detail": {
+        "why0": "9,30,46",
+        "why2": [
+          "21,33,61",
+          "9,30,46"
+        ]
+      }
+    },
+    {
+      "browser": "firefox",
       "name": "ITEM RECEIVED replays the production FACILITIES KEY slip, repeatedly, in the LAB view",
       "ok": true,
       "detail": {
@@ -1314,14 +1346,14 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "124px",
-          "104px",
-          "75px",
-          "52px",
-          "33px",
-          "26px",
-          "17px",
-          "12px",
+          "111px",
+          "86px",
+          "60px",
+          "44px",
+          "29px",
+          "21px",
+          "15px",
+          "11px",
           "10px",
           "9px",
           "13px"
@@ -1346,8 +1378,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:61287/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:54949/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:54949/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -1357,21 +1389,21 @@
     },
     {
       "browser": "firefox",
-      "name": "the lab opens with the production slip values: y 730, fade in 180, fade out 220, lifecycle 3600",
+      "name": "Round 2: the lab opens with the production slip values: y 730, fade in 500, fade out 220, lifecycle 3600 (production, not a lab change)",
       "ok": true,
-      "detail": "730,180,220,3600"
+      "detail": "730,500,220,3600"
     },
     {
       "browser": "firefox",
-      "name": "fade sliders apply live to the LAB frame only (production keeps 180/220, no reload)",
+      "name": "fade sliders apply live to the LAB frame only (production keeps 500/220, no reload)",
       "ok": true,
-      "detail": "500/400,180/220"
+      "detail": "600/400,500/220"
     },
     {
       "browser": "firefox",
-      "name": "ITEM RECEIVED uses the current LAB fade values (500 ms fade-in still rising at 250 ms) at y 730",
+      "name": "ITEM RECEIVED uses the current LAB fade values (600 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "500,400,0.522,730px"
+      "detail": "600,400,0.4266666666666667,730px"
     },
     {
       "browser": "firefox",
