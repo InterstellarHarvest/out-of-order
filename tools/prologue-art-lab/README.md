@@ -43,6 +43,8 @@ Known M2 baseline: route 49/49; game 525/525; M2 polish lab 143/143; layout lab 
 
 **Inventory discrepancy surfaced during browser QA:** the checked-in M2 `placement.default.json` still has `slotCount: 6` despite the seven-slot owner design. The lab uses the existing seven-slot layout by default, with a six-slot toggle; this is lab-only. Verify arrow and slot overlap before declaring the seven-slot geometry production ready. No production changes are authorized here.
 
+**Seven-slot geometry blocker found in actual browser screenshots:** The checked-in M2 layout defaults to six slots; its existing seven-slot geometry puts the fixed right-arrow control directly across part of the seventh icon. This is an owner-review blocker for seven-slot production promotion, not a bad draft icon. The lab preserves both layouts for comparison, and production values remain untouched.
+
 ## Items requiring owner approval
 
 Keep issues visible instead of making unapproved revisions:

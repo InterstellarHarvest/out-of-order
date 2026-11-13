@@ -63,7 +63,9 @@ async function browserQA(name,base){
       if(['workplace/applause_station','workplace/corridor','street/outside_workplace','exposition/entrance','exposition/reception'].includes(s.id))
         await shot('scene_'+s.id.replace(/\//g,'_'));
     }
+    // Capture portraits with their own paired scene, not the final scene in the sweep.
     for(const id of ['drone-closed','drone-paper','receptionist']){
+      await change('setScene',id==='receptionist'?'exposition/reception':'workplace/corridor');
       await change('setPortrait',id);
       await page.waitForFunction(()=>{ const g=document.getElementById('gameFrame').contentWindow.CYOA_GAME; return g.els.portraitNpc.naturalWidth===564&&g.els.portraitNpc.naturalHeight===278; },null,{timeout:6000});
       const st=await state();
