@@ -71,6 +71,7 @@
     run('openInspector', id);
   };
   api.closeItem = function () { run('closeInspector'); };
+  api.setSlotCount = function (n) { run('setSlotCount', n); };
   api.setInventoryStart = function (n) { run('setInventoryStart', n); };
   api.setLayers = function (v) { run('setLayers', v); };
   api.ready = function () { return ready; };

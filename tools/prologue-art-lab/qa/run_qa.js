@@ -100,7 +100,7 @@ async function browserQA(name,base){
   try{
     const url='http://127.0.0.1:'+s.address().port;
     for(const name of (process.env.QA_BROWSERS||'chromium,firefox').split(',')){
-      try{await browserQA(name.trim(),url);}catch(e){test(name.trim(),'suite completion',false,String(e));}
+      try{await browserQA(name.trim(),url);}catch(e){test(name.trim(),'suite completion',false,e && e.stack || String(e));}
     }
   }finally{
     await new Promise(done=>s.close(done));
