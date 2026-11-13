@@ -1,0 +1,31 @@
+name: Prologue art — quick visual smoke
+on:
+  push:
+    branches: [agent/prologue-art-review-lab-20261113]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lab-only:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium firefox
+      - name: Lab asset and browser QA
+        run: node tools/prologue-art-lab/qa/run_qa.js
+      - name: Save lab screenshot and QA evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prologue-art-lab-quick-evidence
+          path: |
+            tools/prologue-art-lab/qa/qa_results.json
+            tools/prologue-art-lab/qa/screenshots/
+          if-no-files-found: warn
