@@ -1,7 +1,5 @@
 name: Prologue art — quick visual smoke
 on:
-  push:
-    branches: [agent/prologue-art-review-lab-20261113]
   workflow_dispatch:
 permissions:
   contents: read
