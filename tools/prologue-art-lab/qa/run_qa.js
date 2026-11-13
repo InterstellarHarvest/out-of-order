@@ -5,7 +5,7 @@ const fs=require('fs'), path=require('path'), http=require('http'), pw=require('
 const ROOT=path.resolve(__dirname,'../../..'), LAB=path.join(ROOT,'tools/prologue-art-lab');
 const SHOTS=path.join(__dirname,'screenshots'), catalog=JSON.parse(fs.readFileSync(path.join(LAB,'artwork.draft.json')));
 const checks=[];
-function test(scope,name,ok,detail){checks.push({scope,name,ok:!!ok,detail});console.log((ok?'pass ':'FAIL ')+scope+' '+name+(ok?'':': '+JSON.stringify(detail).slice(0,250)));}
+function test(scope,name,ok,detail){checks.push({scope,name,ok:!!ok,detail:detail===undefined?null:detail});const suffix=detail===undefined?'':': '+JSON.stringify(detail).slice(0,250);console.log((ok?'pass ':'FAIL ')+scope+' '+name+(ok?'':suffix));}
 function header(p){if(!fs.existsSync(p))return null;const b=fs.readFileSync(p);if(b.length<26||b.toString('ascii',1,4)!=='PNG')return null;return [b.readUInt32BE(16),b.readUInt32BE(20),b[25]];}
 function staticQA(){
   const kinds={scene:[314,206,2],background:[564,278,2],pose:[564,278,6],slot:[96,96,6],inspect:[565,451,2]},records=[];
@@ -64,8 +64,10 @@ async function browserQA(name,base){
         await shot('scene_'+s.id.replace(/\//g,'_'));
     }
     for(const id of ['drone-closed','drone-paper','receptionist']){
-      await change('setPortrait',id);const st=await state();
-      test(name,'portrait '+id,JSON.stringify(st.portraitNatural)==='[564,278]');
+      await change('setPortrait',id);
+      await page.waitForFunction(()=>{ const g=document.getElementById('gameFrame').contentWindow.CYOA_GAME; return g.els.portraitNpc.naturalWidth===564&&g.els.portraitNpc.naturalHeight===278; },null,{timeout:6000});
+      const st=await state();
+      test(name,'portrait '+id,JSON.stringify(st.portraitNatural)==='[564,278]',st.portraitNatural);
       if(id!=='receptionist')await shot('pose_'+id);
     }
     await change('setScene','workplace/corridor');await change('setPortrait','drone-closed');
