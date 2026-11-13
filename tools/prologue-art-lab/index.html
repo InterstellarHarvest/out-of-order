@@ -42,13 +42,15 @@
     </section>
     <section>
       <h2>Seven-slot inventory</h2>
+      <label for="slotMode">Slot layout (lab-only)</label>
+      <select id="slotMode"><option value="7">Seven-slot owner target</option><option value="6">Six-slot current M2 default</option></select>
       <label for="inventoryStart">Visible inventory group (start index)</label>
       <div class="two">
         <button id="invPrev" type="button">Previous slot</button>
         <button id="invNext" type="button">Next slot</button>
       </div>
       <input id="inventoryStart" type="range" min="0" max="3" value="0" step="1">
-      <p class="hint" id="invLabel">Seven approved slots; arrows scroll one item at a time. All nine new icons plus the approved facilities key are loaded.</p>
+      <p class="hint" id="invLabel">Lab defaults to the seven-slot owner target using M2's existing seven-slot layout. The checked-in M2 production default is six; compare both here. Nine draft icons plus the approved key are loaded.</p>
     </section>
     <section>
       <h2>Real item inspector</h2>
@@ -81,6 +83,7 @@
         <li><strong>Portrait:</strong> verify drone foreground alignment against its separately authored corridor background.</li>
         <li><strong>Inspector:</strong> examine colored backgrounds, shadows and object centering inside the real shell.</li>
         <li><strong>Continuity:</strong> check workplace → street → Exposition → approved reception palette, perspective and lighting.</li>
+        <li><strong>Inventory baseline discrepancy:</strong> M2 currently defaults to six slots despite the seven-slot owner target. Compare existing six/seven layouts and possible arrow overlap; production unchanged.</li>
       </ol>
       <p class="hint">All 28 draft PNGs remain pending owner approval. No edits or status promotions occur here.</p>
     </section>

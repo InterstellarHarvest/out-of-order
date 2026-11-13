@@ -52,7 +52,7 @@ async function browserQA(name,base){
         inspect:inspect?[inspect.naturalWidth,inspect.naturalHeight]:null,
         round2:[g.TUNING.notice.fadeInMs,g.TUNING.notice.fadeOutMs,g.TUNING.notice.durationMs,g.TUNING.overlay.notesPanel]};
     });
-    const shot=id=>page.frameLocator('#gameFrame').locator('#stage').screenshot({path:path.join(SHOTS,name+'_'+id+'.png'),animations:'disabled'});
+    const shot=async id=>{ const box=await page.locator('#stageWrap').boundingBox(); if(!box)throw new Error('No stage preview'); await page.screenshot({path:path.join(SHOTS,name+'_'+id+'.png'),clip:box,animations:'disabled'}); };
     const m=await page.evaluate(()=>window.PROLOGUE_ART);
     test(name,'catalog 8 scenes, 4 portrait options, 10 items',m.scenes.length===8&&m.portraits.length===4&&m.items.length===10);
     const initial=await details();
@@ -71,6 +71,10 @@ async function browserQA(name,base){
     await change('setScene','workplace/corridor');await change('setPortrait','drone-closed');
     const d1=await details();await change('setPortrait','drone-paper');const d2=await details();
     test(name,'shared drone portrait background',d1.bg===d2.bg&&d1.portrait!==d2.portrait);
+    await change('setSlotCount',6);
+    const six=await details();
+    test(name,'original M2 six-slot comparison remains available',six.slots.length===6,six.slots);
+    await change('setSlotCount',7);
     await change('setInventoryStart',0);const first=await details();
     test(name,'first seven approved slots',first.slots.length===7&&first.slots.every(Boolean),first.slots);
     await shot('inventory_first');

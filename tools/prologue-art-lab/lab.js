@@ -35,8 +35,10 @@
   function onState(s) {
     var scene = M.scenes.filter(function (r) { return r.id === s.scene; })[0];
     $('sceneLabel').textContent = label(scene);
+    $('inventoryStart').max = String(Math.max(0, s.inventory.length - s.visibleSlots));
     $('inventoryStart').value = String(s.inventoryStart);
-    $('invLabel').textContent = 'Showing slots ' + (s.inventoryStart + 1) + '–' + Math.min(s.inventoryStart + 7, s.inventory.length) +
+    $('slotMode').value = String(s.visibleSlots);
+    $('invLabel').textContent = 'Showing slots ' + (s.inventoryStart + 1) + '–' + Math.min(s.inventoryStart + s.visibleSlots, s.inventory.length) +
       ' of ' + s.inventory.length + ' items, using the approved seven-slot strip and built-in arrows.';
     var p = M.portraits.filter(function (r) { return r.id === s.activePortrait; })[0];
     $('pairing').textContent = s.matched ? 'Portrait pairing matches this scene.' :
@@ -96,6 +98,7 @@
     $('offsetY').value = '0';
     layers();
   });
+  $('slotMode').addEventListener('change', function () { run('setSlotCount', Number($('slotMode').value)); });
   $('inventoryStart').addEventListener('input', function () {
     run('setInventoryStart', Number($('inventoryStart').value));
   });

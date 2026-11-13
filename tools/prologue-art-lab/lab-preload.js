@@ -21,6 +21,10 @@
     };
   });
 
+  // Owner asked to review seven slots. This M2 snapshot still defaults to six;
+  // enable its EXISTING seven-slot layout only in the isolated preview frame.
+  G.layout.inventory.slotCount = 7;
+
   var original = G.loadImages;
   G.loadImages = function (extra) {
     var review = [];

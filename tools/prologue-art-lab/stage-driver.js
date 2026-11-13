@@ -99,6 +99,15 @@
     applyPortrait();
     return api.status();
   };
+  api.setSlotCount = function (n) {
+    if (n !== 6 && n !== 7) throw new Error('Only existing six- and seven-slot layouts are supported');
+    G.layout.inventory.slotCount = n;
+    G.ui.inv.start = Math.min(G.ui.inv.start, Math.max(0, ids.length - n));
+    G.ui.inv.slide = null;
+    G.rebuildStage();
+    refresh();
+    return api.status();
+  };
   api.setInventoryStart = function (start) {
     var n = Math.max(0, ids.length - G.layout.inventory.slotCount);
     G.ui.inv.slide = null;

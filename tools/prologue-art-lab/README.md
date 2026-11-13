@@ -41,6 +41,8 @@ NODE_PATH="$(npm root -g)" node tools/layout-lab/qa/run_qa.js
 
 Known M2 baseline: route 49/49; game 525/525; M2 polish lab 143/143; layout lab 1916/1924 (exactly eight existing failures). Require zero new failures.
 
+**Inventory discrepancy surfaced during browser QA:** the checked-in M2 `placement.default.json` still has `slotCount: 6` despite the seven-slot owner design. The lab uses the existing seven-slot layout by default, with a six-slot toggle; this is lab-only. Verify arrow and slot overlap before declaring the seven-slot geometry production ready. No production changes are authorized here.
+
 ## Items requiring owner approval
 
 Keep issues visible instead of making unapproved revisions:
