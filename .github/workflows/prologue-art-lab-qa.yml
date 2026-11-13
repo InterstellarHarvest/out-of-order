@@ -1,0 +1,52 @@
+name: Prologue artwork review — Chromium and Firefox
+
+on:
+  push:
+    branches:
+      - agent/prologue-art-review-lab-20261113
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  visual-art-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout isolated review branch
+        uses: actions/checkout@v4
+      - name: Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install Playwright for browser QA
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium firefox
+      - name: Test prologue artwork lab and generate real browser screenshots
+        run: node tools/prologue-art-lab/qa/run_qa.js
+      - name: Regress existing reception route
+        if: always()
+        run: node game/qa/validate_route.js
+      - name: Regress approved M2 game
+        if: always()
+        run: node game/qa/run_qa.js
+      - name: Regress approved M2 polish lab
+        if: always()
+        run: node tools/m2-reception-polish-lab/qa/run_qa.js
+      - name: Regress M1 layout lab (eight known baseline failures expected)
+        if: always()
+        run: node tools/layout-lab/qa/run_qa.js
+      - name: Upload screenshot and regression evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: prologue-art-lab-browser-evidence
+          path: |
+            tools/prologue-art-lab/qa/qa_results.json
+            tools/prologue-art-lab/qa/screenshots/
+            game/qa/qa_results.json
+            tools/m2-reception-polish-lab/qa/qa_results.json
+            tools/layout-lab/qa/qa_results.json
+          if-no-files-found: warn
