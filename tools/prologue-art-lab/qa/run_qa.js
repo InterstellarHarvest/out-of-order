@@ -58,7 +58,10 @@ async function browserQA(name,base){
     const initial=await details();
     test(name,'Round 2 timing and NOTES intact',JSON.stringify(initial.round2)==='[500,220,3600,2]',initial.round2);
     for(const s of m.scenes){
-      await change('setScene',s.id);const st=await state(),d=await details();
+      await change('setScene',s.id);
+      // Image source swaps can take one frame to finish decoding in Chromium.
+      await page.evaluate(async ()=>{const el=document.getElementById('gameFrame').contentWindow.CYOA_GAME.els.sceneArt;await el.decode();});
+      const st=await state(),d=await details();
       test(name,'scene '+s.id,JSON.stringify(st.sceneNatural)==='[314,206]'&&JSON.stringify(st.sceneDisplayed)==='[1256,824]'&&d.label===s.title);
       if(['workplace/applause_station','workplace/corridor','street/outside_workplace','exposition/entrance','exposition/reception'].includes(s.id))
         await shot('scene_'+s.id.replace(/\//g,'_'));
