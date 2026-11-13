@@ -1,0 +1,28 @@
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#151e22;color:#ebeeeb;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+header{display:flex;justify-content:space-between;align-items:center;gap:24px;padding:18px 22px;background:#243139;border-bottom:1px solid #4b6067}
+header h1{font-size:22px;line-height:1.2;margin:4px 0 7px}header p{margin:0;color:#becbd0;font-size:13px}
+header .eyebrow{letter-spacing:.12em;font-size:11px;color:#a9c0c9;font-weight:700}
+.status{font-size:12px;border:1px solid #566a70;border-radius:5px;padding:9px 12px;max-width:360px;white-space:normal}
+main{display:grid;grid-template-columns:370px minmax(0,1fr);height:calc(100vh - 102px);min-height:550px}
+.controls{overflow-y:auto;background:#1d282e;border-right:1px solid #46545b;padding:12px 16px 30px}
+section{padding:14px 0;border-bottom:1px solid #3b4d55}h2{margin:0 0 12px;font-size:14px;font-weight:700;color:#e2ecee}
+label{display:block;font-size:12px;color:#bfccd0;margin:9px 0 5px}
+select,button,input[type=number]{width:100%;border:1px solid #6a7b80;border-radius:3px;background:#2b3b42;color:#edf3f2;padding:8px;font:inherit;font-size:13px}
+button{cursor:pointer}button:hover{background:#39515d}button:focus-visible,select:focus-visible,input:focus-visible{outline:2px solid #b9d8e2;outline-offset:2px}
+button:disabled{opacity:.5;cursor:default}
+input[type=range]{width:100%;accent-color:#a4c9d0}
+.two{display:flex;gap:8px;margin:8px 0}.two>button,.two>label{flex:1;min-width:0}.two label{margin:0}.two input[type=number]{display:block;margin-top:4px}
+.check{display:flex;align-items:center;gap:7px}.check input{accent-color:#92bbc1}
+.hint{font-size:11px;color:#a8b9be;line-height:1.5;margin:7px 0 0}
+.pairing{font-size:12px;line-height:1.4;color:#d5bc88}
+.issues ol{padding-left:20px;margin:0}.issues li{margin:9px 0;font-size:12px;line-height:1.4;color:#d9dfe1}
+.preview-col{min-width:0;display:flex;flex-direction:column;background:#101719}
+.preview-toolbar,.review-footer{padding:11px 16px;display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;background:#202d33;color:#b8c9cf;font-size:12px}
+.preview-toolbar #sceneLabel{font-weight:700;color:#edf3f2}.review-footer code{font-size:11px;color:#cedddf}
+#stageViewport{flex:1;min-width:0;min-height:0;overflow:auto;display:flex;align-items:flex-start;justify-content:flex-start;padding:12px}
+#stageWrap{position:relative;flex:none;width:1920px;height:1080px;background:#111;overflow:hidden}
+#gameFrame{position:absolute;left:0;top:0;width:1920px;height:1080px;border:0;transform-origin:top left;background:#111}
+#fitView[aria-pressed=true],#oneToOne[aria-pressed=true]{background:#526d75;border-color:#9cbfc8}
+body[data-error=true] .status{border-color:#bf7468;color:#ffc9bc}
+@media(max-width:950px){main{grid-template-columns:300px minmax(0,1fr)}header{flex-direction:column;align-items:flex-start}header .status{max-width:none}main{height:calc(100vh - 155px)}}
+@media(max-width:600px){main{display:block;height:auto}.controls{max-height:none}.preview-col{height:70vh}header h1{font-size:19px}}

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Acceptable Error — Prologue Artwork Integration Lab</title>
+<link rel="stylesheet" href="lab.css">
+</head>
+<body>
+<header>
+  <div>
+    <p class="eyebrow">THE ACCEPTABLE ERROR · VISUAL REVIEW</p>
+    <h1>Prologue artwork integration lab</h1>
+    <p>Unapproved draft art inside the approved M2 Round 2 game shell. No story state or production art is being promoted.</p>
+  </div>
+  <div class="status" id="status" role="status" aria-live="polite">Loading approved renderer and prologue artwork…</div>
+</header>
+<main>
+  <aside class="controls" aria-label="Artwork review controls">
+    <section>
+      <h2>Scene aperture</h2>
+      <label for="scene">Main-scene background</label>
+      <select id="scene"></select>
+      <p class="hint">314 × 206 native; exactly 4× nearest-neighbor, clipped by the existing approved aperture.</p>
+      <button id="jumpReception" type="button">Compare with approved reception</button>
+    </section>
+    <section>
+      <h2>Layered portrait</h2>
+      <label for="portrait">Foreground pose and paired background</label>
+      <select id="portrait"></select>
+      <div class="two">
+        <label class="check"><input type="checkbox" id="showBg" checked> Background</label>
+        <label class="check"><input type="checkbox" id="showPose" checked> Foreground</label>
+      </div>
+      <div class="two">
+        <label for="offsetX">Pose offset X <input id="offsetX" type="number" min="-40" max="40" value="0"></label>
+        <label for="offsetY">Pose offset Y <input id="offsetY" type="number" min="-40" max="40" value="0"></label>
+      </div>
+      <button id="resetOffset" type="button">Reset pose offsets</button>
+      <p class="hint">564 × 278 native at 1×. The drone's background and transparent poses remain separate. Offsets are lab-only.</p>
+      <p id="pairing" class="pairing"></p>
+    </section>
+    <section>
+      <h2>Seven-slot inventory</h2>
+      <label for="inventoryStart">Visible inventory group (start index)</label>
+      <div class="two">
+        <button id="invPrev" type="button">Previous slot</button>
+        <button id="invNext" type="button">Next slot</button>
+      </div>
+      <input id="inventoryStart" type="range" min="0" max="3" value="0" step="1">
+      <p class="hint" id="invLabel">Seven approved slots; arrows scroll one item at a time. All nine new icons plus the approved facilities key are loaded.</p>
+    </section>
+    <section>
+      <h2>Real item inspector</h2>
+      <label for="item">Detailed illustration</label>
+      <select id="item"></select>
+      <div class="two">
+        <button id="openItem" type="button">Open inspector</button>
+        <button id="closeItem" type="button">Close inspector</button>
+      </div>
+      <p class="hint">565 × 451 native at 1×, using the production inspector art area and UI overlay.</p>
+      <div class="two">
+        <button id="openNotes" type="button">Show NOTES</button>
+        <button id="openFiles" type="button">Show FILES</button>
+      </div>
+    </section>
+    <section>
+      <h2>Preview</h2>
+      <div class="two">
+        <button id="fitView" type="button" aria-pressed="true">Fit stage</button>
+        <button id="oneToOne" type="button" aria-pressed="false">1:1 pixels</button>
+      </div>
+      <p class="hint">Preview embeds the actual approved game stage, not a screenshot, miniature recreation, or replacement shell.</p>
+    </section>
+    <section class="issues" aria-label="Unresolved owner review concerns">
+      <h2>Open review issues</h2>
+      <ol>
+        <li><strong>Termination notice:</strong> conflicting signed, reviewed and pending markings; conditional art is unresolved.</li>
+        <li><strong>Property claim ticket:</strong> baked-in FOUR may contradict the three-item outcome.</li>
+        <li><strong>Effects box:</strong> H. Carter is visible but the protagonist name is not confirmed.</li>
+        <li><strong>Portrait:</strong> verify drone foreground alignment against its separately authored corridor background.</li>
+        <li><strong>Inspector:</strong> examine colored backgrounds, shadows and object centering inside the real shell.</li>
+        <li><strong>Continuity:</strong> check workplace → street → Exposition → approved reception palette, perspective and lighting.</li>
+      </ol>
+      <p class="hint">All 28 draft PNGs remain pending owner approval. No edits or status promotions occur here.</p>
+    </section>
+  </aside>
+  <div class="preview-col">
+    <div class="preview-toolbar">
+      <span id="sceneLabel">Loading scene…</span>
+      <span id="dimensions">M2 scene 314×206 at 4× · portrait 564×278 at 1×</span>
+    </div>
+    <div id="stageViewport">
+      <div id="stageWrap">
+        <iframe id="gameFrame" src="stage.html" title="Actual M2 game interface with selected prologue artwork" scrolling="no"></iframe>
+      </div>
+    </div>
+    <div class="review-footer">
+      <span>Source: <code>story/artwork.draft.json</code> · <code>review/prologue_art_review_2026-11-13.md</code></span>
+      <span id="previewStatus">Review only — no production changes</span>
+    </div>
+  </div>
+</main>
+<script src="manifest.js"></script>
+<script src="lab.js"></script>
+</body>
+</html>
