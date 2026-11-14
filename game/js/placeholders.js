@@ -58,6 +58,12 @@
     canvas.dataset.placeholder = title;
   };
 
+  // A story image registered with no file yet (an imported draft's or a fixture's missing art,
+  // docs/84): the panel, titled with its art class and id, at the class's native size.
+  P.art = function (canvas, w, h, cls, id) {
+    P.panel(canvas, w, h, cls.toUpperCase() + ': ' + id, ['DEV PLACEHOLDER.', 'ART NOT YET SUPPLIED.']);
+  };
+
   // The item's slot art at a whole-number scale, on the placeholder ground, with a caption.
   // Stands in for <item>_inspect.png until that art is approved.
   P.inspectArt = function (canvas, w, h, slotImage, title) {

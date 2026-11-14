@@ -298,7 +298,7 @@
     c.setAttribute('aria-hidden', 'true');
     var w = cls.size[0] * (cls.scale || 1);
     var h = cls.size[1] * (cls.scale || 1);
-    P.panel(c, w, h, spec.cls.toUpperCase() + ': ' + spec.id, ['DEV PLACEHOLDER.', 'ART NOT YET SUPPLIED.']);
+    P.art(c, w, h, spec.cls, spec.id);
     place(c, 0, 0, w, h);
     parent.appendChild(c);
     return c;

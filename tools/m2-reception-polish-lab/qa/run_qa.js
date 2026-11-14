@@ -12,7 +12,9 @@ const playwright = require('playwright');
 
 const ROOT = path.resolve(__dirname, '../../..');
 const LAB = 'tools/m2-reception-polish-lab/index.html';
-const GAME = 'game/index.html';
+// The production page the lab tunes is the M2 reception (docs/84: game/index.html plays the imported
+// story by default, which autosaves; the reception never does).
+const GAME = 'game/index.html?story=reception';
 const SHOTS = path.join(__dirname, 'screenshots');
 const SHELL_PATH = 'art/ui/shell/layout-final.png';
 const SHELL_SHA256 = '79c891e1875b0a6f6cb2006cc2bffded5dbff1a762fd3d91f5ff0806febb9625';

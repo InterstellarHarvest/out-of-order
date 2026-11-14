@@ -1,24 +1,24 @@
 {
   "schema": "cyoa-asset-validation-v1",
   "browser": true,
-  "total": 94,
-  "passed": 94,
+  "total": 97,
+  "passed": 97,
   "groups": {
     "registry": {
       "total": 10,
       "passed": 10
     },
     "EF-A1": {
-      "total": 3,
-      "passed": 3
+      "total": 4,
+      "passed": 4
     },
     "EF-A2": {
-      "total": 3,
-      "passed": 3
+      "total": 4,
+      "passed": 4
     },
     "EF-A3": {
-      "total": 6,
-      "passed": 6
+      "total": 7,
+      "passed": 7
     },
     "boot": {
       "total": 10,
@@ -259,6 +259,24 @@
       "detail": []
     },
     {
+      "group": "EF-A1",
+      "name": "imported (production): every referenced asset registered, every registration referenced, one key per file",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A2",
+      "name": "imported (production): every file exists at its art class's PNG size",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A3",
+      "name": "imported (production): no null art, no source/originals/review path",
+      "ok": true,
+      "detail": []
+    },
+    {
       "group": "EF-A3",
       "name": "the QA fixtures use only approved null placeholders (no art is commissioned for them)",
       "ok": true
@@ -378,10 +396,10 @@
       "name": "portrait layering in buildApertures: background -> rear FX -> pose -> front FX, then the shell above",
       "ok": true,
       "detail": [
-        12937,
-        13027,
-        13097,
-        13167
+        15471,
+        15584,
+        15654,
+        15930
       ]
     },
     {
@@ -878,7 +896,7 @@
             278
           ]
         ],
-        "dom": "<div class=\"aperture art-aperture\" id=\"scene\" role=\"img\" aria-label=\"The reception lobby\" style=\"left: 32px; top: 44px; width: 1255px; height: 822px;\"><img src=\"../art/scenes/conference_hall/reception/reception_scene.png\" id=\"sceneArt\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"1256\" height=\"824\" style=\"left: 0px; top: 0px; width: 1256px; height: 824px;\"></div><div class=\"aperture art-aperture\" id=\"portrait\" role=\"img\" aria-label=\"The receptionist\" style=\"left: 1333px; top: 44px; width: 564px; height: 278px;\"><img src=\"../art/portraits/receptionist/reception_background.png\" id=\"portraitBackground\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"><div class=\"layer fx\" id=\"portraitRearFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div><img src=\"../art/portraits/receptionist/receptionist_idle.png\" id=\"portraitNpc\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"><div class=\"layer fx\" id=\"portraitFrontFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div></div>"
+        "dom": "<div class=\"aperture art-aperture\" id=\"scene\" role=\"img\" aria-label=\"The reception lobby\" style=\"left: 32px; top: 44px; width: 1255px; height: 822px;\"><img src=\"../art/scenes/conference_hall/reception/reception_scene.png\" id=\"sceneArt\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"1256\" height=\"824\" data-art=\"scene:conference_hall/reception\" style=\"left: 0px; top: 0px; width: 1256px; height: 824px;\"></div><div class=\"aperture art-aperture\" id=\"portrait\" role=\"img\" aria-label=\"The receptionist\" style=\"left: 1333px; top: 44px; width: 564px; height: 278px;\"><img src=\"../art/portraits/receptionist/reception_background.png\" id=\"portraitBackground\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" data-art=\"portrait:receptionist:background:reception\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"><div class=\"layer fx\" id=\"portraitRearFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div><img src=\"../art/portraits/receptionist/receptionist_idle.png\" id=\"portraitNpc\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" data-art=\"portrait:receptionist:pose:idle\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"><div class=\"layer fx\" id=\"portraitFrontFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div></div>"
       }
     },
     {
@@ -1355,7 +1373,7 @@
             278
           ]
         ],
-        "dom": "<div class=\"aperture art-aperture\" id=\"scene\" role=\"img\" aria-label=\"The reception lobby\" style=\"left: 32px; top: 44px; width: 1255px; height: 822px;\"><img src=\"../art/scenes/conference_hall/reception/reception_scene.png\" id=\"sceneArt\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"1256\" height=\"824\" style=\"left: 0px; top: 0px; width: 1256px; height: 824px;\"></div><div class=\"aperture art-aperture\" id=\"portrait\" role=\"img\" aria-label=\"The receptionist\" style=\"left: 1333px; top: 44px; width: 564px; height: 278px;\"><img src=\"../art/portraits/receptionist/reception_background.png\" id=\"portraitBackground\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"><div class=\"layer fx\" id=\"portraitRearFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div><img src=\"../art/portraits/receptionist/receptionist_idle.png\" id=\"portraitNpc\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"><div class=\"layer fx\" id=\"portraitFrontFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div></div>"
+        "dom": "<div class=\"aperture art-aperture\" id=\"scene\" role=\"img\" aria-label=\"The reception lobby\" style=\"left: 32px; top: 44px; width: 1255px; height: 822px;\"><img src=\"../art/scenes/conference_hall/reception/reception_scene.png\" id=\"sceneArt\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"1256\" height=\"824\" style=\"left: 0px; top: 0px; width: 1256px; height: 824px;\" data-art=\"scene:conference_hall/reception\"></div><div class=\"aperture art-aperture\" id=\"portrait\" role=\"img\" aria-label=\"The receptionist\" style=\"left: 1333px; top: 44px; width: 564px; height: 278px;\"><img src=\"../art/portraits/receptionist/reception_background.png\" id=\"portraitBackground\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\" data-art=\"portrait:receptionist:background:reception\"><div class=\"layer fx\" id=\"portraitRearFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div><img src=\"../art/portraits/receptionist/receptionist_idle.png\" id=\"portraitNpc\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\" data-art=\"portrait:receptionist:pose:idle\"><div class=\"layer fx\" id=\"portraitFrontFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div></div>"
       }
     },
     {
