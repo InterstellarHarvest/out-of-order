@@ -89,6 +89,9 @@ function convert(input, opts) {
     if (typeof c.id !== 'string' || !/^[a-z0-9_-]+$/.test(c.id)) return err(w, 'id must be a lower-case id');
     if (chapterIds.indexOf(c.id) !== -1) return err(w, 'duplicate chapter id ' + c.id);
     if (!obj(chapters[c.id])) return err(w, 'chapter file ' + c.file + ' is missing or not an object');
+    // An approved build is a creative sign-off: every chapter in it must be marked approved in the
+    // storyboard itself. A preview plays drafts (and says so on screen, docs/84 section 4.1).
+    if (mode === 'approved' && c.status !== 'approved') err(w, 'chapter ' + c.id + ' is marked "' + c.status + '" in the manifest; an approved build needs every chapter marked "approved" in the storyboard first');
     chapterIds.push(c.id);
   });
   const start = has(manifest, 'start') ? manifest.start : has(settings, 'start') ? settings.start : chapterIds[0];

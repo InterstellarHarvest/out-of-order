@@ -36,6 +36,13 @@
         "gitBlob": "800b6ae913f2cc13f8717281f61ab9bedb9e43b3"
       }
     ],
+    "chapters": [
+      {
+        "id": "prologue-00",
+        "title": "The Last Good Day — Draft",
+        "status": "draft"
+      }
+    ],
     "draftStops": [
       "prologue-00:reception_hallway"
     ],

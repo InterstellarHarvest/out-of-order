@@ -159,6 +159,8 @@ function build(opts) {
     contentHash,
     version: story.version,
     sources: src.sources.map((s) => ({ path: s.path, sha256: sha256(s.bytes), gitBlob: gitBlob(s.bytes) })),
+    // The manifest's own chapter titles and statuses, for the draft stamp (docs/84 section 4.1).
+    chapters: src.input.manifest.chapters.map((ch) => ({ id: ch.id, title: ch.title, status: ch.status })),
     draftStops: c.draftStops,
     art: report.art,
     stats: report.stats
