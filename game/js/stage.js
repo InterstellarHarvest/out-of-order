@@ -19,6 +19,32 @@
   // keyboard navigation still moves real focus between the cards, unseen.
   var TU = G.TUNING; // production presentation constants (js/tuning.js); values unchanged
 
+  // What the stage reads about the story, through one port: the reception's v1 content and rules
+  // by default (exactly the calls this file always made), or a story-v2 adapter that
+  // js/story-flow.js installs for an imported story (docs/84). Presentation never reads content
+  // any other way.
+  var V1_PORT = {
+    item: function (id) { return G.content.items[id]; },
+    itemActions: function (id) { return G.rules.itemActions(G.content, G.state, id); },
+    description: function (id) { return G.rules.description(G.content, G.state, id); },
+    contextAction: function () { return G.rules.contextAction(G.content, G.state); },
+    contextSpent: function () { return G.rules.contextSpent(G.content, G.state); },
+    files: function () { return G.rules.files(G.content, G.state); },
+    notesTitle: 'NOTES: EVERYTHING SAID AT RECEPTION',
+    // NOTES lines: add(text, role, gap). A thought (docs/64) keeps its own treatment here too:
+    // parentheses, the player's face, no label.
+    notes: function (add) {
+      G.state.transcript.forEach(function (line, i) {
+        if (line.who === 'thought') return add(G.thoughtText(line.text), SPEECH_FACE.thought, i === 0 ? 18 : 14);
+        add(line.who === 'npc' ? G.content.speaker + ':' : 'YOU:', 'labels', i === 0 ? 18 : 14);
+        add(line.text, SPEECH_FACE[line.who], 4);
+      });
+    }
+  };
+  function port() {
+    return G.port || V1_PORT;
+  }
+
   var ui = (G.ui = {
     speech: { parts: [], lines: [], key: '', base: 0, revealed: 0, typing: false, typeStart: 0, scrollLine: 0, newRow: 0 },
     cards: [], // the choice set on show, laid out
@@ -217,6 +243,12 @@
   function openingArt(story) {
     var ch = story.chapters[story.start];
     var node = ch.nodes[ch.start];
+    if (node.mode !== 'dialogue') {
+      // An imported story may open in Narrative B: no portrait yet (js/story-flow.js sets the
+      // apertures from Rules.view from then on).
+      var sid = node.scene || ch.scene;
+      return { scene: artKey.scene(sid), sceneLabel: LEGACY_LABELS.scene[sid] || sid, background: null, pose: null, castLabel: '' };
+    }
     var pid = story.cast[node.speaker].portrait;
     var p = story.assets.portraits[pid];
     var scene = node.scene || ch.scene;
@@ -238,6 +270,7 @@
 
   function artLayer(parent, key, id) {
     var spec = G.ART[key];
+    if (spec && spec.path === null) return placeholderLayer(parent, spec, id);
     var cls = spec && ART_CLASS[spec.cls];
     var img = G.image(key);
     if (!img) throw new Error('Art not decoded before the stage was built: ' + key);
@@ -255,6 +288,54 @@
     return img;
   }
 
+  // A registered image with no file yet (a fixture's or a draft build's DEV PLACEHOLDER, docs/72
+  // section 4.2): the labelled placeholder at the class's native size, never a guess at the art.
+  function placeholderLayer(parent, spec, id) {
+    var cls = ART_CLASS[spec.cls];
+    var c = document.createElement('canvas');
+    c.id = id;
+    c.className = 'layer art';
+    c.setAttribute('aria-hidden', 'true');
+    var w = cls.size[0] * (cls.scale || 1);
+    var h = cls.size[1] * (cls.scale || 1);
+    P.panel(c, w, h, spec.cls.toUpperCase() + ': ' + spec.id, ['DEV PLACEHOLDER.', 'ART NOT YET SUPPLIED.']);
+    place(c, 0, 0, w, h);
+    parent.appendChild(c);
+    return c;
+  }
+
+  // Runtime swaps for an imported story (js/story-flow.js, docs/84): the scene, the portrait's
+  // layers, or a Focus A close-up in the portrait aperture. Each image is the decoded image itself.
+  function swapLayer(parent, old, key, id, before) {
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+    if (!key) return null;
+    var node = artLayer(parent, key, id);
+    if (before) parent.insertBefore(node, before);
+    node.dataset.art = key;
+    return node;
+  }
+  G.setSceneArt = function (key, label) {
+    if (els.sceneArt && els.sceneArt.dataset.art === key) return;
+    els.sceneArt = swapLayer(els.scene, els.sceneArt, key, 'sceneArt');
+    els.scene.setAttribute('aria-label', label || key);
+  };
+  // which: { background, pose, label } | { focus, label } | null (nothing: Narrative B covers it).
+  G.setPortraitArt = function (which) {
+    var w = which || {};
+    show(els.portrait, !!which);
+    if ((els.portraitBackground && els.portraitBackground.dataset.art) !== w.background) {
+      els.portraitBackground = swapLayer(els.portrait, els.portraitBackground, w.background, 'portraitBackground', els.portraitRearFx);
+    }
+    if ((els.portraitNpc && els.portraitNpc.dataset.art) !== w.pose) {
+      els.portraitNpc = swapLayer(els.portrait, els.portraitNpc, w.pose, 'portraitNpc', els.portraitFrontFx);
+    }
+    if ((els.focusArt && els.focusArt.dataset.art) !== w.focus) {
+      els.focusArt = swapLayer(els.portrait, els.focusArt, w.focus, 'focusArt', els.portraitFrontFx);
+    }
+    els.portrait.dataset.mode = w.focus ? 'focus' : which ? 'portrait' : 'none';
+    if (which) els.portrait.setAttribute('aria-label', w.label || '');
+  };
+
   function fxLayer(parent, id, r) {
     var fx = el('div', 'layer fx', parent, { id: id, 'aria-hidden': 'true' });
     place(fx, 0, 0, r[2], r[3]);
@@ -270,9 +351,12 @@
     var pr = R.portraitAperture.rect;
     els.portrait = el('div', 'aperture art-aperture', stage, { id: 'portrait', role: 'img', 'aria-label': on.castLabel });
     place(els.portrait, pr[0], pr[1], pr[2], pr[3]);
-    els.portraitBackground = artLayer(els.portrait, on.background, 'portraitBackground');
+    els.portraitBackground = on.background ? artLayer(els.portrait, on.background, 'portraitBackground') : null;
     els.portraitRearFx = fxLayer(els.portrait, 'portraitRearFx', pr);
-    els.portraitNpc = artLayer(els.portrait, on.pose, 'portraitNpc');
+    els.portraitNpc = on.pose ? artLayer(els.portrait, on.pose, 'portraitNpc') : null;
+    if (els.portraitBackground) els.portraitBackground.dataset.art = on.background;
+    if (els.portraitNpc) els.portraitNpc.dataset.art = on.pose;
+    els.sceneArt.dataset.art = on.scene;
     els.portraitFrontFx = fxLayer(els.portrait, 'portraitFrontFx', pr);
     els.overlay = el('div', 'aperture overlay', stage, { id: 'overlay', tabindex: '-1' });
     place(els.overlay, sc[0], sc[1], sc[2], sc[3]);
@@ -300,7 +384,11 @@
   // receptionist's in the Dialogue face, with the speaker gap where the speaker changes. A
   // `thought` (the player's unspoken observation, docs/64) is its own role: drawn in the player's
   // Choices face, in parentheses, with no speaker label, and it never types.
-  var SPEECH_FACE = { npc: 'dialogue', player: 'choices', thought: 'choices' };
+  var SPEECH_FACE = { npc: 'dialogue', player: 'choices', thought: 'choices', action: 'choices' };
+  // An imported story's dialogue box (docs/72 section 3.5, docs/70): the player's actions in the
+  // Choices face and the action ink, never bracketed. NPC speech and stage directions are 'npc'.
+  var SPEECH_INK = { action: 'action' };
+  var SPEAKER = { npc: 'npc', player: 'you', thought: 'you', action: 'you' };
   G.thoughtText = function (text) {
     return '(' + text + ')';
   };
@@ -309,7 +397,7 @@
   }
 
   function speakerGap(lines, start, i) {
-    return i > start && lines[i].who !== lines[i - 1].who ? S().speakerGap : 0;
+    return i > start && SPEAKER[lines[i].who] !== SPEAKER[lines[i - 1].who] ? S().speakerGap : 0;
   }
 
   function linesFrom(start) {
@@ -358,6 +446,37 @@
     s.newRow = first;
     s.base = charsBefore(s.lines, first);
     if (who !== 'npc') {
+      s.typing = false;
+      s.revealed = charsBefore(s.lines, s.lines.length);
+      s.scrollLine = speechMaxScroll();
+    } else {
+      s.typing = true;
+      s.typeStart = performance.now();
+      s.revealed = s.base;
+    }
+    renderSpeech();
+  };
+
+  // Several parts at once (an imported story's paragraph runs, docs/84): [{ text, who }]. The new
+  // parts type from the first one that types (npc), as one passage; the player's own lines and
+  // thoughts before it are there at once. opts.instant shows them all at once (history rebuilds).
+  G.addSpeechParts = function (parts, opts) {
+    var s = ui.speech;
+    if (!parts.length) return;
+    var firstNew = s.parts.length;
+    parts.forEach(function (p) {
+      if (!SPEECH_FACE[p.who]) throw new Error('Unknown speaker role: ' + p.who);
+      s.parts.push({ text: p.who === 'thought' ? G.thoughtText(p.text) : p.text, role: SPEECH_FACE[p.who], who: p.who });
+    });
+    rewrap();
+    var typesFrom = -1;
+    if (!(opts && opts.instant)) for (var k = firstNew; k < s.parts.length; k++) if (s.parts[k].who === 'npc') { typesFrom = k; break; }
+    var anchor = typesFrom === -1 ? firstNew : typesFrom;
+    var first = 0;
+    while (first < s.lines.length && s.lines[first].part < anchor) first++;
+    s.newRow = first;
+    s.base = charsBefore(s.lines, first);
+    if (typesFrom === -1) {
       s.typing = false;
       s.revealed = charsBefore(s.lines, s.lines.length);
       s.scrollLine = speechMaxScroll();
@@ -436,7 +555,9 @@
     s.scrollLine = clamp(s.scrollLine, 0, speechMaxScroll());
     var view = linesFrom(s.scrollLine);
     var shown = s.lines.slice(s.scrollLine, s.scrollLine + view).map(function (line, i) {
-      return { text: line.text, role: line.role, gap: speakerGap(s.lines, s.scrollLine, s.scrollLine + i) };
+      var out = { text: line.text, role: line.role, gap: speakerGap(s.lines, s.scrollLine, s.scrollLine + i) };
+      if (SPEECH_INK[line.who]) out.ink = SPEECH_INK[line.who];
+      return out;
     });
     var budget = s.typing ? s.revealed - charsBefore(s.lines, s.scrollLine) : undefined;
     T.draw(els.speechCanvas, shown, t.font, t.lineHeight, t.width, t.height, budget, 'dialogue');
@@ -465,7 +586,11 @@
     var c = C();
     var y = 0;
     return list.map(function (choice, i) {
-      var wrapped = T.wrap(choice.text, c.text.maxWidth, 'choices');
+      // Marking is presentation (docs/70, docs/72 section 3.5): a spoken card shows its words in
+      // quotation marks, an action card is in the action ink; the words themselves are unchanged
+      // (aria-label and the dialogue-box echo carry no quotes). The reception's cards have no kind.
+      var shown = choice.kind === 'spoken' ? '"' + choice.text + '"' : choice.text;
+      var wrapped = T.wrap(shown, c.text.maxWidth, 'choices');
       var lines = clamp(wrapped.length, 1, 4);
       var card = {
         index: i,
@@ -475,6 +600,8 @@
         overflowLines: Math.max(0, wrapped.length - 4),
         lines: lines,
         sprite: 'choice_' + lines + 'line_' + 'abc'[i % 3],
+        kind: choice.kind,
+        ink: choice.kind === 'action' ? 'action' : undefined,
         height: c.cardHeights[lines],
         y: y
       };
@@ -635,6 +762,8 @@
       parts.node.dataset.index = i;
       parts.node.dataset.choice = card.id;
       parts.node.dataset.sprite = card.sprite;
+      if (card.kind) parts.node.dataset.kind = card.kind;
+      else delete parts.node.dataset.kind;
       parts.node.setAttribute('aria-label', card.text);
       parts.node.tabIndex = G.flow && G.flow.phase === 'choosing' ? 0 : -1;
       place(parts.node, away, top - rise, c.cardWidth, card.height);
@@ -649,9 +778,9 @@
       var lh = c.text.lineHeight;
       var textH = card.wrapped.length * lh;
       var textTop = Math.max(6, Math.floor((card.height - textH) / 2)) + c.text.offsetY;
-      var key = card.text + '|' + card.lines;
+      var key = card.text + '|' + card.lines + (card.kind ? '|' + card.kind : '');
       if (parts.key !== key) {
-        T.draw(parts.text, card.wrapped, c.text.font, lh, c.text.maxWidth, textH + 8, undefined, 'choices');
+        T.draw(parts.text, card.wrapped, card.ink || c.text.font, lh, c.text.maxWidth, textH + 8, undefined, 'choices');
         parts.key = key;
       }
       place(parts.text, c.text.offsetX, textTop, c.text.maxWidth, textH + 8);
@@ -858,10 +987,10 @@
       slot.node.dataset.index = index;
       slot.node.dataset.item = id || '';
       slot.node.tabIndex = id ? 0 : -1;
-      slot.node.setAttribute('aria-label', id ? G.content.items[id].name : 'Empty slot');
+      slot.node.setAttribute('aria-label', id ? port().item(id).name : 'Empty slot');
       slot.node.dataset.open = ui.inspector && ui.inspector.id === id ? 'true' : 'false';
       slot.node.dataset.selected = id && G.selectedItem() === id ? 'true' : 'false';
-      var def = id && G.content.items[id];
+      var def = id && port().item(id);
       var src = def && def.slotArt ? G.url(def.slotArt) : '';
       show(slot.art, !!src);
       if (src && slot.art.getAttribute('src') !== src) slot.art.setAttribute('src', src);
@@ -901,7 +1030,7 @@
   // says why (docs/49 section 2.1). Hover never changes any of this.
   function utilityActions() {
     if (ui.inspector) {
-      var acts = G.rules.itemActions(G.content, G.state, ui.inspector.id);
+      var acts = port().itemActions(ui.inspector.id);
       var mid = acts.use ? { action: 'use', glyph: 'use', label: 'USE', enabled: true }
         : { action: 'show', glyph: 'show_badge', label: 'SHOW', enabled: !!acts.show, why: 'NOT AVAILABLE HERE' };
       if (G.flow.phase !== 'choosing') mid.enabled = false;
@@ -911,10 +1040,10 @@
         { action: 'none', glyph: null, label: '', enabled: false, blank: true }
       ];
     }
-    var ctx = G.state ? G.rules.contextAction(G.content, G.state) : null;
+    var ctx = G.state ? port().contextAction() : null;
     var first = { action: 'none', glyph: null, label: '', enabled: false, blank: true };
     if (ctx) {
-      var spent = G.rules.contextSpent(G.content, G.state);
+      var spent = port().contextSpent();
       first = { action: 'context', glyph: ctx.glyph, label: ctx.label, enabled: !spent && G.flow.phase === 'choosing', why: spent ? ctx.spentWhy : 'NOT NOW' };
     }
     return [
@@ -1150,7 +1279,7 @@
 
   // Shows the item's inspect art 1:1 at the art area's origin, or the placeholder when it has none.
   function showInspectArt(id) {
-    var def = G.content.items[id];
+    var def = port().item(id);
     var img = def.inspectArt ? G.image(G.inspectImageName(id)) : null;
     if (img) {
       img.id = 'inspectImage';
@@ -1175,8 +1304,8 @@
     var id = ui.inspector.id;
     var width = C().viewport.width - C().text.offsetX - 24;
     // Dark ink: the item text sits on the light choices panel (docs/53). Dialogue keeps its own ink.
-    var lines = [{ text: G.content.items[id].name, role: 'labels', ink: 'dark' }];
-    T.wrap(G.rules.description(G.content, G.state, id), width, 'dialogue').forEach(function (t, i) {
+    var lines = [{ text: port().item(id).name, role: 'labels', ink: 'dark' }];
+    T.wrap(port().description(id), width, 'dialogue').forEach(function (t, i) {
       lines.push({ text: t, role: 'dialogue', ink: 'dark', gap: i === 0 ? 10 : 0 });
     });
     return lines;
@@ -1264,7 +1393,7 @@
   }
 
   function overlayTitle() {
-    return ui.overlay === 'notes' ? 'NOTES: EVERYTHING SAID AT RECEPTION' : 'YOUR FILES';
+    return ui.overlay === 'notes' ? port().notesTitle : 'YOUR FILES';
   }
 
   function overlayLines() {
@@ -1274,14 +1403,9 @@
       T.wrap(text, width, role).forEach(function (t, i) { lines.push({ text: t, role: role, gap: i === 0 ? gap || 0 : 0 }); });
     }
     if (ui.overlay === 'notes') {
-      // A thought (docs/64) keeps its own treatment here too: parentheses, the player's face, no label.
-      G.state.transcript.forEach(function (line, i) {
-        if (line.who === 'thought') return add(G.thoughtText(line.text), SPEECH_FACE.thought, i === 0 ? 18 : 14);
-        add(line.who === 'npc' ? G.content.speaker + ':' : 'YOU:', 'labels', i === 0 ? 18 : 14);
-        add(line.text, SPEECH_FACE[line.who], 4);
-      });
+      port().notes(add);
     } else {
-      G.rules.files(G.content, G.state).forEach(function (t) { add(t, 'dialogue', 16); });
+      port().files().forEach(function (t) { add(t, 'dialogue', 16); });
     }
     return lines;
   }
@@ -1423,7 +1547,16 @@
   // Rows [top, bottom) that hold ink in a text canvas, so a line can be centred on its band
   // whatever the face's cap offset.
   function inkRows(canvas) {
-    var d = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    var d;
+    try {
+      d = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data;
+    } catch (e) {
+      // Opened from file:// (Chromium treats each file as its own origin, so a canvas drawn from the
+      // font atlases cannot be read back): the same rows from the glyph boxes (T.inkRows).
+      // Pre-existing on the M2 line: the item slip threw here from file:// (docs/84 section 7).
+      if (canvas.dataset.labelText !== undefined) return T.inkRows(canvas.dataset.labelText, canvas.dataset.labelRole);
+      return [0, canvas.height];
+    }
     var top = -1;
     var bottom = 0;
     for (var y = 0; y < canvas.height; y++) {
@@ -1443,9 +1576,9 @@
     canvas.height = NOTICE_SIZE[1];
     var ctx = canvas.getContext('2d');
     ctx.imageSmoothingEnabled = false;
-    var art = G.content.items[id].slotArt ? G.image('item:' + id) : null;
+    var art = port().item(id).slotArt ? G.image('item:' + id) : null;
     if (art) ctx.drawImage(art, TU.notice.itemX, TU.notice.itemY, 96, 96);
-    [['ITEM RECEIVED', 'labels', TU.notice.titleX, TU.notice.titleMidY], [G.content.items[id].name, 'choices', TU.notice.nameX, TU.notice.nameMidY]].forEach(function (line) {
+    [['ITEM RECEIVED', 'labels', TU.notice.titleX, TU.notice.titleMidY], [port().item(id).name, 'choices', TU.notice.nameX, TU.notice.nameMidY]].forEach(function (line) {
       var c = document.createElement('canvas');
       T.label(c, line[0], 'dark', line[1]);
       var rows = inkRows(c);
@@ -1479,7 +1612,7 @@
     if (!id) return;
     applyNoticeOpacity(now);
     drawNotice(els.noticeArt, id);
-    var text = 'ITEM RECEIVED: ' + G.content.items[id].name;
+    var text = 'ITEM RECEIVED: ' + port().item(id).name;
     els.notice.dataset.item = id;
     els.notice.dataset.text = text;
     els.notice.setAttribute('aria-label', text);
@@ -1520,6 +1653,8 @@
     if (now >= ui.notice.until) finishNotice(now);
     else applyNoticeOpacity(now);
   };
+
+  G.renderObjective = renderObjective;
 
   G.renderAll = function () {
     var now = performance.now();
@@ -1562,7 +1697,7 @@
       show(els.notice, true);
       drawNotice(els.noticeArt, ui.notice.id);
       els.notice.dataset.item = ui.notice.id;
-      els.notice.dataset.text = 'ITEM RECEIVED: ' + G.content.items[ui.notice.id].name;
+      els.notice.dataset.text = 'ITEM RECEIVED: ' + port().item(ui.notice.id).name;
       els.notice.setAttribute('aria-label', els.notice.dataset.text);
       applyNoticeOpacity(performance.now());
     }

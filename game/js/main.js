@@ -103,12 +103,24 @@
       items.push({ name: G.INSPECTOR_ART[k].image, url: G.url(G.INSPECTOR_ART[k].path) });
     });
 
+    // An imported story's Narrative B overlay (js/surfaces.js), decoded before ready like the rest.
+    if (G.storyMode) items.push({ name: G.NARRATIVE_ART.image, url: G.url(G.NARRATIVE_ART.path) });
+
     // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front:
     // NOTES, FILES, the inspector's READ / USE / SHOW, and every context action's glyph named in
     // the content (docs/64; reception: watch).
     var glyphs = ['notes', 'files', 'read', 'use', 'show_badge'];
-    [G.content.contextAction].concat(Object.keys(G.content.nodes).map(function (id) { return G.content.nodes[id].contextAction; }))
-      .forEach(function (a) { if (a && glyphs.indexOf(a.glyph) === -1) glyphs.push(a.glyph); });
+    var actions = [];
+    if (G.storyMode) {
+      actions.push(G.story.contextAction);
+      Object.keys(G.story.chapters).forEach(function (c) {
+        var ns = G.story.chapters[c].nodes;
+        Object.keys(ns).forEach(function (id) { actions.push(ns[id].contextAction); });
+      });
+    } else {
+      actions = [G.content.contextAction].concat(Object.keys(G.content.nodes).map(function (id) { return G.content.nodes[id].contextAction; }));
+    }
+    actions.forEach(function (a) { if (a && glyphs.indexOf(a.glyph) === -1) glyphs.push(a.glyph); });
     glyphs.forEach(function (g) {
       items.push({ name: 'glyph:' + g, url: G.glyphUrl(g) });
     });
@@ -121,9 +133,25 @@
     throw err;
   }
 
+  // Which story plays (docs/84): the imported one (game/content/story.generated.js, built from the
+  // storyboard JSON by tools/story-import) by default; the M2 reception slice, the regression
+  // fixture, with ?story=reception, or on any page that does not load generated content (the
+  // polish lab). The reception keeps its own v1 flow (js/flow.js) exactly as before.
+  G.storyMode = !!window.CYOA_STORY && !/[?&]story=reception\b/.test(location.search);
+
   var list;
   try {
-    G.story = G.rules.fromV1(G.content);
+    if (G.storyMode) {
+      G.story = window.CYOA_STORY;
+      G.storyBuild = window.CYOA_STORY_BUILD || null;
+      G.flow = G.storyFlow;
+      document.body.dataset.story = G.story.id;
+      document.body.dataset.content = G.storyBuild ? G.storyBuild.contentHash.slice(0, 12) : '';
+      document.body.dataset.channel = G.storyBuild ? G.storyBuild.channel : '';
+    } else {
+      G.story = G.rules.fromV1(G.content);
+      document.body.dataset.story = 'reception';
+    }
     G.registerArt(G.story);
     list = bootList();
   } catch (err) {
@@ -134,7 +162,8 @@
     fit();
     window.addEventListener('resize', fit);
     qaHooks();
-    G.flow.start();
-    document.body.dataset.ready = 'true';
-  }, failed);
+    return Promise.resolve(G.flow.start()).then(function () {
+      document.body.dataset.ready = 'true';
+    });
+  }).catch(failed);
 })();

@@ -110,6 +110,11 @@
 
   // Bitmap text ------------------------------------------------------------------------------
   var INK = { dark: '#203037', light: '#f1d898' };
+  // Second and third inks (docs/70, owner rounds 3-6; docs/72 section 3.5): the player's actions
+  // (action cards, and the player's action lines in the dialogue box) and slate. Drawn as a tint of
+  // the dark face, so every face can take them; dark and light draw exactly as before.
+  var TINT = { action: '#8e2c1f', slate: '#3f5f6b' };
+  G.INK_TINTS = TINT;
   var LOCKED = {
     id: 'locked',
     mapping: DATA.glyphs.mapping,
@@ -200,6 +205,7 @@
   };
 
   function paint(ctx, rows, tops, ink, width, height, face) {
+    var tint = TINT[ink] || null;
     var atlas = face === LOCKED
       ? images[ink === 'light' ? 'locked_pixel_font_atlas_light' : 'locked_pixel_font_atlas_dark']
       : images['font:' + face.id];
@@ -212,18 +218,41 @@
         x += g.advance;
       }
     });
-    if (face !== LOCKED) {
+    if (face !== LOCKED || tint) {
       ctx.globalCompositeOperation = 'source-in';
-      ctx.fillStyle = INK[ink === 'light' ? 'light' : 'dark'];
+      ctx.fillStyle = tint || INK[ink === 'light' ? 'light' : 'dark'];
       ctx.fillRect(0, 0, width, height);
       ctx.globalCompositeOperation = 'source-over';
     }
   }
 
+  // The rows [top, bottom) a line's glyphs can ink, from the glyph boxes alone (no pixel read: a
+  // file:// page cannot read back a canvas drawn from its own images).
+  // window.CYOA_GLYPH_INK (js/glyph-ink.js, generated from the atlases) gives each glyph's inked rows
+  // inside its box; without it the whole box counts.
+  T.inkRows = function (text, role) {
+    var face = T.face(role);
+    var table = window.CYOA_GLYPH_INK && window.CYOA_GLYPH_INK[face.id];
+    var top = Infinity;
+    var bottom = -Infinity;
+    for (var i = 0; i < text.length; i++) {
+      var ch = face.mapping[text[i]] ? text[i] : '?';
+      var g = face.mapping[ch];
+      if (!g.w || !g.h) continue;
+      var ink = table ? table[ch] : [0, g.h];
+      if (!ink) continue;
+      top = Math.min(top, (g.bearingY || 0) + ink[0]);
+      bottom = Math.max(bottom, (g.bearingY || 0) + ink[1]);
+    }
+    return top === Infinity ? [0, T.lineHeight(role)] : [top, bottom];
+  };
+
   // One line of text on a fresh canvas sized to its ink.
   T.label = function (canvas, text, ink, role) {
     var w = Math.max(1, T.inkWidth(text, role));
     var lh = T.lineHeight(role);
+    canvas.dataset.labelText = text;
+    canvas.dataset.labelRole = role;
     T.draw(canvas, [text], ink, lh, w, lh, undefined, role);
     return [w, lh];
   };

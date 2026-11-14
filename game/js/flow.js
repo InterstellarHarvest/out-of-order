@@ -233,6 +233,7 @@
   };
 
   document.addEventListener('keydown', function (e) {
+    if (G.flow !== F) return; // an imported story is playing (js/story-flow.js handles its keys)
     if (e.key === 'Escape') {
       if (G.ui.inspector) F.closeInspector();
       else if (G.ui.overlay) F.utility(G.ui.overlay);
