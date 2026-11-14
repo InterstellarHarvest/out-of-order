@@ -987,7 +987,13 @@
     var from = s.transcript.length;
 
     if (r.type === 'inspect') {
+      // An item's own inspect behaviour (story import, docs/84): effects that run when the player
+      // opens it, e.g. a sealed box that unpacks. `once` (the default when authored) runs them only
+      // the first time, i.e. while the item is not yet marked inspected.
+      var insp = story.items[r.item].inspect;
+      var first = itemMarks(s, r.item).indexOf('inspected') === -1;
       mark(s, r.item, 'inspected');
+      if (insp && insp.effects && (first || insp.once === false)) tx.effects(insp.effects);
       return tx.done(from);
     }
     if (r.type === 'read') {
@@ -1171,6 +1177,51 @@
         presented = Math.max(s.presentFrom, Math.min(s.transcript.length, env.cursor.presented));
       }
       return { ok: true, state: s, cursor: { presented: presented } };
+    } catch (e) {
+      return { ok: false, reason: e.message };
+    }
+  }
+
+  // A save written by another content revision of the same story (docs/84 section 6). The story's
+  // `version` changes with every content change, so restore() alone would refuse every older save.
+  // migrate() keeps a save only when everything it refers to still exists with the same meaning:
+  //   - its chapter, node, excursion opener and every transcript chapter (restore() checks these);
+  //   - every decision-log entry: the node it was taken at and the choice or item entry it names;
+  //   - every resolved check, with the same sides (restore() re-derives the roll from the seed);
+  //   - its flags: newly declared flags are added with their initial value (the one migration
+  //     performed); a flag the save holds that is no longer declared makes it incompatible;
+  //   - its items and marks (restore()).
+  // Otherwise it returns { ok: false, reason } and the caller starts fresh. It never half-migrates.
+  function migrate(story, saved) {
+    try {
+      requireStory(story);
+      var env = typeof saved === 'string' ? JSON.parse(saved) : clone(saved);
+      if (!env || env.schema !== SAVE_SCHEMA) return { ok: false, reason: 'not a ' + SAVE_SCHEMA + ' save' };
+      if (env.story !== story.id) return { ok: false, reason: 'save is for another story (' + env.story + ')' };
+      if (env.version === story.version) return restore(story, env);
+      var s = env.state;
+      if (!s || typeof s !== 'object' || !s.flags || typeof s.flags !== 'object') return { ok: false, reason: 'state is malformed' };
+      var notes = [];
+      var declared = story.initialState.flags;
+      var gone = Object.keys(s.flags).filter(function (f) { return !has(declared, f); });
+      if (gone.length) return { ok: false, reason: 'incompatible content revision: flags no longer declared: ' + gone.join(', ') };
+      Object.keys(declared).forEach(function (f) {
+        if (!has(s.flags, f)) { s.flags[f] = clone(declared[f]); notes.push('added flag ' + f); }
+      });
+      var bad = (Array.isArray(s.taken) ? s.taken : []).filter(function (t) {
+        var parts = String(t.at).split(':');
+        var ch = story.chapters[parts[0]];
+        var n = ch && ch.nodes[parts.slice(1).join(':')];
+        if (!n) return true;
+        if (typeof t.c === 'string') return !n.choices.some(function (c) { return c.id === t.c; });
+        return !(n[t.verb] && n[t.verb][t.item]);
+      });
+      if (bad.length) return { ok: false, reason: 'incompatible content revision: decisions refer to removed nodes or choices: ' + bad.map(function (t) { return t.at + ' ' + (t.c || t.verb + ' ' + t.item); }).join('; ') };
+      env.version = story.version;
+      var r = restore(story, env);
+      if (!r.ok) return { ok: false, reason: 'incompatible content revision: ' + r.reason };
+      r.migrated = { from: saved && (typeof saved === 'string' ? JSON.parse(saved).version : saved.version), to: story.version, notes: notes };
+      return r;
     } catch (e) {
       return { ok: false, reason: e.message };
     }
@@ -1427,12 +1478,21 @@
     Object.keys(items).forEach(function (id) {
       var it = items[id];
       var w = 'item ' + id;
-      onlyKeys(w, it, ['name', 'slotArt', 'inspectArt', 'description', 'read']);
+      onlyKeys(w, it, ['name', 'slotArt', 'inspectArt', 'description', 'read', 'inspect']);
       text(w + ' name', it.name);
       plainField(w + ' description', it.description);
       if (it.read !== undefined) {
         if (!obj(it.read)) err(w, 'read must be an object');
         else { onlyKeys(w + ' read', it.read, ['effects']); effects(w + ' read', it.read.effects); }
+      }
+      if (it.inspect !== undefined) {
+        if (!obj(it.inspect)) err(w, 'inspect must be an object');
+        else {
+          onlyKeys(w + ' inspect', it.inspect, ['effects', 'once']);
+          if (it.inspect.once !== undefined && typeof it.inspect.once !== 'boolean') err(w + ' inspect', 'once must be true or false');
+          if (it.inspect.effects === undefined) err(w + ' inspect', 'needs effects');
+          effects(w + ' inspect', it.inspect.effects);
+        }
       }
     });
     (story.files || []).forEach(function (f, i) {
@@ -1766,6 +1826,7 @@
     chance: chanceOf,
     serialize: serialize,
     restore: restore,
+    migrate: migrate,
     resume: resume
   };
 
