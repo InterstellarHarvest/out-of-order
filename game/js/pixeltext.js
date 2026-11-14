@@ -8,7 +8,9 @@
 
   var DATA = window.M1_LAB_DATA; // the lab's bundle: working layout, fonts, glyph maps, action glyphs
   var SHEET = window.M1_SPRITE_SHEET;
-  var ROOT = '../'; // game/index.html sits one folder below the repository root
+  // game/index.html sits one folder below the repository root. A page elsewhere that loads these
+  // same scripts (the polish lab's stage, docs/62) sets window.CYOA_ROOT first; the game does not.
+  var ROOT = window.CYOA_ROOT || '../';
 
   var G = (window.CYOA_GAME = window.CYOA_GAME || {});
   G.layout = JSON.parse(JSON.stringify(DATA.placementDefault));
@@ -33,28 +35,77 @@
   };
 
   var images = {};
+  var bound = {}; // image name -> the url it is (being) decoded from: one name, one file
+  var pending = {}; // image name -> its decode, while in flight
   G.image = function (name) {
     return images[name];
   };
 
-  // Everything drawn to canvas is decoded before the first frame.
+  // Decodes exactly `list` ([{ name, url }]) into the one image cache that G.image reads (engine S3,
+  // docs/83). A name already decoded, or still decoding, from the same url is reused and never
+  // requested again; a name already bound to a different url is refused. Resolves with
+  // { requested, reused } (image names) once every image has decoded. If any image cannot be
+  // used, it waits for the rest and then rejects once, with every failure in `err.failures`
+  // ([{ name, url, reason }]) and in the message ('Missing image: <url>' as before for one).
+  G.decodeImages = function (list) {
+    var requested = [];
+    var reused = [];
+    return Promise.all(list.map(function (item) {
+      if (has(bound, item.name) && bound[item.name] !== item.url) {
+        return { name: item.name, url: item.url, reason: 'already bound to ' + bound[item.name] };
+      }
+      if (images[item.name] && !pending[item.name]) {
+        reused.push(item.name);
+        return null;
+      }
+      if (pending[item.name]) {
+        reused.push(item.name);
+        return pending[item.name];
+      }
+      requested.push(item.name);
+      bound[item.name] = item.url;
+      pending[item.name] = new Promise(function (resolve) {
+        var img = new Image();
+        img.onload = function () {
+          images[item.name] = img;
+          img.decode().then(done, done);
+        };
+        img.onerror = function () {
+          delete bound[item.name]; // a later call may try again
+          done({ name: item.name, url: item.url, reason: 'missing' });
+        };
+        function done(failure) {
+          delete pending[item.name];
+          resolve(failure && failure.reason ? failure : null);
+        }
+        img.src = item.url;
+      });
+      return pending[item.name];
+    })).then(function (results) {
+      var failures = results.filter(Boolean);
+      if (failures.length) {
+        var err = new Error(failures.length === 1 && failures[0].reason === 'missing'
+          ? 'Missing image: ' + failures[0].url
+          : 'Images not loaded: ' + failures.map(function (f) { return f.name + ' (' + f.url + ': ' + f.reason + ')'; }).join('; '));
+        err.failures = failures;
+        throw err;
+      }
+      return { requested: requested, reused: reused };
+    });
+  };
+  function has(o, k) {
+    return Object.prototype.hasOwnProperty.call(o, k);
+  }
+
+  // Everything drawn to canvas is decoded before the first frame: the sprite package and fonts,
+  // plus `extra` (js/main.js's boot list).
   G.loadImages = function (extra) {
     var list = Object.keys(SHEET.sprites)
       .filter(function (n) { return n !== 'locked_pixel_font_atlas'; }) // obsolete atlas, never requested
       .map(function (n) { return { name: n, url: G.spriteUrl(n) }; })
       .concat(Object.keys(DATA.fonts).map(function (id) { return { name: 'font:' + id, url: G.url(DATA.fonts[id].atlas) }; }))
       .concat(extra || []);
-    return Promise.all(list.map(function (item) {
-      return new Promise(function (resolve, reject) {
-        var img = new Image();
-        img.onload = function () {
-          images[item.name] = img;
-          img.decode().then(resolve, resolve);
-        };
-        img.onerror = function () { reject(new Error('Missing image: ' + item.url)); };
-        img.src = item.url;
-      });
-    }));
+    return G.decodeImages(list);
   };
 
   // Bitmap text ------------------------------------------------------------------------------

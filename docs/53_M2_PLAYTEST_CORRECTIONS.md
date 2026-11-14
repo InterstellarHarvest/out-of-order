@@ -101,6 +101,12 @@ Now on common rows:
 **Third owner pass (W).** W brought to full cap height, so every capital now draws on rows 1–17. One `j`
 pixel erased in the dark atlas only was restored to match the light atlas.
 
+**Colon (owner request, 2026-11-08).** The colon's lower dot was the comma-shaped tail of the
+semicolon. It is now a copy of its own upper dot (rows 8–11 of the glyph take rows 0–3), in both the
+dark and the light atlas and in the sprite sheet. No glyph box or advance changed; 5 inked pixels
+per atlas. sha256: dark `25b089ac…` → `fcb15fca…`, light `93efd300…` → `3d7e8fb8…`, sheet `85dabd2f…` →
+`6879d66f…` (85dabd2f joins the layout lab's importable earlier atlases).
+
 **Still for the owner's eye.** These are pixel decisions, left as drawn:
 - b, d, t start a row below f, h, i, k, l.
 - The descenders differ: j ends at row 19, p and q at 20, g and y at 21; y starts a row below g.

@@ -35,25 +35,106 @@
     };
   }
 
-  var items = Object.keys(G.content.items)
-    .filter(function (id) { return G.content.items[id].slotArt; })
-    .map(function (id) { return { name: 'item:' + id, url: G.url(G.content.items[id].slotArt) }; });
+  // Story art (engine S3, docs/72 section 4, docs/83). The game still plays the reception on the
+  // v1 rules (js/flow.js) until S4; its story-v2 form (Rules.fromV1) supplies only the asset
+  // declaration, which is the one copy of the reception's art paths. Boot (below) sets G.story and
+  // js/stage.js registers its art as G.ART.
 
-  // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front.
-  ['inspect', 'notes', 'files', 'read', 'use', 'show_badge'].forEach(function (g) {
-    items.push({ name: 'glyph:' + g, url: G.glyphUrl(g) });
-  });
+  // The decode list for registry keys. A null path (a fixture's DEV PLACEHOLDER) is never
+  // requested; a key the registry does not hold is an error.
+  function artList(keys, reg) {
+    var missing = keys.filter(function (k) { return !reg[k]; });
+    if (missing.length) throw new Error('Unregistered art: ' + missing.join(', '));
+    return keys.filter(function (k) { return reg[k].path !== null; })
+      .map(function (k) { return { name: k, url: G.url(reg[k].path) }; });
+  }
 
-  G.loadImages(items).then(function () {
+  // Chapter preload: decodes every image chapter `chapterId` of `story` (default G.story) shows,
+  // before it is presented, reusing whatever is already decoded. Resolves with
+  // { story, chapter, keys, placeholders, requested, reused }; rejects with a clear error for an
+  // unknown chapter, unregistered art or an image that cannot load (err.failures lists each one).
+  // It only loads: nothing on the stage changes. S4's chapter transition will call it for the
+  // next chapter; boot decodes the opening chapter's same list inside its one G.loadImages call.
+  G.preloadChapter = function (chapterId, story) {
+    var s = story || G.story;
+    try {
+      var reg = s === G.story ? G.ART : G.artRegistry(s);
+      var keys = G.chapterArtKeys(s, chapterId);
+      var list = artList(keys, reg);
+    } catch (e) {
+      return Promise.reject(e);
+    }
+    return G.decodeImages(list).then(function (r) {
+      return {
+        story: s.id, chapter: chapterId, keys: keys,
+        placeholders: keys.filter(function (k) { return reg[k].path === null; }),
+        requested: r.requested, reused: r.reused
+      };
+    });
+  };
+
+  // The boot list: everything the stage draws, decoded in the one G.loadImages call (with the
+  // sprite package and fonts) before the stage is built, so ready never comes with art still to
+  // appear. Item art comes from G.ART; the opening chapter's art is exactly what
+  // G.preloadChapter(G.story.start) would decode.
+  function bootList() {
+    var itemKeys = G.itemArtKeys(G.story);
+    var byClass = function (cls) { return itemKeys.filter(function (k) { return G.ART[k].cls === cls; }); };
+    // Item slot art first, as before.
+    var items = artList(byClass('slot'), G.ART);
+
+    // The opening chapter's art: for the reception, its scene and the layered receptionist
+    // portrait (js/stage.js).
+    items = items.concat(artList(G.chapterArtKeys(G.story, G.story.start), G.ART));
+
+    // The item-received slip (js/stage.js, docs/61).
+    items.push({ name: G.NOTICE_ART.slip.image, url: G.url(G.NOTICE_ART.slip.path) });
+
+    // The NOTES and FILES panels (js/stage.js, docs/60, docs/63): each overlay's own, as chosen.
+    ['notes', 'files'].forEach(function (kind) {
+      var art = G.OVERLAY_ART[G.overlayPanelKey(kind)];
+      items.push({ name: art.image, url: G.url(art.path) });
+    });
+
+    // Approved item inspect art (an item's own `inspectArt`, if any) and the inspector's one
+    // static X sprite (js/stage.js), decoded before ready like everything else.
+    items = items.concat(artList(byClass('inspect'), G.ART));
+    Object.keys(G.INSPECTOR_ART).forEach(function (k) {
+      items.push({ name: G.INSPECTOR_ART[k].image, url: G.url(G.INSPECTOR_ART[k].path) });
+    });
+
+    // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front:
+    // NOTES, FILES, the inspector's READ / USE / SHOW, and every context action's glyph named in
+    // the content (docs/64; reception: watch).
+    var glyphs = ['notes', 'files', 'read', 'use', 'show_badge'];
+    [G.content.contextAction].concat(Object.keys(G.content.nodes).map(function (id) { return G.content.nodes[id].contextAction; }))
+      .forEach(function (a) { if (a && glyphs.indexOf(a.glyph) === -1) glyphs.push(a.glyph); });
+    glyphs.forEach(function (g) {
+      items.push({ name: 'glyph:' + g, url: G.glyphUrl(g) });
+    });
+    return items;
+  }
+
+  function failed(err) {
+    document.body.dataset.ready = 'error';
+    document.body.dataset.error = err.message;
+    throw err;
+  }
+
+  var list;
+  try {
+    G.story = G.rules.fromV1(G.content);
+    G.registerArt(G.story);
+    list = bootList();
+  } catch (err) {
+    failed(err);
+  }
+  G.loadImages(list).then(function () {
     G.buildStage();
     fit();
     window.addEventListener('resize', fit);
     qaHooks();
     G.flow.start();
     document.body.dataset.ready = 'true';
-  }, function (err) {
-    document.body.dataset.ready = 'error';
-    document.body.dataset.error = err.message;
-    throw err;
-  });
+  }, failed);
 })();

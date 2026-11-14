@@ -7,10 +7,57 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 1922,
-  "passed": 1922,
-  "failed": 0,
-  "failures": [],
+  "total": 1924,
+  "passed": 1916,
+  "failed": 8,
+  "failures": [
+    {
+      "browser": "static",
+      "name": "the sprite package holds no unlisted files",
+      "ok": false,
+      "detail": [
+        "sprites/inspect_close.png"
+      ]
+    },
+    {
+      "browser": "static",
+      "name": "bundled baseline equals placement.default.json",
+      "ok": false
+    },
+    {
+      "browser": "static",
+      "name": "placement is marked unapproved",
+      "ok": false
+    },
+    {
+      "browser": "chromium",
+      "name": "shipped defaults: the lab starts on placement.default.json",
+      "ok": false
+    },
+    {
+      "browser": "firefox",
+      "name": "shipped defaults: the lab starts on placement.default.json",
+      "ok": false
+    },
+    {
+      "browser": "static",
+      "name": "the sprite package holds no unlisted files",
+      "ok": false,
+      "detail": [
+        "sprites/inspect_close.png"
+      ]
+    },
+    {
+      "browser": "static",
+      "name": "bundled baseline equals placement.default.json",
+      "ok": false
+    },
+    {
+      "browser": "static",
+      "name": "placement is marked unapproved",
+      "ok": false
+    }
+  ],
   "defaultScreenChromiumVersusFirefox": {
     "differingPixels": 22020,
     "maxChannelDelta": 1,
@@ -63,8 +110,10 @@
     {
       "browser": "static",
       "name": "the sprite package holds no unlisted files",
-      "ok": true,
-      "detail": []
+      "ok": false,
+      "detail": [
+        "sprites/inspect_close.png"
+      ]
     },
     {
       "browser": "static",
@@ -89,7 +138,7 @@
     {
       "browser": "static",
       "name": "bundled baseline equals placement.default.json",
-      "ok": true
+      "ok": false
     },
     {
       "browser": "static",
@@ -199,7 +248,7 @@
     {
       "browser": "static",
       "name": "placement is marked unapproved",
-      "ok": true
+      "ok": false
     },
     {
       "browser": "static",
@@ -1283,7 +1332,7 @@
       "name": "click finishes the message",
       "ok": true,
       "detail": {
-        "partial": 4,
+        "partial": 5,
         "done": {
           "t": false,
           "r": 482,
@@ -6851,8 +6900,8 @@
       "name": "snapshot downloads JSON and PNG",
       "ok": true,
       "detail": [
-        "m1-layout-20261108-095219.json",
-        "m1-layout-20261108-095219.png"
+        "m1-layout-20261109-201959.json",
+        "m1-layout-20261109-201959.png"
       ]
     },
     {
@@ -6908,9 +6957,9 @@
       "name": "slots slide through many positions instead of swapping",
       "ok": true,
       "detail": [
-        91,
-        55,
-        31,
+        89,
+        56,
+        32,
         15,
         6,
         2,
@@ -6924,9 +6973,9 @@
       "name": "slide positions are whole pixels",
       "ok": true,
       "detail": [
-        91,
-        55,
-        31,
+        89,
+        56,
+        32,
         15,
         6,
         2,
@@ -6957,7 +7006,7 @@
       "name": "slide starts one pitch away from rest",
       "ok": true,
       "detail": {
-        "max": 91,
+        "max": 89,
         "rest": 3
       }
     },
@@ -6975,9 +7024,9 @@
       "name": "slide settles back past rest by at most the setting",
       "ok": true,
       "detail": [
-        91,
-        55,
-        31,
+        89,
+        56,
+        32,
         15,
         6,
         2,
@@ -7301,10 +7350,10 @@
       "ok": true,
       "detail": [
         64,
-        164,
+        168,
         252,
-        330,
-        394,
+        332,
+        396,
         452,
         492,
         524,
@@ -7352,15 +7401,15 @@
         548,
         548,
         548,
-        544,
+        542,
         524,
-        498,
-        454,
+        494,
+        456,
         402,
-        338,
-        260,
-        170,
-        72,
+        334,
+        256,
+        168,
+        60,
         0,
         0,
         0,
@@ -7459,13 +7508,13 @@
         228,
         214,
         196,
-        172,
-        144,
+        174,
+        146,
         112,
         76,
-        32,
-        -18,
-        -70
+        36,
+        -16,
+        -62
       ]
     },
     {
@@ -7476,13 +7525,13 @@
         8,
         14,
         18,
-        24,
+        22,
         28,
-        32,
+        34,
         36,
-        44,
-        50,
-        52
+        40,
+        52,
+        46
       ]
     },
     {
@@ -7507,11 +7556,11 @@
           ""
         ],
         [
-          172,
+          174,
           ""
         ],
         [
-          144,
+          146,
           ""
         ],
         [
@@ -7523,16 +7572,16 @@
           ""
         ],
         [
-          32,
+          36,
           ""
         ],
         [
-          -18,
-          "inset(18px 0px 0px)"
+          -16,
+          "inset(16px 0px 0px)"
         ],
         [
-          -70,
-          "inset(70px 0px 0px)"
+          -62,
+          "inset(62px 0px 0px)"
         ]
       ]
     },
@@ -7616,7 +7665,7 @@
       "browser": "chromium",
       "name": "Choice sends: the NPC answer follows after the beat",
       "ok": true,
-      "detail": 98.5
+      "detail": 97
     },
     {
       "browser": "chromium",
@@ -7672,7 +7721,7 @@
         },
         "speech": "PLEASE TAKE A NUMBER. YOUR CASE WILL BE REVIEWED IN THE ORDER IT WAS MISPLACED.\nPRETEND YOU ARE ALREADY EMPLOYED IN THIS DEPARTMENT.\nNOTED. PLEASE TAKE A SEAT UNTIL YOUR NAME IS CALLED, OR MISPRONOUNCED.",
         "pick": true,
-        "at": 91730,
+        "at": 70422.20000004768,
         "roles": "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
         "typing": true,
         "revealed": 128,
@@ -7711,7 +7760,7 @@
         },
         "speech": "PLEASE TAKE A NUMBER. YOUR CASE WILL BE REVIEWED IN THE ORDER IT WAS MISPLACED.",
         "pick": false,
-        "at": 92928.5,
+        "at": 71622,
         "roles": "dialogue,dialogue,dialogue",
         "typing": false,
         "revealed": 77,
@@ -7731,9 +7780,9 @@
       "ok": true,
       "detail": {
         "c": {
-          "top": -74,
+          "top": -126,
           "left": 0,
-          "clip": "inset(54px 0px 0px)",
+          "clip": "inset(106px 0px 0px)",
           "shown": true
         },
         "a": {
@@ -7744,7 +7793,7 @@
         },
         "speech": "PLEASE TAKE A NUMBER. YOUR CASE WILL BE REVIEWED IN THE ORDER IT WAS MISPLACED.",
         "pick": true,
-        "at": 94862.40000009537,
+        "at": 73571.10000014305,
         "roles": "dialogue,dialogue,dialogue",
         "typing": false,
         "revealed": 77,
@@ -8824,8 +8873,8 @@
       "name": "snapshot saves JSON and PNG from file://",
       "ok": true,
       "detail": [
-        "m1-layout-20261108-095443.json",
-        "m1-layout-20261108-095443.png"
+        "m1-layout-20261109-202152.json",
+        "m1-layout-20261109-202152.png"
       ]
     },
     {
@@ -8857,7 +8906,7 @@
     {
       "browser": "chromium",
       "name": "shipped defaults: the lab starts on placement.default.json",
-      "ok": true
+      "ok": false
     },
     {
       "browser": "chromium",
@@ -8934,6 +8983,11 @@
     {
       "browser": "chromium",
       "name": "a placement saved against an earlier atlas (atlas 15572035) still imports",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "a placement saved against an earlier atlas (atlas 85dabd2f) still imports",
       "ok": true
     },
     {
@@ -10012,7 +10066,7 @@
       "name": "click finishes the message",
       "ok": true,
       "detail": {
-        "partial": 4,
+        "partial": 3,
         "done": {
           "t": false,
           "r": 482,
@@ -15623,8 +15677,8 @@
       "name": "snapshot downloads JSON and PNG",
       "ok": true,
       "detail": [
-        "m1-layout-20261108-095534.json",
-        "m1-layout-20261108-095534.png"
+        "m1-layout-20261109-202237.json",
+        "m1-layout-20261109-202237.png"
       ]
     },
     {
@@ -15673,23 +15727,21 @@
       "browser": "firefox",
       "name": "the tracked item stays on screen through the whole slide",
       "ok": true,
-      "detail": 27
+      "detail": 26
     },
     {
       "browser": "firefox",
       "name": "slots slide through many positions instead of swapping",
       "ok": true,
       "detail": [
-        105,
-        92,
-        57,
-        32,
-        15,
-        6,
+        69,
+        47,
+        24,
+        9,
+        4,
         2,
         1,
-        3,
-        4
+        3
       ]
     },
     {
@@ -15697,18 +15749,17 @@
       "name": "slide positions are whole pixels",
       "ok": true,
       "detail": [
-        105,
-        92,
-        57,
-        32,
-        15,
-        6,
+        69,
+        47,
+        24,
+        9,
+        4,
         2,
         1,
         2,
         3,
         4,
-        4,
+        3,
         3,
         3,
         3,
@@ -15731,7 +15782,7 @@
       "name": "slide starts one pitch away from rest",
       "ok": true,
       "detail": {
-        "max": 105,
+        "max": 69,
         "rest": 3
       }
     },
@@ -15749,18 +15800,17 @@
       "name": "slide settles back past rest by at most the setting",
       "ok": true,
       "detail": [
-        105,
-        92,
-        57,
-        32,
-        15,
-        6,
+        69,
+        47,
+        24,
+        9,
+        4,
         2,
         1,
         2,
         3,
         4,
-        4,
+        3,
         3,
         3,
         3,
@@ -15792,15 +15842,14 @@
       "browser": "firefox",
       "name": "slide finishes in about the set time",
       "ok": true,
-      "detail": 13
+      "detail": 12
     },
     {
       "browser": "firefox",
       "name": "a neighbour slides in during the motion",
       "ok": true,
       "detail": [
-        7,
-        7,
+        8,
         8,
         8,
         8,
@@ -15983,11 +16032,10 @@
       "ok": true,
       "detail": [
         -2,
-        -4,
         -6,
+        -8,
         -10,
-        -12,
-        -14
+        -12
       ]
     },
     {
@@ -16076,67 +16124,67 @@
       "name": "Others slide: positions are whole and on the 2px grid",
       "ok": true,
       "detail": [
-        54,
-        152,
-        244,
-        326,
-        390,
-        444,
-        488,
-        520,
-        540,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
-        548,
+        72,
+        170,
+        260,
+        342,
+        396,
+        446,
+        498,
+        526,
         544,
-        528,
-        500,
-        458,
-        408,
-        346,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        548,
+        540,
+        524,
+        496,
+        452,
+        414,
+        320,
         270,
-        176,
-        86,
+        158,
+        66,
         0,
         0,
         0,
@@ -16166,9 +16214,9 @@
           "shown": true
         },
         "b": {
-          "left": "54px",
+          "left": "72px",
           "filter": "",
-          "clip": "inset(0px 54px 0px 0px)",
+          "clip": "inset(0px 72px 0px 0px)",
           "shown": true
         }
       }
@@ -16212,7 +16260,7 @@
       "browser": "firefox",
       "name": "Choice sends: the chosen card holds still while the others leave",
       "ok": true,
-      "detail": 6
+      "detail": 7
     },
     {
       "browser": "firefox",
@@ -16224,25 +16272,24 @@
       "browser": "firefox",
       "name": "Choice sends: the chosen card rises",
       "ok": true,
-      "detail": 12
+      "detail": 11
     },
     {
       "browser": "firefox",
       "name": "Choice sends: it only ever moves up, on the 2px grid",
       "ok": true,
       "detail": [
-        238,
-        232,
-        222,
-        206,
-        186,
-        160,
-        128,
-        96,
-        58,
-        8,
-        -38,
-        -94
+        234,
+        228,
+        212,
+        198,
+        170,
+        144,
+        108,
+        72,
+        34,
+        -24,
+        -68
       ]
     },
     {
@@ -16251,16 +16298,15 @@
       "ok": true,
       "detail": [
         6,
-        10,
         16,
-        20,
+        14,
+        28,
         26,
-        32,
-        32,
+        36,
+        36,
         38,
-        50,
-        46,
-        56
+        58,
+        44
       ]
     },
     {
@@ -16269,52 +16315,48 @@
       "ok": true,
       "detail": [
         [
-          238,
+          234,
           ""
         ],
         [
-          232,
+          228,
           ""
         ],
         [
-          222,
+          212,
           ""
         ],
         [
-          206,
+          198,
           ""
         ],
         [
-          186,
+          170,
           ""
         ],
         [
-          160,
+          144,
           ""
         ],
         [
-          128,
+          108,
           ""
         ],
         [
-          96,
+          72,
           ""
         ],
         [
-          58,
+          34,
           ""
         ],
         [
-          8,
-          ""
+          -24,
+          "inset(24px 0px 0px)"
         ],
         [
-          -38,
-          "inset(38px 0px 0px)"
-        ],
-        [
-          -94,
-          "inset(94px 0px 0px)"
+          -68,
+          "inset(68px 0px 0px)"
         ]
       ]
     },
@@ -16398,18 +16440,13 @@
       "browser": "firefox",
       "name": "Choice sends: the NPC answer follows after the beat",
       "ok": true,
-      "detail": 97
+      "detail": 96
     },
     {
       "browser": "firefox",
       "name": "Choice sends: the answer types in below your line, in the dialogue face",
       "ok": true,
       "detail": [
-        "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
-        "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
-        "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
-        "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
-        "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
         "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
         "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
         "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
@@ -16464,7 +16501,7 @@
         },
         "speech": "PLEASE TAKE A NUMBER. YOUR CASE WILL BE REVIEWED IN THE ORDER IT WAS MISPLACED.\nPRETEND YOU ARE ALREADY EMPLOYED IN THIS DEPARTMENT.\nNOTED. PLEASE TAKE A SEAT UNTIL YOUR NAME IS CALLED, OR MISPRONOUNCED.",
         "pick": true,
-        "at": 97487,
+        "at": 74605,
         "roles": "dialogue,dialogue,dialogue,choices,choices,dialogue,dialogue",
         "typing": true,
         "revealed": 128,
@@ -16503,7 +16540,7 @@
         },
         "speech": "PLEASE TAKE A NUMBER. YOUR CASE WILL BE REVIEWED IN THE ORDER IT WAS MISPLACED.",
         "pick": false,
-        "at": 98686,
+        "at": 75807,
         "roles": "dialogue,dialogue,dialogue",
         "typing": false,
         "revealed": 77,
@@ -16523,9 +16560,9 @@
       "ok": true,
       "detail": {
         "c": {
-          "top": -118,
+          "top": -106,
           "left": 0,
-          "clip": "inset(98px 0px 0px)",
+          "clip": "inset(86px 0px 0px)",
           "shown": true
         },
         "a": {
@@ -16536,7 +16573,7 @@
         },
         "speech": "PLEASE TAKE A NUMBER. YOUR CASE WILL BE REVIEWED IN THE ORDER IT WAS MISPLACED.",
         "pick": true,
-        "at": 100636,
+        "at": 77755,
         "roles": "dialogue,dialogue,dialogue",
         "typing": false,
         "revealed": 77,
@@ -17616,8 +17653,8 @@
       "name": "snapshot saves JSON and PNG from file://",
       "ok": true,
       "detail": [
-        "m1-layout-20261108-095809.json",
-        "m1-layout-20261108-095809.png"
+        "m1-layout-20261109-202438.json",
+        "m1-layout-20261109-202438.png"
       ]
     },
     {
@@ -17649,7 +17686,7 @@
     {
       "browser": "firefox",
       "name": "shipped defaults: the lab starts on placement.default.json",
-      "ok": true
+      "ok": false
     },
     {
       "browser": "firefox",
@@ -17729,6 +17766,11 @@
       "ok": true
     },
     {
+      "browser": "firefox",
+      "name": "a placement saved against an earlier atlas (atlas 85dabd2f) still imports",
+      "ok": true
+    },
+    {
       "browser": "chromium",
       "name": "1:1 on a 2x display maps one shell pixel to one device pixel",
       "ok": true,
@@ -17795,8 +17837,10 @@
     {
       "browser": "static",
       "name": "the sprite package holds no unlisted files",
-      "ok": true,
-      "detail": []
+      "ok": false,
+      "detail": [
+        "sprites/inspect_close.png"
+      ]
     },
     {
       "browser": "static",
@@ -17821,7 +17865,7 @@
     {
       "browser": "static",
       "name": "bundled baseline equals placement.default.json",
-      "ok": true
+      "ok": false
     },
     {
       "browser": "static",
@@ -17931,7 +17975,7 @@
     {
       "browser": "static",
       "name": "placement is marked unapproved",
-      "ok": true
+      "ok": false
     },
     {
       "browser": "static",

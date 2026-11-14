@@ -37,7 +37,7 @@
       wc_key: {
         name: 'FACILITIES KEY',
         slotArt: 'art/items/bathroom_pass_slot.png',
-        inspectArt: null, // art/items/bathroom_pass_inspect.png is owed; a labelled placeholder stands in
+        inspectArt: 'art/items/bathroom_pass_inspect.png', // approved 565x451 inspect art (docs/58)
         description: [
           { if: { itemNot: ['wc_key', 'read'] }, text: 'A WC KEY ON A WORN LEATHER FOB. A SMALL PAPER TAG IS TIED THROUGH THE RING. IT HAS BEEN FILLED IN.' },
           { text: 'A WC KEY ON A WORN LEATHER FOB. THE TAG READS:\n\nISSUED TO: EXAMINER, OFFICE OF UNVERIFIED CONDITIONS.\nRETURNED: TODAY, 4:52.\nSIGNED: (A SIGNATURE IN WHAT IS PLAINLY YOUR OWN HANDWRITING.)' }
@@ -45,6 +45,24 @@
         // READ is always available while the item is held. It only changes item state.
         read: { effects: { mark: [['wc_key', 'read']] } }
       }
+    },
+
+    // The context action (docs/64): the first utility button in conversation, an optional thing to
+    // do in the current situation, separate from the choices. This one holds for the whole of
+    // reception (a node can override it with its own `contextAction`, or null for none). Taking it
+    // adds `text` to the history as the player's unspoken observation, drawn in parentheses; it
+    // never advances the conversation. `once`: it can be taken once per encounter, and after that
+    // the button stays on show, inactive, its tooltip ending in `spentWhy`. The glyph is the
+    // existing WATCH action glyph (art/actions/watch.png) for now.
+    // PROVISIONAL COPY: the observation is a placeholder proving the mechanism, not story canon; the
+    // Story/Narrative PMO may rewrite or replace it.
+    contextAction: {
+      id: 'observe-receptionist',
+      label: 'OBSERVE',
+      glyph: 'watch',
+      text: 'I WATCHED HER FOR A SIGN THAT ANY OF THIS WAS UNUSUAL. HER FACE REMAINED PROFESSIONALLY UNAVAILABLE.',
+      once: true,
+      spentWhy: 'NOTHING NEW TO NOTICE'
     },
 
     // FILES shows every entry whose condition holds, in this order: the player's case file.
