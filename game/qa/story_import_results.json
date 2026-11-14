@@ -1,7 +1,7 @@
 {
   "suite": "story-import",
-  "passed": 58,
-  "total": 58,
+  "passed": 80,
+  "total": 80,
   "groups": {
     "baseline": {
       "total": 8,
@@ -16,16 +16,28 @@
       "passed": 18
     },
     "draft-stop": {
-      "total": 3,
-      "passed": 3
+      "total": 5,
+      "passed": 5
     },
     "chapters": {
       "total": 7,
       "passed": 7
     },
+    "focus+checks": {
+      "total": 15,
+      "passed": 15
+    },
+    "independence": {
+      "total": 2,
+      "passed": 2
+    },
     "saves": {
       "total": 9,
       "passed": 9
+    },
+    "art-status": {
+      "total": 3,
+      "passed": 3
     },
     "stale": {
       "total": 3,
@@ -225,7 +237,17 @@
     },
     {
       "group": "draft-stop",
-      "name": "once the author ends the chapter, an approved build is possible (draft art is reported, not blocking)",
+      "name": "an approved build refuses a chapter the manifest still marks draft (creative sign-off stays in the storyboard)",
+      "ok": true
+    },
+    {
+      "group": "draft-stop",
+      "name": "once the author ends the chapter and marks it approved, an approved build is possible (draft art is reported, not blocking)",
+      "ok": true
+    },
+    {
+      "group": "draft-stop",
+      "name": "the build records each chapter's manifest title and status (the draft stamp reads them)",
       "ok": true
     },
     {
@@ -261,6 +283,91 @@
     {
       "group": "chapters",
       "name": "the prologue is not assumed: the story starts at the manifest's first chapter",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "Focus A: the view carries the close-up, no speaker and no portrait swap",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "Focus A: a second visit offers only what is left (the once choice is spent)",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "Focus A: missing close-up art is a placeholder in a preview and an error in an approved build",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "Focus A: a focus node without a close-up id is rejected with its node named",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: the authored check is imported unchanged (id, d6, need, mods, pass and fail outcomes)",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: the view marks the card as risky (hasCheck) and carries no die, odds or roll",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: a failing roll stays, narrates the fail result, applies its effects and records the check",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: a resolved check is never offered again (no re-roll); the other way on stays",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: a passing roll follows the pass outcome to its node and narrates it",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: an item condition changes the odds, not the roll (s4 rolls 3: fails unread, passes once the card is read)",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: a save after a check restores the same outcome",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: a save with a changed roll is refused",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: the walk explores both outcomes (both reach the ending or stay playable)",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: a check without a fail outcome is rejected with its chapter, node and choice",
+      "ok": true
+    },
+    {
+      "group": "focus+checks",
+      "name": "checks: an item that would make a check certain is rejected unless the check says certain",
+      "ok": true
+    },
+    {
+      "group": "independence",
+      "name": "no id of the imported story (104 ids) and none of its prose (106 passages) appears in game code",
+      "ok": true
+    },
+    {
+      "group": "independence",
+      "name": "an import writes only its output file: engine and UI code are untouched",
       "ok": true
     },
     {
@@ -306,6 +413,21 @@
     {
       "group": "saves",
       "name": "a corrupt save is refused, not half-loaded",
+      "ok": true
+    },
+    {
+      "group": "art-status",
+      "name": "the build records every story image with its artwork status and sha256 (28 generated prologue images, none approved)",
+      "ok": true
+    },
+    {
+      "group": "art-status",
+      "name": "changing an image's approval status in the storyboard makes the committed build STALE (never silent)",
+      "ok": true
+    },
+    {
+      "group": "art-status",
+      "name": "the Narrative B overlay manifest matches its image (sha256 and size) and records its status (provisional)",
       "ok": true
     },
     {

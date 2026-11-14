@@ -1,7 +1,7 @@
 {
   "suite": "story-browser",
-  "passed": 82,
-  "total": 82,
+  "passed": 108,
+  "total": 108,
   "content": "d88ca197a0a5c405648346de8e1c0c4264b9e40d4197daad86f5a6fd67d2ec5e",
   "results": [
     {
@@ -32,6 +32,21 @@
     {
       "browser": "chromium",
       "name": "the objective plaque shows the node objective",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "draft identification: the default game is stamped DRAFT PLAYABLE PREVIEW, not approved canon, with its chapter and build",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "draft identification: the window title says draft too",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "draft stamp: inside the scene window, under NOTES/FILES and the rest of the UI",
       "ok": true
     },
     {
@@ -181,6 +196,46 @@
     },
     {
       "browser": "chromium",
+      "name": "Focus A paging: a description longer than the panel opens on page 1 of several, with a presentation CONTINUE",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Focus A paging: CONTINUE pages on (never a rules step), then the node's own choices",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Focus A revisit: a new visit starts a fresh description and offers only what is left",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Focus A reload: the save restores the close-up, the description and the choices",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "check: the risky card shows only its authored text (no die, odds, target or roll anywhere on the page)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "check fail: stays, narrates the fail result, the card is gone and the other way on remains",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "check reload: the save keeps the outcome; nothing re-rolls",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "check pass: follows the pass outcome to its node and narrates it",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
       "name": "saves: a text-only revision of the fixture carries the save over",
       "ok": true
     },
@@ -197,6 +252,16 @@
     {
       "browser": "chromium",
       "name": "the M2 reception slice is still available (?story=reception) on its own v1 flow",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the reception regression page carries no draft stamp and keeps its title",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "an approved build of approved chapters shows no draft stamp (the stamp follows the storyboard, not code)",
       "ok": true
     },
     {
@@ -241,6 +306,21 @@
     },
     {
       "browser": "firefox",
+      "name": "draft identification: the default game is stamped DRAFT PLAYABLE PREVIEW, not approved canon, with its chapter and build",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "draft identification: the window title says draft too",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "draft stamp: inside the scene window, under NOTES/FILES and the rest of the UI",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
       "name": "Dialogue: transition into the drone conversation (dialogue box on, B overlay off)",
       "ok": true
     },
@@ -386,6 +466,46 @@
     },
     {
       "browser": "firefox",
+      "name": "Focus A paging: a description longer than the panel opens on page 1 of several, with a presentation CONTINUE",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Focus A paging: CONTINUE pages on (never a rules step), then the node's own choices",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Focus A revisit: a new visit starts a fresh description and offers only what is left",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Focus A reload: the save restores the close-up, the description and the choices",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "check: the risky card shows only its authored text (no die, odds, target or roll anywhere on the page)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "check fail: stays, narrates the fail result, the card is gone and the other way on remains",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "check reload: the save keeps the outcome; nothing re-rolls",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "check pass: follows the pass outcome to its node and narrates it",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
       "name": "saves: a text-only revision of the fixture carries the save over",
       "ok": true
     },
@@ -402,6 +522,16 @@
     {
       "browser": "firefox",
       "name": "the M2 reception slice is still available (?story=reception) on its own v1 flow",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the reception regression page carries no draft stamp and keeps its title",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "an approved build of approved chapters shows no draft stamp (the stamp follows the storyboard, not code)",
       "ok": true
     },
     {

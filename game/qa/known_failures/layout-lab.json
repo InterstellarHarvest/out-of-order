@@ -1,0 +1,13 @@
+{
+  "schema": "cyoa-known-failures-v1",
+  "suite": "tools/layout-lab/qa/run_qa.js",
+  "note": "The layout lab's long-standing baseline: 8 failing checks (5 distinct; the static ones run twice), recorded in docs/82 and docs/84. They predate the story import and are not regressions. Any other failure, or one of these failing more often, fails the gate. If one starts passing, the gate reports it so this list can shrink.",
+  "since": "312928a (docs/82, M2 Round 2 gate)",
+  "failures": [
+    { "browser": "static", "name": "the sprite package holds no unlisted files", "count": 2 },
+    { "browser": "static", "name": "bundled baseline equals placement.default.json", "count": 2 },
+    { "browser": "static", "name": "placement is marked unapproved", "count": 2 },
+    { "browser": "chromium", "name": "shipped defaults: the lab starts on placement.default.json", "count": 1 },
+    { "browser": "firefox", "name": "shipped defaults: the lab starts on placement.default.json", "count": 1 }
+  ]
+}

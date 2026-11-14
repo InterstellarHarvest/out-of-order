@@ -33,7 +33,7 @@ function check(browser, name, ok, detail) {
 }
 
 // Content variants, built from edited copies of story/ --------------------------------------------
-function variant(from, rel, fn) {
+function variant(from, rel, fn, mode) {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cyoa-story-qa-'));
   fs.cpSync(from, dir, { recursive: true });
   if (rel) {
@@ -42,7 +42,7 @@ function variant(from, rel, fn) {
     fn(j);
     fs.writeFileSync(f, JSON.stringify(j, null, 2));
   }
-  const b = build({ from: dir });
+  const b = build({ from: dir, mode: mode || 'preview' });
   fs.rmSync(dir, { recursive: true, force: true });
   if (!b.ok) throw new Error('variant does not build: ' + b.report.errors.join(' | '));
   return b;
@@ -65,6 +65,17 @@ const FIX_GONE = variant(FIXTURE, 'chapters/fx-one.json', (j) => {
   j.nodes.hall.choices = j.nodes.hall.choices.filter((c) => c.id !== 'examine_panel');
   j.nodes.hall.choices.push({ id: 'find_card', kind: 'action', text: 'LOOK UNDER THE COUNTER.', once: true, effects: [{ give: ['fx_card'] }, { set: { card_found: true } }] });
 });
+
+// Focus A with a description longer than one page.
+const LONG_FOCUS = ['A small steel panel with one loose screw. The paint around it has been touched up so often that it has a rim.',
+  'Something blue is wedged behind it, folded once, the fold worn soft. A sticker on the panel says THIS PANEL IS NOT A DOOR.',
+  'Another sticker below it says THIS STICKER IS NOT A REASON TO OPEN THE PANEL. Both stickers are signed by the same clerk.',
+  'The screw turns a little in your fingers, then a little more, then stops, as if it has an opinion about the matter.',
+  'The blue edge moves when the screw does. Whatever it is, it was put there on purpose and then forgotten on purpose.'].join('\n\n');
+const FIX_FOCUS_LONG = variant(FIXTURE, 'chapters/fx-one.json', (j) => { j.nodes.panel.text = LONG_FOCUS; });
+// The same fixture as an approved build of approved chapters: no draft stamp.
+const FIX_APPROVED = variant(FIXTURE, 'storyboard-manifest.json', (j) => { j.chapters.forEach((c) => { c.status = 'approved'; }); }, 'approved');
+const TO_YARD = ['examine_panel', 'take_card', 'stop_examining', 'leave_hall'];
 
 // A save made in Node by playing a route on a build (so a test can start deep in the story).
 function saveAt(b, route) {
@@ -171,6 +182,17 @@ async function suite(name, base) {
   check(b, 'a continue card is plain (no quotes, dark ink)', s.cards.length === 1 && s.cards[0].kind === 'continue' && s.cards[0].first === 'CONTINUE' && !s.cards[0].ink, s.cards);
   check(b, 'the objective plaque shows the node objective', s.objective === 'FIND THE BATHROOM.');
   await shot(page, '01_narrative_b.png');
+  const stamp = await page.evaluate(() => {
+    const n = document.getElementById('draftStamp');
+    const kids = Array.from(document.getElementById('stage').children);
+    return n && { text: n.dataset.text, shown: n.style.display !== 'none', draft: document.body.dataset.draft, title: document.title,
+      underOverlay: kids.indexOf(n) < kids.indexOf(document.getElementById('overlay')), box: [n.offsetLeft, n.offsetTop, n.offsetWidth, n.offsetHeight] };
+  });
+  check(b, 'draft identification: the default game is stamped DRAFT PLAYABLE PREVIEW, not approved canon, with its chapter and build', stamp && stamp.shown && stamp.draft === 'true'
+    && /^DRAFT PLAYABLE PREVIEW - NOT APPROVED CANON\nPROLOGUE-00: THE LAST GOOD DAY - DRAFT \[DRAFT\] - BUILD D88CA197$/.test(stamp.text.replace(BASE.meta.contentHash.slice(0, 8).toUpperCase(), 'D88CA197')), stamp);
+  check(b, 'draft identification: the window title says draft too', stamp && /DRAFT playable preview: The Last Good Day/.test(stamp.title) && /not approved canon/.test(stamp.title), stamp && stamp.title);
+  check(b, 'draft stamp: inside the scene window, under NOTES/FILES and the rest of the UI', stamp && stamp.underOverlay && stamp.box[0] >= 40 && stamp.box[1] >= 45
+    && stamp.box[0] + stamp.box[2] <= 1275 && stamp.box[1] + stamp.box[3] <= 400, stamp);
 
   // 2. Dialogue -------------------------------------------------------------------------------------
   await take(page, 'head_to_restroom');
@@ -323,6 +345,65 @@ async function suite(name, base) {
   errorsAll = errorsAll.concat(errors);
   await page.close();
 
+  // 7b. Focus A in depth: paging, a second visit, reload ---------------------------------------------------
+  ({ page, errors } = await open(context, url + '?nosave&seed=qa', FIX_FOCUS_LONG));
+  await take(page, 'examine_panel');
+  await settle(page, false);
+  let pg = await page.evaluate(() => { const d = document.getElementById('focusDescription').dataset; return { page: +d.page, pages: +d.pages, cards: window.CYOA_GAME.ui.cards.map((c) => c.id) }; });
+  check(b, 'Focus A paging: a description longer than the panel opens on page 1 of several, with a presentation CONTINUE', pg.pages > 1 && pg.page === 0 && pg.cards.join() === '__continue', pg);
+  await settle(page, true);
+  pg = await page.evaluate(() => { const d = document.getElementById('focusDescription').dataset; return { page: +d.page, pages: +d.pages, cards: window.CYOA_GAME.ui.cards.map((c) => c.id), taken: window.CYOA_GAME.state.taken.length }; });
+  check(b, 'Focus A paging: CONTINUE pages on (never a rules step), then the node\'s own choices', pg.page === pg.pages - 1 && pg.cards.join() === 'take_card,stop_examining' && pg.taken === 1, pg);
+  await shot(page, '12_focus_a_paged.png');
+  errorsAll = errorsAll.concat(errors);
+  await page.close();
+
+  ({ page, errors } = await open(context, url + '?new&seed=qa', FIX));
+  for (const c of ['examine_panel', 'take_card', 'stop_examining', 'examine_panel']) await take(page, c);
+  s = await info(page);
+  check(b, 'Focus A revisit: a new visit starts a fresh description and offers only what is left', s.mode === 'focus' && /A small steel panel/.test(s.focusText)
+    && !/You work the card free/.test(s.focusText) && s.cards.map((c) => c.id).join() === 'stop_examining', s);
+  await page.goto(url + '?seed=qa');
+  await page.waitForFunction(() => document.body.dataset.ready, null, { timeout: 30000 });
+  await settle(page, false);
+  s = await info(page);
+  check(b, 'Focus A reload: the save restores the close-up, the description and the choices', s.save === 'restored' && s.mode === 'focus'
+    && s.layers.indexOf('focusArt=focus:fixture/hall/panel') !== -1 && /A small steel panel/.test(s.focusText) && s.cards.map((c) => c.id).join() === 'stop_examining', s);
+  errorsAll = errorsAll.concat(errors);
+  await page.close();
+
+  // 7c. Dice checks (hidden in v0: no die, odds or roll on screen; the outcome is narrated) ---------------
+  // fx_fence is d6 need 4; seed s6 rolls 1 (fail), s9 rolls 4 (pass).
+  ({ page, errors } = await open(context, url + '?new&seed=s6', FIX));
+  for (const c of TO_YARD) await take(page, c);
+  s = await info(page);
+  const ckCard = s.cards.filter((c) => c.id === 'climb_fence')[0];
+  const ckView = await page.evaluate(() => window.CYOA_GAME.flow.view().cards.filter((c) => c.id === 'climb_fence')[0]);
+  check(b, 'check: the risky card shows only its authored text (no die, odds, target or roll anywhere on the page)', ckCard && ckCard.text === 'CLIMB THE FENCE INSTEAD.'
+    && ckView.hasCheck === true && await page.evaluate(() => !/\bd6\b|\broll\b|\bodds\b|%/i.test(document.getElementById('stage').innerText + document.title)), [ckCard, ckView]);
+  await take(page, 'climb_fence');
+  s = await info(page);
+  const ck1 = await page.evaluate(() => window.CYOA_GAME.state.checks.fx_fence);
+  check(b, 'check fail: stays, narrates the fail result, the card is gone and the other way on remains', s.node === 'fx-two:yard' && /land back in the yard\.$/.test(s.narration)
+    && s.cards.map((c) => c.id).join() === 'cross_yard' && ck1 && ck1.ok === false && ck1.roll === 1, [s, ck1]);
+  await page.goto(url + '?seed=s6');
+  await page.waitForFunction(() => document.body.dataset.ready, null, { timeout: 30000 });
+  await settle(page, false);
+  s = await info(page);
+  const ck2 = await page.evaluate(() => window.CYOA_GAME.state.checks.fx_fence);
+  check(b, 'check reload: the save keeps the outcome; nothing re-rolls', s.save === 'restored' && JSON.stringify(ck2) === JSON.stringify(ck1) && s.cards.map((c) => c.id).join() === 'cross_yard', [s, ck2]);
+  errorsAll = errorsAll.concat(errors);
+  await page.close();
+  ({ page, errors } = await open(context, url + '?nosave&seed=s9', FIX));
+  for (const c of TO_YARD) await take(page, c);
+  await take(page, 'climb_fence');
+  s = await info(page);
+  check(b, 'check pass: follows the pass outcome to its node and narrates it', s.node === 'fx-two:gate' && /drop down on the far side\./.test(s.narration)
+    && await page.evaluate(() => window.CYOA_GAME.state.checks.fx_fence.ok === true), s);
+  await shot(page, '13_check_pass.png');
+  errorsAll = errorsAll.concat(errors);
+  await page.close();
+
   // 8. Incompatible revision: refused, never loaded ------------------------------------------------------
   ({ page, errors } = await open(context, url + '?nosave', FIX));
   await page.evaluate((sv) => localStorage.setItem('cyoa-save:import-fixture', sv), saveAt(FIX, ['examine_panel', 'take_card', 'stop_examining']));
@@ -344,6 +425,14 @@ async function suite(name, base) {
   await settle(page, false);
   check(b, 'the M2 reception slice is still available (?story=reception) on its own v1 flow', await page.evaluate(() => document.body.dataset.story === 'reception'
     && window.CYOA_GAME.flow !== window.CYOA_GAME.storyFlow && window.CYOA_GAME.ui.cards.length === 2));
+  check(b, 'the reception regression page carries no draft stamp and keeps its title', await page.evaluate(() => !document.getElementById('draftStamp')
+    && document.title === 'The Acceptable Error (working title)'));
+  errorsAll = errorsAll.concat(errors);
+  await page.close();
+  ({ page, errors } = await open(context, url + '?nosave&seed=qa', FIX_APPROVED));
+  await settle(page, false);
+  check(b, 'an approved build of approved chapters shows no draft stamp (the stamp follows the storyboard, not code)', await page.evaluate(() => document.body.dataset.draft === 'false'
+    && (!document.getElementById('draftStamp') || document.getElementById('draftStamp').style.display === 'none') && !/DRAFT/.test(document.title)));
   errorsAll = errorsAll.concat(errors);
   await page.close();
   ({ page, errors } = await open(context, 'file://' + path.join(ROOT, 'game/index.html') + '?nosave&seed=qa'));

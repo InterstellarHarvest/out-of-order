@@ -7,7 +7,13 @@
       "mode": "narrative",
       "objective": "CROSS THE YARD.",
       "text": "The yard is paved and empty. A gate stands open on the far side.",
-      "choices": [{ "id": "cross_yard", "kind": "action", "text": "WALK THROUGH THE GATE.", "to": "gate" }]
+      "choices": [
+        { "id": "climb_fence", "kind": "action", "text": "CLIMB THE FENCE INSTEAD.",
+          "check": { "id": "fx_fence", "sides": 6, "need": 4, "mods": [{ "if": { "item": ["fx_card", "read"] }, "add": 1 }] },
+          "pass": { "result": "You get a grip on the top bar and drop down on the far side.", "to": "gate" },
+          "fail": { "result": "Your hands slip and you land back in the yard.", "effects": { "set": { "fence_slipped": true } } } },
+        { "id": "cross_yard", "kind": "action", "text": "WALK THROUGH THE GATE.", "to": "gate" }
+      ]
     },
     "gate": {
       "mode": "narrative",
