@@ -372,28 +372,35 @@ All 10 are preserved twice, additively:
 
 ## 10. QA results on this branch
 
-These runs were on this Mac (Chromium and Firefox through Playwright, load average about 2) on commit `92c1589`.
+### Final gate run (2026-11-14, this Mac, Chromium + Firefox via Playwright 1.59.1)
 
 | Suite | Result | Notes |
 |---|---|---|
-| `validate_route.js` | **49/49** | Unchanged stats: 15 nodes, 449 states. |
-| `validate_route.js --v2` | **49/49** | |
+| `import.js --check` / `--verify` | **VALID / up to date** | Content `d88ca197a0a5`, unchanged by the gate work. |
+| `glyph-ink/build.js --verify` | **OK** | |
+| `validate_route.js` / `--v2` | **49/49** / **49/49** | |
 | `validate_story.js` | **176/176** | |
-| `validate_assets.js --browser` | **97/97** | Now audits the imported story too. |
-| `validate_story_import.js` (new) | **58/58** | |
-| `run_story_qa.js` (new) | **82/82** | 41 checks in each of Chromium and Firefox, including file://. |
-| `game/qa/run_qa.js` (M2 reception) | **526/526** | The first run was 524/526. One failure was the `P.panel` guard, fixed in `92c1589`. The other was Firefox "early dismiss during fade-in", the timing check already known to flake on every base since `eb4911d`; it passed on the rerun. |
-| polish lab QA | **143/143** | The first run was 141/143 because the lab's QA opened the default page, which now autosaves; it now opens `?story=reception`. |
-| layout lab QA | **1916/1924** | Exactly the **8 known baseline failures** (docs/82): shipped defaults ×2, bundle ≠ placement.default, placement unapproved, `inspect_close.png` unlisted. A first run also failed one Firefox "slide starts one pitch away" timing check; the rerun did not. This branch does not touch `tools/layout-lab`. |
+| `validate_story_import.js` | **80/80** | 58 before the gate. New: Focus A and dice checks (15), independence (2), art status (3), draft-chapter promotion (2). |
+| `validate_assets.js --browser` | **97/97** | |
+| `run_story_qa.js` | **108/108** | 54 per browser (41 before the gate). |
+| `game/qa/run_qa.js` (M2 reception, `?story=reception`) | **526/526** | On the committed tree. A run on the uncommitted tree failed only its "no uncommitted change under art/" guard, which saw the two new files before they were committed. |
+| polish lab QA | **143/143** | |
+| layout lab QA | **1916/1924** | `check_known_failures.js`: **PASS**, exactly the 8 recorded failures and nothing else. |
 
 **Pre-existing failures, kept separate:**
-- the 8 layout-lab failures above;
-- the Firefox fade-in timing flake;
-- the `file://` item-slip freeze, which this branch fixes (section 7).
+- the 8 layout-lab failures (known list);
+- the Firefox fade-in and layout-lab slide timing flakes. Neither occurred in this run.
 
-No new failures remain.
+GitHub Actions results are in PR #1. Section 7.2 lists the CI environment limits, which are kept
+apart from regressions.
 
-As before (docs/74, docs/83), regenerated browser outputs (screenshots, `qa_results.json`) were not committed.
+### Earlier run (commit `92c1589`)
+
+Route 49/49 ×2, story 176/176, assets 97/97, story import 58/58, story browser 82/82, M2 game
+526/526 (after the fixes noted there), polish lab 143/143, layout lab 1916/1924 (the 8 known).
+
+As before (docs/74, docs/83), regenerated outputs of the pre-existing suites (screenshots,
+`qa_results.json`) are not committed. The two new suites' results and screenshots are.
 
 ### Demonstration (in place on `story/`, then restored with `git checkout`)
 
