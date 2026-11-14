@@ -31,6 +31,9 @@ touched when the story changes.
    ```
 
 4. **Play it.** Open `game/index.html` in Chrome or Firefox. Double-clicking the file is fine.
+   - A preview says so on screen: a dark stamp at the top left of the scene reads
+     `DRAFT PLAYABLE PREVIEW - NOT APPROVED CANON` with the chapter and build, and the window
+     title says draft too. It stays until an approved build of approved chapters replaces it.
    - Add `?new` to the end of the address to start over instead of continuing your save.
    - `game/index.html?story=reception` opens the original M2 reception slice.
 
@@ -43,8 +46,9 @@ touched when the story changes.
 node tools/story-import/import.js --promote
 ```
 
-`--promote` builds the approved version. It refuses to build when a node has no choices yet
-(shown as "DRAFT ENDS HERE" in previews) or when required art is missing. It also refuses when
+`--promote` builds the approved version. It refuses to build when any chapter is not marked
+`"status": "approved"` in `story/storyboard-manifest.json`, when a node has no choices yet
+(shown as "DRAFT ENDS HERE" in previews), or when required art is missing. It also refuses when
 files outside `story/` have changed, so a content commit carries content only. It prints the Git
 commands for a review branch and commits nothing itself.
 

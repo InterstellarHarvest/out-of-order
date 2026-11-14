@@ -1,7 +1,9 @@
 # CYOA — Story Import and the Content-Driven Game
 
 **Date:** 2026-11-14
-**Branch:** `agent/story-import-integration`, from private `main` `ca73b8e`. Not merged; promoting it to `main` needs the owner's approval (section 9).
+**Branch:** `agent/story-import-integration`, from private `main` `ca73b8e`. Draft PR #1. Not merged.
+**PMO gate 2026-11-14:** the architecture is ACCEPTED; the prologue story is NOT approved canon. PR #1
+stays open until the final gate review (section 9).
 **Entry point:** `game/index.html`. It plays the imported story. `game/index.html?story=reception` plays the M2 reception slice, which is the regression fixture.
 **How-to for authors:** [tools/story-import/README.md](../tools/story-import/README.md)
 
@@ -68,6 +70,8 @@ Prompts, notes, direction text and `suggestedFilename` are not read.
     `DRAFT ENDS HERE. BEGIN AGAIN.` The authored narration is unchanged.
   - An approved build refuses it.
   - Nothing else is ever invented.
+- **Approved builds need approved chapters.** `--promote` refuses any chapter whose manifest
+  `status` is not `approved`. Creative sign-off is recorded in the storyboard, never inferred.
 - **Missing art** (no record, or no `assetPath`):
   - a preview build uses the labelled DEV PLACEHOLDER (fixture profile) and a warning;
   - an approved build refuses it.
@@ -108,6 +112,7 @@ The record holds:
 - `channel` (`preview` | `approved`);
 - every source file's sha256 and git blob id (`git log --find-object=<blob>` finds the source
   revision);
+- `chapters`: each chapter's manifest id, title and status (the draft stamp reads these);
 - `draftStops`;
 - every art file with its kind, artwork status and sha256;
 - the validator stats.
@@ -121,7 +126,7 @@ manifest order, so changing one chapter leaves the others' text byte-identical.
 |---|---|---|
 | A. Validate only | `node tools/story-import/import.js --check` (`--from <folder>` for a fresh export elsewhere) | nothing |
 | B. Preview build | `node tools/story-import/import.js` | `game/content/story.generated.js` |
-| C. Approved promotion | `node tools/story-import/import.js --promote` | the same file, approved channel. Refuses when files outside `story/` are changed, and prints the review-branch Git commands. |
+| C. Approved promotion | `node tools/story-import/import.js --promote` | the same file, approved channel. Refuses chapters not marked `approved`, unfinished nodes, missing art, and changes outside `story/`; prints the review-branch Git commands. **Not used on the draft prologue** (PMO gate 2026-11-14). |
 | Stale check | `node tools/story-import/import.js --verify` | nothing; exit 1 if the output does not match `story/` |
 | Glyph ink table | `node tools/glyph-ink/build.js` (`--verify`) | `game/js/glyph-ink.js`; re-run after any font atlas edit |
 
@@ -161,6 +166,37 @@ Narrative Study defaults (now `G.TUNING.narrative` / `focus`):
   - Card art, geometry, motion, inventory slide, inspector, NOTES/FILES panels, slip, tooltips and
     fonts are all M2's own.
 
+### 4.1 Draft identification
+
+A preview build, or any chapter the manifest does not mark `approved`, is labelled for as long as
+it is played:
+
+- **A stamp** at the top left of the scene window (`#draftStamp`): `DRAFT PLAYABLE PREVIEW - NOT
+  APPROVED CANON`, then `<chapter id>: <chapter title> [<status>] - BUILD <content hash>`. It is
+  drawn in the objective face, light ink, on a dark plate.
+- **The window title:** `... - DRAFT playable preview: <chapter title> (not approved canon)`.
+- **`body[data-draft]`** is `true`.
+
+The stamp reads only the build record (`channel`, `chapters`). An approved build of approved
+chapters shows none of this, and no code changes when that happens. It is development chrome, not
+part of the approved layout:
+- it takes no input;
+- it sits above the scene and portrait art, and under NOTES/FILES, the shell, cards, inspector,
+  slip and tooltips;
+- the reception page (`?story=reception`) never shows it.
+
+The `DRAFT ENDS HERE. BEGIN AGAIN.` card at the unfinished hand-off remains as well.
+
+### 4.2 The Narrative B overlay is replaceable
+
+`art/ui/shell/narrative-overlay.manifest.js` (`window.CYOA_NARRATIVE_OVERLAY`) names the image,
+its sha256 and size, its `status` (`provisional`: Candidate 1, not owner-final), and the
+narration's `textBox`. The game (`surfaces.js`), its tuning (`G.TUNING.narrative`) and both QA
+pins (`run_qa.js` art guard, `validate_story_import.js` art-status) read it.
+
+To replace the overlay, add the new PNG and edit that manifest. No game, narrative or QA code
+changes. The steps are in the file's header.
+
 ## 5. The prologue as a test chapter
 
 `prologue-00` (29 nodes, draft) plays end to end:
@@ -173,6 +209,17 @@ Narrative Study defaults (now `G.TUNING.narrative` / `focus`):
 
 It is a test of the architecture, not canon. Its 28 art files are `generated` drafts (not
 approved). The 5 reception and key files are `reused` approved M2 art.
+
+PMO gate 2026-11-14:
+- The 28 generated files may go to `main` as versioned development assets. Their `generated`
+  status and sha256 are kept, and QA fails if either changes without the generated build changing
+  with it.
+- The prologue stays draft: no `--promote`, no invented ending, no rewritten choices.
+- The prologue uses no Focus A node and no dice check. Both are therefore exercised by the neutral
+  fixture (`game/qa/fixtures/story-import`):
+  - a narrative → focus → narrative visit, with paging, a second visit and reload;
+  - the hidden d6 check `fx_fence` (need 4, +1 once the card is read), with a pass seed, a fail
+    seed and an item-dependent seed.
 
 **Not adopted:** the art-direction proposals on the docs branch (for example "pictogram
 narration", c7cd75b). The chapter JSON is imported exactly as authored.
@@ -206,17 +253,53 @@ See section 10 for the run on this branch.
 
 | Suite | What it covers |
 |---|---|
-| `node game/qa/validate_story_import.js` (new) | 58 checks on edited copies of the JSON: every acceptance case of the brief except rendering. |
-| `NODE_PATH="$(npm root -g)" node game/qa/run_story_qa.js` (new) | 41 checks × Chromium + Firefox, on the real page and file://. |
+| `node game/qa/validate_story_import.js` (new) | 80 checks on edited copies of the JSON: every acceptance case of the brief except rendering. Also covers Focus A and dice checks, content independence (no story id or prose in game code; an import writes only its output), art status and hashes, and the overlay manifest. |
+| `NODE_PATH="$(npm root -g)" node game/qa/run_story_qa.js` (new) | 54 checks × Chromium + Firefox, on the real page and file://. Also covers the draft stamp, Focus A paging, revisit and reload, and dice pass, fail and reload. |
 | `game/qa/validate_route.js` (and `--v2`), `validate_story.js`, `validate_assets.js --browser` | Engine and asset contracts. The asset audit now includes the imported story. |
 | `game/qa/run_qa.js` | M2 reception regression, now at `?story=reception`. Its art guard admits the imported story's art by recorded sha256, plus the pinned B overlay. |
-| polish lab, layout lab QA | M2 lab regressions. |
+| polish lab, layout lab QA | M2 lab regressions. The layout lab is judged by `node game/qa/check_known_failures.js tools/layout-lab/qa/qa_results.json game/qa/known_failures/layout-lab.json`: only the 8 recorded failures may fail, by exact name and count. |
 
 **Fixed here (pre-existing on `d905b0b`):** the game froze when opened from `file://` the first
 time an item arrived. The slip's `inkRows` called `getImageData` on a canvas tainted by the
 file-origin font atlases. The fallback now reads `game/js/glyph-ink.js`, a table generated from
 the atlases and checked against them, and gives exactly the pixel scan's rows. Served pages still
 use the pixel scan, so their rendering is byte-identical.
+
+### 7.1 Continuous integration (`.github/workflows/qa.yml`)
+
+The workflow runs on every pull request, on pushes to `main`, and on demand.
+
+- **`content` job** (Node 20):
+  - `import.js --check`;
+  - `import.js --verify`, for generated-content freshness;
+  - `glyph-ink/build.js --verify`;
+  - `validate_route.js` and `validate_route.js --v2`;
+  - `validate_story.js`;
+  - `validate_story_import.js`;
+  - `validate_assets.js`, static.
+- **`browsers` job:**
+  - Playwright 1.59.1, the same version as locally, installed outside the checkout;
+  - Chromium and Firefox;
+  - suites: `validate_assets.js --browser`, `run_story_qa.js`, `run_qa.js`, the polish lab, and the
+    layout lab under the known-failures check.
+
+Results and screenshots are uploaded as artifacts.
+
+### 7.2 CI environment limits (separate from regressions)
+
+- **Linux runners only.** The owner tests on this Mac in Chrome and Firefox. CI's headless Linux
+  Chromium and Firefox are the same engines but not the same builds. No WebKit/Safari, by the
+  owner's rule.
+- **Timing-sensitive checks** depend on runner load: the Firefox slip fade-in and the layout lab's
+  slide pitch, both known to flake locally (section 10). A one-off failure in one of these alone
+  is a flake candidate: rerun before treating it as a regression. Any other failing check counts.
+- **History needed.** The M2 guards diff against recorded commits, so checkout uses
+  `fetch-depth: 0`.
+- **Text rendering is not a variable.** All text is drawn from the locked bitmap atlases on a
+  canvas, not system fonts. Ink and placement checks hold on any OS.
+- **Wall time.** About 15 minutes for the browser job, mostly the layout lab.
+- **Not run in CI:** the polish lab's and layout lab's interactive tools, and any physical or
+  owner visual review.
 
 ## 8. Reconciliation
 
@@ -230,25 +313,55 @@ use the pixel scan, so their rendering is byte-identical.
 | `agent/narrative-mode-b-art-study` `5bfff16` | Preserved. Its overlay predates the x1919 fix and was not used. |
 | `agent/prologue-art-review-lab-20261113`, `agent/prologue-art-public-export-20261113` | Another session's active art review. Preserved. Its seven-slot target was not adopted; the six-slot M2 strip is kept. |
 | `agent/m2-reception-density-test` `f4168a8` | Superseded by density-contract-final. Preserved. |
-| `agent/m2-reception-ui-art-01` (local only, the primary checkout) | Superseded by the transient-ui pass. Its 5 commits and the owner's **uncommitted art in the primary checkout** are untouched. |
+| `agent/m2-reception-ui-art-01` (local only, the primary checkout) | Superseded by the transient-ui pass. Its 5 commits and the owner's **uncommitted art in the primary checkout** are untouched (section 8.1). |
 | `agent/m2-reception-inspector-art-01` local `a828905` | One unpushed local WIP commit (superseded). Untouched. |
 | `art/action-buttons-v5-wait` | Archival; its picks are in main since `a30fc5a`. |
 | Public `CYOA-storyboard` | Read only. Its `artwork.draft.json` differs from the private one only in prompt/notes text and `suggestedFilename`. Nothing was pushed to it. |
 
 No worktree or branch was deleted, moved or force-pushed.
 
+### 8.1 The owner's uncommitted art (primary checkout), preserved 2026-11-14
+
+The primary checkout (`CYOA`, branch `agent/m2-reception-ui-art-01` @ `6ac5cb1`) has 10
+uncommitted entries. Its working tree, index and branch were not changed: no reset, checkout,
+stash or clean. Every entry was compared by git blob with all refs:
+
+| Entry | Finding |
+|---|---|
+| `M art/ui/shell/layout-final.png`, `M art/ui/shell/item-overlay.png` | Byte-identical to `origin/main` and this branch: the 2026-11-08 canonical frame. The branch is older than the files. |
+| `?? art/items/bathroom_pass_inspect.png` | Identical to the committed `art/items/bathroom_pass_inspect.png`. |
+| `?? art/ui/sprites/reception/files_records_background.png` | Identical to `art/ui/overlays/files_panel.png`. |
+| `?? …/notes_files_records_background.png`, `…_v2.png` | Identical to `art/ui/overlays/notes_files_panel.png` and `notes_panel_v2.png`. |
+| `?? …/item_received_slip_candidate.png` | Identical to `art/ui/overlays/item_received_slip.png`. |
+| `?? …/inspector_x_candidate_up.png`, `…_down.png` | Identical to the X candidates in `agent/m2-reception-inspector-art-01` history (`5c79aff`), which is local only. Production uses the static `inspect_close.png`. |
+| `?? art/portraits/receptionist_background_tight_v2.png` | **In no git object.** A 564×278 tighter-crop receptionist backdrop candidate, different from the production `reception_background.png`. |
+
+All 10 are preserved twice, additively:
+- **Local branch `preserve/owner-local-art-2026-11-14`** (`83adbfa`, parent `6ac5cb1`). Built
+  through a temporary index; not pushed and not for merge.
+- **A file copy with `SHA256SUMS`** in `_backups/CYOA-owner-local-art-2026-11-14/`, next to the
+  repositories.
+
 ## 9. Limitations and gates
 
-- **Gates before `main`:**
-  - the owner approves this integration;
-  - the owner confirms B overlay Candidate 1 (`art/ui/shell/narrative-overlay.png`, PROVISIONAL);
-  - the owner decides whether draft (`generated`) prologue art may sit on `main` (it is
-    hash-pinned and status-recorded, but not approved).
+- **PMO gate 2026-11-14:**
+  - Architecture: **accepted** as the foundation. That covers the content-driven engine, the
+    importer, the v2 renderer, the reception regression path and the import workflow.
+  - The prologue story is **not** approved canon; it stays a draft (section 5).
+  - The 28 `generated` prologue images may go to `main` as development assets, with status and
+    hashes kept (section 5).
+  - Narrative B overlay Candidate 1 stays as the **provisional** implementation and is replaceable
+    without code changes (section 4.2).
+  - Reception at `?story=reception`, the six slots, inventory movement, typography, buttons and
+    portrait layering stay unchanged (`run_qa.js`, section 10).
+- **Still before `main`:** the final gate review of PR #1 and a green CI run. PR #1 stays open;
+  nothing merges automatically.
 - **Not built:**
   - thought/OBSERVE in B or A (thought PMO);
   - the chapter-title beat ([77]);
   - the fatal-retry checkpoint ([75]);
-  - a risk-marker icon for checked choices (the data is in the view);
+  - a risk-marker icon for checked choices (the data, `hasCheck`, is in the view and tested;
+    checks are otherwise hidden, as in v0);
   - save slots or a menu;
   - reception migration to the v2 flow (S9).
 - **Content findings from the importer** (left as authored):
