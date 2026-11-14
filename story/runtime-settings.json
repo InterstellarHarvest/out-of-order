@@ -1,0 +1,9 @@
+{
+  "schema": "cyoa-runtime-settings-v1",
+  "story": "the-acceptable-error",
+  "save": true,
+  "cast": {
+    "termination_drone": { "name": "TERMINATION DRONE" },
+    "receptionist": { "name": "RECEPTIONIST" }
+  }
+}

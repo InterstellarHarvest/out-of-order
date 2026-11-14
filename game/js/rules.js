@@ -447,7 +447,12 @@
   var COND_KEYS_V2 = COND_KEYS.concat(CHECK_CONDS);
   var EFFECT_KEYS_V2 = EFFECT_KEYS.concat(['objective']);
   var STORY_KEYS = ['schema', 'id', 'version', 'profile', 'save', 'compat', 'start', 'initialState', 'cast', 'items', 'files',
-    'contextAction', 'assets', 'chapters'];
+    'contextAction', 'assets', 'chapters', 'marks'];
+  // Item marks: the engine's own (MARKS) plus any the story declares in `marks` (story import,
+  // docs/84: e.g. a notice marked 'signed'). Only effects set a declared mark.
+  function marksOf(story) {
+    return MARKS.concat(story && Array.isArray(story.marks) ? story.marks : []);
+  }
   var CHAPTER_KEYS = ['title', 'start', 'scene', 'nodes'];
   var NODE_KEYS = ['mode', 'scene', 'speaker', 'pose', 'backdrop', 'focus', 'objective', 'effects', 'text', 'choices', 'show', 'use',
     'contextAction', 'end'];
@@ -1144,7 +1149,7 @@
       if (!obj(s.items)) fail('items must be an object');
       Object.keys(s.items).forEach(function (id) {
         var m = s.items[id];
-        if (!story.items[id] || !Array.isArray(m) || m.some(function (x, i) { return MARKS.indexOf(x) === -1 || m.indexOf(x) !== i; })) fail('bad marks on item ' + id);
+        if (!story.items[id] || !Array.isArray(m) || m.some(function (x, i) { return marksOf(story).indexOf(x) === -1 || m.indexOf(x) !== i; })) fail('bad marks on item ' + id);
       });
       if (typeof s.objective !== 'string') fail('objective must be text');
       if (typeof s.seed !== 'string' || !s.seed) fail('missing seed');
@@ -1285,6 +1290,14 @@
     if (!obj(story.cast)) err('story', 'cast must be an object');
     if (!obj(story.assets)) err('story', 'assets must be an object');
     var knownFlags = Object.keys(init.flags);
+    var allMarks = marksOf(story);
+    if (story.marks !== undefined) {
+      if (!Array.isArray(story.marks)) err('story', 'marks must be a list of mark names');
+      else story.marks.forEach(function (m, i) {
+        if (typeof m !== 'string' || !/^[a-z0-9_]+$/.test(m)) err('story', 'marks[' + i + '] must be a lower-case name');
+        else if (MARKS.indexOf(m) !== -1 || story.marks.indexOf(m) !== i) err('story', 'mark ' + m + ' is declared twice or is an engine mark');
+      });
+    }
     init.inventory.forEach(function (id) { if (!items[id]) err('initialState', 'unknown item ' + id); });
     // Check ids are unique across the whole story (every chapter, choice and SHOW/USE entry):
     // the roll and state.checks are keyed by id alone (docs/73 C2).
@@ -1311,7 +1324,7 @@
         if (flag !== null && knownFlags.indexOf(flag) === -1) err(where, 'unknown flag ' + flag);
         var item = k === 'item' || k === 'itemNot' ? v[0] : (k === 'has' || k === 'lacks') ? v : null;
         if (item !== null && !items[item]) err(where, 'unknown item ' + item);
-        if ((k === 'item' || k === 'itemNot') && MARKS.indexOf(v[1]) === -1) err(where, 'unknown item mark ' + v[1]);
+        if ((k === 'item' || k === 'itemNot') && allMarks.indexOf(v[1]) === -1) err(where, 'unknown item mark ' + v[1]);
       });
     }
     function plainField(where, f) {
@@ -1366,7 +1379,7 @@
           if (k === 'give' || k === 'take') v.forEach(function (id) { if (!items[id]) err(w, 'unknown item ' + id); });
           if (k === 'mark') v.forEach(function (p) {
             if (!items[p[0]]) err(w, 'unknown item ' + p[0]);
-            if (MARKS.indexOf(p[1]) === -1) err(w, 'unknown item mark ' + p[1]);
+            if (allMarks.indexOf(p[1]) === -1) err(w, 'unknown item mark ' + p[1]);
           });
           if (k === 'objective') plainField(w + ' objective', v);
         });
@@ -1641,11 +1654,60 @@
     // chapter, the excursion opener, which `once` entries are spent and each resolved check's
     // outcome (not its roll). The transcript, the objective and the context action are
     // presentation history, not route state.
+    // opts.routeMarks (the story importer, docs/84): only item marks that can change the route are
+    // part of the key: a mark some condition tests, 'inspected' where an item's inspect effects
+    // depend on it, 'read' where READ does more than mark the item read. Reading or opening an item
+    // whose mark nothing tests cannot change what happens, so those states are one state. Off by
+    // default, so the reception and fixture walks (and their asserted counts) are unchanged.
+    var routeMark = null;
+    if (o.routeMarks) {
+      routeMark = {};
+      var noteCond = function (c) {
+        if (!obj(c)) return;
+        ['item', 'itemNot'].forEach(function (k) { if (Array.isArray(c[k])) routeMark[c[k][0] + ':' + c[k][1]] = true; });
+      };
+      var noteText = function (t) { if (isVariants(t)) t.forEach(function (v) { noteCond(v.if); }); };
+      var noteFx = function (fx) { (Array.isArray(fx) ? fx : fx ? [fx] : []).forEach(function (e) { if (obj(e)) noteCond(e.if); }); };
+      var noteEntry = function (c) {
+        if (!obj(c)) return;
+        noteCond(c.if); noteFx(c.effects); noteText(c.result);
+        if (c.check) (c.check.mods || []).forEach(function (m) { noteCond(m.if); });
+        ['pass', 'fail'].forEach(function (k) { if (obj(c[k])) { noteFx(c[k].effects); noteText(c[k].result); } });
+      };
+      Object.keys(story.chapters).forEach(function (chId) {
+        var ns = story.chapters[chId].nodes;
+        Object.keys(ns).forEach(function (id) {
+          var n = ns[id];
+          noteFx(n.effects); noteText(n.text); noteText(n.objective);
+          (n.choices || []).forEach(noteEntry);
+          ['show', 'use'].forEach(function (verb) { Object.keys(n[verb] || {}).forEach(function (it) { noteEntry(n[verb][it]); }); });
+        });
+      });
+      (story.files || []).forEach(function (f) { noteCond(f.if); });
+      Object.keys(items).forEach(function (id) {
+        var it = items[id];
+        noteText(it.description);
+        if (it.inspect) { routeMark[id + ':inspected'] = true; noteFx(it.inspect.effects); }
+        if (it.read) {
+          noteFx(it.read.effects);
+          var fx = Array.isArray(it.read.effects) ? it.read.effects : it.read.effects ? [it.read.effects] : [];
+          var onlyMarksRead = fx.every(function (e) {
+            return Object.keys(e).every(function (k) { return k === 'mark' && e.mark.every(function (m) { return m[0] === id && m[1] === 'read'; }); });
+          });
+          if (!onlyMarksRead) routeMark[id + ':read'] = true;
+        }
+      });
+    }
+    function keyMarks(s) {
+      return Object.keys(s.items).sort().map(function (k) {
+        return [k, s.items[k].filter(function (m) { return !routeMark || routeMark[k + ':' + m]; }).sort()];
+      }).filter(function (e) { return !routeMark || e[1].length; });
+    }
     function key(s) {
       var spent = s.taken.map(function (t) { return t.at + ':' + (t.c || t.item + ':' + t.verb); })
         .filter(function (k) { return onceKeys[k]; }).sort();
       return JSON.stringify([s.chapter, s.node, s.returnTo, s.flags, s.inventory.slice().sort(),
-        Object.keys(s.items).sort().map(function (k) { return [k, s.items[k].slice().sort()]; }), spent,
+        keyMarks(s), spent,
         Object.keys(s.checks).sort().map(function (k) { return [k, s.checks[k].ok]; })]);
     }
     function bare(s) {
