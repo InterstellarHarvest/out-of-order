@@ -53,11 +53,12 @@
 
     // Imported stories (docs/84; docs/72 section 3.5). The Narrative Study lab defaults the owner
     // reviewed (agent/narrative-study-lab 7544c5d, docs/70): Narrative B narration in the Dialogue
-    // face on the B overlay (art/ui/shell/narrative-overlay.png, Candidate 1, provisional), typing at
+    // face on the B overlay (Candidate 1, provisional; image and text window from
+    // art/ui/shell/narrative-overlay.manifest.js, so a replacement overlay brings its own), typing at
     // the dialogue's speed, scrolling with the dialogue's thumb, CONTINUE between paragraph groups;
     // Focus A's description over the speech panel's text area, paged. transitionMs: the fade when
     // the mode, scene or chapter changes. The reception never reads these.
-    narrative: { x: 1350, y: 77, width: 522, lineHeight: 26, safeBottom: 513, bottomMargin: 20 },
+    narrative: Object.assign({}, (window.CYOA_NARRATIVE_OVERLAY || {}).textBox),
     focus: { x: 1342, y: 360, width: 540, lineHeight: 24, safeBottom: 512 },
     story: { transitionMs: 200 }
   };

@@ -15,7 +15,10 @@
   var T = G.text;
   var TU = G.TUNING;
   var ROLE = 'dialogue'; // the Dialogue face (Jersey 15), as the lab's default
-  var OVERLAY = { image: 'ui:narrative_overlay', path: 'art/ui/shell/narrative-overlay.png' };
+  // Which overlay image, and where narration sits on it, come from its manifest
+  // (art/ui/shell/narrative-overlay.manifest.js): replacing the art never touches this file.
+  var OVERLAY_ART = window.CYOA_NARRATIVE_OVERLAY;
+  var OVERLAY = { image: 'ui:' + OVERLAY_ART.id, path: 'art/ui/shell/' + OVERLAY_ART.image, status: OVERLAY_ART.status };
   G.NARRATIVE_ART = OVERLAY;
 
   var els = {};
@@ -65,9 +68,9 @@
     img.alt = '';
     img.draggable = false;
     img.setAttribute('aria-hidden', 'true');
-    img.width = 1920;
-    img.height = 1080;
-    place(img, 0, 0, 1920, 1080);
+    img.width = OVERLAY_ART.width;
+    img.height = OVERLAY_ART.height;
+    place(img, 0, 0, OVERLAY_ART.width, OVERLAY_ART.height);
     els.layerB.appendChild(img);
     els.textB = el('canvas', 'narrationText', els.layerB);
     els.textB.className = 'sprite-abs';
@@ -326,7 +329,65 @@
     return on === 'focus' ? els.hitA : els.hitB;
   }
 
+  // Draft stamp (docs/84 section 4.1) ---------------------------------------------------------
+  // A preview build, or a chapter the storyboard has not marked "approved", says so on screen for
+  // as long as it is played, and in the window title. It reads only the build record
+  // (CYOA_STORY_BUILD: channel, and each chapter's manifest title and status), so an approved build
+  // of approved chapters never shows it and no code changes when that happens. Development-only:
+  // not part of the approved layout, never takes input, and sits under every panel and overlay.
+  var STAMP = { x: 56, y: 58, padX: 10, padY: 8, gap: 4, role: 'objective', ink: 'light', plate: '#0e1b20' };
+  function stampText(s) {
+    // The label faces have no dash or dot beyond ASCII: an em dash becomes '-', anything else unknown '?'.
+    return String(s).toUpperCase().replace(/[\u2012-\u2015]/g, '-');
+  }
+  function draftStamp(chapterId) {
+    var build = window.CYOA_STORY_BUILD || {};
+    var ch = (build.chapters || []).filter(function (c) { return c.id === chapterId; })[0] || { id: chapterId, title: chapterId, status: 'unlisted' };
+    var draft = build.channel !== 'approved' || ch.status !== 'approved';
+    var stage = document.getElementById('stage');
+    var shell = document.getElementById('shell');
+    var n = document.getElementById('draftStamp');
+    var title = (G.story && G.story.title) || 'The Acceptable Error (working title)';
+    document.body.dataset.draft = draft ? 'true' : 'false';
+    if (!draft) {
+      if (n) n.style.display = 'none';
+      document.title = title;
+      return;
+    }
+    var lines = ['DRAFT PLAYABLE PREVIEW - NOT APPROVED CANON',
+      stampText(ch.id + ': ' + (ch.title || ch.id) + (ch.status === 'approved' ? '' : ' [' + (ch.status || 'unlisted') + ']') + ' - BUILD ' + String(build.contentHash || 'none').slice(0, 8))];
+    document.title = title + ' - DRAFT playable preview: ' + (ch.title || ch.id) + ' (not approved canon)';
+    if (!n) {
+      n = document.createElement('div');
+      n.id = 'draftStamp';
+      n.className = 'sprite-abs';
+      n.setAttribute('role', 'note');
+      n.style.background = STAMP.plate;
+      // Directly above the scene and portrait art: under NOTES/FILES (#overlay), the shell, the
+      // cards, the inspector, the item slip and tooltips.
+      stage.insertBefore(n, document.getElementById('overlay') || shell || stage.firstChild);
+    }
+    if (n.dataset.text === lines.join('\n')) { n.style.display = ''; return; }
+    n.textContent = '';
+    var lh = T.lineHeight(STAMP.role);
+    var w = 0;
+    lines.forEach(function (text, i) {
+      var cv = document.createElement('canvas');
+      cv.className = 'sprite-abs';
+      cv.setAttribute('aria-hidden', 'true');
+      var size = T.label(cv, text, STAMP.ink, STAMP.role);
+      place(cv, STAMP.padX, STAMP.padY + i * (lh + STAMP.gap), size[0], size[1]);
+      w = Math.max(w, size[0]);
+      n.appendChild(cv);
+    });
+    place(n, STAMP.x, STAMP.y, w + 2 * STAMP.padX, 2 * STAMP.padY + lines.length * lh + (lines.length - 1) * STAMP.gap);
+    n.dataset.text = lines.join('\n');
+    n.setAttribute('aria-label', lines.join('. '));
+    n.style.display = '';
+  }
+
   G.surfaces = {
+    draftStamp: draftStamp,
     box: box,
     show: showMode,
     mode: function () { return on; },

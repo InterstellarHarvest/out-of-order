@@ -174,6 +174,7 @@
     }
     document.body.dataset.node = v.chapter + ':' + v.node;
     document.body.dataset.scene = v.scene;
+    G.surfaces.draftStamp(v.chapter);
     G.renderAll();
   }
 

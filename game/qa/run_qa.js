@@ -71,9 +71,16 @@ const PRODUCTION_ART = {
   // Transient UI pass (docs/61): the item-received slip.
   'art/ui/overlays/item_received_slip.png': '993ecdb6fb11e27b41c0eec07221a3421398458fa1a06d82aae22e8eb423797c' // 560x116 RGBA, hard alpha
 };
-// Imported-story UI art (docs/84): Narrative B overlay Candidate 1 with the x1919 fix, from
-// agent/narrative-study-lab 7544c5d. PROVISIONAL: the owner has not yet confirmed the candidate (docs/70).
-const STORY_UI_ART = { 'art/ui/shell/narrative-overlay.png': 'ebc7ccd00f4e5575673ad5e404f31453985ef24d34a64662166ab4370c65514c' };
+// Imported-story UI art (docs/84): the Narrative B overlay, pinned by its own manifest
+// (art/ui/shell/narrative-overlay.manifest.js; Candidate 1, PROVISIONAL). Replacing the overlay
+// updates the manifest, and this pin follows it.
+const NARRATIVE_OVERLAY = (() => {
+  const sandbox = { window: {} };
+  require('vm').runInNewContext(fs.readFileSync(path.join(ROOT, 'art/ui/shell/narrative-overlay.manifest.js'), 'utf8'), sandbox);
+  return sandbox.window.CYOA_NARRATIVE_OVERLAY;
+})();
+const STORY_UI_ART = { ['art/ui/shell/' + NARRATIVE_OVERLAY.image]: NARRATIVE_OVERLAY.sha256 };
+const STORY_UI_DATA = ['art/ui/shell/narrative-overlay.manifest.js']; // admitted by exact path (data, not art)
 const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES v1 (lab option only since Round 2)
 const FILES_PANEL = 'art/ui/overlays/files_panel.png';
 const NOTES_V2 = 'art/ui/overlays/notes_panel_v2.png'; // NOTES (production since Round 2, docs/82)
@@ -216,7 +223,7 @@ function staticChecks() {
   // Still no folder wildcard: any other new file under art/ fails.
   const storyArt = {};
   require('../content/story.generated.js').build.art.forEach((a) => { storyArt[a.path] = a.sha256; });
-  const unexpected = added.filter((f) => !(f in OWNER_ART) && !(f in PRODUCTION_ART) && !(f in storyArt) && !(f in STORY_UI_ART));
+  const unexpected = added.filter((f) => !(f in OWNER_ART) && !(f in PRODUCTION_ART) && !(f in storyArt) && !(f in STORY_UI_ART) && STORY_UI_DATA.indexOf(f) === -1);
   check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art, the approved reception art and the imported story\'s registered art', unexpected.length === 0, unexpected);
   const storyBad = Object.keys(storyArt).concat(Object.keys(STORY_UI_ART)).filter((f) => !fs.existsSync(path.join(ROOT, f))
     || sha256(fs.readFileSync(path.join(ROOT, f))) !== (storyArt[f] || STORY_UI_ART[f]));
