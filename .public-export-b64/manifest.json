@@ -287,6 +287,46 @@
       ]
     },
     {
+      "path": "art/ui/sprites/choice_cards/choice_2line_a.png",
+      "bytes": 22747,
+      "sha256": "fdde9a0ff0601216988fc42809f3fb9f36254fc5ddaa72c64270bb8782caac58",
+      "parts": [
+        ".public-export-b64/art/ui/sprites/choice_cards/choice_2line_a.png.part00.b64"
+      ]
+    },
+    {
+      "path": "art/ui/sprites/controls/utility_a_up.png",
+      "bytes": 56570,
+      "sha256": "dfb55a005153af1a5b6de5b43f5f58c203c787b126772ef1616745ebd26daee1",
+      "parts": [
+        ".public-export-b64/art/ui/sprites/controls/utility_a_up.png.part00.b64"
+      ]
+    },
+    {
+      "path": "art/ui/sprites/controls/utility_b_up.png",
+      "bytes": 56637,
+      "sha256": "321568f5373b2d44fe82eaeb2adf848ef6d9bbfcc2ccb81b5192e996b5d874d9",
+      "parts": [
+        ".public-export-b64/art/ui/sprites/controls/utility_b_up.png.part00.b64"
+      ]
+    },
+    {
+      "path": "art/ui/sprites/controls/utility_c_up.png",
+      "bytes": 56625,
+      "sha256": "f01b8693ab1e30f8f9057bcee96e2ff4baea2c4d2e8ef5017e12404cace14cc1",
+      "parts": [
+        ".public-export-b64/art/ui/sprites/controls/utility_c_up.png.part00.b64"
+      ]
+    },
+    {
+      "path": "art/ui/sprites/inspect_close.png",
+      "bytes": 371,
+      "sha256": "da492070f0fcd1f7acdf92f5822a73618c29f979997001b16718a52a4d2741d6",
+      "parts": [
+        ".public-export-b64/art/ui/sprites/inspect_close.png.part00.b64"
+      ]
+    },
+    {
       "path": "art/scenes/conference_hall/reception/reception_scene.png",
       "bytes": 46387,
       "sha256": "fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53",
