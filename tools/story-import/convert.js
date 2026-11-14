@@ -264,7 +264,9 @@ function convert(input, opts) {
         p.poses[pose] = artRecord('portrait-pose', sid + ':' + pose, rec, w);
       }
     });
-    p.pose = has(p.poses, 'default') ? 'default' : speakers[sid].poses[0];
+    // Defaults never depend on authoring order: 'default' if authored, else the first id
+    // alphabetically (any node that differs names its own pose / backdrop).
+    p.pose = has(p.poses, 'default') ? 'default' : speakers[sid].poses.slice().sort()[0];
     // Backgrounds: the opaque 564x278 portrait background paired with the scene the conversation
     // happens in (scenes[<scene>].portraitBackground), keyed by that scene id.
     const bgFor = (scene, pose) => {
@@ -286,13 +288,14 @@ function convert(input, opts) {
       return scene;
     };
     // Emit each node's pose / backdrop now the registry is known.
-    let first = true;
+    const bgs = [];
     chapterIds.forEach((chId) => Object.keys(outChapters[chId].nodes).forEach((nid) => {
       const n = outChapters[chId].nodes[nid];
       if (n.mode !== 'dialogue' || n.speaker !== sid) return;
       const bg = bgFor(n._scene, n._pose);
-      if (first) { p.background = bg; first = false; }
+      if (bgs.indexOf(bg) === -1) bgs.push(bg);
     }));
+    p.background = bgs.sort()[0];
     chapterIds.forEach((chId) => Object.keys(outChapters[chId].nodes).forEach((nid) => {
       const n = outChapters[chId].nodes[nid];
       if (n.mode !== 'dialogue' || n.speaker !== sid) return;

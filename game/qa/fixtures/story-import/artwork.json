@@ -1,0 +1,21 @@
+{
+  "schema": "cyoa-storyboard-artwork-v1",
+  "statusValues": ["not-started", "prompted", "generated", "approved", "integrated", "reused"],
+  "scenes": {
+    "fixture/hall": { "kind": "scene", "status": "reused", "assetPath": "art/scenes/conference_hall/reception/reception_scene.png",
+      "portraitBackground": { "status": "reused", "assetPath": "art/portraits/receptionist/reception_background.png" } },
+    "fixture/yard": { "kind": "scene", "status": "reused", "assetPath": "art/scenes/conference_hall/reception/reception_scene.png" }
+  },
+  "portraits": {
+    "clerk:default": { "kind": "portrait", "status": "reused", "assetPath": "art/portraits/receptionist/receptionist_idle.png", "portraitBackgroundScene": "fixture/hall" }
+  },
+  "items": {
+    "fx_card": {
+      "slot": { "kind": "item-slot", "status": "reused", "assetPath": "art/items/bathroom_pass_slot.png" },
+      "inspect": { "kind": "item-inspect", "status": "reused", "assetPath": "art/items/bathroom_pass_inspect.png" }
+    }
+  },
+  "focus": {
+    "fixture/hall/panel": { "kind": "focus", "status": "reused", "assetPath": "art/portraits/receptionist/reception_background.png" }
+  }
+}

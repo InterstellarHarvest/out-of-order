@@ -304,38 +304,6 @@
     return c;
   }
 
-  // Runtime swaps for an imported story (js/story-flow.js, docs/84): the scene, the portrait's
-  // layers, or a Focus A close-up in the portrait aperture. Each image is the decoded image itself.
-  function swapLayer(parent, old, key, id, before) {
-    if (old && old.parentNode) old.parentNode.removeChild(old);
-    if (!key) return null;
-    var node = artLayer(parent, key, id);
-    if (before) parent.insertBefore(node, before);
-    node.dataset.art = key;
-    return node;
-  }
-  G.setSceneArt = function (key, label) {
-    if (els.sceneArt && els.sceneArt.dataset.art === key) return;
-    els.sceneArt = swapLayer(els.scene, els.sceneArt, key, 'sceneArt');
-    els.scene.setAttribute('aria-label', label || key);
-  };
-  // which: { background, pose, label } | { focus, label } | null (nothing: Narrative B covers it).
-  G.setPortraitArt = function (which) {
-    var w = which || {};
-    show(els.portrait, !!which);
-    if ((els.portraitBackground && els.portraitBackground.dataset.art) !== w.background) {
-      els.portraitBackground = swapLayer(els.portrait, els.portraitBackground, w.background, 'portraitBackground', els.portraitRearFx);
-    }
-    if ((els.portraitNpc && els.portraitNpc.dataset.art) !== w.pose) {
-      els.portraitNpc = swapLayer(els.portrait, els.portraitNpc, w.pose, 'portraitNpc', els.portraitFrontFx);
-    }
-    if ((els.focusArt && els.focusArt.dataset.art) !== w.focus) {
-      els.focusArt = swapLayer(els.portrait, els.focusArt, w.focus, 'focusArt', els.portraitFrontFx);
-    }
-    els.portrait.dataset.mode = w.focus ? 'focus' : which ? 'portrait' : 'none';
-    if (which) els.portrait.setAttribute('aria-label', w.label || '');
-  };
-
   function fxLayer(parent, id, r) {
     var fx = el('div', 'layer fx', parent, { id: id, 'aria-hidden': 'true' });
     place(fx, 0, 0, r[2], r[3]);
@@ -378,6 +346,38 @@
       G.setOverlayScroll(ui.overlayScroll + keys[e.key]);
     });
   }
+
+  // Runtime swaps for an imported story (js/story-flow.js, docs/84): the scene, the portrait's
+  // layers, or a Focus A close-up in the portrait aperture. Each image is the decoded image itself.
+  function swapLayer(parent, old, key, id, before) {
+    if (old && old.parentNode) old.parentNode.removeChild(old);
+    if (!key) return null;
+    var node = artLayer(parent, key, id);
+    if (before) parent.insertBefore(node, before);
+    node.dataset.art = key;
+    return node;
+  }
+  G.setSceneArt = function (key, label) {
+    if (els.sceneArt && els.sceneArt.dataset.art === key) return;
+    els.sceneArt = swapLayer(els.scene, els.sceneArt, key, 'sceneArt');
+    els.scene.setAttribute('aria-label', label || key);
+  };
+  // which: { background, pose, label } | { focus, label } | null (nothing: Narrative B covers it).
+  G.setPortraitArt = function (which) {
+    var w = which || {};
+    show(els.portrait, !!which);
+    if ((els.portraitBackground && els.portraitBackground.dataset.art) !== w.background) {
+      els.portraitBackground = swapLayer(els.portrait, els.portraitBackground, w.background, 'portraitBackground', els.portraitRearFx);
+    }
+    if ((els.portraitNpc && els.portraitNpc.dataset.art) !== w.pose) {
+      els.portraitNpc = swapLayer(els.portrait, els.portraitNpc, w.pose, 'portraitNpc', els.portraitFrontFx);
+    }
+    if ((els.focusArt && els.focusArt.dataset.art) !== w.focus) {
+      els.focusArt = swapLayer(els.portrait, els.focusArt, w.focus, 'focusArt', els.portraitFrontFx);
+    }
+    els.portrait.dataset.mode = w.focus ? 'focus' : which ? 'portrait' : 'none';
+    if (which) els.portrait.setAttribute('aria-label', w.label || '');
+  };
 
   // NPC speech and history ----------------------------------------------------------------
   // Every line of the conversation stays in the box: the player's in the Choices face, the

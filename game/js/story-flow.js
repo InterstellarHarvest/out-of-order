@@ -143,7 +143,9 @@
   function sceneLabel(id) { return id; }
   // Apertures and surface for the state as it stands (the view), with the history windows filled
   // with everything already presented (transcript entries before `shown`).
-  function applyView(v) {
+  // The apertures alone, for the node as it stands: a node in the same scene and mode can still
+  // change the portrait (another pose or backdrop) or the close-up.
+  function applyArt(v) {
     G.setSceneArt(G.artKey.scene(v.scene), sceneLabel(v.scene));
     if (v.mode === 'dialogue') {
       G.setPortraitArt({ background: G.artKey.background(v.portrait.id, v.portrait.background), pose: G.artKey.pose(v.portrait.id, v.portrait.pose), label: story.cast[v.speaker].name });
@@ -152,6 +154,9 @@
     } else {
       G.setPortraitArt(null);
     }
+  }
+  function applyView(v) {
+    applyArt(v);
     var t = G.state.transcript;
     var idx = v.history[v.mode].filter(function (i) { return i < shown; });
     if (v.mode === 'dialogue') {
@@ -209,6 +214,7 @@
         setPhase('reply-beat');
         return later(G.layout.choices.feedback.send.beatMs, next);
       case 'text':
+        applyArt(view());
         return present(ev);
       default:
         return next();

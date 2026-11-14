@@ -14,7 +14,9 @@ const { execFileSync } = require('child_process');
 const playwright = require('playwright');
 
 const ROOT = path.resolve(__dirname, '../..');
-const GAME_URL = 'game/index.html?qa';
+// The M2 reception slice is the regression fixture of the content-driven game (docs/84): the page
+// plays the imported story by default, so this suite asks for the reception explicitly.
+const GAME_URL = 'game/index.html?story=reception&qa';
 const SHOTS = path.join(__dirname, 'screenshots');
 const START_SHA = '5d42b524e8499c7ef3da724ba02f439c1cc660ff'; // main when M2 began
 const SHELL_PATH = 'art/ui/shell/layout-final.png';
@@ -69,6 +71,9 @@ const PRODUCTION_ART = {
   // Transient UI pass (docs/61): the item-received slip.
   'art/ui/overlays/item_received_slip.png': '993ecdb6fb11e27b41c0eec07221a3421398458fa1a06d82aae22e8eb423797c' // 560x116 RGBA, hard alpha
 };
+// Imported-story UI art (docs/84): Narrative B overlay Candidate 1 with the x1919 fix, from
+// agent/narrative-study-lab 7544c5d. PROVISIONAL: the owner has not yet confirmed the candidate (docs/70).
+const STORY_UI_ART = { 'art/ui/shell/narrative-overlay.png': 'ebc7ccd00f4e5575673ad5e404f31453985ef24d34a64662166ab4370c65514c' };
 const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES v1 (lab option only since Round 2)
 const FILES_PANEL = 'art/ui/overlays/files_panel.png';
 const NOTES_V2 = 'art/ui/overlays/notes_panel_v2.png'; // NOTES (production since Round 2, docs/82)
@@ -205,8 +210,17 @@ function staticChecks() {
   const added = git('diff', '--name-only', '--diff-filter=A', START_SHA, '--', 'art', 'design', 'tools/layout-lab').split('\n').filter(Boolean);
   // Repaired 2026-11-07 (docs/57): the approved reception production art is now admitted by exact
   // path and hash (PRODUCTION_ART). No folder wildcard: any other new file under art/ still fails.
-  const unexpected = added.filter((f) => !(f in OWNER_ART) && !(f in PRODUCTION_ART));
-  check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art and the approved reception art', unexpected.length === 0, unexpected);
+  // Story import (docs/84): the imported story's art is admitted by exact path and the sha256 its
+  // generated build records (game/content/story.generated.js, each with its artwork status; draft
+  // art is 'generated', not approved), plus the provisional Narrative B overlay pinned below.
+  // Still no folder wildcard: any other new file under art/ fails.
+  const storyArt = {};
+  require('../content/story.generated.js').build.art.forEach((a) => { storyArt[a.path] = a.sha256; });
+  const unexpected = added.filter((f) => !(f in OWNER_ART) && !(f in PRODUCTION_ART) && !(f in storyArt) && !(f in STORY_UI_ART));
+  check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art, the approved reception art and the imported story\'s registered art', unexpected.length === 0, unexpected);
+  const storyBad = Object.keys(storyArt).concat(Object.keys(STORY_UI_ART)).filter((f) => !fs.existsSync(path.join(ROOT, f))
+    || sha256(fs.readFileSync(path.join(ROOT, f))) !== (storyArt[f] || STORY_UI_ART[f]));
+  check(b, 'the imported story\'s art and the B overlay match their recorded hashes', storyBad.length === 0, storyBad);
   const prodBad = Object.keys(PRODUCTION_ART).filter((f) => !fs.existsSync(path.join(ROOT, f)) || sha256(fs.readFileSync(path.join(ROOT, f))) !== PRODUCTION_ART[f]);
   check(b, 'the three approved reception art files exist at their production paths with their approved hashes', prodBad.length === 0, prodBad);
   const sc = png(SCENE_ART), bgi = png(BG_ART), npc = png(NPC_ART);
@@ -1530,7 +1544,7 @@ async function suite(name, base, requests) {
   const ferr = [];
   fpage.on('pageerror', (e) => ferr.push(String(e)));
   fpage.on('requestfailed', (r) => ferr.push('failed ' + r.url()));
-  await fpage.goto('file://' + path.join(ROOT, 'game/index.html'));
+  await fpage.goto('file://' + path.join(ROOT, 'game/index.html') + '?story=reception');
   await fpage.waitForFunction(() => document.body.dataset.ready, null, { timeout: 15000 });
   c('opens from file:// with no server', (await fpage.evaluate(() => document.body.dataset.ready)) === 'true', ferr);
   c('fits a smaller window by scaling the whole stage', await fpage.evaluate(() => /scale\(0\.66/.test(document.getElementById('stage').style.transform)));

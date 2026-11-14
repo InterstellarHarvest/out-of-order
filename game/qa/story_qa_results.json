@@ -1,0 +1,418 @@
+{
+  "suite": "story-browser",
+  "passed": 82,
+  "total": 82,
+  "content": "d88ca197a0a5c405648346de8e1c0c4264b9e40d4197daad86f5a6fd67d2ec5e",
+  "results": [
+    {
+      "browser": "chromium",
+      "name": "the game page plays the imported story by default (preview build, content hash on the body)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Narrative B: opening node in B, overlay on, dialogue box hidden, portrait aperture empty",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Narrative B: the narration holds the authored passage (second person, as written)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Narrative B: the scene aperture shows the node's scene art",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "a continue card is plain (no quotes, dark ink)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the objective plaque shows the node objective",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Dialogue: transition into the drone conversation (dialogue box on, B overlay off)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Dialogue: the portrait shows the paired corridor background under the paper-extended pose",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Dialogue: NPC speech and stage directions are in the dialogue box, unquoted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "cards: a spoken card shows its words in quotation marks; its text (aria) has none",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "cards: an action card is drawn in the action ink",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Dialogue: the player's action is echoed in the dialogue box as an action (action ink), not quoted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "items: the notice arrives (inventory + ITEM RECEIVED slip)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "NOTES: the whole playthrough so far, narration and dialogue, NAME: / YOU: labels",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "FILES: opens on its own panel (no FILES entries authored yet)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "items: opening the sealed box unpacks it (box replaced by its contents), inspector closes",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "items: each unpacked item gets its slip, in order",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "inventory: the six-slot strip shows six slots with the six items",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "inspector: item art, READ available, SHOW unavailable outside dialogue",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "inventory: with a seventh item the strip slides by one slot (the M2 slide physics)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Narrative B: a passage that fits the panel arrives whole, then its choices",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Narrative B: a passage longer than the panel waits for a presentation CONTINUE between paragraph groups",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Narrative B: earlier groups stay in the scrollable narration; the node's choices follow the last group",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Narrative B: the presentation CONTINUE is never a rules step (no decision logged)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "saves: a reload restores the autosave at the same node with the same inventory",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "saves: after a compatible content revision the save is carried over (migrated)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "DEMO: a dialogue line rewritten in the storyboard JSON appears in the game after reimport",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "DEMO: at the key hand-off the tag question is not offered before the tag is read",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "DEMO: READING the key tag (an item condition) makes the question available, and SHOW is offered",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "DRAFT STOP: the unfinished hand-off ends with one labelled system card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "BEGIN AGAIN restarts the playthrough (new NOTES, empty inventory, opening node)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Focus A: the close-up replaces the portrait, the description replaces the dialogue box, B overlay off",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Focus A: a stay with a result adds to the visit's description",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Focus A -> B: back returns to the narration, which continues (earlier text kept, result appended)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "chapter transition: the next chapter's scene and objective",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "saves: a text-only revision of the fixture carries the save over",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "saves: a revision that removed what the save refers to is refused with a reason, and the game starts fresh",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "saves: the refused save is kept aside, not destroyed",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "the M2 reception slice is still available (?story=reception) on its own v1 flow",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "file://: the imported story plays with no server, including the item slip",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "no console errors, page errors or failed requests",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the game page plays the imported story by default (preview build, content hash on the body)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Narrative B: opening node in B, overlay on, dialogue box hidden, portrait aperture empty",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Narrative B: the narration holds the authored passage (second person, as written)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Narrative B: the scene aperture shows the node's scene art",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "a continue card is plain (no quotes, dark ink)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the objective plaque shows the node objective",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Dialogue: transition into the drone conversation (dialogue box on, B overlay off)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Dialogue: the portrait shows the paired corridor background under the paper-extended pose",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Dialogue: NPC speech and stage directions are in the dialogue box, unquoted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "cards: a spoken card shows its words in quotation marks; its text (aria) has none",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "cards: an action card is drawn in the action ink",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Dialogue: the player's action is echoed in the dialogue box as an action (action ink), not quoted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "items: the notice arrives (inventory + ITEM RECEIVED slip)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "NOTES: the whole playthrough so far, narration and dialogue, NAME: / YOU: labels",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "FILES: opens on its own panel (no FILES entries authored yet)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "items: opening the sealed box unpacks it (box replaced by its contents), inspector closes",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "items: each unpacked item gets its slip, in order",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "inventory: the six-slot strip shows six slots with the six items",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "inspector: item art, READ available, SHOW unavailable outside dialogue",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "inventory: with a seventh item the strip slides by one slot (the M2 slide physics)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Narrative B: a passage that fits the panel arrives whole, then its choices",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Narrative B: a passage longer than the panel waits for a presentation CONTINUE between paragraph groups",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Narrative B: earlier groups stay in the scrollable narration; the node's choices follow the last group",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Narrative B: the presentation CONTINUE is never a rules step (no decision logged)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "saves: a reload restores the autosave at the same node with the same inventory",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "saves: after a compatible content revision the save is carried over (migrated)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "DEMO: a dialogue line rewritten in the storyboard JSON appears in the game after reimport",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "DEMO: at the key hand-off the tag question is not offered before the tag is read",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "DEMO: READING the key tag (an item condition) makes the question available, and SHOW is offered",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "DRAFT STOP: the unfinished hand-off ends with one labelled system card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "BEGIN AGAIN restarts the playthrough (new NOTES, empty inventory, opening node)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Focus A: the close-up replaces the portrait, the description replaces the dialogue box, B overlay off",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Focus A: a stay with a result adds to the visit's description",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Focus A -> B: back returns to the narration, which continues (earlier text kept, result appended)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "chapter transition: the next chapter's scene and objective",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "saves: a text-only revision of the fixture carries the save over",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "saves: a revision that removed what the save refers to is refused with a reason, and the game starts fresh",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "saves: the refused save is kept aside, not destroyed",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "the M2 reception slice is still available (?story=reception) on its own v1 flow",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "file://: the imported story plays with no server, including the item slip",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "no console errors, page errors or failed requests",
+      "ok": true
+    }
+  ]
+}

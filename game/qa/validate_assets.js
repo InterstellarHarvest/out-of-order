@@ -84,7 +84,9 @@ const reception = Rules.fromV1(require('../content/reception.js'));
 const STORIES = {
   reception,
   'engine-fixture': require('./fixtures/engine_fixture.js'),
-  'endings-fixture': require('./fixtures/endings_fixture.js')
+  'endings-fixture': require('./fixtures/endings_fixture.js'),
+  // The imported story (docs/84): the same contract applies to generated content.
+  imported: require('../content/story.generated.js').story
 };
 
 // The contract, for one story ---------------------------------------------------------------
@@ -300,7 +302,7 @@ async function browserSuite() {
     page.on('console', (m) => { if (m.type() === 'error' && !/qa_missing_/.test((m.location() || {}).url || '') && !/qa_missing_/.test(m.text())) errors.push(m.text()); });
     page.on('pageerror', (e) => errors.push(String(e)));
     requests.length = 0;
-    await page.goto(base + '/game/index.html?qa');
+    await page.goto(base + '/game/index.html?story=reception&qa'); // the reception fixture (docs/84)
     await page.waitForFunction(() => document.body.dataset.ready, null, { timeout: 30000 });
     check(g, 'the game boots (ready=true)', await page.evaluate(() => document.body.dataset.ready) === 'true', await page.evaluate(() => document.body.dataset.error));
     const rt = await page.evaluate(() => {

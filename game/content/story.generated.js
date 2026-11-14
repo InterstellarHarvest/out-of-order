@@ -7,8 +7,8 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "3366304cd63f2f48077f3359dd9ef8915c080d8ee1358288eb6735d77d63a603",
-    "version": 53895941,
+    "contentHash": "d88ca197a0a5c405648346de8e1c0c4264b9e40d4197daad86f5a6fd67d2ec5e",
+    "version": 227068442,
     "sources": [
       {
         "path": "story/artwork.draft.json",
@@ -286,7 +286,7 @@
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 53895941,
+    "version": 227068442,
     "profile": "production",
     "save": true,
     "start": "prologue-00",
@@ -565,7 +565,7 @@
             "paper_extended": "art/portraits/termination_drone/drone_paper_extended.png"
           },
           "background": "workplace/corridor",
-          "pose": "slot_closed"
+          "pose": "paper_extended"
         }
       },
       "focus": {}
@@ -593,6 +593,7 @@
             "mode": "dialogue",
             "scene": "workplace/corridor",
             "speaker": "termination_drone",
+            "pose": "slot_closed",
             "text": [
               {
                 "desc": "A bright chime rings out. A small, round drone floats into your path and makes a gentle correction to its height."
@@ -613,7 +614,6 @@
             "mode": "dialogue",
             "scene": "workplace/corridor",
             "speaker": "termination_drone",
-            "pose": "paper_extended",
             "text": [
               {
                 "desc": "A narrow pink document appears from the slot below the speaker grille. Three carbon copies are joined at the top. A tiny pencil hangs from a chain."
@@ -690,7 +690,6 @@
             "mode": "dialogue",
             "scene": "workplace/corridor",
             "speaker": "termination_drone",
-            "pose": "paper_extended",
             "text": [
               {
                 "desc": "The chained pencil barely reaches the signature box. You lift the paper to meet it. The drone draws back two copies and leaves the smudged bottom sheet for you."
@@ -710,7 +709,6 @@
             "mode": "dialogue",
             "scene": "workplace/corridor",
             "speaker": "termination_drone",
-            "pose": "paper_extended",
             "text": [
               {
                 "desc": "The drone pauses. A small stamp strikes the document inside its casing. It presents a pink copy marked REVIEW REQUESTED."
@@ -730,7 +728,6 @@
             "mode": "dialogue",
             "scene": "workplace/corridor",
             "speaker": "termination_drone",
-            "pose": "paper_extended",
             "text": [
               {
                 "desc": "You step around the drone. It glides aside with impeccable courtesy, keeping the form in its slot."

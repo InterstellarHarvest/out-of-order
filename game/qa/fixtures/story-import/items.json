@@ -1,0 +1,12 @@
+{
+  "fx_card": {
+    "name": "BLUE CARD",
+    "slotArt": null,
+    "inspectArt": null,
+    "description": [
+      { "if": { "item": ["fx_card", "read"] }, "text": "A BLUE CARD. THE BACK SAYS: THE CODE STARTS WITH A FOUR." },
+      { "text": "A BLUE CARD WITH WRITING ON THE BACK." }
+    ],
+    "read": { "effects": { "mark": [["fx_card", "read"]] } }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "title": "FIXTURE TWO",
+  "start": "yard",
+  "scene": "fixture/yard",
+  "nodes": {
+    "yard": {
+      "mode": "narrative",
+      "objective": "CROSS THE YARD.",
+      "text": "The yard is paved and empty. A gate stands open on the far side.",
+      "choices": [{ "id": "cross_yard", "kind": "action", "text": "WALK THROUGH THE GATE.", "to": "gate" }]
+    },
+    "gate": {
+      "mode": "narrative",
+      "end": true,
+      "text": "Beyond the gate is the end of the fixture.",
+      "choices": [{ "id": "begin_again", "kind": "system", "text": "BEGIN AGAIN.", "restart": true }]
+    }
+  }
+}
