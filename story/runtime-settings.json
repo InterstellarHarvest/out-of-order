@@ -3,7 +3,14 @@
   "story": "the-acceptable-error",
   "save": true,
   "cast": {
-    "termination_drone": { "name": "TERMINATION DRONE" },
-    "receptionist": { "name": "RECEPTIONIST" }
+    "termination_drone": {
+      "name": "TERMINATION DRONE"
+    },
+    "receptionist": {
+      "name": "RECEPTIONIST"
+    },
+    "house": {
+      "name": "HOUSE OF TOMORROW"
+    }
   }
 }
