@@ -1,0 +1,220 @@
+{
+  "scenes": {
+    "house_of_tomorrow/arrival": {
+      "title": "HOUSE OF TOMORROW — ARRIVAL",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/bathroom": {
+      "title": "HOUSE OF TOMORROW — BATHROOM",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/bedroom": {
+      "title": "HOUSE OF TOMORROW — BEDROOM",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/chair": {
+      "title": "HOUSE OF TOMORROW — CHAIR",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/dining": {
+      "title": "HOUSE OF TOMORROW — DINING",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/foyer": {
+      "title": "HOUSE OF TOMORROW — FOYER",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER.",
+      "portraitBackground": {
+        "title": "HOUSE WALL SPEAKER BACKGROUND — FOYER",
+        "kind": "portrait-background",
+        "status": "not-started",
+        "dimensions": "564x278",
+        "prompt": "Closer, tighter POV of the 314x206 scene around wall speaker; separate opaque background, not a blurred upscale or wider pan.",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "notes": "Background separate from 564x278 transparent house speaker foreground; motion independent."
+      }
+    },
+    "house_of_tomorrow/lounge": {
+      "title": "HOUSE OF TOMORROW — LOUNGE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/maintenance": {
+      "title": "HOUSE OF TOMORROW — MAINTENANCE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/passage": {
+      "title": "HOUSE OF TOMORROW — PASSAGE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/portrait_gallery": {
+      "title": "HOUSE OF TOMORROW — PORTRAIT GALLERY",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER.",
+      "portraitBackground": {
+        "title": "HOUSE WALL SPEAKER BACKGROUND — PORTRAIT_GALLERY",
+        "kind": "portrait-background",
+        "status": "not-started",
+        "dimensions": "564x278",
+        "prompt": "Closer, tighter POV of the 314x206 scene around wall speaker; separate opaque background, not a blurred upscale or wider pan.",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "notes": "Background separate from 564x278 transparent house speaker foreground; motion independent."
+      }
+    },
+    "house_of_tomorrow/public_exit": {
+      "title": "HOUSE OF TOMORROW — PUBLIC EXIT",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/service_hatch": {
+      "title": "HOUSE OF TOMORROW — SERVICE HATCH",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/storage": {
+      "title": "HOUSE OF TOMORROW — STORAGE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    },
+    "house_of_tomorrow/utility_exit": {
+      "title": "HOUSE OF TOMORROW — UTILITY EXIT",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "Authentic logical-grid mid-century futurist interior for House of Tomorrow; restrained silver/gray industrial palette, fitted panel joints, no brass/steampunk. No visible family members or full player appearance. The room is an automated showroom. Pixel art authored at exactly 314x206.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Narrative exists in draft. Production art not yet authored; preview-only DEV PLACEHOLDER."
+    }
+  },
+  "portraits": {
+    "house:idle": {
+      "title": "HOUSE SPEAKER — IDLE",
+      "kind": "portrait",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "prompt": "Wall-mounted home intelligence speaker / camera assembly, 1960s Brazil-like plastic and powder-coated metal, simple speaker grille and indicator lamp, nonhumanoid. Detailed 564x278 transparent RGBA foreground only, independently animated, tight POV matching scene.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "No visible humanoid NPC. Layer over scene-specific opaque portrait background.",
+      "portraitBackgroundScene": "house_of_tomorrow/foyer",
+      "foregroundFormat": "transparent-rgba-png"
+    }
+  },
+  "focus": {
+    "house_of_tomorrow/portrait_gallery/album": {
+      "title": "FAMILY ALBUM — MULTIPAGE INSPECTION",
+      "kind": "focus",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "prompt": "Separate Focus A album close-up. Show 2-4 photos/page: family aging and increasingly afraid, skeletons, then empty chairs. The family never appears in main scene.",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Art may require several pages/frames coordinated with Narrative B pagination; do not fake complete art in a single busy sprite."
+    }
+  },
+  "items": {
+    "family_portrait_photo": {
+      "slot": {
+        "title": "FAMILY PORTRAIT — SLOT",
+        "kind": "item-slot",
+        "status": "not-started",
+        "dimensions": "96x96",
+        "prompt": "Small framed or stiff photograph, 3 empty chairs and ONLY protagonists shoes/lower legs at the bottom; actual full player identity never shown. Exact 96x96 transparent logical-grid slot art.",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "notes": "Keep silhouette of unseen protagonist limited to legs/feet."
+      },
+      "inspect": {
+        "title": "FAMILY PORTRAIT — INSPECT",
+        "kind": "item-inspect",
+        "status": "not-started",
+        "dimensions": "565x451",
+        "prompt": "Crooked off-center group photograph: three completely empty chairs, and ONLY shoes and lower legs cropped at bottom, portrait framing intentionally wrong, clean 565x451 inspect art. Do not render player face, torso or full body.",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "notes": "Stamped official household record on reverse can be narrative inspection text rather than baked-in tiny lettering."
+      }
+    }
+  },
+  "runtime_settings_cast_additions": {
+    "house": {
+      "name": "HOUSE OF TOMORROW"
+    }
+  },
+  "obsolete_artwork_record_to_replace": "house_of_tomorrow/opening"
+}
