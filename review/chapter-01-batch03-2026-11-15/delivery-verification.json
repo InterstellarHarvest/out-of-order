@@ -10,5 +10,10 @@
     "responsesVerified": 25,
     "allStatus200": true,
     "allBytesMatchFiles": true
-  }
+  },
+  "artworkPackageCommit": "360bf00d1f9b71b2c39979e7e9347a8e0f660995",
+  "packagePushExitCode": 0,
+  "packageRemoteBranch": "agent/ch01-art-batch03-20261115",
+  "packageLsRemoteSHA": "360bf00d1f9b71b2c39979e7e9347a8e0f660995",
+  "receiptCommit": "documentation/verification only; final HEAD reported after push"
 }
