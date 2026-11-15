@@ -1,0 +1,25 @@
+{
+  "nodes": 99,
+  "choices": 148,
+  "checks": 28,
+  "simulated_states": 210178,
+  "visited_nodes": 99,
+  "seen_choices": 138,
+  "seen_roll_outcomes": 56,
+  "terminal_counts": {
+    "fatal_hopper": 8,
+    "end_concourse_robot": 56,
+    "fatal_roots": 764,
+    "end_underground_station": 56,
+    "end_maintenance": 18840,
+    "end_customs": 17980,
+    "end_public": 36710,
+    "fatal_planting": 872,
+    "fatal_transformation": 432,
+    "fatal_sorter": 2
+  },
+  "unvisited": [],
+  "unseen_cards": [],
+  "warnings": [],
+  "errors": []
+}
