@@ -1,0 +1,58 @@
+{
+  "scope": "One corrected main-scene review candidate; not runtime schema",
+  "baseline": "280167eccf6ad065037e5f22a6394149ed4137d0",
+  "branch": "agent/ch01-art-batch03-20261115",
+  "status": "generated",
+  "ownerApproved": false,
+  "assetPath": null,
+  "candidatePath": "gallery-v05.png",
+  "dimensions": [
+    314,
+    206
+  ],
+  "mode": "RGB",
+  "sha256": "7fd52ebec4008005af452880aa0c54df97aad75b97d5e28c9f8d4c6bd8605c8d",
+  "sourcePath": "../printer-album-restoration-v04/generation-source/gallery-v03.png",
+  "sourceSHA256": "63aff47627c53045d120858ce438490df8db91c889379953ffb0f2c4c9694c22",
+  "sourceSelection": "Reuse saved restored-props gallery-v03 source visually matching owner follow-up example; no new scene redesign",
+  "comparisonPath": "before-after.png",
+  "comparisonSHA256": "bafc727e668d3489d326c4ceb472c0a78d92ab4897f32b1d2c6bd7a72385ec52",
+  "speakerGrilleBounds": {
+    "before": [
+      274,
+      46,
+      288,
+      60
+    ],
+    "reference": [
+      274,
+      60,
+      288,
+      74
+    ],
+    "corrected": [
+      274,
+      60,
+      288,
+      74
+    ]
+  },
+  "previousPNGsPreserved": 312,
+  "approvedPortrait": {
+    "path": "../printer-album-restoration-v04/candidates/gallery-conversation-v03.png",
+    "sha256": "a365560b66e6d4bbb1f865214768a20dfb6bed2a870bd62ab31ce2c5b9f66f4d",
+    "decision": "Owner approved exactly as-is; bytes unchanged"
+  },
+  "interpretation": "Apparent speaker-height difference between wide and close view is camera framing, not physical relocation",
+  "sourceSize": [
+    1548,
+    1016
+  ],
+  "cropBox": [
+    0,
+    0.2165605095541423,
+    1548,
+    1015.7834394904459
+  ],
+  "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+}

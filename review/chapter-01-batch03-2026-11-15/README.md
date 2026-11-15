@@ -1,4 +1,4 @@
-**Latest review:** [printer/album restoration and raised speaker — current seven candidates](printer-album-restoration-v04/index.html). [Earlier framing revision](framing-revision-v03/index.html) and the original package below are preserved snapshots.
+**Latest correction:** [wide scene with original speaker position — candidate and before/after](wide-speaker-position-v05/index.html). The conversation portrait is approved exactly as-is. [Earlier seven-candidate review](printer-album-restoration-v04/index.html) remains available as a snapshot.
 
 # Chapter1 Batch3 — private artwork review
 

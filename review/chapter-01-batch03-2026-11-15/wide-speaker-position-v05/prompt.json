@@ -1,0 +1,26 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "baseline": "280167eccf6ad065037e5f22a6394149ed4137d0",
+  "prompt": "Use case: precise-object-edit. ONE CORRECTED WIDE SCENE ONLY. INPUT1 is the BASE/EDIT TARGET: gallery-v04 with restored cream photograph printer and closed coral family album. INPUT2 is POSITION REFERENCE ONLY: gallery-candidate-v02's ORIGINAL wall-speaker location.\nChange ONLY the speaker's position in INPUT1: move the EXISTING SAME small ivory wall intercom DOWN to the EXACT original position shown in INPUT2, at the same horizontal alignment and same size. Both sources are1548x1016. Speaker original reference bezel is approximately x1337..1449, y276..410; current raised bezel in INPUT1 is approximately x1337..1449, y207..340. Move it DOWN about69sourcepixels (about14pixels at314x206). At native314x206 its reference footprint is approximately x271..294,y56..83. Match INPUT2 position precisely, including discreet cast shadow. Repair the vacated higher mounting spot with the same plain ivory wall.\nKEEP INPUT1 printer AND CLOSED CORAL ALBUM ON COUNTER EXACTLY AS THEY ARE. Do not restore INPUT2's empty counter. Preserve INPUT1's FOUR EMPTY AQUA CHAIRS IN ONE ROW, descending portrait camera, short carriage and canted mounting plate, ceiling hole and sliding hatch, blond cabinetry/handles, wall seams/coral trim, low table, rug, window/garden, flooring, perspective, framing and lighting. Do NOT move, resize, redesign, repaint or recompose any unrelated object. Do not redesign the intercom: same ivory bezel, rectangular dark grille, tiny upper-right sensor, green lower-left lamp and lower-right thumbwheel. Only position correction, no new fixtures or people. Keep approved room/chair/camera composition.\nThis is exact314x206 opaque RGB chunky pixel-art MAIN scene (157:103 aspect), no zoom/crop, text, UI, added people or captions. No conversation portrait is to be generated or changed. The existing gallery-conversation-v03 close-up remains APPROVED EXACTLY AS-IS; the apparent height difference is accepted CAMERA FRAMING, not a physical relocation or story geography change. Return only corrected full wide scene, no comparison/labels within art.",
+  "references": [
+    {
+      "path": "../printer-album-restoration-v04/generation-source/gallery-v04.png",
+      "role": "edit target; restored printer/album remain"
+    },
+    {
+      "path": "../generation-source/gallery-v02.png",
+      "role": "original main-speaker position only"
+    }
+  ],
+  "approvedPortrait": {
+    "path": "../printer-album-restoration-v04/candidates/gallery-conversation-v03.png",
+    "sha256": "a365560b66e6d4bbb1f865214768a20dfb6bed2a870bd62ab31ce2c5b9f66f4d",
+    "decision": "approved unchanged; apparent difference is camera framing"
+  },
+  "attemptDecision": "Not selected: new edit placed speaker below reference. No further generated replacement used.",
+  "finalSelection": {
+    "path": "../printer-album-restoration-v04/generation-source/gallery-v03.png",
+    "reason": "Saved restored-props render visually matches owner follow-up example and original speaker coordinates. Reuse source for native candidate.",
+    "method": "Existing built-in imagegen source normalized to314x206; no new semantic image edit"
+  }
+}
