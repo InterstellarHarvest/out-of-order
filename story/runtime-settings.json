@@ -11,6 +11,12 @@
     },
     "house": {
       "name": "HOUSE OF TOMORROW"
+    },
+    "groundskeeper": {
+      "name": "GROUNDSKEEPER"
+    },
+    "courtesy_conductor": {
+      "name": "COURTESY CONDUCTOR"
     }
   }
 }
