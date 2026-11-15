@@ -934,7 +934,7 @@
           ]
         }
       ],
-      "text": "\"Martin, stop making faces. Everyone ready? Say cheese!\"\n\nThe off-center camera fires. A photograph slides from the machine. Three empty chairs occupy nearly the entire image. At the very bottom are only your shoes and the lower parts of your legs.\n\n\"The best one we've taken in years! Please accept a complimentary copy.\"\n\nAn enormous family album lies beside the printer.",
+      "text": "\"Martin, stop making faces. Everyone ready? Say cheese!\"\n\nThe off-center camera fires. A photograph slides from the machine. Three empty chairs occupy nearly the entire image. At the right edge, a slice of the fourth chair appears, along with part of your shirt, your lap, your legs, and your forward-facing shoes. Your head is entirely out of frame.\n\n\"The best one we've taken in years! Please accept a complimentary copy.\"\n\nAn enormous family album lies beside the printer.",
       "choices": [
         {
           "id": "inspect_album",
@@ -958,7 +958,7 @@
           "to": "bathroom_arrival"
         }
       ],
-      "notes": "Artwork: scene has vacant chairs only. Player is NEVER visually identified; photo print is separate item art showing only lower legs/feet."
+      "notes": "Artwork: main gallery scene contains four vacant chairs. The separate photograph shows three complete empty chairs and a cropped fourth at right, with part of the seated protagonist's shirt, lap, legs and shoes visible; no head or face."
     },
     "album_closeup": {
       "mode": "focus",
