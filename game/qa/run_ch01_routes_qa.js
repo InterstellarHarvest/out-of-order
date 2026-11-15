@@ -88,7 +88,12 @@ function chooseSeed(spec){
     const from=fromActualPrologue(spec.item,seed);
     let s;
     try { s=checkStoryRoute(from,spec.path); }
-    catch(e){throw new Error(spec.name+': '+e.message);}
+    catch(e){
+      // A failed chair check correctly removes the downstream success-route card.
+      // Such a seed is not eligible for a success scenario; try the next fixed seed.
+      if (spec.chair && /lacks go_direct_service_exit/.test(e.message)) continue;
+      throw new Error(spec.name+': '+e.message);
+    }
     if(s.node!==spec.finish) continue;
     if(spec.chair && (!s.checks[spec.chair] || s.checks[spec.chair].ok!==spec.chairPass)) continue;
     if(spec.releasePass!==undefined && (!s.checks.house_service_release_mishap
