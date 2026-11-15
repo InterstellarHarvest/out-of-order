@@ -66,8 +66,9 @@
 
   // The item's slot art at a whole-number scale, on the placeholder ground, with a caption.
   // Stands in for <item>_inspect.png until that art is approved.
-  P.inspectArt = function (canvas, w, h, slotImage, title) {
-    P.panel(canvas, w, h, title, ['THE SLOT SPRITE IS SHOWN AT 3X UNTIL THE INSPECT ART EXISTS.']);
+  // notes: optional lines in place of the slot-sprite note (a scene-owned pickup has no slot art).
+  P.inspectArt = function (canvas, w, h, slotImage, title, notes) {
+    P.panel(canvas, w, h, title, notes || ['THE SLOT SPRITE IS SHOWN AT 3X UNTIL THE INSPECT ART EXISTS.']);
     var ctx = canvas.getContext('2d');
     if (slotImage) {
       var s = 3;
