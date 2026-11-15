@@ -3,9 +3,14 @@
   "date": "2026-11-15",
   "branch": "agent/ch01-art-first-pass-20261115",
   "baselineCommit": "3a763b52c1d60027549542d47381f4fbba412117",
+  "portraitRevisionBaseCommit": "ee50bfeff8d7ea2fdfbe6bf92728a8f3b32c94f0",
   "status": "generated",
   "candidateCount": 3,
-  "method": "built-in image_gen.imagegen; exact prompts in prompts.json",
+  "method": "built-in image_gen.imagegen; prompts.json plus portrait-closeup-v05.prompt.json",
+  "archivedCandidatePaths": [
+    "candidates/foyer-conversation-v04.png"
+  ],
+  "lastRevisionCandidateCount": 1,
   "portraitContract": "House-only complete opaque 564x278 scene-specific conversation image; no separate foreground/background",
   "engineIntegration": false,
   "registryProposalApplied": false,
@@ -221,25 +226,26 @@
       "title": "Foyer conversation close-up",
       "kind": "portrait-complete",
       "presentation": "complete-opaque",
+      "promptPath": "portrait-closeup-v05.prompt.json",
       "scene": "house_of_tomorrow/foyer",
       "status": "generated",
       "ownerApproved": false,
       "assetPath": null,
-      "candidatePath": "candidates/foyer-conversation-v04.png",
+      "candidatePath": "candidates/foyer-conversation-v05.png",
       "dimensions": [
         564,
         278
       ],
       "mode": "RGB",
-      "sha256": "93d3eb70fef66b7c567087b696ec5ed9390b461a02f9a4e7361a3b5896d29dad",
-      "sourcePath": "generation-source/foyer-conversation-v04.png",
-      "sourceSha256": "011912dcdc66d0be5a552eecd0a0bd3fd2eafbae9c3c5b6e5d0f2f0cc194860f",
+      "sha256": "a77eb0a6ca2479cf5e6490a08e14616e73ef57a15e3340b5fe2af7da159781d0",
+      "sourcePath": "generation-source/foyer-conversation-v05.png",
+      "sourceSha256": "281224bf21dd7d87705d150da6405b93eccdd563f863ee77ff0feb0ece23c94f",
       "sourceDimensions": [
         1786,
         881
       ],
-      "beforePath": "../chapter-01-first-pass-2026-11-15/previews/foyer-portrait-composite.png",
-      "beforeSha256": "6c5ab8e8eb4dc7214ed0bb74d4b20c4a2a2ee582b70ee87fe01f08e5278a8ad8",
+      "beforePath": "candidates/foyer-conversation-v04.png",
+      "beforeSha256": "93d3eb70fef66b7c567087b696ec5ed9390b461a02f9a4e7361a3b5896d29dad",
       "normalization": {
         "sourceBox": [
           0,
@@ -251,60 +257,60 @@
         "colorPolicy": "non-spatial merge to existing frequent RGB values within radius12; no fixed palette-count target"
       },
       "speakerApproximateBounds": [
-        288,
-        58,
+        196,
+        12,
         367,
-        168
+        251
       ],
-      "visibleColorCount": 306,
+      "visibleColorCount": 131,
       "dominantPalette": [
         {
-          "hex": "#fce6c9",
-          "pixels": 53092
+          "hex": "#fcdbb6",
+          "pixels": 98139
         },
         {
-          "hex": "#fadebd",
-          "pixels": 35507
+          "hex": "#f6d2aa",
+          "pixels": 15499
         },
         {
-          "hex": "#f8d7b1",
-          "pixels": 9466
+          "hex": "#fd8365",
+          "pixels": 3659
         },
         {
-          "hex": "#ebc6a0",
-          "pixels": 5720
+          "hex": "#30271e",
+          "pixels": 3135
         },
         {
-          "hex": "#a1cfc7",
-          "pixels": 5694
+          "hex": "#413428",
+          "pixels": 3016
         },
         {
-          "hex": "#eeaf63",
-          "pixels": 4603
+          "hex": "#4f4032",
+          "pixels": 2536
         },
         {
-          "hex": "#f99073",
-          "pixels": 3006
+          "hex": "#221b15",
+          "pixels": 2509
         },
         {
-          "hex": "#fef8c9",
-          "pixels": 2679
+          "hex": "#e36149",
+          "pixels": 1933
         },
         {
-          "hex": "#c6c5c5",
-          "pixels": 2359
+          "hex": "#5c4b3b",
+          "pixels": 1834
         },
         {
-          "hex": "#e0644d",
-          "pixels": 1776
+          "hex": "#ffe6c2",
+          "pixels": 1795
         },
         {
-          "hex": "#d1a983",
-          "pixels": 1390
+          "hex": "#edc499",
+          "pixels": 1469
         },
         {
-          "hex": "#c29e79",
-          "pixels": 1034
+          "hex": "#665341",
+          "pixels": 1334
         }
       ]
     }

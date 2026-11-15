@@ -32,8 +32,8 @@
           "status": "generated",
           "dimensions": "564x278",
           "assetPath": null,
-          "candidatePath": "review/chapter-01-speaker-revision-2026-11-15/candidates/foyer-conversation-v04.png",
-          "prompt": "Independent finer-density complete foyer view of the same modest flush ivory intercom above the housekeeping drawer, to right of coral reveal, entrance/scanner left, aqua partition edge right. Rectangular dark fabric grille, tiny green lamp, recessed thumbwheel, discreet sensor, internal pivoting faceplate, no lower support. Surrounding wall and mounting included; opaque RGB564x278, not an upscaled scene.",
+          "candidatePath": "review/chapter-01-speaker-revision-2026-11-15/candidates/foyer-conversation-v05.png",
+          "prompt": "Independently authored closer complete foyer conversation image, with the same flush ivory intercom occupying most of frame height. Fine rectangular woven grille, tiny green indicator, recessed thumbwheel, discreet sensor and inner pivot seam. Full wall mounting included, coral reveal at left edge and drawer molding at bottom; other foyer architecture outside the tighter field of view. No lower support. Opaque RGB564x278; never upscale the314x206 main scene.",
           "notes": "Generated candidate pending owner visual approval. No animation."
         },
         "house_of_tomorrow/portrait_gallery": {

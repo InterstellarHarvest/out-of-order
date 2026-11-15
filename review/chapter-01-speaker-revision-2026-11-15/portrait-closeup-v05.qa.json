@@ -1,0 +1,68 @@
+{
+  "passed": 15,
+  "checks": [
+    {
+      "name": "Complete opaque native portrait",
+      "pass": true
+    },
+    {
+      "name": "Active candidate is v05",
+      "pass": true
+    },
+    {
+      "name": "Portrait candidate hash",
+      "pass": true
+    },
+    {
+      "name": "Preserved generated source hash",
+      "pass": true
+    },
+    {
+      "name": "Generated pending approval, production path null",
+      "pass": true
+    },
+    {
+      "name": "New composition differs from previous",
+      "pass": true
+    },
+    {
+      "name": "Every earlier PNG unchanged including main rooms and prior portraits",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/artwork.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/chapters/chapter-01.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged game/content/story.generated.js",
+      "pass": true
+    },
+    {
+      "name": "Exactly three active review candidates",
+      "pass": true
+    },
+    {
+      "name": "Source built-in prompt preserved",
+      "pass": true
+    },
+    {
+      "name": "Unapplied registry proposal points to new portrait",
+      "pass": true
+    },
+    {
+      "name": "All gallery references resolve locally",
+      "pass": true
+    },
+    {
+      "name": "Changes confined to review package",
+      "pass": true
+    }
+  ],
+  "previousPngFilesVerified": 35,
+  "visualApproval": "pending",
+  "engineIntegration": false
+}

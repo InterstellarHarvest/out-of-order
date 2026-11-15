@@ -1,6 +1,8 @@
 # Speaker-revision verification
 
-Status: **generated; owner visual approval pending**. Technical checks do not confer visual approval or runtime integration.
+Status: **generated; owner visual approval pending**.
+
+Camera update v05: independently generated closer 564×278 opaque portrait with roughly twice the previous linear speaker size. The full bezel and wall attachment remain visible, with finer grille/control detail. No room scene was changed; the v04 portrait and comparison sheets remain exact. See `portrait-closeup-v05.qa.json` for camera-update checks; the 34-check report below describes the earlier speaker redesign. Technical checks do not confer visual approval or runtime integration.
 
 ## Artwork inspection
 
@@ -18,7 +20,7 @@ The portrait uses an exact-aspect reduction of the independent source to 564×27
 
 ## Bounded checks
 
-**34 technical checks passed; all 20 previous PNGs are byte-identical and all 25 gallery file references load over local HTTP.**
+**Initial ee50bfe revision: 34 technical checks passed; all 20 previous PNGs are byte-identical and all 25 gallery file references load over local HTTP.**
 
 [qa-results.json](qa-results.json) records dimensions/opaque modes, hashes, region-only changes, original-file preservation, 4× nearest previews, candidate count, proposal shape and local gallery references/loading. The registry JSONPatch is tested only against an in-memory copy; the source file is never modified. It deliberately needs PMO support before adoption.
 

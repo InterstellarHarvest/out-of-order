@@ -112,33 +112,33 @@ for room, region in [('foyer', (189, 47, 244, 95)), ('dining', (84, 44, 108, 72)
          patch.resize((patch.width*4, patch.height*4), Image.Resampling.NEAREST),
          room.title()+' speaker region at 4x', room+'-speaker-before-after-4x.png')
 
-source = HERE/'generation-source/foyer-conversation-v04.png'
+source = HERE/'generation-source/foyer-conversation-v05.png'
 im = Image.open(source).convert('RGB')
 crop_box = box_for(im, (564, 278))
 portrait = color_merge(im.resize((564, 278), Image.Resampling.LANCZOS, box=crop_box))
-output = OUT/'foyer-conversation-v04.png'
+output = OUT/'foyer-conversation-v05.png'
 portrait.save(output)
 assets.append({'id': 'foyer-conversation', 'title': 'Foyer conversation close-up', 'kind': 'portrait-complete',
-               'presentation': 'complete-opaque', 'scene': 'house_of_tomorrow/foyer', 'status': 'generated',
+               'presentation': 'complete-opaque', 'promptPath': 'portrait-closeup-v05.prompt.json', 'scene': 'house_of_tomorrow/foyer', 'status': 'generated',
                'ownerApproved': False, 'assetPath': None, 'candidatePath': 'candidates/'+output.name,
                'dimensions': [564, 278], 'mode': 'RGB', 'sha256': sha(output),
                'sourcePath': 'generation-source/'+source.name, 'sourceSha256': sha(source),
                'sourceDimensions': list(im.size),
-               'beforePath': '../'+OLD.name+'/previews/foyer-portrait-composite.png',
-               'beforeSha256': sha(OLD/'previews/foyer-portrait-composite.png'),
+               'beforePath': 'candidates/foyer-conversation-v04.png',
+               'beforeSha256': sha(OUT/'foyer-conversation-v04.png'),
                'normalization': {'sourceBox': list(crop_box), 'geometry': 'LANCZOS to 564x278 from independently authored complete close-up',
                                  'colorPolicy': 'non-spatial merge to existing frequent RGB values within radius12; no fixed palette-count target'},
-               'speakerApproximateBounds': [288, 58, 367, 168]})
-pair(Image.open(OLD/'previews/foyer-portrait-composite.png').convert('RGB'), portrait,
-     'Conversation native 564x278', 'conversation-before-after.png')
+               'speakerApproximateBounds': [196, 12, 367, 251]})
+pair(Image.open(OUT/'foyer-conversation-v04.png').convert('RGB'), portrait,
+     'Conversation native 564x278 / closer camera', 'conversation-v04-v05.png')
 for a in assets:
     colors = Counter(Image.open(HERE/a['candidatePath']).getdata())
     a['visibleColorCount'] = len(colors)
     a['dominantPalette'] = [{'hex': '#%02x%02x%02x' % rgb, 'pixels': n} for rgb, n in colors.most_common(12)]
 
 manifest = {'title': 'House speaker redesign and complete portrait exception', 'date': '2026-11-15',
-            'branch': 'agent/ch01-art-first-pass-20261115', 'baselineCommit': '3a763b52c1d60027549542d47381f4fbba412117',
-            'status': 'generated', 'candidateCount': 3, 'method': 'built-in image_gen.imagegen; exact prompts in prompts.json',
+            'branch': 'agent/ch01-art-first-pass-20261115', 'baselineCommit': '3a763b52c1d60027549542d47381f4fbba412117', 'portraitRevisionBaseCommit': 'ee50bfeff8d7ea2fdfbe6bf92728a8f3b32c94f0',
+            'status': 'generated', 'candidateCount': 3, 'method': 'built-in image_gen.imagegen; prompts.json plus portrait-closeup-v05.prompt.json', 'archivedCandidatePaths': ['candidates/foyer-conversation-v04.png'], 'lastRevisionCandidateCount': 1,
             'portraitContract': 'House-only complete opaque 564x278 scene-specific conversation image; no separate foreground/background',
             'engineIntegration': False, 'registryProposalApplied': False, 'assets': assets,
             'bathroomUnchangedSha256': sha(OLD/'candidates/bathroom.png'),
@@ -149,7 +149,7 @@ sections = []
 for a in assets:
     is_scene = a['kind'] == 'scene'
     w, h = a['dimensions']
-    compare = a['id']+'-before-after.png' if is_scene else 'conversation-before-after.png'
+    compare = a['id']+'-before-after.png' if is_scene else 'conversation-v04-v05.png'
     swatches = ''.join('<span class="swatch" title="'+c['hex']+'" style="background:'+c['hex']+'"></span>' for c in a['dominantPalette'])
     details = ''
     if is_scene:
@@ -160,9 +160,9 @@ for a in assets:
 gallery = '''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>House intercom revision — private owner review</title><style>*{box-sizing:border-box}body{margin:0;background:#f5f1e4;color:#393832;font:16px/1.5 system-ui,sans-serif}main{max-width:1400px;margin:auto;padding:28px}h1{font-size:30px}h2{font-size:22px}a{color:#27565e}.banner,section{padding:20px;background:#fffaf0;border:1px solid #d7c6a8;margin:24px 0}.banner{border-left:6px solid #d78b6f}.compare{display:flex;gap:24px;flex-wrap:wrap;overflow:auto}figure{margin:0}figcaption{font-size:13px;padding:6px 0}.scroll{overflow:auto;padding:12px 0}img{display:block;max-width:none;image-rendering:pixelated;image-rendering:crisp-edges}.palette{display:flex;gap:3px}.swatch{width:26px;height:24px;border:1px solid #998d7b}summary{cursor:pointer;font-weight:600}nav{display:flex;flex-wrap:wrap;gap:18px}code{font-size:13px}</style><main>
 <h1>House of Tomorrow · integrated intercom</h1><p>Speaker redesign and complete conversation-portrait correction · 15 November 2026</p><p class="banner"><strong>Three generated candidates. Owner visual approval pending.</strong><br>Flush ivory domestic intercom, recessed pivoting faceplate, no stand or lower support. The House uses one complete opaque conversation image. Room direction and bathroom are preserved.</p>
 <nav><a href="#foyer">Foyer</a><a href="#dining">Dining</a><a href="#foyer-conversation">Complete conversation image</a></nav>
-<p><a href="DIRECTION.md">Owner direction and scope</a> · <a href="PMO_HANDOFF.md">Registry/runtime exception proposal</a> · <a href="artwork-registry.proposed.jsonpatch">Unapplied registry diff</a> · <a href="prompts.json">Exact imagegen prompts</a> · <a href="manifest.json">Dimensions, palettes and hashes</a> · <a href="QA.md">Verification</a></p>
+<p><a href="DIRECTION.md">Owner direction and scope</a> · <a href="PMO_HANDOFF.md">Registry/runtime exception proposal</a> · <a href="artwork-registry.proposed.jsonpatch">Unapplied registry diff</a> · <a href="prompts.json">Original imagegen prompts</a> · <a href="portrait-closeup-v05.prompt.json">Closer-camera imagegen prompt</a> · <a href="manifest.json">Dimensions, palettes and hashes</a> · <a href="QA.md">Verification</a></p>
 '''+''.join(sections)+'''
-<section><h2>Scene density and portrait density</h2><p>The same model: slim ivory bezel, rectangular dark grille, upper-corner sensor, small green lamp and recessed thumbwheel below. Wall context is included in the single portrait image; no new transparent foreground was produced.</p><div class="compare"><figure><img src="candidates/foyer-v04.png" width="314" height="206" alt="New foyer at native scene density"><figcaption>Foyer · 314×206</figcaption></figure><figure><img src="candidates/foyer-conversation-v04.png" width="564" height="278" alt="New complete close-up at portrait density"><figcaption>Complete conversation view · 564×278</figcaption></figure></div><p>Bathroom retained unchanged: <a href="../chapter-01-first-pass-2026-11-15/candidates/bathroom.png">original candidate</a>. All <a href="../chapter-01-first-pass-2026-11-15/index.html">previous first-pass assets</a> remain available.</p></section>
+<section><h2>Scene density and closer portrait density</h2><p>Latest owner revision: the conversation camera is substantially closer, with new finer grille, control and mounting detail. The main scenes remain unchanged. The same model: slim ivory bezel, rectangular dark grille, upper-corner sensor, small green lamp and recessed thumbwheel below. Wall context is included in the single portrait image; no new transparent foreground was produced.</p><div class="compare"><figure><img src="candidates/foyer-v04.png" width="314" height="206" alt="New foyer at native scene density"><figcaption>Foyer · 314×206</figcaption></figure><figure><img src="candidates/foyer-conversation-v05.png" width="564" height="278" alt="New complete close-up at portrait density"><figcaption>Complete conversation view · 564×278</figcaption></figure></div><p>Bathroom retained unchanged: <a href="../chapter-01-first-pass-2026-11-15/candidates/bathroom.png">original candidate</a>. All <a href="../chapter-01-first-pass-2026-11-15/index.html">previous first-pass assets</a> remain available.</p></section>
 <footer><p>Private, offline review package. No gameplay, story JSON, approved reception or production artwork changes. No promotion or animation. Registry proposal is not an engine-ready migration and has not been applied.</p></footer></main></html>'''
 (HERE/'index.html').write_text(gallery)
 print(json.dumps([{'id': a['id'], 'size': a['dimensions'], 'colors': a['visibleColorCount'], 'outsideChanged': a.get('changedPixelsOutsideEditRegion')} for a in assets]))
