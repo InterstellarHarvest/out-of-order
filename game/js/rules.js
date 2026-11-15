@@ -1738,18 +1738,27 @@
     }
     var seen = {};
     var first = begin(story, { obs: seen }).state;
-    var states = {};
-    var edges = {};
-    var queue = [bare(first)];
-    states[key(first)] = queue[0];
+    // Full canonical state keys remain collision-free; edges and endings use
+    // compact numeric ids. Processed states no longer stay alive for the
+    // entire exhaustive multi-chapter walk.
+    var states = Object.create(null); // canonical key -> numeric id
+    var edges = Object.create(null); // numeric id -> successor ids
+    var queue = [{ id: 0, state: bare(first) }];
+    states[key(first)] = 0;
+    var stateCount = 1;
     var used = { choices: {}, entries: {} };
     var restartFrom = [];
     var endAt = {}; // reachable states standing on an authored ending (end: true), by node
     var backless = {};
-    function follow(from, s) {
+    function follow(fromId, s) {
       var k = key(s);
-      (edges[key(from)] = edges[key(from)] || []).push(k);
-      if (!states[k]) { states[k] = s; queue.push(s); }
+      var toId = states[k];
+      if (toId === undefined) {
+        toId = stateCount++;
+        states[k] = toId;
+        queue.push({ id: toId, state: s });
+      }
+      (edges[fromId] = edges[fromId] || []).push(toId);
     }
     function walkStep(s, input) {
       return stepCore(story, s, input, { obs: seen }).state;
@@ -1766,7 +1775,10 @@
     // Indexed FIFO traversal avoids repeated O(N) array shifts as authored stories grow.
     var queueIndex = 0;
     while (queueIndex < queue.length) {
-      var s = queue[queueIndex++];
+      var current = queue[queueIndex];
+      queue[queueIndex++] = null; // processed state can be garbage-collected
+      var s = current.state;
+      var fromId = current.id;
       var n = here(story, s);
       var where = at(s);
       (story.files || []).forEach(function (f, i) { if (holds(f.if, s)) seen['files[' + i + ']'] = true; });
@@ -1774,22 +1786,22 @@
         backless[where] = true;
         errors.push('a back choice at ' + where + ' is reachable with no opener to return to (enter it from a narrative node, or split the node)');
       }
-      if (n.end) (endAt[where] = endAt[where] || []).push(key(s));
+      if (n.end) (endAt[where] = endAt[where] || []).push(fromId);
       var avail = openChoices(story, s);
       if (!avail.length) errors.push('dead end: no choice is available at ' + where + ' with state ' + key(s));
       avail.forEach(function (c) {
         used.choices[where + ':' + c.id] = true;
-        if (c.restart) { restartFrom.push(key(s)); return; }
-        walkAll(s, { choice: c.id }, c).forEach(function (t) { follow(s, bare(t)); });
+        if (c.restart) { restartFrom.push(fromId); return; }
+        walkAll(s, { choice: c.id }, c).forEach(function (t) { follow(fromId, bare(t)); });
       });
       s.inventory.forEach(function (id) {
         seen['item ' + id + ' description[' + variantIndex2(items[id].description, s) + ']'] = true;
-        if (itemMarks(s, id).indexOf('inspected') === -1) follow(s, walkStep(s, { item: id, verb: 'inspect' }));
-        if (items[id].read && itemMarks(s, id).indexOf('read') === -1) follow(s, walkStep(s, { item: id, verb: 'read' }));
+        if (itemMarks(s, id).indexOf('inspected') === -1) follow(fromId, bare(walkStep(s, { item: id, verb: 'inspect' })));
+        if (items[id].read && itemMarks(s, id).indexOf('read') === -1) follow(fromId, bare(walkStep(s, { item: id, verb: 'read' })));
         ['show', 'use'].forEach(function (verb) {
           if (!openEntry(story, s, id, verb)) return;
           used.entries[where + ':' + verb + ':' + id] = true;
-          walkAll(s, { item: id, verb: verb }, openEntry(story, s, id, verb)).forEach(function (t) { follow(s, bare(t)); });
+          walkAll(s, { item: id, verb: verb }, openEntry(story, s, id, verb)).forEach(function (t) { follow(fromId, bare(t)); });
         });
       });
     }
@@ -1857,7 +1869,7 @@
         if (!canFinish[k]) { canFinish[k] = true; endingQueue.push(k); }
       });
     }
-    Object.keys(states).filter(function (k) { return !canFinish[k]; }).forEach(function (k) { errors.push('cannot reach an ending from state ' + k); });
+    Object.keys(states).filter(function (k) { return !canFinish[states[k]]; }).forEach(function (k) { errors.push('cannot reach an ending from state ' + k); });
 
     return {
       ok: !errors.length,
@@ -1866,7 +1878,7 @@
         chapters: chapterIds.length,
         nodes: counts.nodes,
         choices: counts.choices,
-        reachableStates: Object.keys(states).length,
+        reachableStates: stateCount,
         endings: endings,
         endingStates: restartFrom.length,
         endingsReached: Object.keys(endAt).length,
