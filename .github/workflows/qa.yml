@@ -27,7 +27,9 @@ permissions:
 jobs:
   content:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    # Full authored Chapter 1 turns the exhaustive acceptance mutations into a long CI job.
+    # Do not mask or skip them: give the source validator enough wall time to finish.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
         with:
