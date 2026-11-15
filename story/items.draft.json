@@ -210,5 +210,21 @@
         ]
       }
     }
+  },
+  "family_portrait_photo": {
+    "name": "COMPLIMENTARY FAMILY PORTRAIT",
+    "slotArt": null,
+    "inspectArt": null,
+    "description": "A STIFF SHOWROOM PHOTOGRAPH OF THREE EMPTY CHAIRS. THE CAMERA WAS CROOKED: ONLY YOUR SHOES AND LOWER LEGS APPEAR AT THE BOTTOM EDGE. THE BACK IS STAMPED OFFICIAL HOUSEHOLD RECORD — COMPLIMENTARY COPY.",
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "family_portrait_photo",
+            "read"
+          ]
+        ]
+      }
+    }
   }
 }
