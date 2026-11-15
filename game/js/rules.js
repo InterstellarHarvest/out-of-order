@@ -454,7 +454,7 @@
     return MARKS.concat(story && Array.isArray(story.marks) ? story.marks : []);
   }
   var CHAPTER_KEYS = ['title', 'start', 'scene', 'nodes'];
-  var NODE_KEYS = ['mode', 'scene', 'speaker', 'pose', 'backdrop', 'focus', 'objective', 'effects', 'text', 'choices', 'show', 'use',
+  var NODE_KEYS = ['mode', 'scene', 'speaker', 'pose', 'backdrop', 'focus', 'scenePickup', 'objective', 'effects', 'text', 'choices', 'show', 'use',
     'contextAction', 'end'];
   var CHOICE_KEYS = ['id', 'kind', 'text', 'say', 'if', 'effects', 'once', 'result', 'check', 'pass', 'fail', 'to', 'back', 'chapter', 'restart'];
   var ENTRY_KEYS = ['kind', 'say', 'if', 'effects', 'once', 'result', 'check', 'pass', 'fail', 'to', 'back', 'chapter'];
@@ -807,6 +807,7 @@
       speaker: n.mode === 'dialogue' ? n.speaker : null,
       portrait: portrait,
       focus: n.mode === 'focus' ? n.focus : null,
+      scenePickup: n.mode === 'focus' ? (n.scenePickup || null) : null,
       returnTo: state.returnTo,
       end: !!n.end,
       // hasCheck: the outcome depends on a hidden roll (owner lock [74]: a risk marker). It comes
@@ -1567,6 +1568,25 @@
           else if (!has(focusArt, n.focus)) err(w, 'unregistered focus ' + n.focus);
           else refs.focus[n.focus] = true;
         } else if (has(n, 'focus')) err(w, 'focus is for focus nodes only');
+        if (has(n, 'scenePickup')) {
+          var pickup = n.scenePickup;
+          if (n.mode !== 'focus') err(w, 'scenePickup requires focus mode');
+          if (!obj(pickup)) err(w, 'scenePickup must be an object');
+          else {
+            onlyKeys(w + ' scenePickup', pickup, ['id', 'title', 'item', 'readChoice', 'useChoice', 'closeChoice']);
+            if (typeof pickup.id !== 'string' || !/^[a-z0-9_]+$/.test(pickup.id)) err(w + ' scenePickup', 'id must be a stable lower-case identifier');
+            text(w + ' scenePickup title', pickup.title);
+            if (!items[pickup.item]) err(w + ' scenePickup', 'unregistered source-specific item ' + pickup.item);
+            ['readChoice', 'useChoice', 'closeChoice'].forEach(function (key) {
+              if (pickup[key] == null) {
+                if (key === 'closeChoice' || key === 'useChoice') err(w + ' scenePickup', key + ' must be declared');
+                return;
+              }
+              if (typeof pickup[key] !== 'string' || !n.choices.some(function (c) { return c.id === pickup[key]; }))
+                err(w + ' scenePickup', key + ' must name a real authored card on this node');
+            });
+          }
+        }
         if (n.objective !== undefined) plainField(w + ' objective', n.objective);
         effects(w, n.effects);
         textField(w + ' text', n.text);
