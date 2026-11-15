@@ -339,6 +339,9 @@
   }
   function presentCards() {
     document.body.dataset.node = G.state.chapter + ':' + G.state.node;
+    // A scene pickup's own cards (READ / USE / CLOSE AND TAKE) are driven only through its
+    // inspector: they never slide in as ordinary choice cards first.
+    if (view().scenePickup) { G.setChoices([]); ready(); return; }
     var cards = view().cards.map(function (c) { return { id: c.id, kind: c.kind, text: c.text }; });
     G.setChoices(cards, { kind: 'in', start: performance.now() });
     setPhase('arriving');

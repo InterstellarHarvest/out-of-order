@@ -1293,8 +1293,9 @@
       // Production 565x451 inspector window, not the 564x278 Focus A portrait.
       // Source art is still not-started: render a labelled scene-owned placeholder
       // until the joint Chapters 1-2 approved artwork pass.
-      P.inspectArt(els.inspectPlaceholder, INSPECT_RECT[2], INSPECT_RECT[3], null,
-        ui.inspector.scenePickup.title + ' - OPEN WALL KIT - ART NOT YET APPROVED');
+      P.panel(els.inspectPlaceholder, INSPECT_RECT[2], INSPECT_RECT[3],
+        ui.inspector.scenePickup.title + ' - OPEN WALL KIT - ART NOT YET APPROVED',
+        ['CLOSE-UP OF THE OPENED KIT. NOT IN YOUR INVENTORY UNTIL YOU CLOSE IT.']);
       place(els.inspectPlaceholder, 0, 0, INSPECT_RECT[2], INSPECT_RECT[3]);
       els.inspectArt.replaceChildren(els.inspectPlaceholder);
       els.inspectArt.dataset.kind = 'scene-pickup-placeholder';
