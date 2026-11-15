@@ -1,4 +1,4 @@
-**Latest review:** [framing revision — current seven candidates](framing-revision-v03/index.html). This adds normally sized seated-body framing and original-scale album corrections. [Owner overrides / proposed prose diff](framing-revision-v03/RULING_AND_STORY_NOTES.md). The original package below is preserved as a prior snapshot.
+**Latest review:** [printer/album restoration and raised speaker — current seven candidates](printer-album-restoration-v04/index.html). [Earlier framing revision](framing-revision-v03/index.html) and the original package below are preserved snapshots.
 
 # Chapter1 Batch3 — private artwork review
 

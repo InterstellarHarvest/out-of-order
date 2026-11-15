@@ -1,0 +1,263 @@
+{
+  "scope": "Private review only; not runtime catalog schema",
+  "baseline": "0408259318c529e96312fc1b4b4b206fec9ad42c",
+  "branch": "agent/ch01-art-batch03-20261115",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generated",
+  "ownerApproved": false,
+  "visualPageOrder": [
+    "C",
+    "D",
+    "E"
+  ],
+  "assets": [
+    {
+      "id": "A",
+      "title": "Gallery",
+      "kind": "scene",
+      "registryTarget": "house_of_tomorrow/portrait_gallery",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/gallery-v04.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "paletteColors": 195,
+      "sourcePath": "generation-source/gallery-v04.png",
+      "sourceSHA256": "febf43dd2348fcb244fbe5c02b1a81757804be08dc42a9584429741dc449fd07",
+      "sha256": "5a5c16aaa4a791b841101f21f64d5bdf9f849d008fa2f4512da47ee5431b912d",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    },
+    {
+      "id": "B",
+      "title": "Gallery conversation",
+      "kind": "complete-conversation",
+      "registryTarget": "house / gallery",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/gallery-conversation-v03.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "paletteColors": 288,
+      "sourcePath": "generation-source/gallery-conversation-v03.png",
+      "sourceSHA256": "1108dbb8b489501c2b790c19b111a96100a1a4e4a64cdc6e1e705b7d32df4a91",
+      "sha256": "a365560b66e6d4bbb1f865214768a20dfb6bed2a870bd62ab31ce2c5b9f66f4d",
+      "sourceSize": [
+        1785,
+        881
+      ],
+      "cropBox": [
+        170,
+        0,
+        1650,
+        729.5035460992908
+      ],
+      "normalization": "Independent portrait source; same v05-scale crop shifted40sourcepixels upward to retain raised bezel; NEAREST564x278; nonspatial existing-color radius12 substitution"
+    },
+    {
+      "id": "C",
+      "title": "Album 1 \u2014 ordinary years",
+      "kind": "focus-page",
+      "registryTarget": "house_of_tomorrow/portrait_gallery/album",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "../candidates/album-page-01-v02.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "paletteColors": 760,
+      "sourcePath": "../generation-source/album-page-01-v02.png",
+      "sourceSHA256": "2aa03caa1dbe29e5bb86bc357380acb88413ac0ae55705570fa9fa304dd0ede5",
+      "sha256": "c789a17a2e2ee45a7db07cd9e2aa0a4457dabe68dd88901aaf254f168a100ba7",
+      "sourceSize": [
+        1784,
+        881
+      ],
+      "cropBox": [
+        0,
+        0.82624113475174,
+        1784,
+        880.1737588652483
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    },
+    {
+      "id": "D",
+      "title": "Album 2 \u2014 fear and exhaustion",
+      "kind": "focus-page",
+      "registryTarget": "house_of_tomorrow/portrait_gallery/album",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "../candidates/album-page-02-v01.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "paletteColors": 746,
+      "sourcePath": "../generation-source/album-page-02-v01.png",
+      "sourceSHA256": "1f606db626c641e09a4eabb4913c190bd968c052e824df1f80b85a605a93b8ab",
+      "sha256": "fcf0dcc0e10dfaa7cce3bf6a5b58687255681430811c551519edc883fa27c7a5",
+      "sourceSize": [
+        1784,
+        881
+      ],
+      "cropBox": [
+        0,
+        0.82624113475174,
+        1784,
+        880.1737588652483
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    },
+    {
+      "id": "E",
+      "title": "Album 3 \u2014 remains and absence",
+      "kind": "focus-page",
+      "registryTarget": "house_of_tomorrow/portrait_gallery/album",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "../framing-revision-v03/candidates/album-page-03-v04.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "paletteColors": 839,
+      "sourcePath": "../framing-revision-v03/generation-source/album-page-03-v04.png",
+      "sourceSHA256": "785fab85ba089ef7d90dc451a48ce2239ecac851d850865ee7f1c450e5a882db",
+      "sha256": "579c0b2e14589e7c3ada53ddf1c5bc984f209170c48619b18336e883b97616ad",
+      "sourceSize": [
+        1784,
+        881
+      ],
+      "cropBox": [
+        0,
+        0.82624113475174,
+        1784,
+        880.1737588652483
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    },
+    {
+      "id": "F",
+      "title": "Current photograph \u2014 slot",
+      "kind": "item-slot",
+      "registryTarget": "family_portrait_photo",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "../framing-revision-v03/candidates/photo-slot-v03.png",
+      "dimensions": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "paletteColors": 179,
+      "sourcePath": "../framing-revision-v03/generation-source/photo-slot-v03.png",
+      "sourceSHA256": "64f15604a728760fc5c515bc14ff1f38c7e6020b9396ca21d887af79a8b64ab0",
+      "sha256": "7e1e0b42f5def951dcc17095df0f5951ddfee5b16b916080681442d97d50f50c",
+      "sourceSize": [
+        1402,
+        1122
+      ],
+      "cropBox": null,
+      "normalization": "Alpha threshold128 and largest connected paper mask; crop alpha padding; NEAREST fit within88x88; center on96x96; zero RGB beneath alpha0; RGB radius12 substitution"
+    },
+    {
+      "id": "G",
+      "title": "Current photograph \u2014 inspection",
+      "kind": "item-inspect",
+      "registryTarget": "family_portrait_photo",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "../framing-revision-v03/candidates/photo-inspector-v04.png",
+      "dimensions": [
+        565,
+        451
+      ],
+      "mode": "RGB",
+      "paletteColors": 761,
+      "sourcePath": "../framing-revision-v03/generation-source/photo-inspector-v04.png",
+      "sourceSHA256": "94e189de060585c2a2945ad531eccd7cd68ef04c79889efaf47dbdc54c5366d7",
+      "sha256": "cf9cebc88a5e320d1f3cba3626477c8919c2e418f9c43923691cee5a05ba86d3",
+      "sourceSize": [
+        1405,
+        1120
+      ],
+      "cropBox": [
+        0.9478935698448367,
+        0,
+        1404.0521064301552,
+        1120
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    }
+  ],
+  "generationSources": [
+    {
+      "path": "generation-source/gallery-conversation-v02.png",
+      "sha256": "9e32bda19208f04d2b5c2c9b0afb0de98221665a95ada037332fc7930a93d84c",
+      "dimensions": [
+        1785,
+        881
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/gallery-conversation-v03.png",
+      "sha256": "1108dbb8b489501c2b790c19b111a96100a1a4e4a64cdc6e1e705b7d32df4a91",
+      "dimensions": [
+        1785,
+        881
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/gallery-v03.png",
+      "sha256": "63aff47627c53045d120858ce438490df8db91c889379953ffb0f2c4c9694c22",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/gallery-v04.png",
+      "sha256": "febf43dd2348fcb244fbe5c02b1a81757804be08dc42a9584429741dc449fd07",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB"
+    }
+  ],
+  "ownerDirection": "Restore printer and oversized closed album; raise same intercom away from album in main and complete portrait; maintain chair/camera/room design.",
+  "supersededSources": [
+    "generation-source/gallery-v03.png",
+    "generation-source/gallery-conversation-v02.png"
+  ]
+}

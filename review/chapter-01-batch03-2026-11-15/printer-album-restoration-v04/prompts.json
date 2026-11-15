@@ -1,0 +1,46 @@
+{
+  "tool": "built-in image_gen.imagegen",
+  "baseline": "0408259318c529e96312fc1b4b4b206fec9ad42c",
+  "ownerDirection": "Restore story-required printer and closed oversized family album to approved chair/camera gallery, preserving established scene.",
+  "prompts": {
+    "gallery-v03": "Use case: precise-object-edit. INPUT1 is the OWNER-APPROVED gallery BASE/EDIT TARGET: four aqua chairs together in one straight row, short ceiling camera carriage through rectangular open hatch, low cream table, flush wall intercom, empty blond cabinet counter. INPUT2 is PROP DESIGN REFERENCE ONLY: the earlier cream photograph printer and oversized closed coral album on its cabinet. DO NOT copy input2's staggered fourth chair or long articulated camera arm.\nRestore ONLY TWO STORY PROPS onto INPUT1's existing right-hand cabinet countertop: (1) compact original1960s cream/ivory automated PHOTO PRINTER at LEFT end of that counter under the ceiling camera, black horizontal photograph output slot and shallow cream catch tray, modest box casing with restrained side perforations; (2) an OVERSIZED THICK CLOSED FAMILY ALBUM immediately BESIDE it to the RIGHT, matching historical album's coral clothboard binding/cover and ivory page block, simple cream corners, no writing or photos on cover. Both rest physically on same counter with consistent perspective, chunky readable silhouettes at314x206. Leave wall intercom unobscured. No loose printed historical picture, exposed album pages or image of occupants.\nABSOLUTE INVARIANTS: preserve INPUT1 camera/body/short support/canted plate/ceiling opening and hatch panel EXACTLY as approved. Preserve FOUR EMPTY chairs IN THE SAME STRAIGHT ROW, same sizes/positions/design/orientation. Preserve room framing, window/garden, wall panels, coral trim, lighting, table, rug, cabinet dimensions/handles, floor and approved small flush intercom model. No people, silhouettes or body parts in world scene. Do not rebuild room, shift furniture, alter camera mount, zoom, add another chair, recrop or move speaker. This is a localized counter-prop restoration, not a redesign.\nExact314x206 opaque RGB deliberate chunky pixel-art production scene, same157:103 aspect. Match existing broad clusters, ivory/blond/aqua/coral/aluminum material family and warm1960s domestic showroom, no contemporary office printer styling, computer screen, UI, lettering, fake labels, logos or watermark. Keep earlier approved empty-counter version available separately.",
+    "gallery-conversation-v02": "Use case: precise-object-edit. INPUT1 is existing gallery conversation portrait EDIT TARGET. INPUT2 is newly restored gallery MAIN SCENE reference for the same actual cabinet printer/album installation. Restore the two story props in the LOWER COUNTER REGION of INPUT1 so its architectural close-up agrees with main.\nOn the existing blond cabinet's ivory counter beneath camera/intercom, include the visible portion of the same modest cream1960s box PHOTO PRINTER toward LEFT under the camera, black horizontal output slot/shallow cream tray, and the same thick CLOSED CORAL CLOTHBOARD FAMILY ALBUM beside it to RIGHT under intercom, ivory page block/cream corners. Correct counter perspective, scale and lighting, physical contact shadows. At this tight portrait framing it is natural for the printer/book to be partially cropped by BOTTOM and/or sides: show only the portions actually within view, don't zoom out just to fit whole props. No extra objects, open pages, occupied photographs or labels.\nCRITICAL preserve SAME intercom design, nearly flush wall mount and LARGE V05 CLOSE CAMERA SCALE: full vertical ivory bezel, dark rectangular woven grille, discreet upper-right sensor, tiny green indicator lower-left, recessed thumbwheel lower-right. Keep ENTIRE speaker unobscured. Do not alter or enlarge device, add stand/stalk/face, move speaker higher, change its controls, cabinet height or wall architecture. Preserve cream ceiling portrait camera upper-left on its short carriage/canted plate, cropped same way; no articulated arm. Preserve warm ivory wall panel seams, left coral trim, lighting, original portrait field of view, style and independently authored detail. Only counter prop context changes. Main scene has printer LEFT, album RIGHT, same relationship here.\nONE COMPLETE OPAQUE564x278 RGB conversation close-up, not transparent layers or main-scene upscale. Fine intentional pixel-art density, same materials as reference. No people, skeletons, current visitor body, writings, captions, UI or watermark. No taking-camera image inside any photograph. Previously empty-counter portrait must stay available separately.",
+    "gallery-v04": "Use case: precise-object-edit. Edit target is this restored House gallery with four chairs, ceiling camera, printer and closed coral album. Owner now asks to MOVE WALL SPEAKER HIGHER, away from album. Change ONLY that speaker's vertical mounting position: lift the SAME existing small nearly flush ivory intercom straight UP the same right-hand wall by roughly25-35pixels of this1548x1016 source (about5-7pixels at314x206). Same horizontal position, exact model/size/front face/sensor/greenlamp/thumbwheel, no redesign. Leave a clearly larger clean band of ivory wall between speaker bottom and closed album top. Fill old mounting area with matching uninterrupted ivory wall. Keep it a plausible fixture above that album, not against ceiling. No wires, bracket or support added.\nABSOLUTELY preserve printer LEFT and album RIGHT on counter exactly as shown, their sizes/positions/materials; four EMPTY chairs in ONE straight row; camera and short ceiling support/hatch; table/rug/window/garden/cabinet/floor/panels/lighting/composition. No people, bones, opening album, writing, signs or other changes. Exact314x206 opaque chunky pixel-art House world scene,157:103 aspect. Local speaker-position correction only, no scene regeneration/redesign.",
+    "gallery-conversation-v03": "Use case: precise-object-edit. EDIT this complete gallery conversation close-up with restored cream printer and closed coral family album. Owner specifically requests SPEAKER HIGHER AND AWAY FROM ALBUM. Move ONLY entire existing flush ivory wall intercom UP on the same wall, same horizontal position, size and model. At supplied1786x881 source move whole bezel upward approximately60-70sourcepixels, so its top remains INSIDE image with small clear headroom, and its bottom has a CLEAR BAND OF IVORY WALL (at least~60sourcepixels, roughly20-25nativepixels) above the album's upper edge. It must no longer touch/overlap album. Keep FULL bezel visible, dark rectangular woven grille, discreet sensor upperright, green jewel lowerleft, recessed thumbwheel lowerright; preserve original close camera scale and fine detail. Do not shrink unit, add stand/stalk or crop its top.\nFill former mounting pixels with same wall. Preserve printer and album exactly on existing counter at their same positions/size/perspective; preserve camera at upperleft, wall seams, coral trim, counter height, lighting and overall portrait composition. No zoom out, no moving book/printer down, no other redesign, no people, captions/UI. ONE opaque564x278 complete RGB image, not transparent layers/main upscale. This mounting change corresponds to moving the small intercom slightly higher above album in gallery main."
+  },
+  "references": {
+    "gallery-v03": [
+      {
+        "path": "../generation-source/gallery-v02.png",
+        "role": "approved base/edit target"
+      },
+      {
+        "path": "../generation-source/gallery-v01.png",
+        "role": "printer/album identity only; superseded chair/camera excluded"
+      }
+    ],
+    "gallery-conversation-v02": [
+      {
+        "path": "../generation-source/gallery-conversation-v01.png",
+        "role": "portrait edit target; preserve device/framing"
+      },
+      {
+        "path": "generation-source/gallery-v03.png",
+        "role": "restored main installation/prop identity reference"
+      }
+    ],
+    "gallery-v04": [
+      {
+        "path": "generation-source/gallery-v03.png",
+        "role": "restored view edit target; speaker position only"
+      }
+    ],
+    "gallery-conversation-v03": [
+      {
+        "path": "generation-source/gallery-conversation-v02.png",
+        "role": "restored view edit target; speaker position only"
+      }
+    ]
+  },
+  "speakerHeightRuling": "Raise same wall intercom above album, with clear wall separation in main and complete portrait."
+}
