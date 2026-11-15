@@ -878,17 +878,17 @@
         "kind": "item-slot",
         "status": "not-started",
         "dimensions": "96x96",
-        "prompt": "Small framed or stiff photograph, 3 empty chairs and ONLY protagonists shoes/lower legs at the bottom; actual full player identity never shown. Exact 96x96 transparent logical-grid slot art.",
+        "prompt": "Small stiff showroom photograph with three complete empty chairs, a cropped fourth chair at the right edge and a seated protagonist partly visible there (shirt, lap, legs and forward-facing shoes; no head or face). Exact 96x96 transparent logical-grid slot art matching the approved inspector composition.",
         "assetPath": null,
         "suggestedFilename": null,
-        "notes": "Keep silhouette of unseen protagonist limited to legs/feet."
+        "notes": "Keep the protagonist's head and face outside the crop; the visible seated shirt/lap/legs/shoes must match the approved inspector art."
       },
       "inspect": {
         "title": "FAMILY PORTRAIT — INSPECT",
         "kind": "item-inspect",
         "status": "not-started",
         "dimensions": "565x451",
-        "prompt": "Crooked off-center group photograph: three completely empty chairs, and ONLY shoes and lower legs cropped at bottom, portrait framing intentionally wrong, clean 565x451 inspect art. Do not render player face, torso or full body.",
+        "prompt": "Crooked off-center group photograph: three completely empty chairs dominate; a fourth chair is partially cropped at the right edge with a normally proportioned seated protagonist showing part of their shirt, lap, legs and forward-facing shoes. Head and face remain outside the frame. Clean 565x451 inspect art matching the approved photograph.",
         "assetPath": null,
         "suggestedFilename": null,
         "notes": "Stamped official household record on reverse can be narrative inspection text rather than baked-in tiny lettering."
