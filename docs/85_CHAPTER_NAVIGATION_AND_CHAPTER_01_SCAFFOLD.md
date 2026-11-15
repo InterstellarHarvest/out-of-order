@@ -168,9 +168,33 @@ It does not receive:
 - any image;
 - `qa-browser.js` (it serves the private repository root).
 
-## 8. Results
+## 8. Results (2026-11-14, this Mac, Node 20.20.2, Playwright 1.59.1, Chromium + Firefox)
 
-(filled in below)
+| Suite | Result |
+|---|---|
+| `import.js --check` / `--verify` | VALID preview, 2 chapters, 30 nodes, 2560 reachable states; generated file up to date (content `69d62f6a8da4`) |
+| `glyph-ink/build.js --verify` | OK |
+| `validate_route.js` v1 / `--v2` | 49/49, 49/49 |
+| `validate_story.js` | 176/176 |
+| `validate_story_import.js` | **90/90**: baseline 8, content-edits 10, rejects 18, draft-stop 6, chapters 7, focus+checks 15, independence 2, saves 9, art-status 3, **handoff 9**, stale 3 |
+| `validate_assets.js` static / `--browser` | 59/59, 97/97 |
+| `run_story_qa.js` (browser) | **120/120**, up from 108 with the hand-off checks |
+| `run_qa.js` (M2 reception, `?story=reception`) | 526/526 |
+| `m2-reception-polish-lab/qa/run_qa.js` | 143/143 locally (Firefox console check passed on this run) |
+| `layout-lab` with `check_known_failures` | 1916/1924, only the 8 known failures (PASS) |
+| `tools/storyboard/qa-smoke.mjs` | PASS (27 areas, including the chapter sequence and a fresh-browser import) |
+| `tools/storyboard/qa-browser.js` | **18/18** (real drags, a real download, then an upload in a fresh profile) |
+
+**Mutation check.** The extended `qa-smoke.mjs` fails against the unmodified public viewer
+(eb83805).
+
+**Public tree** (branch `agent/chapter-01-scaffold-20261114`):
+- `qa-smoke` PASS;
+- art-lab `qa-static` PASS;
+- art-lab `qa-browser` 106 passed / 0 failures;
+- storyboard `qa-browser` 18/18.
+
+**Firefox polish-lab failure** (run 43658643368): investigated separately; see section 10.
 
 ## 9. Open Story Director decisions
 
