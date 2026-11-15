@@ -157,6 +157,9 @@
   }
   function applyView(v) {
     applyArt(v);
+    // Scene pickups open only once their authored description has finished
+    // typing. Transitions never preserve an overlay from the previous node.
+    if (G.ui.inspector && G.ui.inspector.scenePickup) G.ui.inspector = null;
     var t = G.state.transcript;
     var idx = v.history[v.mode].filter(function (i) { return i < shown; });
     if (v.mode === 'dialogue') {
@@ -343,6 +346,18 @@
   function ready() {
     G.ui.thumbOn = true;
     setPhase('choosing');
+    var v = view();
+    if (v.scenePickup) {
+      var n = story.chapters[v.chapter].nodes[v.node];
+      var pickup = Object.assign({}, v.scenePickup);
+      pickup.description = typeof n.text === 'string' ? n.text : pickup.title;
+      G.ui.inspector = { id: pickup.item, scenePickup: pickup, scroll: 0, height: 0 };
+      G.hideTooltip();
+      G.renderAll();
+      var first = G.utilityActions()[0].enabled ? 'util-0' : 'util-1';
+      document.getElementById(first).focus({ preventScroll: true });
+      return;
+    }
     G.renderChoices(performance.now());
     G.focusCard(0);
   }
@@ -383,7 +398,7 @@
 
   // Items -----------------------------------------------------------------------------------------
   F.toggleInspect = function (id) {
-    if (F.phase !== 'choosing') return;
+    if (F.phase !== 'choosing' || (G.ui.inspector && G.ui.inspector.scenePickup)) return;
     if (G.ui.inspector && G.ui.inspector.id === id) F.closeInspector();
     else openInspector(id);
   };
@@ -418,6 +433,21 @@
   }
   F.closeInspector = function () {
     if (!G.ui.inspector) return;
+    if (G.ui.inspector.scenePickup) {
+      if (F.phase !== 'choosing') return;
+      // Exactly one close action: the author's existing back/return choice
+      // awards the source-specific injector atomically, then the normal
+      // item-gained event triggers the standard item-received slip.
+      var choice = G.ui.inspector.scenePickup.closeChoice;
+      if (!view().cards.some(function (c) { return c.id === choice; })) return;
+      G.ui.inspector = null;
+      commit({ choice: choice });
+      G.ui.thumbOn = false;
+      G.ui.motion = { kind: 'clear', start: performance.now() };
+      setPhase('sending');
+      G.renderAll();
+      return;
+    }
     G.ui.inspector = null;
     G.renderAll();
     refreshCards();
@@ -447,6 +477,21 @@
       return;
     }
     if (!G.ui.inspector) return;
+    if (G.ui.inspector.scenePickup) {
+      // READ and USE are driven by real Focus A choice IDs, not a duplicate
+      // UI dice implementation. The open box never enters inventory.
+      var pickup = G.ui.inspector.scenePickup;
+      var choice = action === 'pickup-read' ? pickup.readChoice
+        : action === 'pickup-use' ? pickup.useChoice : null;
+      if (!choice || !view().cards.some(function (c) { return c.id === choice; })) return;
+      G.ui.inspector = null;
+      commit({ choice: choice });
+      G.ui.thumbOn = false;
+      G.ui.motion = { kind: 'clear', start: performance.now() };
+      setPhase('sending');
+      G.renderAll();
+      return;
+    }
     var id = G.ui.inspector.id;
     if (action === 'read') {
       var rr = commit({ item: id, verb: 'read' });
