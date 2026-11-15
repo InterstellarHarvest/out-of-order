@@ -1,0 +1,321 @@
+{
+  "scope": "Private review metadata only; NOT runtime catalog schema",
+  "branch": "agent/ch01-art-batch03-20261115",
+  "baseline": "ae7ae2bfe7821f87ebc5dca686829592b7c27f49",
+  "status": "generated",
+  "ownerApproved": false,
+  "tool": "built-in image_gen.imagegen",
+  "visualPageOrder": [
+    "C",
+    "D",
+    "E"
+  ],
+  "assets": [
+    {
+      "id": "A",
+      "title": "Gallery",
+      "kind": "scene",
+      "registryTarget": "house_of_tomorrow/portrait_gallery",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/gallery-candidate-v02.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "paletteColors": 178,
+      "sourcePath": "generation-source/gallery-v02.png",
+      "sourceSHA256": "d0b0e2968162cbe742035841545ed599826d937ae99e509dd0c9ef33c9423e89",
+      "sha256": "4212affe6c649f20ed8d6b67fea430745430ea273a6a284d45c758b985898d08",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    },
+    {
+      "id": "B",
+      "title": "Gallery conversation",
+      "kind": "complete-conversation",
+      "registryTarget": "house / gallery",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/gallery-conversation-v01.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "paletteColors": 191,
+      "sourcePath": "generation-source/gallery-conversation-v01.png",
+      "sourceSHA256": "3dc48953f2027eba99f16a3a024445f717a893f7678a96c045e4f502528eb960",
+      "sha256": "2ffdec1ae39bca977ade350fb4a7990c28c21bd152f6651d36b7aa5fe267cba7",
+      "sourceSize": [
+        1786,
+        881
+      ],
+      "cropBox": [
+        170,
+        40,
+        1650,
+        769.5035460992908
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    },
+    {
+      "id": "C",
+      "title": "Album 1 \u2014 ordinary years",
+      "kind": "focus-page",
+      "registryTarget": "house_of_tomorrow/portrait_gallery/album",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/album-page-01-v02.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "paletteColors": 760,
+      "sourcePath": "generation-source/album-page-01-v02.png",
+      "sourceSHA256": "2aa03caa1dbe29e5bb86bc357380acb88413ac0ae55705570fa9fa304dd0ede5",
+      "sha256": "c789a17a2e2ee45a7db07cd9e2aa0a4457dabe68dd88901aaf254f168a100ba7",
+      "sourceSize": [
+        1784,
+        881
+      ],
+      "cropBox": [
+        0,
+        0.82624113475174,
+        1784,
+        880.1737588652483
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    },
+    {
+      "id": "D",
+      "title": "Album 2 \u2014 fear and exhaustion",
+      "kind": "focus-page",
+      "registryTarget": "house_of_tomorrow/portrait_gallery/album",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/album-page-02-v01.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "paletteColors": 746,
+      "sourcePath": "generation-source/album-page-02-v01.png",
+      "sourceSHA256": "1f606db626c641e09a4eabb4913c190bd968c052e824df1f80b85a605a93b8ab",
+      "sha256": "fcf0dcc0e10dfaa7cce3bf6a5b58687255681430811c551519edc883fa27c7a5",
+      "sourceSize": [
+        1784,
+        881
+      ],
+      "cropBox": [
+        0,
+        0.82624113475174,
+        1784,
+        880.1737588652483
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    },
+    {
+      "id": "E",
+      "title": "Album 3 \u2014 remains and absence",
+      "kind": "focus-page",
+      "registryTarget": "house_of_tomorrow/portrait_gallery/album",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/album-page-03-v01.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "paletteColors": 731,
+      "sourcePath": "generation-source/album-page-03-v01.png",
+      "sourceSHA256": "c4655b5b1502eb17dc70f70a7871886d326c4c7aabefd68f655d28a7924ef7f6",
+      "sha256": "bbb5ef803915102b7212457918bd718cdfd3cc91275f27a038b1a932b623b289",
+      "sourceSize": [
+        1784,
+        881
+      ],
+      "cropBox": [
+        0,
+        0.82624113475174,
+        1784,
+        880.1737588652483
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    },
+    {
+      "id": "F",
+      "title": "Current photograph \u2014 slot",
+      "kind": "item-slot",
+      "registryTarget": "family_portrait_photo",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/photo-slot-v02.png",
+      "dimensions": [
+        96,
+        96
+      ],
+      "mode": "RGBA",
+      "paletteColors": 165,
+      "sourcePath": "generation-source/photo-slot-v02.png",
+      "sourceSHA256": "41bcffbdd8170c71cd77b503cc1ab7e6f14d34595bbc87733486a30951dfd9d0",
+      "sha256": "738f0abaf4f8f63388a93574f4e03e25e3f21e735ce2619f0708b5cdd9f6f336",
+      "sourceSize": [
+        1402,
+        1122
+      ],
+      "cropBox": null,
+      "normalization": "Alpha threshold128 and largest connected paper mask; crop alpha padding; NEAREST fit within88x88; center on96x96; zero RGB beneath alpha0; RGB radius12 substitution"
+    },
+    {
+      "id": "G",
+      "title": "Current photograph \u2014 inspection",
+      "kind": "item-inspect",
+      "registryTarget": "family_portrait_photo",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/photo-inspector-v02.png",
+      "dimensions": [
+        565,
+        451
+      ],
+      "mode": "RGB",
+      "paletteColors": 602,
+      "sourcePath": "generation-source/photo-inspector-v02.png",
+      "sourceSHA256": "c96ca7faa3a51792729b55eb962b5a212fb1878e8da60688e4c0ba8b37c9446f",
+      "sha256": "69022feda349d3ecd9ad201b8cf9f228d10197d77014585d7aa52f3950c570c3",
+      "sourceSize": [
+        1404,
+        1120
+      ],
+      "cropBox": [
+        0.44789356984483675,
+        0,
+        1403.5521064301552,
+        1120
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius12 substitution; no fixed palette count"
+    }
+  ],
+  "generationSources": [
+    {
+      "path": "generation-source/album-page-01-v01.png",
+      "sha256": "1f8df0b5e4844fe65e7fde7f6c5ec51a81889aa5d63812d4be6fc532b53bef17",
+      "size": [
+        1786,
+        881
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/album-page-01-v02.png",
+      "sha256": "2aa03caa1dbe29e5bb86bc357380acb88413ac0ae55705570fa9fa304dd0ede5",
+      "size": [
+        1784,
+        881
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/album-page-02-v01.png",
+      "sha256": "1f606db626c641e09a4eabb4913c190bd968c052e824df1f80b85a605a93b8ab",
+      "size": [
+        1784,
+        881
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/album-page-03-v01.png",
+      "sha256": "c4655b5b1502eb17dc70f70a7871886d326c4c7aabefd68f655d28a7924ef7f6",
+      "size": [
+        1784,
+        881
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/gallery-conversation-v01.png",
+      "sha256": "3dc48953f2027eba99f16a3a024445f717a893f7678a96c045e4f502528eb960",
+      "size": [
+        1786,
+        881
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/gallery-v01.png",
+      "sha256": "2770dab3b5ae4ea9ac2b8cdc46044eb761d595b5d30adad7131083cc8a930379",
+      "size": [
+        1548,
+        1016
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/gallery-v02.png",
+      "sha256": "d0b0e2968162cbe742035841545ed599826d937ae99e509dd0c9ef33c9423e89",
+      "size": [
+        1548,
+        1016
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/photo-inspector-v01.png",
+      "sha256": "96d228c4d29c3c22d568396284cbf68b109078ff8fa17de04a86a74af96b2b37",
+      "size": [
+        1404,
+        1120
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/photo-inspector-v02.png",
+      "sha256": "c96ca7faa3a51792729b55eb962b5a212fb1878e8da60688e4c0ba8b37c9446f",
+      "size": [
+        1404,
+        1120
+      ],
+      "mode": "RGB"
+    },
+    {
+      "path": "generation-source/photo-slot-v01.png",
+      "sha256": "d9992aef4905cc0035d4ffb5be72f73f376865615515cb8d6af694897654c1b3",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "path": "generation-source/photo-slot-v02.png",
+      "sha256": "41bcffbdd8170c71cd77b503cc1ab7e6f14d34595bbc87733486a30951dfd9d0",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA"
+    }
+  ]
+}

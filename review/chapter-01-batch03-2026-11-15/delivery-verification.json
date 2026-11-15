@@ -1,0 +1,14 @@
+{
+  "staticGalleryLinksChecked": 24,
+  "imageDimensionsChecked": 12,
+  "sevenGeneratedRecords": true,
+  "sourcesPreserved": 11,
+  "baselinePNGsPreserved": 261,
+  "browserAutomation": "not run",
+  "http": {
+    "transport": "temporary127.0.0.1 server; closed after checks",
+    "responsesVerified": 25,
+    "allStatus200": true,
+    "allBytesMatchFiles": true
+  }
+}
