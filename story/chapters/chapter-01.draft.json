@@ -537,13 +537,12 @@
       "text": "The door opens without another alarm. You step into the ordinary visitor concourse while the house lovingly calibrates a watering schedule for its newest resident.\n\nYou still need a bathroom. The house, at least, finally has someone to look after.",
       "choices": [
         {
-          "id": "begin_again_exit_named_plant",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_02_exit_named_plant",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-02"
         }
       ],
-      "end": true,
       "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
     },
     "dinner_redirect": {
@@ -684,13 +683,12 @@
       "text": "You stand in an ordinary Exposition service corridor. The hatch shuts behind you. Through the wall comes a faint, cheerful \"Three...\"\n\nYou are out of the House of Tomorrow. You do not know whether Martin ever came this way. You still need a bathroom.",
       "choices": [
         {
-          "id": "begin_again_exit_martin",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_02_exit_martin",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-02"
         }
       ],
-      "end": true,
       "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
     },
     "chair_warning": {
@@ -876,13 +874,12 @@
       "text": "You step into an equipment-service corridor. Behind you, the house announces a minor maintenance concern and asks the chair to return to its proper location.\n\nThe exit door closes. You still need a bathroom.",
       "choices": [
         {
-          "id": "begin_again_exit_service_clean",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_02_exit_service_clean",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-02"
         }
       ],
-      "end": true,
       "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
     },
     "exit_service_registered": {
@@ -898,13 +895,12 @@
       "text": "You emerge in an equipment-service corridor wearing a wristband that declares you HOUSEHOLD EQUIPMENT. A nearby sorting machine notices and quietly changes its destination sign to RETURNS.\n\nThe house is behind you. Your new administrative problem is not.",
       "choices": [
         {
-          "id": "begin_again_exit_service_registered",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_02_exit_service_registered",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-02"
         }
       ],
-      "end": true,
       "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
     },
     "portrait_intro": {
@@ -1064,13 +1060,12 @@
       "text": "You walk back onto the visitor concourse. The house thanks you for being a valued member of the demonstration family and closes its doors.\n\nYou survived a domestic future that has no working toilet. Your original problem remains entirely unresolved.",
       "choices": [
         {
-          "id": "begin_again_exit_showroom_reset",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_02_exit_showroom_reset",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-02"
         }
       ],
-      "end": true,
       "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
     }
   }
