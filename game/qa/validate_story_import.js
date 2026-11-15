@@ -519,8 +519,8 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
     && new Set(arrivals.map((a) => JSON.stringify(a.inventory.slice().sort()))).size >= 4,
   { arrivals: arrivals.length, termination_status: values('termination_status'), property_record: values('property_record'), retained_item: values('retained_item') });
 
-  // Those outcomes are usable as Chapter 1 conditions. A QA-only copy (never committed) gives the
-  // placeholder one probe card per Prologue outcome; the cards Chapter 1 offers must match the state.
+  // Those outcomes are usable as Chapter 1 conditions. A QA-only copy (never committed) adds
+  // real forward choices at House arrival (restarting from a non-ending node is invalid).
   const probes = [];
   ['termination_status', 'property_record', 'retained_item', 'appointment_response'].forEach((f) => values(f).forEach((v) => probes.push({ if: { flagIs: [f, JSON.parse(v)] } })));
   Array.from(new Set(arrivals.reduce((l, a) => l.concat(a.inventory), []))).sort().forEach((id) => { probes.push({ if: { has: id } }); probes.push({ if: { lacks: id } }); });
@@ -529,7 +529,7 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   probes.splice(0, probes.length, ...probes.filter((p) => arrivals.some((a) => Rules.holds(p.if, a))));
   const t = copySource(STORY).edit(CHAPTER1, (j) => {
     j.nodes.house_arrival.choices = j.nodes.house_arrival.choices.concat(probes.map((p, i) => ({
-      id: 'qa_probe_' + i, kind: 'system', text: 'QA PROBE ' + i, if: p.if, restart: true
+      id: 'qa_probe_' + i, kind: 'action', text: 'QA PROBE ' + i, if: p.if, to: 'badge_registration'
     })));
   });
   const pb = build({ from: t.dir });
