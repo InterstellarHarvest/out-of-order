@@ -194,7 +194,7 @@ It does not receive:
 - art-lab `qa-browser` 106 passed / 0 failures;
 - storyboard `qa-browser` 18/18.
 
-**Firefox polish-lab failure** (run 43658643368): investigated separately; see section 10.
+**Firefox polish-lab failure** (run 43658643368): a test-timing flake, not art; see section 10.
 
 ## 9. Open Story Director decisions
 
@@ -215,3 +215,91 @@ It does not receive:
 5. The chapter-title beat ([77]) is still unapproved and unbuilt.
 6. Approval: both chapters stay `draft`. `--promote` refuses them until the manifest marks each one
    `approved`.
+
+## 10. Separate investigation: Firefox "Image corrupt or truncated" (CI run 43658643368)
+
+On the main push, the polish-lab step failed one check in Firefox, "no console or page errors in the lab":
+`Image corrupt or truncated` for `art/ui/shell/layout-final.png`. The PR run on the identical tree
+passed. This was investigated apart from the chapter work. **No art was changed, and no fix is
+applied on this branch.**
+
+**The PNG is fine:**
+- blob `bd28ac18…`, sha256 `79c891e1…`, which matches the suite's `SHELL_SHA256`;
+- every chunk CRC is valid;
+- the image data inflates to exactly 1920×1080 RGBA;
+- the same CI run's "served bytes" check passed.
+
+**The server is fine.** It sends the whole body, and no request failed.
+
+**Root cause: a navigation in the test cuts off the image load.**
+- The shell is the one stage image missing from the boot preload. `bootList()`
+  (`game/js/main.js:80`) leaves it out, and `G.buildStage` requests it afterwards
+  (`game/js/stage.js:1711`). So `data-ready` and the lab's `labReady` can both be set while the
+  1.2 MB shell is still loading.
+- `tools/m2-reception-polish-lab/qa/run_qa.js:79-81` calls `page.goto` and then, at once, a second
+  `goto` (`openLab`). If the second navigation lands mid-load, Firefox logs this exact message;
+  Chromium logs nothing.
+- The reloads at lines 253 and 425 have the same exposure.
+
+**Reproduction (on scratch copies):**
+- natural, under CPU load: 1 of 16 Firefox runs failed, with the identical line;
+- amplified (slow shell): the original runner failed 3 of 3.
+
+**Proposed fix (test only, not applied).** Before any navigation, wait until `labReady` is set,
+both frames report `data-ready`, and every `<img>` in them is `complete`:
+- amplified runs: 3 of 3 pass;
+- stress runs: 16 of 16 pass;
+- full suite: 143/143 in Chromium and Firefox.
+
+Do not whitelist the console message, because a truly broken PNG produces the same text. The diff:
+
+```diff
+--- a/tools/m2-reception-polish-lab/qa/run_qa.js
++++ b/tools/m2-reception-polish-lab/qa/run_qa.js
+@@ -70,13 +70,20 @@
+   page.on('pageerror', (e) => errors.push(String(e)));
+   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
+   page.on('response', async (r) => { if (/\.png$/.test(r.url())) { try { bodies[new URL(r.url()).pathname.slice(1)] = sha256(await r.body()); } catch (e) { /* ignore */ } } });
++  // labReady (like the game's data-ready) does not wait for the stage <img> loads: the 1.2 MB shell
++  // (art/ui/shell/layout-final.png) is set by G.buildStage after the boot preload and is often still
++  // streaming. Navigating the page while it is (goto, reload, close) aborts that load, and Firefox then
++  // logs "Image corrupt or truncated." for it. So the page only ever moves on from a settled lab.
++  const settled = () => page.waitForFunction(() => document.body.dataset.labReady === 'true'
++    && ['frameProduction', 'frameLab'].every((id) => { const d = document.getElementById(id).contentDocument; return d && d.body && d.body.dataset.ready === 'true' && Array.from(d.images).every((i) => i.complete); }),
++  null, { timeout: 60000 });
+   const openLab = async () => {
+     await page.goto(`${base}/${LAB}`);
+-    await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
++    await settled();
+   };
+   const lab = (fn, arg) => page.evaluate(fn, arg);
+   const ready = () => lab(() => window.POLISH_LAB.ready());
+-  await page.goto(`${base}/${LAB}`);
++  await openLab();
+   await lab((ks) => ks.forEach((k) => localStorage.removeItem(k)), [STORE, STORE_UI]);
+   await openLab();
+   c('the lab opens and both stage frames load', (await lab(() => document.body.dataset.labReady)) === 'true', await lab(() => document.getElementById('status').textContent));
+@@ -251,7 +258,7 @@
+   await lab(() => { ['tg-hideShell', 'tg-boundsScene', 'tg-boundsUtility', 'tg-boundsClose'].forEach((id) => document.getElementById(id).click()); document.getElementById('freeze').click(); });
+   // Persistence.
+   await page.reload();
+-  await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
++  await settled();
+   c('lab values persist in localStorage across a reload', JSON.stringify(await lab(() => window.POLISH_LAB.changes())) === JSON.stringify(ex.changes));
+   // The production game ignores the lab's storage.
+   const g2 = await context.newPage();
+@@ -423,7 +430,7 @@
+   c('lab UI state is never in COPY CHANGES (or COPY ALL)', !/folded|scrolls|toggles|"view"|"state"|"fit"/.test(exUi + (await lab(() => window.POLISH_LAB.exportAll()))));
+   c('lab UI state is kept apart from the tunable values', await lab((k) => { const v = JSON.parse(localStorage.getItem(k[0])); const u = JSON.parse(localStorage.getItem(k[1])); return Object.keys(v).sort().join() === 'changes,schema' && !!u.folded && !!u.scrolls; }, [STORE, STORE_UI]));
+   await page.reload();
+-  await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
++  await settled();
+   await page.waitForTimeout(200);
+   const ui1 = await lab(() => ({ s: window.POLISH_LAB.uiState(), scroll: document.getElementById('side').scrollTop, folded: document.querySelector('[data-fold="sec-portrait"]').classList.contains('folded'),
+     sel: document.getElementById('stateSelect').value, overlay: document.getElementById('frameLab').contentWindow.CYOA_GAME.ui.overlay, view: document.getElementById('stageWrap').dataset.view,
+```
+
+**Separate small product gap (optional, untested).** `main.js` says ready never comes with art
+still to appear, yet the shell is not preloaded. Adding `art/ui/shell/layout-final.png` to
+`bootList()` would close the gap. That changes what `data-ready` means for every suite, so it needs
+its own change and a full QA run.
