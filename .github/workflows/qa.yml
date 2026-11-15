@@ -91,6 +91,9 @@ jobs:
       - name: Imported story in the browser (Narrative B, dialogue, Focus A, dice checks, saves, draft stamp)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_story_qa.js
+      - name: House of Tomorrow full branch acceptance (actual Prologue inventory, 9 routes in two browsers)
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_ch01_routes_qa.js
       - name: Storyboard viewer in the browser (chapter switching, layout export/import)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node tools/storyboard/qa-browser.js
@@ -115,6 +118,7 @@ jobs:
             game/qa/*.json
             game/qa/screenshots/
             game/qa/story_screenshots/
+            game/qa/ch01_route_screenshots/
             tools/m2-reception-polish-lab/qa/
             tools/layout-lab/qa/qa_results.json
             tools/layout-lab/qa/screenshots/
