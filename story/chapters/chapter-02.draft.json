@@ -337,17 +337,7 @@
           "tower_visited": true
         }
       },
-      "text": [
-        {
-          "if": {
-            "flag": "office_spore_inundation"
-          },
-          "text": "The Environmental Control Tower is coughing pale spores through every grille. Green tendrils burst from the vents, knotting keyboards and drawing cupboards shut. It is the same plume you deliberately sent here from the garden."
-        },
-        {
-          "text": "The Environmental Control Tower is remarkably tidy compared with the Park below. Each desk has three sign-off stamps and no occupied chair. A console reports APPROVAL CAPACITY: EXCELLENT."
-        }
-      ],
+      "text": "The Environmental Control Tower is remarkably tidy compared with the Park below. Each desk has three sign-off stamps and no occupied chair. A console reports APPROVAL CAPACITY: EXCELLENT.",
       "choices": [
         {
           "id": "inspect_tower_approvals",
@@ -360,17 +350,7 @@
     "tower_archive": {
       "mode": "narrative",
       "scene": "biology_park/authorization_archive",
-      "text": [
-        {
-          "if": {
-            "flag": "office_spore_inundation"
-          },
-          "text": "You pry a filing drawer out of the root-laced console. Early expansion requests carry human signatures. Later requests were approved by delegated Environmental Management machinery. Every request originated with Botanical Specimen 001. The growing office is apparently another completed application."
-        },
-        {
-          "text": "Early expansion requests carry human signatures; later ones were approved automatically by delegated Environmental Management. The requests have a single originating entity: BOTANICAL SPECIMEN 001. The file begins with a polite petition for more light. It ends with territory."
-        }
-      ],
+      "text": "Early expansion requests carry human signatures; later ones were approved automatically by delegated Environmental Management. The requests have a single originating entity: BOTANICAL SPECIMEN 001. The file begins with a polite petition for more light. It ends with territory.",
       "choices": [
         {
           "id": "issue_director_countermand",
