@@ -2307,7 +2307,15 @@
             }
           }
         }
-      ]
+      ],
+      "scenePickup": {
+        "id": "public_antidote_box",
+        "title": "PUBLIC FIRST-AID BOX",
+        "item": "botanical_antidote_public",
+        "readChoice": "read_public_expiry",
+        "useChoice": "use_public_from_open_kit",
+        "closeChoice": "close_public_kit_and_take"
+      }
     },
     "public_kit_read_focus": {
       "mode": "focus",
@@ -2381,7 +2389,15 @@
             }
           }
         }
-      ]
+      ],
+      "scenePickup": {
+        "id": "public_antidote_box",
+        "title": "PUBLIC FIRST-AID BOX",
+        "item": "botanical_antidote_public",
+        "readChoice": null,
+        "useChoice": "use_public_after_read",
+        "closeChoice": "close_public_read_kit_and_take"
+      }
     },
     "maintenance_kit_focus": {
       "mode": "focus",
@@ -2461,7 +2477,15 @@
             }
           }
         }
-      ]
+      ],
+      "scenePickup": {
+        "id": "maintenance_antidote_box",
+        "title": "MAINTENANCE DECONTAMINATION LOCKER",
+        "item": "botanical_antidote_maintenance",
+        "readChoice": "read_maintenance_expiry",
+        "useChoice": "use_maintenance_from_open_kit",
+        "closeChoice": "close_maintenance_kit_and_take"
+      }
     },
     "maintenance_kit_read_focus": {
       "mode": "focus",
@@ -2535,7 +2559,15 @@
             }
           }
         }
-      ]
+      ],
+      "scenePickup": {
+        "id": "maintenance_antidote_box",
+        "title": "MAINTENANCE DECONTAMINATION LOCKER",
+        "item": "botanical_antidote_maintenance",
+        "readChoice": null,
+        "useChoice": "use_maintenance_after_read",
+        "closeChoice": "close_maintenance_read_kit_and_take"
+      }
     },
     "customs_kit_focus": {
       "mode": "focus",
@@ -2615,7 +2647,15 @@
             }
           }
         }
-      ]
+      ],
+      "scenePickup": {
+        "id": "customs_antidote_box",
+        "title": "AGRICULTURAL EXPOSURE DISPENSER",
+        "item": "botanical_antidote_customs",
+        "readChoice": "read_customs_expiry",
+        "useChoice": "use_customs_from_open_kit",
+        "closeChoice": "close_customs_kit_and_take"
+      }
     },
     "customs_kit_read_focus": {
       "mode": "focus",
@@ -2689,7 +2729,15 @@
             }
           }
         }
-      ]
+      ],
+      "scenePickup": {
+        "id": "customs_antidote_box",
+        "title": "AGRICULTURAL EXPOSURE DISPENSER",
+        "item": "botanical_antidote_customs",
+        "readChoice": null,
+        "useChoice": "use_customs_after_read",
+        "closeChoice": "close_customs_read_kit_and_take"
+      }
     },
     "end_public": {
       "mode": "narrative",
