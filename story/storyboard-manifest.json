@@ -11,6 +11,12 @@
       "title": "Chapter 1 — House of Tomorrow",
       "file": "chapters/chapter-01.draft.json",
       "status": "draft"
+    },
+    {
+      "id": "chapter-02",
+      "title": "Chapter 2 — Biology Park",
+      "file": "chapters/chapter-02.draft.json",
+      "status": "draft"
     }
   ],
   "items": "items.draft.json",
