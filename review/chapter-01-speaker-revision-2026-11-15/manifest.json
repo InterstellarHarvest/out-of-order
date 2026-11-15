@@ -1,0 +1,314 @@
+{
+  "title": "House speaker redesign and complete portrait exception",
+  "date": "2026-11-15",
+  "branch": "agent/ch01-art-first-pass-20261115",
+  "baselineCommit": "3a763b52c1d60027549542d47381f4fbba412117",
+  "status": "generated",
+  "candidateCount": 3,
+  "method": "built-in image_gen.imagegen; exact prompts in prompts.json",
+  "portraitContract": "House-only complete opaque 564x278 scene-specific conversation image; no separate foreground/background",
+  "engineIntegration": false,
+  "registryProposalApplied": false,
+  "assets": [
+    {
+      "id": "foyer",
+      "title": "Foyer",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/foyer-v04.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "f9b520088d1d3800c122fc30d1ed2076220e085db16ceef79fa99eab3064b2c0",
+      "beforePath": "../chapter-01-first-pass-2026-11-15/candidates/foyer.png",
+      "beforeSha256": "291b3391213c7b68bcbfd2f5f461fc007cde7780bb6b5a9896574d11116c876b",
+      "sourcePath": "generation-source/foyer-intercom-v05.png",
+      "sourceSha256": "4e1a8bdbb83aa529f94d9bc0ccc09cb76d12478ab6fd3a25833a92cbc0b761a1",
+      "sourceDimensions": [
+        1548,
+        1016
+      ],
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.2165605095541423,
+          1548,
+          1015.7834394904459
+        ],
+        "geometry": "NEAREST to 314x206; export generated speaker-area edit only",
+        "editRegion": [
+          189,
+          47,
+          244,
+          95
+        ],
+        "colorPolicy": "non-spatial warm wall-tone alignment to original border, then nearest match to existing scene colors inside edit region only",
+        "warmColorShiftRGB": [
+          -5,
+          -4,
+          -2
+        ]
+      },
+      "changedPixels": 1606,
+      "changedPixelsOutsideEditRegion": 0,
+      "speakerApproximateBounds": [
+        207,
+        59,
+        225,
+        84
+      ],
+      "visibleColorCount": 94,
+      "dominantPalette": [
+        {
+          "hex": "#fee8c7",
+          "pixels": 19229
+        },
+        {
+          "hex": "#f9d9b4",
+          "pixels": 9156
+        },
+        {
+          "hex": "#f5cca0",
+          "pixels": 8208
+        },
+        {
+          "hex": "#a1d3cc",
+          "pixels": 4169
+        },
+        {
+          "hex": "#ea785b",
+          "pixels": 3921
+        },
+        {
+          "hex": "#f1a957",
+          "pixels": 3638
+        },
+        {
+          "hex": "#bfbfbf",
+          "pixels": 1190
+        },
+        {
+          "hex": "#9cddfd",
+          "pixels": 1135
+        },
+        {
+          "hex": "#fd8965",
+          "pixels": 1072
+        },
+        {
+          "hex": "#e3cfb2",
+          "pixels": 836
+        },
+        {
+          "hex": "#949291",
+          "pixels": 688
+        },
+        {
+          "hex": "#6a6968",
+          "pixels": 623
+        }
+      ]
+    },
+    {
+      "id": "dining",
+      "title": "Dining",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/dining-v04.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "2bd4f7b2127e7af45894224b8d04a128663357d99cba115a8ac4b80fb1c3761d",
+      "beforePath": "../chapter-01-first-pass-2026-11-15/candidates/dining.png",
+      "beforeSha256": "2e99605c4d0d3a4ceca40c96e6d9cb0f48d22895565abd9b2b67ca30782b847d",
+      "sourcePath": "generation-source/dining-intercom-v05.png",
+      "sourceSha256": "b4561e49ffda5ff5970cbf9ac75c08fc19def1363122d3e608fce4009c106d27",
+      "sourceDimensions": [
+        1548,
+        1016
+      ],
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.2165605095541423,
+          1548,
+          1015.7834394904459
+        ],
+        "geometry": "NEAREST to 314x206; export generated speaker-area edit only",
+        "editRegion": [
+          84,
+          44,
+          108,
+          72
+        ],
+        "colorPolicy": "non-spatial warm wall-tone alignment to original border, then nearest match to existing scene colors inside edit region only",
+        "warmColorShiftRGB": [
+          -7,
+          -3,
+          0
+        ]
+      },
+      "changedPixels": 428,
+      "changedPixelsOutsideEditRegion": 0,
+      "speakerApproximateBounds": [
+        91,
+        50,
+        103,
+        67
+      ],
+      "visibleColorCount": 87,
+      "dominantPalette": [
+        {
+          "hex": "#f4dcbe",
+          "pixels": 14705
+        },
+        {
+          "hex": "#eccdad",
+          "pixels": 13348
+        },
+        {
+          "hex": "#d7934a",
+          "pixels": 6081
+        },
+        {
+          "hex": "#e2bf9c",
+          "pixels": 4728
+        },
+        {
+          "hex": "#d9af85",
+          "pixels": 3316
+        },
+        {
+          "hex": "#98c0af",
+          "pixels": 3137
+        },
+        {
+          "hex": "#86afa1",
+          "pixels": 1687
+        },
+        {
+          "hex": "#fef8ee",
+          "pixels": 1589
+        },
+        {
+          "hex": "#fcedd7",
+          "pixels": 1329
+        },
+        {
+          "hex": "#c1a07a",
+          "pixels": 1188
+        },
+        {
+          "hex": "#acabaa",
+          "pixels": 934
+        },
+        {
+          "hex": "#969696",
+          "pixels": 788
+        }
+      ]
+    },
+    {
+      "id": "foyer-conversation",
+      "title": "Foyer conversation close-up",
+      "kind": "portrait-complete",
+      "presentation": "complete-opaque",
+      "scene": "house_of_tomorrow/foyer",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/foyer-conversation-v04.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "sha256": "93d3eb70fef66b7c567087b696ec5ed9390b461a02f9a4e7361a3b5896d29dad",
+      "sourcePath": "generation-source/foyer-conversation-v04.png",
+      "sourceSha256": "011912dcdc66d0be5a552eecd0a0bd3fd2eafbae9c3c5b6e5d0f2f0cc194860f",
+      "sourceDimensions": [
+        1786,
+        881
+      ],
+      "beforePath": "../chapter-01-first-pass-2026-11-15/previews/foyer-portrait-composite.png",
+      "beforeSha256": "6c5ab8e8eb4dc7214ed0bb74d4b20c4a2a2ee582b70ee87fe01f08e5278a8ad8",
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.3333333333333144,
+          1786,
+          880.6666666666667
+        ],
+        "geometry": "LANCZOS to 564x278 from independently authored complete close-up",
+        "colorPolicy": "non-spatial merge to existing frequent RGB values within radius12; no fixed palette-count target"
+      },
+      "speakerApproximateBounds": [
+        288,
+        58,
+        367,
+        168
+      ],
+      "visibleColorCount": 306,
+      "dominantPalette": [
+        {
+          "hex": "#fce6c9",
+          "pixels": 53092
+        },
+        {
+          "hex": "#fadebd",
+          "pixels": 35507
+        },
+        {
+          "hex": "#f8d7b1",
+          "pixels": 9466
+        },
+        {
+          "hex": "#ebc6a0",
+          "pixels": 5720
+        },
+        {
+          "hex": "#a1cfc7",
+          "pixels": 5694
+        },
+        {
+          "hex": "#eeaf63",
+          "pixels": 4603
+        },
+        {
+          "hex": "#f99073",
+          "pixels": 3006
+        },
+        {
+          "hex": "#fef8c9",
+          "pixels": 2679
+        },
+        {
+          "hex": "#c6c5c5",
+          "pixels": 2359
+        },
+        {
+          "hex": "#e0644d",
+          "pixels": 1776
+        },
+        {
+          "hex": "#d1a983",
+          "pixels": 1390
+        },
+        {
+          "hex": "#c29e79",
+          "pixels": 1034
+        }
+      ]
+    }
+  ],
+  "bathroomUnchangedSha256": "418061f623770ec40a6a708083ad3a797b3cfc43c6e9b461ecb95799cc5267fc",
+  "historicalLayeredAssets": "Prior first-pass images retained for comparison, superseded for House speaker use."
+}

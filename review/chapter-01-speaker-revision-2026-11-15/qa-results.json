@@ -1,0 +1,146 @@
+{
+  "passed": 34,
+  "checks": [
+    {
+      "name": "Exactly three generated candidates, null production paths and no owner approval",
+      "pass": true
+    },
+    {
+      "name": "foyer native dimensions and opaque RGB PNG",
+      "pass": true
+    },
+    {
+      "name": "foyer candidate hash",
+      "pass": true
+    },
+    {
+      "name": "foyer source hash",
+      "pass": true
+    },
+    {
+      "name": "foyer every pixel outside speaker region unchanged",
+      "pass": true
+    },
+    {
+      "name": "foyer meaningful local edit",
+      "pass": true
+    },
+    {
+      "name": "foyer existing scene palette retained",
+      "pass": true
+    },
+    {
+      "name": "foyer exact 4x nearest-neighbor preview",
+      "pass": true
+    },
+    {
+      "name": "dining native dimensions and opaque RGB PNG",
+      "pass": true
+    },
+    {
+      "name": "dining candidate hash",
+      "pass": true
+    },
+    {
+      "name": "dining source hash",
+      "pass": true
+    },
+    {
+      "name": "dining every pixel outside speaker region unchanged",
+      "pass": true
+    },
+    {
+      "name": "dining meaningful local edit",
+      "pass": true
+    },
+    {
+      "name": "dining existing scene palette retained",
+      "pass": true
+    },
+    {
+      "name": "dining exact 4x nearest-neighbor preview",
+      "pass": true
+    },
+    {
+      "name": "foyer-conversation native dimensions and opaque RGB PNG",
+      "pass": true
+    },
+    {
+      "name": "foyer-conversation candidate hash",
+      "pass": true
+    },
+    {
+      "name": "foyer-conversation source hash",
+      "pass": true
+    },
+    {
+      "name": "One complete opaque House portrait, no new foreground/background pair",
+      "pass": true
+    },
+    {
+      "name": "Every previous PNG, raw source and comparison preserved exactly",
+      "pass": true
+    },
+    {
+      "name": "Bathroom byte-identical to previous review",
+      "pass": true
+    },
+    {
+      "name": "Approved reception hash unchanged",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/artwork.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/chapters/chapter-01.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/items.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged game/content/story.generated.js",
+      "pass": true
+    },
+    {
+      "name": "All tracked changes confined to private review",
+      "pass": true
+    },
+    {
+      "name": "Registry proposal precondition",
+      "pass": true
+    },
+    {
+      "name": "Proposal retires House-only layered metadata",
+      "pass": true
+    },
+    {
+      "name": "Proposal retains null production paths and deferred gallery view",
+      "pass": true
+    },
+    {
+      "name": "Other portrait records untouched by proposal",
+      "pass": true
+    },
+    {
+      "name": "Proposal never written to source",
+      "pass": true
+    },
+    {
+      "name": "Offline gallery references all local files",
+      "pass": true
+    },
+    {
+      "name": "All 25 linked gallery files load over local HTTP",
+      "pass": true
+    }
+  ],
+  "originalPngFilesVerified": 20,
+  "httpFilesVerified": 25,
+  "visualApproval": "pending",
+  "engineIntegration": "not performed",
+  "browserRenderTest": "not run; static HTML and actual HTTP image/doc loads verified"
+}

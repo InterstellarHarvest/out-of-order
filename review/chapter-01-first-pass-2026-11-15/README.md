@@ -1,12 +1,14 @@
 # Chapter 1 — House of Tomorrow first art batch
 
+**Historical first pass. The speaker design and layered House portrait are superseded by the [speaker revision and complete-portrait ruling](../chapter-01-speaker-revision-2026-11-15/README.md). Room design is retained; original images below remain available for comparison.**
+
 Open [index.html](index.html) directly in a browser. The folder is an offline private gallery; it has no external services or public deployment. A local server is optional:
 
 ```sh
-python3 -m http.server 8767 --bind 127.0.0.1 --directory review/chapter-01-first-pass-2026-11-15
+python3 -m http.server 8767 --bind 127.0.0.1 --directory review
 ```
 
-Then visit `http://127.0.0.1:8767/`.
+Then visit `http://127.0.0.1:8767/chapter-01-first-pass-2026-11-15/`. Both review versions are accessible from that server.
 
 Exactly five current **generated candidates**, awaiting owner approval:
 
