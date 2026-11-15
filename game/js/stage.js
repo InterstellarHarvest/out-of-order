@@ -1029,6 +1029,16 @@
   // cannot be taken now keeps its glyph in an inactive treatment, does not press, and its tooltip
   // says why (docs/49 section 2.1). Hover never changes any of this.
   function utilityActions() {
+    if (ui.inspector && ui.inspector.scenePickup) {
+      // The wall kit is not inventory. Its own authored rules cards supply the
+      // medical checks; these are just the existing three contextual buttons.
+      var pickup = ui.inspector.scenePickup;
+      return [
+        { action: 'pickup-read', glyph: 'read', label: 'READ LABEL', enabled: !!pickup.readChoice && G.flow.phase === 'choosing', why: 'LABEL ALREADY READ' },
+        { action: 'pickup-use', glyph: 'use', label: 'USE ANTIDOTE', enabled: !!pickup.useChoice && G.flow.phase === 'choosing', why: 'NOT AVAILABLE HERE' },
+        { action: 'none', glyph: null, label: '', enabled: false, blank: true }
+      ];
+    }
     if (ui.inspector) {
       var acts = port().itemActions(ui.inspector.id);
       var mid = acts.use ? { action: 'use', glyph: 'use', label: 'USE', enabled: true }
@@ -1279,6 +1289,17 @@
 
   // Shows the item's inspect art 1:1 at the art area's origin, or the placeholder when it has none.
   function showInspectArt(id) {
+    if (ui.inspector && ui.inspector.scenePickup) {
+      // Production 565x451 inspector window, not the 564x278 Focus A portrait.
+      // Source art is still not-started: render a labelled scene-owned placeholder
+      // until the joint Chapters 1-2 approved artwork pass.
+      P.inspectArt(els.inspectPlaceholder, INSPECT_RECT[2], INSPECT_RECT[3], null,
+        ui.inspector.scenePickup.title + ' - OPEN WALL KIT - ART NOT YET APPROVED');
+      place(els.inspectPlaceholder, 0, 0, INSPECT_RECT[2], INSPECT_RECT[3]);
+      els.inspectArt.replaceChildren(els.inspectPlaceholder);
+      els.inspectArt.dataset.kind = 'scene-pickup-placeholder';
+      return;
+    }
     var def = port().item(id);
     var img = def.inspectArt ? G.image(G.inspectImageName(id)) : null;
     if (img) {
@@ -1302,10 +1323,12 @@
 
   function inspectorLines() {
     var id = ui.inspector.id;
+    var pickup = ui.inspector.scenePickup;
     var width = C().viewport.width - C().text.offsetX - 24;
-    // Dark ink: the item text sits on the light choices panel (docs/53). Dialogue keeps its own ink.
-    var lines = [{ text: port().item(id).name, role: 'labels', ink: 'dark' }];
-    T.wrap(port().description(id), width, 'dialogue').forEach(function (t, i) {
+    // A scene-owned kit is only granted to inventory on X/Escape close. Its
+    // physical source, title and narration come from the current authored node.
+    var lines = [{ text: pickup ? pickup.title : port().item(id).name, role: 'labels', ink: 'dark' }];
+    T.wrap(pickup ? pickup.description : port().description(id), width, 'dialogue').forEach(function (t, i) {
       lines.push({ text: t, role: 'dialogue', ink: 'dark', gap: i === 0 ? 10 : 0 });
     });
     return lines;
@@ -1328,9 +1351,9 @@
     show(els.inspectText, on);
     if (!on) return;
     var id = ui.inspector.id;
-    if (els.inspectArt.dataset.item !== id) {
+    if (els.inspectArt.dataset.item !== (ui.inspector.scenePickup ? 'scene:' + ui.inspector.scenePickup.id : id)) {
       showInspectArt(id);
-      els.inspectArt.dataset.item = id;
+      els.inspectArt.dataset.item = ui.inspector.scenePickup ? 'scene:' + ui.inspector.scenePickup.id : id;
     }
     var lines = inspectorLines();
     var lh = 24;
