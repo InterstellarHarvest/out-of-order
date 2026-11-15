@@ -287,6 +287,10 @@ Results and screenshots are uploaded as artifacts.
 
 ### 7.2 CI environment limits (separate from regressions)
 
+- **Runner image pinned to `ubuntu-24.04`.** `ubuntu-latest` now resolves to Ubuntu 26.04, which
+  Playwright 1.59.1 does not support. The first CI run failed at the install step for that
+  reason; no suite ran. If the install fails, the browser suites are skipped rather than reported
+  as failures. Move the pin only together with a Playwright upgrade.
 - **Linux runners only.** The owner tests on this Mac in Chrome and Firefox. CI's headless Linux
   Chromium and Firefox are the same engines but not the same builds. No WebKit/Safari, by the
   owner's rule.
