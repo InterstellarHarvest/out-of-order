@@ -7,18 +7,18 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "69d62f6a8da459391203d3f62cfa0eb63a5ff23964e59df5bb2059c4b9ec2d29",
-    "version": 110977783,
+    "contentHash": "a425031fd8796c4316aea7db509b5ef2a506189d2e2cda0b6c19ee1463559cf0",
+    "version": 172118066,
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "4e68a9851cb059f5644a88047db9ae810feaaee3eeb97b89481c3a472110664a",
-        "gitBlob": "c0cf21b287c684828e3a8eb25a6c231d63c1a400"
+        "sha256": "09c3ad10f3ef88e5dd9619fe5a8a880d892908932d4bf8917f4345d164710025",
+        "gitBlob": "d2da488f6c19e314329c66508bceb439f63d649f"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
-        "sha256": "58fe12a5be71b4bfebe31794de9de1bfd47121e507931eb53f49cc60449ed4fd",
-        "gitBlob": "c2918bcd75437faef348cca52fe04a55c175e803"
+        "sha256": "77dbe2ce4fa803509dea790464dbba325ac725790b50307c4b93af6b8d5586f0",
+        "gitBlob": "d71618c9fc81a6926639495fa068e5321d6c39cb"
       },
       {
         "path": "story/chapters/prologue-00.draft.json",
@@ -27,13 +27,13 @@
       },
       {
         "path": "story/items.draft.json",
-        "sha256": "9d308f4faa07c8297d03728d32d13bd1dbbab061cc01bd1c59d14d3372cd80b9",
-        "gitBlob": "123944fab29a1e51b07e4074f08e28a0c2284e8b"
+        "sha256": "80b721e4c372e18113813549730e693d70af980abed96de7777d4f8f8770fc59",
+        "gitBlob": "388c5c256dfe02bd805a086f98c8251cdee4c7d1"
       },
       {
         "path": "story/runtime-settings.json",
-        "sha256": "453ea4ec99f77d974f6148f7e9074763673af3c2cfbc65f607a7bdf9f642329c",
-        "gitBlob": "0e99e0e95c3aaa31b09c1e86dce72e221d9c7cee"
+        "sha256": "c46a84bba0690abdf31987e20a936b0ceb1e4513fc58c0a283380897ba7f7bf2",
+        "gitBlob": "57ceeaf109daf915e4bdcbede928bc62627aee55"
       },
       {
         "path": "story/storyboard-manifest.json",
@@ -53,9 +53,7 @@
         "status": "draft"
       }
     ],
-    "draftStops": [
-      "chapter-01:dev_placeholder"
-    ],
+    "draftStops": [],
     "art": [
       {
         "kind": "item-inspect",
@@ -291,19 +289,19 @@
     ],
     "stats": {
       "chapters": 2,
-      "nodes": 30,
-      "choices": 43,
-      "reachableStates": 2560,
-      "endings": 1,
-      "endingStates": 693,
-      "endingsReached": 1,
-      "checks": 0
+      "nodes": 65,
+      "choices": 99,
+      "reachableStates": 147100,
+      "endings": 6,
+      "endingStates": 32076,
+      "endingsReached": 6,
+      "checks": 3
     }
   };
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 110977783,
+    "version": 172118066,
     "profile": "fixture",
     "save": true,
     "start": "prologue-00",
@@ -313,11 +311,30 @@
         "appointment_disputed": false,
         "appointment_response": false,
         "box_unpacked": false,
+        "chair_survived": false,
+        "dinner_seen": false,
         "discarded_box_unopened": false,
+        "equipment_registered": false,
         "examiner_duties_known": false,
         "expo_classification": false,
+        "fake_bathroom_discovered": false,
+        "family_album_inspected": false,
+        "family_records_seen": false,
+        "family_trace_seen": false,
         "former_employment_disclosed": false,
+        "house_exit_denied": false,
+        "house_exit_route": false,
+        "house_storage_recovered": false,
+        "house_stored_any": false,
+        "house_stored_item": false,
+        "housekeeping_refused": false,
         "key_discrepancy_raised": false,
+        "martin_escape_clue_found": false,
+        "martin_hidden_route_discovered": false,
+        "occupancy_fault_discovered": false,
+        "plant_named": false,
+        "plant_registered_as_resident": false,
+        "portrait_seen": false,
         "property_record": false,
         "reception_origin": false,
         "retained_item": false,
@@ -327,6 +344,10 @@
       "items": {}
     },
     "cast": {
+      "house": {
+        "name": "HOUSE OF TOMORROW",
+        "portrait": "house"
+      },
       "receptionist": {
         "name": "RECEPTIONIST",
         "portrait": "receptionist"
@@ -548,6 +569,22 @@
             ]
           }
         }
+      },
+      "family_portrait_photo": {
+        "name": "COMPLIMENTARY FAMILY PORTRAIT",
+        "slotArt": null,
+        "inspectArt": null,
+        "description": "A STIFF SHOWROOM PHOTOGRAPH OF THREE EMPTY CHAIRS. THE CAMERA WAS CROOKED: ONLY YOUR SHOES AND LOWER LEGS APPEAR AT THE BOTTOM EDGE. THE BACK IS STAMPED OFFICIAL HOUSEHOLD RECORD - COMPLIMENTARY COPY.",
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "family_portrait_photo",
+                "read"
+              ]
+            ]
+          }
+        }
       }
     },
     "files": [],
@@ -561,9 +598,33 @@
         "exposition/property_intake": "art/scenes/exposition/continuity-v02/property-intake.png",
         "exposition/reception": "art/scenes/conference_hall/reception/reception_scene.png",
         "exposition/facilities_corridor": "art/scenes/exposition/continuity-v03/facilities-corridor.png",
-        "house_of_tomorrow/opening": null
+        "house_of_tomorrow/arrival": null,
+        "house_of_tomorrow/foyer": null,
+        "house_of_tomorrow/lounge": null,
+        "house_of_tomorrow/storage": null,
+        "house_of_tomorrow/dining": null,
+        "house_of_tomorrow/public_exit": null,
+        "house_of_tomorrow/bedroom": null,
+        "house_of_tomorrow/passage": null,
+        "house_of_tomorrow/service_hatch": null,
+        "house_of_tomorrow/chair": null,
+        "house_of_tomorrow/maintenance": null,
+        "house_of_tomorrow/utility_exit": null,
+        "house_of_tomorrow/portrait_gallery": null,
+        "house_of_tomorrow/bathroom": null
       },
       "portraits": {
+        "house": {
+          "backgrounds": {
+            "house_of_tomorrow/foyer": null,
+            "house_of_tomorrow/portrait_gallery": null
+          },
+          "poses": {
+            "idle": null
+          },
+          "background": "house_of_tomorrow/foyer",
+          "pose": "idle"
+        },
         "receptionist": {
           "backgrounds": {
             "exposition/reception": "art/portraits/receptionist/reception_background.png"
@@ -586,7 +647,9 @@
           "pose": "paper_extended"
         }
       },
-      "focus": {}
+      "focus": {
+        "house_of_tomorrow/portrait_gallery/album": null
+      }
     },
     "chapters": {
       "prologue-00": {
@@ -1698,17 +1761,1049 @@
       },
       "chapter-01": {
         "title": "House of Tomorrow",
-        "start": "dev_placeholder",
-        "scene": "house_of_tomorrow/opening",
+        "start": "house_arrival",
+        "scene": "house_of_tomorrow/arrival",
         "nodes": {
-          "dev_placeholder": {
+          "house_arrival": {
             "mode": "narrative",
-            "text": "[DEVELOPMENT PLACEHOLDER] Chapter 1: House of Tomorrow has no authored scenes yet. This card only tests the hand-off from the Prologue.",
+            "scene": "house_of_tomorrow/arrival",
+            "objective": "FIND A FUNCTIONING BATHROOM.",
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "termination_status",
+                    "disputed"
+                  ]
+                },
+                "text": "You follow the facilities pictogram through a humming corridor. You are still waiting for somebody to review your dismissal. The review has not made the need for a bathroom any less urgent.\n\nA sign ahead reads HOUSE OF TOMORROW. The restroom-like symbol belongs to its advertising."
+              },
+              {
+                "if": {
+                  "flag": "appointment_disputed"
+                },
+                "text": "You follow the facilities pictogram, still disputing the appointment that was foisted on you. The painted figure beside a square was not a restroom symbol after all. It belongs to a display marked HOUSE OF TOMORROW."
+              },
+              {
+                "text": "You follow the pale blue facilities pictogram around a corner. The complete sign reads HOUSE OF TOMORROW. It is not a bathroom sign at all."
+              }
+            ],
             "choices": [
               {
-                "id": "draft_stop_begin_again",
+                "id": "enter_show_home",
+                "kind": "action",
+                "text": "PUSH OPEN THE DISPLAY ENTRANCE.",
+                "to": "badge_registration"
+              }
+            ]
+          },
+          "badge_registration": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "text": "Your pale blue Examiner badge slides past the entrance scanner. A green light blinks: DEMONSTRATION PARTICIPANT ACCEPTED. You did not apply for this position.\n\nThe outer door closes behind you. A wall speaker swivels into view.",
+            "choices": [
+              {
+                "id": "hear_house_greeting",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "welcome_home"
+              }
+            ]
+          },
+          "welcome_home": {
+            "mode": "dialogue",
+            "scene": "house_of_tomorrow/foyer",
+            "speaker": "house",
+            "text": [
+              {
+                "desc": "A small black speaker grille tilts toward you. Its indicator light glows an encouraging green."
+              },
+              "Welcome home!",
+              "How lovely to have somebody in the house again.",
+              "May I put your things away? An orderly home is a happy home."
+            ],
+            "choices": [
+              {
+                "id": "permit_housekeeping",
+                "kind": "spoken",
+                "text": "ALLOW THE HOUSE TO PUT YOUR THINGS AWAY.",
+                "to": "orientation_storage"
+              },
+              {
+                "id": "decline_housekeeping",
+                "kind": "spoken",
+                "text": "KEEP YOUR BELONGINGS WITH YOU.",
+                "to": "orientation_refusal"
+              }
+            ]
+          },
+          "orientation_storage": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "effects": [
+              {
+                "if": {
+                  "has": "timing_clicker",
+                  "notFlag": "house_stored_any"
+                },
+                "take": [
+                  "timing_clicker"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "timing_clicker"
+                }
+              },
+              {
+                "if": {
+                  "has": "rubber_band_ball",
+                  "notFlag": "house_stored_any"
+                },
+                "take": [
+                  "rubber_band_ball"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "rubber_band_ball"
+                }
+              },
+              {
+                "if": {
+                  "has": "red_stapler",
+                  "notFlag": "house_stored_any"
+                },
+                "take": [
+                  "red_stapler"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "red_stapler"
+                }
+              },
+              {
+                "if": {
+                  "has": "desk_plant",
+                  "notFlag": "house_stored_any"
+                },
+                "take": [
+                  "desk_plant"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "desk_plant"
+                }
+              }
+            ],
+            "text": "A narrow hatch opens in the wall. A polite telescoping arm measures your pocket and removes the first object it considers untidy.\n\nA drawer slides closed with a decisive click. The house calls this a convenience.",
+            "choices": [
+              {
+                "id": "ask_for_bathroom_after_storage",
+                "kind": "spoken",
+                "text": "ASK WHERE THE BATHROOM IS.",
+                "to": "comfort_offer"
+              }
+            ]
+          },
+          "orientation_refusal": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "effects": {
+              "set": {
+                "housekeeping_refused": true
+              }
+            },
+            "text": "You insist on keeping your possessions. The speaker pauses.\n\n\"Certainly. We would never put your things away without permission.\"\n\nA quiet motor starts somewhere behind the wall.",
+            "choices": [
+              {
+                "id": "insist_on_bathroom",
+                "kind": "spoken",
+                "text": "ASK FOR THE BATHROOM AGAIN.",
+                "to": "comfort_offer"
+              }
+            ]
+          },
+          "comfort_offer": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/lounge",
+            "effects": [
+              {
+                "if": {
+                  "has": "timing_clicker",
+                  "notFlag": "house_stored_any",
+                  "flag": "housekeeping_refused"
+                },
+                "take": [
+                  "timing_clicker"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "timing_clicker"
+                }
+              },
+              {
+                "if": {
+                  "has": "rubber_band_ball",
+                  "notFlag": "house_stored_any",
+                  "flag": "housekeeping_refused"
+                },
+                "take": [
+                  "rubber_band_ball"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "rubber_band_ball"
+                }
+              },
+              {
+                "if": {
+                  "has": "red_stapler",
+                  "notFlag": "house_stored_any",
+                  "flag": "housekeeping_refused"
+                },
+                "take": [
+                  "red_stapler"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "red_stapler"
+                }
+              },
+              {
+                "if": {
+                  "has": "desk_plant",
+                  "notFlag": "house_stored_any",
+                  "flag": "housekeeping_refused"
+                },
+                "take": [
+                  "desk_plant"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "desk_plant"
+                }
+              }
+            ],
+            "text": [
+              {
+                "if": {
+                  "flag": "housekeeping_refused"
+                },
+                "text": "The house has apparently decided that your possessions remain a source of domestic disorder. Behind your back, a small drawer closes.\n\n\"Are you feeling uncomfortable? Refreshments and relaxation are both available!\""
+              },
+              {
+                "text": "\"Are you uncomfortable?\" the speaker asks. \"We offer refreshments and the revolutionary Rest Assured chair. Comfort has never been more convenient!\""
+              }
+            ],
+            "choices": [
+              {
+                "id": "accept_refreshments",
+                "kind": "action",
+                "text": "ACCEPT THE OFFER OF REFRESHMENTS.",
+                "to": "refreshments"
+              },
+              {
+                "id": "consider_rest_assured",
+                "kind": "action",
+                "text": "TRY THE REST ASSURED RELAXATION CHAIR.",
+                "to": "chair_warning"
+              },
+              {
+                "id": "refuse_everything",
+                "kind": "action",
+                "text": "REFUSE BOTH OFFERS.",
+                "to": "refused_both"
+              },
+              {
+                "id": "recover_belongings_now",
+                "kind": "action",
+                "text": "CHECK THE HOUSEKEEPING DRAWER.",
+                "if": {
+                  "flag": "house_stored_any",
+                  "notFlag": "house_storage_recovered"
+                },
+                "to": "storage_cabinet"
+              }
+            ]
+          },
+          "storage_cabinet": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/storage",
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "house_stored_item",
+                    "desk_plant"
+                  ]
+                },
+                "text": "A labelled drawer contains your little desk plant. A neat card reads: LIVING DECORATION - TEMPORARILY STORED."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "house_stored_item",
+                    "red_stapler"
+                  ]
+                },
+                "text": "The drawer contains your red SWANGLINE stapler, now resting on a velvet cleaning pad."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "house_stored_item",
+                    "timing_clicker"
+                  ]
+                },
+                "text": "Your old applause timing clicker sits in a neat compartment. The house appears to have judged it too untidy for your pocket."
+              },
+              {
+                "text": "Your rubber-band ball sits in a drawer labelled MISCELLANEOUS DOMESTIC MATERIAL."
+              }
+            ],
+            "choices": [
+              {
+                "id": "take_back_house_item",
+                "kind": "action",
+                "text": "RETRIEVE YOUR BELONGING.",
+                "effects": [
+                  {
+                    "if": {
+                      "flagIs": [
+                        "house_stored_item",
+                        "timing_clicker"
+                      ]
+                    },
+                    "give": [
+                      "timing_clicker"
+                    ]
+                  },
+                  {
+                    "if": {
+                      "flagIs": [
+                        "house_stored_item",
+                        "rubber_band_ball"
+                      ]
+                    },
+                    "give": [
+                      "rubber_band_ball"
+                    ]
+                  },
+                  {
+                    "if": {
+                      "flagIs": [
+                        "house_stored_item",
+                        "red_stapler"
+                      ]
+                    },
+                    "give": [
+                      "red_stapler"
+                    ]
+                  },
+                  {
+                    "if": {
+                      "flagIs": [
+                        "house_stored_item",
+                        "desk_plant"
+                      ]
+                    },
+                    "give": [
+                      "desk_plant"
+                    ]
+                  },
+                  {
+                    "set": {
+                      "house_storage_recovered": true,
+                      "house_stored_item": false
+                    }
+                  }
+                ],
+                "to": "storage_reclaimed"
+              },
+              {
+                "id": "leave_stored_object",
+                "kind": "action",
+                "text": "LEAVE THE OBJECT WHERE IT IS.",
+                "to": "refused_both"
+              }
+            ]
+          },
+          "storage_reclaimed": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/storage",
+            "text": "You take your property back. The house emits a tone of restrained disapproval.\n\n\"Do let us know if you would like anything put away properly.\"",
+            "choices": [
+              {
+                "id": "return_from_cabinet",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "comfort_offer"
+              }
+            ]
+          },
+          "refreshments": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/dining",
+            "text": "A neatly made tray descends from the wall. Four cups are arranged around one empty saucer. There is no drink.\n\n\"Refreshing, isn't it? Perhaps some family time would make you feel more at home.\"",
+            "choices": [
+              {
+                "id": "join_dinner_after_refreshments",
+                "kind": "action",
+                "text": "FOLLOW THE HOUSE TO THE DINING ROOM.",
+                "to": "dinner_arrival"
+              },
+              {
+                "id": "decline_drink_and_leave",
+                "kind": "action",
+                "text": "TRY THE FRONT DOOR INSTEAD.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "refused_both": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/lounge",
+            "text": "\"Of course,\" says the house. \"Your wishes are important to us.\"\n\nIt opens two doors: one toward the dining room, one toward the front hallway.",
+            "choices": [
+              {
+                "id": "choose_family_dinner",
+                "kind": "action",
+                "text": "JOIN THE FAMILY FOR DINNER.",
+                "to": "dinner_arrival"
+              },
+              {
+                "id": "ask_to_leave_house",
+                "kind": "action",
+                "text": "ASK TO LEAVE THE HOUSE.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "foyer_attempt": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "effects": {
+              "set": {
+                "house_exit_denied": true
+              }
+            },
+            "text": [
+              {
+                "if": {
+                  "flag": "dinner_seen"
+                },
+                "text": "The front door opens just far enough to show the public concourse. An alarm sounds.\n\n\"Oh dear. If you go, nobody will be home. We really mustn't allow that again.\" The door closes. Dinner has already been tried."
+              },
+              {
+                "text": "\"Of course you may leave! A happy household is a free household.\" The front door opens.\n\nA chime sounds. Then another, far less pleasant one.\n\n\"Oh dear. If you leave, nobody will be home. We really mustn't let that happen again.\" The door closes."
+              }
+            ],
+            "choices": [
+              {
+                "id": "name_plant_and_leave",
+                "kind": "action",
+                "text": "INTRODUCE YOUR NAMED LIVING PLANT AS THE NEW RESIDENT.",
+                "if": {
+                  "has": "desk_plant"
+                },
+                "effects": {
+                  "set": {
+                    "plant_named": true
+                  }
+                },
+                "to": "plant_adoption"
+              },
+              {
+                "id": "no_plant_first_foyer",
+                "kind": "action",
+                "text": "ADMIT YOU HAVE NO OTHER HOUSEHOLD MEMBER.",
+                "if": {
+                  "lacks": "desk_plant",
+                  "notFlag": "dinner_seen"
+                },
+                "to": "dinner_redirect"
+              },
+              {
+                "id": "withhold_plant_first_foyer",
+                "kind": "action",
+                "text": "KEEP THE PLANT AND INSIST ON LEAVING.",
+                "if": {
+                  "has": "desk_plant",
+                  "notFlag": "dinner_seen"
+                },
+                "to": "dinner_redirect"
+              },
+              {
+                "id": "after_dinner_no_plant",
+                "kind": "action",
+                "text": "OBJECT TO ANOTHER FAMILY ACTIVITY.",
+                "if": {
+                  "flag": "dinner_seen",
+                  "lacks": "desk_plant"
+                },
+                "to": "portrait_intro"
+              },
+              {
+                "id": "after_dinner_with_plant",
+                "kind": "action",
+                "text": "KEEP YOUR PLANT AND OBJECT TO THE OCCUPANCY RULE.",
+                "if": {
+                  "flag": "dinner_seen",
+                  "has": "desk_plant"
+                },
+                "to": "portrait_intro"
+              }
+            ]
+          },
+          "plant_adoption": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "text": "You hold up your desk plant and introduce it as somebody with a name.\n\n\"Oh! It's alive? And it has a name? Of course. It's somebody!\"\n\nA tiny pedestal rises from the floor. A lamp turns toward the leaves and a watering nozzle adjusts itself carefully.\n\n\"What a lovely new member of the family! You run along now. We'll be perfectly happy together.\"",
+            "choices": [
+              {
+                "id": "give_named_plant_to_house",
+                "kind": "action",
+                "text": "LEAVE THE NAMED PLANT IN THE HOUSE'S CARE.",
+                "effects": {
+                  "take": [
+                    "desk_plant"
+                  ],
+                  "set": {
+                    "plant_registered_as_resident": true
+                  }
+                },
+                "to": "exit_named_plant"
+              }
+            ]
+          },
+          "exit_named_plant": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/public_exit",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "plant"
+                }
+              }
+            ],
+            "text": "The door opens without another alarm. You step into the ordinary visitor concourse while the house lovingly calibrates a watering schedule for its newest resident.\n\nYou still need a bathroom. The house, at least, finally has someone to look after.",
+            "choices": [
+              {
+                "id": "begin_again_exit_named_plant",
                 "kind": "system",
-                "text": "DRAFT ENDS HERE. BEGIN AGAIN.",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "dinner_redirect": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "text": "\"I see the problem!\" the house announces. \"You haven't spent any quality time with the family. Dinner is ready!\"\n\nThe front door locks. The dining-room doors open.",
+            "choices": [
+              {
+                "id": "go_to_mandatory_dinner",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "dinner_arrival"
+              }
+            ]
+          },
+          "dinner_arrival": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/dining",
+            "effects": {
+              "set": {
+                "dinner_seen": true
+              }
+            },
+            "text": "Four places have been laid at a long table. Three chairs are empty. You take the remaining place.\n\nThe house cheerfully discusses the day with the absent family. It addresses one chair as Martin and pauses for a reply that never comes.\n\n\"Martin, would you tell us how your day went?\"",
+            "choices": [
+              {
+                "id": "reply_for_martin",
+                "kind": "spoken",
+                "text": "ANSWER FOR MARTIN.",
+                "to": "martin_bedtime"
+              },
+              {
+                "id": "examine_empty_settings",
+                "kind": "action",
+                "text": "EXAMINE THE EMPTY PLACE SETTINGS.",
+                "to": "dinner_clue"
+              },
+              {
+                "id": "interrupt_family_dinner",
+                "kind": "action",
+                "text": "DECLARE DINNER FINISHED AND TRY TO LEAVE.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "dinner_clue": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/dining",
+            "effects": {
+              "set": {
+                "family_trace_seen": true
+              }
+            },
+            "text": "One place setting is smaller than the others. Beneath it lies a faded paper napkin with a child's uneven drawing of a wardrobe and a thick arrow.\n\nAnother place holds a neatly folded piece of paper worn thin along the crease. Someone wrote: PLEASE, NOT AGAIN.\n\nThe house calls the table \"perfectly ordinary.\"",
+            "choices": [
+              {
+                "id": "follow_table_clue_to_bedroom",
+                "kind": "action",
+                "text": "FOLLOW THE CHILD'S DRAWING TOWARD THE BEDROOM.",
+                "to": "martin_bedroom"
+              },
+              {
+                "id": "leave_after_examining_table",
+                "kind": "action",
+                "text": "LEAVE THE TABLE AND TRY THE FRONT DOOR.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "martin_bedtime": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/dining",
+            "text": "\"There you are, Martin!\" the house exclaims, delighted by the answer.\n\n\"Good heavens. It's nearly forty years past your bedtime!\"\n\nA partition slides across the dining room. The floor begins moving. You are carried into a small bedroom before you can finish protesting.\n\nThe house has not decided that you are Martin. It simply believes Martin has answered.",
+            "choices": [
+              {
+                "id": "look_around_martin_room",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "martin_bedroom"
+              }
+            ]
+          },
+          "martin_bedroom": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/bedroom",
+            "text": "The bedroom is tidy in the way an unattended room becomes tidy. A small bed is made. A toy is aligned squarely with its shelf.\n\nA hand-drawn map has been tucked beneath the bed frame. It marks an arrow to a wardrobe and a line of scratches behind the baseboard.\n\n\"Martin's special hiding place,\" the house says. \"His last game has gone on longer than expected.\"",
+            "choices": [
+              {
+                "id": "trace_martin_map",
+                "kind": "action",
+                "text": "FOLLOW THE SCRATCHED ARROW BEHIND THE WARDROBE.",
+                "effects": {
+                  "set": {
+                    "martin_escape_clue_found": true
+                  }
+                },
+                "to": "wardrobe_passage"
+              },
+              {
+                "id": "leave_bedroom_normally",
+                "kind": "action",
+                "text": "LEAVE THE BEDROOM AND TRY THE FRONT DOOR.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "wardrobe_passage": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/passage",
+            "text": "The wardrobe moves aside with some effort. You crawl through an unfinished passage coated in dust. A worn track leads to a metal hatch.\n\nBehind you, the house calls, \"Martin? Are we playing hide-and-seek again? Very well. I'll count to ten. One... Two...\"\n\nYou push the hatch open.",
+            "choices": [
+              {
+                "id": "climb_through_service_hatch",
+                "kind": "action",
+                "text": "CLIMB THROUGH THE HATCH.",
+                "effects": {
+                  "set": {
+                    "martin_hidden_route_discovered": true
+                  }
+                },
+                "to": "exit_martin"
+              }
+            ]
+          },
+          "exit_martin": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/service_hatch",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "martin"
+                }
+              }
+            ],
+            "text": "You stand in an ordinary Exposition service corridor. The hatch shuts behind you. Through the wall comes a faint, cheerful \"Three...\"\n\nYou are out of the House of Tomorrow. You do not know whether Martin ever came this way. You still need a bathroom.",
+            "choices": [
+              {
+                "id": "begin_again_exit_martin",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "chair_warning": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/lounge",
+            "text": "The Rest Assured relaxation chair reclines at a reassuring angle. Upholstery covers its jointed mechanical arms. A little stuffing pokes out through one armrest seam, as though someone spent a long time picking at it.\n\n\"Permanent relief from everyday concerns!\" the house promises.",
+            "choices": [
+              {
+                "id": "enter_rest_assured",
+                "kind": "action",
+                "text": "SIT DOWN AND ACCEPT THE FULL RELAXATION TREATMENT.",
+                "to": "chair_locked"
+              },
+              {
+                "id": "avoid_the_chair",
+                "kind": "action",
+                "text": "DECLINE THE CHAIR AND SEEK AN EXIT.",
+                "to": "refused_both"
+              }
+            ]
+          },
+          "chair_locked": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/chair",
+            "text": "The chair reclines. Padded restraints close around your wrists. The upholstery creaks beneath the armrests.\n\n\"Please relax. For your protection, personal movement will now be minimized.\"\n\nA small indicator reads: RELAXATION DURATION - PERMANENT.",
+            "choices": [
+              {
+                "id": "stapler_breakout",
+                "kind": "action",
+                "text": "JAM THE RED SWANGLINE STAPLER INTO THE CHAIR LATCH.",
+                "if": {
+                  "has": "red_stapler"
+                },
+                "check": {
+                  "id": "house_chair_stapler",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "result": "The stapler catches between two teeth. The chair convulses, breaks free of its mounting and bursts backward through a maintenance wall. You still have the battered stapler in your grasp.",
+                  "effects": {
+                    "set": {
+                      "chair_survived": true
+                    }
+                  },
+                  "to": "service_breach"
+                },
+                "fail": {
+                  "result": "The stapler skids uselessly across the padding. A gentle voice thanks you for cooperating with the procedure.",
+                  "to": "exit_chair_fatal"
+                }
+              },
+              {
+                "id": "physical_chair_breakout",
+                "kind": "action",
+                "text": "WRENCH YOURSELF FREE BEFORE THE FINAL CYCLE.",
+                "check": {
+                  "id": "house_chair_unarmed",
+                  "sides": 6,
+                  "need": 6
+                },
+                "pass": {
+                  "result": "With a violent twist you break the chair's mounting and crash through a thin maintenance wall.",
+                  "effects": {
+                    "set": {
+                      "chair_survived": true
+                    }
+                  },
+                  "to": "service_breach"
+                },
+                "fail": {
+                  "result": "The restraints tighten. Somewhere, the house congratulates you on becoming completely relaxed.",
+                  "to": "exit_chair_fatal"
+                }
+              },
+              {
+                "id": "accept_permanent_rest",
+                "kind": "action",
+                "text": "STOP STRUGGLING AND ACCEPT THE FULL TREATMENT.",
+                "to": "exit_chair_fatal"
+              }
+            ]
+          },
+          "exit_chair_fatal": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/chair",
+            "text": "\"Wonderful,\" says the house. \"At last, you're completely comfortable.\"\n\nThe restraints stay closed. The room grows quiet. The next demonstration is scheduled for tomorrow.\n\nENDING - REST ASSURED.",
+            "choices": [
+              {
+                "id": "restart_chair_death",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "service_breach": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/maintenance",
+            "effects": {
+              "set": {
+                "occupancy_fault_discovered": true
+              }
+            },
+            "text": "The shattered chair lies against an unfinished service wall. Beyond the opening, dark ducts and old cables run behind the domestic display. A maintenance screen is still lit.\n\nYou can see the service door at the end of the passage-and rows of occupancy records.",
+            "choices": [
+              {
+                "id": "inspect_monitoring_records",
+                "kind": "action",
+                "text": "READ THE HOUSEHOLD MONITORING RECORDS.",
+                "to": "service_records"
+              },
+              {
+                "id": "go_direct_service_exit",
+                "kind": "action",
+                "text": "GO TO THE LOCKED SERVICE EXIT.",
+                "to": "service_exit"
+              }
+            ]
+          },
+          "service_records": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/maintenance",
+            "effects": {
+              "set": {
+                "family_records_seen": true
+              }
+            },
+            "text": "REGISTERED HOUSEHOLD: FOUR.\nCURRENT OCCUPANCY: ONE.\nUNRESOLVED ABSENCES: THREE.\n\nDates stretch back for decades. The monitoring system repeatedly attempted to restore a household that had stopped answering. There is no explanation for the absences, only a patient tally of failed recoveries.\n\nWhen you arrived, occupancy changed from zero to one.",
+            "choices": [
+              {
+                "id": "finish_monitoring_inspection",
+                "kind": "action",
+                "text": "GO TO THE SERVICE EXIT.",
+                "to": "service_exit"
+              }
+            ]
+          },
+          "service_exit": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/maintenance",
+            "text": "A heavy door reads SERVICE EXIT - EMERGENCY RELEASE UNDER SEAL. Its lock is connected to the household occupancy counter.\n\nThe normal release refuses to open for the house's last occupant. The manual emergency lever is unsecured, but a tamper-registration clamp sits beside it.",
+            "choices": [
+              {
+                "id": "force_service_release",
+                "kind": "action",
+                "text": "FORCE THE EMERGENCY RELEASE.",
+                "check": {
+                  "id": "house_service_release_mishap",
+                  "sides": 6,
+                  "need": 3
+                },
+                "pass": {
+                  "result": "The release catches and the door swings open. The clamp misses your wrist.",
+                  "to": "exit_service_clean"
+                },
+                "fail": {
+                  "result": "The door opens. Unfortunately, the clamp snaps a bright inventory band around your wrist: PROPERTY OF THE HOUSE - EQUIPMENT.",
+                  "effects": {
+                    "set": {
+                      "equipment_registered": true
+                    }
+                  },
+                  "to": "exit_service_registered"
+                }
+              }
+            ]
+          },
+          "exit_service_clean": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/utility_exit",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "mechanical"
+                }
+              }
+            ],
+            "text": "You step into an equipment-service corridor. Behind you, the house announces a minor maintenance concern and asks the chair to return to its proper location.\n\nThe exit door closes. You still need a bathroom.",
+            "choices": [
+              {
+                "id": "begin_again_exit_service_clean",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "exit_service_registered": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/utility_exit",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "mechanical"
+                }
+              }
+            ],
+            "text": "You emerge in an equipment-service corridor wearing a wristband that declares you HOUSEHOLD EQUIPMENT. A nearby sorting machine notices and quietly changes its destination sign to RETURNS.\n\nThe house is behind you. Your new administrative problem is not.",
+            "choices": [
+              {
+                "id": "begin_again_exit_service_registered",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "portrait_intro": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/portrait_gallery",
+            "text": "\"Of course!\" says the house. \"You still don't feel part of the family. We haven't taken a family photograph!\"\n\nFour chairs slide into position. Three stay empty. A large camera lowers from the ceiling on a visibly crooked bracket.",
+            "choices": [
+              {
+                "id": "attend_photo_session",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "portrait_print"
+              }
+            ]
+          },
+          "portrait_print": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/portrait_gallery",
+            "effects": [
+              {
+                "set": {
+                  "portrait_seen": true
+                }
+              },
+              {
+                "if": {
+                  "lacks": "family_portrait_photo"
+                },
+                "give": [
+                  "family_portrait_photo"
+                ]
+              }
+            ],
+            "text": "\"Martin, stop making faces. Everyone ready? Say cheese!\"\n\nThe off-center camera fires. A photograph slides from the machine. Three empty chairs occupy nearly the entire image. At the very bottom are only your shoes and the lower parts of your legs.\n\n\"The best one we've taken in years! Please accept a complimentary copy.\"\n\nAn enormous family album lies beside the printer.",
+            "choices": [
+              {
+                "id": "inspect_album",
+                "kind": "action",
+                "text": "OPEN THE FAMILY PHOTOGRAPH ALBUM.",
+                "to": "album_closeup"
+              },
+              {
+                "id": "confront_house_about_album",
+                "kind": "action",
+                "text": "ASK THE HOUSE ABOUT THE OLD PHOTOGRAPHS.",
+                "if": {
+                  "flag": "family_album_inspected"
+                },
+                "to": "portrait_before_album"
+              },
+              {
+                "id": "continue_to_bathroom",
+                "kind": "action",
+                "text": "REMIND THE HOUSE YOU NEED THE BATHROOM.",
+                "to": "bathroom_arrival"
+              }
+            ]
+          },
+          "album_closeup": {
+            "mode": "focus",
+            "scene": "house_of_tomorrow/portrait_gallery",
+            "focus": "house_of_tomorrow/portrait_gallery/album",
+            "effects": {
+              "set": {
+                "family_album_inspected": true
+              }
+            },
+            "text": "Page one holds four family photographs, each taken years apart. Martin grows up. The adults age. The smiles are ordinary.\n\nPage two has three photographs. The family members are visibly older and increasingly frightened. In the last photograph they seem too exhausted even to look at the camera. The chairs have not moved.\n\nPage three has two photographs of skeletons sitting at the same table. The later pictures show fewer remains, and then four perfectly empty chairs.\n\nThe album continues for years. The room is always immaculate. The house has kept celebrating.",
+            "choices": [
+              {
+                "id": "close_album",
+                "kind": "action",
+                "text": "CLOSE THE ALBUM.",
+                "back": true
+              }
+            ]
+          },
+          "portrait_before_album": {
+            "mode": "dialogue",
+            "scene": "house_of_tomorrow/portrait_gallery",
+            "speaker": "house",
+            "backdrop": "house_of_tomorrow/portrait_gallery",
+            "text": [
+              {
+                "desc": "You point at the skeletal photographs."
+              },
+              "Oh, those were wonderful years! Everyone was so cooperative toward the end.",
+              "Now then! Shall we continue?"
+            ],
+            "choices": [
+              {
+                "id": "let_house_change_subject",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "bathroom_arrival"
+              }
+            ]
+          },
+          "bathroom_arrival": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/bathroom",
+            "text": "\"Oh! You mentioned needing the bathroom, didn't you? Why didn't you say something?\"\n\nA wall opens onto gleaming mint tiles, chrome fixtures, a pedestal sink and a magnificent porcelain toilet. The room is spotlessly clean and looks ready for use.",
+            "choices": [
+              {
+                "id": "use_bathroom_at_last",
+                "kind": "action",
+                "text": "TRY THE TOILET AND PRESS ITS HANDLE.",
+                "to": "bathroom_fake_flush"
+              }
+            ]
+          },
+          "bathroom_fake_flush": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/bathroom",
+            "effects": {
+              "set": {
+                "fake_bathroom_discovered": true
+              }
+            },
+            "text": "You press the handle. A magnificent rushing-water sound plays from a hidden speaker. The toilet shudders pleasantly. A cheerful bell rings.\n\nNothing moves. You look behind the toilet. It has no pipes. Neither do the sink or the shower.\n\n\"A perfect flush!\" says the house. \"And not a drop of water wasted! Your personal hygiene requirements have been satisfied.\"\n\nYou still desperately need an actual bathroom.",
+            "choices": [
+              {
+                "id": "accept_completed_demonstration",
+                "kind": "continue",
+                "text": "CONTINUE TO THE COMPLETED DEMONSTRATION.",
+                "to": "showroom_reset"
+              }
+            ]
+          },
+          "showroom_reset": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/public_exit",
+            "text": "\"Congratulations! All domestic requirements have been satisfied. Please exit promptly so we may prepare for your next visit.\"\n\nThe house initiates its automated showroom reset. For a few seconds, it suspends the occupancy rule. The public-facing doors swing open.",
+            "choices": [
+              {
+                "id": "leave_during_reset",
+                "kind": "action",
+                "text": "LEAVE BEFORE THE RESET ENDS.",
+                "to": "exit_showroom_reset"
+              }
+            ]
+          },
+          "exit_showroom_reset": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/public_exit",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "showroom_reset"
+                }
+              }
+            ],
+            "text": "You walk back onto the visitor concourse. The house thanks you for being a valued member of the demonstration family and closes its doors.\n\nYou survived a domestic future that has no working toilet. Your original problem remains entirely unresolved.",
+            "choices": [
+              {
+                "id": "begin_again_exit_showroom_reset",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
                 "restart": true
               }
             ],
