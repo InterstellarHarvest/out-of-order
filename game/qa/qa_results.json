@@ -7,21 +7,21 @@
     "firefox": "148.0.2"
   },
   "playwright": "1.59.1",
-  "total": 525,
-  "passed": 525,
+  "total": 528,
+  "passed": 528,
   "failed": 0,
   "byBrowser": {
     "static": {
-      "total": 43,
-      "passed": 43
+      "total": 44,
+      "passed": 44
     },
     "chromium": {
-      "total": 241,
-      "passed": 241
+      "total": 242,
+      "passed": 242
     },
     "firefox": {
-      "total": 241,
-      "passed": 241
+      "total": 242,
+      "passed": 242
     }
   },
   "failures": [],
@@ -34,7 +34,13 @@
     },
     {
       "browser": "static",
-      "name": "nothing was added to art/, design/ or the lab except the owner's pinned art and the approved reception art",
+      "name": "nothing was added to art/, design/ or the lab except the owner's pinned art, the approved reception art and the imported story's registered art",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "browser": "static",
+      "name": "the imported story's art and the B overlay match their recorded hashes",
       "ok": true,
       "detail": []
     },
@@ -1478,6 +1484,11 @@
     },
     {
       "browser": "chromium",
+      "name": "begin() starts the receptionist speaking again",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
       "name": "OBSERVE is inactive while the receptionist is typing",
       "ok": true
     },
@@ -1517,8 +1528,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 96,
-        "r1": 108
+        "r0": 4,
+        "r1": 16
       }
     },
     {
@@ -1536,7 +1547,7 @@
       "browser": "chromium",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 218.79999995231628
+      "detail": 217.30000001192093
     },
     {
       "browser": "chromium",
@@ -1627,16 +1638,16 @@
         0,
         0,
         -2,
-        -2,
+        -4,
         -6,
         -8,
         -12,
-        -16,
-        -22,
-        -28,
+        -18,
+        -24,
+        -30,
         -36,
         -44,
-        -52,
+        -54,
         -62,
         -72
       ]
@@ -1685,7 +1696,7 @@
       "browser": "chromium",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 420.7999999523163
+      "detail": 418.09999999403954
     },
     {
       "browser": "chromium",
@@ -1701,7 +1712,7 @@
       "browser": "chromium",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 948.2999999523163
+      "detail": 947.6999999880791
     },
     {
       "browser": "chromium",
@@ -3119,27 +3130,27 @@
           "css": "0s,none,none"
         },
         "firstFull": {
-          "t": 512,
+          "t": 510,
           "o": 1,
           "start": 0,
           "css": "0s,none,none"
         },
         "midRise": [
           {
-            "t": 161,
-            "o": 0.321,
+            "t": 160,
+            "o": 0.3176,
             "start": 0,
             "css": "0s,none,none"
           },
           {
             "t": 178,
-            "o": 0.3546,
+            "o": 0.351,
             "start": 0,
             "css": "0s,none,none"
           },
           {
-            "t": 195,
-            "o": 0.3878,
+            "t": 193,
+            "o": 0.3842,
             "start": 0,
             "css": "0s,none,none"
           }
@@ -3158,26 +3169,26 @@
       "ok": true,
       "detail": [
         {
-          "t": 3396,
-          "o": 0.937273,
+          "t": 3394,
+          "o": 0.945455,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3412,
-          "o": 0.861818,
+          "t": 3409,
+          "o": 0.869545,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3428,
-          "o": 0.785909,
+          "t": 3426,
+          "o": 0.794091,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3446,
-          "o": 0.710455,
+          "t": 3444,
+          "o": 0.717727,
           "start": 0,
           "css": "0s,none,none"
         }
@@ -3188,7 +3199,7 @@
       "name": "total lifecycle ~3600 ms, then removed",
       "ok": true,
       "detail": {
-        "t": 3613,
+        "t": 3610,
         "o": null,
         "start": null,
         "css": "0s,none,none"
@@ -3217,12 +3228,12 @@
       "ok": true,
       "detail": {
         "eEnd": {
-          "t": 1235,
+          "t": 1241,
           "o": null,
           "start": null,
           "css": "0s,none,none"
         },
-        "n": 13
+        "n": 14
       }
     },
     {
@@ -3231,13 +3242,13 @@
       "ok": true,
       "detail": {
         "at": {
-          "t": 79,
-          "o": 0.1544,
+          "t": 78,
+          "o": 0.1542,
           "start": 0,
           "css": "0s,none,none"
         },
         "mEnd": {
-          "t": 145,
+          "t": 146,
           "o": null,
           "start": null,
           "css": "0s,none,none"
@@ -3254,13 +3265,13 @@
           830
         ],
         "aLast": {
-          "t": 815,
-          "o": 0.0404545,
+          "t": 813,
+          "o": 0.0440909,
           "start": 0,
           "css": "0s,none,none"
         },
         "bFirst": {
-          "t": 833,
+          "t": 831,
           "o": 0,
           "start": 830,
           "css": "0s,none,none"
@@ -4379,6 +4390,11 @@
     },
     {
       "browser": "firefox",
+      "name": "begin() starts the receptionist speaking again",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
       "name": "OBSERVE is inactive while the receptionist is typing",
       "ok": true
     },
@@ -4418,8 +4434,8 @@
       "name": "the NPC line types character by character",
       "ok": true,
       "detail": {
-        "r0": 92,
-        "r1": 104
+        "r0": 3,
+        "r1": 15
       }
     },
     {
@@ -4437,7 +4453,7 @@
       "browser": "firefox",
       "name": "a short beat (150-350ms) between the line and the cards",
       "ok": true,
-      "detail": 214
+      "detail": 218
     },
     {
       "browser": "firefox",
@@ -4528,19 +4544,19 @@
         0,
         0,
         0,
-        0,
         -2,
         -4,
         -8,
-        -12,
+        -10,
         -16,
-        -22,
-        -28,
+        -20,
+        -26,
         -34,
-        -42,
+        -40,
         -50,
-        -60,
-        -70
+        -58,
+        -68,
+        -78
       ]
     },
     {
@@ -4587,7 +4603,7 @@
       "browser": "firefox",
       "name": "a beat (about 400ms) before the reply types",
       "ok": true,
-      "detail": 418
+      "detail": 419
     },
     {
       "browser": "firefox",
@@ -4603,7 +4619,7 @@
       "browser": "firefox",
       "name": "the whole send took a sensible time",
       "ok": true,
-      "detail": 947
+      "detail": 960
     },
     {
       "browser": "firefox",
@@ -5313,7 +5329,7 @@
       "ok": true,
       "detail": {
         "shown": true,
-        "ms": 3611
+        "ms": 3607
       }
     },
     {
@@ -6021,27 +6037,27 @@
           "css": "0s,none,none"
         },
         "firstFull": {
-          "t": 511,
+          "t": 518,
           "o": 1,
           "start": 0,
           "css": "0s,none,none"
         },
         "midRise": [
           {
-            "t": 156,
-            "o": 0.31112,
+            "t": 151,
+            "o": 0.29032,
             "start": 0,
             "css": "0s,none,none"
           },
           {
-            "t": 177,
-            "o": 0.34444,
+            "t": 166,
+            "o": 0.32364,
             "start": 0,
             "css": "0s,none,none"
           },
           {
-            "t": 193,
-            "o": 0.37776,
+            "t": 181,
+            "o": 0.35696,
             "start": 0,
             "css": "0s,none,none"
           }
@@ -6060,26 +6076,26 @@
       "ok": true,
       "detail": [
         {
+          "t": 3384,
+          "o": 1,
+          "start": 0,
+          "css": "0s,none,none"
+        },
+        {
           "t": 3395,
-          "o": 0.959636,
+          "o": 0.931091,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3410,
-          "o": 0.883818,
+          "t": 3419,
+          "o": 0.855364,
           "start": 0,
           "css": "0s,none,none"
         },
         {
-          "t": 3423,
-          "o": 0.808091,
-          "start": 0,
-          "css": "0s,none,none"
-        },
-        {
-          "t": 3446,
-          "o": 0.732364,
+          "t": 3429,
+          "o": 0.779636,
           "start": 0,
           "css": "0s,none,none"
         }
@@ -6090,7 +6106,7 @@
       "name": "total lifecycle ~3600 ms, then removed",
       "ok": true,
       "detail": {
-        "t": 3610,
+        "t": 3615,
         "o": null,
         "start": null,
         "css": "0s,none,none"
@@ -6119,7 +6135,7 @@
       "ok": true,
       "detail": {
         "eEnd": {
-          "t": 1239,
+          "t": 1240,
           "o": null,
           "start": null,
           "css": "0s,none,none"
@@ -6133,13 +6149,13 @@
       "ok": true,
       "detail": {
         "at": {
-          "t": 80,
-          "o": 0.14576,
+          "t": 90,
+          "o": 0.1786,
           "start": 0,
           "css": "0s,none,none"
         },
         "mEnd": {
-          "t": 159,
+          "t": 158,
           "o": null,
           "start": null,
           "css": "0s,none,none"
@@ -6153,18 +6169,18 @@
       "detail": {
         "starts": [
           0,
-          843
+          829
         ],
         "aLast": {
-          "t": 834,
-          "o": 0.0110909,
+          "t": 814,
+          "o": 0.072,
           "start": 0,
           "css": "0s,none,none"
         },
         "bFirst": {
-          "t": 848,
+          "t": 836,
           "o": 0,
-          "start": 843,
+          "start": 829,
           "css": "0s,none,none"
         }
       }

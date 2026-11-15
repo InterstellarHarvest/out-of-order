@@ -1,0 +1,880 @@
+{
+  "schema": "cyoa-ch02-route-validation-v1",
+  "total": 157,
+  "passed": 157,
+  "failed": 0,
+  "groups": {
+    "handoff": {
+      "total": 27,
+      "passed": 27
+    },
+    "routes": {
+      "total": 57,
+      "passed": 57
+    },
+    "gating": {
+      "total": 19,
+      "passed": 19
+    },
+    "tram": {
+      "total": 9,
+      "passed": 9
+    },
+    "antidote": {
+      "total": 42,
+      "passed": 42
+    },
+    "coverage": {
+      "total": 3,
+      "passed": 3
+    }
+  },
+  "nodesVisited": 99,
+  "outcomesPlayed": 56,
+  "seeds": {
+    "review_tower_trace_courier_carry": 1,
+    "director_badge_tower_cease_maintenance": 1,
+    "director_refers_dispute_then_appeal": 1,
+    "stapler_jam_pass": 11,
+    "stapler_jam_fail_sorter_escape": 74,
+    "stapler_jam_fail_sorter_fatal": 2,
+    "hopper_fatal": 7,
+    "spore_infected_thorn_infected_breakout_fatal": 17,
+    "spore_only_breakout_fatal": 2,
+    "walkway_pass_forest_overhead_biology_appeal_spore_free": 159,
+    "walkway_fail_forest_fall_markers": 8,
+    "forest_markers_sensor_gallery_thorn_free": 1,
+    "thorn_pass_uninfected_breakout_fail_chute_pass": 15,
+    "uninfected_breakout_fail_chute_fatal": 21,
+    "planting_breakout_pass_infected_survives": 11,
+    "stapler_form_interlock_consumes_stapler": 19,
+    "equipment_interlock_registered": 29,
+    "director_override_interlock": 5,
+    "tram_roof_pass_reserve_power_pass_courier_destroy": 17,
+    "tram_roof_fall_forest_courier_rupture_infected": 4,
+    "courier_rupture_dust_avoided": 1,
+    "tram_brake_forest_thorn_infected_appeal_pass": 43,
+    "tram_rescue_reserve_power_fail_maintenance": 10,
+    "tram_siding_walk_tracks": 1,
+    "reserve_spur_robot_concourse": 1,
+    "reserve_spur_silent_station": 3,
+    "cables_pass_root_door_maintenance": 1,
+    "cables_fail_duct_pass": 2,
+    "cables_fail_duct_fatal": 4,
+    "staple_loop_pass_tower_bypass": 2,
+    "staple_loop_fail_late_tower_contaminated_archive": 19,
+    "clicker_jam": 1,
+    "rubber_ball_jam": 1,
+    "kit_public_direct_spore_cured": 4,
+    "kit_public_direct_spore_not_cured": 6,
+    "kit_public_read_spore_cured": 10,
+    "kit_public_read_spore_not_cured": 4,
+    "kit_public_take_spore_cured": 6,
+    "kit_public_take_spore_not_cured": 4,
+    "kit_maintenance_direct_spore_cured": 16,
+    "kit_maintenance_direct_spore_not_cured": 10,
+    "kit_maintenance_read_spore_cured": 28,
+    "kit_maintenance_read_spore_not_cured": 10,
+    "kit_maintenance_take_spore_cured": 10,
+    "kit_maintenance_take_spore_not_cured": 16,
+    "kit_customs_direct_spore_cured": 2,
+    "kit_customs_direct_spore_not_cured": 4,
+    "kit_customs_read_spore_cured": 4,
+    "kit_customs_read_spore_not_cured": 2,
+    "kit_customs_take_spore_cured": 2,
+    "kit_customs_take_spore_not_cured": 4,
+    "kit_public_take_thorn_cured": 180,
+    "kit_public_take_thorn_not_cured": 14,
+    "kit_maintenance_take_thorn_cured": 301,
+    "kit_maintenance_take_thorn_not_cured": 5,
+    "kit_customs_take_thorn_cured": 23,
+    "kit_customs_take_thorn_not_cured": 5
+  },
+  "checks": [
+    {
+      "group": "handoff",
+      "name": "plant: exit_named_plant offers exactly one CONTINUE into chapter-02",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "plant: arrives at chapter-02:bureau_arrival with inventory, flags, checks, marks and seed unchanged",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "plant: Prologue and House NOTES carried (transcript prefix intact)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "plant: route-dependent Bureau narration (/teaches your little plant/)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "plant: objective is the Chapter 2 bathroom objective",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "martin: exit_martin offers exactly one CONTINUE into chapter-02",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "martin: arrives at chapter-02:bureau_arrival with inventory, flags, checks, marks and seed unchanged",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "martin: Prologue and House NOTES carried (transcript prefix intact)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "martin: route-dependent Bureau narration (/Martin's dusty service corridor/)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "martin: objective is the Chapter 2 bathroom objective",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "showroom: exit_showroom_reset offers exactly one CONTINUE into chapter-02",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "showroom: arrives at chapter-02:bureau_arrival with inventory, flags, checks, marks and seed unchanged",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "showroom: Prologue and House NOTES carried (transcript prefix intact)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "showroom: route-dependent Bureau narration (/declared your bathroom needs fulfilled/)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "showroom: objective is the Chapter 2 bathroom objective",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "clean: exit_service_clean offers exactly one CONTINUE into chapter-02",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "clean: arrives at chapter-02:bureau_arrival with inventory, flags, checks, marks and seed unchanged",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "clean: Prologue and House NOTES carried (transcript prefix intact)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "clean: route-dependent Bureau narration (/through a service passage\\. The next building/)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "clean: objective is the Chapter 2 bathroom objective",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "registered: exit_service_registered offers exactly one CONTINUE into chapter-02",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "registered: arrives at chapter-02:bureau_arrival with inventory, flags, checks, marks and seed unchanged",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "registered: Prologue and House NOTES carried (transcript prefix intact)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "registered: route-dependent Bureau narration (/still identifies you as household property/)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "registered: objective is the Chapter 2 bathroom objective",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "exit_chair_fatal stays fatal: an end node with only BEGIN AGAIN, no chapter-02 transition",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "BEGIN AGAIN from the chair death starts a fresh Prologue (no carried items or flags)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "review_tower_trace_courier_carry (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "director_badge_tower_cease_maintenance (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "director_refers_dispute_then_appeal (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "stapler_jam_pass (seed 11)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "stapler_jam_fail_sorter_escape (seed 74)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "stapler_jam_fail_sorter_fatal (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "hopper_fatal (seed 7)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "spore_infected_thorn_infected_breakout_fatal (seed 17)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "spore_only_breakout_fatal (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "walkway_pass_forest_overhead_biology_appeal_spore_free (seed 159)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "walkway_fail_forest_fall_markers (seed 8)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "forest_markers_sensor_gallery_thorn_free (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "thorn_pass_uninfected_breakout_fail_chute_pass (seed 15)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "uninfected_breakout_fail_chute_fatal (seed 21)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "planting_breakout_pass_infected_survives (seed 11)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "stapler_form_interlock_consumes_stapler (seed 19)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "equipment_interlock_registered (seed 29)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "director_override_interlock (seed 5)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "tram_roof_pass_reserve_power_pass_courier_destroy (seed 17)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "tram_roof_fall_forest_courier_rupture_infected (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "courier_rupture_dust_avoided (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "tram_brake_forest_thorn_infected_appeal_pass (seed 43)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "tram_rescue_reserve_power_fail_maintenance (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "tram_siding_walk_tracks (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "reserve_spur_robot_concourse (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "reserve_spur_silent_station (seed 3)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "cables_pass_root_door_maintenance (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "cables_fail_duct_pass (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "cables_fail_duct_fatal (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "staple_loop_pass_tower_bypass (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "staple_loop_fail_late_tower_contaminated_archive (seed 19)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "clicker_jam (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "rubber_ball_jam (seed 1)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_public_direct_spore_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_public_direct_spore_not_cured (seed 6)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_public_read_spore_cured (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_public_read_spore_not_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_public_take_spore_cured (seed 6)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_public_take_spore_not_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_maintenance_direct_spore_cured (seed 16)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_maintenance_direct_spore_not_cured (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_maintenance_read_spore_cured (seed 28)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_maintenance_read_spore_not_cured (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_maintenance_take_spore_cured (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_maintenance_take_spore_not_cured (seed 16)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_customs_direct_spore_cured (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_customs_direct_spore_not_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_customs_read_spore_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_customs_read_spore_not_cured (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_customs_take_spore_cured (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_customs_take_spore_not_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_public_take_thorn_cured (seed 180)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_public_take_thorn_not_cured (seed 14)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_maintenance_take_thorn_cured (seed 301)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_maintenance_take_thorn_not_cured (seed 5)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_customs_take_thorn_cured (seed 23)",
+      "ok": true
+    },
+    {
+      "group": "routes",
+      "name": "kit_customs_take_thorn_not_cured (seed 5)",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "groundskeeper: stapler jam offered with the held red stapler, absent without",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "groundskeeper: Examiner inspection and hopper need no item",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "tower: countermand offered with the physical credential; removing the card (same flags) removes it; trace always offered",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "tower: no flag stands in for the credential (promotion sets no flag)",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "appeal: House equipment claim only with equipment_registered",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "appeal: Director authority only with the physical credential; Examiner inspection only with the badge and without the credential",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "appeal: biological evidence is open to everyone",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "planting: physical breakout always offered",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "planting: equipment interlock iff equipment_registered; Examiner interlock iff badge and not registered",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "planting: stapler form iff held red stapler; Director override iff physical credential",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "translator: staple loop / clicker / rubber-band ball each offered only with that real held item",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "translator: cables and tape reroute need no item",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "a retained_item flag without the item offers no stapler card anywhere",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "stapler_jam_pass: red stapler held on entry and gone at the end",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "stapler_jam_fail_sorter_escape: red stapler held on entry and gone at the end",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "stapler_jam_fail_sorter_fatal: red stapler held on entry and gone at the end",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "stapler_form_interlock_consumes_stapler: red stapler held on entry and gone at the end",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "staple loop keeps the stapler (not consumed)",
+      "ok": true
+    },
+    {
+      "group": "gating",
+      "name": "seed canister is absent before the courier assignment and held after it",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "the rooted tour tram and the reserve car are different scenes and nodes",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "the conductor speaks only in robot_concourse_crash (the only courtesy_conductor dialogue node)",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "the conductor wakes only on a successful emergency-spur roll",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "pass: robot dialogue, concourse crash, liability, no station",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "fail: silent, inert robot, underground station, certification, no liability, no robot speech",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "tram_roof_pass_reserve_power_pass_courier_destroy: the robot never activates",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "tram_rescue_reserve_power_fail_maintenance: the robot never activates",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "tram_siding_walk_tracks: the robot never activates",
+      "ok": true
+    },
+    {
+      "group": "tram",
+      "name": "improvised tram exits offer no antidote supply",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "public: authored odds unchanged (need 3, spore -1, thorn -2) for direct, read and inventory use",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "public: the only inventory use entry for its injector is at its own exit, keyed to its own item id",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "public: READ shows the expiry (1977)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "public: both kit focus nodes are scene pickups wired to their real cards",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "maintenance: authored odds unchanged (need 4, spore -1, thorn -2) for direct, read and inventory use",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "maintenance: the only inventory use entry for its injector is at its own exit, keyed to its own item id",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "maintenance: READ shows the expiry (1969)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "maintenance: both kit focus nodes are scene pickups wired to their real cards",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "customs: authored odds unchanged (need 3, spore -1, thorn -2) for direct, read and inventory use",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "customs: the only inventory use entry for its injector is at its own exit, keyed to its own item id",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "customs: READ shows the expiry (1981)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "customs: both kit focus nodes are scene pickups wired to their real cards",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "chance table: public/customs 4/6 healthy, 3/6 spore, 2/6 thorn or both; maintenance 3/6, 2/6, 1/6",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_public_direct_spore_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_public_direct_spore_not_cured (seed 6)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_public_read_spore_cured (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_public_read_spore_not_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_public_take_spore_cured (seed 6)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_public_take_spore_not_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_maintenance_direct_spore_cured (seed 16)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_maintenance_direct_spore_not_cured (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_maintenance_read_spore_cured (seed 28)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_maintenance_read_spore_not_cured (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_maintenance_take_spore_cured (seed 10)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_maintenance_take_spore_not_cured (seed 16)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_customs_direct_spore_cured (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_customs_direct_spore_not_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_customs_read_spore_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_customs_read_spore_not_cured (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_customs_take_spore_cured (seed 2)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_customs_take_spore_not_cured (seed 4)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_public_take_thorn_cured (seed 180)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_public_take_thorn_not_cured (seed 14)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_maintenance_take_thorn_cured (seed 301)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_maintenance_take_thorn_not_cured (seed 5)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_customs_take_thorn_cured (seed 23)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "kit_customs_take_thorn_not_cured (seed 5)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "save/restore inside the open kit: same node, no injector, kit still open-able only by its own cards",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "save/restore after taking: exactly one injector, the kit cannot be reopened",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "save/restore after inventory use: the dose stays consumed, the check stays resolved",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "a held injector can be inspected and read through the ordinary inventory (its expiry text then shows)",
+      "ok": true
+    },
+    {
+      "group": "antidote",
+      "name": "a healthy player using a dose is not infected by it",
+      "ok": true
+    },
+    {
+      "group": "coverage",
+      "name": "every one of the 99 Chapter 2 nodes is reached by some route",
+      "ok": true
+    },
+    {
+      "group": "coverage",
+      "name": "both outcomes of all 28 Chapter 2 checks are played",
+      "ok": true
+    },
+    {
+      "group": "coverage",
+      "name": "all three Chapter 3 entry groups are reached",
+      "ok": true
+    }
+  ]
+}

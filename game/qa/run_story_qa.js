@@ -358,13 +358,28 @@ async function suite(name, base) {
     'leave_during_reset'
   ]) await take(page, choice);
   s = await info(page);
-  check(b, 'Chapter 1 playthrough reaches a distinct showroom-reset exit with photo inventory and a restart card',
+  check(b, 'Chapter 1 playthrough reaches a distinct showroom-reset exit with photo inventory and one CONTINUE into Chapter 2',
     s.node === 'chapter-01:exit_showroom_reset' && s.cards.length === 1
-    && s.cards[0].id === 'begin_again_exit_showroom_reset' && s.cards[0].kind === 'system'
+    && s.cards[0].id === 'continue_to_chapter_02_exit_showroom_reset' && s.cards[0].kind === 'continue'
     && s.inv.includes('family_portrait_photo')
     && (await page.evaluate(() => window.CYOA_GAME.state.flags.house_exit_route)) === 'showroom_reset', s);
   await shot(page, '10_chapter_01_showroom_exit.png');
-  await take(page, 'begin_again_exit_showroom_reset');
+  await take(page, 'continue_to_chapter_02_exit_showroom_reset');
+  s = await info(page);
+  check(b, 'HAND-OFF 2: the showroom exit enters the Chapter 2 Bureau with its own arrival narration and the photo still held',
+    /^chapter-02:bureau_/.test(s.node) && s.inv.includes('family_portrait_photo')
+    && /declared your bathroom needs fulfilled/.test(await page.evaluate(() => window.CYOA_GAME.state.transcript.slice(-4).map((e) => e.runs.map((r) => r.text).join(' ')).join(' '))), s);
+  // A dice-free Chapter 2 route to a real ending: review, tower trace, courier, carry the canister out.
+  for (const choice of ['inspect_closed_conveniences', 'see_groundskeeper', 'react_to_gardener', 'examine_landscape_performance',
+    'request_zero_compliance_review', 'enter_from_performance_review', 'head_to_tower', 'inspect_tower_approvals', 'trace_original_requests',
+    'follow_trace_to_flower', 'read_flower_district_decree', 'accept_seed_courier', 'carry_seeds_to_customs', 'carry_sealed_seeds_out', 'leave_cargo_checkpoint'
+  ]) await take(page, choice);
+  s = await info(page);
+  check(b, 'Chapter 2 ending: Agricultural Customs with the sealed canister, public concourse entry group, BEGIN AGAIN only',
+    s.node === 'chapter-02:end_customs' && s.inv.includes('certified_seed_canister') && s.cards.length === 1 && s.cards[0].kind === 'system'
+    && (await page.evaluate(() => window.CYOA_GAME.state.flags.chapter3_entry_group)) === 'public_concourse', s);
+  await shot(page, '10c_chapter_02_customs_ending.png');
+  await take(page, s.cards[0].id);
   s = await info(page);
   check(b, 'BEGIN AGAIN restarts the playthrough (new NOTES, empty inventory, opening node)', s.node === 'prologue-00:work_complete' && s.inv.length === 0
     && await page.evaluate(() => window.CYOA_GAME.state.transcript.length) <= 3, s);

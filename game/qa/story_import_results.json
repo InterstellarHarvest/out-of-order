@@ -1,7 +1,7 @@
 {
   "suite": "story-import",
-  "passed": 90,
-  "total": 90,
+  "passed": 92,
+  "total": 92,
   "groups": {
     "baseline": {
       "total": 8,
@@ -16,8 +16,8 @@
       "passed": 18
     },
     "draft-stop": {
-      "total": 6,
-      "passed": 6
+      "total": 8,
+      "passed": 8
     },
     "chapters": {
       "total": 7,
@@ -56,7 +56,7 @@
     },
     {
       "group": "baseline",
-      "name": "two chapters: the prologue's 29 nodes plus the one Chapter 1 development placeholder, whose node is the only DRAFT STOP",
+      "name": "three chapters: 29 Prologue, 36 House and 99 Biology Park nodes, with no unfinished draft-stop nodes",
       "ok": true
     },
     {
@@ -231,32 +231,42 @@
     },
     {
       "group": "draft-stop",
-      "name": "a preview ends an unfinished chapter explicitly: end node, one system card DRAFT ENDS HERE. BEGIN AGAIN.",
+      "name": "Chapter 1: the fatal chair stays an end node with only BEGIN AGAIN; no development placeholder",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "the Chapter 1 node says on its face that it is a development placeholder (no invented narrative)",
+      "name": "Chapter 1: each of the five surviving exits hands off with one CONTINUE card into chapter-02 (no restart, no to)",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "an approved build refuses chapters the manifest still marks draft (creative sign-off stays in the storyboard)",
+      "name": "the imported House begins with authored narration, not development-placeholder prose",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "... including when only the Prologue is marked approved",
+      "name": "the approved channel refuses both creatively draft chapters",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "once the author ends the chapters and marks them approved, an approved build is possible (draft art is reported, not blocking)",
+      "name": "marking only Prologue approved cannot promote Chapter 1",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "the build records each chapter's manifest title and status, in manifest order (the draft stamp reads them)",
+      "name": "marking Prologue and Chapter 1 approved cannot promote Chapter 2",
+      "ok": true
+    },
+    {
+      "group": "draft-stop",
+      "name": "unproduced House and Biology Park artwork prevents an approved build even after draft status changes",
+      "ok": true
+    },
+    {
+      "group": "draft-stop",
+      "name": "the build records each chapter manifest title/status and stays a preview",
       "ok": true
     },
     {
@@ -371,7 +381,7 @@
     },
     {
       "group": "independence",
-      "name": "no id of the imported story (108 ids) and none of its prose (107 passages) appears in game code",
+      "name": "no id of the imported story (544 ids) and none of its prose (490 passages) appears in game code",
       "ok": true
     },
     {
@@ -441,7 +451,7 @@
     },
     {
       "group": "handoff",
-      "name": "the manifest lists exactly Prologue then Chapter 1, both draft, each in its own chapter file",
+      "name": "the manifest lists exactly Prologue, Chapter 1, Chapter 2, all draft, each in its own chapter file",
       "ok": true
     },
     {
@@ -461,7 +471,7 @@
     },
     {
       "group": "handoff",
-      "name": "Chapter 1 uses its own not-started scene reference (a DEV PLACEHOLDER in previews), not the facilities corridor art",
+      "name": "House Chapter 1 uses 14 independently declared not-started scene previews, not Prologue corridor art",
       "ok": true
     },
     {
@@ -471,7 +481,7 @@
     },
     {
       "group": "handoff",
-      "name": "every route keeps flags, inventory, item marks, resolved checks, objective, seed and the whole NOTES history across the hand-off (no reset)",
+      "name": "every route preserves flags, inventory, marks, checks, seed and NOTES; Chapter 1 sets its authored objective",
       "ok": true
     },
     {

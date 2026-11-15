@@ -70,7 +70,7 @@ async function run(name, base) {
   await page.goto(url);
   await ready(page, 29);
   const options = await page.evaluate(() => Array.from(document.querySelectorAll('#chapterSelect option')).map((o) => [o.value, o.textContent]));
-  check(b, 'header dropdown: exactly Prologue then Chapter 1, from the manifest', JSON.stringify(options) === JSON.stringify([['0', 'Prologue — The Last Good Day'], ['1', 'Chapter 1 — House of Tomorrow']]), options);
+  check(b, 'header dropdown: exactly Prologue, Chapter 1, Chapter 2, from the manifest', JSON.stringify(options) === JSON.stringify([['0', 'Prologue — The Last Good Day'], ['1', 'Chapter 1 — House of Tomorrow'], ['2', 'Chapter 2 — Biology Park']]), options);
   const a = await drag(page, 'drone_intercepts', 120, 70);
   const h = await drag(page, 'reception_hallway', -90, 80);
   await page.click('#nodes .node >> text=reception_hallway');
@@ -84,6 +84,20 @@ async function run(name, base) {
     && !/facilities_corridor/.test(ch1Inspector), ch1Inspector.slice(0, 500));
   const c = await drag(page, 'house_arrival', 160, 110);
   await page.screenshot({ path: path.join(OUT, name + '_2_chapter01.png') });
+  // Chapter 2: its own 99-node graph, inspector, art references and positions.
+  await choose(page, 2, 99);
+  const ch2Inspector = await page.evaluate(() => document.getElementById('details').innerText);
+  check(b, 'Chapter 2: 99 authored nodes, Bureau inspector, choice, and unstarted shared-catalog scene reference',
+    /Bureau Arrival/.test(ch2Inspector) && /scenes\/biology_park\/conveniences_bureau · not-started/.test(ch2Inspector) && /CONTINUE/.test(ch2Inspector), ch2Inspector.slice(0, 500));
+  const d = await drag(page, 'park_junction', 140, -70);
+  await page.screenshot({ path: path.join(OUT, name + '_2b_chapter02.png') });
+  await choose(page, 1, 36);
+  check(b, 'switching Chapter 2 -> Chapter 1 keeps the Chapter 1 position', JSON.stringify(await pos(page, 'house_arrival')) === JSON.stringify(c));
+  await page.click('#nodes .node >> text=exit_service_clean');
+  await page.click('#details button.choice >> text=CONTINUE');
+  await ready(page, 99);
+  check(b, 'a Chapter 1 exit card opens Chapter 2 with its moved node where it was left', JSON.stringify(await pos(page, 'park_junction')) === JSON.stringify(d)
+    && await page.inputValue('#chapterSelect') === '2');
   await choose(page, 0, 29);
   const a2 = await pos(page, 'drone_intercepts');
   const h2 = await pos(page, 'reception_hallway');
@@ -99,7 +113,8 @@ async function run(name, base) {
   const file = path.join(OUT, name + '_storyboard-layout.json');
   await download.saveAs(file);
   const exported = JSON.parse(fs.readFileSync(file, 'utf8'));
-  check(b, 'Export Layout: one cyoa-storyboard-layout-v1 file with both chapters\' arrangements', exported.schema === 'cyoa-storyboard-layout-v1'
+  check(b, 'Export Layout: one cyoa-storyboard-layout-v1 file with all three chapters\' arrangements', exported.schema === 'cyoa-storyboard-layout-v1'
+    && JSON.stringify(exported.chapters['chapter-02'].positions.park_junction) === JSON.stringify(d)
     && JSON.stringify(exported.chapters['prologue-00'].positions.drone_intercepts) === JSON.stringify(a)
     && JSON.stringify(exported.chapters['prologue-00'].positions.reception_hallway) === JSON.stringify(h)
     && JSON.stringify(exported.chapters['chapter-01'].positions.house_arrival) === JSON.stringify(c), exported);
@@ -118,8 +133,10 @@ async function run(name, base) {
   const h3 = await pos(p2, 'reception_hallway');
   await choose(p2, 1, 36);
   const c3 = await pos(p2, 'house_arrival');
-  check(b, 'Import Layout in a fresh browser restores the Prologue and Chapter 1 arrangements', JSON.stringify(auto) !== JSON.stringify(a)
-    && JSON.stringify([a3, h3, c3]) === JSON.stringify([a, h, c]), [auto, a3, h3, c3]);
+  await choose(p2, 2, 99);
+  const d3 = await pos(p2, 'park_junction');
+  check(b, 'Import Layout in a fresh browser restores the Prologue, Chapter 1 and Chapter 2 arrangements', JSON.stringify(auto) !== JSON.stringify(a)
+    && JSON.stringify([a3, h3, c3, d3]) === JSON.stringify([a, h, c, d]), [auto, a3, h3, c3, d3]);
   await choose(p2, 0, 29);
   check(b, 'after the import, switching chapters keeps the imported Prologue arrangement', JSON.stringify(await pos(p2, 'drone_intercepts')) === JSON.stringify(a));
   // Zoom, pan and the item/artwork panels still work.
@@ -129,8 +146,8 @@ async function run(name, base) {
   const items = await p2.evaluate(() => document.querySelectorAll('#details .item-button').length);
   await p2.click('#showArtwork');
   const art = await p2.evaluate(() => document.getElementById('details').innerText);
-  check(b, 'zoom, Items and Artwork panels still work (53 shared art records, 20 not-started)', before !== await p2.evaluate(() => document.getElementById('stage').style.transform)
-    && items === 11 && /53 shared art records/.test(art) && /20 not-started/.test(art), [items, art.slice(0, 200)]);
+  check(b, 'zoom, Items and Artwork panels still work (98 shared art records, 65 not-started)', before !== await p2.evaluate(() => document.getElementById('stage').style.transform)
+    && items === 16 && /98 shared art records/.test(art) && /65 not-started/.test(art), [items, art.slice(0, 200)]);
   await p2.screenshot({ path: path.join(OUT, name + '_3_imported.png') });
   await ctx2.close();
   check(b, 'no console or page errors', !errors.length, errors);

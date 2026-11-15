@@ -67,9 +67,10 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const g = 'baseline';
   const b = build();
   check(g, 'story/ (prologue-00 + chapter-01 drafts) builds as a preview with no errors', b.ok, b.report.errors);
-  check(g, 'two chapters: 29 Prologue nodes plus 36 authored House nodes, with no unfinished draft-stop nodes', b.ok
-    && b.report.stats.chapters === 2 && b.report.stats.nodes === 65 && Object.keys(b.story.chapters['prologue-00'].nodes).length === 29
-    && Object.keys(b.story.chapters['chapter-01'].nodes).length === 36 && b.report.draftStops.length === 0, b.ok && [b.report.stats, b.report.draftStops]);
+  check(g, 'three chapters: 29 Prologue, 36 House and 99 Biology Park nodes, with no unfinished draft-stop nodes', b.ok
+    && b.report.stats.chapters === 3 && b.report.stats.nodes === 164 && Object.keys(b.story.chapters['prologue-00'].nodes).length === 29
+    && Object.keys(b.story.chapters['chapter-01'].nodes).length === 36 && Object.keys(b.story.chapters['chapter-02'].nodes).length === 99
+    && b.report.draftStops.length === 0, b.ok && [b.report.stats, b.report.draftStops]);
   const v = verify();
   check(g, 'game/content/story.generated.js is up to date with story/ (no stale output)', v.ok, v.why);
   check(g, 'reimporting identical JSON produces byte-identical runtime content', b.ok && build().text === b.text);
@@ -82,7 +83,7 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'authoring key order does not change the content hash or the runtime content', b2.ok && b2.meta.contentHash === b.meta.contentHash && b2.text.split('\n').slice(3).join() !== undefined
     && JSON.stringify(b2.story.chapters['prologue-00'].nodes.work_complete.choices) !== undefined, b2.ok && [b2.meta.contentHash, b.meta.contentHash]);
   check(g, 'the build records content hash, version, schema and every source file hash', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
-    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 6 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
+    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 7 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
   check(g, 'every art file is recorded with its artwork status and sha256 (28 generated drafts, 5 reused approved)', b.ok
     && b.meta.art.filter((a) => a.status === 'generated').length === 28 && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
@@ -180,12 +181,16 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const g = 'draft-stop';
   const b = build();
   const chapter = b.story.chapters['chapter-01'];
-  const terminal = ['exit_named_plant', 'exit_martin', 'exit_chair_fatal', 'exit_service_clean', 'exit_service_registered', 'exit_showroom_reset'];
-  check(g, 'the authored Chapter 1 has six explicit terminal states and no development placeholder',
-    b.report.draftStops.length === 0 && !chapter.nodes.dev_placeholder && terminal.every((id) => {
+  const surviving = ['exit_named_plant', 'exit_martin', 'exit_service_clean', 'exit_service_registered', 'exit_showroom_reset'];
+  const fatal = chapter.nodes.exit_chair_fatal;
+  check(g, 'Chapter 1: the fatal chair stays an end node with only BEGIN AGAIN; no development placeholder',
+    b.report.draftStops.length === 0 && !chapter.nodes.dev_placeholder && fatal && fatal.end === true && fatal.choices.length === 1 && fatal.choices[0].restart === true,
+    [b.report.draftStops, fatal]);
+  check(g, 'Chapter 1: each of the five surviving exits hands off with one CONTINUE card into chapter-02 (no restart, no to)',
+    surviving.every((id) => {
       const n = chapter.nodes[id];
-      return n && n.end === true && n.choices.length === 1 && n.choices[0].restart === true;
-    }), [b.report.draftStops, terminal.filter((id) => !chapter.nodes[id]?.end)]);
+      return n && !n.end && n.choices.length === 1 && n.choices[0].kind === 'continue' && n.choices[0].chapter === 'chapter-02' && !n.choices[0].restart && !n.choices[0].to;
+    }), surviving.map((id) => chapter.nodes[id] && chapter.nodes[id].choices));
   check(g, 'the imported House begins with authored narration, not development-placeholder prose',
     chapter.start === 'house_arrival' && !/DEVELOPMENT PLACEHOLDER/.test(JSON.stringify(chapter.nodes.house_arrival.text)));
   const t = copySource(STORY);
@@ -197,13 +202,18 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'marking only Prologue approved cannot promote Chapter 1', !half.ok
     && has(half.report.errors, /chapter-01 is marked "draft"/) && !has(half.report.errors, /prologue-00 is marked/), half.report.errors);
   t.edit('storyboard-manifest.json', (j) => { j.chapters[1].status = 'approved'; });
+  const two = build({ from: t.dir, mode: 'approved' });
+  check(g, 'marking Prologue and Chapter 1 approved cannot promote Chapter 2', !two.ok
+    && has(two.report.errors, /chapter-02 is marked "draft"/) && !has(two.report.errors, /chapter-01 is marked/), two.report.errors);
+  t.edit('storyboard-manifest.json', (j) => { j.chapters[2].status = 'approved'; });
   const noArt = build({ from: t.dir, mode: 'approved' });
-  check(g, 'unproduced House artwork prevents an approved build even after draft status changes',
-    !noArt.ok && has(noArt.report.errors, /missing required artwork/), noArt.report.errors);
+  check(g, 'unproduced House and Biology Park artwork prevents an approved build even after draft status changes',
+    !noArt.ok && has(noArt.report.errors, /missing required artwork/) && !has(noArt.report.errors, /is marked "draft"/), noArt.report.errors);
   check(g, 'the build records each chapter manifest title/status and stays a preview',
     JSON.stringify(b.meta.chapters) === JSON.stringify([
       { id: 'prologue-00', title: 'Prologue — The Last Good Day', status: 'draft' },
-      { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', status: 'draft' }
+      { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', status: 'draft' },
+      { id: 'chapter-02', title: 'Chapter 2 — Biology Park', status: 'draft' }
     ]) && b.meta.channel === 'preview', b.meta.chapters);
 })();
 
@@ -433,9 +443,10 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const st = b.story;
   const src = (rel) => JSON.parse(fs.readFileSync(path.join(STORY, rel), 'utf8'));
   const manifest = src('storyboard-manifest.json');
-  check(g, 'the manifest lists exactly Prologue then Chapter 1, both draft, each in its own chapter file', JSON.stringify(manifest.chapters) === JSON.stringify([
+  check(g, 'the manifest lists exactly Prologue, Chapter 1, Chapter 2, all draft, each in its own chapter file', JSON.stringify(manifest.chapters) === JSON.stringify([
     { id: 'prologue-00', title: 'Prologue — The Last Good Day', file: 'chapters/prologue-00.draft.json', status: 'draft' },
-    { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', file: 'chapters/chapter-01.draft.json', status: 'draft' }]), manifest.chapters);
+    { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', file: 'chapters/chapter-01.draft.json', status: 'draft' },
+    { id: 'chapter-02', title: 'Chapter 2 — Biology Park', file: 'chapters/chapter-02.draft.json', status: 'draft' }]), manifest.chapters);
   const pro = src(PROLOGUE);
   const ch1 = src(CHAPTER1);
   check(g, 'no Chapter 1 node lives in the Prologue JSON (and none of the Prologue\'s in Chapter 1)', Object.keys(ch1.nodes).every((id) => !pro.nodes[id])

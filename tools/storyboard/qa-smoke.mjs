@@ -27,10 +27,12 @@ const productionRecords=[
   ...Object.values(artwork.items).flatMap(variants=>Object.values(variants)),
   ...Object.values(artwork.focus||{})
 ];
-assert.equal(productionRecords.length,53,'artwork record count (33 prologue + 20 Chapter 1 references)');
+assert.equal(productionRecords.length,98,'artwork record count (33 prologue + 20 Chapter 1 + 45 Chapter 2 references)');
 assert.equal(productionRecords.filter(r=>r.status==='generated').length,28,'published metadata matches private generated count');
 assert.equal(productionRecords.filter(r=>r.status==='reused').length,5,'approved reused records unchanged');
-assert.equal(productionRecords.filter(r=>r.status==='not-started').length,20,'20 Chapter 1 not-started art records');
+assert.equal(productionRecords.filter(r=>r.status==='not-started').length,65,'65 not-started art records (20 Chapter 1, 45 Chapter 2)');
+assert.equal(artwork.scenes['biology_park/conveniences_bureau']?.status,'not-started','Chapter 2 Bureau scene is not-started');
+assert.equal(artwork.scenes['biology_park/conveniences_bureau']?.assetPath,null,'Chapter 2 Bureau scene has no image yet');
 assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.status,'not-started','Chapter 1 arrival scene is not-started');
 assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.assetPath,null,'Chapter 1 arrival scene has no image yet');
 for(const record of productionRecords){
@@ -49,7 +51,7 @@ assert.equal(layoutSource.schema,'cyoa-storyboard-layout-v1');
 // The header lists exactly the manifest's chapters, in order; every chapter's art resolves through
 // the ONE shared artwork catalog (no per-chapter art catalogs).
 assert.deepEqual(manifest.chapters.map(c=>[c.id,c.title,c.status]),[
-  ['prologue-00','Prologue — The Last Good Day','draft'],['chapter-01','Chapter 1 — House of Tomorrow','draft']],'manifest chapters, order, titles, draft status');
+  ['prologue-00','Prologue — The Last Good Day','draft'],['chapter-01','Chapter 1 — House of Tomorrow','draft'],['chapter-02','Chapter 2 — Biology Park','draft']],'manifest chapters, order, titles, draft status');
 const chapters=manifest.chapters.map(c=>JSON.parse(fs.readFileSync(path.join(root,'story',c.file),'utf8')));
 for(const ch of chapters){
   for(const scene of new Set([ch.scene,...Object.values(ch.nodes).map(x=>x.scene).filter(Boolean)]))
@@ -59,7 +61,7 @@ for(const ch of chapters){
     if(n.focus)assert.ok(artwork.focus[n.focus],'focus '+n.focus);
   }
 }
-assert.deepEqual(Object.keys(layoutSource.chapters),['prologue-00','chapter-01'],'layout file has an entry per chapter');
+assert.deepEqual(Object.keys(layoutSource.chapters),['prologue-00','chapter-01','chapter-02'],'layout file has an entry per chapter');
 assert.deepEqual(layoutSource.chapters['prologue-00'].positions,{},'prologue positions retained exactly (none committed)');
 for(const id of Object.keys(items)){
   assert.ok(artwork.items[id]?.slot?.prompt,'slot prompt '+id);
@@ -234,7 +236,7 @@ document.getElementById('exportLayout').onclick();
 
 // ---- Chapters: header, independent graphs/inspectors, independent layouts and selections ----------
 const select=document.getElementById('chapterSelect');
-assert.deepEqual(select.children.map(o=>[o.value,o.textContent]),[['0','Prologue — The Last Good Day'],['1','Chapter 1 — House of Tomorrow']],'header dropdown lists only the manifest chapters, in order');
+assert.deepEqual(select.children.map(o=>[o.value,o.textContent]),[['0','Prologue — The Last Good Day'],['1','Chapter 1 — House of Tomorrow'],['2','Chapter 2 — Biology Park']],'header dropdown lists only the manifest chapters, in order');
 const switchTo=async index=>{select.listeners.change({target:{value:String(index)}});await new Promise(resolve=>setTimeout(resolve,20));};
 const nodeIds=()=>document.getElementById('nodes').children.map(n=>n.children[0]?.textContent);
 const dragNode=(id,dx,dy,pointerId)=>{
@@ -278,6 +280,29 @@ flatten(pane()).find(x=>x.tagName==='button'&&String(x.textContent).startsWith('
 await new Promise(resolve=>setTimeout(resolve,20));
 assert.equal(select.value,'1','hand-off card opens Chapter 1 and the selector follows');
 assert.deepEqual({x:xFromNode('house_arrival'),y:yFromNode('house_arrival')},ch1,'Chapter 1 position survives');
+// Chapter 1 surviving exits name Chapter 2; the fatal chair ending does not.
+for(const exitId of ['exit_named_plant','exit_martin','exit_service_clean','exit_service_registered','exit_showroom_reset'])
+  assert.ok(String(findNode(exitId).children[2].textContent).includes('→ chapter-02'),'Chapter 1 exit '+exitId+' links to Chapter 2');
+assert.ok(!String(findNode('exit_chair_fatal').children[2].textContent).includes('→ chapter-02'),'fatal chair ending does not link to Chapter 2');
+findNode('exit_martin').click();
+const ch2Card=flatten(pane()).find(x=>x.tagName==='button'&&/Chapter 2 — Biology Park \(chapter-02\)/.test(flatten(x).map(y=>y.textContent).join(' ')));
+assert.ok(ch2Card&&!ch2Card.disabled,'Chapter 1 exit card names its Chapter 2 destination and is clickable');
+ch2Card.click();
+await new Promise(resolve=>setTimeout(resolve,20));
+// 4b. Chapter 2: its own graph, inspector, choices, art references and layout cache.
+assert.equal(select.value,'2','exit card opens Chapter 2 and the selector follows');
+assert.equal(nodeIds().length,99,'Chapter 2 graph shows all 99 authored nodes');
+assert.match(document.getElementById('chapterTitle').textContent,/^Chapter 2 — Biology Park · draft$/,'board heading names Chapter 2 and its draft status');
+assert.ok(flatten(pane()).some(x=>x.textContent==='Bureau Arrival'),'Chapter 2 inspector opens on its authored start node');
+assert.ok(flatten(pane()).some(x=>/scenes\/biology_park\/conveniences_bureau · not-started/.test(String(x.textContent))),'Bureau art resolves through the shared catalog as not-started');
+findNode('public_kit_focus').click();
+assert.ok(flatten(pane()).some(x=>/USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT/.test(String(x.textContent))),'Chapter 2 focus node choices appear in the inspector');
+const ch2=dragNode('park_junction',170,-80,34);
+assert.ok(storage.has('cyoa-storyboard-layout-v1:chapter-02'),'Chapter 2 positions cached under their own key');
+await switchTo(1);
+assert.deepEqual({x:xFromNode('house_arrival'),y:yFromNode('house_arrival')},ch1,'Chapter 1 position survives a Chapter 2 visit');
+await switchTo(2);
+assert.deepEqual({x:xFromNode('park_junction'),y:yFromNode('park_junction')},ch2,'Chapter 2 position survives a round trip');
 await switchTo(0);
 // 5. Export, then import into a fresh browser (empty storage): both arrangements survive.
 downloads.length=0;
@@ -285,7 +310,8 @@ document.getElementById('exportLayout').onclick();
 assert.equal(downloads.length,1,'one layout file exported');
 const exported=JSON.parse(await downloads[0].text());
 assert.equal(exported.schema,'cyoa-storyboard-layout-v1','exported schema unchanged');
-assert.deepEqual(Object.keys(exported.chapters).sort(),['chapter-01','prologue-00'],'export holds both chapters');
+assert.deepEqual(Object.keys(exported.chapters).sort(),['chapter-01','chapter-02','prologue-00'],'export holds all three chapters');
+assert.deepEqual(exported.chapters['chapter-02'].positions.park_junction,ch2,'export holds Chapter 2');
 assert.deepEqual(exported.chapters['prologue-00'].positions.drone_intercepts,proA,'export holds Prologue A');
 assert.deepEqual(exported.chapters['prologue-00'].positions.reception_hallway,proB,'export holds Prologue B');
 assert.deepEqual(exported.chapters['chapter-01'].positions.house_arrival,ch1,'export holds Chapter 1');
@@ -311,6 +337,12 @@ assert.ok(v2.store.has('cyoa-storyboard-layout-v1:chapter-01'),'import cached th
 v2.doc.getElementById('chapterSelect').listeners.change({target:{value:'1'}});
 await new Promise(resolve=>setTimeout(resolve,20));
 assert.deepEqual(pos2('house_arrival'),ch1,'imported Chapter 1 arrangement survives in the fresh browser');
+assert.ok(v2.store.has('cyoa-storyboard-layout-v1:chapter-02'),'import cached the Chapter 2 layout too');
+v2.doc.getElementById('chapterSelect').listeners.change({target:{value:'2'}});
+await new Promise(resolve=>setTimeout(resolve,20));
+assert.deepEqual(pos2('park_junction'),ch2,'imported Chapter 2 arrangement survives in the fresh browser');
+v2.doc.getElementById('chapterSelect').listeners.change({target:{value:'1'}});
+await new Promise(resolve=>setTimeout(resolve,20));
 // An import naming only one chapter leaves the other chapter's arrangement alone.
 in2.files=[{name:'only-prologue.json',text:async()=>JSON.stringify({schema:'cyoa-storyboard-layout-v1',chapters:{'prologue-00':{positions:{}}}})}];
 await in2.onchange({target:in2});
@@ -329,5 +361,5 @@ console.log(JSON.stringify({
  result:'PASS',nodes:Object.keys(chapter.nodes).length,chapters:manifest.chapters.map(c=>c.id),
  artRecords:Object.keys(artwork.scenes).length+Object.keys(artwork.portraits).length+
   Object.values(artwork.items).reduce((n,v)=>n+Object.keys(v).length,0),
- checked:['manifest','all scene references','portrait references','all item artwork','paired scene backgrounds','editable portrait background','startup','artwork library','edit prompt','export artwork','item links','SHOW branches','branch proximity','pointer-centered wheel zoom','node drag','live connectors','local saved layout','reload layout','import layout','reset layout','chapter header','per-chapter graph+inspector+art refs','cross-chapter hand-off link','independent positions+selection across switches','export both chapters','import into fresh browser','partial import keeps other chapter']
+ checked:['manifest','all scene references','portrait references','all item artwork','paired scene backgrounds','editable portrait background','startup','artwork library','edit prompt','export artwork','item links','SHOW branches','branch proximity','pointer-centered wheel zoom','node drag','live connectors','local saved layout','reload layout','import layout','reset layout','chapter header','per-chapter graph+inspector+art refs','cross-chapter hand-off link','independent positions+selection across switches','export all three chapters','Chapter 2 graph+inspector+art refs+layout','Chapter 1 exits link Chapter 2','import into fresh browser','partial import keeps other chapter']
 }));

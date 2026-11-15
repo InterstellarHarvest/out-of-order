@@ -195,12 +195,13 @@ async function run(browserName,base){
       check(browserName,spec.name,'prologue NOTES retained through real play',
         actual.transcript.length>spec.from.transcript.length
         && JSON.stringify(actual.transcript.slice(0,spec.from.transcript.length))===JSON.stringify(spec.from.transcript));
-      check(browserName,spec.name,'route flag and terminal system card match outcome',
+      // Surviving exits hand off to Chapter 2 with one CONTINUE card; the chair death stays terminal.
+      check(browserName,spec.name,'route flag and final card match outcome (Chapter 2 hand-off, or BEGIN AGAIN on death)',
         (spec.route?actual.flags.house_exit_route===spec.route:!actual.flags.house_exit_route)
-        && (await page.evaluate(()=>window.CYOA_GAME.ui.cards.length===1
-          && window.CYOA_GAME.ui.cards[0].kind==='system'
-          && /^(begin_again_|restart_chair_death)/.test(window.CYOA_GAME.ui.cards[0].id)))===true,
-        {route:actual.flags.house_exit_route,cards:await page.evaluate(()=>window.CYOA_GAME.ui.cards.map(c=>c.id))});
+        && (await page.evaluate(fatal=>{const c=window.CYOA_GAME.ui.cards;return c.length===1&&(fatal
+          ? c[0].kind==='system'&&c[0].id==='restart_chair_death'
+          : c[0].kind==='continue'&&/^continue_to_chapter_02_/.test(c[0].id));},!spec.route))===true,
+        {route:actual.flags.house_exit_route,cards:await page.evaluate(()=>window.CYOA_GAME.ui.cards.map(c=>c.id+':'+c.kind))});
       if(spec.name==='named_plant_exit')check(browserName,spec.name,
         'plant was actually removed and registered resident',
         !actual.inventory.includes('desk_plant') && actual.flags.plant_registered_as_resident===true);
