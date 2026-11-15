@@ -382,7 +382,7 @@
           "id": "return_from_cabinet",
           "kind": "continue",
           "text": "CONTINUE",
-          "to": "refused_both"
+          "to": "comfort_offer"
         }
       ]
     },
