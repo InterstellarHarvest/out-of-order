@@ -1,0 +1,1339 @@
+{
+  "schema": "cyoa-engine-story-validation-v1",
+  "total": 176,
+  "passed": 176,
+  "failed": 0,
+  "groups": {
+    "reception": {
+      "total": 12,
+      "passed": 12
+    },
+    "fixture": {
+      "total": 40,
+      "passed": 40
+    },
+    "mutants": {
+      "total": 59,
+      "passed": 59
+    },
+    "checks": {
+      "total": 18,
+      "passed": 18
+    },
+    "saves": {
+      "total": 9,
+      "passed": 9
+    },
+    "presentation": {
+      "total": 8,
+      "passed": 8
+    },
+    "notes": {
+      "total": 10,
+      "passed": 10
+    },
+    "risk": {
+      "total": 10,
+      "passed": 10
+    },
+    "endings": {
+      "total": 10,
+      "passed": 10
+    }
+  },
+  "checks": [
+    {
+      "group": "reception",
+      "name": "fromV1 leaves the v1 content untouched",
+      "ok": true
+    },
+    {
+      "group": "reception",
+      "name": "fromV1 gives a one-chapter, no-save, production v2 story of dialogue nodes with the receptionist",
+      "ok": true
+    },
+    {
+      "group": "reception",
+      "name": "every v1 choice is kind spoken (BEGIN AGAIN is system): nothing is reclassified by its wording before S9",
+      "ok": true,
+      "detail": [
+        [
+          "restart",
+          "system"
+        ]
+      ]
+    },
+    {
+      "group": "reception",
+      "name": "fromV1 keeps every authored string exactly, brackets included",
+      "ok": true
+    },
+    {
+      "group": "reception",
+      "name": "the v2 validator passes the reception",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "reception",
+      "name": "the v2 walk finds exactly the v1 route: same nodes, choices, reachable states, endings and ending states",
+      "ok": true,
+      "detail": {
+        "v1": {
+          "nodes": 15,
+          "choices": 23,
+          "reachableStates": 449,
+          "endings": 1,
+          "endingStates": 96
+        },
+        "v2": {
+          "chapters": 1,
+          "nodes": 15,
+          "choices": 23,
+          "reachableStates": 449,
+          "endings": 1,
+          "endingStates": 96,
+          "endingsReached": 1,
+          "checks": 0
+        }
+      }
+    },
+    {
+      "group": "reception",
+      "name": "fromV1 registers exactly the art the game draws (scene, portrait background, receptionist), and stage.js holds no second copy",
+      "ok": true,
+      "detail": {
+        "declared": [
+          {
+            "conference_hall/reception": "art/scenes/conference_hall/reception/reception_scene.png"
+          },
+          {
+            "backgrounds": {
+              "reception": "art/portraits/receptionist/reception_background.png"
+            },
+            "poses": {
+              "idle": "art/portraits/receptionist/receptionist_idle.png"
+            },
+            "background": "reception",
+            "pose": "idle"
+          }
+        ]
+      }
+    },
+    {
+      "group": "reception",
+      "name": "the opening line is the same",
+      "ok": true
+    },
+    {
+      "group": "reception",
+      "name": "lock-step over every reachable reception state: v2 offers the same cards, item verbs, descriptions, FILES, context action, objective and state as v1",
+      "ok": true,
+      "detail": {
+        "compared": 449,
+        "diffs": []
+      }
+    },
+    {
+      "group": "reception",
+      "name": "lock-step over every move (choices, READ, SHOW, USE, OBSERVE, restart): v2 writes exactly the v1 lines, in order, with presentFrom at the step start",
+      "ok": true,
+      "detail": {
+        "moves": 1515
+      }
+    },
+    {
+      "group": "reception",
+      "name": "validate_route.js --v2: all of the route suite's checks pass on the v2 engine, with the v1 stats",
+      "ok": true,
+      "detail": {
+        "passed": 49,
+        "total": 49,
+        "failed": []
+      }
+    },
+    {
+      "group": "reception",
+      "name": "OBSERVE through step(): one thought entry, nothing else changes, and a second take is refused",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N2: the fixture validates (no dead end; every node, choice, variant, file entry reachable; an ending from every state)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N2: the walk explores both chapters and many states",
+      "ok": true,
+      "detail": {
+        "chapters": 2,
+        "nodes": 9,
+        "choices": 15,
+        "reachableStates": 602,
+        "endings": 1,
+        "endingStates": 144,
+        "endingsReached": 1,
+        "checks": 1
+      }
+    },
+    {
+      "group": "fixture",
+      "name": "begin: events are chapter, scene, mode, objective, text, in that order",
+      "ok": true,
+      "detail": [
+        "chapter",
+        "scene",
+        "mode",
+        "objective",
+        "text"
+      ]
+    },
+    {
+      "group": "fixture",
+      "name": "begin: the three-paragraph B passage is three narration paragraphs on the narrative surface",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "begin: state is v2 at the start node, nothing yet presented",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "step() never modifies the state it is given (the caller swaps in the new one)",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a refused step throws and changes nothing",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "presentation-only CONTINUE is not a rules step: step({ continue }) is refused",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "unknown inputs are refused",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "open-drawer: an items event (gained the card), then the result as narration; the card is once and gone",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a stay does not repeat the node's arrival text",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "conditional effect: the drawer does not change the objective when the code was not asked",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "conditional effect: after asking, the drawer also changes the objective (objective event after the items event)",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "conditional effect, other order: asking while holding the card changes the objective",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N4: a conditional effect sees the effects listed before it in the same step",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "entering a dialogue: a mode event, then the line; a desc run is a direction, the plain string is the speaker's speech",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "an action choice in dialogue: echoed as an action by you (not speech), then its result as a direction",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a spoken choice in dialogue: echoed as speech by you, unquoted, then the move and the reply",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "view cards carry their kind for presentation (spoken / action / continue / system)",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a spoken choice in B is not echoed: its result narrates it, with the speech as a run by you",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "B -> A: a mode event, the focus description on the focus surface; returnTo is the opener",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N9: back lands on the opener without its arrival effects or text; the result is appended to B",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N9: the opener's spent once choice stays gone after the return",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "history: on return, the B window is the whole B log so far plus the result; the focus text is not in it",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "history: the focus window is the current visit only",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "back is not offered without an opener",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "dialogue -> dialogue keeps the opener; back from the second returns to B",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a scene change: scene event (no mode event: B to B), the objective, then the passage",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a focus outcome that leaves: check event, mode event, the result on the destination (B) surface, then the arrival",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "USE in B: no echo, the item leaves (items event), the result narrates, then the arrival variant reflects the use",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "SHOW is unavailable in B (no one to show it to)",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a chapter transition: chapter event, scene event, objective, passage; the opener is cleared",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "history (S2.1, owner lock [76]): NOTES is the whole playthrough, chapter one included; B in chapter two starts again",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N10: the chapter-two arrival differs by the check outcome and by whether the attendant was asked",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "a continue choice is a real, committed step with the default CONTINUE card; reaching an end emits end",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "BEGIN AGAIN (system): a restart event, then a fresh playthrough from the start",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "EF-N11: an action is never stored as speech; echoes are unquoted; B and A results are narration; dialogue results are direction",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "every transcript entry records its step, source, surface, chapter, scene and node",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "the decision log records every committed choice and item action, in order",
+      "ok": true
+    },
+    {
+      "group": "fixture",
+      "name": "paras(): \\n splits paragraphs; roles come from the context, never from the words",
+      "ok": true
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a choice with no kind",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice examine-keypad: kind must be spoken, action, continue or system"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown kind",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice examine-keypad: kind must be spoken, action, continue or system"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: quotes authored in card text",
+      "ok": true,
+      "detail": [
+        "node fx_two:arrive choice finish: card text may not author quotes or brackets (marking is presentation)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: brackets authored in card text",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter choice lean: card text may not author quotes or brackets (marking is presentation)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: back in a narrative node",
+      "ok": true,
+      "detail": [
+        "node fx_one:side_hatch choice b: back is only for focus or dialogue nodes (a return from an excursion)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a back choice reachable with no opener (the chapter starts in the dialogue)",
+      "ok": true,
+      "detail": [
+        "a back choice at fx_one:counter is reachable with no opener to return to (enter it from a narrative node, or split the node)",
+        "a back choice at fx_one:counter_code is reachable with no opener to return to (enter it from a narrative node, or split the node)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a focus node without a focus id",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad: a focus node needs a focus id",
+        "assets.focus fixture/room_a/keypad: registered but never used"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a dialogue node without a speaker",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter: a dialogue node needs a speaker from the cast"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a dialogue node whose speaker is not in the cast",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter: a dialogue node needs a speaker from the cast"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown run key",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter text run 0: unknown run key gesture",
+        "node fx_one:counter text run 0: a run needs exactly one of say, act, desc, think (has none)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a run with two role keys",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter text run 0: a run needs exactly one of say, act, desc, think (has desc say)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a think run before the thought contract",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice open-drawer result run 1: think runs are reserved for the thought contract (docs/72 section 8.3)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a say run naming an unknown speaker",
+      "ok": true,
+      "detail": [
+        "node fx_one:corridor choice call-out result run 0: unknown speaker ghost"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a stay choice that changes nothing",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter choice lean: stays here and changes nothing (needs once or effects, or a destination)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a choice leading to a missing chapter",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift choice go-up: leads to missing chapter fx_three"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a choice leading to a node in another chapter (to is within the chapter)",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift choice go-up: leads to missing node arrive"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: two destinations on one choice",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift choice go-up: has more than one destination (to chapter)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: SHOW in a B node",
+      "ok": true,
+      "detail": [
+        "node fx_one:corridor: show is for dialogue nodes only"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: say on a choice in a B node (it would never be echoed)",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice examine-keypad: say is only echoed in dialogue nodes"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: USE in a dialogue node without the line it echoes",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter use fx_card: needs say: the line echoed in the dialogue box"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a conditional last variant",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift text: last variant must have no condition, so something is always said"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a text mixing runs and variants",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift text: mixes runs and { if, text } variants"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unregistered scene id",
+      "ok": true,
+      "detail": [
+        "node fx_one:corridor: unregistered scene fixture/room_z"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unregistered focus id",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad: unregistered focus fixture/room_a/lamp",
+        "assets.focus fixture/room_a/keypad: registered but never used"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a registered asset nobody uses",
+      "ok": true,
+      "detail": [
+        "assets.focus fixture/room_a/desk: registered but never used"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: null art in a production story",
+      "ok": true,
+      "detail": [
+        "assets.scenes fixture/room_a: null art is only allowed in a fixture story",
+        "assets.scenes fixture/room_b: null art is only allowed in a fixture story"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown condition in a conditional effect",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice open-drawer effects[1]: unknown condition flagged"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a conditional effect setting an undeclared flag",
+      "ok": true,
+      "detail": [
+        "node fx_one:counter choice ask-code effects[0]: sets unknown flag askedCdoe"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an objective the fonts cannot draw",
+      "ok": true,
+      "detail": [
+        "node fx_one:corridor objective: characters the fonts cannot draw: ↑"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: restart outside an end node",
+      "ok": true,
+      "detail": [
+        "node fx_one:lift choice r: restart is only allowed on an end node"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: restart on a non-system choice",
+      "ok": true,
+      "detail": [
+        "node fx_two:end choice restart: restart is a system choice"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a start node in focus mode",
+      "ok": true,
+      "detail": [
+        "chapter fx_one: start node must be narrative or dialogue"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a context action on a B node",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake: the context action is dialogue-only until the thought contract"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown node field",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake: unknown field npc"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a node nobody can reach",
+      "ok": true,
+      "detail": [
+        "unreachable node: fx_two:orphan"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a dead end (a node whose only card can be unavailable)",
+      "ok": true,
+      "detail": [
+        "dead end: no choice is available at fx_one:side_hatch with state [\"fx_one\",\"side_hatch\",null,{\"askedCode\":false,\"usedCard\":false},[],[],[],[[\"fx_door\",false]]]",
+        "dead end: no choice is available at fx_one:side_hatch with state [\"fx_one\",\"side_hatch\",null,{\"askedCode\":false,\"usedCard\":false},[\"fx_card\"],[],[\"fx_one:wake:open-drawer\"],[[\"fx_door\",false]]]"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a result variant nobody can see",
+      "ok": true,
+      "detail": [
+        "result of fx_one:keypad:stop variant 0 never shown"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: no ending",
+      "ok": true,
+      "detail": [
+        "story: no node is marked end: true"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: the v1 restart-outside-an-ending mutant, through fromV1",
+      "ok": true,
+      "detail": [
+        "node reception:ruling choice sigh: restart is only allowed on an end node"
+      ]
+    },
+    {
+      "group": "checks",
+      "name": "d6 need 4, a raw 1 always fails: exact odds 3/6 with no preparation, 4/6 with the card read or the attendant asked, 5/6 with both",
+      "ok": true,
+      "detail": {
+        "none": {
+          "rate": 0.505,
+          "chance": 0.5,
+          "bonus": 0,
+          "both": true
+        },
+        "card": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "asked": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "both": {
+          "rate": 0.88,
+          "chance": 0.8333333333333334,
+          "bonus": 2,
+          "both": true
+        }
+      }
+    },
+    {
+      "group": "checks",
+      "name": "EF-N5: across seeds 1-200 both outcomes occur with and without the item, for every preparation",
+      "ok": true,
+      "detail": {
+        "none": {
+          "rate": 0.505,
+          "chance": 0.5,
+          "bonus": 0,
+          "both": true
+        },
+        "card": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "asked": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "both": {
+          "rate": 0.88,
+          "chance": 0.8333333333333334,
+          "bonus": 2,
+          "both": true
+        }
+      }
+    },
+    {
+      "group": "checks",
+      "name": "EF-N5: the item raises the measured success rate (card over none, both over asked), and each rate is near its odds",
+      "ok": true,
+      "detail": {
+        "none": {
+          "rate": 0.505,
+          "chance": 0.5,
+          "bonus": 0,
+          "both": true
+        },
+        "card": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "asked": {
+          "rate": 0.705,
+          "chance": 0.6666666666666666,
+          "bonus": 1,
+          "both": true
+        },
+        "both": {
+          "rate": 0.88,
+          "chance": 0.8333333333333334,
+          "bonus": 2,
+          "both": true
+        }
+      }
+    },
+    {
+      "group": "checks",
+      "name": "EF-N5: the same seed gives the same roll, outcome, state and transcript",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "the roll does not depend on the order of play (same seed, preparation in another order)",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "the check event carries id, sides, roll, bonus, need, ok and the exact chance, and comes first in its step",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "hidden by default: the card shows no odds, die or check data (the view's card is only id, kind, text and the S2.1 hasCheck marker)",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "each outcome has its own explicit consequence: pass narrates and leads to the corridor, fail to the side hatch",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "passed / failed / untried and the callbacks that read them: FILES, the corridor and chapter two",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "the decision log records the check and its outcome",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "EF-N4: the bonus is computed before the effects of the same step (the card is taken and still counts)",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "EF-N6: after resolution the checked card is gone, and step() refuses it",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "EF-N6: still gone after serialize/restore, with checks[id] unchanged",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "EF-N6: leaving and revisiting the node does not offer the check again",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "a new playthrough (BEGIN AGAIN) gets a new seed derived from the old one: deterministic, not the same seed, no checks resolved",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "d100 is supported: the fixture validates as a d100 check; exact odds 45% and 65%; measured rates within 4 points over 2000 seeds",
+      "ok": true,
+      "detail": {
+        "errors": [],
+        "base": 0.455,
+        "card": 0.6475
+      }
+    },
+    {
+      "group": "checks",
+      "name": "d100 fumble 5 is a 95% ceiling however large the bonus",
+      "ok": true
+    },
+    {
+      "group": "checks",
+      "name": "rolls are spread evenly: each d6 face within 10% of 1000 over seeds 1-6000",
+      "ok": true,
+      "detail": [
+        978,
+        975,
+        1003,
+        1015,
+        1019,
+        1010
+      ]
+    },
+    {
+      "group": "saves",
+      "name": "EF-N7: restore(serialize(s)) deep-equals s for every state along 90 complete playthroughs (both check outcomes, a restart)",
+      "ok": true,
+      "detail": {
+        "trips": 1110
+      }
+    },
+    {
+      "group": "saves",
+      "name": "EF-N7: a playthrough saved and restored before every step ends in the same state, with the same events at every step, as one never interrupted",
+      "ok": true,
+      "detail": {
+        "runs": 90
+      }
+    },
+    {
+      "group": "saves",
+      "name": "EF-N7: 60 random 40-step walks, restored at random points, never diverge from their uninterrupted twins (state and events)",
+      "ok": true,
+      "detail": {
+        "walkSteps": 2400
+      }
+    },
+    {
+      "group": "saves",
+      "name": "EF-N7: after a restore the inventory has no duplicates and once choices stay spent",
+      "ok": true
+    },
+    {
+      "group": "saves",
+      "name": "the save is a versioned envelope: schema cyoa-save-v1, story id, story version, savedAt only when the caller gives it, the state",
+      "ok": true
+    },
+    {
+      "group": "saves",
+      "name": "the rules read no clock and no random source (only the caller's seed)",
+      "ok": true
+    },
+    {
+      "group": "saves",
+      "name": "the reception (via fromV1) round-trips too, and stays save: false (it still starts fresh on reload until S9)",
+      "ok": true
+    },
+    {
+      "group": "saves",
+      "name": "EF-N8: every corrupt, foreign or outdated save is refused with a reason, without a throw (23 cases)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "saves",
+      "name": "a good save restores (positive control)",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "a reload part-way through a passage replays exactly the paragraphs not yet presented: none twice, none skipped, state untouched",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "after a committed check, the resume replays only its text: no check event, no item slip, no objective event, and the roll is unchanged",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "restoring and resuming twice gives the same replay and never grows the transcript, the decision log or the step count",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "in dialogue, the resume replays the echo then the direction, as the step presented them",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "a step that moved surfaces (dialogue echo, then the B result): the resume types the B part; the echo stays in the history, not lost",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "the cursor is clamped: never past the transcript, never back before the latest step (earlier steps were presented before it was taken)",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "presentation-only CONTINUE never re-runs a committed decision: pacing reads the state and changes nothing, and step({ continue }) is refused",
+      "ok": true
+    },
+    {
+      "group": "presentation",
+      "name": "an authored continue choice is a committed decision: after a reload it is in the log once and not offered again",
+      "ok": true
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a check id used twice in one chapter",
+      "ok": true,
+      "detail": [
+        "check fx_door: id is used more than once (fx_one:keypad choice try-code; fx_one:corridor choice risk); check ids must be unique across the story"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a check id reused in another chapter",
+      "ok": true,
+      "detail": [
+        "check fx_door: id is used more than once (fx_one:keypad choice try-code; fx_two:arrive choice risk); check ids must be unique across the story"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a check id shared by a choice and a USE entry",
+      "ok": true,
+      "detail": [
+        "check fx_door: id is used more than once (fx_one:keypad choice try-code; fx_one:corridor use fx_card); check ids must be unique across the story"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: mods that can reach 100% without certain",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: mods can make it certain (100%); an item must not be a guaranteed bypass unless the check is marked certain"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a base chance of 0%",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: base chance is 0% (gate the choice with if instead)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: sides other than 6 or 100",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: sides must be 6 or 100"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a fumble as large as the die",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: fumble must be a whole number from 0 below sides"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a mod that adds 0",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check mods[0]: add must be a whole number other than 0"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown condition in a mod",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check mods[0]: unknown condition carrying"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an unknown check field",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code check: unknown field dc"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a destination on a checked choice (it belongs in pass/fail)",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code: to goes in pass and fail when there is a check"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a result on a checked choice (it belongs in pass/fail)",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code: result goes in pass and fail when there is a check"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a checked choice without a fail outcome",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code fail: needs a pass and a fail outcome"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: pass and fail without a check",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake choice examine-keypad: pass and fail are only for a choice with a check"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an outcome with two destinations",
+      "ok": true,
+      "detail": [
+        "node fx_one:keypad choice try-code fail: has more than one destination (to back)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: an outcome going back from a narrative node",
+      "ok": true,
+      "detail": [
+        "node fx_one:side_hatch choice risk fail: back is only for focus or dialogue nodes (a return from an excursion)"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: passed naming a check the story does not have",
+      "ok": true,
+      "detail": [
+        "files[2]: passed names an unknown check fx_vault"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "rejects: a check whose fail can never happen (certain, and only offered when the bonus makes it certain)",
+      "ok": true,
+      "detail": [
+        "check fx_door (fx_one:keypad:try-code): fail never happens in any reachable state",
+        "unreachable node: fx_one:side_hatch"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "the odds guards still run when an unrelated error is also present (both are reported)",
+      "ok": true,
+      "detail": [
+        "node fx_one:wake: unknown field npc",
+        "node fx_one:keypad choice try-code check: mods can make it certain (100%); an item must not be a guaranteed bypass unless the check is marked certain"
+      ]
+    },
+    {
+      "group": "mutants",
+      "name": "accepts (positive control): the same 100%-capable mods when the check is marked certain",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "notes",
+      "name": "NOTES is the whole transcript at every step of a two-chapter playthrough (focus, B, scene change, chapter change, ending)",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "in chapter two, NOTES still indexes every chapter-one paragraph (the opening room, the keypad, the crawl)",
+      "ok": true,
+      "detail": {
+        "ch1": 10
+      }
+    },
+    {
+      "group": "notes",
+      "name": "the local windows are unchanged: B and dialogue read the current scene only (chapter two), Focus A is empty outside a visit",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "a scene change inside a chapter resets B (room_b only) but not NOTES",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "inside a Focus A visit: focus is the visit, NOTES is everything so far",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "after serialize/restore at the ending, NOTES is identical and still holds chapter one",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "saved in chapter one, restored, then into chapter two: the same NOTES (and state) as a playthrough never interrupted",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "BEGIN AGAIN starts a new playthrough, so a new NOTES (only the new opening)",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "three chapters: at the archive ending, after a restore, NOTES holds the hall, the desk dialogue and the archive in order",
+      "ok": true
+    },
+    {
+      "group": "notes",
+      "name": "reception (one chapter, one scene, all dialogue): NOTES and the dialogue window both stay the whole transcript, as before",
+      "ok": true,
+      "detail": {
+        "steps": 187
+      }
+    },
+    {
+      "group": "risk",
+      "name": "a checked action is marked; an unchecked action beside it is not (the keypad)",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "a checked spoken line (a bluff) is marked; an unchecked spoken line and an unchecked action are not (the desk)",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "unchecked spoken and action cards elsewhere are never marked (wake, counter)",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "a checked SHOW: show stays the availability boolean, showHasCheck marks the risk; USE is unavailable and unmarked",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "a checked USE: use available and useHasCheck; SHOW unavailable in B and unmarked; the plain departures are unmarked",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "an unchecked USE is available and unmarked (the blue card in the corridor)",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "the marker follows the check, not kind or words: the keypad as a spoken line is still marked; the same bluff words without a check are not",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "a check the player has made certain (100%, marked certain) keeps its marker: the marker never changes with the odds",
+      "ok": true
+    },
+    {
+      "group": "risk",
+      "name": "no die, target, odds, modifiers, bonus, seed, roll, outcome or check id appears anywhere in the view (both fixtures, both outcomes)",
+      "ok": true,
+      "detail": {
+        "views": 180,
+        "leak": null
+      }
+    },
+    {
+      "group": "risk",
+      "name": "the reception (no checks) never marks a card or an item action",
+      "ok": true,
+      "detail": {
+        "marked": 0
+      }
+    },
+    {
+      "group": "endings",
+      "name": "the validator accepts the independent-endings fixture: every node, choice, SHOW/USE, check outcome and text reachable, an ending reachable from every state",
+      "ok": true,
+      "detail": {
+        "errors": [],
+        "stats": {
+          "chapters": 3,
+          "nodes": 7,
+          "choices": 11,
+          "reachableStates": 266,
+          "endings": 2,
+          "endingStates": 120,
+          "endingsReached": 2,
+          "checks": 3
+        }
+      }
+    },
+    {
+      "group": "endings",
+      "name": "every check goes both ways in the exploration (the bluff, the checked SHOW, the checked USE)",
+      "ok": true,
+      "detail": [
+        "ie_bluff:true",
+        "ie_show:true",
+        "ie_gate:true",
+        "ie_bluff:false",
+        "ie_gate:false",
+        "ie_show:false"
+      ]
+    },
+    {
+      "group": "endings",
+      "name": "one shared incident leads to both paths: the incident reaches the archive and the street, and every route out of the hall passes through it",
+      "ok": true
+    },
+    {
+      "group": "endings",
+      "name": "the two paths never reconverge, never return to the hall, and each reaches its own ending",
+      "ok": true,
+      "detail": {
+        "shared": [],
+        "back": [],
+        "ea": [
+          "ie_archive:archive_end"
+        ],
+        "eb": [
+          "ie_street:street_end"
+        ]
+      }
+    },
+    {
+      "group": "endings",
+      "name": "both endings are ordinary authored ends: an end event, view.end, and only BEGIN AGAIN offered",
+      "ok": true
+    },
+    {
+      "group": "endings",
+      "name": "a check outcome can itself be the permanent departure: the gate passes into the archive, fails into the street (and keeps the pass)",
+      "ok": true
+    },
+    {
+      "group": "endings",
+      "name": "negative control: a street path that rejoins the archive is still a valid (braided) story, but is reported as reconverging",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "endings",
+      "name": "rejects: a path that can never reach an ending (the street walks in circles)",
+      "ok": true,
+      "detail": [
+        "unreachable node: ie_street:street_end",
+        "cannot reach an ending from state [\"ie_street\",\"pavement\",null,{\"stamped\":true},[\"ie_pass\"],[],[],[[\"ie_bluff\",true]]]",
+        "cannot reach an ending from state [\"ie_street\",\"pavement\",null,{\"stamped\":true},[],[[\"ie_pass\",[\"used\"]]],[],[[\"ie_bluff\",true],[\"ie_gate\",false]]]"
+      ]
+    },
+    {
+      "group": "endings",
+      "name": "rejects: a fatal marker (fatal / retry is a later contract, owner lock [75]; an authored ending is only end: true)",
+      "ok": true,
+      "detail": [
+        "node ie_street:street_end: unknown field fatal"
+      ]
+    },
+    {
+      "group": "endings",
+      "name": "rejects: a terminal node not marked end (BEGIN AGAIN is only allowed on an authored ending)",
+      "ok": true,
+      "detail": [
+        "node ie_street:street_end choice restart: restart is only allowed on an end node"
+      ]
+    }
+  ]
+}

@@ -4,13 +4,17 @@
 // 1. rules.validate() walks every reachable state: no dead ends, no missing targets, no unreachable
 //    node/choice/variant, an ending reachable from everywhere, and only drawable characters.
 // 2. Scripted playthroughs pin the consequences the slice exists to prove.
+//
+// With --v2 the same checks run against the story-v2 engine instead (Rules.fromV1 + begin/step/
+// view, through the QA adapter qa/v1_on_v2.js) and write route_results_v2.json (docs/74, EF-N1).
 'use strict';
 
 const fs = require('fs');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '../..');
 const content = require('../content/reception.js');
-const Rules = require('../js/rules.js');
+const V2 = process.argv.includes('--v2');
+const Rules = V2 ? require('./v1_on_v2.js') : require('../js/rules.js');
 
 const results = [];
 function check(name, ok, detail) {
@@ -45,6 +49,10 @@ mutant('a character the fonts cannot draw', (c) => { c.nodes.opening.npc = 'GOOD
 mutant('an NPC line whose last variant is conditional', (c) => { c.nodes.facilities.npc[2].if = { flag: 'blunt' }; });
 mutant('restart outside an ending', (c) => { c.nodes.ruling.choices[0] = { id: 'sigh', text: 'X.', restart: true }; });
 mutant('no ending at all', (c) => { delete c.nodes.ending.end; });
+mutant('a context action with no observation text', (c) => { delete c.contextAction.text; });
+mutant('a context action with an unknown field', (c) => { c.contextAction.setFlag = 'blunt'; });
+mutant('a once context action without its spent reason', (c) => { delete c.contextAction.spentWhy; });
+mutant('a context action text the fonts cannot draw', (c) => { c.contextAction.text = 'I WATCHED HER — CLOSELY.'; });
 
 // Scripted playthroughs ------------------------------------------------------------------
 function play(steps) {
@@ -112,8 +120,33 @@ check('a protest can be made once only', !ids(Rules.clone(protest.s)).includes('
 const back = play(['ask-politely', 'cooperate', 'standard-issue', 'confirm-unread', 'onward-blind', 'protest', 'to-door']);
 check('after protesting, the door is still reachable by card and by USE', ids(back.s).join() === 'unlock-after' && !!Rules.itemActions(content, back.s, 'wc_key').use);
 
+// Context action (docs/64): reception's OBSERVE, an optional observation that changes nothing else.
+const actions = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/actions/actions.json'))).actions;
+const ctx = Rules.contextAction(content, Rules.start(content));
+check('reception defines one context action: OBSERVE, with the existing WATCH glyph, once per encounter',
+  !!ctx && ctx.label === 'OBSERVE' && ctx.glyph === 'watch' && ctx.once === true && ctx.spentWhy === 'NOTHING NEW TO NOTICE' && !!actions.watch, ctx);
+let everyNode = true;
+Object.keys(content.nodes).forEach((id) => { const st = Rules.start(content); st.node = id; if (Rules.contextAction(content, st) !== ctx) everyNode = false; });
+check('the context action holds at every reception node (no node overrides it)', everyNode);
+const obs = play(['ask-politely']);
+const before = JSON.stringify([obs.s.node, obs.s.flags, obs.s.inventory, obs.s.items, obs.s.objective, ids(obs.s)]);
+const said = Rules.takeContextAction(content, obs.s);
+const last = obs.s.transcript[obs.s.transcript.length - 1];
+check('taking it adds the observation to the transcript as a thought, not as speech', last.who === 'thought' && last.text === ctx.text && said === ctx.text, last);
+check('taking it changes no node, flag, item, objective or choice', JSON.stringify([obs.s.node, obs.s.flags, obs.s.inventory, obs.s.items, obs.s.objective, ids(obs.s)]) === before);
+check('a once action is spent after use and refuses a second take (no duplicate line)', Rules.contextSpent(content, obs.s) && (() => { try { Rules.takeContextAction(content, obs.s); return false; } catch (e) { return true; } })()
+  && obs.s.transcript.filter((t) => t.who === 'thought').length === 1);
+check('a fresh start (restart) clears it', !Rules.contextSpent(content, Rules.start(content)));
+check('the observation stays out of the route state: same reachable states as without it', (() => {
+  const plain = Rules.clone(content);
+  delete plain.contextAction;
+  const r = Rules.validate(plain, charset);
+  return r.ok && r.stats.reachableStates === report.stats.reachableStates;
+})());
+
 const passed = results.filter((r) => r.ok).length;
-const out = { schema: 'cyoa-m2-route-validation-v1', stats: report.stats, total: results.length, passed, failed: results.length - passed, checks: results };
-fs.writeFileSync(path.join(__dirname, 'route_results.json'), JSON.stringify(out, null, 2) + '\n');
-console.log(`route validation ${passed}/${results.length} passed`, JSON.stringify(report.stats));
+const out = { schema: 'cyoa-m2-route-validation-v1', ...(V2 ? { engine: 'cyoa-story-v2 via Rules.fromV1 (qa/v1_on_v2.js)' } : {}),
+  stats: report.stats, total: results.length, passed, failed: results.length - passed, checks: results };
+fs.writeFileSync(path.join(__dirname, V2 ? 'route_results_v2.json' : 'route_results.json'), JSON.stringify(out, null, 2) + '\n');
+console.log(`route validation${V2 ? ' (v2 engine)' : ''} ${passed}/${results.length} passed`, JSON.stringify(report.stats));
 process.exit(passed === results.length ? 0 : 1);

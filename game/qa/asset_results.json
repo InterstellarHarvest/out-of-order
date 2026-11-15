@@ -1,0 +1,1669 @@
+{
+  "schema": "cyoa-asset-validation-v1",
+  "browser": true,
+  "total": 97,
+  "passed": 97,
+  "groups": {
+    "registry": {
+      "total": 10,
+      "passed": 10
+    },
+    "EF-A1": {
+      "total": 4,
+      "passed": 4
+    },
+    "EF-A2": {
+      "total": 4,
+      "passed": 4
+    },
+    "EF-A3": {
+      "total": 7,
+      "passed": 7
+    },
+    "boot": {
+      "total": 10,
+      "passed": 10
+    },
+    "negative": {
+      "total": 24,
+      "passed": 24
+    },
+    "browser:chromium": {
+      "total": 19,
+      "passed": 19
+    },
+    "browser:firefox": {
+      "total": 19,
+      "passed": 19
+    }
+  },
+  "results": [
+    {
+      "group": "registry",
+      "name": "G.ART_CLASS sizes are the docs/72 section 4.1 art classes",
+      "ok": true,
+      "detail": [
+        [
+          "scene",
+          [
+            314,
+            206
+          ]
+        ],
+        [
+          "background",
+          [
+            564,
+            278
+          ]
+        ],
+        [
+          "pose",
+          [
+            564,
+            278
+          ]
+        ],
+        [
+          "focus",
+          [
+            564,
+            278
+          ]
+        ],
+        [
+          "slot",
+          [
+            96,
+            96
+          ]
+        ],
+        [
+          "inspect",
+          [
+            565,
+            451
+          ]
+        ]
+      ]
+    },
+    {
+      "group": "registry",
+      "name": "scene drawn at 4x; portrait background, pose and focus at 1x",
+      "ok": true
+    },
+    {
+      "group": "registry",
+      "name": "image keys: scene:<id>, portrait:<portrait>:background|pose:<id>, focus:<id>, item:<id>, inspect:<id>",
+      "ok": true
+    },
+    {
+      "group": "registry",
+      "name": "the game's story is Rules.fromV1 of the reception content, and G.ART is its registry",
+      "ok": true
+    },
+    {
+      "group": "registry",
+      "name": "the reception registers exactly its five approved images under stable keys",
+      "ok": true,
+      "detail": {
+        "scene:conference_hall/reception": {
+          "key": "scene:conference_hall/reception",
+          "cls": "scene",
+          "id": "conference_hall/reception",
+          "path": "art/scenes/conference_hall/reception/reception_scene.png"
+        },
+        "portrait:receptionist:background:reception": {
+          "key": "portrait:receptionist:background:reception",
+          "cls": "background",
+          "id": "reception",
+          "path": "art/portraits/receptionist/reception_background.png",
+          "portrait": "receptionist"
+        },
+        "portrait:receptionist:pose:idle": {
+          "key": "portrait:receptionist:pose:idle",
+          "cls": "pose",
+          "id": "idle",
+          "path": "art/portraits/receptionist/receptionist_idle.png",
+          "portrait": "receptionist"
+        },
+        "item:wc_key": {
+          "key": "item:wc_key",
+          "cls": "slot",
+          "id": "wc_key",
+          "path": "art/items/bathroom_pass_slot.png"
+        },
+        "inspect:wc_key": {
+          "key": "inspect:wc_key",
+          "cls": "inspect",
+          "id": "wc_key",
+          "path": "art/items/bathroom_pass_inspect.png"
+        }
+      }
+    },
+    {
+      "group": "registry",
+      "name": "what the apertures show: the reception scene and the receptionist's background + idle pose, with the Round 2 labels",
+      "ok": true,
+      "detail": {
+        "scene": "scene:conference_hall/reception",
+        "sceneLabel": "The reception lobby",
+        "background": "portrait:receptionist:background:reception",
+        "pose": "portrait:receptionist:pose:idle",
+        "castLabel": "The receptionist"
+      }
+    },
+    {
+      "group": "registry",
+      "name": "the reception chapter shows scene, background, pose (first-use order); item art is story-wide",
+      "ok": true,
+      "detail": [
+        [
+          "scene:conference_hall/reception",
+          "portrait:receptionist:background:reception",
+          "portrait:receptionist:pose:idle"
+        ],
+        [
+          "item:wc_key",
+          "inspect:wc_key"
+        ]
+      ]
+    },
+    {
+      "group": "registry",
+      "name": "per chapter: the engine fixture's chapters each name their own scenes, portrait layers and focus targets",
+      "ok": true,
+      "detail": [
+        [
+          "fx_one",
+          [
+            "scene:fixture/room_a",
+            "focus:fixture/room_a/keypad",
+            "portrait:attendant:background:booth",
+            "portrait:attendant:pose:idle",
+            "scene:fixture/room_b"
+          ]
+        ],
+        [
+          "fx_two",
+          [
+            "scene:fixture/room_c"
+          ]
+        ]
+      ]
+    },
+    {
+      "group": "registry",
+      "name": "an unknown chapter is a clear error",
+      "ok": true,
+      "detail": "Unknown chapter: nope"
+    },
+    {
+      "group": "registry",
+      "name": "distinct registrations never share a key (prefixes keep scene, portrait, focus and item art apart)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "group": "EF-A1",
+      "name": "reception (production): every referenced asset registered, every registration referenced, one key per file",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A2",
+      "name": "reception (production): every file exists at its art class's PNG size",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A3",
+      "name": "reception (production): no null art, no source/originals/review path",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A1",
+      "name": "engine-fixture (fixture): every referenced asset registered, every registration referenced, one key per file",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A2",
+      "name": "engine-fixture (fixture): every file exists at its art class's PNG size",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A3",
+      "name": "engine-fixture (fixture): null placeholders only in a fixture; any path approved",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A1",
+      "name": "endings-fixture (fixture): every referenced asset registered, every registration referenced, one key per file",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A2",
+      "name": "endings-fixture (fixture): every file exists at its art class's PNG size",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A3",
+      "name": "endings-fixture (fixture): null placeholders only in a fixture; any path approved",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A1",
+      "name": "imported (production): every referenced asset registered, every registration referenced, one key per file",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A2",
+      "name": "imported (production): every file exists at its art class's PNG size",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A3",
+      "name": "imported (production): no null art, no source/originals/review path",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "EF-A3",
+      "name": "the QA fixtures use only approved null placeholders (no art is commissioned for them)",
+      "ok": true
+    },
+    {
+      "group": "EF-A3",
+      "name": "the reception is a production story with no null art",
+      "ok": true
+    },
+    {
+      "group": "EF-A3",
+      "name": "every registered production image is the approved file, byte for byte (SHA-256 pins)",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "boot",
+      "name": "boot decodes the opening chapter and every item's slot and inspect art, from G.ART",
+      "ok": true,
+      "detail": [
+        [
+          "scene:conference_hall/reception",
+          "art/scenes/conference_hall/reception/reception_scene.png"
+        ],
+        [
+          "portrait:receptionist:background:reception",
+          "art/portraits/receptionist/reception_background.png"
+        ],
+        [
+          "portrait:receptionist:pose:idle",
+          "art/portraits/receptionist/receptionist_idle.png"
+        ],
+        [
+          "item:wc_key",
+          "art/items/bathroom_pass_slot.png"
+        ],
+        [
+          "inspect:wc_key",
+          "art/items/bathroom_pass_inspect.png"
+        ]
+      ]
+    },
+    {
+      "group": "boot",
+      "name": "boot still decodes the engine-owned UI art: sprite package, fonts, slip, NOTES v2 + FILES panels, the inspector X, glyphs",
+      "ok": true,
+      "detail": [
+        "font:jersey15-1x",
+        "font:pressstart2p-2x",
+        "font:tiny5-3x",
+        "ui:item_received_slip",
+        "ui:notes_panel_v2",
+        "ui:files_panel",
+        "ui:inspect_close",
+        "glyph:notes",
+        "glyph:files",
+        "glyph:read",
+        "glyph:use",
+        "glyph:show_badge",
+        "glyph:watch"
+      ]
+    },
+    {
+      "group": "boot",
+      "name": "boot names are unique, and no story key collides with an engine-owned image name",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "boot",
+      "name": "boot keeps the M2 order: slot art, then scene, portrait background, pose, then (after slip and panels) inspect art",
+      "ok": true,
+      "detail": [
+        "item:wc_key",
+        "scene:conference_hall/reception",
+        "portrait:receptionist:background:reception",
+        "portrait:receptionist:pose:idle",
+        "inspect:wc_key"
+      ]
+    },
+    {
+      "group": "boot",
+      "name": "every boot image is an existing PNG in the repository",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "boot",
+      "name": "no boot image comes from source/, originals/ or review/",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "boot",
+      "name": "the alternate receptionist designs (idle2, idle3) stay unregistered and unloaded",
+      "ok": true
+    },
+    {
+      "group": "boot",
+      "name": "every full-stage UI overlay the stage names is a 1920x1080 PNG (shell, item overlay)",
+      "ok": true,
+      "detail": {
+        "overlays": [
+          "art/ui/shell/item-overlay.png",
+          "art/ui/shell/layout-final.png"
+        ],
+        "ovBad": []
+      }
+    },
+    {
+      "group": "boot",
+      "name": "stage.js and main.js hold no story art path and no RECEPTION_ART: the story declares the art once",
+      "ok": true
+    },
+    {
+      "group": "boot",
+      "name": "portrait layering in buildApertures: background -> rear FX -> pose -> front FX, then the shell above",
+      "ok": true,
+      "detail": [
+        15471,
+        15584,
+        15654,
+        15930
+      ]
+    },
+    {
+      "group": "negative",
+      "name": "missing scene file -> A2",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [
+          "missing file: scene:conference_hall/reception -> art/scenes/conference_hall/reception/qa_missing.png"
+        ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "missing inspect file -> A2",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [
+          "missing file: inspect:wc_key -> art/items/qa_missing_inspect.png"
+        ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "scene with portrait dimensions -> A2",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "one file registered under 2 keys: scene:conference_hall/reception, portrait:receptionist:background:reception (art/portraits/receptionist/reception_background.png)"
+        ],
+        "A2": [
+          "scene:conference_hall/reception (scene) is 564x278, needs 314x206: art/portraits/receptionist/reception_background.png"
+        ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "pose with scene dimensions -> A2",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "one file registered under 2 keys: scene:conference_hall/reception, portrait:receptionist:pose:idle (art/scenes/conference_hall/reception/reception_scene.png)"
+        ],
+        "A2": [
+          "portrait:receptionist:pose:idle (pose) is 314x206, needs 564x278: art/scenes/conference_hall/reception/reception_scene.png"
+        ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "inspect art with slot dimensions -> A2",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "one file registered under 2 keys: item:wc_key, inspect:wc_key (art/items/bathroom_pass_slot.png)"
+        ],
+        "A2": [
+          "inspect:wc_key (inspect) is 96x96, needs 565x451: art/items/bathroom_pass_slot.png"
+        ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "slot art with inspect dimensions -> A2",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "one file registered under 2 keys: item:wc_key, inspect:wc_key (art/items/bathroom_pass_inspect.png)"
+        ],
+        "A2": [
+          "item:wc_key (slot) is 565x451, needs 96x96: art/items/bathroom_pass_inspect.png"
+        ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "a file that is not a PNG -> A2",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [
+          "not a PNG: scene:conference_hall/reception -> art/actions/actions.json"
+        ],
+        "A3": [
+          "not a .png under art/: scene:conference_hall/reception -> art/actions/actions.json"
+        ]
+      }
+    },
+    {
+      "group": "negative",
+      "name": "chapter scene not registered -> A1",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "referenced but not registered: scene:conference_hall/lobby",
+          "registered but never shown: scene:conference_hall/reception"
+        ],
+        "A2": [],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "node pose override not registered -> A1",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "referenced but not registered: portrait:receptionist:pose:smile"
+        ],
+        "A2": [],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "speaker with no registered portrait -> A1",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "chapter reception: No registered portrait for speaker receptionist (reception:opening)",
+          "registered but never shown: scene:conference_hall/reception",
+          "registered but never shown: portrait:receptionist:background:reception",
+          "registered but never shown: portrait:receptionist:pose:idle"
+        ],
+        "A2": [],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "registered pose never shown (orphan) -> A1",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "registered but never shown: portrait:receptionist:pose:idle2"
+        ],
+        "A2": [],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "registered scene never shown (orphan) -> A1",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "registered but never shown: scene:conference_hall/annex"
+        ],
+        "A2": [],
+        "A3": [
+          "null art in a production story: scene:conference_hall/annex"
+        ]
+      }
+    },
+    {
+      "group": "negative",
+      "name": "one file registered twice (duplicate registration) -> A1",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "registered but never shown: focus:conference_hall/reception/desk",
+          "one file registered under 2 keys: scene:conference_hall/reception, focus:conference_hall/reception/desk (art/scenes/conference_hall/reception/reception_scene.png)"
+        ],
+        "A2": [
+          "focus:conference_hall/reception/desk (focus) is 314x206, needs 564x278: art/scenes/conference_hall/reception/reception_scene.png"
+        ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "production null art -> A3",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [],
+        "A3": [
+          "null art in a production story: portrait:receptionist:background:reception"
+        ]
+      }
+    },
+    {
+      "group": "negative",
+      "name": "production null item art -> A3",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [],
+        "A3": [
+          "null art in a production story: inspect:wc_key"
+        ]
+      }
+    },
+    {
+      "group": "negative",
+      "name": "production art from review/ -> A3",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [
+          "missing file: scene:conference_hall/reception -> art/scenes/conference_hall/reception/review/reception_scene.png"
+        ],
+        "A3": [
+          "unapproved source path: scene:conference_hall/reception -> art/scenes/conference_hall/reception/review/reception_scene.png"
+        ]
+      }
+    },
+    {
+      "group": "negative",
+      "name": "production art from source/ -> A3",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [
+          "missing file: scene:conference_hall/reception -> art/scenes/conference_hall/reception/source/reception_scene.png"
+        ],
+        "A3": [
+          "unapproved source path: scene:conference_hall/reception -> art/scenes/conference_hall/reception/source/reception_scene.png"
+        ]
+      }
+    },
+    {
+      "group": "negative",
+      "name": "production art from originals/ -> A3",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [
+          "missing file: scene:conference_hall/reception -> art/scenes/conference_hall/reception/originals/reception_scene.png"
+        ],
+        "A3": [
+          "unapproved source path: scene:conference_hall/reception -> art/scenes/conference_hall/reception/originals/reception_scene.png"
+        ]
+      }
+    },
+    {
+      "group": "negative",
+      "name": "production art outside art/ -> A3",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [
+          "missing file: scene:conference_hall/reception -> review/narrative-mode-b-art-study/scene.png"
+        ],
+        "A3": [
+          "unapproved source path: scene:conference_hall/reception -> review/narrative-mode-b-art-study/scene.png",
+          "not a .png under art/: scene:conference_hall/reception -> review/narrative-mode-b-art-study/scene.png"
+        ]
+      }
+    },
+    {
+      "group": "negative",
+      "name": "fixture with a non-null file that does not exist -> A2",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [
+          "missing file: scene:fixture/room_a -> art/scenes/fixture/room_a/qa_missing.png"
+        ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "fixture focus target never shown -> A1",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "registered but never shown: focus:fixture/room_a/drawer"
+        ],
+        "A2": [],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "positive control: a fixture may mix null placeholders with a registered approved file",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "overlay size rule: the item overlay passes, a 1255x822 panel would fail as a full-stage overlay",
+      "ok": true,
+      "detail": [
+        true,
+        false
+      ]
+    },
+    {
+      "group": "negative",
+      "name": "unmutated reception passes all three rules (controls are not vacuous)",
+      "ok": true,
+      "detail": {
+        "A1": [],
+        "A2": [],
+        "A3": []
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "the game boots (ready=true)",
+      "ok": true
+    },
+    {
+      "group": "browser:chromium",
+      "name": "G.ART in the page is the Node registry (same keys, classes and paths)",
+      "ok": true,
+      "detail": {
+        "scene:conference_hall/reception": {
+          "key": "scene:conference_hall/reception",
+          "cls": "scene",
+          "id": "conference_hall/reception",
+          "path": "art/scenes/conference_hall/reception/reception_scene.png"
+        },
+        "portrait:receptionist:background:reception": {
+          "key": "portrait:receptionist:background:reception",
+          "cls": "background",
+          "id": "reception",
+          "path": "art/portraits/receptionist/reception_background.png",
+          "portrait": "receptionist"
+        },
+        "portrait:receptionist:pose:idle": {
+          "key": "portrait:receptionist:pose:idle",
+          "cls": "pose",
+          "id": "idle",
+          "path": "art/portraits/receptionist/receptionist_idle.png",
+          "portrait": "receptionist"
+        },
+        "item:wc_key": {
+          "key": "item:wc_key",
+          "cls": "slot",
+          "id": "wc_key",
+          "path": "art/items/bathroom_pass_slot.png"
+        },
+        "inspect:wc_key": {
+          "key": "inspect:wc_key",
+          "cls": "inspect",
+          "id": "wc_key",
+          "path": "art/items/bathroom_pass_inspect.png"
+        }
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "the scene and portrait <img> elements are the very images decoded under their G.ART keys",
+      "ok": true,
+      "detail": {
+        "scene": true,
+        "background": true,
+        "pose": true
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "portrait layers: background -> rear FX -> pose -> front FX, all hidden from assistive tech",
+      "ok": true,
+      "detail": [
+        "portraitBackground:IMG:true",
+        "portraitRearFx:DIV:true",
+        "portraitNpc:IMG:true",
+        "portraitFrontFx:DIV:true"
+      ]
+    },
+    {
+      "group": "browser:chromium",
+      "name": "aperture roles and labels are the Round 2 ones (img, \"The reception lobby\"; img, \"The receptionist\"); art alt empty",
+      "ok": true,
+      "detail": [
+        "img",
+        "The reception lobby",
+        "img",
+        "The receptionist",
+        "true",
+        ""
+      ]
+    },
+    {
+      "group": "browser:chromium",
+      "name": "every registered image is decoded before ready; scene drawn 4x, portrait layers 1x",
+      "ok": true,
+      "detail": {
+        "art": {
+          "scene:conference_hall/reception": {
+            "key": "scene:conference_hall/reception",
+            "cls": "scene",
+            "id": "conference_hall/reception",
+            "path": "art/scenes/conference_hall/reception/reception_scene.png"
+          },
+          "portrait:receptionist:background:reception": {
+            "key": "portrait:receptionist:background:reception",
+            "cls": "background",
+            "id": "reception",
+            "path": "art/portraits/receptionist/reception_background.png",
+            "portrait": "receptionist"
+          },
+          "portrait:receptionist:pose:idle": {
+            "key": "portrait:receptionist:pose:idle",
+            "cls": "pose",
+            "id": "idle",
+            "path": "art/portraits/receptionist/receptionist_idle.png",
+            "portrait": "receptionist"
+          },
+          "item:wc_key": {
+            "key": "item:wc_key",
+            "cls": "slot",
+            "id": "wc_key",
+            "path": "art/items/bathroom_pass_slot.png"
+          },
+          "inspect:wc_key": {
+            "key": "inspect:wc_key",
+            "cls": "inspect",
+            "id": "wc_key",
+            "path": "art/items/bathroom_pass_inspect.png"
+          }
+        },
+        "on": {
+          "scene": "scene:conference_hall/reception",
+          "sceneLabel": "The reception lobby",
+          "background": "portrait:receptionist:background:reception",
+          "pose": "portrait:receptionist:pose:idle",
+          "castLabel": "The receptionist"
+        },
+        "same": {
+          "scene": true,
+          "background": true,
+          "pose": true
+        },
+        "layers": [
+          "portraitBackground:IMG:true",
+          "portraitRearFx:DIV:true",
+          "portraitNpc:IMG:true",
+          "portraitFrontFx:DIV:true"
+        ],
+        "aria": [
+          "img",
+          "The reception lobby",
+          "img",
+          "The receptionist",
+          "true",
+          ""
+        ],
+        "decoded": [
+          [
+            "scene:conference_hall/reception",
+            true
+          ],
+          [
+            "portrait:receptionist:background:reception",
+            true
+          ],
+          [
+            "portrait:receptionist:pose:idle",
+            true
+          ],
+          [
+            "item:wc_key",
+            true
+          ],
+          [
+            "inspect:wc_key",
+            true
+          ]
+        ],
+        "sizes": [
+          [
+            314,
+            206,
+            1256,
+            824
+          ],
+          [
+            564,
+            278,
+            564,
+            278
+          ],
+          [
+            564,
+            278,
+            564,
+            278
+          ]
+        ],
+        "dom": "<div class=\"aperture art-aperture\" id=\"scene\" role=\"img\" aria-label=\"The reception lobby\" style=\"left: 32px; top: 44px; width: 1255px; height: 822px;\"><img src=\"../art/scenes/conference_hall/reception/reception_scene.png\" id=\"sceneArt\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"1256\" height=\"824\" data-art=\"scene:conference_hall/reception\" style=\"left: 0px; top: 0px; width: 1256px; height: 824px;\"></div><div class=\"aperture art-aperture\" id=\"portrait\" role=\"img\" aria-label=\"The receptionist\" style=\"left: 1333px; top: 44px; width: 564px; height: 278px;\"><img src=\"../art/portraits/receptionist/reception_background.png\" id=\"portraitBackground\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" data-art=\"portrait:receptionist:background:reception\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"><div class=\"layer fx\" id=\"portraitRearFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div><img src=\"../art/portraits/receptionist/receptionist_idle.png\" id=\"portraitNpc\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" data-art=\"portrait:receptionist:pose:idle\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"><div class=\"layer fx\" id=\"portraitFrontFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div></div>"
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "boot requests each registered image exactly once, and nothing from source/, originals/ or review/",
+      "ok": true,
+      "detail": [
+        "/art/ui/sprites/choice_cards/choice_1line_a.png",
+        "/art/ui/sprites/choice_cards/choice_1line_b.png",
+        "/art/ui/sprites/choice_cards/choice_1line_c.png",
+        "/art/ui/sprites/choice_cards/choice_2line_a.png",
+        "/art/ui/sprites/choice_cards/choice_2line_b.png",
+        "/art/ui/sprites/choice_cards/choice_2line_c.png",
+        "/art/ui/sprites/choice_cards/choice_3line_a.png",
+        "/art/ui/sprites/choice_cards/choice_3line_b.png",
+        "/art/ui/sprites/choice_cards/choice_3line_c.png",
+        "/art/ui/sprites/choice_cards/choice_4line_a.png",
+        "/art/ui/sprites/choice_cards/choice_4line_b.png",
+        "/art/ui/sprites/choice_cards/choice_4line_c.png",
+        "/art/ui/sprites/inventory/inventory_slot.png",
+        "/art/ui/sprites/controls/utility_a_up.png",
+        "/art/ui/sprites/controls/utility_a_down.png",
+        "/art/ui/sprites/controls/utility_b_up.png",
+        "/art/ui/sprites/controls/utility_b_down.png",
+        "/art/ui/sprites/controls/utility_c_up.png",
+        "/art/ui/sprites/controls/utility_c_down.png",
+        "/art/ui/sprites/controls/inv_left_up.png",
+        "/art/ui/sprites/controls/inv_left_down.png",
+        "/art/ui/sprites/controls/inv_right_up.png",
+        "/art/ui/sprites/controls/inv_right_down.png",
+        "/art/ui/sprites/controls/choice_scroll_thumb_top.png",
+        "/art/ui/sprites/controls/choice_scroll_thumb_middle.png",
+        "/art/ui/sprites/controls/choice_scroll_thumb_bottom.png",
+        "/art/ui/sprites/fonts/locked_pixel_font_atlas_dark.png",
+        "/art/ui/sprites/fonts/locked_pixel_font_atlas_light.png",
+        "/art/ui/fonts/jersey15-1x.png",
+        "/art/ui/fonts/pressstart2p-2x.png",
+        "/art/ui/fonts/tiny5-3x.png",
+        "/art/items/bathroom_pass_slot.png",
+        "/art/scenes/conference_hall/reception/reception_scene.png",
+        "/art/portraits/receptionist/reception_background.png",
+        "/art/portraits/receptionist/receptionist_idle.png",
+        "/art/ui/overlays/item_received_slip.png",
+        "/art/ui/overlays/notes_panel_v2.png",
+        "/art/ui/overlays/files_panel.png",
+        "/art/items/bathroom_pass_inspect.png",
+        "/art/ui/sprites/inspect_close.png",
+        "/art/actions/notes.png",
+        "/art/actions/files.png",
+        "/art/actions/read.png",
+        "/art/actions/use.png",
+        "/art/actions/show_badge.png",
+        "/art/actions/watch.png",
+        "/art/ui/shell/layout-final.png",
+        "/art/ui/shell/item-overlay.png"
+      ]
+    },
+    {
+      "group": "browser:chromium",
+      "name": "the alternate receptionist designs are never requested",
+      "ok": true
+    },
+    {
+      "group": "browser:chromium",
+      "name": "preloadChapter(current chapter) reuses the boot images: nothing requested",
+      "ok": true,
+      "detail": {
+        "cur": {
+          "story": "reception",
+          "chapter": "reception",
+          "keys": [
+            "scene:conference_hall/reception",
+            "portrait:receptionist:background:reception",
+            "portrait:receptionist:pose:idle"
+          ],
+          "placeholders": [],
+          "requested": [],
+          "reused": [
+            "scene:conference_hall/reception",
+            "portrait:receptionist:background:reception",
+            "portrait:receptionist:pose:idle"
+          ]
+        },
+        "extra": []
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "preloadChapter(next chapter) decodes only its new images, reuses shared ones and skips null placeholders",
+      "ok": true,
+      "detail": {
+        "nx": {
+          "first": {
+            "story": "qa-next-chapter",
+            "chapter": "qa_two",
+            "keys": [
+              "scene:qa/next_room",
+              "portrait:receptionist:background:reception",
+              "portrait:receptionist:pose:idle",
+              "portrait:receptionist:pose:qa_alt",
+              "focus:qa/next_room/desk"
+            ],
+            "placeholders": [
+              "focus:qa/next_room/desk"
+            ],
+            "requested": [
+              "scene:qa/next_room",
+              "portrait:receptionist:pose:qa_alt"
+            ],
+            "reused": [
+              "portrait:receptionist:background:reception",
+              "portrait:receptionist:pose:idle"
+            ]
+          },
+          "again": {
+            "story": "qa-next-chapter",
+            "chapter": "qa_two",
+            "keys": [
+              "scene:qa/next_room",
+              "portrait:receptionist:background:reception",
+              "portrait:receptionist:pose:idle",
+              "portrait:receptionist:pose:qa_alt",
+              "focus:qa/next_room/desk"
+            ],
+            "placeholders": [
+              "focus:qa/next_room/desk"
+            ],
+            "requested": [],
+            "reused": [
+              "scene:qa/next_room",
+              "portrait:receptionist:background:reception",
+              "portrait:receptionist:pose:idle",
+              "portrait:receptionist:pose:qa_alt"
+            ]
+          },
+          "sameDom": true,
+          "sameArt": true,
+          "decoded": true
+        },
+        "added": [
+          "/art/scenes/conference_hall/reception/reception_scene.png",
+          "/art/portraits/receptionist/receptionist_idle.png"
+        ]
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "a second preload of the same chapter is served from the cache (no request)",
+      "ok": true,
+      "detail": {
+        "story": "qa-next-chapter",
+        "chapter": "qa_two",
+        "keys": [
+          "scene:qa/next_room",
+          "portrait:receptionist:background:reception",
+          "portrait:receptionist:pose:idle",
+          "portrait:receptionist:pose:qa_alt",
+          "focus:qa/next_room/desk"
+        ],
+        "placeholders": [
+          "focus:qa/next_room/desk"
+        ],
+        "requested": [],
+        "reused": [
+          "scene:qa/next_room",
+          "portrait:receptionist:background:reception",
+          "portrait:receptionist:pose:idle",
+          "portrait:receptionist:pose:qa_alt"
+        ]
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "preloading changes nothing on the stage (scene/portrait DOM, G.ART and what is on show)",
+      "ok": true
+    },
+    {
+      "group": "browser:chromium",
+      "name": "two missing files: one rejection naming both keys and URLs; err.failures lists each as missing; neither is cached",
+      "ok": true,
+      "detail": {
+        "message": "Images not loaded: scene:qa/missing_room (../art/scenes/qa/qa_missing_scene.png: missing); portrait:receptionist:pose:qa_missing (../art/portraits/receptionist/qa_missing_pose.png: missing)",
+        "failures": [
+          {
+            "name": "scene:qa/missing_room",
+            "url": "../art/scenes/qa/qa_missing_scene.png",
+            "reason": "missing"
+          },
+          {
+            "name": "portrait:receptionist:pose:qa_missing",
+            "url": "../art/portraits/receptionist/qa_missing_pose.png",
+            "reason": "missing"
+          }
+        ]
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "one missing file: \"Missing image: <url>\", as boot has always reported it",
+      "ok": true,
+      "detail": {
+        "message": "Missing image: ../art/scenes/qa/qa_missing_one.png",
+        "failures": [
+          {
+            "name": "scene:qa/missing_one",
+            "url": "../art/scenes/qa/qa_missing_one.png",
+            "reason": "missing"
+          }
+        ]
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "an unknown chapter and unregistered art are rejected by name",
+      "ok": true,
+      "detail": [
+        {
+          "message": "Unknown chapter: nope",
+          "failures": null
+        },
+        {
+          "message": "Unregistered art: scene:qa/unregistered",
+          "failures": null
+        }
+      ]
+    },
+    {
+      "group": "browser:chromium",
+      "name": "a key already bound to another file is refused, and the image on show is kept",
+      "ok": true,
+      "detail": {
+        "message": "Images not loaded: scene:conference_hall/reception (../art/portraits/receptionist/reception_background.png: already bound to ../art/scenes/conference_hall/reception/reception_scene.png)",
+        "failures": [
+          {
+            "name": "scene:conference_hall/reception",
+            "url": "../art/portraits/receptionist/reception_background.png",
+            "reason": "already bound to ../art/scenes/conference_hall/reception/reception_scene.png"
+          }
+        ]
+      }
+    },
+    {
+      "group": "browser:chromium",
+      "name": "the game is still ready after every failed preload",
+      "ok": true
+    },
+    {
+      "group": "browser:chromium",
+      "name": "the engine fixture preloads chapter by chapter: every image a labelled placeholder, nothing requested",
+      "ok": true,
+      "detail": [
+        {
+          "story": "engine-fixture",
+          "chapter": "fx_one",
+          "keys": [
+            "scene:fixture/room_a",
+            "focus:fixture/room_a/keypad",
+            "portrait:attendant:background:booth",
+            "portrait:attendant:pose:idle",
+            "scene:fixture/room_b"
+          ],
+          "placeholders": [
+            "scene:fixture/room_a",
+            "focus:fixture/room_a/keypad",
+            "portrait:attendant:background:booth",
+            "portrait:attendant:pose:idle",
+            "scene:fixture/room_b"
+          ],
+          "requested": [],
+          "reused": []
+        },
+        {
+          "story": "engine-fixture",
+          "chapter": "fx_two",
+          "keys": [
+            "scene:fixture/room_c"
+          ],
+          "placeholders": [
+            "scene:fixture/room_c"
+          ],
+          "requested": [],
+          "reused": []
+        }
+      ]
+    },
+    {
+      "group": "browser:chromium",
+      "name": "no console or page errors",
+      "ok": true,
+      "detail": []
+    },
+    {
+      "group": "browser:firefox",
+      "name": "the game boots (ready=true)",
+      "ok": true
+    },
+    {
+      "group": "browser:firefox",
+      "name": "G.ART in the page is the Node registry (same keys, classes and paths)",
+      "ok": true,
+      "detail": {
+        "scene:conference_hall/reception": {
+          "key": "scene:conference_hall/reception",
+          "cls": "scene",
+          "id": "conference_hall/reception",
+          "path": "art/scenes/conference_hall/reception/reception_scene.png"
+        },
+        "portrait:receptionist:background:reception": {
+          "key": "portrait:receptionist:background:reception",
+          "cls": "background",
+          "id": "reception",
+          "path": "art/portraits/receptionist/reception_background.png",
+          "portrait": "receptionist"
+        },
+        "portrait:receptionist:pose:idle": {
+          "key": "portrait:receptionist:pose:idle",
+          "cls": "pose",
+          "id": "idle",
+          "path": "art/portraits/receptionist/receptionist_idle.png",
+          "portrait": "receptionist"
+        },
+        "item:wc_key": {
+          "key": "item:wc_key",
+          "cls": "slot",
+          "id": "wc_key",
+          "path": "art/items/bathroom_pass_slot.png"
+        },
+        "inspect:wc_key": {
+          "key": "inspect:wc_key",
+          "cls": "inspect",
+          "id": "wc_key",
+          "path": "art/items/bathroom_pass_inspect.png"
+        }
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "the scene and portrait <img> elements are the very images decoded under their G.ART keys",
+      "ok": true,
+      "detail": {
+        "scene": true,
+        "background": true,
+        "pose": true
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "portrait layers: background -> rear FX -> pose -> front FX, all hidden from assistive tech",
+      "ok": true,
+      "detail": [
+        "portraitBackground:IMG:true",
+        "portraitRearFx:DIV:true",
+        "portraitNpc:IMG:true",
+        "portraitFrontFx:DIV:true"
+      ]
+    },
+    {
+      "group": "browser:firefox",
+      "name": "aperture roles and labels are the Round 2 ones (img, \"The reception lobby\"; img, \"The receptionist\"); art alt empty",
+      "ok": true,
+      "detail": [
+        "img",
+        "The reception lobby",
+        "img",
+        "The receptionist",
+        "true",
+        ""
+      ]
+    },
+    {
+      "group": "browser:firefox",
+      "name": "every registered image is decoded before ready; scene drawn 4x, portrait layers 1x",
+      "ok": true,
+      "detail": {
+        "art": {
+          "scene:conference_hall/reception": {
+            "key": "scene:conference_hall/reception",
+            "cls": "scene",
+            "id": "conference_hall/reception",
+            "path": "art/scenes/conference_hall/reception/reception_scene.png"
+          },
+          "portrait:receptionist:background:reception": {
+            "key": "portrait:receptionist:background:reception",
+            "cls": "background",
+            "id": "reception",
+            "path": "art/portraits/receptionist/reception_background.png",
+            "portrait": "receptionist"
+          },
+          "portrait:receptionist:pose:idle": {
+            "key": "portrait:receptionist:pose:idle",
+            "cls": "pose",
+            "id": "idle",
+            "path": "art/portraits/receptionist/receptionist_idle.png",
+            "portrait": "receptionist"
+          },
+          "item:wc_key": {
+            "key": "item:wc_key",
+            "cls": "slot",
+            "id": "wc_key",
+            "path": "art/items/bathroom_pass_slot.png"
+          },
+          "inspect:wc_key": {
+            "key": "inspect:wc_key",
+            "cls": "inspect",
+            "id": "wc_key",
+            "path": "art/items/bathroom_pass_inspect.png"
+          }
+        },
+        "on": {
+          "scene": "scene:conference_hall/reception",
+          "sceneLabel": "The reception lobby",
+          "background": "portrait:receptionist:background:reception",
+          "pose": "portrait:receptionist:pose:idle",
+          "castLabel": "The receptionist"
+        },
+        "same": {
+          "scene": true,
+          "background": true,
+          "pose": true
+        },
+        "layers": [
+          "portraitBackground:IMG:true",
+          "portraitRearFx:DIV:true",
+          "portraitNpc:IMG:true",
+          "portraitFrontFx:DIV:true"
+        ],
+        "aria": [
+          "img",
+          "The reception lobby",
+          "img",
+          "The receptionist",
+          "true",
+          ""
+        ],
+        "decoded": [
+          [
+            "scene:conference_hall/reception",
+            true
+          ],
+          [
+            "portrait:receptionist:background:reception",
+            true
+          ],
+          [
+            "portrait:receptionist:pose:idle",
+            true
+          ],
+          [
+            "item:wc_key",
+            true
+          ],
+          [
+            "inspect:wc_key",
+            true
+          ]
+        ],
+        "sizes": [
+          [
+            314,
+            206,
+            1256,
+            824
+          ],
+          [
+            564,
+            278,
+            564,
+            278
+          ],
+          [
+            564,
+            278,
+            564,
+            278
+          ]
+        ],
+        "dom": "<div class=\"aperture art-aperture\" id=\"scene\" role=\"img\" aria-label=\"The reception lobby\" style=\"left: 32px; top: 44px; width: 1255px; height: 822px;\"><img src=\"../art/scenes/conference_hall/reception/reception_scene.png\" id=\"sceneArt\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"1256\" height=\"824\" style=\"left: 0px; top: 0px; width: 1256px; height: 824px;\" data-art=\"scene:conference_hall/reception\"></div><div class=\"aperture art-aperture\" id=\"portrait\" role=\"img\" aria-label=\"The receptionist\" style=\"left: 1333px; top: 44px; width: 564px; height: 278px;\"><img src=\"../art/portraits/receptionist/reception_background.png\" id=\"portraitBackground\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\" data-art=\"portrait:receptionist:background:reception\"><div class=\"layer fx\" id=\"portraitRearFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div><img src=\"../art/portraits/receptionist/receptionist_idle.png\" id=\"portraitNpc\" class=\"layer art\" alt=\"\" draggable=\"false\" aria-hidden=\"true\" width=\"564\" height=\"278\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\" data-art=\"portrait:receptionist:pose:idle\"><div class=\"layer fx\" id=\"portraitFrontFx\" aria-hidden=\"true\" style=\"left: 0px; top: 0px; width: 564px; height: 278px;\"></div></div>"
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "boot requests each registered image exactly once, and nothing from source/, originals/ or review/",
+      "ok": true,
+      "detail": [
+        "/art/ui/sprites/choice_cards/choice_1line_a.png",
+        "/art/ui/sprites/choice_cards/choice_1line_b.png",
+        "/art/ui/sprites/choice_cards/choice_1line_c.png",
+        "/art/ui/sprites/choice_cards/choice_2line_a.png",
+        "/art/ui/sprites/choice_cards/choice_2line_b.png",
+        "/art/ui/sprites/choice_cards/choice_2line_c.png",
+        "/art/ui/sprites/choice_cards/choice_3line_a.png",
+        "/art/ui/sprites/choice_cards/choice_3line_b.png",
+        "/art/ui/sprites/choice_cards/choice_3line_c.png",
+        "/art/ui/sprites/choice_cards/choice_4line_a.png",
+        "/art/ui/sprites/choice_cards/choice_4line_b.png",
+        "/art/ui/sprites/choice_cards/choice_4line_c.png",
+        "/art/ui/sprites/inventory/inventory_slot.png",
+        "/art/ui/sprites/controls/utility_a_up.png",
+        "/art/ui/sprites/controls/utility_a_down.png",
+        "/art/ui/sprites/controls/utility_b_up.png",
+        "/art/ui/sprites/controls/utility_b_down.png",
+        "/art/ui/sprites/controls/utility_c_up.png",
+        "/art/ui/sprites/controls/utility_c_down.png",
+        "/art/ui/sprites/controls/inv_left_up.png",
+        "/art/ui/sprites/controls/inv_left_down.png",
+        "/art/ui/sprites/controls/inv_right_up.png",
+        "/art/ui/sprites/controls/inv_right_down.png",
+        "/art/ui/sprites/controls/choice_scroll_thumb_top.png",
+        "/art/ui/sprites/controls/choice_scroll_thumb_middle.png",
+        "/art/ui/sprites/controls/choice_scroll_thumb_bottom.png",
+        "/art/ui/sprites/fonts/locked_pixel_font_atlas_dark.png",
+        "/art/ui/sprites/fonts/locked_pixel_font_atlas_light.png",
+        "/art/ui/fonts/jersey15-1x.png",
+        "/art/ui/fonts/pressstart2p-2x.png",
+        "/art/ui/fonts/tiny5-3x.png",
+        "/art/items/bathroom_pass_slot.png",
+        "/art/scenes/conference_hall/reception/reception_scene.png",
+        "/art/portraits/receptionist/reception_background.png",
+        "/art/portraits/receptionist/receptionist_idle.png",
+        "/art/ui/overlays/item_received_slip.png",
+        "/art/ui/overlays/notes_panel_v2.png",
+        "/art/ui/overlays/files_panel.png",
+        "/art/items/bathroom_pass_inspect.png",
+        "/art/ui/sprites/inspect_close.png",
+        "/art/actions/notes.png",
+        "/art/actions/files.png",
+        "/art/actions/read.png",
+        "/art/actions/use.png",
+        "/art/actions/show_badge.png",
+        "/art/actions/watch.png",
+        "/art/ui/shell/layout-final.png",
+        "/art/ui/shell/item-overlay.png"
+      ]
+    },
+    {
+      "group": "browser:firefox",
+      "name": "the alternate receptionist designs are never requested",
+      "ok": true
+    },
+    {
+      "group": "browser:firefox",
+      "name": "preloadChapter(current chapter) reuses the boot images: nothing requested",
+      "ok": true,
+      "detail": {
+        "cur": {
+          "story": "reception",
+          "chapter": "reception",
+          "keys": [
+            "scene:conference_hall/reception",
+            "portrait:receptionist:background:reception",
+            "portrait:receptionist:pose:idle"
+          ],
+          "placeholders": [],
+          "requested": [],
+          "reused": [
+            "scene:conference_hall/reception",
+            "portrait:receptionist:background:reception",
+            "portrait:receptionist:pose:idle"
+          ]
+        },
+        "extra": []
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "preloadChapter(next chapter) decodes only its new images, reuses shared ones and skips null placeholders",
+      "ok": true,
+      "detail": {
+        "nx": {
+          "first": {
+            "story": "qa-next-chapter",
+            "chapter": "qa_two",
+            "keys": [
+              "scene:qa/next_room",
+              "portrait:receptionist:background:reception",
+              "portrait:receptionist:pose:idle",
+              "portrait:receptionist:pose:qa_alt",
+              "focus:qa/next_room/desk"
+            ],
+            "placeholders": [
+              "focus:qa/next_room/desk"
+            ],
+            "requested": [
+              "scene:qa/next_room",
+              "portrait:receptionist:pose:qa_alt"
+            ],
+            "reused": [
+              "portrait:receptionist:background:reception",
+              "portrait:receptionist:pose:idle"
+            ]
+          },
+          "again": {
+            "story": "qa-next-chapter",
+            "chapter": "qa_two",
+            "keys": [
+              "scene:qa/next_room",
+              "portrait:receptionist:background:reception",
+              "portrait:receptionist:pose:idle",
+              "portrait:receptionist:pose:qa_alt",
+              "focus:qa/next_room/desk"
+            ],
+            "placeholders": [
+              "focus:qa/next_room/desk"
+            ],
+            "requested": [],
+            "reused": [
+              "scene:qa/next_room",
+              "portrait:receptionist:background:reception",
+              "portrait:receptionist:pose:idle",
+              "portrait:receptionist:pose:qa_alt"
+            ]
+          },
+          "sameDom": true,
+          "sameArt": true,
+          "decoded": true
+        },
+        "added": [
+          "/art/scenes/conference_hall/reception/reception_scene.png",
+          "/art/portraits/receptionist/receptionist_idle.png"
+        ]
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "a second preload of the same chapter is served from the cache (no request)",
+      "ok": true,
+      "detail": {
+        "story": "qa-next-chapter",
+        "chapter": "qa_two",
+        "keys": [
+          "scene:qa/next_room",
+          "portrait:receptionist:background:reception",
+          "portrait:receptionist:pose:idle",
+          "portrait:receptionist:pose:qa_alt",
+          "focus:qa/next_room/desk"
+        ],
+        "placeholders": [
+          "focus:qa/next_room/desk"
+        ],
+        "requested": [],
+        "reused": [
+          "scene:qa/next_room",
+          "portrait:receptionist:background:reception",
+          "portrait:receptionist:pose:idle",
+          "portrait:receptionist:pose:qa_alt"
+        ]
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "preloading changes nothing on the stage (scene/portrait DOM, G.ART and what is on show)",
+      "ok": true
+    },
+    {
+      "group": "browser:firefox",
+      "name": "two missing files: one rejection naming both keys and URLs; err.failures lists each as missing; neither is cached",
+      "ok": true,
+      "detail": {
+        "message": "Images not loaded: scene:qa/missing_room (../art/scenes/qa/qa_missing_scene.png: missing); portrait:receptionist:pose:qa_missing (../art/portraits/receptionist/qa_missing_pose.png: missing)",
+        "failures": [
+          {
+            "name": "scene:qa/missing_room",
+            "url": "../art/scenes/qa/qa_missing_scene.png",
+            "reason": "missing"
+          },
+          {
+            "name": "portrait:receptionist:pose:qa_missing",
+            "url": "../art/portraits/receptionist/qa_missing_pose.png",
+            "reason": "missing"
+          }
+        ]
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "one missing file: \"Missing image: <url>\", as boot has always reported it",
+      "ok": true,
+      "detail": {
+        "message": "Missing image: ../art/scenes/qa/qa_missing_one.png",
+        "failures": [
+          {
+            "name": "scene:qa/missing_one",
+            "url": "../art/scenes/qa/qa_missing_one.png",
+            "reason": "missing"
+          }
+        ]
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "an unknown chapter and unregistered art are rejected by name",
+      "ok": true,
+      "detail": [
+        {
+          "message": "Unknown chapter: nope",
+          "failures": null
+        },
+        {
+          "message": "Unregistered art: scene:qa/unregistered",
+          "failures": null
+        }
+      ]
+    },
+    {
+      "group": "browser:firefox",
+      "name": "a key already bound to another file is refused, and the image on show is kept",
+      "ok": true,
+      "detail": {
+        "message": "Images not loaded: scene:conference_hall/reception (../art/portraits/receptionist/reception_background.png: already bound to ../art/scenes/conference_hall/reception/reception_scene.png)",
+        "failures": [
+          {
+            "name": "scene:conference_hall/reception",
+            "url": "../art/portraits/receptionist/reception_background.png",
+            "reason": "already bound to ../art/scenes/conference_hall/reception/reception_scene.png"
+          }
+        ]
+      }
+    },
+    {
+      "group": "browser:firefox",
+      "name": "the game is still ready after every failed preload",
+      "ok": true
+    },
+    {
+      "group": "browser:firefox",
+      "name": "the engine fixture preloads chapter by chapter: every image a labelled placeholder, nothing requested",
+      "ok": true,
+      "detail": [
+        {
+          "story": "engine-fixture",
+          "chapter": "fx_one",
+          "keys": [
+            "scene:fixture/room_a",
+            "focus:fixture/room_a/keypad",
+            "portrait:attendant:background:booth",
+            "portrait:attendant:pose:idle",
+            "scene:fixture/room_b"
+          ],
+          "placeholders": [
+            "scene:fixture/room_a",
+            "focus:fixture/room_a/keypad",
+            "portrait:attendant:background:booth",
+            "portrait:attendant:pose:idle",
+            "scene:fixture/room_b"
+          ],
+          "requested": [],
+          "reused": []
+        },
+        {
+          "story": "engine-fixture",
+          "chapter": "fx_two",
+          "keys": [
+            "scene:fixture/room_c"
+          ],
+          "placeholders": [
+            "scene:fixture/room_c"
+          ],
+          "requested": [],
+          "reused": []
+        }
+      ]
+    },
+    {
+      "group": "browser:firefox",
+      "name": "no console or page errors",
+      "ok": true,
+      "detail": []
+    }
+  ]
+}

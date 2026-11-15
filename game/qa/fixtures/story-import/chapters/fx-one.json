@@ -1,0 +1,37 @@
+{
+  "title": "FIXTURE ONE",
+  "start": "hall",
+  "scene": "fixture/hall",
+  "nodes": {
+    "hall": {
+      "mode": "narrative",
+      "objective": "LEAVE THE HALL.",
+      "text": "You are in a grey hall. A panel is set into the wall.\n\nA clerk sits behind a counter. A door leads out to the yard.",
+      "choices": [
+        { "id": "examine_panel", "kind": "action", "text": "EXAMINE THE PANEL.", "to": "panel" },
+        { "id": "talk_clerk", "kind": "spoken", "text": "EXCUSE ME.", "to": "desk" },
+        { "id": "leave_hall", "kind": "action", "text": "GO OUT TO THE YARD.", "if": { "flag": "card_found" }, "chapter": "fx-two" }
+      ]
+    },
+    "panel": {
+      "mode": "focus",
+      "focus": "fixture/hall/panel",
+      "text": "A small steel panel with one loose screw. Something blue is wedged behind it.",
+      "choices": [
+        { "id": "take_card", "kind": "action", "text": "PULL OUT THE BLUE CARD.", "once": true,
+          "result": "You work the card free.", "effects": [{ "give": ["fx_card"] }, { "set": { "card_found": true } }] },
+        { "id": "stop_examining", "kind": "action", "text": "STEP BACK FROM THE PANEL.", "back": true, "result": "You step back from the panel." }
+      ]
+    },
+    "desk": {
+      "mode": "dialogue",
+      "speaker": "clerk",
+      "text": [{ "desc": "The clerk looks up." }, "Yes? The yard is through the door. Everyone wants the yard."],
+      "choices": [
+        { "id": "ask_code", "kind": "spoken", "text": "WHAT IS THE CODE?", "if": { "item": ["fx_card", "read"] }, "once": true,
+          "result": "The clerk taps the card and says nothing." },
+        { "id": "say_goodbye", "kind": "spoken", "text": "THANK YOU.", "back": true, "result": "You leave the counter." }
+      ]
+    }
+  }
+}

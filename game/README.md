@@ -19,8 +19,9 @@ then open <http://localhost:8137/game/index.html>.
 
 - Click the dialogue box (or press Enter/Space) to finish a line. Scroll it to read back.
 - Pick a card by clicking it, or with the arrow keys and Enter. Scroll long choice lists with the wheel or the thumb.
-- Click an item in the inventory to inspect it; clicking or focusing an item also selects it, and INSPECT opens the selected item (or the only one held). READ, SHOW/USE and RETURN replace the buttons there; X or Esc closes.
-- A button whose action is not available here keeps its glyph unlit, does not press, and its tooltip says why.
+- Click an item in the inventory (or press Enter / Space on its focused slot) to inspect it. Nothing else opens an item: holding a single item never makes it a target (docs/64). READ, SHOW or USE and a blank button replace the buttons there; the X, Esc or activating the item again closes it.
+- The first utility button in conversation is the **context action**, an optional thing to do in the current situation, defined in content (docs/64). At reception it is OBSERVE (WATCH glyph): it adds a parenthesised, unspoken observation to the history and NOTES, once per encounter, without advancing the conversation.
+- A button whose action is not available here keeps its glyph unlit, does not press, and its tooltip says why: the label as is on the first line, the reason on a second, smaller line (the Labels face at half size; `G.TUNING.tooltip.reasonFace` / `reasonGapY`).
 - Keyboard focus on a choice brings out the brass tab at the card's left edge; the mouse never does.
 - NOTES shows everything said so far; FILES shows your case file. Press the button again or Esc to close.
 
@@ -29,15 +30,18 @@ then open <http://localhost:8137/game/index.html>.
 | Path | What it is |
 |---|---|
 | `content/reception.js` | **All narrative content and starting state**, as plain data. Edit this to change the route. |
-| `js/rules.js` | Pure state rules (conditions, effects, choices, item actions) and the route validator. Shared by the browser and Node. |
+| `js/rules.js` | Pure state rules (conditions, effects, choices, item actions) and the route validator. Shared by the browser and Node. Its second half is the story-v2 engine (docs/74), not yet used by the game. |
 | `js/flow.js` | The dialogue-turn phase machine: typing, beat, cards arrive, choosing, sending, reply beat. |
-| `js/stage.js` | Presentation: dialogue box and history, choice cards and thumb, inventory, utility buttons and tooltip, inspector, NOTES/FILES, objective. |
-| `js/pixeltext.js` | Asset paths, image loading and bitmap text (ported from the lab's `core.js`). |
-| `js/placeholders.js` | Labelled grey dev placeholders, drawn at runtime, for art that does not exist yet. |
-| `js/main.js` | Boot and fit-to-window scaling. `?qa` in the URL exposes QA-only hooks. |
-| `qa/validate_route.js` | Node route/state validation: `node game/qa/validate_route.js` |
+| `js/stage.js` | Presentation: the art registry `G.ART` (engine S3, docs/83), dialogue box and history, choice cards and thumb, inventory, utility buttons and tooltip, inspector, NOTES/FILES, objective. |
+| `js/pixeltext.js` | Asset paths, the one image cache (`G.decodeImages`, `G.loadImages`, `G.image`) and bitmap text (ported from the lab's `core.js`). |
+| `js/placeholders.js` | Labelled grey dev placeholders, drawn at runtime: only development safety paths now (QA-only slot art, inspect-art fallback). |
+| `js/main.js` | Boot (registers the story's art, decodes everything the stage draws), `G.preloadChapter`, and fit-to-window scaling. `?qa` in the URL exposes QA-only hooks. |
+| `qa/validate_route.js` | Node route/state validation: `node game/qa/validate_route.js` (`--v2`: the same checks on the story-v2 engine) |
+| `qa/validate_story.js` | Node story-v2 validation (docs/74): reception compatibility, the fixture, checks, saves, mutants: `node game/qa/validate_story.js` |
+| `qa/validate_assets.js` | Asset contract (docs/72 EF-A1-A3, docs/83): registration, files and PNG class sizes, production paths, the boot list, negative controls: `node game/qa/validate_assets.js`; `--browser` (with `NODE_PATH="$(npm root -g)"`) adds the runtime registry and `G.preloadChapter` in Chromium and Firefox |
+| `qa/v1_on_v2.js`, `qa/fixtures/engine_fixture.js`, `qa/fixtures/endings_fixture.js` | QA only: the v1 API over the v2 engine, the neutral engine fixture, and the independent-endings fixture (S2.1). Not canon, never loaded by the game. |
 | `qa/run_qa.js` | Playwright browser QA: `NODE_PATH="$(npm root -g)" node game/qa/run_qa.js` |
-| `qa/route_results.json`, `qa/qa_results.json`, `qa/screenshots/` | Last results and owner-review evidence. |
+| `qa/route_results.json`, `qa/route_results_v2.json`, `qa/story_results.json`, `qa/asset_results.json`, `qa/qa_results.json`, `qa/screenshots/` | Last results and owner-review evidence. |
 
 ### What it reuses, and what it leaves alone
 
@@ -48,8 +52,16 @@ then open <http://localhost:8137/game/index.html>.
 - **Behaviour** (typewriter, speaker faces and gap, card send motion, the three-piece thumb, inventory
   weight, physical presses, the no-hover rule) is ported from `tools/layout-lab/js/`. The lab is not
   modified and keeps its own QA.
-- **Art** is only the approved files already on `main`: the shell, the 29-sprite package, the fonts, the
-  action glyphs and `art/items/bathroom_pass_slot.png`. Nothing is added to `art/`.
+- **Art** is only approved files:
+  - the shell, the 29-sprite package, the fonts, the action glyphs and `art/items/bathroom_pass_slot.png`;
+  - the approved reception art (docs/56, docs/57), on separate layers:
+    - the scene `art/scenes/conference_hall/reception/reception_scene.png`, 314×206 shown at 4×;
+    - the portrait background `art/portraits/receptionist/reception_background.png`, 564×278 at 1×;
+    - the receptionist `art/portraits/receptionist/receptionist_idle.png`, 564×278 at 1×.
+  - the inspector art (docs/58): `art/items/bathroom_pass_inspect.png`, and the one static X `art/ui/sprites/inspect_close.png` (docs/64; the UP/DOWN pair is retired);
+  - the NOTES panel `art/ui/overlays/notes_panel_v2.png` (docs/63; production since Round 2, docs/82; the earlier `notes_files_panel.png` stays as the polish lab's v1 option), the FILES panel `art/ui/overlays/files_panel.png` (docs/63) and the item-received slip `art/ui/overlays/item_received_slip.png` (docs/61; 500 ms fade-in since Round 2).
+
+  The tooltip box is CSS (docs/61). The only remaining placeholders are development safety paths (`js/placeholders.js`): QA-only slot art, and the inspect-art fallback for an item whose `inspectArt` is null.
 
 ## Content schema (`cyoa-m2-reception-content-v1`)
 
@@ -66,6 +78,11 @@ then open <http://localhost:8137/game/index.html>.
     }
   },
   files: [ { if, text } ],                  // FILES shows every entry whose `if` holds
+  contextAction: {                          // optional (docs/64): the first utility button
+    id, label, glyph,                       // glyph: an art/actions name, e.g. 'watch'
+    text,                                   // the unspoken observation added to the transcript
+    once, spentWhy                          // once per encounter; tooltip reason once spent
+  },
   nodes: {
     id: {
       npc: TEXT,                            // what the receptionist says on arrival
@@ -74,6 +91,7 @@ then open <http://localhost:8137/game/index.html>.
       choices: [ { id, text, say?, if?, effects?, to | restart } ],
       show: { itemId: { if?, say, to, effects? } },  // optional: SHOW in the inspector, here
       use:  { itemId: { if?, say, to, effects? } },  // optional: USE in the inspector, here
+      contextAction: {...} | null,          // optional: overrides the location's context action here
       end: true                             // optional: an ending; only it may `restart`
     }
   }
@@ -93,6 +111,30 @@ then open <http://localhost:8137/game/index.html>.
 without a card, unreachable nodes, choices or text variants nobody can see, any reachable state with
 no available choice, any state from which the ending cannot be reached, and undrawable characters.
 
+## Story-v2 engine (engine v0 S1 + S2, not yet used by the game)
+
+`js/rules.js` also holds the general engine from docs/72: the `cyoa-story-v2` schema (chapters,
+dialogue / narrative B / focus A nodes, typed text and choices, conditional effects, Focus return,
+d6/d100 checks), the pure `Rules.begin` / `Rules.step` / `Rules.view`, `Rules.fromV1` (this slice
+as a v2 story), `Rules.validateStory`, and versioned `Rules.serialize` / `Rules.restore` /
+`Rules.resume`. The game still runs on the v1 functions above; the renderer moves onto events in
+S4-S8. The API, schema, events and save contract are in
+`docs/74_ENGINE_V0_S1_S2_RULES_IMPLEMENTATION.md`.
+
+## Art registry and preload (engine S3)
+
+Story art is declared once, in the story's `assets` (scenes, portrait backgrounds and poses, focus
+targets) and its items' `slotArt` / `inspectArt`. The reception's declaration is `Rules.fromV1`'s;
+at boot `js/main.js` sets `G.story = Rules.fromV1(G.content)` and `js/stage.js` registers it as
+`G.ART`, keyed by stable image names: `scene:<location>/<scene>`, `portrait:<portrait>:background:<id>`,
+`portrait:<portrait>:pose:<id>`, `focus:<location>/<scene>/<target>`, `item:<id>`, `inspect:<id>`.
+Only the art registry reads the story: the reception still plays on the v1 rules and flow.
+
+Boot decodes the opening chapter's art, every item's art and the engine-owned UI art in one
+`G.loadImages` call. `G.preloadChapter(chapterId[, story])` decodes a later chapter's art before it
+is shown, reusing anything already decoded, and rejects with every failure listed. The contract,
+keys and API are in `docs/83_ENGINE_S3_ASSET_REGISTRY_AND_PRELOAD.md`.
+
 ## State
 
 The whole of the narrative state, in `G.state`:
@@ -109,7 +151,8 @@ The whole of the narrative state, in `G.state`:
 | `inventory` | items held, in order |
 | `items[id]` | marks on each item: `inspected`, `read`, `shown`, `used` |
 | `objective` | current objective text |
-| `transcript` | every line said, `{ who: 'npc' | 'player', text }` (NOTES) |
+| `transcript` | every line, `{ who: 'npc' | 'player' | 'thought', text }` (NOTES); `thought` is an unspoken observation (docs/64) |
+| `contextDone` | ids of `once` context actions taken this encounter (not a flag; outside the route state; a restart clears it) |
 
 Presentation state (scroll positions, card motion, pressed buttons, the selected inventory item, which overlay is open) lives in
 `G.ui` and never affects the story.

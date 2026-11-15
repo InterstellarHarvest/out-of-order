@@ -1,0 +1,9 @@
+{
+  "chapters": [
+    { "id": "fx-one", "title": "Fixture one", "file": "chapters/fx-one.json", "status": "draft" },
+    { "id": "fx-two", "title": "Fixture two", "file": "chapters/fx-two.json", "status": "draft" }
+  ],
+  "items": "items.json",
+  "artwork": "artwork.json",
+  "layout": "storyboard-layout.json"
+}

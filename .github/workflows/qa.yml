@@ -1,0 +1,116 @@
+# Game QA (docs/84 section 7). Two jobs:
+#   content   Node only, about a minute: the storyboard import (check + freshness of the generated
+#             file), the glyph ink table, the rules, both route validators, the story-import
+#             acceptance suite (incl. Focus A, dice checks, content independence) and the static
+#             asset checks.
+#   browsers  Chromium + Firefox (Playwright, headless Linux): asset checks in the browser, the
+#             imported-story suite, the M2 reception game suite, the polish lab and the layout lab.
+#             The layout lab's 8 long-standing failures are allowed by exact name only
+#             (game/qa/known_failures/layout-lab.json); anything else fails.
+# CI environment limits are recorded in docs/84 section 7.2 (no Safari/WebKit by owner rule, Linux
+# runners only, timing-sensitive checks are the first suspects in a one-off failure).
+name: QA
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: qa-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  content:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Storyboard import - validate story/
+        run: node tools/story-import/import.js --check
+      - name: Generated story is up to date with story/ (not stale, not hand-edited)
+        run: node tools/story-import/import.js --verify
+      - name: Glyph ink table matches the font atlases
+        run: node tools/glyph-ink/build.js --verify
+      - name: Route validation (v1 engine)
+        run: node game/qa/validate_route.js
+      - name: Route validation (v2 engine)
+        run: node game/qa/validate_route.js --v2
+      - name: Rules (story engine, fixtures, mutants)
+        run: node game/qa/validate_story.js
+      - name: Story import acceptance (incl. Focus A, dice checks, content independence)
+        run: node game/qa/validate_story_import.js
+      - name: Assets (static)
+        run: node game/qa/validate_assets.js
+      - name: Results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-content
+          path: |
+            game/qa/route_results*.json
+            game/qa/story_results.json
+            game/qa/story_import_results.json
+            game/qa/asset_results.json
+          if-no-files-found: ignore
+
+  browsers:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    env:
+      PLAYWRIGHT_VERSION: 1.59.1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      # Installed outside the checkout so no node_modules ever lands in the repository; the QA
+      # scripts find it through NODE_PATH, as they do locally.
+      # Pinned runner: ubuntu-latest moved to 26.04, which Playwright 1.59.1 does not support.
+      - name: Install Playwright (Chromium + Firefox)
+        id: pw
+        run: |
+          npm install --prefix "$RUNNER_TEMP/pw" --no-save --no-audit --no-fund "playwright@$PLAYWRIGHT_VERSION"
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium firefox
+          echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
+      - name: Assets (in the browser)
+        run: node game/qa/validate_assets.js --browser
+      - name: Imported story in the browser (Narrative B, dialogue, Focus A, dice checks, saves, draft stamp)
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_story_qa.js
+      - name: M2 reception game (regression fixture, ?story=reception)
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_qa.js
+      - name: Polish lab
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node tools/m2-reception-polish-lab/qa/run_qa.js
+      - name: Layout lab (only the 8 known failures allowed)
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: |
+          rm -f tools/layout-lab/qa/qa_results.json
+          node tools/layout-lab/qa/run_qa.js || true
+          node game/qa/check_known_failures.js tools/layout-lab/qa/qa_results.json game/qa/known_failures/layout-lab.json
+      - name: Results and screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-browsers
+          path: |
+            game/qa/*.json
+            game/qa/screenshots/
+            game/qa/story_screenshots/
+            tools/m2-reception-polish-lab/qa/
+            tools/layout-lab/qa/qa_results.json
+            tools/layout-lab/qa/screenshots/
+          if-no-files-found: ignore

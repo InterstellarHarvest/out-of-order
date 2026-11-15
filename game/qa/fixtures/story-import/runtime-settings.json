@@ -1,0 +1,6 @@
+{
+  "schema": "cyoa-runtime-settings-v1",
+  "story": "import-fixture",
+  "save": true,
+  "cast": { "clerk": { "name": "CLERK" } }
+}
