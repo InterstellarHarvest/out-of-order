@@ -93,7 +93,7 @@ function chooseSeed(spec){
     if(spec.chair && (!s.checks[spec.chair] || s.checks[spec.chair].ok!==spec.chairPass)) continue;
     if(spec.releasePass!==undefined && (!s.checks.house_service_release_mishap
        || s.checks.house_service_release_mishap.ok!==spec.releasePass)) continue;
-    return {seed,from,finish:s,save:Rules.serialize(story,from,{presented:from.transcript.length})};
+    return {seed,from,endState:s,save:Rules.serialize(story,from,{presented:from.transcript.length})};
   }
   throw new Error('Unable to find fixed die seed for '+spec.name);
 }
@@ -143,7 +143,7 @@ async function run(browserName,base){
       await page.goto(base+'/story/storyboard-manifest.json');
       await page.evaluate(raw=>localStorage.setItem('cyoa-save:the-acceptable-error',raw),spec.save);
       await page.goto(base+'/game/index.html');
-      await page.waitForFunction(()=>document.body.dataset.ready==='true',{timeout:30000});
+      await page.waitForFunction(()=>document.body.dataset.ready==='true',null,{timeout:30000});
       await settle(page);
       const entered=await page.evaluate(()=>JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
       check(browserName,spec.name,'real Prologue item, classification and NOTES survive save/entry',
@@ -182,11 +182,11 @@ async function run(browserName,base){
       check(browserName,spec.name,'production UI reaches expected authored exit',
         actual.node===spec.finish && actual.chapter==='chapter-01',{node:actual.node,want:spec.finish});
       check(browserName,spec.name,'all inventory, callback flags, check outcomes match independent rules walk',
-        JSON.stringify(actual.inventory)===JSON.stringify(spec.finish.inventory)
-        && JSON.stringify(actual.flags)===JSON.stringify(spec.finish.flags)
-        && JSON.stringify(actual.checks)===JSON.stringify(spec.finish.checks),
+        JSON.stringify(actual.inventory)===JSON.stringify(spec.endState.inventory)
+        && JSON.stringify(actual.flags)===JSON.stringify(spec.endState.flags)
+        && JSON.stringify(actual.checks)===JSON.stringify(spec.endState.checks),
         {actual:{inv:actual.inventory,flags:actual.flags,checks:actual.checks},
-          expected:{inv:spec.finish.inventory,flags:spec.finish.flags,checks:spec.finish.checks}});
+          expected:{inv:spec.endState.inventory,flags:spec.endState.flags,checks:spec.endState.checks}});
       check(browserName,spec.name,'prologue NOTES retained through real play',
         actual.transcript.length>spec.from.transcript.length
         && JSON.stringify(actual.transcript.slice(0,spec.from.transcript.length))===JSON.stringify(spec.from.transcript));
@@ -194,7 +194,7 @@ async function run(browserName,base){
         (spec.route?actual.flags.house_exit_route===spec.route:!actual.flags.house_exit_route)
         && (await page.evaluate(()=>window.CYOA_GAME.ui.cards.length===1
           && window.CYOA_GAME.ui.cards[0].kind==='system'
-          && window.CYOA_GAME.ui.cards[0].restart===true))===true,
+          && /^(begin_again_|restart_chair_death)/.test(window.CYOA_GAME.ui.cards[0].id)))===true,
         {route:actual.flags.house_exit_route,cards:await page.evaluate(()=>window.CYOA_GAME.ui.cards.map(c=>c.id))});
       if(spec.name==='named_plant_exit')check(browserName,spec.name,
         'plant was actually removed and registered resident',
