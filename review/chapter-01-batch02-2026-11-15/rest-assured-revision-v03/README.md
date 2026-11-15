@@ -1,4 +1,6 @@
-# Rest Assured v03 — return to original chair, clearer activation
+# Rest Assured v03 — earlier activation candidate
+
+See the [owner-directed v04 default/in-use pair](../rest-assured-pair-v04/index.html). Earlier images are retained below.
 
 Open [index.html](index.html) for initial/activated and original-v01/revised-v03 comparisons at native and exact4×.
 

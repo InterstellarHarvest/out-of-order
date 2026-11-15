@@ -1,0 +1,142 @@
+{
+  "passed": 33,
+  "checks": [
+    {
+      "name": "Exactly two generated review states, null production paths",
+      "pass": true
+    },
+    {
+      "name": "default opaque314x206 RGB",
+      "pass": true
+    },
+    {
+      "name": "default candidate/source hashes",
+      "pass": true
+    },
+    {
+      "name": "default same original picked tuft",
+      "pass": true
+    },
+    {
+      "name": "default wall intercom unchanged",
+      "pass": true
+    },
+    {
+      "name": "default original palette only",
+      "pass": true
+    },
+    {
+      "name": "default zero edits outside local part masks",
+      "pass": true
+    },
+    {
+      "name": "default exact4x NEAREST1256x824",
+      "pass": true
+    },
+    {
+      "name": "in-use opaque314x206 RGB",
+      "pass": true
+    },
+    {
+      "name": "in-use candidate/source hashes",
+      "pass": true
+    },
+    {
+      "name": "in-use same original picked tuft",
+      "pass": true
+    },
+    {
+      "name": "in-use wall intercom unchanged",
+      "pass": true
+    },
+    {
+      "name": "in-use original palette only",
+      "pass": true
+    },
+    {
+      "name": "in-use zero edits outside local part masks",
+      "pass": true
+    },
+    {
+      "name": "in-use exact4x NEAREST1256x824",
+      "pass": true
+    },
+    {
+      "name": "Seat cushion original in both states",
+      "pass": true
+    },
+    {
+      "name": "In-use EXACT original restraint/armrest/linkage pixels",
+      "pass": true
+    },
+    {
+      "name": "Both states share identical picked tuft",
+      "pass": true
+    },
+    {
+      "name": "In-use chair light unchanged/on",
+      "pass": true
+    },
+    {
+      "name": "Default chair lamp has no bright-green emission; in-use lamp does",
+      "pass": true
+    },
+    {
+      "name": "Printed infinity mark unchanged in both",
+      "pass": true
+    },
+    {
+      "name": "Default restraints removed / paired states differ",
+      "pass": true
+    },
+    {
+      "name": "Side-by-side exact scene pixels native",
+      "pass": true
+    },
+    {
+      "name": "Side-by-side exact scene pixels 4x",
+      "pass": true
+    },
+    {
+      "name": "Every previous PNG preserved",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/artwork.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/chapters/chapter-01.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/items.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged game/content/story.generated.js",
+      "pass": true
+    },
+    {
+      "name": "Only review changes",
+      "pass": true
+    },
+    {
+      "name": "All gallery files present and local",
+      "pass": true
+    },
+    {
+      "name": "HTML native/4x dimensions match files",
+      "pass": true
+    },
+    {
+      "name": "Gallery references load over local HTTP",
+      "pass": true
+    }
+  ],
+  "previousPngFilesVerified": 67,
+  "httpFilesVerified": 14,
+  "visualApproval": "pending",
+  "productionIntegration": false,
+  "browserRenderTest": "not run; local HTTP, pixel preservation and format checks performed"
+}

@@ -1,0 +1,429 @@
+{
+  "title": "Owner-directed Rest Assured state pair v04",
+  "branch": "agent/ch01-art-batch02-20261115",
+  "baselineCommit": "ef63bdbcfab0dfaa9d09800f4443cb5c944f8427",
+  "status": "generated",
+  "candidateCount": 2,
+  "originalNativePath": "../candidates/chair-candidate-v01.png",
+  "originalNativeSha256": "2b669d012f58fef79f837b6e8ee5582db79dd854d8746a086a691e61c3b76888",
+  "ownerSelectedSourcePath": "../generation-source/chair-v01.png",
+  "ownerSelectedSourceSha256": "62c411e2991fc6bc6092764cba3d95d0de9e38a6ff06ca6cae228d8465707f47",
+  "assets": [
+    {
+      "state": "default",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/chair-default-v04.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "2cad345326a222fa2d84c9959ef9eb69dcb9ad00599e1867593f1ffce63e0fc7",
+      "sourcePath": "generation-source/unused-v04b.png",
+      "sourceDimensions": [
+        1548,
+        1016
+      ],
+      "sourceSha256": "900a02516f5cf063675656e8cb64b7192283b31a04043ecf18a113c326baa05d",
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.2165605095541423,
+          1548,
+          1015.7834394904459
+        ],
+        "geometry": "NEAREST exact-aspect normalization; local part/pose export only",
+        "colorPolicy": "non-spatial match to actual original colors, no dithering or new palette-count target",
+        "editMaskPath": "previews/default-edit-mask.png"
+      },
+      "changedPixelsOutsideMask": 0,
+      "visibleColorCount": 234,
+      "dominantPalette": [
+        {
+          "hex": "#8ecdbf",
+          "pixels": 9991
+        },
+        {
+          "hex": "#f8d1ae",
+          "pixels": 8888
+        },
+        {
+          "hex": "#eb7159",
+          "pixels": 5793
+        },
+        {
+          "hex": "#f6c99d",
+          "pixels": 5325
+        },
+        {
+          "hex": "#68a99b",
+          "pixels": 4482
+        },
+        {
+          "hex": "#fee1bf",
+          "pixels": 3629
+        },
+        {
+          "hex": "#76b8a9",
+          "pixels": 2669
+        },
+        {
+          "hex": "#d4f6ed",
+          "pixels": 2044
+        },
+        {
+          "hex": "#feecd2",
+          "pixels": 1726
+        },
+        {
+          "hex": "#f4a14d",
+          "pixels": 1416
+        },
+        {
+          "hex": "#e6b586",
+          "pixels": 1385
+        },
+        {
+          "hex": "#b24f3d",
+          "pixels": 1134
+        }
+      ]
+    },
+    {
+      "state": "in-use",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/chair-in-use-v04.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "5cef601a39f2aa3ec8f37da6a0c6d9dcc99702b26821e68f64385d33a3ebff1b",
+      "sourcePath": "generation-source/active-v04c.png",
+      "sourceDimensions": [
+        1548,
+        1016
+      ],
+      "sourceSha256": "2c64409ed90807c7754ce27361d68802d81f1c9b613cd1655e6f2736bce09370",
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.2165605095541423,
+          1548,
+          1015.7834394904459
+        ],
+        "geometry": "NEAREST exact-aspect normalization; local part/pose export only",
+        "colorPolicy": "non-spatial match to actual original colors, no dithering or new palette-count target",
+        "editMaskPath": "previews/in-use-edit-mask.png"
+      },
+      "changedPixelsOutsideMask": 0,
+      "visibleColorCount": 246,
+      "dominantPalette": [
+        {
+          "hex": "#f8d1ae",
+          "pixels": 10898
+        },
+        {
+          "hex": "#8ecdbf",
+          "pixels": 8430
+        },
+        {
+          "hex": "#eb7159",
+          "pixels": 5974
+        },
+        {
+          "hex": "#f6c99d",
+          "pixels": 4518
+        },
+        {
+          "hex": "#fee1bf",
+          "pixels": 3511
+        },
+        {
+          "hex": "#68a99b",
+          "pixels": 2951
+        },
+        {
+          "hex": "#76b8a9",
+          "pixels": 2762
+        },
+        {
+          "hex": "#d4f6ed",
+          "pixels": 1893
+        },
+        {
+          "hex": "#feecd2",
+          "pixels": 1859
+        },
+        {
+          "hex": "#b24f3d",
+          "pixels": 1729
+        },
+        {
+          "hex": "#e6b586",
+          "pixels": 1534
+        },
+        {
+          "hex": "#63b9a8",
+          "pixels": 1308
+        }
+      ]
+    }
+  ],
+  "promptPath": "prompts.json",
+  "method": "built-in image_gen.imagegen",
+  "protectedPickedTuft": [
+    68,
+    116,
+    82,
+    132
+  ],
+  "protectedWallIntercom": [
+    153,
+    0,
+    189,
+    43
+  ],
+  "backEditEnvelope": [
+    [
+      193,
+      0
+    ],
+    [
+      286,
+      0
+    ],
+    [
+      309,
+      14
+    ],
+    [
+      313,
+      43
+    ],
+    [
+      294,
+      86
+    ],
+    [
+      278,
+      112
+    ],
+    [
+      263,
+      129
+    ],
+    [
+      218,
+      128
+    ],
+    [
+      160,
+      128
+    ],
+    [
+      159,
+      120
+    ],
+    [
+      168,
+      102
+    ],
+    [
+      177,
+      88
+    ],
+    [
+      184,
+      77
+    ],
+    [
+      187,
+      48
+    ]
+  ],
+  "footEditEnvelope": [
+    [
+      92,
+      138
+    ],
+    [
+      178,
+      138
+    ],
+    [
+      183,
+      153
+    ],
+    [
+      173,
+      179
+    ],
+    [
+      148,
+      202
+    ],
+    [
+      126,
+      205
+    ],
+    [
+      72,
+      205
+    ],
+    [
+      43,
+      198
+    ],
+    [
+      42,
+      177
+    ],
+    [
+      53,
+      158
+    ],
+    [
+      70,
+      145
+    ]
+  ],
+  "protectedOriginalInUseArmrests": [
+    [
+      [
+        67,
+        111
+      ],
+      [
+        106,
+        92
+      ],
+      [
+        110,
+        84
+      ],
+      [
+        129,
+        84
+      ],
+      [
+        144,
+        91
+      ],
+      [
+        148,
+        95
+      ],
+      [
+        173,
+        94
+      ],
+      [
+        174,
+        108
+      ],
+      [
+        150,
+        114
+      ],
+      [
+        142,
+        121
+      ],
+      [
+        107,
+        135
+      ],
+      [
+        78,
+        133
+      ],
+      [
+        66,
+        124
+      ]
+    ],
+    [
+      [
+        174,
+        119
+      ],
+      [
+        184,
+        108
+      ],
+      [
+        190,
+        103
+      ],
+      [
+        191,
+        96
+      ],
+      [
+        199,
+        91
+      ],
+      [
+        215,
+        92
+      ],
+      [
+        224,
+        97
+      ],
+      [
+        230,
+        101
+      ],
+      [
+        260,
+        100
+      ],
+      [
+        272,
+        104
+      ],
+      [
+        272,
+        119
+      ],
+      [
+        241,
+        125
+      ],
+      [
+        231,
+        130
+      ],
+      [
+        223,
+        136
+      ],
+      [
+        211,
+        146
+      ],
+      [
+        199,
+        148
+      ],
+      [
+        190,
+        146
+      ],
+      [
+        177,
+        137
+      ]
+    ]
+  ],
+  "ownerSteering": "Keep approved reclined pose; default more upright with footrest a little lower and chair lamp off. Original picked tuft in both.",
+  "productionIntegration": false,
+  "storyOrEngineModified": false,
+  "greeneryProposalApplied": false
+}
