@@ -109,7 +109,7 @@ function build(opts) {
   // Rules validation: shape, then every reachable state (Rules.validateStory, docs/74 section 3).
   const charset = Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping);
   if (!c.errors.length) {
-    const v = Rules.validateStory(story, charset, { routeMarks: true });
+    const v = Rules.validateStory(story, charset, { routeMarks: true, liveKeys: true });
     // The schema requires every variant list to end with an unconditional fallback. When the
     // conditions above it already cover every reachable case, that fallback can never show: report
     // it, but do not block on it (every other never-shown variant is still an error).

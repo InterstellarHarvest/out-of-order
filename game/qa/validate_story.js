@@ -33,6 +33,33 @@ const fixture = () => Rules.clone(FIXTURE);
 const throws = (fn, re) => { try { fn(); return false; } catch (e) { return re ? re.test(e.message) : true; } };
 const text = (entries) => entries.map((e) => e.runs.map((r) => r.text).join(' '));
 
+// liveKeys equivalence (the importer's walk, docs/91): every story this suite validates (the
+// reception, both fixtures, every mutant) is also walked with liveKeys, with and without
+// routeMarks, and must report the same verdict, the same errors (state keys aside) and observe
+// exactly the same nodes, variants, outcomes, items, choices and entries as the full-key walk.
+const liveEq = { compared: 0, diffs: [] };
+const rawValidate = Rules.validateStory;
+const normErr = (e) => e.replace(/ with state \[.*$/, ' with state <key>').replace(/from state \[.*$/, 'from state <key>');
+const errSet = (r) => [...new Set(r.errors.map(normErr))].sort();
+Rules.validateStory = function (story, cs, opts) {
+  const r = rawValidate(story, cs, opts);
+  if (opts && opts.liveKeys) return r;
+  [false, true].forEach((routeMarks) => {
+    const fo = {}, lo = {};
+    const full = rawValidate(story, cs, Object.assign({}, opts, { routeMarks, observe: fo }));
+    const live = rawValidate(story, cs, Object.assign({}, opts, { routeMarks, liveKeys: true, observe: lo }));
+    liveEq.compared++;
+    const d = [];
+    if (full.ok !== live.ok) d.push('verdict');
+    if (!same(errSet(full), errSet(live))) d.push('errors');
+    if (!same(fo.seen, lo.seen)) d.push('observations');
+    if (!same(fo.used, lo.used)) d.push('choices/entries used');
+    if (full.ok && live.stats.reachableStates > full.stats.reachableStates) d.push('more states');
+    if (d.length) liveEq.diffs.push({ routeMarks, d, full: errSet(full).slice(0, 2), live: errSet(live).slice(0, 2) });
+  });
+  return r;
+};
+
 // Play a fixture script: each step is a choice id, or 'verb:item'. Returns every intermediate.
 function play(story, script, opts) {
   let r = Rules.begin(story, opts);
@@ -963,6 +990,30 @@ function seedFor(story, script, check, ok) {
   const nv = Rules.validateStory(noEnd, charset);
   check(G, 'rejects: a terminal node not marked end (BEGIN AGAIN is only allowed on an authored ending)',
     !nv.ok && nv.errors.some((e) => /restart is only allowed on an end node/.test(e)), nv.errors.slice(0, 2));
+}
+
+// ================================================================================================
+// 9. Validator: liveKeys walk equals the full walk; copyJson equals the JSON clone
+// ================================================================================================
+{
+  const G = 'validator';
+  check(G, 'liveKeys: every validated story (reception, fixtures, every mutant; with and without routeMarks) gives the same verdict, errors and observations as the full-key walk',
+    liveEq.compared >= 40 && liveEq.diffs.length === 0, { compared: liveEq.compared, diffs: liveEq.diffs.slice(0, 3) });
+  const sample = [];
+  [fixture(), Rules.clone(ENDINGS)].forEach((st) => {
+    let s = Rules.begin(st, { seed: 'copy' }).state;
+    for (let i = 0; i < 40; i++) {
+      sample.push(s);
+      const v = Rules.view(st, s);
+      const card = v.cards.filter((c) => !c.id.startsWith('restart'))[i % Math.max(1, v.cards.length)] || v.cards[0];
+      if (!card || v.end) break;
+      s = Rules.step(st, s, { choice: card.id }).state;
+    }
+  });
+  const odd = { a: [1, undefined, () => 0, { b: undefined, c: null, d: 'x' }], e: undefined, f: () => 1, g: false, h: 0, i: '' };
+  check(G, 'copyJson gives exactly what the JSON round trip gives (played states, and undefined / function members)',
+    sample.length > 20 && sample.every((s) => same(Rules.copyJson(s), Rules.clone(s)) && JSON.stringify(Rules.copyJson(s)) === JSON.stringify(s))
+    && JSON.stringify(Rules.copyJson(odd)) === JSON.stringify(Rules.clone(odd)), sample.length);
 }
 
 // ================================================================================================

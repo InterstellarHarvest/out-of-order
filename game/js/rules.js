@@ -15,6 +15,24 @@
   function clone(v) {
     return JSON.parse(JSON.stringify(v));
   }
+  // The same result as clone() for JSON data (a state, built only from JSON and effects), without
+  // the text round trip: undefined object members and functions are dropped as JSON drops them.
+  // Used by the route validator, which copies a state for every transition it explores.
+  function copyJson(v) {
+    if (v === null || typeof v !== 'object') return v;
+    if (Array.isArray(v)) {
+      var a = new Array(v.length);
+      for (var i = 0; i < v.length; i++) a[i] = v[i] === undefined || typeof v[i] === 'function' ? null : copyJson(v[i]);
+      return a;
+    }
+    var o = {};
+    var ks = Object.keys(v);
+    for (var j = 0; j < ks.length; j++) {
+      var x = v[ks[j]];
+      if (x !== undefined && typeof x !== 'function') o[ks[j]] = copyJson(x);
+    }
+    return o;
+  }
 
   function newState(content) {
     var s = clone(content.initialState);
@@ -861,9 +879,9 @@
   // input: { choice: id } | { item: id, verb: 'inspect' | 'read' | 'show' | 'use' } | { context: true }.
   // Normative order (docs/72 section 3.3): availability, check (S2), effects, record, echo,
   // destination, result, arrival, mark. Nothing outside the returned state is changed.
-  function Tx(story, state, obs) {
+  function Tx(story, state, obs, copy) {
     this.story = story;
-    this.s = clone(state);
+    this.s = (copy || clone)(state);
     this.events = [];
     this.obs = obs || null;
     this.n = state.steps + 1;
@@ -988,7 +1006,7 @@
   function stepCore(story, state, input, opts) {
     requireStory(story);
     var r = resolve(story, state, input);
-    var tx = new Tx(story, state, opts && opts.obs);
+    var tx = new Tx(story, state, opts && opts.obs, opts && opts.copy);
     var s = tx.s;
     var from = s.transcript.length;
 
@@ -1718,23 +1736,109 @@
         }
       });
     }
+    // opts.liveKeys (the story importer): a flag, a resolved check or a spent `once` entry is part of
+    // the key only while something still ahead can read it. Ahead = every node statically reachable
+    // from the current node (by `to`, `chapter`, or `back` to the recorded opener), plus everything
+    // read outside the chapters (item descriptions and effects, case files, context actions), which
+    // can show at any node. Two states that differ only in values nothing ahead can read have the
+    // same future, choice for choice and outcome for outcome, so they are one state: this merges
+    // provably identical futures and never caps, skips or weakens a condition. It turns the
+    // multi-chapter walk from the product of every chapter's histories into their sum (Chapter 2
+    // never reads most Prologue and House flags or any of their checks). The scan is deliberately
+    // generous: any object key that looks like a condition counts as a read, so an over-approximation
+    // can only keep extra state, never drop a live one. Off by default, so the reception and fixture
+    // walks (and their asserted counts) are unchanged.
+    var liveOf = null;
+    if (o.liveKeys) {
+      var READ_FLAG = { flag: 1, notFlag: 1 };
+      var READ_CHECK = { passed: 1, failed: 1, untried: 1 };
+      var scanReads = function (v, acc, chId, succ) {
+        if (Array.isArray(v)) { v.forEach(function (x) { scanReads(x, acc, chId, succ); }); return; }
+        if (!v || typeof v !== 'object') return;
+        Object.keys(v).forEach(function (k) {
+          var x = v[k];
+          if (READ_FLAG[k] && typeof x === 'string') acc.flags[x] = true;
+          else if (k === 'flagIs' && Array.isArray(x) && typeof x[0] === 'string') acc.flags[x[0]] = true;
+          else if (READ_CHECK[k] && typeof x === 'string') acc.checks[x] = true;
+          else if (k === 'check' && obj(x) && typeof x.id === 'string') acc.checks[x.id] = true;
+          if (succ && k === 'to' && typeof x === 'string' && story.chapters[chId].nodes[x]) succ[chId + ':' + x] = true;
+          if (succ && k === 'chapter' && typeof x === 'string' && story.chapters[x]) succ[x + ':' + story.chapters[x].start] = true;
+          scanReads(x, acc, chId, succ);
+        });
+      };
+      var globalReads = { flags: {}, checks: {}, nodes: {} };
+      Object.keys(story).forEach(function (k) { if (k !== 'chapters') scanReads(story[k], globalReads, null, null); });
+      var live = {};
+      var succOf = {};
+      chapterIds.forEach(function (chId) {
+        Object.keys(story.chapters[chId].nodes).forEach(function (id) {
+          var w = chId + ':' + id;
+          var acc = { flags: Object.assign({}, globalReads.flags), checks: Object.assign({}, globalReads.checks), nodes: {} };
+          acc.nodes[w] = true;
+          succOf[w] = {};
+          scanReads(story.chapters[chId].nodes[id], acc, chId, succOf[w]);
+          live[w] = acc;
+        });
+      });
+      // Backward propagation to a fixpoint: live(n) = reads(n) + live(every successor of n).
+      var merge = function (into, from) {
+        var grew = false;
+        ['flags', 'checks', 'nodes'].forEach(function (f) {
+          Object.keys(from[f]).forEach(function (k) { if (!into[f][k]) { into[f][k] = true; grew = true; } });
+        });
+        return grew;
+      };
+      for (var grew = true; grew;) {
+        grew = false;
+        Object.keys(live).forEach(function (w) {
+          Object.keys(succOf[w]).forEach(function (t) { if (merge(live[w], live[t])) grew = true; });
+        });
+      }
+      var liveCache = {};
+      liveOf = function (s) {
+        var w = at(s);
+        var cacheKey = s.returnTo ? w + '<' + s.returnTo : w;
+        if (liveCache[cacheKey]) return liveCache[cacheKey];
+        var acc = { flags: {}, checks: {}, nodes: {} };
+        merge(acc, live[w]);
+        if (s.returnTo) merge(acc, live[s.chapter + ':' + s.returnTo]);
+        acc.flagList = Object.keys(acc.flags).sort();
+        return (liveCache[cacheKey] = acc);
+      };
+    }
     function keyMarks(s) {
       return Object.keys(s.items).sort().map(function (k) {
         return [k, s.items[k].filter(function (m) { return !routeMark || routeMark[k + ':' + m]; }).sort()];
       }).filter(function (e) { return !routeMark || e[1].length; });
     }
     function key(s) {
+      if (liveOf) {
+        var L = liveOf(s);
+        var flags = {};
+        for (var fi = 0; fi < L.flagList.length; fi++) {
+          var fname = L.flagList[fi];
+          if (Object.prototype.hasOwnProperty.call(s.flags, fname)) flags[fname] = s.flags[fname];
+        }
+        var liveSpent = s.taken.filter(function (t) { return L.nodes[t.at]; })
+          .map(function (t) { return t.at + ':' + (t.c || t.item + ':' + t.verb); })
+          .filter(function (k) { return onceKeys[k]; }).sort();
+        return JSON.stringify([s.chapter, s.node, s.returnTo, flags, s.inventory.slice().sort(),
+          keyMarks(s), liveSpent,
+          Object.keys(s.checks).filter(function (k) { return L.checks[k]; }).sort().map(function (k) { return [k, s.checks[k].ok]; })]);
+      }
       var spent = s.taken.map(function (t) { return t.at + ':' + (t.c || t.item + ':' + t.verb); })
         .filter(function (k) { return onceKeys[k]; }).sort();
       return JSON.stringify([s.chapter, s.node, s.returnTo, s.flags, s.inventory.slice().sort(),
         keyMarks(s), spent,
         Object.keys(s.checks).sort().map(function (k) { return [k, s.checks[k].ok]; })]);
     }
+    // Strips presentation history in place. Every caller passes a state the walk has just made
+    // (begin() or a step's own copy, which nothing else holds), so a second deep copy here only
+    // doubled the walk's cost.
     function bare(s) {
-      var c = clone(s);
-      c.transcript = [];
-      c.taken = c.taken.filter(function (t) { return onceKeys[t.at + ':' + (t.c || t.item + ':' + t.verb)]; });
-      return c;
+      s.transcript = [];
+      s.taken = s.taken.filter(function (t) { return onceKeys[t.at + ':' + (t.c || t.item + ':' + t.verb)]; });
+      return s;
     }
     var seen = {};
     var first = begin(story, { obs: seen }).state;
@@ -1761,15 +1865,15 @@
       (edges[fromId] = edges[fromId] || []).push(toId);
     }
     function walkStep(s, input) {
-      return stepCore(story, s, input, { obs: seen }).state;
+      return stepCore(story, s, input, { obs: seen, copy: copyJson }).state;
     }
     // Every outcome an input can have here: one, or each possible outcome of its check.
     function walkAll(s, input, entry) {
       if (!entry.check) return [walkStep(s, input)];
       var p = chanceOf(entry.check, checkBonus(entry.check, s));
       var out = [];
-      if (p > 0) out.push(stepCore(story, s, input, { obs: seen, force: 'pass' }).state);
-      if (p < 1) out.push(stepCore(story, s, input, { obs: seen, force: 'fail' }).state);
+      if (p > 0) out.push(stepCore(story, s, input, { obs: seen, force: 'pass', copy: copyJson }).state);
+      if (p < 1) out.push(stepCore(story, s, input, { obs: seen, force: 'fail', copy: copyJson }).state);
       return out;
     }
     // Indexed FIFO traversal avoids repeated O(N) array shifts as authored stories grow.
@@ -1870,6 +1974,8 @@
       });
     }
     Object.keys(states).filter(function (k) { return !canFinish[states[k]]; }).forEach(function (k) { errors.push('cannot reach an ending from state ' + k); });
+    // QA only: what the walk observed, so a test can prove two key strategies see the same story.
+    if (o.observe) { o.observe.seen = Object.keys(seen).sort(); o.observe.used = Object.keys(used.choices).concat(Object.keys(used.entries)).sort(); }
 
     return {
       ok: !errors.length,
@@ -1907,6 +2013,7 @@
     takeContextAction: takeContextAction,
     validate: validate,
     clone: clone,
+    copyJson: copyJson,
     // Story v2 (docs/72 S1, docs/74).
     STORY_SCHEMA: STORY_SCHEMA,
     STATE_VERSION: STATE_VERSION,
