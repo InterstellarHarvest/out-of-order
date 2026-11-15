@@ -817,6 +817,13 @@ async function suite(name, base, requests) {
     === JSON.stringify(['context', 'notes', 'files']));
   c('the context action here is OBSERVE with the WATCH glyph', (await page.$eval('#util-0', (b) => [b.getAttribute('aria-label'), /\/art\/actions\/watch\.png$/.test(b.querySelector('img.glyph').src)].join())) === 'OBSERVE,true');
 
+  // Earlier static sprite/font checks can outlast the opening line on a loaded runner.
+  // Restart the reception fixture immediately before the real-time typing assertions,
+  // so they measure live typing rather than elapsed time spent on static verification.
+  await game(page, () => window.CYOA_GAME.flow.begin());
+  c('begin() starts the receptionist speaking again', (await phase(page)) === 'typing'
+    && await page.$eval('#speechText', (e) => e.dataset.typing === 'true'));
+
   // While the receptionist types, OBSERVE keeps its glyph, unlit, does not press, and says why.
   c('OBSERVE is inactive while the receptionist is typing', (await phase(page)) === 'typing' && (await page.$eval('#util-0', (b) => [b.dataset.glyph, b.getAttribute('aria-disabled')].join())) === 'inactive,true');
   c('an inactive button keeps its glyph, in the inactive treatment', await page.$eval('#util-0', (b) => b.querySelector('img.glyph').style.display === 'none'
