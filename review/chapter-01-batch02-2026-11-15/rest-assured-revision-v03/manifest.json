@@ -1,0 +1,203 @@
+{
+  "title": "Rest Assured v03 \u2014 armrest-mounted wrist closures and activated pose",
+  "baselineCommit": "38f0a8fadba941ef5eae3424437baffb67dc5909",
+  "branch": "agent/ch01-art-batch02-20261115",
+  "scene": "house_of_tomorrow/chair",
+  "candidateCount": 1,
+  "status": "generated",
+  "ownerApproved": false,
+  "assetPath": null,
+  "candidatePath": "candidates/chair-candidate-v03.png",
+  "dimensions": [
+    314,
+    206
+  ],
+  "mode": "RGB",
+  "sha256": "b5ff87799c10a8d466b5175a09bfd5c7865c42bc69e5ad4220c4153c0b3e58c4",
+  "originalPath": "../candidates/chair-candidate-v01.png",
+  "originalSha256": "2b669d012f58fef79f837b6e8ee5582db79dd854d8746a086a691e61c3b76888",
+  "initialPath": "../candidates/lounge-candidate-v01.png",
+  "initialSha256": "9dc600a286bc585a5fb8fc1a5bf85cca31a06ea4f42f4b83057f3845242b92f8",
+  "sourcePath": "generation-source/chair-v03b.png",
+  "sourceSha256": "40e409bc66fc2f666eac12faaac838f6e95e013a19bb30ae2fd2072958e4cae0",
+  "sourceDimensions": [
+    1548,
+    1016
+  ],
+  "promptPath": "prompt.json",
+  "method": "built-in image_gen.imagegen; original v01 used as positive design reference",
+  "normalization": {
+    "sourceBox": [
+      0,
+      0.2165605095541423,
+      1548,
+      1015.7834394904459
+    ],
+    "geometry": "NEAREST to314x206; copy chair silhouette/pose edit mask only",
+    "colorPolicy": "non-spatial match to actual original scene palette, no dithering or new palette-count target",
+    "editPolygon": [
+      [
+        202,
+        0
+      ],
+      [
+        282,
+        0
+      ],
+      [
+        293,
+        22
+      ],
+      [
+        289,
+        88
+      ],
+      [
+        276,
+        109
+      ],
+      [
+        274,
+        164
+      ],
+      [
+        247,
+        184
+      ],
+      [
+        253,
+        205
+      ],
+      [
+        119,
+        205
+      ],
+      [
+        43,
+        194
+      ],
+      [
+        42,
+        176
+      ],
+      [
+        60,
+        151
+      ],
+      [
+        85,
+        137
+      ],
+      [
+        64,
+        132
+      ],
+      [
+        64,
+        112
+      ],
+      [
+        85,
+        99
+      ],
+      [
+        109,
+        84
+      ],
+      [
+        158,
+        82
+      ],
+      [
+        179,
+        67
+      ],
+      [
+        187,
+        42
+      ]
+    ],
+    "protectedOriginalRegions": [
+      [
+        153,
+        0,
+        189,
+        43
+      ]
+    ]
+  },
+  "changedPixelsOutsideMask": 0,
+  "changedPixels": 19382,
+  "visibleColorCount": 236,
+  "dominantPalette": [
+    {
+      "hex": "#f8d1ae",
+      "pixels": 10222
+    },
+    {
+      "hex": "#8ecdbf",
+      "pixels": 8681
+    },
+    {
+      "hex": "#eb7159",
+      "pixels": 5748
+    },
+    {
+      "hex": "#f6c99d",
+      "pixels": 4536
+    },
+    {
+      "hex": "#68a99b",
+      "pixels": 3946
+    },
+    {
+      "hex": "#fee1bf",
+      "pixels": 3108
+    },
+    {
+      "hex": "#76b8a9",
+      "pixels": 2618
+    },
+    {
+      "hex": "#b24f3d",
+      "pixels": 2056
+    },
+    {
+      "hex": "#feecd2",
+      "pixels": 1953
+    },
+    {
+      "hex": "#e6b586",
+      "pixels": 1663
+    },
+    {
+      "hex": "#c2eee2",
+      "pixels": 1614
+    },
+    {
+      "hex": "#f4a14d",
+      "pixels": 1299
+    },
+    {
+      "hex": "#99ddfd",
+      "pixels": 1088
+    },
+    {
+      "hex": "#387870",
+      "pixels": 755
+    },
+    {
+      "hex": "#f5c186",
+      "pixels": 720
+    },
+    {
+      "hex": "#fd836b",
+      "pixels": 657
+    }
+  ],
+  "reviewDecision": "v02 upright rings rejected; return to original chair and place low closures across forward wrist-rest areas.",
+  "recline": "Slightly farther reclined backrest and raised integrated legrest; same room camera.",
+  "productionIntegration": false,
+  "storyModified": false,
+  "greeneryProposalApplied": false
+}

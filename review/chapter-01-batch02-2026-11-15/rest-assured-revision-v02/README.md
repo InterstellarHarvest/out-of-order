@@ -1,4 +1,6 @@
-# Rest Assured v02 — localized owner-review candidate
+# Rest Assured v02 — archived candidate
+
+**Owner rejected the upright restraint placement.** See the [current v03 review](../rest-assured-revision-v03/index.html). Original v02 images remain unchanged.
 
 Open [index.html](index.html) for native and exact4× before/after views and the unchanged initial lounge comparison.
 

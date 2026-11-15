@@ -1,0 +1,102 @@
+{
+  "passed": 23,
+  "checks": [
+    {
+      "name": "Opaque314x206 RGB candidate",
+      "pass": true
+    },
+    {
+      "name": "One generated replacement, no production path or approval",
+      "pass": true
+    },
+    {
+      "name": "Candidate and selected source hashes",
+      "pass": true
+    },
+    {
+      "name": "Original v01 and initial lounge reference hashes",
+      "pass": true
+    },
+    {
+      "name": "Every pixel outside chair edit mask unchanged",
+      "pass": true
+    },
+    {
+      "name": "Approved House intercom exact",
+      "pass": true
+    },
+    {
+      "name": "Original scene palette retained",
+      "pass": true
+    },
+    {
+      "name": "Meaningful chair-state revision",
+      "pass": true
+    },
+    {
+      "name": "Exact4x nearest preview",
+      "pass": true
+    },
+    {
+      "name": "before-after exact comparison content native",
+      "pass": true
+    },
+    {
+      "name": "before-after exact comparison content 4x",
+      "pass": true
+    },
+    {
+      "name": "initial-activated exact comparison content native",
+      "pass": true
+    },
+    {
+      "name": "initial-activated exact comparison content 4x",
+      "pass": true
+    },
+    {
+      "name": "Every earlier PNG including rejected v02 preserved",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/artwork.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/chapters/chapter-01.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/items.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged game/content/story.generated.js",
+      "pass": true
+    },
+    {
+      "name": "Existing greenery proposal unchanged and unapplied",
+      "pass": true
+    },
+    {
+      "name": "Changes confined to review package",
+      "pass": true
+    },
+    {
+      "name": "Local gallery links all exist",
+      "pass": true
+    },
+    {
+      "name": "HTML image sizes match actual files",
+      "pass": true
+    },
+    {
+      "name": "All gallery file references load locally",
+      "pass": true
+    }
+  ],
+  "previousPngFilesVerified": 59,
+  "httpFilesVerified": 17,
+  "visualApproval": "pending",
+  "engineIntegration": false,
+  "browserRenderTest": "not run; local HTTP and image/geometry checks performed"
+}
