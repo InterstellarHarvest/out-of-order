@@ -1,3 +1,5 @@
+**Latest review:** [framing revision — current seven candidates](framing-revision-v03/index.html). This adds normally sized seated-body framing and original-scale album corrections. [Owner overrides / proposed prose diff](framing-revision-v03/RULING_AND_STORY_NOTES.md). The original package below is preserved as a prior snapshot.
+
 # Chapter1 Batch3 — private artwork review
 
 Open [index.html](index.html) locally. This is a static private review package, not the public Art Lab. All seven selected candidates remain **generated, pending owner creative approval**.
