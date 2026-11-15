@@ -1,0 +1,98 @@
+{
+  "passed": 22,
+  "checks": [
+    {
+      "name": "Opaque314x206 RGB PNG",
+      "pass": true
+    },
+    {
+      "name": "Replacement generated, approval pending, production path null",
+      "pass": true
+    },
+    {
+      "name": "Candidate and source hashes",
+      "pass": true
+    },
+    {
+      "name": "Original chair hash preserved",
+      "pass": true
+    },
+    {
+      "name": "Only original scene colors used",
+      "pass": true
+    },
+    {
+      "name": "Every pixel outside cuffs and seam unchanged",
+      "pass": true
+    },
+    {
+      "name": "Meaningful localized edit",
+      "pass": true
+    },
+    {
+      "name": "Approved intercom pixels unchanged",
+      "pass": true
+    },
+    {
+      "name": "Recline/backrest/legrest and status indicator unchanged",
+      "pass": true
+    },
+    {
+      "name": "Exact4x NEAREST1256x824",
+      "pass": true
+    },
+    {
+      "name": "Before-after sheet exact scene content at1x",
+      "pass": true
+    },
+    {
+      "name": "Before-after sheet exact scene content at4x",
+      "pass": true
+    },
+    {
+      "name": "Every previous artwork/source/preview PNG unchanged",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/artwork.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/chapters/chapter-01.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/items.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged game/content/story.generated.js",
+      "pass": true
+    },
+    {
+      "name": "Only review files modified",
+      "pass": true
+    },
+    {
+      "name": "Greenery clarification not applied",
+      "pass": true
+    },
+    {
+      "name": "All gallery references local and present",
+      "pass": true
+    },
+    {
+      "name": "Native/4x HTML dimensions match actual images",
+      "pass": true
+    },
+    {
+      "name": "All gallery image/doc references load locally",
+      "pass": true
+    }
+  ],
+  "previousPngFilesVerified": 54,
+  "httpFilesVerified": 14,
+  "visualApproval": "pending",
+  "storyOrGameplayModified": false,
+  "browserRenderTest": "not run; actual local HTTP and image/geometry checks performed"
+}

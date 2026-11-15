@@ -1,0 +1,134 @@
+{
+  "title": "Rest Assured localized cuff/seam revision v02",
+  "baselineCommit": "7d76a2616cf66d89aa59f8ac5acfa26b94d37675",
+  "branch": "agent/ch01-art-batch02-20261115",
+  "scene": "house_of_tomorrow/chair",
+  "status": "generated",
+  "ownerApproved": false,
+  "assetPath": null,
+  "candidatePath": "candidates/chair-candidate-v02.png",
+  "dimensions": [
+    314,
+    206
+  ],
+  "mode": "RGB",
+  "sha256": "e90a3bf391cac5e8bfd78afb46cc3e726c566299b93d2d031769a6ed6a1d5b73",
+  "beforePath": "../candidates/chair-candidate-v01.png",
+  "beforeSha256": "2b669d012f58fef79f837b6e8ee5582db79dd854d8746a086a691e61c3b76888",
+  "sourcePath": "generation-source/chair-v02.png",
+  "sourceSha256": "1a6a6d96beed8c3f1e9889fc2310fc45a79919c4a6ccec786ef7f444432bcc68",
+  "sourceDimensions": [
+    1548,
+    1016
+  ],
+  "promptPath": "prompt.json",
+  "method": "built-in image_gen.imagegen; localized export onto original native scene",
+  "normalization": {
+    "sourceBox": [
+      0,
+      0.2165605095541423,
+      1548,
+      1015.7834394904459
+    ],
+    "geometry": "NEAREST to314x206, copy only documented generated edit regions",
+    "regions": [
+      [
+        106,
+        86,
+        147,
+        126
+      ],
+      [
+        188,
+        91,
+        239,
+        136
+      ],
+      [
+        69,
+        115,
+        81,
+        129
+      ]
+    ],
+    "colorCleanup": "non-spatial nearest match to existing original scene colors within regions; no scene-wide recoloring"
+  },
+  "changedPixelsOutsideRegions": 0,
+  "changedPixels": 3215,
+  "visibleColorCount": 246,
+  "dominantPalette": [
+    {
+      "hex": "#f8d1ae",
+      "pixels": 9387
+    },
+    {
+      "hex": "#8ecdbf",
+      "pixels": 9290
+    },
+    {
+      "hex": "#eb7159",
+      "pixels": 5859
+    },
+    {
+      "hex": "#f6c99d",
+      "pixels": 4412
+    },
+    {
+      "hex": "#68a99b",
+      "pixels": 3950
+    },
+    {
+      "hex": "#fee1bf",
+      "pixels": 3739
+    },
+    {
+      "hex": "#76b8a9",
+      "pixels": 2653
+    },
+    {
+      "hex": "#d4f6ed",
+      "pixels": 1880
+    },
+    {
+      "hex": "#feecd2",
+      "pixels": 1816
+    },
+    {
+      "hex": "#e6b586",
+      "pixels": 1659
+    },
+    {
+      "hex": "#b24f3d",
+      "pixels": 1318
+    },
+    {
+      "hex": "#f4a14d",
+      "pixels": 1312
+    },
+    {
+      "hex": "#99ddfd",
+      "pixels": 1088
+    },
+    {
+      "hex": "#387870",
+      "pixels": 790
+    },
+    {
+      "hex": "#989796",
+      "pixels": 708
+    },
+    {
+      "hex": "#83c2b5",
+      "pixels": 700
+    }
+  ],
+  "storyDirectorReview": {
+    "lounge": "composition accepted",
+    "bedroom": "accepted",
+    "passage": "accepted",
+    "chair-v02": "replacement generated; owner approval pending"
+  },
+  "reclineDecision": "Retain reviewed angle; closure silhouette, padded lining and latch seams strengthen the state distinction locally.",
+  "productionIntegration": false,
+  "greeneryProposalApplied": false
+}

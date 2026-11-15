@@ -1,5 +1,7 @@
 # Chapter1 Batch2 — private artwork review
 
+**Review follow-up:** Story Director accepted the lounge composition, bedroom and passage. The [localized locked-chair v02 gallery](rest-assured-revision-v02/index.html) contains the generated replacement and native/4× before/after views. Original images below remain unchanged. [Greenery clarification](GREENERY_CLARIFICATION_PROPOSED.md) is proposed only.
+
 Open [index.html](index.html) locally. The gallery is offline, with no outside services, fonts, analytics or public deployment. Optional local-only server, from repository root:
 
 ```sh
