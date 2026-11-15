@@ -75,11 +75,14 @@ async function run(name, base) {
   const h = await drag(page, 'reception_hallway', -90, 80);
   await page.click('#nodes .node >> text=reception_hallway');
   await page.screenshot({ path: path.join(OUT, name + '_1_prologue.png') });
-  await choose(page, 1, 1);
+  await choose(page, 1, 36);
   const ch1Inspector = await page.evaluate(() => document.getElementById('details').innerText);
-  check(b, 'Chapter 1: own graph and inspector (placeholder identified, not-started shared art, draft stop)', /DEVELOPMENT PLACEHOLDER/.test(ch1Inspector)
-    && /scenes\/house_of_tomorrow\/opening · not-started/.test(ch1Inspector) && /No outgoing route yet/.test(ch1Inspector) && !/facilities_corridor/.test(ch1Inspector), ch1Inspector.slice(0, 300));
-  const c = await drag(page, 'dev_placeholder', 160, 110);
+  check(b, 'Chapter 1: 36 authored nodes, arrival inspector, item choice, and independent unstarted scene reference',
+    /HOUSE OF TOMORROW/.test(ch1Inspector)
+    && /scenes\/house_of_tomorrow\/arrival · not-started/.test(ch1Inspector)
+    && /PUSH OPEN THE DISPLAY ENTRANCE/.test(ch1Inspector)
+    && !/facilities_corridor/.test(ch1Inspector), ch1Inspector.slice(0, 500));
+  const c = await drag(page, 'house_arrival', 160, 110);
   await page.screenshot({ path: path.join(OUT, name + '_2_chapter01.png') });
   await choose(page, 0, 29);
   const a2 = await pos(page, 'drone_intercepts');
@@ -88,8 +91,8 @@ async function run(name, base) {
   check(b, 'switching back keeps both Prologue positions and the Prologue selection', JSON.stringify([a2, h2]) === JSON.stringify([a, h]) && sel === 'Reception Hallway', [a, a2, h, h2, sel]);
   // The hand-off card in the inspector opens Chapter 1, with its moved node where it was left.
   await page.click('#details button.choice >> text=CONTINUE');
-  await ready(page, 1);
-  check(b, 'the hand-off card opens Chapter 1 and its layout is intact', JSON.stringify(await pos(page, 'dev_placeholder')) === JSON.stringify(c)
+  await ready(page, 36);
+  check(b, 'the hand-off card opens Chapter 1 and its layout is intact', JSON.stringify(await pos(page, 'house_arrival')) === JSON.stringify(c)
     && await page.inputValue('#chapterSelect') === '1');
   await choose(page, 0, 29);
   const [download] = await Promise.all([page.waitForEvent('download'), page.click('#exportLayout')]);
@@ -99,7 +102,7 @@ async function run(name, base) {
   check(b, 'Export Layout: one cyoa-storyboard-layout-v1 file with both chapters\' arrangements', exported.schema === 'cyoa-storyboard-layout-v1'
     && JSON.stringify(exported.chapters['prologue-00'].positions.drone_intercepts) === JSON.stringify(a)
     && JSON.stringify(exported.chapters['prologue-00'].positions.reception_hallway) === JSON.stringify(h)
-    && JSON.stringify(exported.chapters['chapter-01'].positions.dev_placeholder) === JSON.stringify(c), exported);
+    && JSON.stringify(exported.chapters['chapter-01'].positions.house_arrival) === JSON.stringify(c), exported);
   await ctx.close();
 
   // A fresh profile (no saved positions) imports the file: both arrangements come back.
@@ -113,8 +116,8 @@ async function run(name, base) {
   await p2.waitForFunction(() => /Imported layout is active/.test(document.getElementById('status').textContent));
   const a3 = await pos(p2, 'drone_intercepts');
   const h3 = await pos(p2, 'reception_hallway');
-  await choose(p2, 1, 1);
-  const c3 = await pos(p2, 'dev_placeholder');
+  await choose(p2, 1, 36);
+  const c3 = await pos(p2, 'house_arrival');
   check(b, 'Import Layout in a fresh browser restores the Prologue and Chapter 1 arrangements', JSON.stringify(auto) !== JSON.stringify(a)
     && JSON.stringify([a3, h3, c3]) === JSON.stringify([a, h, c]), [auto, a3, h3, c3]);
   await choose(p2, 0, 29);
@@ -126,8 +129,8 @@ async function run(name, base) {
   const items = await p2.evaluate(() => document.querySelectorAll('#details .item-button').length);
   await p2.click('#showArtwork');
   const art = await p2.evaluate(() => document.getElementById('details').innerText);
-  check(b, 'zoom, Items and Artwork panels still work (34 shared art records, 1 not-started)', before !== await p2.evaluate(() => document.getElementById('stage').style.transform)
-    && items === 10 && /34 shared art records/.test(art) && /1 not-started/.test(art), [items, art.slice(0, 200)]);
+  check(b, 'zoom, Items and Artwork panels still work (53 shared art records, 20 not-started)', before !== await p2.evaluate(() => document.getElementById('stage').style.transform)
+    && items === 11 && /53 shared art records/.test(art) && /20 not-started/.test(art), [items, art.slice(0, 200)]);
   await p2.screenshot({ path: path.join(OUT, name + '_3_imported.png') });
   await ctx2.close();
   check(b, 'no console or page errors', !errors.length, errors);
