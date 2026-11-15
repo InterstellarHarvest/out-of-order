@@ -323,12 +323,14 @@ async function suite(name, base) {
   s = await info(page);
   const after = await page.evaluate(() => JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
   const same = (k) => JSON.stringify(after[k]) === JSON.stringify(before[k]);
-  check(b, 'HAND-OFF: the game crosses into the Chapter 1 development placeholder (its own scene id drawn as a DEV PLACEHOLDER, not corridor art)', s.node === 'chapter-01:dev_placeholder'
-    && s.scene === 'house_of_tomorrow/opening' && s.sceneArt === 'scene:house_of_tomorrow/opening'
-    && await page.evaluate(() => { const c = document.getElementById('sceneArt'); return c.tagName === 'CANVAS' && /house_of_tomorrow\/opening/i.test(c.dataset.placeholder || ''); })
-    && /^\[DEVELOPMENT PLACEHOLDER\]/.test(s.narration), s);
-  check(b, 'HAND-OFF: inventory, flags, item marks, resolved checks, objective and seed are unchanged in the browser', ['flags', 'inventory', 'items', 'checks', 'objective', 'seed'].every(same)
-    && before.inventory.length >= 3, ['flags', 'inventory', 'items', 'checks', 'objective', 'seed'].filter((k) => !same(k)));
+  check(b, 'HAND-OFF: the game enters House of Tomorrow authored arrival with a labelled missing-art preview', s.node === 'chapter-01:house_arrival'
+    && s.scene === 'house_of_tomorrow/arrival' && s.sceneArt === 'scene:house_of_tomorrow/arrival'
+    && await page.evaluate(() => { const c = document.getElementById('sceneArt'); return c.tagName === 'CANVAS' && /house_of_tomorrow\/arrival/i.test(c.dataset.placeholder || ''); })
+    && /HOUSE OF TOMORROW/.test(s.narration) && s.cards.some((c) => c.id === 'enter_show_home'), s);
+  check(b, 'HAND-OFF: inventory, flags, item marks, resolved checks and seed are unchanged; House sets its own objective',
+    ['flags', 'inventory', 'items', 'checks', 'seed'].every(same)
+    && after.objective === 'FIND A FUNCTIONING BATHROOM.' && before.inventory.length >= 3,
+    ['flags', 'inventory', 'items', 'checks', 'seed'].filter((k) => !same(k)).concat(after.objective));
   check(b, 'HAND-OFF: NOTES history continues (every Prologue entry kept, the Chapter 1 entry appended)', after.transcript.length > before.transcript.length
     && JSON.stringify(after.transcript.slice(0, before.transcript.length)) === JSON.stringify(before.transcript) && after.transcript[after.transcript.length - 1].chapter === 'chapter-01');
   const stamp1 = await page.evaluate(() => document.getElementById('draftStamp').dataset.text);
@@ -342,14 +344,27 @@ async function suite(name, base) {
   s = await info(page);
   const reloaded = await page.evaluate(() => JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
   check(b, 'HAND-OFF: a reload restores the one autosave in Chapter 1 with the Prologue\'s inventory, flags and NOTES (no separate Chapter 1 save)', s.save === 'restored'
-    && s.node === 'chapter-01:dev_placeholder' && JSON.stringify(reloaded.inventory) === JSON.stringify(before.inventory) && JSON.stringify(reloaded.flags) === JSON.stringify(before.flags)
+    && s.node === 'chapter-01:house_arrival' && JSON.stringify(reloaded.inventory) === JSON.stringify(before.inventory) && JSON.stringify(reloaded.flags) === JSON.stringify(before.flags)
     && reloaded.transcript.length === after.transcript.length
     && await page.evaluate(() => Object.keys(localStorage).filter((k) => /^cyoa-save:/.test(k)).join()) === 'cyoa-save:the-acceptable-error', s);
   errors = errors.concat(errors2);
-  check(b, 'DRAFT STOP: the Chapter 1 placeholder ends with one labelled system card', s.cards.length === 1
-    && s.cards[0].kind === 'system' && s.cards[0].text === 'DRAFT ENDS HERE. BEGIN AGAIN.', s.cards);
-  await shot(page, '10_draft_stop.png');
-  await take(page, 'draft_stop_begin_again');
+  // Real authored Chapter 1, following the path without a retained plant: dinner, portrait,
+  // fake bathroom and the showroom-reset escape. This exercises the shared game shell.
+  for (const choice of [
+    'enter_show_home', 'hear_house_greeting', 'permit_housekeeping', 'ask_for_bathroom_after_storage',
+    'refuse_everything', 'ask_to_leave_house', 'no_plant_first_foyer', 'go_to_mandatory_dinner',
+    'interrupt_family_dinner', 'after_dinner_no_plant', 'attend_photo_session',
+    'continue_to_bathroom', 'use_bathroom_at_last', 'accept_completed_demonstration',
+    'leave_during_reset'
+  ]) await take(page, choice);
+  s = await info(page);
+  check(b, 'Chapter 1 playthrough reaches a distinct showroom-reset exit with photo inventory and a restart card',
+    s.node === 'chapter-01:exit_showroom_reset' && s.cards.length === 1
+    && s.cards[0].id === 'begin_again_exit_showroom_reset' && s.cards[0].kind === 'system'
+    && s.inv.includes('family_portrait_photo')
+    && (await page.evaluate(() => window.CYOA_GAME.state.flags.house_exit_route)) === 'showroom_reset', s);
+  await shot(page, '10_chapter_01_showroom_exit.png');
+  await take(page, 'begin_again_exit_showroom_reset');
   s = await info(page);
   check(b, 'BEGIN AGAIN restarts the playthrough (new NOTES, empty inventory, opening node)', s.node === 'prologue-00:work_complete' && s.inv.length === 0
     && await page.evaluate(() => window.CYOA_GAME.state.transcript.length) <= 3, s);
