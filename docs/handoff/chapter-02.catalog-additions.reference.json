@@ -1,0 +1,457 @@
+{
+  "scenes": {
+    "biology_park/abandoned_station": {
+      "title": "ABANDONED STATION",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: abandoned station. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/agricultural_customs": {
+      "title": "AGRICULTURAL CUSTOMS",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Botanical cargo exit and inspection alcove with sealed exposure dispenser; certified seed canister checkpoint. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/authorization_archive": {
+      "title": "AUTHORIZATION ARCHIVE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: authorization archive. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/central_flower": {
+      "title": "CENTRAL FLOWER",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Gigantic biological flower at center of greenhouse with thick sensor cables and administrative printers, no humanlike face. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/concourse_crash": {
+      "title": "CONCOURSE CRASH",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Robot-driven tram broken through midcentury exposition advertising wall while visitors look on. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review.",
+      "portraitBackground": {
+        "title": "COURTESY CONDUCTOR CONCOURSE BACKDROP",
+        "kind": "portrait-background",
+        "status": "not-started",
+        "dimensions": "564x278",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Opaque tight view of robot driver console and concourse crash situation matching portrait foreground, 564x278."
+      }
+    },
+    "biology_park/control_tower": {
+      "title": "CONTROL TOWER",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: control tower. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/conveniences_bureau": {
+      "title": "CONVENIENCES BUREAU",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Public Conveniences Bureau with many sealed restroom doors, indoor vines, filing cabinets and midcentury modular architecture. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/damaged_walkway": {
+      "title": "DAMAGED WALKWAY",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: damaged walkway. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/exposition_concourse": {
+      "title": "EXPOSITION CONCOURSE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: exposition concourse. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/formal_entrance": {
+      "title": "FORMAL ENTRANCE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: formal entrance. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/groundskeeper": {
+      "title": "GROUNDSKEEPER",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Nonhumanoid heavy industrial landscape machine politely invading government office with hoses, seed feeder, soil bin, no eyes. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review.",
+      "portraitBackground": {
+        "title": "GROUNDSKEEPER PORTRAIT BACKDROP",
+        "kind": "portrait-background",
+        "status": "not-started",
+        "dimensions": "564x278",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Opaque tight POV background matching the groundskeeper invasion of the Public Conveniences Bureau, 564x278, independent of foreground sprite."
+      }
+    },
+    "biology_park/jungle_junction": {
+      "title": "JUNGLE JUNCTION",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: jungle junction. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/lower_irrigation": {
+      "title": "LOWER IRRIGATION",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: lower irrigation. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/maintenance_exit": {
+      "title": "MAINTENANCE EXIT",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Lower irrigation maintenance exit door with separate closed industrial decontamination locker. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/moving_forest": {
+      "title": "MOVING FOREST",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Large shifting trees on concealed mechanical tracks with numbered maintenance plaques, thorned branch. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/overgrown_tram": {
+      "title": "OVERGROWN TRAM",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Tourist tram seats rooted over by pale motile plants and vines, emergency roof hatch visible. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/planting_hopper": {
+      "title": "PLANTING HOPPER",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: planting hopper. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/planting_machine": {
+      "title": "PLANTING MACHINE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Automated planting arms above shallow soil bed and bureaucratic machine console. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/public_exit": {
+      "title": "PUBLIC EXIT",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Formal steel exit door with CLOSED wall mounted first-aid box beside it; the box is not open in main scene. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/reserve_siding": {
+      "title": "RESERVE SIDING",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Abandoned overgrown rail siding with reserve tram and obsolete destination display. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/reserve_tram": {
+      "title": "RESERVE TRAM",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Abandoned reserve tram interior with inactive molded-plastic robot concierge recessed into driver console, no eyes lit. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/sensor_gallery": {
+      "title": "SENSOR GALLERY",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: sensor gallery. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/service_entry": {
+      "title": "SERVICE ENTRY",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: service entry. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/sorting_conveyor": {
+      "title": "SORTING CONVEYOR",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: sorting conveyor. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/spore_garden": {
+      "title": "SPORE GARDEN",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Beautiful pale flowering spore garden with visible green particles and risk signs, damaged perimeter catwalk. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/tour_tram": {
+      "title": "TOUR TRAM",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "1960s automatic sightseeing tram interior, molded plastic seats, mechanical announcement panel, unsettling artificial jungle outside. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/translator_machine": {
+      "title": "TRANSLATOR MACHINE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "1960s retro-futurist botanical signals translator, analog dials, punched tape loops, approval printers, sensor cables. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "biology_park/waste_chute": {
+      "title": "WASTE CHUTE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: waste chute. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    }
+  },
+  "portraits": {
+    "groundskeeper:idle": {
+      "title": "GROUNDSKEEPER MACHINE - IDLE",
+      "kind": "portrait",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Transparent 564x278 mechanical groundskeeper machine portrait, zoomed tight on speaker/inspection module and seed feeder, separate from opaque corridor/background. Nonhumanoid, austere midcentury industrial, no brass, no cartoon eyes.",
+      "foregroundFormat": "transparent-rgba-png",
+      "portraitBackgroundScene": "biology_park/groundskeeper"
+    },
+    "courtesy_conductor:talking": {
+      "title": "COURTESY CONDUCTOR - TALKING",
+      "kind": "portrait",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Original midcentury molded-plastic friendly robot conductor in reserve tram console. Expressive simple mouth moving, separate transparent foreground pose; evokes absurdly upbeat vintage robotic chauffeur without copying any copyrighted character, no steampunk.",
+      "foregroundFormat": "transparent-rgba-png",
+      "portraitBackgroundScene": "biology_park/concourse_crash"
+    }
+  },
+  "focus": {
+    "biology_park/agricultural_customs/exposure_dispenser_open": {
+      "title": "EXPOSURE DISPENSER OPEN",
+      "kind": "focus",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Opened botanical first-aid or decontamination wall kit close-up: chunky syringe injector and glass vial inside; EVE-hypo-like general silhouette Easter egg, entirely original design, industrial 1960s futurism. Eventually must be represented in 565x451 Scene Pickup Inspector, not the current Focus A staging."
+    },
+    "biology_park/maintenance_exit/decontamination_kit_open": {
+      "title": "DECONTAMINATION KIT OPEN",
+      "kind": "focus",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Opened botanical first-aid or decontamination wall kit close-up: chunky syringe injector and glass vial inside; EVE-hypo-like general silhouette Easter egg, entirely original design, industrial 1960s futurism. Eventually must be represented in 565x451 Scene Pickup Inspector, not the current Focus A staging."
+    },
+    "biology_park/public_exit/aid_box_open": {
+      "title": "AID BOX OPEN",
+      "kind": "focus",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Opened botanical first-aid or decontamination wall kit close-up: chunky syringe injector and glass vial inside; EVE-hypo-like general silhouette Easter egg, entirely original design, industrial 1960s futurism. Eventually must be represented in 565x451 Scene Pickup Inspector, not the current Focus A staging."
+    }
+  },
+  "items": {
+    "acting_director_badge": {
+      "slot": {
+        "title": "ACTING DIRECTOR BADGE SLOT",
+        "kind": "item-slot",
+        "status": "not-started",
+        "dimensions": "96x96",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "True logical-grid 96x96 transparent item icon, clean controlled palette, acting director badge"
+      },
+      "inspect": {
+        "title": "ACTING DIRECTOR BADGE INSPECT",
+        "kind": "item-inspect",
+        "status": "not-started",
+        "dimensions": "565x451",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Clean 565x451 detailed item inspector art for acting director badge, original midcentury industrial styling"
+      }
+    },
+    "botanical_antidote_customs": {
+      "slot": {
+        "title": "BOTANICAL ANTIDOTE CUSTOMS SLOT",
+        "kind": "item-slot",
+        "status": "not-started",
+        "dimensions": "96x96",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "True logical-grid 96x96 transparent item icon, clean controlled palette, botanical antidote customs"
+      },
+      "inspect": {
+        "title": "BOTANICAL ANTIDOTE CUSTOMS INSPECT",
+        "kind": "item-inspect",
+        "status": "not-started",
+        "dimensions": "565x451",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Clean 565x451 detailed item inspector art for botanical antidote customs, original midcentury industrial styling"
+      }
+    },
+    "botanical_antidote_maintenance": {
+      "slot": {
+        "title": "BOTANICAL ANTIDOTE MAINTENANCE SLOT",
+        "kind": "item-slot",
+        "status": "not-started",
+        "dimensions": "96x96",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "True logical-grid 96x96 transparent item icon, clean controlled palette, botanical antidote maintenance"
+      },
+      "inspect": {
+        "title": "BOTANICAL ANTIDOTE MAINTENANCE INSPECT",
+        "kind": "item-inspect",
+        "status": "not-started",
+        "dimensions": "565x451",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Clean 565x451 detailed item inspector art for botanical antidote maintenance, original midcentury industrial styling"
+      }
+    },
+    "botanical_antidote_public": {
+      "slot": {
+        "title": "BOTANICAL ANTIDOTE PUBLIC SLOT",
+        "kind": "item-slot",
+        "status": "not-started",
+        "dimensions": "96x96",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "True logical-grid 96x96 transparent item icon, clean controlled palette, botanical antidote public"
+      },
+      "inspect": {
+        "title": "BOTANICAL ANTIDOTE PUBLIC INSPECT",
+        "kind": "item-inspect",
+        "status": "not-started",
+        "dimensions": "565x451",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Clean 565x451 detailed item inspector art for botanical antidote public, original midcentury industrial styling"
+      }
+    },
+    "certified_seed_canister": {
+      "slot": {
+        "title": "CERTIFIED SEED CANISTER SLOT",
+        "kind": "item-slot",
+        "status": "not-started",
+        "dimensions": "96x96",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "True logical-grid 96x96 transparent item icon, clean controlled palette, certified seed canister"
+      },
+      "inspect": {
+        "title": "CERTIFIED SEED CANISTER INSPECT",
+        "kind": "item-inspect",
+        "status": "not-started",
+        "dimensions": "565x451",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Clean 565x451 detailed item inspector art for certified seed canister, original midcentury industrial styling"
+      }
+    }
+  }
+}
