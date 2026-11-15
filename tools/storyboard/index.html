@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Acceptable Error — Storyboard</title>
+<style>
+:root{font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:#e2e8ee;background:#151b22;font-size:14px}
+*{box-sizing:border-box}body{margin:0}button,select{background:#27333e;border:1px solid #465563;color:inherit;padding:7px 10px;border-radius:5px;font:inherit;cursor:pointer}button:hover,select:hover{background:#334451}button:disabled{opacity:.5;cursor:default}input{font:inherit}header{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 15px;border-bottom:1px solid #37424d}header h1{margin:0 18px 0 0;font-size:16px}#status{color:#a8b8c4;margin-left:auto;font-size:12px}#app{display:grid;grid-template-columns:minmax(350px,1fr) 385px;height:calc(100vh - 70px);min-height:460px}.work{display:flex;flex-direction:column;min-width:0;border-right:1px solid #394551}.work-tools{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:9px 14px;border-bottom:1px solid #34404b;color:#a7b5c0}.work-tools strong{color:#e2e8ee}#viewport{flex:1;overflow:auto;background-image:radial-gradient(#2d3a45 1px,transparent 1px);background-size:18px 18px;cursor:grab}#viewport:active{cursor:grabbing}#space{position:relative}#stage{position:relative;transform-origin:top left}#edges{position:absolute;inset:0;overflow:visible;pointer-events:none}.node{position:absolute;min-height:86px;width:220px;padding:11px 12px;border:1px solid #5a6976;border-radius:7px;background:#26323e;cursor:pointer;box-shadow:0 3px 9px #0005}.node:hover{border-color:#b4ccd8;background:#34424e}.node{cursor:move;touch-action:none;user-select:none}.node.dragging{border-color:#9cd6e2;box-shadow:0 6px 20px #0009;z-index:2;opacity:.92}.node.selected{border:2px solid #80bece;padding:10px 11px}.node .id{font-size:10px;color:#9db0be;margin-bottom:5px}.node .name{font-size:13px;font-weight:650;line-height:1.3}.node .sub{font-size:11px;color:#a3b3c1;margin-top:5px}.node .end{color:#dfb88c}aside{overflow:auto;padding:15px 17px}aside h2{font-size:17px;margin:0 0 5px}aside h3{font-size:13px;color:#b4c7d4;margin:18px 0 6px}aside p{line-height:1.5;white-space:pre-wrap;margin:6px 0 12px}aside .meta{font-size:11px;color:#a1afbb}.choice{display:block;text-align:left;width:100%;margin:7px 0;background:#25313c;padding:10px}.choice .minor{display:block;color:#a9b7c2;font-size:11px;margin-top:4px}aside pre{font:11px/1.5 ui-monospace,SFMono-Regular,Consolas,monospace;background:#202a34;padding:11px;overflow:auto;white-space:pre-wrap;word-break:break-word;border-radius:5px}details{margin-top:16px}summary{cursor:pointer;font-weight:600;color:#bbced9}textarea{background:#101820;color:#e5eef6;border:1px solid #526470;border-radius:5px;width:100%;min-height:290px;resize:vertical;padding:10px;font:12px/1.5 ui-monospace,monospace;margin-top:10px}.muted{color:#a3b1bd}.item-button{display:block;width:100%;text-align:left;margin-top:8px}.warning{color:#e6bd8e}#fileChapter,#fileItems,#fileArtwork,#fileLayout{display:none}.art-brief{width:100%;text-align:left;margin:6px 0;padding:10px 11px;background:#24323b;border-left:3px solid #617e8a}.art-brief:hover{background:#324451}.art-meta{display:block;color:#a8b9c4;font-size:11px;margin-top:4px}.art-edit label{display:block;color:#a9bec9;font-size:11px;margin-top:13px}.art-edit input,.art-edit select{display:block;width:100%;margin-top:4px}.art-edit textarea{min-height:135px;margin-top:4px}.art-edit textarea.prompt{min-height:240px}.art-edit button{margin-top:10px}.preview{max-width:100%;max-height:230px;image-rendering:pixelated;border:1px solid #516271;margin-top:8px}@media(max-width:900px){#app{grid-template-columns:1fr;height:auto}.work{height:520px;border-right:0}aside{min-height:400px;border-top:1px solid #465563}}
+</style>
+</head>
+<body>
+<header>
+<h1>The Acceptable Error · Storyboard</h1>
+<a href="../prologue-art-lab/" class="lab-nav" style="display:inline-block;padding:7px 12px;border:1px solid #577c86;border-radius:5px;color:#d6e8ed;text-decoration:none;background:#2e4750;font-size:13px">Artwork Lab</a>
+<select id="chapterSelect" title="Choose a chapter from external manifest"><option value="">Load a chapter</option></select>
+<button id="openChapter">Import chapter JSON</button><input id="fileChapter" type="file" accept=".json,application/json">
+<button id="openItems">Import items JSON</button><input id="fileItems" type="file" accept=".json,application/json">
+  <button id="openArtwork">Import artwork JSON</button><input id="fileArtwork" type="file" accept=".json,application/json">
+<button id="exportChapter" disabled>Export chapter</button>
+<button id="exportItems" disabled>Export items</button>
+  <button id="exportArtwork" disabled>Export artwork</button>
+ <button id="importLayout">Import Layout</button><input id="fileLayout" type="file" accept=".json,application/json">
+ <button id="exportLayout" disabled>Export Layout</button>
+<span id="status">Starting…</span>
+</header>
+<div id="app">
+ <section class="work">
+  <div class="work-tools"><strong id="chapterTitle">Chapter tree</strong><span><button id="zoomOut" title="Zoom out">−</button> <button id="fit" title="Fit the board">Fit</button> <button id="resetLayout" title="Discard manual positions and return to automatic arrangement" disabled>Reset Layout</button> <button id="zoomIn" title="Zoom in">+</button> <button id="showItems">Items</button> <button id="showArtwork">Artwork</button></span></div>
+  <div id="viewport" title="Scroll wheel to zoom around the pointer; drag empty space to pan"><div id="space"><div id="stage"><svg id="edges" aria-hidden="true"></svg><div id="nodes"></div></div></div></div>
+ </section>
+ <aside id="details"><h2>Choose a story node</h2><p class="muted">Select a node for its story and artwork. Drag a box to rearrange the timeline; drag empty space to pan. Positions autosave in this browser, and Export Layout saves a shareable JSON file.</p><p class="muted">The story is kept in external JSON files; this page contains no chapter content.</p></aside>
+</div>
+<script>
+(() => {
+ "use strict";
+ const $ = id => document.getElementById(id);
+ const state = { chapter:null, items:{}, artwork:null, layouts:{schema:"cyoa-storyboard-layout-v1",chapters:{}}, layoutName:"storyboard-layout.json", chapterKey:null, manifest:null, manifestURL:null, sourceName:"chapter.json", artworkName:"artwork.draft.json", selected:null, selections:{}, loadToken:0, scale:1, width:0, height:0 };
+ const setStatus = message => { $("status").textContent = message; };
+ const el = (tag, className, text) => { const n=document.createElement(tag); if(className)n.className=className;if(text!==undefined)n.textContent=text;return n; };
+ const titleOf = (id) => id.replaceAll("_"," ").replace(/\b\w/g, m=>m.toUpperCase());
+ function textOf(value) {
+   if(typeof value==="string")return value;
+   if(Array.isArray(value))return value.map(textOf).filter(Boolean).join("\n");
+   if(value && typeof value==="object"){
+     if(Object.hasOwn(value,"text"))return (value.if?"[IF "+JSON.stringify(value.if)+"] ":"")+textOf(value.text);
+     for(const key of ["say","act","desc","think"])if(Object.hasOwn(value,key))return "["+key.toUpperCase()+"] "+value[key];
+   }
+   return "";
+ }
+ function choicesFor(node){return Array.isArray(node.choices)?node.choices:[];}
+ // Actual outgoing edges include item SHOW/USE transitions, not only choice cards.
+ // Deduplicate destinations (four ways to keep one item should render one edge).
+ function destinations(node){
+   const edges=new Map();
+   function add(id,text,kind){
+     if(!id||!state.chapter.nodes[id])return;
+     if(!edges.has(id))edges.set(id,{id,labels:[],kind});
+     const edge=edges.get(id);
+     if(!edge.labels.includes(text))edge.labels.push(text);
+     if(edge.kind!==kind)edge.kind="mixed";
+   }
+   choicesFor(node).forEach(c=>add(c.to,c.text||c.id,"choice"));
+   for(const verb of ["show","use"]){
+     Object.entries(node[verb]||{}).forEach(([itemId,entry])=>{
+       add(entry?.to,verb.toUpperCase()+" "+titleOf(itemId),verb);
+     });
+   }
+   return Array.from(edges.values(),e=>({
+     id:e.id,kind:e.kind,
+     choice:{text:e.labels.length===1?e.labels[0]:e.labels.length+" routes",id:e.id}
+   }));
+ }
+ const LAYOUT_KEY="cyoa-storyboard-layout-v1:";
+ // Keep authored coordinates separate from the chapter and item engine JSON.
+ function normalizedPositions(positions){
+   const valid={};
+   if(!positions||typeof positions!=="object"||Array.isArray(positions))return valid;
+   for(const [id,p] of Object.entries(positions)){
+     if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y))continue;
+     if(p.x<20||p.y<20||p.x>100000||p.y>100000)continue;
+     valid[id]={x:Math.round(p.x),y:Math.round(p.y)};
+   }
+   return valid;
+ }
+ function layoutEntry(){
+   if(!state.chapterKey)return null;
+   if(!state.layouts.chapters[state.chapterKey])state.layouts.chapters[state.chapterKey]={positions:{}};
+   return state.layouts.chapters[state.chapterKey];
+ }
+ // Each chapter has its own browser cache entry; no chapter ever writes another chapter's key.
+ function cachedLayoutKey(key=state.chapterKey){return LAYOUT_KEY+encodeURIComponent(key||"");}
+ function readCachedPositions(key){
+   try{
+     const stored=window.localStorage?.getItem(cachedLayoutKey(key));
+     if(stored!==null&&stored!==undefined)return normalizedPositions(JSON.parse(stored).positions);
+   }catch(error){ /* Private browsing / blocked storage: manual Export Layout still works. */ }
+   return null;
+ }
+ function writeCachedPositions(key,positions){
+   try{
+     if(!window.localStorage)return false;
+     window.localStorage.setItem(cachedLayoutKey(key),JSON.stringify({positions}));
+     return true;
+   }catch(error){return false;}
+ }
+ function restoreCachedLayout(){
+   const entry=layoutEntry();if(!entry)return;
+   const cached=readCachedPositions(state.chapterKey);
+   if(cached)entry.positions=cached;
+ }
+ function persistLayout(){
+   const entry=layoutEntry();if(!entry)return false;
+   return writeCachedPositions(state.chapterKey,entry.positions);
+ }
+ function manifestChapterIds(){return (state.manifest?.chapters||[]).map(entry=>entry.id).filter(Boolean);}
+ function loadLayouts(data,name,applyNow=false){
+   if(data?.schema!=="cyoa-storyboard-layout-v1"||!data.chapters||typeof data.chapters!=="object"||Array.isArray(data.chapters))throw Error("Expected cyoa-storyboard-layout-v1 with chapters.");
+   const incoming={};
+   for(const [key,val] of Object.entries(data.chapters))incoming[key]={positions:normalizedPositions(val?.positions)};
+   if(applyNow){
+     // An imported file replaces only the chapters it names; every other chapter keeps its layout.
+     for(const [key,val] of Object.entries(incoming)){state.layouts.chapters[key]=val;writeCachedPositions(key,val.positions);}
+   }else{
+     const clean={schema:"cyoa-storyboard-layout-v1",chapters:incoming};
+     for(const key of new Set([...Object.keys(incoming),...manifestChapterIds()])){
+       const cached=readCachedPositions(key);
+       if(cached)clean.chapters[key]={positions:cached};
+       else if(!clean.chapters[key])clean.chapters[key]={positions:{}};
+     }
+     state.layouts=clean;
+   }
+   state.layoutName=name||"storyboard-layout.json";
+   $("exportLayout").disabled=false;
+   if(applyNow&&state.chapter){
+     layoutEntry();
+     renderGraph();setStatus("Imported layout is active. Drag nodes or Export Layout to save.");
+   }
+ }
+ function resetLayout(){
+   if(!state.chapter)return;
+   layoutEntry().positions={};
+   const saved=persistLayout();
+   renderGraph();fit();$("viewport").scrollLeft=0;$("viewport").scrollTop=0;
+   setStatus(saved?"Automatic layout restored and saved in this browser. Export Layout to share.":"Automatic layout restored. Export Layout to save.");
+ }
+ function layout(){
+   const nodes=state.chapter.nodes,ids=Object.keys(nodes);
+   const index=Object.fromEntries(ids.map((id,i)=>[id,i]));
+   const links=Object.fromEntries(ids.map(id=>[id,destinations(nodes[id])]));
+   const incoming=Object.fromEntries(ids.map(id=>[id,[]]));
+   const indegree=Object.fromEntries(ids.map(id=>[id,0]));
+   const depth=Object.fromEntries(ids.map(id=>[id,0]));
+   ids.forEach(id=>links[id].forEach(link=>{
+     indegree[link.id]++;incoming[link.id].push(id);
+   }));
+   const queue=ids.filter(id=>indegree[id]===0);
+   let visited=0;
+   while(queue.length && visited<ids.length){
+     const id=queue.shift();visited++;
+     links[id].forEach(link=>{
+       depth[link.id]=Math.max(depth[link.id],depth[id]+1);
+       indegree[link.id]--;
+       if(!indegree[link.id])queue.push(link.id);
+     });
+   }
+   // Unexpected cycles remain inspectable, but prose routes are designed as DAGs.
+   if(visited<ids.length){
+     const tail=Math.max(...Object.values(depth))+1;
+     ids.filter(id=>indegree[id]>0).forEach(id=>{depth[id]=tail;});
+   }
+   const columns={};
+   ids.forEach(id=>(columns[depth[id]]??=[]).push(id));
+   const ranks=Object.keys(columns).map(Number).sort((a,b)=>a-b);
+   // Reorder each column by its connected neighbors. Stable tie-breaks make
+   // separate incidents stay together instead of grouping by JSON insertion.
+   function centerRank(id){
+     const column=columns[depth[id]],position=column.indexOf(id);
+     return (position+.5)/column.length;
+   }
+   function reorder(col,neighbors){
+     const entries=columns[col];
+     entries.sort((a,b)=>{
+       const aLinks=neighbors(a),bLinks=neighbors(b);
+       const aScore=aLinks.length?aLinks.reduce((s,id)=>s+centerRank(id),0)/aLinks.length:NaN;
+       const bScore=bLinks.length?bLinks.reduce((s,id)=>s+centerRank(id),0)/bLinks.length:NaN;
+       if(Number.isFinite(aScore)&&Number.isFinite(bScore)&&Math.abs(aScore-bScore)>1e-9)return aScore-bScore;
+       if(Number.isFinite(aScore)!==Number.isFinite(bScore))return Number.isFinite(aScore)?-1:1;
+       return index[a]-index[b];
+     });
+   }
+   for(let pass=0;pass<4;pass++){
+     ranks.slice(1).forEach(col=>reorder(col,id=>incoming[id].filter(from=>depth[from]<col)));
+     ranks.slice(0,-1).reverse().forEach(col=>reorder(col,id=>links[id].map(l=>l.id).filter(to=>depth[to]>col)));
+   }
+   const maxCount=Math.max(1,...Object.values(columns).map(a=>a.length));
+   const positions={},cardWidth=220,cardHeight=86,stepX=340,stepY=130;
+   for(const [col,entries] of Object.entries(columns)){
+     entries.forEach((id,i)=>{
+       positions[id]={x:50+Number(col)*stepX,y:65+(maxCount-entries.length)*stepY/2+i*stepY};
+     });
+   }
+   // Overlay sparse, author-adjusted positions without modifying story content.
+   for(const [id,p] of Object.entries(layoutEntry()?.positions||{})){
+     if(Object.hasOwn(positions,id))positions[id]={x:p.x,y:p.y};
+   }
+   const right=Math.max(0,...Object.values(positions).map(p=>p.x+cardWidth+60));
+   const bottom=Math.max(0,...Object.values(positions).map(p=>p.y+cardHeight+65));
+   return {positions,width:Math.max(650,right,120+(Math.max(...Object.values(depth))+1)*stepX),height:Math.max(400,bottom,135+maxCount*stepY),cardWidth,cardHeight};
+ }
+ let nodeDrag=null;
+ let suppressNodeClick=null;
+ function redrawEdges(positions,cardWidth=220,cardHeight=86){
+   const svg=$("edges");svg.replaceChildren();
+   svg.setAttribute("width",state.width);svg.setAttribute("height",state.height);svg.setAttribute("viewBox","0 0 "+state.width+" "+state.height);
+   for(const [id,node] of Object.entries(state.chapter.nodes)){
+     const pos=positions[id];
+     for(const link of destinations(node)){
+       const dest=positions[link.id];if(!dest)continue;
+       const x1=pos.x+cardWidth,y1=pos.y+cardHeight/2,x2=dest.x,y2=dest.y+cardHeight/2;
+       const mid=(x1+x2)/2;
+       const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+       path.setAttribute("d","M"+x1+" "+y1+" C"+mid+" "+y1+" "+mid+" "+y2+" "+x2+" "+y2);
+       path.setAttribute("fill","none");path.setAttribute("stroke",link.kind==="choice"?"#79909f":"#b6a47c");path.setAttribute("stroke-width","1.5");
+       if(link.kind!=="choice")path.setAttribute("stroke-dasharray","5 4");
+       svg.append(path);
+       const arrow=document.createElementNS("http://www.w3.org/2000/svg","path");
+       arrow.setAttribute("d","M"+(x2-7)+" "+(y2-4)+" L"+x2+" "+y2+" L"+(x2-7)+" "+(y2+4));
+       arrow.setAttribute("fill","none");arrow.setAttribute("stroke","#a2b5c1");arrow.setAttribute("stroke-width","1.5");svg.append(arrow);
+       if(destinations(node).length>1 || link.kind!=="choice"){
+         const label=document.createElementNS("http://www.w3.org/2000/svg","text");
+         label.setAttribute("x",mid);label.setAttribute("y",(y1+y2)/2-7);label.setAttribute("fill","#c0cbd4");label.setAttribute("font-size","10");label.setAttribute("text-anchor","middle");
+         const s=link.choice.text||link.choice.id;
+         label.textContent=s.length>23?s.slice(0,22)+"…":s;
+         svg.append(label);
+       }
+     }
+
+   }
+ }
+ function startNodeDrag(e,id,card,pos){
+   if(e.button!==0||nodeDrag)return;
+   e.stopPropagation?.();
+   nodeDrag={id,card,pointerId:e.pointerId,startX:e.clientX,startY:e.clientY,x:pos.x,y:pos.y,moved:false};
+   card.setPointerCapture?.(e.pointerId);
+ }
+ function moveNodeDrag(e){
+   if(!nodeDrag||e.pointerId!==nodeDrag.pointerId)return false;
+   const d=nodeDrag,dx=e.clientX-d.startX,dy=e.clientY-d.startY;
+   if(!d.moved&&Math.hypot(dx,dy)<5)return true;
+   d.moved=true;d.card.classList.add("dragging");
+   const x=Math.max(20,Math.min(100000,Math.round(d.x+dx/state.scale)));
+   const y=Math.max(20,Math.min(100000,Math.round(d.y+dy/state.scale)));
+   layoutEntry().positions[d.id]={x,y};
+   d.card.style.left=x+"px";d.card.style.top=y+"px";
+   const graph=layout();state.width=graph.width;state.height=graph.height;
+   redrawEdges(graph.positions,graph.cardWidth,graph.cardHeight);updateScale();
+   e.preventDefault?.();
+   return true;
+ }
+ function endNodeDrag(e){
+   if(!nodeDrag||e.pointerId!==nodeDrag.pointerId)return false;
+   const d=nodeDrag;nodeDrag=null;
+   if(d.card.hasPointerCapture?.(e.pointerId))d.card.releasePointerCapture(e.pointerId);
+   if(d.moved){
+     d.card.classList.remove("dragging");
+     suppressNodeClick=d.id;
+     setTimeout(()=>{if(suppressNodeClick===d.id)suppressNodeClick=null;},120);
+     const saved=persistLayout();
+     setStatus(saved?"Node position saved in this browser. Export Layout to share it.":"Node moved. Export Layout to save (browser storage unavailable).");
+   }
+   return true;
+ }
+ function renderGraph(){
+   if(!state.chapter)return;
+   const {positions,width,height,cardWidth,cardHeight}=layout();
+   state.width=width;state.height=height;
+   const holder=$("nodes");holder.replaceChildren();
+   for(const [id,node] of Object.entries(state.chapter.nodes)){
+     const pos=positions[id], card=el("div","node"+(state.selected?.type==="node"&&state.selected.id===id?" selected":"" ));
+     card.style.left=pos.x+"px";card.style.top=pos.y+"px";
+     card.title=id+" · "+node.mode+"\n"+textOf(node.text).slice(0,240)+"\n"+choicesFor(node).length+" choices";
+     const exits=[...new Set(choicesFor(node).map(c=>c.chapter).filter(Boolean))];
+     card.append(el("div","id",id),el("div","name",titleOf(id)),el("div","sub"+(choicesFor(node).length===0?" end":""),node.mode+" · "+(choicesFor(node).length||"NO NEXT")+" choice"+(choicesFor(node).length===1?"":"s")+(exits.length?" · → "+exits.join(", "):"")));
+     card.addEventListener("pointerdown",e=>startNodeDrag(e,id,card,pos));
+     card.addEventListener("click",e=>{
+       if(suppressNodeClick===id){suppressNodeClick=null;e.preventDefault?.();e.stopPropagation?.();return;}
+       selectNode(id);
+     });
+     holder.append(card);
+   }
+   redrawEdges(positions,cardWidth,cardHeight);
+   updateScale();
+ }
+ function updateScale(){
+   $("stage").style.width=state.width+"px";$("stage").style.height=state.height+"px";
+   $("stage").style.transform="scale("+state.scale+")";
+   $("space").style.width=(state.width*state.scale)+"px";$("space").style.height=(state.height*state.scale)+"px";
+ }
+ function fit(){if(!state.chapter)return;const r=$("viewport");state.scale=Math.max(.25,Math.min(1.4,(r.clientWidth-24)/state.width,(r.clientHeight-24)/state.height));updateScale();}
+ // Zoom around a viewport pixel, preserving the graph point beneath the cursor.
+ function zoomAt(nextScale,anchorX,anchorY){
+   const viewport=$("viewport"),oldScale=state.scale;
+   const scale=Math.min(2,Math.max(.25,nextScale));
+   if(!state.chapter||!Number.isFinite(scale)||scale===oldScale)return;
+   const graphX=(viewport.scrollLeft+anchorX)/oldScale;
+   const graphY=(viewport.scrollTop+anchorY)/oldScale;
+   state.scale=scale;
+   updateScale();
+   viewport.scrollLeft=graphX*scale-anchorX;
+   viewport.scrollTop=graphY*scale-anchorY;
+ }
+ function detailHead(name,meta){const pane=$("details");pane.replaceChildren();pane.append(el("h2","",name),el("div","meta",meta));return pane;}
+ function labeled(pane,label,content){pane.append(el("h3","",label),el("p","",content||"—"));}
+ function editor(pane,value,commit){
+   const section=el("details");const summary=el("summary","", "Edit JSON for this record");section.append(summary);
+   const area=el("textarea");area.spellcheck=false;area.value=JSON.stringify(value,null,2);section.append(area);
+   const save=el("button","","Apply JSON changes");save.addEventListener("click",()=>{try{const obj=JSON.parse(area.value);commit(obj);setStatus("Changes are in memory. Export JSON to save.");}catch(error){setStatus("Invalid JSON: "+error.message);}});section.append(save);
+   pane.append(section);
+ }
+ 
+ function artworkAt(group,id,variant){
+   const library=state.artwork?.[group];
+   return group==="items"?library?.[id]?.[variant]||null:group==="scenes"&&variant==="portraitBackground"?library?.[id]?.portraitBackground||null:library?.[id]||null;
+ }
+ function artKey(ref){return ref.group+"/"+ref.id+(ref.variant?"/"+ref.variant:"");}
+ function artRefsForNode(node){
+   const refs=[],scene=node.scene||state.chapter?.scene;
+   if(scene){
+    refs.push({group:"scenes",id:scene});
+    if(node.speaker&&state.artwork?.scenes?.[scene]?.portraitBackground)refs.push({group:"scenes",id:scene,variant:"portraitBackground"});
+  }
+   if(node.speaker)refs.push({group:"portraits",id:node.speaker+":"+(node.pose||"default")});
+   if(node.focus)refs.push({group:"focus",id:node.focus});
+   return refs;
+ }
+ function artRefsForItem(id){return [{group:"items",id,variant:"slot"},{group:"items",id,variant:"inspect"}];}
+ function artworkLinks(pane,refs){
+   if(!refs.length)return;
+   pane.append(el("h3","","Artwork references"));
+   refs.forEach(ref=>{
+     const record=artworkAt(ref.group,ref.id,ref.variant);
+     const b=el("button","art-brief",record?.title||artKey(ref));
+     b.append(el("span","art-meta",artKey(ref)+" · "+(record?.status||"NOT DEFINED")+" · "+(record?.assetPath||record?.suggestedFilename||"no filename")));
+     if(record)b.addEventListener("click",()=>selectArt(ref));else b.disabled=true;
+     pane.append(b);
+   });
+   if(!state.artwork)pane.append(el("p","warning","Import artwork JSON to view and edit prompts."));
+ }
+ function artUsage(ref){
+   if(ref.group==="items")return [{id:ref.id,kind:"item"}];
+   const found=[];
+   Object.entries(state.chapter?.nodes||{}).forEach(([id,node])=>{
+     if(artRefsForNode(node).some(r=>artKey(r)===artKey(ref)))found.push({id,kind:"node"});
+   });
+   return found;
+ }
+ function artEditor(pane,ref,record){
+   const section=el("section","art-edit"),fields={};
+   function field(label,key,multiline){
+     const wrap=el("label","",label),input=el(multiline?"textarea":"input",multiline?"prompt":"");
+     input.value=record[key]||"";wrap.append(input);section.append(wrap);fields[key]=input;
+   }
+   const statusLabel=el("label","","Production status"),status=el("select");
+   (state.artwork.statusValues||["not-started","prompted","generated","approved","integrated","reused"]).forEach(value=>{
+     const option=el("option","",value);option.value=value;status.append(option);
+   });
+   status.value=record.status||"not-started";statusLabel.append(status);section.append(statusLabel);
+   field("Generation prompt","prompt",true);
+   field("Actual asset filename (blank until created)","assetPath",false);
+   field("Proposed filename","suggestedFilename",false);
+   field("Preview URL (optional; public image URL or published relative path)","previewUrl",false);
+   field("Production notes","notes",true);
+   const apply=el("button","","Apply artwork changes");
+   apply.addEventListener("click",()=>{
+     const next={...record,status:status.value};
+     Object.entries(fields).forEach(([key,input])=>next[key]=input.value.trim()||(key==="prompt"||key==="notes"?"":null));
+     if(ref.group==="items")state.artwork.items[ref.id][ref.variant]=next;
+     else if(ref.group==="scenes"&&ref.variant==="portraitBackground")state.artwork.scenes[ref.id].portraitBackground=next;
+      else state.artwork[ref.group][ref.id]=next;
+     selectArt(ref);setStatus("Artwork edits are in memory. Export artwork JSON to keep them.");
+   });
+   section.append(apply);pane.append(section);
+   editor(pane,record,obj=>{
+     if(!obj||typeof obj!=="object"||Array.isArray(obj))throw Error("Artwork record must be an object");
+     if(ref.group==="items")state.artwork.items[ref.id][ref.variant]=obj;
+     else if(ref.group==="scenes"&&ref.variant==="portraitBackground")state.artwork.scenes[ref.id].portraitBackground=obj;
+      else state.artwork[ref.group][ref.id]=obj;
+     selectArt(ref);
+   });
+ }
+ function selectArt(ref){
+   const record=artworkAt(ref.group,ref.id,ref.variant);if(!record)return;
+   state.selected={type:"art",...ref};renderGraph();
+   const pane=detailHead(record.title||artKey(ref),artKey(ref)+" · "+(record.kind||ref.group)+" · "+(record.dimensions||"dimensions TBD"));
+   labeled(pane,"Production status",record.status||"not-started");
+   labeled(pane,"Generation prompt",record.prompt||"Not written.");
+   if(state.artwork?.direction)labeled(pane,"Shared art direction (applies to new prompts)",state.artwork.direction);
+   labeled(pane,"Actual asset",record.assetPath||"Not generated / not integrated");
+   if(record.suggestedFilename)labeled(pane,"Proposed filename",record.suggestedFilename);
+   if(record.layers)labeled(pane,"Separate art layers",JSON.stringify(record.layers,null,2));
+   if(record.portraitBackgroundScene)labeled(pane,"Paired portrait background scene",record.portraitBackgroundScene);
+   if(record.foregroundFormat)labeled(pane,"Foreground format",record.foregroundFormat);
+   if(ref.group==="scenes"&&ref.variant!=="portraitBackground"&&record.portraitBackground){
+     const pair=el("button","art-brief","Open paired portrait background (564×278)");
+     pair.onclick=()=>selectArt({group:"scenes",id:ref.id,variant:"portraitBackground"});pane.append(pair);
+   }
+   if(ref.group==="scenes"&&ref.variant==="portraitBackground"){
+     const pair=el("button","art-brief","Open main scene (314×206)");
+     pair.onclick=()=>selectArt({group:"scenes",id:ref.id});pane.append(pair);
+   }
+   if(record.notes)labeled(pane,"Production notes",record.notes);
+   const usage=artUsage(ref);
+   pane.append(el("h3","","Used by "+usage.length+" record(s)"));
+   usage.forEach(used=>{
+     const b=el("button","item-button",used.id);
+     b.onclick=()=>used.kind==="item"?selectItem(used.id):selectNode(used.id);pane.append(b);
+   });
+   if(record.previewUrl){
+     const img=el("img","preview");img.src=record.previewUrl;img.alt=record.title||artKey(ref);pane.append(img);
+   }
+   artEditor(pane,ref,record);
+   const back=el("button","","All artwork");back.onclick=showArtwork;pane.append(back);
+ }
+ function showArtwork(){
+   state.selected={type:"art-list"};renderGraph();
+   const a=state.artwork,pane=detailHead("Artwork & Production Prompts",a?"Shared production definitions · "+a.schema:"No art catalog loaded");
+   if(!a){pane.append(el("p","muted","Import artwork JSON or configure artwork in the manifest."));return;}
+   const all=[];
+   for(const group of ["scenes","portraits","focus"]){
+     Object.entries(a[group]||{}).forEach(([id,record])=>{
+       all.push({group,id,record});
+       if(group==="scenes"&&record.portraitBackground)all.push({group,id,variant:"portraitBackground",record:record.portraitBackground});
+     });
+   }
+   Object.entries(a.items||{}).forEach(([id,variants])=>{
+     Object.entries(variants).forEach(([variant,record])=>all.push({group:"items",id,variant,record}));
+   });
+   const counts={};all.forEach(x=>{const s=x.record.status||"not-started";counts[s]=(counts[s]||0)+1;});
+   labeled(pane,"Production overview",all.length+" shared art records · "+Object.entries(counts).map(([s,n])=>n+" "+s).join(" · "));
+   labeled(pane,"Global art direction",a.direction||"No global direction recorded.");
+   const shared=el("details");shared.append(el("summary","","Edit shared art direction"));
+   const area=el("textarea");area.value=a.direction||"";shared.append(area);
+   const apply=el("button","","Apply shared direction");
+   apply.onclick=()=>{a.direction=area.value;setStatus("Direction edited in memory. Export artwork JSON to save.");};shared.append(apply);pane.append(shared);
+   for(const group of ["scenes","portraits","focus","items"]){
+     const records=all.filter(x=>x.group===group);if(!records.length)continue;
+     pane.append(el("h3","",({scenes:"Shared scenes & portrait backgrounds",portraits:"Shared portraits",focus:"Focus close-ups",items:"Item slot & inspection art"})[group]));
+     records.forEach(ref=>{
+       const b=el("button","art-brief",ref.record.title||artKey(ref));
+       b.append(el("span","art-meta",artKey(ref)+" · "+(ref.record.status||"not-started")));
+       b.onclick=()=>selectArt(ref);pane.append(b);
+     });
+   }
+ }
+
+ function selectNode(id){
+   const node=state.chapter?.nodes[id];if(!node)return;
+   state.selected={type:"node",id};renderGraph();
+   const pane=detailHead(titleOf(id),id+" · "+node.mode+" · "+(node.scene||state.chapter.scene||"no scene"));
+   if(node.speaker||node.pose)pane.append(el("p","meta",["Speaker: "+(node.speaker||"—"),"Pose: "+(node.pose||"—")].join(" · ")));
+   if(node.objective)labeled(pane,"Objective",textOf(node.objective));
+   labeled(pane,"Actual script",textOf(node.text));
+   if(node.notes)labeled(pane,"Authoring notes (not imported into the game)",textOf(node.notes));
+    artworkLinks(pane,artRefsForNode(node));
+   pane.append(el("h3","","Choices & destinations"));
+   choicesFor(node).forEach(c=>{
+     const b=el("button","choice",c.text||c.id);
+     const target=c.chapter?manifestEntry(c.chapter):null;
+     const dest=c.to?"→ "+c.to:c.chapter?"→ "+(target?.title?target.title+" ("+c.chapter+")":"Chapter "+c.chapter)+" · opens at its start node":c.back?"Return":"Stay / outcome";
+     b.append(el("span","minor",(c.kind||"choice")+" · "+dest+(c.if?" · IF "+JSON.stringify(c.if):"")));
+     if(c.to && state.chapter.nodes[c.to])b.addEventListener("click",()=>selectNode(c.to));
+     else if(target)b.addEventListener("click",()=>loadRemote(target));
+     else b.disabled=true;
+     pane.append(b);
+   });
+   const itemTransitions=[];
+   for(const verb of ["show","use"])for(const [itemId,entry] of Object.entries(node[verb]||{})){
+     if(entry?.to && state.chapter.nodes[entry.to])itemTransitions.push({verb,itemId,entry});
+   }
+   if(itemTransitions.length){
+     pane.append(el("h3","","Item-triggered routes"));
+     itemTransitions.forEach(({verb,itemId,entry})=>{
+       const b=el("button","choice",verb.toUpperCase()+" "+titleOf(itemId));
+       b.append(el("span","minor","→ "+entry.to+(entry.if?" · IF "+JSON.stringify(entry.if):"")));
+       b.onclick=()=>selectNode(entry.to);pane.append(b);
+     });
+   }
+   if(!choicesFor(node).length&&!itemTransitions.length)pane.append(el("p","warning","No outgoing route yet — story draft stops here."));
+   if(node.effects)labeled(pane,"On arrival",JSON.stringify(node.effects,null,2));
+   const marked=choicesFor(node).filter(c=>c.effects||c.check||c.pass||c.fail);
+   if(marked.length){pane.append(el("h3","","Choice effects / checks"));marked.forEach(c=>pane.append(el("pre","",c.id+"\n"+JSON.stringify({effects:c.effects,check:c.check,pass:c.pass,fail:c.fail},(key,val)=>val===undefined?undefined:val,2))));}
+   editor(pane,node,obj=>{if(!obj||typeof obj!=="object"||!Array.isArray(obj.choices))throw Error("Node must contain choices array");state.chapter.nodes[id]=obj;selectNode(id);});
+ }
+ function itemReferences(id){
+   const result=[];const needle='"'+id+'"';
+   Object.entries(state.chapter?.nodes||{}).forEach(([nodeId,node])=>{
+     if(JSON.stringify(node.effects||{}).includes(needle))result.push(nodeId+" : arrival effects");
+     const matches=choicesFor(node).filter(c=>JSON.stringify(c.effects||{}).includes(needle)||JSON.stringify(c.if||{}).includes(needle));
+     if(matches.length)result.push(nodeId+" : "+matches.map(c=>c.id).join(", "));
+   });
+   Object.entries(state.items||{}).forEach(([sourceId,source])=>{
+     if(JSON.stringify(source.inspect?.effects||{}).includes(needle))result.push("On inspecting item: "+sourceId);
+   });
+   return result;
+ }
+ function selectItem(id){
+   const item=state.items[id];if(!item)return;
+   state.selected={type:"item",id};renderGraph();
+   const pane=detailHead(item.name||id,"Item ID: "+id);
+   labeled(pane,"Inspection text",textOf(item.description));
+    artworkLinks(pane,artRefsForItem(id));
+   labeled(pane,"Inventory sprite",item.slotArt||"Artwork pending");
+   labeled(pane,"Inspect illustration",item.inspectArt||"Artwork pending");
+   if(item.inspect)labeled(pane,"On INSPECT (draft engine dependency)",JSON.stringify(item.inspect,null,2));
+   if(item.read)labeled(pane,"READ effects",JSON.stringify(item.read,null,2));
+   const refs=itemReferences(id);labeled(pane,"Referenced by choices",refs.length?refs.join("\n"):"No references found in this chapter");
+   const back=el("button","","Back to item list");back.addEventListener("click",showItems);pane.append(back);
+   editor(pane,item,obj=>{state.items[id]=obj;selectItem(id);});
+ }
+ function showItems(){
+   state.selected={type:"list"};renderGraph();
+   const pane=detailHead("Shared Item Library",Object.keys(state.items).length+" item record(s)");
+   const ids=Object.keys(state.items);
+   if(!ids.length)pane.append(el("p","muted","Load a shared items JSON file to inspect items."));
+   ids.forEach(id=>{const b=el("button","item-button",(state.items[id].name||id)+" · "+id);b.addEventListener("click",()=>selectItem(id));pane.append(b);});
+ }
+ function manifestEntry(id){return (state.manifest?.chapters||[]).find(entry=>entry.id===id)||null;}
+ function reselect(sel,start){
+   if(sel?.type==="node"&&state.chapter.nodes[sel.id])return selectNode(sel.id);
+   if(sel?.type==="art"&&artworkAt(sel.group,sel.id,sel.variant))return selectArt({group:sel.group,id:sel.id,variant:sel.variant});
+   if(sel?.type==="item"&&state.items[sel.id])return selectItem(sel.id);
+   if(sel?.type==="list")return showItems();
+   if(sel?.type==="art-list")return showArtwork();
+   selectNode(start);
+ }
+ function loadChapter(data,name,chapterId){
+   if(!data?.nodes||!data?.start||!data.nodes[data.start])throw Error("Expected chapter with a valid start and nodes object.");
+   // A chapter file imported by hand is keyed like its manifest entry, so its layout stays its own.
+   const listed=!chapterId&&name?(state.manifest?.chapters||[]).find(entry=>entry.file?.split("/").pop()===name):null;
+   const key=chapterId||listed?.id||data.id||name||"imported-chapter";
+   if(state.chapterKey&&state.chapter)state.selections[state.chapterKey]=state.selected;
+   state.chapter=data;state.sourceName=name||"chapter.json";state.chapterKey=key;state.selected=null;
+   restoreCachedLayout();
+   $("resetLayout").disabled=false;$("exportLayout").disabled=false;
+   const entry=manifestEntry(key);
+   $("chapterTitle").textContent=entry?(entry.title||entry.id)+" · "+(entry.status||"unlisted"):(data.title||name||"Chapter tree");
+   const index=(state.manifest?.chapters||[]).indexOf(entry);
+   if(index>=0)$("chapterSelect").value=String(index);
+   $("exportChapter").disabled=false;renderGraph();fit();setStatus("Loaded "+Object.keys(data.nodes).length+" nodes · "+(entry?entry.id+" · "+(entry.status||"unlisted"):"draft")+" story JSON");
+   reselect(state.selections[key],data.start);
+ }
+ async function loadRemote(entry){
+   const token=++state.loadToken;
+   try{
+     const url=new URL(entry.file,state.manifestURL);
+     const res=await fetch(url);if(!res.ok)throw Error("HTTP "+res.status);
+     const data=await res.json();
+     if(token!==state.loadToken)return; // a later chapter choice superseded this one
+     loadChapter(data,entry.file.split("/").pop(),entry.id);
+   }catch(err){if(token===state.loadToken)setStatus("Could not load chapter: "+err.message);}
+ }
+ function download(data,name){
+   const blob=new Blob([JSON.stringify(data,null,2)+"\n"],{type:"application/json"});
+   const url=URL.createObjectURL(blob);const anchor=el("a");anchor.href=url;anchor.download=name;document.body.append(anchor);anchor.click();anchor.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ }
+ function loadArtwork(data,name){
+    if(!data||!data.scenes||!data.portraits||!data.items)throw Error("Expected artwork catalog with scenes, portraits, and items.");
+    state.artwork=data;state.artworkName=name||"artwork.json";$("exportArtwork").disabled=false;
+    setStatus("Loaded shared artwork catalog. Select Artwork to review prompts.");
+  }
+  async function loadManifest(){
+   try{
+     state.manifestURL=new URL("../../story/storyboard-manifest.json",location.href);
+     const r=await fetch(state.manifestURL);if(!r.ok)throw Error("HTTP "+r.status);
+     const manifest=await r.json();state.manifest=manifest;
+     const select=$("chapterSelect");select.replaceChildren();
+     (manifest.chapters||[]).forEach((entry,i)=>{const opt=el("option","",entry.title||entry.id);opt.value=String(i);select.append(opt);});
+     if(manifest.items){const itemsRes=await fetch(new URL(manifest.items,state.manifestURL));if(itemsRes.ok){state.items=await itemsRes.json();$("exportItems").disabled=false;}}
+      if(manifest.artwork){const artRes=await fetch(new URL(manifest.artwork,state.manifestURL));if(!artRes.ok)throw Error("Artwork HTTP "+artRes.status);loadArtwork(await artRes.json(),manifest.artwork);}
+      if(manifest.layout){const layoutRes=await fetch(new URL(manifest.layout,state.manifestURL));if(!layoutRes.ok)throw Error("Layout HTTP "+layoutRes.status);loadLayouts(await layoutRes.json(),manifest.layout);}
+     if(manifest.chapters?.length)await loadRemote(manifest.chapters[0]);else setStatus("No chapters listed in manifest.");
+   }catch(err){setStatus("Import a chapter JSON file, or serve this repository over HTTP.");}
+ }
+ async function importFile(input,action){
+   const file=input.files?.[0];if(!file)return;
+   try{const obj=JSON.parse(await file.text());action(obj,file.name);}catch(err){setStatus("Cannot import JSON: "+err.message);}finally{input.value="";}
+ }
+ $("chapterSelect").addEventListener("change",e=>{const entry=state.manifest?.chapters?.[Number(e.target.value)];if(entry)loadRemote(entry);});
+ $("openChapter").onclick=()=>$("fileChapter").click();
+ $("openItems").onclick=()=>$("fileItems").click();
+  $("openArtwork").onclick=()=>$("fileArtwork").click();
+ $("importLayout").onclick=()=>$("fileLayout").click();
+ $("fileChapter").onchange=e=>importFile(e.target,loadChapter);
+ $("fileItems").onchange=e=>importFile(e.target,items=>{state.items=items;$("exportItems").disabled=false;showItems();setStatus("Item library loaded.");});
+  $("fileArtwork").onchange=e=>importFile(e.target,(art,name)=>{loadArtwork(art,name);showArtwork();});
+ $("fileLayout").onchange=e=>importFile(e.target,(data,name)=>loadLayouts(data,name,true));
+ $("exportChapter").onclick=()=>{if(state.chapter)download(state.chapter,state.sourceName);};
+ $("exportItems").onclick=()=>download(state.items,"items.json");
+  $("exportArtwork").onclick=()=>{if(state.artwork)download(state.artwork,state.artworkName);};
+ $("exportLayout").onclick=()=>download(state.layouts,state.layoutName);
+ $("resetLayout").onclick=resetLayout;
+ $("showItems").onclick=showItems;
+  $("showArtwork").onclick=showArtwork;
+ $("fit").onclick=fit;
+ $("zoomIn").onclick=()=>zoomAt(state.scale*1.2,$("viewport").clientWidth/2,$("viewport").clientHeight/2);
+ $("zoomOut").onclick=()=>zoomAt(state.scale/1.2,$("viewport").clientWidth/2,$("viewport").clientHeight/2);
+ // Allow wheel zoom anywhere over the diagram (including story nodes).
+ $("viewport").addEventListener("wheel",e=>{
+   if(!state.chapter||!Number.isFinite(e.deltaY)||e.deltaY===0)return;
+   e.preventDefault();
+   const viewport=$("viewport"),rect=viewport.getBoundingClientRect();
+   const delta=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?viewport.clientHeight:1);
+   zoomAt(state.scale*Math.exp(-delta*.0015),e.clientX-rect.left,e.clientY-rect.top);
+ },{passive:false});
+ let drag=null;
+ $("viewport").addEventListener("pointerdown",e=>{if(e.target.closest(".node"))return;drag={x:e.clientX,y:e.clientY,left:$("viewport").scrollLeft,top:$("viewport").scrollTop};});
+ window.addEventListener("pointermove",e=>{
+   if(moveNodeDrag(e))return;
+   if(!drag)return;
+   $("viewport").scrollLeft=drag.left-(e.clientX-drag.x);
+   $("viewport").scrollTop=drag.top-(e.clientY-drag.y);
+ });
+ window.addEventListener("pointerup",e=>{endNodeDrag(e);drag=null;});
+ window.addEventListener("pointercancel",e=>{endNodeDrag(e);drag=null;});
+ loadManifest();
+})();
+</script>
+</body>
+</html>

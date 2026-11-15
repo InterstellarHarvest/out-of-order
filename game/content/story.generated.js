@@ -7,18 +7,23 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "d88ca197a0a5c405648346de8e1c0c4264b9e40d4197daad86f5a6fd67d2ec5e",
-    "version": 227068442,
+    "contentHash": "69d62f6a8da459391203d3f62cfa0eb63a5ff23964e59df5bb2059c4b9ec2d29",
+    "version": 110977783,
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "11987b046cf5e4f944d8223df0e4682ada9312a86e9636ca6c9183252cad0d34",
-        "gitBlob": "f2b0fce59b2eaac80229295509cd98f90ea5072c"
+        "sha256": "4e68a9851cb059f5644a88047db9ae810feaaee3eeb97b89481c3a472110664a",
+        "gitBlob": "c0cf21b287c684828e3a8eb25a6c231d63c1a400"
+      },
+      {
+        "path": "story/chapters/chapter-01.draft.json",
+        "sha256": "58fe12a5be71b4bfebe31794de9de1bfd47121e507931eb53f49cc60449ed4fd",
+        "gitBlob": "c2918bcd75437faef348cca52fe04a55c175e803"
       },
       {
         "path": "story/chapters/prologue-00.draft.json",
-        "sha256": "509c4411b88b5edc1b860327fce984e32fc1ff1a95984bb3cecb295eaf583d5f",
-        "gitBlob": "3727897d0a8b429b5f9a9c9f82527519b3c2afd6"
+        "sha256": "e8699424cba127c9fd8b212b36bbcd81c83f1d138cf21ea54e69c735c2742d84",
+        "gitBlob": "6516b6af2407e7440c4d0dd50fa1387ba555e31b"
       },
       {
         "path": "story/items.draft.json",
@@ -32,19 +37,24 @@
       },
       {
         "path": "story/storyboard-manifest.json",
-        "sha256": "7e516023c724d2b03bf17641e3e0ea9d46f6b8f34b76b5fbecd9aa0442500c46",
-        "gitBlob": "800b6ae913f2cc13f8717281f61ab9bedb9e43b3"
+        "sha256": "9cd4d60d0a180dd937ee60ad5c4122eb32fdeafdc635aa11d88704da0104e119",
+        "gitBlob": "cf1ad7ba2e039f83ef6c91968a57b867bee697b0"
       }
     ],
     "chapters": [
       {
         "id": "prologue-00",
-        "title": "The Last Good Day — Draft",
+        "title": "Prologue — The Last Good Day",
+        "status": "draft"
+      },
+      {
+        "id": "chapter-01",
+        "title": "Chapter 1 — House of Tomorrow",
         "status": "draft"
       }
     ],
     "draftStops": [
-      "prologue-00:reception_hallway"
+      "chapter-01:dev_placeholder"
     ],
     "art": [
       {
@@ -280,10 +290,10 @@
       }
     ],
     "stats": {
-      "chapters": 1,
-      "nodes": 29,
-      "choices": 42,
-      "reachableStates": 1867,
+      "chapters": 2,
+      "nodes": 30,
+      "choices": 43,
+      "reachableStates": 2560,
       "endings": 1,
       "endingStates": 693,
       "endingsReached": 1,
@@ -293,8 +303,8 @@
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 227068442,
-    "profile": "production",
+    "version": 110977783,
+    "profile": "fixture",
     "save": true,
     "start": "prologue-00",
     "initialState": {
@@ -550,7 +560,8 @@
         "exposition/entrance": "art/scenes/exposition/continuity-v03/entrance.png",
         "exposition/property_intake": "art/scenes/exposition/continuity-v02/property-intake.png",
         "exposition/reception": "art/scenes/conference_hall/reception/reception_scene.png",
-        "exposition/facilities_corridor": "art/scenes/exposition/continuity-v03/facilities-corridor.png"
+        "exposition/facilities_corridor": "art/scenes/exposition/continuity-v03/facilities-corridor.png",
+        "house_of_tomorrow/opening": null
       },
       "portraits": {
         "receptionist": {
@@ -1674,6 +1685,25 @@
             "scene": "exposition/facilities_corridor",
             "objective": "FIND THE PUBLIC BATHROOM.",
             "text": "You pass through the door and into a long, softly humming corridor. Pale blue signs hang above several turns.\n\nOne shows a small human figure beside a square enclosure. From here, it looks enough like the symbol you're looking for. The rest of the lettering is hidden around the corner.\n\nYou follow it.",
+            "choices": [
+              {
+                "id": "continue_to_chapter_01",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-01"
+              }
+            ]
+          }
+        }
+      },
+      "chapter-01": {
+        "title": "House of Tomorrow",
+        "start": "dev_placeholder",
+        "scene": "house_of_tomorrow/opening",
+        "nodes": {
+          "dev_placeholder": {
+            "mode": "narrative",
+            "text": "[DEVELOPMENT PLACEHOLDER] Chapter 1: House of Tomorrow has no authored scenes yet. This card only tests the hand-off from the Prologue.",
             "choices": [
               {
                 "id": "draft_stop_begin_again",

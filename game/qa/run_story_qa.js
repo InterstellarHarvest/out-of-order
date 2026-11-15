@@ -189,8 +189,8 @@ async function suite(name, base) {
       underOverlay: kids.indexOf(n) < kids.indexOf(document.getElementById('overlay')), box: [n.offsetLeft, n.offsetTop, n.offsetWidth, n.offsetHeight] };
   });
   check(b, 'draft identification: the default game is stamped DRAFT PLAYABLE PREVIEW, not approved canon, with its chapter and build', stamp && stamp.shown && stamp.draft === 'true'
-    && /^DRAFT PLAYABLE PREVIEW - NOT APPROVED CANON\nPROLOGUE-00: THE LAST GOOD DAY - DRAFT \[DRAFT\] - BUILD D88CA197$/.test(stamp.text.replace(BASE.meta.contentHash.slice(0, 8).toUpperCase(), 'D88CA197')), stamp);
-  check(b, 'draft identification: the window title says draft too', stamp && /DRAFT playable preview: The Last Good Day/.test(stamp.title) && /not approved canon/.test(stamp.title), stamp && stamp.title);
+    && /^DRAFT PLAYABLE PREVIEW - NOT APPROVED CANON\nPROLOGUE-00: PROLOGUE - THE LAST GOOD DAY \[DRAFT\] - BUILD D88CA197$/.test(stamp.text.replace(BASE.meta.contentHash.slice(0, 8).toUpperCase(), 'D88CA197')), stamp);
+  check(b, 'draft identification: the window title says draft too', stamp && /DRAFT playable preview: Prologue — The Last Good Day/.test(stamp.title) && /not approved canon/.test(stamp.title), stamp && stamp.title);
   check(b, 'draft stamp: inside the scene window, under NOTES/FILES and the rest of the UI', stamp && stamp.underOverlay && stamp.box[0] >= 40 && stamp.box[1] >= 45
     && stamp.box[0] + stamp.box[2] <= 1275 && stamp.box[1] + stamp.box[3] <= 400, stamp);
 
@@ -315,7 +315,38 @@ async function suite(name, base) {
   await take(page, 'depart_after_key');
   await settle(page, false);
   s = await info(page);
-  check(b, 'DRAFT STOP: the unfinished hand-off ends with one labelled system card', s.node === 'prologue-00:reception_hallway' && s.cards.length === 1
+  check(b, 'HAND-OFF: the Prologue\'s last node keeps its narration and now offers one CONTINUE card into Chapter 1 (no dead end)', s.node === 'prologue-00:reception_hallway'
+    && /You follow it\.$/.test(s.narration) && s.cards.length === 1 && s.cards[0].id === 'continue_to_chapter_01' && s.cards[0].kind === 'continue', s.cards);
+  await shot(page, '10_handoff_prologue.png');
+  const before = await page.evaluate(() => JSON.parse(JSON.stringify((({ flags, inventory, items, checks, objective, seed, transcript }) => ({ flags, inventory, items, checks, objective, seed, transcript }))(window.CYOA_GAME.state))));
+  await take(page, 'continue_to_chapter_01');
+  s = await info(page);
+  const after = await page.evaluate(() => JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
+  const same = (k) => JSON.stringify(after[k]) === JSON.stringify(before[k]);
+  check(b, 'HAND-OFF: the game crosses into the Chapter 1 development placeholder (its own scene id drawn as a DEV PLACEHOLDER, not corridor art)', s.node === 'chapter-01:dev_placeholder'
+    && s.scene === 'house_of_tomorrow/opening' && s.sceneArt === 'scene:house_of_tomorrow/opening'
+    && await page.evaluate(() => { const c = document.getElementById('sceneArt'); return c.tagName === 'CANVAS' && /house_of_tomorrow\/opening/i.test(c.dataset.placeholder || ''); })
+    && /^\[DEVELOPMENT PLACEHOLDER\]/.test(s.narration), s);
+  check(b, 'HAND-OFF: inventory, flags, item marks, resolved checks, objective and seed are unchanged in the browser', ['flags', 'inventory', 'items', 'checks', 'objective', 'seed'].every(same)
+    && before.inventory.length >= 3, ['flags', 'inventory', 'items', 'checks', 'objective', 'seed'].filter((k) => !same(k)));
+  check(b, 'HAND-OFF: NOTES history continues (every Prologue entry kept, the Chapter 1 entry appended)', after.transcript.length > before.transcript.length
+    && JSON.stringify(after.transcript.slice(0, before.transcript.length)) === JSON.stringify(before.transcript) && after.transcript[after.transcript.length - 1].chapter === 'chapter-01');
+  const stamp1 = await page.evaluate(() => document.getElementById('draftStamp').dataset.text);
+  check(b, 'HAND-OFF: the existing draft stamp now names Chapter 1 as a draft', /\nCHAPTER-01: CHAPTER 1 - HOUSE OF TOMORROW \[DRAFT\] - BUILD /.test(stamp1), stamp1);
+  await shot(page, '10b_handoff_chapter_01.png');
+  // The autosave spans chapters: a reload resumes in Chapter 1 with the Prologue's state.
+  await page.close();
+  let errors2;
+  ({ page, errors: errors2 } = await open(context, url));
+  await settle(page, false);
+  s = await info(page);
+  const reloaded = await page.evaluate(() => JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
+  check(b, 'HAND-OFF: a reload restores the one autosave in Chapter 1 with the Prologue\'s inventory, flags and NOTES (no separate Chapter 1 save)', s.save === 'restored'
+    && s.node === 'chapter-01:dev_placeholder' && JSON.stringify(reloaded.inventory) === JSON.stringify(before.inventory) && JSON.stringify(reloaded.flags) === JSON.stringify(before.flags)
+    && reloaded.transcript.length === after.transcript.length
+    && await page.evaluate(() => Object.keys(localStorage).filter((k) => /^cyoa-save:/.test(k)).join()) === 'cyoa-save:the-acceptable-error', s);
+  errors = errors.concat(errors2);
+  check(b, 'DRAFT STOP: the Chapter 1 placeholder ends with one labelled system card', s.cards.length === 1
     && s.cards[0].kind === 'system' && s.cards[0].text === 'DRAFT ENDS HERE. BEGIN AGAIN.', s.cards);
   await shot(page, '10_draft_stop.png');
   await take(page, 'draft_stop_begin_again');

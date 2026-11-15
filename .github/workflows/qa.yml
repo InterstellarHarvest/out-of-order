@@ -51,6 +51,8 @@ jobs:
         run: node game/qa/validate_story_import.js
       - name: Assets (static)
         run: node game/qa/validate_assets.js
+      - name: Storyboard viewer (chapters, independent layouts, shared art catalog)
+        run: node tools/storyboard/qa-smoke.mjs
       - name: Results
         if: always()
         uses: actions/upload-artifact@v4
@@ -89,6 +91,9 @@ jobs:
       - name: Imported story in the browser (Narrative B, dialogue, Focus A, dice checks, saves, draft stamp)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_story_qa.js
+      - name: Storyboard viewer in the browser (chapter switching, layout export/import)
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node tools/storyboard/qa-browser.js
       - name: M2 reception game (regression fixture, ?story=reception)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_qa.js

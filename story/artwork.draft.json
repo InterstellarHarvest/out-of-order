@@ -109,6 +109,16 @@
       "assetPath": "art/scenes/exposition/continuity-v03/facilities-corridor.png",
       "suggestedFilename": "art/scenes/exposition/continuity-v03/facilities-corridor.png",
       "notes": "Imagegen source study reduced to 314×206 using nearest-neighbor sampling and a 128-color palette. Owner review required because it was not authored directly at final resolution. QA 2026-11-13: Bold HALLS; partially occluded explanatory panel uses bars rather than premature near-text. Local correction on existing native canvas; no final-image resize. Candidate remains generated pending owner approval. Evidence: review/artwork-quality-audit-2026-11-13/QUALITY_REPORT.md. Continuity v01 (2026-11-14): built-in imagegen replacement candidate using approved M2 reception and accepted layout references; source transport rasters retained in review/exposition-continuity-candidates-2026-11-14/generation-source/. Explicit nearest-neighbor normalization to 314x206 and 96-color/no-dither reduction; subsequent local native-grid edits recorded in the review. This is not a claim of native-sized model output. Previous source PNG remains unchanged at its original path. Status remains generated; proposed narrative-signage changes have NOT been applied. Review: review/exposition-continuity-candidates-2026-11-14/REVIEW.md. Detail v03 (2026-11-14): requested native-grid pixel edits only, no scene regeneration or final-asset resampling. Previous version retained unchanged. Exact edits, boundaries and comparisons: review/exposition-detail-corrections-2026-11-14/REVIEW.md. Generated, pending owner approval."
+    },
+    "house_of_tomorrow/opening": {
+      "title": "HOUSE OF TOMORROW — CHAPTER 1 OPENING SCENE (NOT YET DEFINED)",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "prompt": "",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "notes": "Reference held by the Chapter 1 development placeholder node only. No scene is defined yet: the Story Director authors Chapter 1 and its locations, and the prompt is written after that. Until a file exists, preview builds draw the labelled DEV PLACEHOLDER; approved builds refuse it. This is NOT the facilities corridor (exposition/facilities_corridor) and must not reuse it. Rename or replace this record when the real opening scene is authored."
     }
   },
   "portraits": {

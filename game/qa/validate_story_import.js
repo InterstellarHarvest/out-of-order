@@ -45,6 +45,7 @@ function copySource(from) {
   };
 }
 const PROLOGUE = 'chapters/prologue-00.draft.json';
+const CHAPTER1 = 'chapters/chapter-01.draft.json';
 const node = (j, id) => j.nodes[id];
 const choice = (j, nid, cid) => j.nodes[nid].choices.filter((c) => c.id === cid)[0];
 const has = (list, re) => list.some((e) => re.test(e));
@@ -65,9 +66,10 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
 (function real() {
   const g = 'baseline';
   const b = build();
-  check(g, 'story/ (prologue-00 draft) builds as a preview with no errors', b.ok, b.report.errors);
-  check(g, 'the prologue has 29 nodes and one explicit DRAFT STOP at its unfinished hand-off', b.ok && b.report.stats.nodes === 29
-    && JSON.stringify(b.report.draftStops) === '["prologue-00:reception_hallway"]', b.ok && [b.report.stats, b.report.draftStops]);
+  check(g, 'story/ (prologue-00 + chapter-01 drafts) builds as a preview with no errors', b.ok, b.report.errors);
+  check(g, 'two chapters: the prologue\'s 29 nodes plus the one Chapter 1 development placeholder, whose node is the only DRAFT STOP', b.ok
+    && b.report.stats.chapters === 2 && b.report.stats.nodes === 30 && Object.keys(b.story.chapters['prologue-00'].nodes).length === 29
+    && JSON.stringify(b.report.draftStops) === '["chapter-01:dev_placeholder"]', b.ok && [b.report.stats, b.report.draftStops]);
   const v = verify();
   check(g, 'game/content/story.generated.js is up to date with story/ (no stale output)', v.ok, v.why);
   check(g, 'reimporting identical JSON produces byte-identical runtime content', b.ok && build().text === b.text);
@@ -80,7 +82,7 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'authoring key order does not change the content hash or the runtime content', b2.ok && b2.meta.contentHash === b.meta.contentHash && b2.text.split('\n').slice(3).join() !== undefined
     && JSON.stringify(b2.story.chapters['prologue-00'].nodes.work_complete.choices) !== undefined, b2.ok && [b2.meta.contentHash, b.meta.contentHash]);
   check(g, 'the build records content hash, version, schema and every source file hash', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
-    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 5 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
+    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 6 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
   check(g, 'every art file is recorded with its artwork status and sha256 (28 generated drafts, 5 reused approved)', b.ok
     && b.meta.art.filter((a) => a.status === 'generated').length === 28 && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
@@ -177,19 +179,25 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
 (function drafts() {
   const g = 'draft-stop';
   const b = build();
-  const n = b.story.chapters['prologue-00'].nodes.reception_hallway;
-  check(g, 'a preview ends an unfinished hand-off explicitly: end node, one system card DRAFT ENDS HERE. BEGIN AGAIN.', n.end === true && n.choices.length === 1
+  const n = b.story.chapters['chapter-01'].nodes.dev_placeholder;
+  check(g, 'a preview ends an unfinished chapter explicitly: end node, one system card DRAFT ENDS HERE. BEGIN AGAIN.', n.end === true && n.choices.length === 1
     && n.choices[0].kind === 'system' && n.choices[0].restart === true && /DRAFT ENDS HERE/.test(n.choices[0].text));
-  check(g, 'its narration is the authored text, unchanged (no invented ending)', /You follow it\.$/.test(n.text));
-  const t = copySource(STORY).edit(PROLOGUE, (j) => { node(j, 'reception_hallway').choices = [{ id: 'restart_here', kind: 'system', text: 'BEGIN AGAIN.', restart: true }]; node(j, 'reception_hallway').end = true; });
+  check(g, 'the Chapter 1 node says on its face that it is a development placeholder (no invented narrative)', /^\[DEVELOPMENT PLACEHOLDER\] /.test(n.text), n.text);
+  // An author finishing BOTH chapters (an ending in place of the placeholder) still needs both marked approved.
+  const t = copySource(STORY).edit(CHAPTER1, (j) => { node(j, 'dev_placeholder').choices = [{ id: 'restart_here', kind: 'system', text: 'BEGIN AGAIN.', restart: true }]; node(j, 'dev_placeholder').end = true; })
+    .edit('artwork.draft.json', (j) => { j.scenes['house_of_tomorrow/opening'].assetPath = 'art/scenes/workplace/corridor.png'; });
   const still = build({ from: t.dir, mode: 'approved' });
-  check(g, 'an approved build refuses a chapter the manifest still marks draft (creative sign-off stays in the storyboard)', !still.ok
-    && has(still.report.errors, /prologue-00 is marked "draft"/), still.report.errors);
+  check(g, 'an approved build refuses chapters the manifest still marks draft (creative sign-off stays in the storyboard)', !still.ok
+    && has(still.report.errors, /prologue-00 is marked "draft"/) && has(still.report.errors, /chapter-01 is marked "draft"/), still.report.errors);
   t.edit('storyboard-manifest.json', (j) => { j.chapters[0].status = 'approved'; });
+  const half = build({ from: t.dir, mode: 'approved' });
+  check(g, '... including when only the Prologue is marked approved', !half.ok && has(half.report.errors, /chapter-01 is marked "draft"/) && !has(half.report.errors, /prologue-00 is marked/), half.report.errors);
+  t.edit('storyboard-manifest.json', (j) => { j.chapters[1].status = 'approved'; });
   const a = build({ from: t.dir, mode: 'approved' });
-  check(g, 'once the author ends the chapter and marks it approved, an approved build is possible (draft art is reported, not blocking)', a.ok && a.meta.channel === 'approved' && a.report.artPending.length === 28, a.report.errors);
-  check(g, 'the build records each chapter\'s manifest title and status (the draft stamp reads them)', b.meta.chapters.length === 1 && b.meta.chapters[0].id === 'prologue-00'
-    && b.meta.chapters[0].status === 'draft' && a.meta.chapters[0].status === 'approved');
+  check(g, 'once the author ends the chapters and marks them approved, an approved build is possible (draft art is reported, not blocking)', a.ok && a.meta.channel === 'approved' && a.report.artPending.length === 29, a.report.errors);
+  check(g, 'the build records each chapter\'s manifest title and status, in manifest order (the draft stamp reads them)', JSON.stringify(b.meta.chapters) === JSON.stringify([
+    { id: 'prologue-00', title: 'Prologue — The Last Good Day', status: 'draft' }, { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', status: 'draft' }])
+    && a.meta.chapters.every((c) => c.status === 'approved'), b.meta.chapters);
 })();
 
 // 5. Chapters, Focus A, independence ---------------------------------------------------------------
@@ -408,6 +416,127 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'the Narrative B overlay manifest matches its image (sha256 and size) and records its status (' + ov.status + ')', sha === ov.sha256
     && png.readUInt32BE(16) === ov.width && png.readUInt32BE(20) === ov.height && typeof ov.status === 'string'
     && ['x', 'y', 'width', 'lineHeight', 'safeBottom'].every((k) => typeof ov.textBox[k] === 'number'), [sha, ov]);
+})();
+
+// 6b. Prologue -> Chapter 1 hand-off: separate chapter files, and the player's whole state crosses ---
+(function handoff() {
+  const g = 'handoff';
+  const b = build();
+  if (!b.ok) return check(g, 'story/ builds', false, b.report.errors);
+  const st = b.story;
+  const src = (rel) => JSON.parse(fs.readFileSync(path.join(STORY, rel), 'utf8'));
+  const manifest = src('storyboard-manifest.json');
+  check(g, 'the manifest lists exactly Prologue then Chapter 1, both draft, each in its own chapter file', JSON.stringify(manifest.chapters) === JSON.stringify([
+    { id: 'prologue-00', title: 'Prologue — The Last Good Day', file: 'chapters/prologue-00.draft.json', status: 'draft' },
+    { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', file: 'chapters/chapter-01.draft.json', status: 'draft' }]), manifest.chapters);
+  const pro = src(PROLOGUE);
+  const ch1 = src(CHAPTER1);
+  check(g, 'no Chapter 1 node lives in the Prologue JSON (and none of the Prologue\'s in Chapter 1)', Object.keys(ch1.nodes).every((id) => !pro.nodes[id])
+    && JSON.stringify(Object.keys(ch1.nodes)) === '["dev_placeholder"]' && Object.keys(pro.nodes).length === 29);
+  const hall = st.chapters['prologue-00'].nodes.reception_hallway;
+  check(g, 'reception_hallway keeps its authored narration, scene and objective (sha256 of the text pinned)', hall.scene === 'exposition/facilities_corridor'
+    && hall.objective === 'FIND THE PUBLIC BATHROOM.' && !hall.end
+    && require('crypto').createHash('sha256').update(hall.text).digest('hex') === '54b1047e11b1fe8a98d8f92c6495b9a4d1b9af890d7bb6b476c6ed0ee2e5ff3c'
+    && /^You pass through the door and into a long, softly humming corridor\./.test(hall.text) && /You follow it\.$/.test(hall.text), hall);
+  check(g, 'its dead end is now one authored continue card whose destination is chapter: "chapter-01" (no to, no restart)', JSON.stringify(hall.choices)
+    === JSON.stringify([{ id: 'continue_to_chapter_01', kind: 'continue', text: 'CONTINUE', chapter: 'chapter-01' }]), hall.choices);
+  const c1 = st.chapters['chapter-01'];
+  check(g, 'Chapter 1 uses its own not-started scene reference (a DEV PLACEHOLDER in previews), not the facilities corridor art', c1.scene === 'house_of_tomorrow/opening'
+    && st.assets.scenes['house_of_tomorrow/opening'] === null && src('artwork.draft.json').scenes['house_of_tomorrow/opening'].status === 'not-started'
+    && !b.meta.art.some((a) => a.id === 'house_of_tomorrow/opening'), [c1.scene, st.assets.scenes['house_of_tomorrow/opening']]);
+
+  // Walk every distinct Prologue route to the hand-off (choices, SHOW/USE, and the item verbs that
+  // can change the route), then take the hand-off from each and compare the state either side.
+  const tested = {};
+  (function scan(v) {
+    if (Array.isArray(v)) return v.forEach(scan);
+    if (!v || typeof v !== 'object') return;
+    ['item', 'itemNot'].forEach((k) => { if (Array.isArray(v[k]) && typeof v[k][0] === 'string') tested[v[k][0] + ':' + v[k][1]] = true; });
+    Object.keys(v).forEach((k) => scan(v[k]));
+  })([st.chapters, st.items]);
+  const verbsFor = (id) => ['inspect', 'read'].filter((verb) => (verb === 'inspect' ? !!st.items[id].inspect || tested[id + ':inspected'] : !!st.items[id].read && tested[id + ':read']));
+  const marksKey = (s) => Object.keys(s.items).sort().map((k) => [k, s.items[k].filter((m) => tested[k + ':' + m]).sort()]).filter((e) => e[1].length);
+  const keyOf = (s, v) => JSON.stringify([s.chapter, s.node, s.returnTo, s.flags, s.inventory.slice().sort(), marksKey(s), s.checks, v.cards.map((c) => c.id), v.items]);
+  const first = Rules.begin(st, { seed: 'qa-handoff' }).state;
+  const seen = {};
+  const queue = [first];
+  const atHall = [];
+  let walked = 0;
+  while (queue.length && walked < 50000) {
+    const s = queue.shift();
+    walked++;
+    const v = Rules.view(st, s);
+    const k = keyOf(s, v);
+    if (seen[k]) continue;
+    seen[k] = true;
+    if (s.chapter !== 'prologue-00') continue;
+    if (s.node === 'reception_hallway') { atHall.push(s); continue; }
+    const inputs = v.cards.filter((c) => c.kind !== 'system').map((c) => ({ choice: c.id }));
+    v.items.forEach((it) => {
+      if (it.show) inputs.push({ item: it.id, verb: 'show' });
+      if (it.use) inputs.push({ item: it.id, verb: 'use' });
+      verbsFor(it.id).forEach((verb) => { if ((s.items[it.id] || []).indexOf(verb === 'inspect' ? 'inspected' : 'read') === -1) inputs.push({ item: it.id, verb }); });
+    });
+    inputs.forEach((input) => queue.push(Rules.step(st, s, input).state));
+  }
+  check(g, 'the walk reached the hand-off by many distinct routes (and finished)', !queue.length && atHall.length >= 20, [walked, atHall.length, queue.length]);
+  const same = (a, x) => JSON.stringify(a) === JSON.stringify(x);
+  const broken = [];
+  const outcomes = {};
+  atHall.forEach((s) => {
+    const r = Rules.step(st, s, { choice: 'continue_to_chapter_01' });
+    const a = r.state;
+    const why = [];
+    if (a.chapter !== 'chapter-01' || a.node !== 'dev_placeholder') why.push('arrived at ' + a.chapter + ':' + a.node);
+    if (!same(a.flags, s.flags)) why.push('flags');
+    if (!same(a.inventory, s.inventory)) why.push('inventory');
+    if (!same(a.items, s.items)) why.push('item marks');
+    if (!same(a.checks, s.checks)) why.push('resolved checks');
+    if (a.seed !== s.seed) why.push('seed');
+    if (a.objective !== s.objective) why.push('objective');
+    if (!same(a.transcript.slice(0, s.transcript.length), s.transcript) || a.transcript.length <= s.transcript.length) why.push('NOTES history');
+    if (!same(a.taken.slice(0, s.taken.length), s.taken) || a.taken.length !== s.taken.length + 1) why.push('taken log');
+    if (r.events.some((e) => e.t === 'restart')) why.push('restart event');
+    if (!r.events.some((e) => e.t === 'chapter' && e.id === 'chapter-01')) why.push('no chapter event');
+    if (why.length) broken.push(why);
+    outcomes[JSON.stringify([a.flags, a.inventory.slice().sort(), marksKey(a)])] = a;
+  });
+  check(g, 'every route keeps flags, inventory, item marks, resolved checks, objective, seed and the whole NOTES history across the hand-off (no reset)', atHall.length && !broken.length, broken.slice(0, 5));
+  const arrivals = Object.values(outcomes);
+  const values = (f) => Array.from(new Set(arrivals.map((a) => JSON.stringify(a.flags[f])))).sort();
+  check(g, 'different Prologue paths arrive in Chapter 1 with different outcomes (termination status, property record, retained item, inventory)', arrivals.length >= 10
+    && values('termination_status').length >= 3 && values('property_record').length >= 3 && values('retained_item').length >= 2
+    && new Set(arrivals.map((a) => JSON.stringify(a.inventory.slice().sort()))).size >= 4,
+  { arrivals: arrivals.length, termination_status: values('termination_status'), property_record: values('property_record'), retained_item: values('retained_item') });
+
+  // Those outcomes are usable as Chapter 1 conditions. A QA-only copy (never committed) gives the
+  // placeholder one probe card per Prologue outcome; the cards Chapter 1 offers must match the state.
+  const probes = [];
+  ['termination_status', 'property_record', 'retained_item', 'appointment_response'].forEach((f) => values(f).forEach((v) => probes.push({ if: { flagIs: [f, JSON.parse(v)] } })));
+  Array.from(new Set(arrivals.reduce((l, a) => l.concat(a.inventory), []))).sort().forEach((id) => { probes.push({ if: { has: id } }); probes.push({ if: { lacks: id } }); });
+  Object.keys(tested).forEach((k) => { const [id, m] = k.split(':'); probes.push({ if: { item: [id, m] } }); probes.push({ if: { itemNot: [id, m] } }); });
+  // The validator refuses a card no route can ever see, so keep the probes some arrival satisfies.
+  probes.splice(0, probes.length, ...probes.filter((p) => arrivals.some((a) => Rules.holds(p.if, a))));
+  const t = copySource(STORY).edit(CHAPTER1, (j) => {
+    j.nodes.dev_placeholder.choices = probes.map((p, i) => ({ id: 'qa_probe_' + i, kind: 'system', text: 'QA PROBE ' + i, if: p.if, restart: true }))
+      .concat([{ id: 'qa_always', kind: 'system', text: 'QA ALWAYS', restart: true }]);
+    j.nodes.dev_placeholder.end = true;
+  });
+  const pb = build({ from: t.dir });
+  const misses = [];
+  if (pb.ok) {
+    atHall.forEach((s) => {
+      const a = Rules.step(pb.story, s, { choice: 'continue_to_chapter_01' }).state;
+      const offered = Rules.view(pb.story, a).cards.map((c) => c.id);
+      probes.forEach((p, i) => { if ((offered.indexOf('qa_probe_' + i) !== -1) !== Rules.holds(p.if, a)) misses.push([i, p.if]); });
+    });
+  }
+  const distinctOffers = !pb.ok ? new Set() : new Set(atHall.map((s) => JSON.stringify(Rules.view(pb.story, Rules.step(pb.story, s, { choice: 'continue_to_chapter_01' }).state).cards.map((c) => c.id))));
+  console.log('handoff walk: ' + walked + ' states walked, ' + atHall.length + ' distinct hand-off states, ' + arrivals.length + ' distinct Chapter 1 arrival outcomes, '
+    + probes.length + ' condition probes, ' + distinctOffers.size + ' distinct probe sets offered; termination_status ' + values('termination_status').join('/')
+    + ', property_record ' + values('property_record').join('/') + ', retained_item ' + values('retained_item').join('/'));
+  check(g, 'Chapter 1 conditions see the Prologue outcome: each probe card is offered exactly when its condition holds, and routes differ', pb.ok && !misses.length && distinctOffers.size >= 10,
+    pb.ok ? { misses: misses.slice(0, 5), distinctOffers: distinctOffers.size, probes: probes.length } : pb.report.errors);
 })();
 
 // 7. Staleness --------------------------------------------------------------------------------------

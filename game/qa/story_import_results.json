@@ -1,7 +1,7 @@
 {
   "suite": "story-import",
-  "passed": 80,
-  "total": 80,
+  "passed": 90,
+  "total": 90,
   "groups": {
     "baseline": {
       "total": 8,
@@ -16,8 +16,8 @@
       "passed": 18
     },
     "draft-stop": {
-      "total": 5,
-      "passed": 5
+      "total": 6,
+      "passed": 6
     },
     "chapters": {
       "total": 7,
@@ -39,6 +39,10 @@
       "total": 3,
       "passed": 3
     },
+    "handoff": {
+      "total": 9,
+      "passed": 9
+    },
     "stale": {
       "total": 3,
       "passed": 3
@@ -47,12 +51,12 @@
   "results": [
     {
       "group": "baseline",
-      "name": "story/ (prologue-00 draft) builds as a preview with no errors",
+      "name": "story/ (prologue-00 + chapter-01 drafts) builds as a preview with no errors",
       "ok": true
     },
     {
       "group": "baseline",
-      "name": "the prologue has 29 nodes and one explicit DRAFT STOP at its unfinished hand-off",
+      "name": "two chapters: the prologue's 29 nodes plus the one Chapter 1 development placeholder, whose node is the only DRAFT STOP",
       "ok": true
     },
     {
@@ -227,27 +231,32 @@
     },
     {
       "group": "draft-stop",
-      "name": "a preview ends an unfinished hand-off explicitly: end node, one system card DRAFT ENDS HERE. BEGIN AGAIN.",
+      "name": "a preview ends an unfinished chapter explicitly: end node, one system card DRAFT ENDS HERE. BEGIN AGAIN.",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "its narration is the authored text, unchanged (no invented ending)",
+      "name": "the Chapter 1 node says on its face that it is a development placeholder (no invented narrative)",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "an approved build refuses a chapter the manifest still marks draft (creative sign-off stays in the storyboard)",
+      "name": "an approved build refuses chapters the manifest still marks draft (creative sign-off stays in the storyboard)",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "once the author ends the chapter and marks it approved, an approved build is possible (draft art is reported, not blocking)",
+      "name": "... including when only the Prologue is marked approved",
       "ok": true
     },
     {
       "group": "draft-stop",
-      "name": "the build records each chapter's manifest title and status (the draft stamp reads them)",
+      "name": "once the author ends the chapters and marks them approved, an approved build is possible (draft art is reported, not blocking)",
+      "ok": true
+    },
+    {
+      "group": "draft-stop",
+      "name": "the build records each chapter's manifest title and status, in manifest order (the draft stamp reads them)",
       "ok": true
     },
     {
@@ -362,7 +371,7 @@
     },
     {
       "group": "independence",
-      "name": "no id of the imported story (104 ids) and none of its prose (106 passages) appears in game code",
+      "name": "no id of the imported story (108 ids) and none of its prose (107 passages) appears in game code",
       "ok": true
     },
     {
@@ -428,6 +437,51 @@
     {
       "group": "art-status",
       "name": "the Narrative B overlay manifest matches its image (sha256 and size) and records its status (provisional)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "the manifest lists exactly Prologue then Chapter 1, both draft, each in its own chapter file",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "no Chapter 1 node lives in the Prologue JSON (and none of the Prologue's in Chapter 1)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "reception_hallway keeps its authored narration, scene and objective (sha256 of the text pinned)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "its dead end is now one authored continue card whose destination is chapter: \"chapter-01\" (no to, no restart)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "Chapter 1 uses its own not-started scene reference (a DEV PLACEHOLDER in previews), not the facilities corridor art",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "the walk reached the hand-off by many distinct routes (and finished)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "every route keeps flags, inventory, item marks, resolved checks, objective, seed and the whole NOTES history across the hand-off (no reset)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "different Prologue paths arrive in Chapter 1 with different outcomes (termination status, property record, retained item, inventory)",
+      "ok": true
+    },
+    {
+      "group": "handoff",
+      "name": "Chapter 1 conditions see the Prologue outcome: each probe card is offered exactly when its condition holds, and routes differ",
       "ok": true
     },
     {

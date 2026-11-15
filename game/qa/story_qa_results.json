@@ -1,8 +1,8 @@
 {
   "suite": "story-browser",
-  "passed": 108,
-  "total": 108,
-  "content": "d88ca197a0a5c405648346de8e1c0c4264b9e40d4197daad86f5a6fd67d2ec5e",
+  "passed": 120,
+  "total": 120,
+  "content": "69d62f6a8da459391203d3f62cfa0eb63a5ff23964e59df5bb2059c4b9ec2d29",
   "results": [
     {
       "browser": "chromium",
@@ -166,7 +166,37 @@
     },
     {
       "browser": "chromium",
-      "name": "DRAFT STOP: the unfinished hand-off ends with one labelled system card",
+      "name": "HAND-OFF: the Prologue's last node keeps its narration and now offers one CONTINUE card into Chapter 1 (no dead end)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: the game crosses into the Chapter 1 development placeholder (its own scene id drawn as a DEV PLACEHOLDER, not corridor art)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: inventory, flags, item marks, resolved checks, objective and seed are unchanged in the browser",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: NOTES history continues (every Prologue entry kept, the Chapter 1 entry appended)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: the existing draft stamp now names Chapter 1 as a draft",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: a reload restores the one autosave in Chapter 1 with the Prologue's inventory, flags and NOTES (no separate Chapter 1 save)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "DRAFT STOP: the Chapter 1 placeholder ends with one labelled system card",
       "ok": true
     },
     {
@@ -436,7 +466,37 @@
     },
     {
       "browser": "firefox",
-      "name": "DRAFT STOP: the unfinished hand-off ends with one labelled system card",
+      "name": "HAND-OFF: the Prologue's last node keeps its narration and now offers one CONTINUE card into Chapter 1 (no dead end)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: the game crosses into the Chapter 1 development placeholder (its own scene id drawn as a DEV PLACEHOLDER, not corridor art)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: inventory, flags, item marks, resolved checks, objective and seed are unchanged in the browser",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: NOTES history continues (every Prologue entry kept, the Chapter 1 entry appended)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: the existing draft stamp now names Chapter 1 as a draft",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: a reload restores the one autosave in Chapter 1 with the Prologue's inventory, flags and NOTES (no separate Chapter 1 save)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "DRAFT STOP: the Chapter 1 placeholder ends with one labelled system card",
       "ok": true
     },
     {
