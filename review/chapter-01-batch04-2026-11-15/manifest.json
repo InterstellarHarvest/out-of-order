@@ -1,0 +1,372 @@
+{
+  "scope": "Private review metadata only; not runtime schema",
+  "baseline": "8607ed729c1af2258ae178e2fdf68ce7a6bc8d0a",
+  "branch": "agent/ch01-art-batch04-20261115",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generated",
+  "ownerApproved": false,
+  "assetCount": 6,
+  "assets": [
+    {
+      "id": "A",
+      "title": "House arrival",
+      "registryTarget": "house_of_tomorrow/arrival",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/arrival-v02.png",
+      "preview4xPath": "previews/arrival-v02-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "uniqueColors": 140,
+      "sha256": "e484b615773145810472823001eceeb2b7c87df6659ad91449e24df8c533bb44",
+      "previewSHA256": "66ee03a3402d29562f884fb8ebc5d213ab16c07a322e1a4627e26bbb726de6ed",
+      "sourcePath": "generation-source/arrival-v02.png",
+      "sourceSHA256": "eb0fb0eb264751d8c0df0395247ac4cdcfcf1a528e693cca51da6b339f4a2cd3",
+      "sourceSize": [
+        1549,
+        1015
+      ],
+      "cropBox": [
+        0.9320388349514133,
+        0,
+        1548.0679611650485,
+        1015
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    },
+    {
+      "id": "B",
+      "title": "Housekeeping storage",
+      "registryTarget": "house_of_tomorrow/storage",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/storage-v02.png",
+      "preview4xPath": "previews/storage-v02-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "uniqueColors": 144,
+      "sha256": "635307df628fcdaad921a1901d668eebb75af6875ffbbb4d0ace89c3219eb11d",
+      "previewSHA256": "0feca68162efaeb0b710abb12c50eb54d42b71361c55c980a81143e87019a0f7",
+      "sourcePath": "generation-source/storage-v02.png",
+      "sourceSHA256": "3382dce3da9fa7635962024ba14b1561701e48772d1258b1af0fb2b23626e140",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    },
+    {
+      "id": "C",
+      "title": "Maintenance breach",
+      "registryTarget": "house_of_tomorrow/maintenance",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/maintenance-v01.png",
+      "preview4xPath": "previews/maintenance-v01-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "uniqueColors": 219,
+      "sha256": "cd575f82b52796a7393f144ad3234a637cd4ef6a5742e872dd2be8f047318efd",
+      "previewSHA256": "dfc05520ee1bba1c6f88ee3a23c3123cb1274c735c7851b0fa75b334c1b0a9a6",
+      "sourcePath": "generation-source/maintenance-v01.png",
+      "sourceSHA256": "e71adaf558b5480045116ce43c4bc5377337c9cff1c24536c920f8eba1f545f3",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    },
+    {
+      "id": "D",
+      "title": "Equipment-service exit",
+      "registryTarget": "house_of_tomorrow/utility_exit",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/utility-exit-v01.png",
+      "preview4xPath": "previews/utility-exit-v01-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "uniqueColors": 63,
+      "sha256": "907b962a20485b4c96cd4acae253311484c71e6689d625aad04f2d88f45104de",
+      "previewSHA256": "9b4158b4c3334fab20165d60e4a2c8ea841ebdde3d959c5ebe1be186f21c5745",
+      "sourcePath": "generation-source/utility-exit-v01.png",
+      "sourceSHA256": "137c6acebcd259ae13ce721c14d4a10c5c271170b8118a3da669702823202674",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    },
+    {
+      "id": "E",
+      "title": "Low service-hatch exit",
+      "registryTarget": "house_of_tomorrow/service_hatch",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/service-hatch-v01.png",
+      "preview4xPath": "previews/service-hatch-v01-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "uniqueColors": 33,
+      "sha256": "1f978f6fe2334ce4c5af8a48fc2322a79b74899fb504935c0e948b3bc8f50580",
+      "previewSHA256": "c52d6b0b71ebef1a016a8f8884b9fad443589273b7d913419e985c3aa1cec29d",
+      "sourcePath": "generation-source/service-hatch-v01.png",
+      "sourceSHA256": "4361882b17405f83554b82c25b65d575785bd4a1a4bda9894fb4e961a42bdb47",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    },
+    {
+      "id": "F",
+      "title": "Public exit",
+      "registryTarget": "house_of_tomorrow/public_exit",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/public-exit-v01.png",
+      "preview4xPath": "previews/public-exit-v01-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "uniqueColors": 217,
+      "sha256": "e5755940de849afbb89223186c88a696783baecba527275fe5a3d0da5a3afbdd",
+      "previewSHA256": "4dd2840f27bf156e5dd363a460bc8f431ca9f34578502f6ab095521e808700c4",
+      "sourcePath": "generation-source/public-exit-v01.png",
+      "sourceSHA256": "e5625a25bb06b461111d5a000dc6df04337996ddf8c6a49914e793bce2faade7",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    }
+  ],
+  "generationSources": [
+    {
+      "path": "generation-source/arrival-v01.png",
+      "sha256": "1643e35488e14cadac4169fb9df0c2ae33a4638c60cfe7ac3b5a6a7ef755b483",
+      "dimensions": [
+        1549,
+        1015
+      ],
+      "mode": "RGB",
+      "selected": false
+    },
+    {
+      "path": "generation-source/arrival-v02.png",
+      "sha256": "eb0fb0eb264751d8c0df0395247ac4cdcfcf1a528e693cca51da6b339f4a2cd3",
+      "dimensions": [
+        1549,
+        1015
+      ],
+      "mode": "RGB",
+      "selected": true
+    },
+    {
+      "path": "generation-source/maintenance-v01.png",
+      "sha256": "e71adaf558b5480045116ce43c4bc5377337c9cff1c24536c920f8eba1f545f3",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": true
+    },
+    {
+      "path": "generation-source/public-exit-v01.png",
+      "sha256": "e5625a25bb06b461111d5a000dc6df04337996ddf8c6a49914e793bce2faade7",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": true
+    },
+    {
+      "path": "generation-source/service-hatch-v01.png",
+      "sha256": "4361882b17405f83554b82c25b65d575785bd4a1a4bda9894fb4e961a42bdb47",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": true
+    },
+    {
+      "path": "generation-source/storage-v01.png",
+      "sha256": "e960bbc2873d0cbcce3b5f39abf0dd8b40ee5cf29c9ad3d34c93bb71dbfb3fa4",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": false
+    },
+    {
+      "path": "generation-source/storage-v02.png",
+      "sha256": "3382dce3da9fa7635962024ba14b1561701e48772d1258b1af0fb2b23626e140",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": true
+    },
+    {
+      "path": "generation-source/utility-exit-v01.png",
+      "sha256": "137c6acebcd259ae13ce721c14d4a10c5c271170b8118a3da669702823202674",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": true
+    }
+  ],
+  "contactSheet": [
+    {
+      "scene": "house_of_tomorrow/arrival",
+      "path": "review/chapter-01-batch04-2026-11-15/candidates/arrival-v02.png",
+      "sha256": "e484b615773145810472823001eceeb2b7c87df6659ad91449e24df8c533bb44",
+      "new": true
+    },
+    {
+      "scene": "house_of_tomorrow/foyer",
+      "path": "review/chapter-01-speaker-revision-2026-11-15/candidates/foyer-v04.png",
+      "sha256": "f9b520088d1d3800c122fc30d1ed2076220e085db16ceef79fa99eab3064b2c0",
+      "new": false
+    },
+    {
+      "scene": "house_of_tomorrow/storage",
+      "path": "review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png",
+      "sha256": "635307df628fcdaad921a1901d668eebb75af6875ffbbb4d0ace89c3219eb11d",
+      "new": true
+    },
+    {
+      "scene": "house_of_tomorrow/lounge",
+      "path": "review/chapter-01-batch02-2026-11-15/candidates/lounge-candidate-v01.png",
+      "sha256": "9dc600a286bc585a5fb8fc1a5bf85cca31a06ea4f42f4b83057f3845242b92f8",
+      "new": false
+    },
+    {
+      "scene": "house_of_tomorrow/dining",
+      "path": "review/chapter-01-speaker-revision-2026-11-15/candidates/dining-v04.png",
+      "sha256": "2bd4f7b2127e7af45894224b8d04a128663357d99cba115a8ac4b80fb1c3761d",
+      "new": false
+    },
+    {
+      "scene": "house_of_tomorrow/chair",
+      "path": "review/chapter-01-batch02-2026-11-15/rest-assured-pair-v04/candidates/chair-in-use-v04.png",
+      "sha256": "5cef601a39f2aa3ec8f37da6a0c6d9dcc99702b26821e68f64385d33a3ebff1b",
+      "new": false
+    },
+    {
+      "scene": "house_of_tomorrow/maintenance",
+      "path": "review/chapter-01-batch04-2026-11-15/candidates/maintenance-v01.png",
+      "sha256": "cd575f82b52796a7393f144ad3234a637cd4ef6a5742e872dd2be8f047318efd",
+      "new": true
+    },
+    {
+      "scene": "house_of_tomorrow/utility_exit",
+      "path": "review/chapter-01-batch04-2026-11-15/candidates/utility-exit-v01.png",
+      "sha256": "907b962a20485b4c96cd4acae253311484c71e6689d625aad04f2d88f45104de",
+      "new": true
+    },
+    {
+      "scene": "house_of_tomorrow/bedroom",
+      "path": "review/chapter-01-batch02-2026-11-15/candidates/bedroom-candidate-v01.png",
+      "sha256": "792f7930e572ee91f49e7015cbcfd9625e8896ce40faca6d0992621a57217df4",
+      "new": false
+    },
+    {
+      "scene": "house_of_tomorrow/passage",
+      "path": "review/chapter-01-batch02-2026-11-15/candidates/passage-candidate-v01.png",
+      "sha256": "acdacefbaeac9649737286d909e3ee859e768d7319bfeee6001d8a97aae0fbcd",
+      "new": false
+    },
+    {
+      "scene": "house_of_tomorrow/service_hatch",
+      "path": "review/chapter-01-batch04-2026-11-15/candidates/service-hatch-v01.png",
+      "sha256": "1f978f6fe2334ce4c5af8a48fc2322a79b74899fb504935c0e948b3bc8f50580",
+      "new": true
+    },
+    {
+      "scene": "house_of_tomorrow/portrait_gallery",
+      "path": "review/chapter-01-batch03-2026-11-15/wide-speaker-position-v05/gallery-v05.png",
+      "sha256": "7fd52ebec4008005af452880aa0c54df97aad75b97d5e28c9f8d4c6bd8605c8d",
+      "new": false
+    },
+    {
+      "scene": "house_of_tomorrow/bathroom",
+      "path": "review/chapter-01-first-pass-2026-11-15/candidates/bathroom.png",
+      "sha256": "418061f623770ec40a6a708083ad3a797b3cfc43c6e9b461ecb95799cc5267fc",
+      "new": false
+    },
+    {
+      "scene": "house_of_tomorrow/public_exit",
+      "path": "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "sha256": "e5755940de849afbb89223186c88a696783baecba527275fe5a3d0da5a3afbdd",
+      "new": true
+    }
+  ],
+  "stateVariants": "Proposal only in STATE_VARIANTS.md; no extra scene/state art generated"
+}
