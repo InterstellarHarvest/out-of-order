@@ -1,0 +1,456 @@
+{
+  "title": "Chapter1 Batch2 \u2014 Rest Assured, bedroom and passage",
+  "date": "2026-11-15",
+  "branch": "agent/ch01-art-batch02-20261115",
+  "baselineCommit": "0de7cd8c15994c8e5652feff815d7d87a70d4d75",
+  "candidateCount": 4,
+  "status": "generated",
+  "productionIntegration": false,
+  "registryModified": false,
+  "method": "built-in image_gen.imagegen; exact prompts and reference paths in prompts.json",
+  "assets": [
+    {
+      "id": "A",
+      "scene": "house_of_tomorrow/lounge",
+      "title": "House lounge",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/lounge-candidate-v01.png",
+      "nativePreviewPath": "candidates/lounge-candidate-v01.png",
+      "fourTimesPreviewPath": "previews/lounge-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "9dc600a286bc585a5fb8fc1a5bf85cca31a06ea4f42f4b83057f3845242b92f8",
+      "sourcePath": "generation-source/lounge-v01.png",
+      "sourceSha256": "3a2370155d8c6e93972cf1f9ba0085234e8388abae6d2c14f17e568368ed5b2b",
+      "sourceDimensions": [
+        1548,
+        1016
+      ],
+      "promptKey": "lounge",
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.2165605095541423,
+          1548,
+          1015.7834394904459
+        ],
+        "geometry": "exact-aspect crop and NEAREST to314x206",
+        "colorCleanup": "non-spatial merge to existing frequent RGB values within Euclidean radius18; no fixed palette-count target",
+        "colorsBeforeCleanup": 17675
+      },
+      "visibleColorCount": 227,
+      "dominantPalette": [
+        {
+          "hex": "#f9d6b2",
+          "pixels": 15369
+        },
+        {
+          "hex": "#9bd1c4",
+          "pixels": 7170
+        },
+        {
+          "hex": "#ec755a",
+          "pixels": 6333
+        },
+        {
+          "hex": "#f5cca3",
+          "pixels": 4531
+        },
+        {
+          "hex": "#80b9ab",
+          "pixels": 2210
+        },
+        {
+          "hex": "#fef1dd",
+          "pixels": 2099
+        },
+        {
+          "hex": "#fde1c1",
+          "pixels": 1989
+        },
+        {
+          "hex": "#76aea0",
+          "pixels": 1905
+        },
+        {
+          "hex": "#fefaf0",
+          "pixels": 1637
+        },
+        {
+          "hex": "#f0a250",
+          "pixels": 1395
+        },
+        {
+          "hex": "#e2b68b",
+          "pixels": 1363
+        },
+        {
+          "hex": "#eac199",
+          "pixels": 1287
+        },
+        {
+          "hex": "#b85441",
+          "pixels": 1225
+        },
+        {
+          "hex": "#daf5ee",
+          "pixels": 1083
+        },
+        {
+          "hex": "#a9e3fd",
+          "pixels": 853
+        },
+        {
+          "hex": "#d6aa80",
+          "pixels": 732
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "scene": "house_of_tomorrow/chair",
+      "title": "Rest Assured (locked)",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/chair-candidate-v01.png",
+      "nativePreviewPath": "candidates/chair-candidate-v01.png",
+      "fourTimesPreviewPath": "previews/chair-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "2b669d012f58fef79f837b6e8ee5582db79dd854d8746a086a691e61c3b76888",
+      "sourcePath": "generation-source/chair-v01.png",
+      "sourceSha256": "62c411e2991fc6bc6092764cba3d95d0de9e38a6ff06ca6cae228d8465707f47",
+      "sourceDimensions": [
+        1548,
+        1016
+      ],
+      "promptKey": "chair",
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.2165605095541423,
+          1548,
+          1015.7834394904459
+        ],
+        "geometry": "exact-aspect crop and NEAREST to314x206",
+        "colorCleanup": "non-spatial merge to existing frequent RGB values within Euclidean radius18; no fixed palette-count target",
+        "colorsBeforeCleanup": 17986
+      },
+      "visibleColorCount": 247,
+      "dominantPalette": [
+        {
+          "hex": "#8ecdbf",
+          "pixels": 9665
+        },
+        {
+          "hex": "#f8d1ae",
+          "pixels": 9284
+        },
+        {
+          "hex": "#eb7159",
+          "pixels": 5867
+        },
+        {
+          "hex": "#f6c99d",
+          "pixels": 4439
+        },
+        {
+          "hex": "#68a99b",
+          "pixels": 4307
+        },
+        {
+          "hex": "#fee1bf",
+          "pixels": 3613
+        },
+        {
+          "hex": "#76b8a9",
+          "pixels": 2731
+        },
+        {
+          "hex": "#d4f6ed",
+          "pixels": 2225
+        },
+        {
+          "hex": "#feecd2",
+          "pixels": 1766
+        },
+        {
+          "hex": "#e6b586",
+          "pixels": 1656
+        },
+        {
+          "hex": "#b24f3d",
+          "pixels": 1318
+        },
+        {
+          "hex": "#f4a14d",
+          "pixels": 1243
+        },
+        {
+          "hex": "#99ddfd",
+          "pixels": 1088
+        },
+        {
+          "hex": "#387870",
+          "pixels": 835
+        },
+        {
+          "hex": "#c49569",
+          "pixels": 735
+        },
+        {
+          "hex": "#989796",
+          "pixels": 696
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "scene": "house_of_tomorrow/bedroom",
+      "title": "Martin's bedroom",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/bedroom-candidate-v01.png",
+      "nativePreviewPath": "candidates/bedroom-candidate-v01.png",
+      "fourTimesPreviewPath": "previews/bedroom-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "792f7930e572ee91f49e7015cbcfd9625e8896ce40faca6d0992621a57217df4",
+      "sourcePath": "generation-source/bedroom-v01.png",
+      "sourceSha256": "93d09fbdd446d7d8612529e84c763c8f1eb4d861c7744484cdb557f2dfa93e28",
+      "sourceDimensions": [
+        1548,
+        1016
+      ],
+      "promptKey": "bedroom",
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.2165605095541423,
+          1548,
+          1015.7834394904459
+        ],
+        "geometry": "exact-aspect crop and NEAREST to314x206",
+        "colorCleanup": "non-spatial merge to existing frequent RGB values within Euclidean radius18; no fixed palette-count target",
+        "colorsBeforeCleanup": 12339
+      },
+      "visibleColorCount": 179,
+      "dominantPalette": [
+        {
+          "hex": "#f1c9a3",
+          "pixels": 16350
+        },
+        {
+          "hex": "#e8a25a",
+          "pixels": 14767
+        },
+        {
+          "hex": "#f9dbbb",
+          "pixels": 7259
+        },
+        {
+          "hex": "#e87359",
+          "pixels": 5683
+        },
+        {
+          "hex": "#e6ba92",
+          "pixels": 2289
+        },
+        {
+          "hex": "#fef0d7",
+          "pixels": 2223
+        },
+        {
+          "hex": "#e2984c",
+          "pixels": 1458
+        },
+        {
+          "hex": "#8cb5a4",
+          "pixels": 1323
+        },
+        {
+          "hex": "#d1d0d0",
+          "pixels": 1222
+        },
+        {
+          "hex": "#abd1c1",
+          "pixels": 1087
+        },
+        {
+          "hex": "#939291",
+          "pixels": 602
+        },
+        {
+          "hex": "#b18762",
+          "pixels": 601
+        },
+        {
+          "hex": "#dcaf86",
+          "pixels": 496
+        },
+        {
+          "hex": "#757574",
+          "pixels": 428
+        },
+        {
+          "hex": "#da6148",
+          "pixels": 401
+        },
+        {
+          "hex": "#61907a",
+          "pixels": 371
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "scene": "house_of_tomorrow/passage",
+      "title": "Wardrobe crawl passage",
+      "kind": "scene",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/passage-candidate-v01.png",
+      "nativePreviewPath": "candidates/passage-candidate-v01.png",
+      "fourTimesPreviewPath": "previews/passage-4x.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "acdacefbaeac9649737286d909e3ee859e768d7319bfeee6001d8a97aae0fbcd",
+      "sourcePath": "generation-source/passage-v02.png",
+      "sourceSha256": "6ef3104c7d0072b7b2beb392c959ddea442079aebda9bb77ee5c11e99ed20bd8",
+      "sourceDimensions": [
+        1548,
+        1016
+      ],
+      "promptKey": "passage-low-void-revision",
+      "normalization": {
+        "sourceBox": [
+          0,
+          0.2165605095541423,
+          1548,
+          1015.7834394904459
+        ],
+        "geometry": "exact-aspect crop and NEAREST to314x206",
+        "colorCleanup": "non-spatial merge to existing frequent RGB values within Euclidean radius18; no fixed palette-count target",
+        "colorsBeforeCleanup": 19399
+      },
+      "visibleColorCount": 151,
+      "dominantPalette": [
+        {
+          "hex": "#f4c8a2",
+          "pixels": 18681
+        },
+        {
+          "hex": "#f2a04d",
+          "pixels": 5590
+        },
+        {
+          "hex": "#e29148",
+          "pixels": 4510
+        },
+        {
+          "hex": "#eabd97",
+          "pixels": 3663
+        },
+        {
+          "hex": "#b79378",
+          "pixels": 3456
+        },
+        {
+          "hex": "#cba280",
+          "pixels": 1711
+        },
+        {
+          "hex": "#ae8563",
+          "pixels": 1572
+        },
+        {
+          "hex": "#fedec0",
+          "pixels": 1423
+        },
+        {
+          "hex": "#989a9b",
+          "pixels": 1414
+        },
+        {
+          "hex": "#fdd5b0",
+          "pixels": 1377
+        },
+        {
+          "hex": "#6d6e6e",
+          "pixels": 1288
+        },
+        {
+          "hex": "#cdcccb",
+          "pixels": 1229
+        },
+        {
+          "hex": "#967a65",
+          "pixels": 1032
+        },
+        {
+          "hex": "#9a653b",
+          "pixels": 955
+        },
+        {
+          "hex": "#b6b6b7",
+          "pixels": 874
+        },
+        {
+          "hex": "#878b8e",
+          "pixels": 855
+        }
+      ]
+    }
+  ],
+  "approvedCreativeReferences": [
+    {
+      "title": "Approved foyer v04",
+      "path": "../chapter-01-speaker-revision-2026-11-15/candidates/foyer-v04.png",
+      "sha256": "f9b520088d1d3800c122fc30d1ed2076220e085db16ceef79fa99eab3064b2c0",
+      "approval": "owner-approved creative reference; production integration not authorized"
+    },
+    {
+      "title": "Approved dining v04",
+      "path": "../chapter-01-speaker-revision-2026-11-15/candidates/dining-v04.png",
+      "sha256": "2bd4f7b2127e7af45894224b8d04a128663357d99cba115a8ac4b80fb1c3761d",
+      "approval": "owner-approved creative reference; production integration not authorized"
+    },
+    {
+      "title": "Bathroom design reference",
+      "path": "../chapter-01-first-pass-2026-11-15/candidates/bathroom.png",
+      "sha256": "418061f623770ec40a6a708083ad3a797b3cfc43c6e9b461ecb95799cc5267fc",
+      "approval": "owner-approved creative reference; production integration not authorized"
+    },
+    {
+      "title": "Approved complete intercom portrait v05",
+      "path": "../chapter-01-speaker-revision-2026-11-15/candidates/foyer-conversation-v05.png",
+      "sha256": "a77eb0a6ca2479cf5e6490a08e14616e73ef57a15e3340b5fe2af7da159781d0",
+      "approval": "owner-approved creative reference; production integration not authorized"
+    }
+  ],
+  "supersededSource": {
+    "path": "generation-source/passage-v01.png",
+    "reason": "Read as a standing-height corridor; corrected to low crawl-void scale in v02."
+  },
+  "derivedPreviewsAreNotAdditionalCandidates": true
+}

@@ -1,0 +1,162 @@
+{
+  "passed": 38,
+  "checks": [
+    {
+      "name": "Verified worktree base",
+      "pass": true
+    },
+    {
+      "name": "Exactly four generated candidates, none approved or production-assigned",
+      "pass": true
+    },
+    {
+      "name": "All four requested scene ids match registry",
+      "pass": true
+    },
+    {
+      "name": "A exact314x206 opaque RGB PNG",
+      "pass": true
+    },
+    {
+      "name": "A candidate/source hashes",
+      "pass": true
+    },
+    {
+      "name": "A exact prompt/reference provenance",
+      "pass": true
+    },
+    {
+      "name": "A no geometry averaging, color movement bounded to radius18",
+      "pass": true
+    },
+    {
+      "name": "A exact4x nearest preview",
+      "pass": true
+    },
+    {
+      "name": "A measured palette count",
+      "pass": true
+    },
+    {
+      "name": "B exact314x206 opaque RGB PNG",
+      "pass": true
+    },
+    {
+      "name": "B candidate/source hashes",
+      "pass": true
+    },
+    {
+      "name": "B exact prompt/reference provenance",
+      "pass": true
+    },
+    {
+      "name": "B no geometry averaging, color movement bounded to radius18",
+      "pass": true
+    },
+    {
+      "name": "B exact4x nearest preview",
+      "pass": true
+    },
+    {
+      "name": "B measured palette count",
+      "pass": true
+    },
+    {
+      "name": "C exact314x206 opaque RGB PNG",
+      "pass": true
+    },
+    {
+      "name": "C candidate/source hashes",
+      "pass": true
+    },
+    {
+      "name": "C exact prompt/reference provenance",
+      "pass": true
+    },
+    {
+      "name": "C no geometry averaging, color movement bounded to radius18",
+      "pass": true
+    },
+    {
+      "name": "C exact4x nearest preview",
+      "pass": true
+    },
+    {
+      "name": "C measured palette count",
+      "pass": true
+    },
+    {
+      "name": "D exact314x206 opaque RGB PNG",
+      "pass": true
+    },
+    {
+      "name": "D candidate/source hashes",
+      "pass": true
+    },
+    {
+      "name": "D exact prompt/reference provenance",
+      "pass": true
+    },
+    {
+      "name": "D no geometry averaging, color movement bounded to radius18",
+      "pass": true
+    },
+    {
+      "name": "D exact4x nearest preview",
+      "pass": true
+    },
+    {
+      "name": "D measured palette count",
+      "pass": true
+    },
+    {
+      "name": "Approved creative references preserve pinned hashes",
+      "pass": true
+    },
+    {
+      "name": "All previous artwork and source PNGs byte-identical",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/chapters/chapter-01.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/artwork.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged story/items.draft.json",
+      "pass": true
+    },
+    {
+      "name": "Unchanged game/content/story.generated.js",
+      "pass": true
+    },
+    {
+      "name": "No tracked edits outside new review directory",
+      "pass": true
+    },
+    {
+      "name": "Selected passage is low-void revision, initial source preserved",
+      "pass": true
+    },
+    {
+      "name": "All gallery references local and present",
+      "pass": true
+    },
+    {
+      "name": "Every HTML image uses its actual native/preview dimensions",
+      "pass": true
+    },
+    {
+      "name": "All 23 linked gallery files load locally",
+      "pass": true
+    }
+  ],
+  "priorPngFilesVerified": 38,
+  "httpFilesVerified": 23,
+  "creativeApproval": "pending",
+  "productionIntegration": false,
+  "browserRenderTest": "not run; static HTML, image dimensions and real local HTTP loads verified"
+}
