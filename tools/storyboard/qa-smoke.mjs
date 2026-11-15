@@ -27,12 +27,12 @@ const productionRecords=[
   ...Object.values(artwork.items).flatMap(variants=>Object.values(variants)),
   ...Object.values(artwork.focus||{})
 ];
-assert.equal(productionRecords.length,34,'artwork record count (33 prologue + 1 Chapter 1 not-started reference)');
+assert.equal(productionRecords.length,53,'artwork record count (33 prologue + 20 Chapter 1 references)');
 assert.equal(productionRecords.filter(r=>r.status==='generated').length,28,'published metadata matches private generated count');
 assert.equal(productionRecords.filter(r=>r.status==='reused').length,5,'approved reused records unchanged');
-assert.equal(productionRecords.filter(r=>r.status==='not-started').length,1,'one not-started record (Chapter 1 placeholder scene)');
-assert.equal(artwork.scenes['house_of_tomorrow/opening']?.status,'not-started','Chapter 1 scene reference is not-started');
-assert.equal(artwork.scenes['house_of_tomorrow/opening']?.assetPath,null,'Chapter 1 scene reference has no file');
+assert.equal(productionRecords.filter(r=>r.status==='not-started').length,20,'20 Chapter 1 not-started art records');
+assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.status,'not-started','Chapter 1 arrival scene is not-started');
+assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.assetPath,null,'Chapter 1 arrival scene has no image yet');
 for(const record of productionRecords){
   if(record.status==='generated')assert.ok(record.assetPath?.endsWith('.png'),'generated art has logical PNG path: '+record.title);
 }
@@ -254,16 +254,16 @@ assert.ok(String(findNode('reception_hallway').children[2].textContent).includes
 // 2. Switch to Chapter 1: its own graph, inspector, choices and art references.
 await switchTo(1);
 assert.equal(select.value,'1','selector shows Chapter 1');
-assert.deepEqual(nodeIds(),['dev_placeholder'],'Chapter 1 graph shows only its own node');
+assert.equal(nodeIds().length,36,'Chapter 1 graph shows all 36 authored nodes');
 assert.match(document.getElementById('chapterTitle').textContent,/^Chapter 1 — House of Tomorrow · draft$/,'board heading names the chapter and its draft status');
-assert.ok(flatten(pane()).some(x=>x.textContent==='Dev Placeholder'),'Chapter 1 inspector opens on its start node');
-assert.ok(flatten(pane()).some(x=>/DEVELOPMENT PLACEHOLDER/.test(String(x.textContent))),'placeholder is explicitly identified in the inspector');
+assert.ok(flatten(pane()).some(x=>x.textContent==='House Arrival'),'Chapter 1 inspector opens on its authored start node');
+assert.ok(flatten(pane()).some(x=>/HOUSE OF TOMORROW/.test(String(x.textContent))),'House arrival narration appears in the inspector');
 const ch1Art=flatten(pane()).find(x=>x.tagName==='button'&&String(x.textContent).includes('HOUSE OF TOMORROW'));
-assert.ok(ch1Art&&flatten(ch1Art).some(x=>/scenes\/house_of_tomorrow\/opening · not-started/.test(String(x.textContent))),'Chapter 1 art reference resolves through the shared catalog as not-started');
+assert.ok(ch1Art&&flatten(ch1Art).some(x=>/scenes\/house_of_tomorrow\/arrival · not-started/.test(String(x.textContent))),'House arrival art resolves through shared catalog as not-started');
 assert.ok(!flatten(pane()).some(x=>/facilities_corridor/.test(String(x.textContent))),'Chapter 1 does not borrow the facilities corridor art');
-assert.ok(flatten(pane()).some(x=>/No outgoing route yet/.test(String(x.textContent))),'Chapter 1 placeholder shows the draft stop');
+assert.ok(flatten(pane()).some(x=>/PUSH OPEN THE DISPLAY ENTRANCE/.test(String(x.textContent))),'authored arrival choice appears in the Chapter 1 inspector');
 // 3. Move the Chapter 1 node.
-const ch1=dragNode('dev_placeholder',210,130,33);
+const ch1=dragNode('house_arrival',210,130,33);
 assert.ok(storage.has('cyoa-storyboard-layout-v1:chapter-01'),'Chapter 1 positions cached under their own key');
 assert.equal(JSON.parse(storage.get(storageKey)).positions.drone_intercepts.x,proA.x,'moving Chapter 1 left the Prologue cache alone');
 // 4. Switch back: Prologue arrangement and selection survive.
@@ -277,7 +277,7 @@ assert.ok(flatten(pane()).some(x=>x.textContent==='Reception Hallway'),'Prologue
 flatten(pane()).find(x=>x.tagName==='button'&&String(x.textContent).startsWith('CONTINUE')).click();
 await new Promise(resolve=>setTimeout(resolve,20));
 assert.equal(select.value,'1','hand-off card opens Chapter 1 and the selector follows');
-assert.deepEqual({x:xFromNode('dev_placeholder'),y:yFromNode('dev_placeholder')},ch1,'Chapter 1 position survives');
+assert.deepEqual({x:xFromNode('house_arrival'),y:yFromNode('house_arrival')},ch1,'Chapter 1 position survives');
 await switchTo(0);
 // 5. Export, then import into a fresh browser (empty storage): both arrangements survive.
 downloads.length=0;
@@ -288,7 +288,7 @@ assert.equal(exported.schema,'cyoa-storyboard-layout-v1','exported schema unchan
 assert.deepEqual(Object.keys(exported.chapters).sort(),['chapter-01','prologue-00'],'export holds both chapters');
 assert.deepEqual(exported.chapters['prologue-00'].positions.drone_intercepts,proA,'export holds Prologue A');
 assert.deepEqual(exported.chapters['prologue-00'].positions.reception_hallway,proB,'export holds Prologue B');
-assert.deepEqual(exported.chapters['chapter-01'].positions.dev_placeholder,ch1,'export holds Chapter 1');
+assert.deepEqual(exported.chapters['chapter-01'].positions.house_arrival,ch1,'export holds Chapter 1');
 // A second viewer instance: fresh DOM, empty browser storage, committed layout file.
 async function freshViewer(seed={}){
   const els=new Map(),store=new Map(Object.entries(seed)),wl={};
@@ -310,20 +310,20 @@ assert.deepEqual(pos2('reception_hallway'),proB,'imported Prologue B applied');
 assert.ok(v2.store.has('cyoa-storyboard-layout-v1:chapter-01'),'import cached the Chapter 1 layout too (not only the open chapter)');
 v2.doc.getElementById('chapterSelect').listeners.change({target:{value:'1'}});
 await new Promise(resolve=>setTimeout(resolve,20));
-assert.deepEqual(pos2('dev_placeholder'),ch1,'imported Chapter 1 arrangement survives in the fresh browser');
+assert.deepEqual(pos2('house_arrival'),ch1,'imported Chapter 1 arrangement survives in the fresh browser');
 // An import naming only one chapter leaves the other chapter's arrangement alone.
 in2.files=[{name:'only-prologue.json',text:async()=>JSON.stringify({schema:'cyoa-storyboard-layout-v1',chapters:{'prologue-00':{positions:{}}}})}];
 await in2.onchange({target:in2});
-assert.deepEqual(pos2('dev_placeholder'),ch1,'a Prologue-only import does not touch Chapter 1');
+assert.deepEqual(pos2('house_arrival'),ch1,'a Prologue-only import does not touch Chapter 1');
 v2.doc.getElementById('exportLayout').onclick();
 const exported2=JSON.parse(await downloads.at(-1).text());
-assert.deepEqual(exported2.chapters['chapter-01'].positions.dev_placeholder,ch1,'Chapter 1 survives a partial import in the export');
+assert.deepEqual(exported2.chapters['chapter-01'].positions.house_arrival,ch1,'Chapter 1 survives a partial import in the export');
 assert.deepEqual(exported2.chapters['prologue-00'].positions,{},'Prologue import applied');
 // A browser that saved Chapter 1 earlier still exports it even if only the Prologue is opened.
-const v3=await freshViewer({'cyoa-storyboard-layout-v1:chapter-01':JSON.stringify({positions:{dev_placeholder:ch1}})});
+const v3=await freshViewer({'cyoa-storyboard-layout-v1:chapter-01':JSON.stringify({positions:{house_arrival:ch1}})});
 assert.equal(v3.doc.getElementById('chapterSelect').value,'0','third viewer opened only the Prologue');
 v3.doc.getElementById('exportLayout').onclick();
-assert.deepEqual(JSON.parse(await downloads.at(-1).text()).chapters['chapter-01'].positions.dev_placeholder,ch1,'export includes this browser\'s saved Chapter 1 layout without opening Chapter 1');
+assert.deepEqual(JSON.parse(await downloads.at(-1).text()).chapters['chapter-01'].positions.house_arrival,ch1,'export includes this browser\'s saved Chapter 1 layout without opening Chapter 1');
 
 console.log(JSON.stringify({
  result:'PASS',nodes:Object.keys(chapter.nodes).length,chapters:manifest.chapters.map(c=>c.id),
