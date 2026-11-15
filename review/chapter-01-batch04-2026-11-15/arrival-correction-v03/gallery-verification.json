@@ -1,0 +1,24 @@
+{
+  "revisedScene": "arrival only",
+  "nativeDimensions": [
+    314,
+    206
+  ],
+  "nativeMode": "RGB",
+  "previewDimensions": [
+    1256,
+    824
+  ],
+  "priorPNGsPreserved": 341,
+  "otherFiveCandidateAndPreviewHashesUnchanged": true,
+  "correctionsConfirmed": [
+    "single opaque door",
+    "no title/signboard over door",
+    "no scenic glazing",
+    "ambiguous facilities pictogram"
+  ],
+  "staticLinksChecked": 21,
+  "displayedImageDimensionsChecked": 15,
+  "browserAutomation": "not run",
+  "status": "generated; pending owner visual review"
+}

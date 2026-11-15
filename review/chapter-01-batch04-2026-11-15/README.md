@@ -1,3 +1,5 @@
+**Latest correction:** [single-door, unmarked arrival — current review and before/after](arrival-correction-v03/index.html). Only arrival changes; the other five scenes remain byte-for-byte unchanged. The original package below is preserved.
+
 # Chapter1 Batch4 — final six environments
 
 [Open private review gallery](index.html). All six assets remain **generated, awaiting owner visual review**. Branch `agent/ch01-art-batch04-20261115`, isolated from remotely verified baseline `8607ed729c1af2258ae178e2fdf68ce7a6bc8d0a`. Final commit/push SHA is reported in the owner handoff.
