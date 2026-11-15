@@ -1743,8 +1743,10 @@
       if (p < 1) out.push(stepCore(story, s, input, { obs: seen, force: 'fail' }).state);
       return out;
     }
-    while (queue.length) {
-      var s = queue.shift();
+    // Indexed FIFO traversal avoids repeated O(N) array shifts as authored stories grow.
+    var queueIndex = 0;
+    while (queueIndex < queue.length) {
+      var s = queue[queueIndex++];
       var n = here(story, s);
       var where = at(s);
       (story.files || []).forEach(function (f, i) { if (holds(f.if, s)) seen['files[' + i + ']'] = true; });
@@ -1821,12 +1823,18 @@
     // fatal / retry outcome in the rules yet (owner lock [75] is a later, separate contract).
     var canFinish = {};
     Object.keys(endAt).forEach(function (w) { endAt[w].forEach(function (k) { canFinish[k] = true; }); });
-    var changed = true;
-    while (changed) {
-      changed = false;
-      Object.keys(edges).forEach(function (k) {
-        if (canFinish[k]) return;
-        if (edges[k].some(function (to) { return canFinish[to]; })) { canFinish[k] = changed = true; }
+    // Equivalent backwards reachability, O(states + transitions) instead of rescanning
+    // every edge until convergence. This changes validation cost, not route semantics.
+    var predecessors = {};
+    Object.keys(edges).forEach(function (k) {
+      edges[k].forEach(function (to) {
+        (predecessors[to] = predecessors[to] || []).push(k);
+      });
+    });
+    var endingQueue = Object.keys(canFinish);
+    for (var endingIndex = 0; endingIndex < endingQueue.length; endingIndex++) {
+      (predecessors[endingQueue[endingIndex]] || []).forEach(function (k) {
+        if (!canFinish[k]) { canFinish[k] = true; endingQueue.push(k); }
       });
     }
     Object.keys(states).filter(function (k) { return !canFinish[k]; }).forEach(function (k) { errors.push('cannot reach an ending from state ' + k); });
