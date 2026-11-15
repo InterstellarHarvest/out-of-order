@@ -1,0 +1,135 @@
+{
+  "technicalChecks": [
+    {
+      "name": "Exactly five generated candidates, all production paths null",
+      "pass": true
+    },
+    {
+      "name": "A dimensions/mode/hash",
+      "pass": true
+    },
+    {
+      "name": "A preserved source hash",
+      "pass": true
+    },
+    {
+      "name": "A nearest scene geometry and bounded non-spatial color cleanup",
+      "pass": true
+    },
+    {
+      "name": "A exact 4x nearest preview",
+      "pass": true
+    },
+    {
+      "name": "B dimensions/mode/hash",
+      "pass": true
+    },
+    {
+      "name": "B preserved source hash",
+      "pass": true
+    },
+    {
+      "name": "B nearest scene geometry and bounded non-spatial color cleanup",
+      "pass": true
+    },
+    {
+      "name": "B exact 4x nearest preview",
+      "pass": true
+    },
+    {
+      "name": "C dimensions/mode/hash",
+      "pass": true
+    },
+    {
+      "name": "C preserved source hash",
+      "pass": true
+    },
+    {
+      "name": "C nearest scene geometry and bounded non-spatial color cleanup",
+      "pass": true
+    },
+    {
+      "name": "C exact 4x nearest preview",
+      "pass": true
+    },
+    {
+      "name": "D dimensions/mode/hash",
+      "pass": true
+    },
+    {
+      "name": "D preserved source hash",
+      "pass": true
+    },
+    {
+      "name": "E dimensions/mode/hash",
+      "pass": true
+    },
+    {
+      "name": "E preserved source hash",
+      "pass": true
+    },
+    {
+      "name": "Speaker binary alpha and clear margins",
+      "pass": true
+    },
+    {
+      "name": "Zero RGB under transparent pixels",
+      "pass": true
+    },
+    {
+      "name": "Speaker fits above drawer",
+      "pass": true
+    },
+    {
+      "name": "Composite equals actual independent layers",
+      "pass": true
+    },
+    {
+      "name": "Approved reception unchanged",
+      "pass": true
+    },
+    {
+      "name": "All changes confined to review package",
+      "pass": true
+    },
+    {
+      "name": "Fifteen deferred assets planned",
+      "pass": true
+    },
+    {
+      "name": "Gallery uses local references only",
+      "pass": true
+    },
+    {
+      "name": "All gallery links exist",
+      "pass": true
+    },
+    {
+      "name": "HTTP index.html",
+      "pass": true
+    },
+    {
+      "name": "HTTP candidates/foyer.png",
+      "pass": true
+    },
+    {
+      "name": "HTTP candidates/dining.png",
+      "pass": true
+    },
+    {
+      "name": "HTTP candidates/bathroom.png",
+      "pass": true
+    },
+    {
+      "name": "HTTP candidates/foyer-portrait-background.png",
+      "pass": true
+    },
+    {
+      "name": "HTTP candidates/house-speaker.png",
+      "pass": true
+    }
+  ],
+  "passed": 32,
+  "visualApproval": "pending",
+  "browserRenderTest": "not run; layer handlers separately exercised with Node VM"
+}

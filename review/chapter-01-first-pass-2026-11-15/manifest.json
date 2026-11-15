@@ -1,0 +1,548 @@
+{
+  "title": "House of Tomorrow \u2014 first batch",
+  "sourceBranch": "agent/ch01-playable-import-20261115",
+  "sourceCommit": "84be05f21ad7f1d39c6841a603487cdc8c7a9bd4",
+  "artBranch": "agent/ch01-art-first-pass-20261115",
+  "method": "built-in image_gen.imagegen; exact prompts in prompts.json; exports reproduced by build_review.py",
+  "ownerDirection": "Distinct inviting 1960s exposition future home; no reception color/design matching. Domestic loudspeakers, no ventilation louvers.",
+  "status": "generated",
+  "productionIntegration": false,
+  "candidateCount": 5,
+  "assets": [
+    {
+      "id": "A",
+      "title": "Foyer",
+      "registryRecord": "scenes.house_of_tomorrow/foyer",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/foyer.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "291b3391213c7b68bcbfd2f5f461fc007cde7780bb6b5a9896574d11116c876b",
+      "sourcePath": "generation-source/A-foyer-speaker-v03.png",
+      "sourceDimensions": [
+        1549,
+        1015
+      ],
+      "sourceSha256": "dfef40fa97ef2e81d12f9aa6f3865b6d8620c2241fd7a2b1904c1b46f86edb45",
+      "normalization": {
+        "method": "exact-aspect centered crop; NEAREST scene reduction",
+        "sourceBox": [
+          0.9320388349514133,
+          0,
+          1548.0679611650485,
+          1015
+        ],
+        "colorCleanup": {
+          "method": "non-spatial merge to existing frequent RGB colors; no fixed color-count target",
+          "rgbRadius": 24,
+          "colorsBefore": 17199,
+          "colorsAfter": 99
+        }
+      },
+      "visibleColorCount": 99,
+      "dominantPalette": [
+        {
+          "hex": "#fee8c7",
+          "pixels": 19498
+        },
+        {
+          "hex": "#f5cca0",
+          "pixels": 8279
+        },
+        {
+          "hex": "#f9d9b4",
+          "pixels": 8064
+        },
+        {
+          "hex": "#a1d3cc",
+          "pixels": 4169
+        },
+        {
+          "hex": "#ea785b",
+          "pixels": 3921
+        },
+        {
+          "hex": "#f1a957",
+          "pixels": 3638
+        },
+        {
+          "hex": "#bfbfbf",
+          "pixels": 1195
+        },
+        {
+          "hex": "#9cddfd",
+          "pixels": 1135
+        },
+        {
+          "hex": "#fd8965",
+          "pixels": 1072
+        },
+        {
+          "hex": "#e3cfb2",
+          "pixels": 842
+        },
+        {
+          "hex": "#e3bc8c",
+          "pixels": 743
+        },
+        {
+          "hex": "#6a6968",
+          "pixels": 715
+        },
+        {
+          "hex": "#949291",
+          "pixels": 693
+        },
+        {
+          "hex": "#d25d44",
+          "pixels": 623
+        },
+        {
+          "hex": "#8dc0b9",
+          "pixels": 609
+        },
+        {
+          "hex": "#b28d6b",
+          "pixels": 585
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "title": "Dining room",
+      "registryRecord": "scenes.house_of_tomorrow/dining",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/dining.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "2e99605c4d0d3a4ceca40c96e6d9cb0f48d22895565abd9b2b67ca30782b847d",
+      "sourcePath": "generation-source/B-dining-speaker-v03.png",
+      "sourceDimensions": [
+        1550,
+        1015
+      ],
+      "sourceSha256": "06988ab01f7fcbe01cbf2c81679630c7dcbc8dc7b6c24fd47452b9494d8df7a0",
+      "normalization": {
+        "method": "exact-aspect centered crop; NEAREST scene reduction",
+        "sourceBox": [
+          1.4320388349514133,
+          0,
+          1548.5679611650485,
+          1015
+        ],
+        "colorCleanup": {
+          "method": "non-spatial merge to existing frequent RGB colors; no fixed color-count target",
+          "rgbRadius": 24,
+          "colorsBefore": 19675,
+          "colorsAfter": 88
+        }
+      },
+      "visibleColorCount": 88,
+      "dominantPalette": [
+        {
+          "hex": "#f4dcbe",
+          "pixels": 14737
+        },
+        {
+          "hex": "#eccdad",
+          "pixels": 13113
+        },
+        {
+          "hex": "#d7934a",
+          "pixels": 6081
+        },
+        {
+          "hex": "#e2bf9c",
+          "pixels": 4800
+        },
+        {
+          "hex": "#d9af85",
+          "pixels": 3335
+        },
+        {
+          "hex": "#98c0af",
+          "pixels": 3137
+        },
+        {
+          "hex": "#86afa1",
+          "pixels": 1687
+        },
+        {
+          "hex": "#fef8ee",
+          "pixels": 1589
+        },
+        {
+          "hex": "#fcedd7",
+          "pixels": 1332
+        },
+        {
+          "hex": "#c1a07a",
+          "pixels": 1199
+        },
+        {
+          "hex": "#acabaa",
+          "pixels": 937
+        },
+        {
+          "hex": "#969696",
+          "pixels": 789
+        },
+        {
+          "hex": "#709386",
+          "pixels": 737
+        },
+        {
+          "hex": "#638572",
+          "pixels": 686
+        },
+        {
+          "hex": "#cac9c8",
+          "pixels": 608
+        },
+        {
+          "hex": "#bab9b8",
+          "pixels": 604
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "title": "Bathroom",
+      "registryRecord": "scenes.house_of_tomorrow/bathroom",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/bathroom.png",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "418061f623770ec40a6a708083ad3a797b3cfc43c6e9b461ecb95799cc5267fc",
+      "sourcePath": "generation-source/C-bathroom-v02.png",
+      "sourceDimensions": [
+        1549,
+        1015
+      ],
+      "sourceSha256": "929a70c61e61765cf17205996ff236d5d049992478f7e954688403a03050d80c",
+      "normalization": {
+        "method": "exact-aspect centered crop; NEAREST scene reduction",
+        "sourceBox": [
+          0.9320388349514133,
+          0,
+          1548.0679611650485,
+          1015
+        ],
+        "colorCleanup": {
+          "method": "non-spatial merge to existing frequent RGB colors; no fixed color-count target",
+          "rgbRadius": 24,
+          "colorsBefore": 22341,
+          "colorsAfter": 97
+        }
+      },
+      "visibleColorCount": 97,
+      "dominantPalette": [
+        {
+          "hex": "#aac4ae",
+          "pixels": 15242
+        },
+        {
+          "hex": "#efd8b8",
+          "pixels": 8783
+        },
+        {
+          "hex": "#f5cd95",
+          "pixels": 7598
+        },
+        {
+          "hex": "#f9ead5",
+          "pixels": 3980
+        },
+        {
+          "hex": "#98b59d",
+          "pixels": 3040
+        },
+        {
+          "hex": "#dcc5a4",
+          "pixels": 2879
+        },
+        {
+          "hex": "#a6def1",
+          "pixels": 2549
+        },
+        {
+          "hex": "#fefaef",
+          "pixels": 2530
+        },
+        {
+          "hex": "#ccd1b7",
+          "pixels": 2376
+        },
+        {
+          "hex": "#89a58d",
+          "pixels": 1564
+        },
+        {
+          "hex": "#938f8a",
+          "pixels": 1212
+        },
+        {
+          "hex": "#aca9a4",
+          "pixels": 1068
+        },
+        {
+          "hex": "#c5baae",
+          "pixels": 978
+        },
+        {
+          "hex": "#e2bb8a",
+          "pixels": 970
+        },
+        {
+          "hex": "#ccba94",
+          "pixels": 930
+        },
+        {
+          "hex": "#bdab85",
+          "pixels": 925
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "title": "Foyer portrait background",
+      "registryRecord": "scenes.house_of_tomorrow/foyer.portraitBackground",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/foyer-portrait-background.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "sha256": "33f1dc342fa509563d62ca5ed5f057db2c6a659521ca3b1c9539c1962014d134",
+      "sourcePath": "generation-source/D-foyer-background-v03.png",
+      "sourceDimensions": [
+        1786,
+        881
+      ],
+      "sourceSha256": "036718cd3fc8ab399b61297b7387fd21462273371966e20edcbef9db626b5cb6",
+      "normalization": {
+        "method": "exact-aspect centered crop; LANCZOS reduction of independently generated portrait background",
+        "sourceBox": [
+          0,
+          0.3333333333333144,
+          1786,
+          880.6666666666667
+        ],
+        "colorCleanup": {
+          "method": "non-spatial merge to existing frequent RGB colors; no fixed color-count target",
+          "rgbRadius": 12,
+          "colorsBefore": 13743,
+          "colorsAfter": 294
+        }
+      },
+      "visibleColorCount": 294,
+      "dominantPalette": [
+        {
+          "hex": "#fde8ca",
+          "pixels": 69483
+        },
+        {
+          "hex": "#fbe0bd",
+          "pixels": 33011
+        },
+        {
+          "hex": "#a4d3cb",
+          "pixels": 5265
+        },
+        {
+          "hex": "#eec9a2",
+          "pixels": 5218
+        },
+        {
+          "hex": "#ebad62",
+          "pixels": 4490
+        },
+        {
+          "hex": "#fb8f72",
+          "pixels": 2855
+        },
+        {
+          "hex": "#fefbcc",
+          "pixels": 2677
+        },
+        {
+          "hex": "#cac9c8",
+          "pixels": 1997
+        },
+        {
+          "hex": "#f9d9b3",
+          "pixels": 1949
+        },
+        {
+          "hex": "#e0654c",
+          "pixels": 1806
+        },
+        {
+          "hex": "#c0c0bf",
+          "pixels": 1310
+        },
+        {
+          "hex": "#c8a37e",
+          "pixels": 1131
+        },
+        {
+          "hex": "#fff0d3",
+          "pixels": 1011
+        },
+        {
+          "hex": "#dedddd",
+          "pixels": 790
+        },
+        {
+          "hex": "#abaaa9",
+          "pixels": 779
+        },
+        {
+          "hex": "#99cdc4",
+          "pixels": 713
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "title": "House speaker foreground",
+      "registryRecord": "portraits.house:idle",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/house-speaker.png",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGBA",
+      "sha256": "5cadc29bbcd0358e5e400ada030699ab3cdbd31de1378ce02cf7b6022f265534",
+      "sourcePath": "generation-source/E-house-speaker-v03.png",
+      "sourceDimensions": [
+        1786,
+        881
+      ],
+      "sourceSha256": "1c79af7812467283ba843ba0c6f4c8bd5eea1d9b8b980032bf9ca43f7fb94aab",
+      "normalization": {
+        "method": "largest connected alpha component; original component crop; premultiplied-alpha LANCZOS direct reduction; hard alpha 0/255; zero RGB outside sprite",
+        "sourceComponentBox": [
+          482,
+          92,
+          1294,
+          797
+        ],
+        "unitSize": [
+          189,
+          164
+        ],
+        "unitPosition": [
+          236,
+          23
+        ],
+        "colorCleanup": {
+          "method": "non-spatial merge to existing frequent RGB colors; no fixed color-count target",
+          "rgbRadius": 12,
+          "colorsBefore": 5507,
+          "colorsAfter": 153
+        }
+      },
+      "visibleColorCount": 153,
+      "dominantPalette": [
+        {
+          "hex": "#fde2b8",
+          "pixels": 9399
+        },
+        {
+          "hex": "#4a4642",
+          "pixels": 1782
+        },
+        {
+          "hex": "#524e4a",
+          "pixels": 1323
+        },
+        {
+          "hex": "#413e3b",
+          "pixels": 1210
+        },
+        {
+          "hex": "#edc798",
+          "pixels": 1159
+        },
+        {
+          "hex": "#3a3734",
+          "pixels": 1030
+        },
+        {
+          "hex": "#d2a26c",
+          "pixels": 974
+        },
+        {
+          "hex": "#5a5551",
+          "pixels": 935
+        },
+        {
+          "hex": "#312e2c",
+          "pixels": 828
+        },
+        {
+          "hex": "#282624",
+          "pixels": 727
+        },
+        {
+          "hex": "#635e5a",
+          "pixels": 476
+        },
+        {
+          "hex": "#f4d2a5",
+          "pixels": 460
+        },
+        {
+          "hex": "#201e1c",
+          "pixels": 429
+        },
+        {
+          "hex": "#fde8c5",
+          "pixels": 407
+        },
+        {
+          "hex": "#ca9a64",
+          "pixels": 318
+        },
+        {
+          "hex": "#8c6139",
+          "pixels": 317
+        }
+      ],
+      "alphaValues": [
+        0,
+        255
+      ],
+      "spriteBounds": [
+        236,
+        23,
+        425,
+        187
+      ]
+    }
+  ],
+  "deferredRegistryRecordCount": 15,
+  "derivedPreviewsAreNotAdditionalCandidates": true
+}
