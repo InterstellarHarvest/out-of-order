@@ -54,11 +54,11 @@ All 14 are native 314×206 opaque pixel-art candidates, intended for 4× nearest
 ## 3. Missing or integration-incomplete beyond the original storyboard art list
 
 1. **New customized death illustration(s): MISSING.** See docs/88_DEATH_PRESENTATION_AND_CHAPTER_TRANSITIONS.md. Chapter 1 has one fatal ending node (exit_chair_fatal), reached from three distinct causes (failed stapler, failed unarmed attempt, voluntary submission). The new overlay must receive custom artwork/copy; three cause variants are the target unless owner rules otherwise.
-2. **Chapter-title transition design: NOT PRODUCED.** Reusable fade/pixelate/title beat remains undecided and unimplemented as the owner requested it.
+2. **Chapter-title transition design: DEFERRED.** Owner directed that the uniform chapter-title interstitial and fade/pixelation polish wait until most gameplay is complete; functional chapter navigation and state preservation remain current priorities.
 3. **House portraits: IMAGES EXIST, RUNTIME CONTRACT MISSING.** Story/import catalog still assumes a shared transparent foreground over independent backgrounds; owner approved two complete opaque views selected by speaking room. Implement narrow exception without breaking layered human NPCs.
 4. **Family album: ALL THREE IMAGES EXIST, PAGINATION SUPPORT MISSING.** The storyboard has one Focus A ID and one registered art image; it must display three semantic illustrations in sync with prose and continuation.
 5. **Rest Assured state art: IMAGES EXIST, BINDING UNDECIDED.** Both default and in-use close-state images exist; chair scene after restraint should use the active image. The lounge scene already shows the inviting chair; decide whether the extra default close-state needs any distinct runtime node.
-6. **Optional dynamic environmental overlays: NOT GENERATED, NOT REQUIRED IN THE BASE STORYBOARD.** Housekeeping drawer baseline is empty and item-neutral; separate overlays for the actual stored item (plant/stapler/clicker/rubber-band ball) are proposed only. Sorting-machine RETURNS display in equipment-registered outcome is another proposed variant. Do not claim these are complete or mechanically required.
+6. **Interactive environmental variants: SEVEN CANDIDATES NOW GENERATED, RUNTIME INTEGRATION PENDING.** Batch 5 created an album-removed alternative and six binary-alpha overlays (adoption pedestal, four actual stored objects and RETURNS display). These are presentation enhancements, not new story items or mandatory scene IDs. See section 6. Do not claim live scene-state support is complete.
 7. **Owner approval, asset paths and playable QA: PENDING.** All review candidates remain marked generated. No approved Chapter 1 production asset paths/hashes are committed to the importer. Game content regeneration and actual browser/route/scene testing are still needed.
 
 ## 4. Related story alignment
@@ -70,6 +70,31 @@ Draft PR #7 (https://github.com/InterstellarHarvest/CYOA/pull/7) records the own
 - Owner checks final review composites, selects final versions.
 - Gameplay PMO integrates all candidate visuals into production asset paths, plus complete House speaker exception and three Focus A pages, and decides chair state treatment.
 - Run importer, image validation, scene/portrait/focus/item playback tests, Chapter 1 routes, chapter 1→2 state carryover and browser regression.
-- Separately commission and approve the new death screen and chapter transition presentation. Do not reopen the 14 environment scenes without an actual visual or continuity defect.
+- Separately commission and approve the custom death screens. Defer chapter-transition visual polish until late production as the owner directed. Do not reopen the 14 environment scenes without an actual visual or continuity defect.
 
-**Bottom line: Original Chapter 1 scene/portrait/album/photo requests are illustrated as review candidates, but Chapter 1 art production is not finished as a playable release, and the newly requested death and transition visuals are still missing.**
+**Bottom line: Original Chapter 1 scene/portrait/album/photo requests are illustrated as review candidates, but Chapter 1 art production is not finished as a playable release, and the new death visual treatment is still missing; chapter-title animation is deliberately deferred.**
+
+## 6. Update — Batch 5 interactive scene-state artwork (2026-11-15)
+
+**Art branch:** `agent/ch01-art-batch05-interactive-states` at `5d1db9865fba0d51de8839d22f16410fee54bae8`.
+**Review directory:** `review/chapter-01-batch05-2026-11-15/`.
+
+Seven new state-specific candidates now exist in the art branch (all `314×206` in the parent scene coordinate system):
+
+| Candidate | File under Batch 5 review directory | Presentation selector |
+|---|---|---|
+| A — album absent | `assets/A-album-removed.png` (opaque RGB) | While `album_closeup` Focus A is visibly open; restore gallery-v05 when closed |
+| B — adopted named plant | `assets/B-plant-adoption.png` (transparent RGBA) | Only in `plant_adoption` with actual held desk plant before authored handover |
+| C — stored desk plant | `assets/C-stored-plant.png` (transparent RGBA) | Drawer scene and `house_stored_item == desk_plant`, not yet recovered |
+| D — stored stapler | `assets/D-stored-stapler.png` (transparent RGBA) | Drawer scene and `house_stored_item == red_stapler`, not yet recovered |
+| E — stored band ball | `assets/E-stored-band-ball.png` (transparent RGBA) | Drawer scene and `house_stored_item == rubber_band_ball`, not yet recovered |
+| F — stored clicker | `assets/F-stored-clicker.png` (transparent RGBA) | Drawer scene and `house_stored_item == timing_clicker`, not yet recovered |
+| G — RETURNS sign | `assets/G-returns-display.png` (transparent RGBA) | Equipment corridor, registered ending only; not all mechanical exits |
+
+**Review finding:** Story Director inspected all seven actual rendered before/after composites at native and 4× and recommends accepting all seven visually, **subject to owner's final sign-off**. No visual re-generation was requested.
+
+**Reported QA:** All seven masks show no changes outside allowed pixel areas; every overlay has alpha either 0 or 255 and zero hidden RGB; all 359 prior tracked PNGs are preserved byte-identically. Exact source hashes, imagegen prompts and independent verification are in `qa.json`, `HANDOFF.md` and `verify_review.py`. This is artifact/gallery QA only, **not playable-game or runtime QA**.
+
+**Integration:** A substitutes the main-scene image only while album Focus A is shown. B–G are mutually selected overlays with base scene maintained. The current stage only supports a single base-scene key, so Gameplay PMO must add a small scene-state selection/overlay facility, preserving base 314×206 origin and exact nearest-neighbor presentation. Re-evaluate after effects, node changes, Focus A entry/exit, historical view navigation, save/load, and returns from inventory inspection. The album's three Focus images still need explicit semantic page binding; generic text wrapping must not drive image selection. Never repeat an inventory `give`/`take` merely because an overlay appears.
+
+**Scope:** seven art assets only, not a new chapter or extra inventory; original 21 required still images plus optional chair state remain. There are now **29 selected review candidates total including these seven additions** (21 originals + 1 extra chair view + 7 interactive variants). All remain isolated; no content, importer, engine, production or deployment has changed.
