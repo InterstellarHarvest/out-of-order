@@ -2,6 +2,8 @@
 
 All seven candidates are **generated**, pending owner visual approval. The only canonical outputs are the seven PNGs in `assets/`. Composites in `previews/` demonstrate selection; they are not additional runtime assets. No story, engine, registry or production files have been changed.
 
+Asset B now has a [foreground/rug-hatch v02 candidate](pedestal-foreground-v02/B-plant-adoption-v02.png). If approved, use it instead of first-pass B; consult its local `qa.json` for the new footprint. The first pass is retained. Selection rules below are unchanged.
+
 ## Selection contract
 
 | Asset | Select when | Restore / clear when |

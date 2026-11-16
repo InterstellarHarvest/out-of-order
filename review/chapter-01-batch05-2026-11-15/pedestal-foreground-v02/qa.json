@@ -1,0 +1,40 @@
+{
+  "status": "generated",
+  "supersedes_for_review": "../assets/B-plant-adoption.png",
+  "source": "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/foyer-single-door-v03.png",
+  "source_sha256": "9e4ea0bc781dbb7cf40d90d71ebce661d244c45bf5892c45ea6e420c9b329607",
+  "isolated_render_sha256": "744fe0ad336b2e807b5dbae3bd787b7e06f6e7751889d7ea8f900c2b2bae44ee",
+  "previous_overlay_sha256": "dd974ade353c0366d150e40662fdd6d19a478c9e6303d993be1b944039e70236",
+  "candidate_sha256": "e1c42ce00d5fe2ad95d98f74529abb3796be4e2be8ecd9f023844851afa4b4d2",
+  "size": [
+    314,
+    206
+  ],
+  "mode": "RGBA",
+  "station_size": [
+    40,
+    80
+  ],
+  "station_origin": [
+    168,
+    114
+  ],
+  "previous_station_size": [
+    32,
+    64
+  ],
+  "scale_increase": "25% each axis",
+  "allowed_bbox": [
+    160,
+    114,
+    218,
+    202
+  ],
+  "changed_pixels": 2045,
+  "outside_region_changes": 0,
+  "binary_alpha": true,
+  "hidden_rgb_zero": true,
+  "floor_hatch_corners_on_original_rug": true,
+  "exact_4x": true,
+  "prior_pngs_byte_identical": 432
+}

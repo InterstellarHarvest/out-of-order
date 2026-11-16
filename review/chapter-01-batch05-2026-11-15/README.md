@@ -5,12 +5,14 @@
 Private branch: `agent/ch01-art-batch05-interactive-states`  
 Parent baseline: `a4a5c012ef32cd08e78c05914e742f9049a58f74`
 
+**Latest B revision:** [Foreground pedestal and rug hatch v02](pedestal-foreground-v02/index.html), with separate revision QA and preserved first pass.
+
 Open [the private local review gallery](index.html) for all before/after comparisons at native resolution and exact 4× nearest-neighbor, the three approved Focus A pages paired with the album-removed main, masks, and QA.
 
 | ID | Canonical candidate | Format |
 |---|---|---|
 | A | [Album removed](assets/A-album-removed.png) | RGB 314×206 |
-| B | [Named plant adoption](assets/B-plant-adoption.png) | RGBA 314×206 |
+| B | [Named plant adoption v02](pedestal-foreground-v02/B-plant-adoption-v02.png) | RGBA 314×206 |
 | C | [Stored desk plant](assets/C-stored-plant.png) | RGBA 314×206 |
 | D | [Stored red stapler](assets/D-stored-stapler.png) | RGBA 314×206 |
 | E | [Stored rubber-band ball](assets/E-stored-band-ball.png) | RGBA 314×206 |
