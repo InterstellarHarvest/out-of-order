@@ -237,7 +237,7 @@ DEMONSTRATION FAMILY 4 — REPEAT AS NECESSARY.
 
 A six-second timing wheel turns beside a loudspeaker.
 
-A voice says, HERE WE GO, from a recording labeled FIRST EXPERIENCE OF ENTHUSIASM. Another recording repeats the exact same words, now labeled SECOND EXPERIENCE.
+A voice says, WHAT A MARVELOUS DAY, from a recording labeled FIRST EXPERIENCE OF ENTHUSIASM. Another recording repeats the exact same words, now labeled SECOND EXPERIENCE.
 
 An indicator flashes over a strip of moving paper.
 
