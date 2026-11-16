@@ -105,6 +105,9 @@ jobs:
       - name: Chapter 1 production art in the game (album pages, storage, pedestal, RETURNS, House views; pixels vs source; reloads)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch01_art_qa.js
+      - name: Rest Assured death presentation proof (feature-gated; geometry, A1 parity, backdrop, isolation, cause selection)
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_end_presentation_qa.js
       - name: Biology Park full routes + Scene Pickup Inspector (House hand-offs, antidote kits, two browsers)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch02_routes_qa.js
@@ -134,6 +137,7 @@ jobs:
             game/qa/story_screenshots/
             game/qa/ch01_route_screenshots/
             game/qa/ch01_art_screenshots/
+            game/qa/end_presentation_screenshots/
             game/qa/ch02_route_screenshots/
             tools/m2-reception-polish-lab/qa/
             tools/layout-lab/qa/qa_results.json

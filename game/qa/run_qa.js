@@ -82,7 +82,9 @@ const NARRATIVE_OVERLAY = (() => {
 const STORY_UI_ART = { ['art/ui/shell/' + NARRATIVE_OVERLAY.image]: NARRATIVE_OVERLAY.sha256 };
 // Admitted by exact path (data, not art). The House provenance record (docs/92, docs/93) pins each
 // installed Chapter 1 image by path and sha256 (PROVENANCE_ART below).
-const STORY_UI_DATA = ['art/ui/shell/narrative-overlay.manifest.js', 'art/house_of_tomorrow.provenance.json'];
+// The death-presentation review proof (docs/94) pins its one approved image the same way.
+const PROVENANCE = ['art/house_of_tomorrow.provenance.json', 'art/deaths/rest_assured_voluntary.provenance.json'];
+const STORY_UI_DATA = ['art/ui/shell/narrative-overlay.manifest.js'].concat(PROVENANCE);
 const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES v1 (lab option only since Round 2)
 const FILES_PANEL = 'art/ui/overlays/files_panel.png';
 const NOTES_V2 = 'art/ui/overlays/notes_panel_v2.png'; // NOTES (production since Round 2, docs/82)
@@ -228,7 +230,7 @@ function staticChecks() {
   // docs/92: installed Chapter 1 art the story does not (yet) show, e.g. the deliberately unbound
   // default chair, is admitted only by its exact path and the sha256 the provenance record pins.
   const provenanceArt = {};
-  JSON.parse(fs.readFileSync(path.join(ROOT, 'art/house_of_tomorrow.provenance.json'), 'utf8')).images.forEach((r) => { provenanceArt[r.path] = r.sha256; });
+  PROVENANCE.forEach((f) => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')).images.forEach((r) => { provenanceArt[r.path] = r.sha256; }));
   const pinnedByProvenance = (f) => f in provenanceArt && fs.existsSync(path.join(ROOT, f)) && sha256(fs.readFileSync(path.join(ROOT, f))) === provenanceArt[f];
   const unexpected = added.filter((f) => !(f in OWNER_ART) && !(f in PRODUCTION_ART) && !(f in storyArt) && !(f in STORY_UI_ART) && STORY_UI_DATA.indexOf(f) === -1 && !pinnedByProvenance(f));
   check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art, the approved reception art, the imported story\'s registered art and the hash-pinned House provenance art', unexpected.length === 0, unexpected);
