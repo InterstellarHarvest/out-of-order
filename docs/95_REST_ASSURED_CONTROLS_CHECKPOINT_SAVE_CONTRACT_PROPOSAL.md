@@ -1,5 +1,15 @@
 # 95: Proposed death-screen controls, checkpoint and save contract
 
+> **Superseded in part (2026-11-16).** The owner rulings on PR #11 locked:
+> - the labels RETRY / CHECKPOINT / EXIT;
+> - RETRY = the state before the fatal decision;
+> - CHECKPOINT = the chapter-entry state;
+> - fresh, independent dice for re-attempted checks;
+> - EXIT = the future main menu, shown unavailable for now.
+>
+> These are implemented, review-gated, in docs/96. The sections below are kept as the record of the
+> proposal.
+
 **Status: PROPOSAL ONLY. NOT APPROVED, AND NOT IMPLEMENTED.**
 
 This document answers the death brief, docs/93 sections 5 and 6, recorded on branch
