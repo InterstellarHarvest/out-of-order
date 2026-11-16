@@ -826,6 +826,28 @@
     return out;
   }
 
+  // The cause of the ending the state stands on (docs/93 death brief section 4) ----------------
+  // An authored ending can be reached by several choices (and by either outcome of a check), so the
+  // ending node alone does not say why it was reached. The decision log already records it: the
+  // step that arrived here is the latest `taken` entry made at another node, with its choice and,
+  // for a checked choice, the check id and outcome. Read-only; null unless the state is on an end
+  // node reached by a choice or SHOW / USE. No new state, no save change.
+  function endCause(story, state) {
+    requireStory(story);
+    if (!here(story, state).end) return null;
+    // The arriving entry: the latest one made elsewhere (an item step taken at the ending itself,
+    // after it was reached, is not how it was reached).
+    var w = at(state);
+    var last = null;
+    for (var i = state.taken.length - 1; i >= 0 && !last; i--) if (state.taken[i].at !== w) last = state.taken[i];
+    if (!last) return null;
+    var out = { end: at(state), from: last.at };
+    if (last.c !== undefined) out.choice = last.c;
+    else { out.item = last.item; out.verb = last.verb; }
+    if (last.check !== undefined) { out.check = last.check; out.ok = last.ok; }
+    return out;
+  }
+
   // The view: everything the renderer needs to draw the current state ----------------------------
   function view(story, state) {
     requireStory(story);
@@ -2159,6 +2181,7 @@
     begin: begin,
     step: step,
     view: view,
+    endCause: endCause,
     paras: toParas,
     applyEffects: applyEffects,
     holds: holds,
