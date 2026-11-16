@@ -76,7 +76,7 @@ Draft PR #7 (https://github.com/InterstellarHarvest/CYOA/pull/7) records the own
 
 ## 6. Update — Batch 5 interactive scene-state artwork (2026-11-15)
 
-**Art branch:** `agent/ch01-art-batch05-interactive-states` at `5d1db9865fba0d51de8839d22f16410fee54bae8`.
+**Art branch:** `agent/ch01-art-batch05-interactive-states` at `cf575552fc729b952d99d25bea56dbc81b40619d` (includes superseded first-pass Batch 5 candidates).
 **Review directory:** `review/chapter-01-batch05-2026-11-15/`.
 
 Seven new state-specific candidates now exist in the art branch (all `314×206` in the parent scene coordinate system):
@@ -84,14 +84,14 @@ Seven new state-specific candidates now exist in the art branch (all `314×206` 
 | Candidate | File under Batch 5 review directory | Presentation selector |
 |---|---|---|
 | A — album absent | `assets/A-album-removed.png` (opaque RGB) | While `album_closeup` Focus A is visibly open; restore gallery-v05 when closed |
-| B — adopted named plant (superseded pending revised candidate) | `assets/B-plant-adoption.png` (original transparent RGBA) | Only in `plant_adoption` with actual held desk plant before authored handover; new placement emerges through trapdoor on foreground red rug |
+| B — adopted named plant (foreground v02) | `pedestal-foreground-v02/B-plant-adoption-v02.png` (transparent RGBA) | Only in `plant_adoption` with actual held desk plant before authored handover; 25% larger, emerging through rug-covered foreground hatch |
 | C — stored desk plant | `assets/C-stored-plant.png` (transparent RGBA) | Drawer scene and `house_stored_item == desk_plant`, not yet recovered |
 | D — stored stapler | `assets/D-stored-stapler.png` (transparent RGBA) | Drawer scene and `house_stored_item == red_stapler`, not yet recovered |
 | E — stored band ball | `assets/E-stored-band-ball.png` (transparent RGBA) | Drawer scene and `house_stored_item == rubber_band_ball`, not yet recovered |
 | F — stored clicker | `assets/F-stored-clicker.png` (transparent RGBA) | Drawer scene and `house_stored_item == timing_clicker`, not yet recovered |
 | G — RETURNS sign | `assets/G-returns-display.png` (transparent RGBA) | Equipment corridor, registered ending only; not all mechanical exits |
 
-**Review finding — updated by owner:** A and C–G are visually accepted as candidates, subject to final owner sign-off. **B (plant adoption) is REVISION PENDING:** the owner wants the pedestal closer to the foreground so it reads larger, with a concealed **trap door opening from the red foyer rug**. Codex has already received this edit directly; do not issue a duplicate task. Preserve the rest of the foyer and exact 314×206 baseline. The original B remains an archived candidate, not the selected final. Review revised B against the same pixel and mask constraints once supplied.
+**Review finding — foreground v02 inspected:** Story Director visually recommends accepting **all seven** Batch 5 candidates, including the revised B (25% larger, closer to the viewer, emerging through a hatch in the red rug), subject to owner production sign-off. The earlier B remains archived at `assets/B-plant-adoption.png` and is **superseded**; only `pedestal-foreground-v02/B-plant-adoption-v02.png` is the selected B for eventual integration. The exact new artifact's report is `pedestal-foreground-v02/README.md` and `pedestal-foreground-v02/qa.json` (RGBA 314×206, 40×80 station, alpha 0/255, zero outside-mask changes, exact 4×). No gameplay art bindings were changed.
 
 **Reported QA:** All seven masks show no changes outside allowed pixel areas; every overlay has alpha either 0 or 255 and zero hidden RGB; all 359 prior tracked PNGs are preserved byte-identically. Exact source hashes, imagegen prompts and independent verification are in `qa.json`, `HANDOFF.md` and `verify_review.py`. This is artifact/gallery QA only, **not playable-game or runtime QA**.
 
