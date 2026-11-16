@@ -863,7 +863,18 @@
     var sceneFrom = t.length;
     while (sceneFrom > chapterFrom && t[sceneFrom - 1].scene === scene) sceneFrom--;
     var visitFrom = t.length;
-    if (mode === 'focus') while (visitFrom > 0 && t[visitFrom - 1].mode === 'focus' && t[visitFrom - 1].node === state.node) visitFrom--;
+    if (mode === 'focus') {
+      while (visitFrom > 0 && t[visitFrom - 1].mode === 'focus' && t[visitFrom - 1].node === state.node) visitFrom--;
+      // A `back` return writes nothing, so leaving a close-up and opening it again leaves two visits
+      // side by side in the transcript. The visit is the latest arrival (the step that wrote the
+      // node's own text) and everything after it.
+      for (var vi = t.length - 1; vi >= visitFrom; vi--) {
+        if (t[vi].src !== 'text') continue;
+        while (vi > visitFrom && t[vi - 1].n === t[vi].n) vi--;
+        visitFrom = vi;
+        break;
+      }
+    }
     var from = { all: 0, scene: sceneFrom, chapter: chapterFrom, visit: visitFrom };
     var out = {};
     Object.keys(HISTORY).forEach(function (surface) {
