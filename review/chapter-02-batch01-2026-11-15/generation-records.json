@@ -1,0 +1,79 @@
+{
+  "artworkBaseline": "cf575552fc729b952d99d25bea56dbc81b40619d",
+  "storySource": "e98602f7992908a750672006f556b8efc15d686f",
+  "status": "generated",
+  "note": "D prompt mentions reference C for enclosure vocabulary, but its actual input was only A; this record lists exact tool inputs.",
+  "assets": {
+    "A": {
+      "tool": "built-in image_gen",
+      "prompt": "prompts/A.txt",
+      "source": "generation-source/A-v01.png",
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-b917c2a3-3447-45ac-8984-e8061325743c.png",
+      "transparent_background": false,
+      "references": [
+        "art/scenes/exposition/continuity-v03/facilities-corridor.png"
+      ]
+    },
+    "B": {
+      "tool": "built-in image_gen",
+      "prompt": "prompts/B.txt",
+      "source": "generation-source/B-v01.png",
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-9ba1e54d-d8ef-4c53-b964-129a316fa101.png",
+      "transparent_background": false,
+      "references": [
+        "generation-source/A-v01.png"
+      ]
+    },
+    "C": {
+      "tool": "built-in image_gen",
+      "prompt": "prompts/C.txt",
+      "source": "generation-source/C-v01.png",
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-f44cebc6-5558-489e-926c-be3367d4eadb.png",
+      "transparent_background": false,
+      "references": [
+        "generation-source/A-v01.png"
+      ]
+    },
+    "D": {
+      "tool": "built-in image_gen",
+      "prompt": "prompts/D.txt",
+      "source": "generation-source/D-v01.png",
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-c487694a-fd36-46c4-81af-809158163cdc.png",
+      "transparent_background": false,
+      "references": [
+        "generation-source/A-v01.png"
+      ]
+    },
+    "E": {
+      "tool": "built-in image_gen",
+      "prompt": "prompts/E.txt",
+      "source": "generation-source/E-v01.png",
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-83589fe9-6a09-45b5-9cff-8687a64861aa.png",
+      "transparent_background": false,
+      "references": [
+        "generation-source/C-v01.png"
+      ]
+    },
+    "F": {
+      "tool": "built-in image_gen",
+      "prompt": "prompts/F.txt",
+      "source": "generation-source/F-v01.png",
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-d8c04fff-8cdb-49d9-b3f1-de9c6cef9f3f.png",
+      "transparent_background": false,
+      "references": [
+        "generation-source/B-v01.png"
+      ]
+    },
+    "G": {
+      "tool": "built-in image_gen",
+      "prompt": "prompts/G.txt",
+      "source": "generation-source/G-v01.png",
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-7a49d25e-ba7b-46e4-9751-fa186e0dd433.png",
+      "transparent_background": true,
+      "references": [
+        "generation-source/B-v01.png",
+        "generation-source/F-v01.png"
+      ]
+    }
+  }
+}

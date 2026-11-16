@@ -1,0 +1,171 @@
+{
+  "checks_passed": true,
+  "candidate_count": 7,
+  "opaque_scene_count": 5,
+  "opaque_portrait_background_count": 1,
+  "transparent_portrait_foreground_count": 1,
+  "shared_palette_colors": 64,
+  "resampling": "nearest-neighbor",
+  "palette_dithering": "none",
+  "alpha_processing": "native NEAREST, threshold at 128; hidden RGB zero",
+  "density_note": "Measured four-neighbor singleton pixels and equal-neighbor edges are descriptive, not a perceptual quality guarantee. Lettering and fern tips contribute legitimate singleton pixels.",
+  "preservation": {
+    "baseline_files_checked": 491,
+    "violations": []
+  },
+  "assets": [
+    {
+      "id": "A",
+      "registryId": "biology_park/conveniences_bureau",
+      "status": "generated",
+      "candidatePath": "candidates/A-conveniences-bureau.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "1b7743ba7fc8b8d1927add1b90e609dffa2a9c91a997d075eeffef73129e9577",
+      "visible_colors": 57,
+      "quantization_rgb_rmse": 5.473,
+      "quantization_rgb_distance_p95": 16.553,
+      "isolated_four_neighbor_pixels": 7489,
+      "isolated_fraction": 0.115778,
+      "equal_neighbor_edge_fraction": 0.63138,
+      "exact_4x_verified": true
+    },
+    {
+      "id": "B",
+      "registryId": "biology_park/groundskeeper",
+      "status": "generated",
+      "candidatePath": "candidates/B-groundskeeper.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "77a68a4b80156311d806fd3492b0af102f34408d8845b066f4765884dc37c84b",
+      "visible_colors": 63,
+      "quantization_rgb_rmse": 6.471,
+      "quantization_rgb_distance_p95": 21.0,
+      "isolated_four_neighbor_pixels": 10946,
+      "isolated_fraction": 0.169223,
+      "equal_neighbor_edge_fraction": 0.513776,
+      "exact_4x_verified": true
+    },
+    {
+      "id": "C",
+      "registryId": "biology_park/formal_entrance",
+      "status": "generated",
+      "candidatePath": "candidates/C-formal-entrance.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "c0664aace42316f11225d96537a9aa2c9f504273a5f51ae99de88cadb8886b48",
+      "visible_colors": 63,
+      "quantization_rgb_rmse": 10.279,
+      "quantization_rgb_distance_p95": 41.024,
+      "isolated_four_neighbor_pixels": 9759,
+      "isolated_fraction": 0.150872,
+      "equal_neighbor_edge_fraction": 0.511774,
+      "exact_4x_verified": true
+    },
+    {
+      "id": "D",
+      "registryId": "biology_park/service_entry",
+      "status": "generated",
+      "candidatePath": "candidates/D-service-entry.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "a067d0846c4ba1ea2f9efd407c605c9851ec0cc54718a60d9b2c1f65cdf75501",
+      "visible_colors": 61,
+      "quantization_rgb_rmse": 8.38,
+      "quantization_rgb_distance_p95": 32.527,
+      "isolated_four_neighbor_pixels": 12330,
+      "isolated_fraction": 0.190619,
+      "equal_neighbor_edge_fraction": 0.504207,
+      "exact_4x_verified": true
+    },
+    {
+      "id": "E",
+      "registryId": "biology_park/jungle_junction",
+      "status": "generated",
+      "candidatePath": "candidates/E-jungle-junction.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "7bcd0e3928f2641081400f5eed1f337d4b3569170697b4b041b5f6179dbcd78b",
+      "visible_colors": 63,
+      "quantization_rgb_rmse": 14.706,
+      "quantization_rgb_distance_p95": 55.687,
+      "isolated_four_neighbor_pixels": 13061,
+      "isolated_fraction": 0.20192,
+      "equal_neighbor_edge_fraction": 0.479006,
+      "exact_4x_verified": true
+    },
+    {
+      "id": "F",
+      "registryId": "biology_park/groundskeeper:portrait-background",
+      "status": "generated",
+      "candidatePath": "candidates/F-groundskeeper-background.png",
+      "assetPath": null,
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "sha256": "4cb241af29ac88916389f3d2df60837642b150b892a6d9fa5d2c2f7535104ecf",
+      "visible_colors": 63,
+      "quantization_rgb_rmse": 7.862,
+      "quantization_rgb_distance_p95": 35.581,
+      "isolated_four_neighbor_pixels": 10860,
+      "isolated_fraction": 0.069264,
+      "equal_neighbor_edge_fraction": 0.703586,
+      "exact_4x_verified": true
+    },
+    {
+      "id": "G",
+      "registryId": "groundskeeper:idle",
+      "status": "generated",
+      "candidatePath": "candidates/G-groundskeeper-foreground.png",
+      "assetPath": null,
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGBA",
+      "sha256": "4181801eb4acb7d7c6e4e60081fcf9851ad116935dfd0172a451d690400af01e",
+      "visible_colors": 63,
+      "quantization_rgb_rmse": 8.997,
+      "quantization_rgb_distance_p95": 31.796,
+      "isolated_four_neighbor_pixels": 6004,
+      "isolated_fraction": 0.069104,
+      "equal_neighbor_edge_fraction": 0.68587,
+      "exact_4x_verified": true,
+      "alpha_values": [
+        0,
+        255
+      ],
+      "transparent_pixels": 69909,
+      "opaque_pixels": 86883,
+      "opaque_bounds": [
+        116,
+        16,
+        564,
+        278
+      ],
+      "hidden_rgb_zero": true
+    }
+  ]
+}

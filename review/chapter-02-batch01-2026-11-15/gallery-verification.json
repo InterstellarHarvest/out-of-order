@@ -1,0 +1,49 @@
+{
+  "browser": "Chrome headless",
+  "urlMode": "local file; no server or hosting",
+  "result": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "seven cards",
+        "pass": true
+      },
+      {
+        "name": "native images load",
+        "pass": true
+      },
+      {
+        "name": "native scene dimensions",
+        "pass": true
+      },
+      {
+        "name": "4x scene dimensions",
+        "pass": true
+      },
+      {
+        "name": "4x portrait dimensions",
+        "pass": true
+      },
+      {
+        "name": "4x images load",
+        "pass": true
+      },
+      {
+        "name": "machine only hides backdrop",
+        "pass": true
+      },
+      {
+        "name": "background only hides foreground",
+        "pass": true
+      },
+      {
+        "name": "light alpha check",
+        "pass": true
+      },
+      {
+        "name": "native restored",
+        "pass": true
+      }
+    ]
+  }
+}

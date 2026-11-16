@@ -1,0 +1,14 @@
+{
+  "story/chapters/chapter-02.draft.json": {
+    "commit": "e98602f7992908a750672006f556b8efc15d686f",
+    "sha256": "a415ae13537d6c8d13204100c803ab1850d249412bc8fa6fc6d2a2282a935923"
+  },
+  "story/artwork.draft.json": {
+    "commit": "e98602f7992908a750672006f556b8efc15d686f",
+    "sha256": "21103c5b0115c698d41475603ae4d91f984a17642e4f8275352aedeab4c36fd1"
+  },
+  "story/items.draft.json": {
+    "commit": "e98602f7992908a750672006f556b8efc15d686f",
+    "sha256": "b18be0d8ba2f62a25b5684f4f81d8847791849c8342b3ffab2cdfa40454fc067"
+  }
+}
