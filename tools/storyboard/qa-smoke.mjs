@@ -25,12 +25,13 @@ const productionRecords=[
   ...Object.values(artwork.scenes).flatMap(scene=>[scene,...(scene.portraitBackground?[scene.portraitBackground]:[])]),
   ...Object.values(artwork.portraits),
   ...Object.values(artwork.items).flatMap(variants=>Object.values(variants)),
-  ...Object.values(artwork.focus||{})
+  ...Object.values(artwork.focus||{}),
+  ...Object.values(artwork.deathScreens||{})
 ];
-assert.equal(productionRecords.length,98,'artwork record count (33 prologue + 20 Chapter 1 + 45 Chapter 2 references)');
+assert.equal(productionRecords.length,165,'shared artwork includes Chapter 3 and death screens');
 assert.equal(productionRecords.filter(r=>r.status==='generated').length,28,'published metadata matches private generated count');
 assert.equal(productionRecords.filter(r=>r.status==='reused').length,5,'approved reused records unchanged');
-assert.equal(productionRecords.filter(r=>r.status==='not-started').length,65,'65 not-started art records (20 Chapter 1, 45 Chapter 2)');
+assert.equal(productionRecords.filter(r=>r.status==='not-started').length,132,'67 additional prompt-only Chapter 3 art records');
 assert.equal(artwork.scenes['biology_park/conveniences_bureau']?.status,'not-started','Chapter 2 Bureau scene is not-started');
 assert.equal(artwork.scenes['biology_park/conveniences_bureau']?.assetPath,null,'Chapter 2 Bureau scene has no image yet');
 assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.status,'not-started','Chapter 1 arrival scene is not-started');
@@ -38,6 +39,8 @@ assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.assetPath,null,'Chapte
 for(const record of productionRecords){
   if(record.status==='generated')assert.ok(record.assetPath?.endsWith('.png'),'generated art has logical PNG path: '+record.title);
 }
+assert.ok(artwork.deathScreens['pavilion/a_model_citizen']?.prompt,'death screen art registered');
+assert.equal(artwork.scenes['pavilion/human_behavior_workshop']?.assetPath,null,'workshop art pending');
 // Public storyboard intentionally mirrors metadata, not private generated images.
 
 for(const portrait of Object.values(artwork.portraits)){
@@ -51,7 +54,7 @@ assert.equal(layoutSource.schema,'cyoa-storyboard-layout-v1');
 // The header lists exactly the manifest's chapters, in order; every chapter's art resolves through
 // the ONE shared artwork catalog (no per-chapter art catalogs).
 assert.deepEqual(manifest.chapters.map(c=>[c.id,c.title,c.status]),[
-  ['prologue-00','Prologue — The Last Good Day','draft'],['chapter-01','Chapter 1 — House of Tomorrow','draft'],['chapter-02','Chapter 2 — Biology Park','draft']],'manifest chapters, order, titles, draft status');
+  ['prologue-00','Prologue — The Last Good Day','draft'],['chapter-01','Chapter 1 — House of Tomorrow','draft'],['chapter-02','Chapter 2 — Biology Park','draft'],['chapter-03',"Chapter 3 — The People's Pavilion",'draft']],'manifest chapters, order, titles, draft status');
 const chapters=manifest.chapters.map(c=>JSON.parse(fs.readFileSync(path.join(root,'story',c.file),'utf8')));
 for(const ch of chapters){
   for(const scene of new Set([ch.scene,...Object.values(ch.nodes).map(x=>x.scene).filter(Boolean)]))
@@ -59,10 +62,16 @@ for(const ch of chapters){
   for(const n of Object.values(ch.nodes)){
     if(n.speaker)assert.ok(artwork.portraits[n.speaker+':'+(n.pose||'default')],'portrait '+n.speaker);
     if(n.focus)assert.ok(artwork.focus[n.focus],'focus '+n.focus);
+    if(n.endingArt)assert.ok(artwork.deathScreens[n.endingArt],'death screen '+n.endingArt);
   }
 }
-assert.deepEqual(Object.keys(layoutSource.chapters),['prologue-00','chapter-01','chapter-02'],'layout file has an entry per chapter');
+assert.deepEqual(Object.keys(layoutSource.chapters),['prologue-00','chapter-01','chapter-02','chapter-03'],'layout has four chapters');
 assert.deepEqual(layoutSource.chapters['prologue-00'].positions,{},'prologue positions retained exactly (none committed)');
+assert.equal(Object.keys(chapters[3].nodes).length,63,'Chapter 3 has 63 storyboard nodes');
+assert.equal(chapters[3].nodes.end_model_citizen.deathPopup.title,'A MODEL CITIZEN','owner-approved fatal metadata');
+assert.equal(chapters[3].nodes.b_gate.choices.find(c=>c.id==='ch3_b03_c').check.need,4,'departure counter check');
+for(const id of ['end_concourse_robot','end_underground_station','end_public','end_maintenance','end_customs'])
+  assert.equal(chapters[2].nodes[id].storyboardNextChapter,'chapter-03','Chapter 2 preview handoff '+id);
 for(const id of Object.keys(items)){
   assert.ok(artwork.items[id]?.slot?.prompt,'slot prompt '+id);
   assert.ok(artwork.items[id]?.inspect?.prompt,'inspect prompt '+id);
@@ -298,6 +307,17 @@ assert.ok(flatten(pane()).some(x=>/scenes\/biology_park\/conveniences_bureau · 
 findNode('public_kit_focus').click();
 assert.ok(flatten(pane()).some(x=>/USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT/.test(String(x.textContent))),'Chapter 2 focus node choices appear in the inspector');
 const ch2=dragNode('park_junction',170,-80,34);
+findNode('end_public').click();
+const ch3Link=flatten(pane()).find(x=>x.tagName==='button'&&String(x.textContent).includes('PREVIEW NEXT CHAPTER'));
+assert.ok(ch3Link&&!ch3Link.disabled,'Chapter 2 ending provides Chapter 3 storyboard handoff');
+ch3Link.click();
+await new Promise(resolve=>setTimeout(resolve,20));
+assert.equal(select.value,'3','chapter transition opens Chapter 3');
+assert.equal(nodeIds().length,63,'Chapter 3 graph shows 63 nodes');
+findNode('end_model_citizen').click();
+assert.ok(flatten(pane()).some(x=>String(x.textContent).includes('ILLUSTRATION PENDING')),'fatal popup design preview');
+assert.ok(flatten(pane()).some(x=>String(x.textContent).includes('A MODEL CITIZEN')),'fatal popup title');
+await switchTo(2);
 assert.ok(storage.has('cyoa-storyboard-layout-v1:chapter-02'),'Chapter 2 positions cached under their own key');
 await switchTo(1);
 assert.deepEqual({x:xFromNode('house_arrival'),y:yFromNode('house_arrival')},ch1,'Chapter 1 position survives a Chapter 2 visit');
@@ -310,7 +330,7 @@ document.getElementById('exportLayout').onclick();
 assert.equal(downloads.length,1,'one layout file exported');
 const exported=JSON.parse(await downloads[0].text());
 assert.equal(exported.schema,'cyoa-storyboard-layout-v1','exported schema unchanged');
-assert.deepEqual(Object.keys(exported.chapters).sort(),['chapter-01','chapter-02','prologue-00'],'export holds all three chapters');
+assert.deepEqual(Object.keys(exported.chapters).sort(),['chapter-01','chapter-02','chapter-03','prologue-00'],'export holds all four chapters');
 assert.deepEqual(exported.chapters['chapter-02'].positions.park_junction,ch2,'export holds Chapter 2');
 assert.deepEqual(exported.chapters['prologue-00'].positions.drone_intercepts,proA,'export holds Prologue A');
 assert.deepEqual(exported.chapters['prologue-00'].positions.reception_hallway,proB,'export holds Prologue B');
@@ -359,7 +379,6 @@ assert.deepEqual(JSON.parse(await downloads.at(-1).text()).chapters['chapter-01'
 
 console.log(JSON.stringify({
  result:'PASS',nodes:Object.keys(chapter.nodes).length,chapters:manifest.chapters.map(c=>c.id),
- artRecords:Object.keys(artwork.scenes).length+Object.keys(artwork.portraits).length+
-  Object.values(artwork.items).reduce((n,v)=>n+Object.keys(v).length,0),
+ artRecords:productionRecords.length,
  checked:['manifest','all scene references','portrait references','all item artwork','paired scene backgrounds','editable portrait background','startup','artwork library','edit prompt','export artwork','item links','SHOW branches','branch proximity','pointer-centered wheel zoom','node drag','live connectors','local saved layout','reload layout','import layout','reset layout','chapter header','per-chapter graph+inspector+art refs','cross-chapter hand-off link','independent positions+selection across switches','export all three chapters','Chapter 2 graph+inspector+art refs+layout','Chapter 1 exits link Chapter 2','import into fresh browser','partial import keeps other chapter']
 }));

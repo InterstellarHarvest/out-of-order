@@ -146,8 +146,8 @@ async function run(name, base) {
   const items = await p2.evaluate(() => document.querySelectorAll('#details .item-button').length);
   await p2.click('#showArtwork');
   const art = await p2.evaluate(() => document.getElementById('details').innerText);
-  check(b, 'zoom, Items and Artwork panels still work (98 shared art records, 65 not-started)', before !== await p2.evaluate(() => document.getElementById('stage').style.transform)
-    && items === 16 && /98 shared art records/.test(art) && /65 not-started/.test(art), [items, art.slice(0, 200)]);
+  check(b, 'zoom, Items and Artwork panels still work (165 shared art records, 132 not-started)', before !== await p2.evaluate(() => document.getElementById('stage').style.transform)
+    && items === 32 && /165 shared art records/.test(art) && /132 not-started/.test(art), [items, art.slice(0, 200)]);
   await p2.screenshot({ path: path.join(OUT, name + '_3_imported.png') });
   await ctx2.close();
   check(b, 'no console or page errors', !errors.length, errors);
