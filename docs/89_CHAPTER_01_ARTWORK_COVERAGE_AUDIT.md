@@ -84,14 +84,14 @@ Seven new state-specific candidates now exist in the art branch (all `314×206` 
 | Candidate | File under Batch 5 review directory | Presentation selector |
 |---|---|---|
 | A — album absent | `assets/A-album-removed.png` (opaque RGB) | While `album_closeup` Focus A is visibly open; restore gallery-v05 when closed |
-| B — adopted named plant | `assets/B-plant-adoption.png` (transparent RGBA) | Only in `plant_adoption` with actual held desk plant before authored handover |
+| B — adopted named plant (superseded pending revised candidate) | `assets/B-plant-adoption.png` (original transparent RGBA) | Only in `plant_adoption` with actual held desk plant before authored handover; new placement emerges through trapdoor on foreground red rug |
 | C — stored desk plant | `assets/C-stored-plant.png` (transparent RGBA) | Drawer scene and `house_stored_item == desk_plant`, not yet recovered |
 | D — stored stapler | `assets/D-stored-stapler.png` (transparent RGBA) | Drawer scene and `house_stored_item == red_stapler`, not yet recovered |
 | E — stored band ball | `assets/E-stored-band-ball.png` (transparent RGBA) | Drawer scene and `house_stored_item == rubber_band_ball`, not yet recovered |
 | F — stored clicker | `assets/F-stored-clicker.png` (transparent RGBA) | Drawer scene and `house_stored_item == timing_clicker`, not yet recovered |
 | G — RETURNS sign | `assets/G-returns-display.png` (transparent RGBA) | Equipment corridor, registered ending only; not all mechanical exits |
 
-**Review finding:** Story Director inspected all seven actual rendered before/after composites at native and 4× and recommends accepting all seven visually, **subject to owner's final sign-off**. No visual re-generation was requested.
+**Review finding — updated by owner:** A and C–G are visually accepted as candidates, subject to final owner sign-off. **B (plant adoption) is REVISION PENDING:** the owner wants the pedestal closer to the foreground so it reads larger, with a concealed **trap door opening from the red foyer rug**. Codex has already received this edit directly; do not issue a duplicate task. Preserve the rest of the foyer and exact 314×206 baseline. The original B remains an archived candidate, not the selected final. Review revised B against the same pixel and mask constraints once supplied.
 
 **Reported QA:** All seven masks show no changes outside allowed pixel areas; every overlay has alpha either 0 or 255 and zero hidden RGB; all 359 prior tracked PNGs are preserved byte-identically. Exact source hashes, imagegen prompts and independent verification are in `qa.json`, `HANDOFF.md` and `verify_review.py`. This is artifact/gallery QA only, **not playable-game or runtime QA**.
 
