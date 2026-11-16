@@ -35,6 +35,15 @@ The shared appeal is **absurd visual aftermath plus a short sarcastic or stupid 
 
 Do not interpret any one reference layout or assistant preference as a locked design. **First design study:** render both illustration formats for the **same Rest Assured fatal scenario** in the actual game UI, comparing clear readability, comic timing, spatial hierarchy, and the visual relationship between scene, death illustration, and buttons. Use original The Acceptable Error artwork and jokes, not copied Sierra imagery. After owner feedback, finalize reusable layout dimensions and button interaction contract before mass-producing death vignettes.
 
+### Owner-locked backdrop and protagonist treatment — 2026-11-15
+
+- **The underlying 16:9 gameplay frame freezes and becomes visibly DIMMER and CHUNKIER-PIXELATED**, as in a vintage SNES-style pixelate transition. The pixels become larger, hard-edged blocks; use nearest-neighbor sampling, NOT blur or a smooth translucent wash alone. Background game context remains recognizable but clearly de-emphasized. This pixel treatment is applied to the background ONLY; preserve crisp modal art/text/buttons.
+- **NEVER show the protagonist's face in any death illustration.** Keep it cropped outside the frame, turned away, blocked, or covered; or omit the protagonist entirely. The rule also applies to implied faces in reflections or inset photographs.
+- **The aftermath is the subject, not necessarily the corpse or death moment.** An alien that has finished a meal can be funnier than a depicted eating scene; an apparatus proudly displaying its completed work can be funnier than depicting the fatal incident. A death sprite may consist entirely of the surviving cause/environment.
+- These are owner-established rules. Pixel block size, darkness percentage, overlay dimension, illustration framing and controls remain for comparative review.
+
+See docs/90_DEATH_SCREEN_REUSABLE_DESIGN_BRIEF.md and docs/91_REST_ASSURED_DEATH_MOCKUP_CODEX_BRIEF.md.
+
 ### Interaction details still unresolved
 
 - Whether to dim underlying UI; overlay frame, title, art dimensions and typography.
