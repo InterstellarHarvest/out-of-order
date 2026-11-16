@@ -252,6 +252,38 @@ function convert(input, opts) {
     const w = 'speaker ' + sid;
     if (!obj(castNames[sid]) || typeof castNames[sid].name !== 'string') err(w, 'no display name: add cast.' + sid + '.name to story/runtime-settings.json');
     cast[sid] = { name: obj(castNames[sid]) ? castNames[sid].name : sid.toUpperCase(), portrait: sid };
+    // An opaque-complete speaker (docs/92 section 1: the House intercom): ONE complete opaque
+    // 564x278 image per talking location, chosen by the scene the conversation happens in. No
+    // foreground pose and no background layer; layered NPCs below are untouched.
+    const completeRecs = speakers[sid].poses.map((pose) => portraitsArt[sid + ':' + pose]).filter((r) => obj(r) && r.format === 'opaque-complete');
+    if (completeRecs.length) {
+      if (speakers[sid].poses.length !== 1 || completeRecs.length !== 1) {
+        err(w, 'an opaque-complete speaker uses exactly one portrait record (it has no poses); found ' + speakers[sid].poses.map((x) => sid + ':' + x).join(', '));
+        return;
+      }
+      const rec = completeRecs[0];
+      const views = obj(rec.views) ? rec.views : {};
+      const p = { views: {}, view: null };
+      speakers[sid].scenes.forEach((scene) => {
+        if (!obj(views[scene])) { draft(w, 'no complete view for scene ' + scene + ' (missing required artwork; DEV PLACEHOLDER)'); p.views[scene] = null; return; }
+        p.views[scene] = artRecord('portrait-view', sid + '@' + scene, views[scene], w);
+      });
+      Object.keys(views).forEach((scene) => { if (speakers[sid].scenes.indexOf(scene) === -1) info.push(w + ': complete view for ' + scene + ' is not used by any imported conversation (not imported)'); });
+      p.view = Object.keys(p.views).sort()[0];
+      chapterIds.forEach((chId) => Object.keys(outChapters[chId].nodes).forEach((nid) => {
+        const n = outChapters[chId].nodes[nid];
+        if (n.mode !== 'dialogue' || n.speaker !== sid) return;
+        const ordered = {};
+        Object.keys(n).forEach((k) => {
+          if (k === '_pose' || k === '_scene') return;
+          ordered[k] = n[k];
+          if (k === 'speaker' && n._scene !== p.view) ordered.backdrop = n._scene;
+        });
+        outChapters[chId].nodes[nid] = ordered;
+      }));
+      portraits[sid] = p;
+      return;
+    }
     const p = { backgrounds: {}, poses: {}, background: null, pose: null };
     // Poses: '<speaker>:<pose>' records; a record with layers supplies its foreground (and background).
     const layered = {};
@@ -324,11 +356,80 @@ function convert(input, opts) {
     if (!/^[a-z0-9_]+\/[a-z0-9_]+$/.test(id)) return err('scene ' + id, 'id must be location/scene');
     scenes[id] = artRecord('scene', id, scenesArt[id], 'scene ' + id);
   });
+  // Scene states (docs/92 section 3): an opaque alternate of a scene ('replace') or one transparent
+  // overlay on it ('overlay'), chosen by Rules.view from the real state: `at` (nodes), `focus` (the
+  // presented close-up) and `if` (an ordinary condition). selection null = installed but bound to
+  // no view (reported, file still verified, never emitted).
+  const STATE_KEYS = ['id', 'title', 'kind', 'status', 'dimensions', 'layer', 'selection', 'assetPath', 'suggestedFilename', 'prompt', 'notes'];
+  const SELECTION_KEYS = ['at', 'focus', 'if'];
+  const sceneStates = {};
+  const artUnbound = [];
+  scenesUsed.forEach((sid) => {
+    const list = obj(scenesArt[sid]) ? scenesArt[sid].states : undefined;
+    if (list === undefined) return;
+    const w = 'scene ' + sid + ' states';
+    if (!Array.isArray(list)) return err(w, 'must be a list');
+    const ids = [];
+    list.forEach((st, i) => {
+      const sw = w + '[' + i + ']';
+      if (!obj(st)) return err(sw, 'must be an object');
+      onlyKeys(sw, st, STATE_KEYS);
+      if (typeof st.id !== 'string' || !/^[a-z0-9_]+$/.test(st.id)) return err(sw, 'id must be a lower-case id');
+      if (ids.indexOf(st.id) !== -1) return err(sw, 'duplicate state id ' + st.id);
+      ids.push(st.id);
+      if (st.layer !== 'replace' && st.layer !== 'overlay') return err(sw, 'layer must be replace (an opaque alternate scene) or overlay (one transparent layer on it)');
+      if (st.selection === null) {
+        const path = st.assetPath;
+        if (typeof path !== 'string' || !/^art\/[a-z0-9_./-]+\.png$/.test(path) || /(^|\/)(source|originals|review)\//.test(path)) return err(sw, 'an unbound state still needs a production png under art/');
+        artUnbound.push({ kind: 'scene-state', id: sid + '#' + st.id, path, status: st.status || 'not-started' });
+        info.push(sw + ': ' + st.id + ' is installed but bound to no authored view (not imported)');
+        return;
+      }
+      if (!obj(st.selection)) return err(sw, 'selection must be an object ({ at?, focus?, if? }) or null');
+      onlyKeys(sw + ' selection', st.selection, SELECTION_KEYS);
+      if (!Object.keys(st.selection).length) err(sw, 'selection names no node, focus or condition (it would always show)');
+      const out = { id: st.id, layer: st.layer, path: artRecord('scene-' + st.layer, sid + '#' + st.id, st, sw) };
+      SELECTION_KEYS.forEach((k) => { if (has(st.selection, k)) out[k] = clone(st.selection[k]); });
+      scanCond(st.selection.if);
+      (sceneStates[sid] = sceneStates[sid] || []).push(out);
+    });
+  });
+
   const focusArt = obj(artwork.focus) ? artwork.focus : {};
   const focus = {};
+  // A paged close-up (docs/92 section 2): one picture per semantic page of the focus node's text.
+  // Page k starts at the paragraph that begins with pages[k].startsWith; the runtime keeps that
+  // picture up for as long as that page's text continues.
+  const FOCUS_PAGE_KEYS = ['title', 'kind', 'status', 'dimensions', 'startsWith', 'assetPath', 'suggestedFilename', 'prompt', 'notes'];
+  function pagedFocus(id, rec, n, where) {
+    const paras = typeof n.text === 'string' ? n.text.split('\n').filter((t) => t !== '') : null;
+    if (!paras) { err(where, 'a paged focus needs plain text whose paragraphs the pages start'); return null; }
+    const starts = [];
+    const pages = rec.pages.map((pg, i) => {
+      const pw = where + ' focus ' + id + ' page ' + (i + 1);
+      if (!obj(pg)) { err(pw, 'must be an object'); return null; }
+      onlyKeys(pw, pg, FOCUS_PAGE_KEYS);
+      const at = typeof pg.startsWith === 'string' && pg.startsWith ? paras.findIndex((t) => t.indexOf(pg.startsWith) === 0) : -1;
+      if (at === -1) err(pw, 'no paragraph of ' + where + ' starts with "' + pg.startsWith + '"');
+      else if (i === 0 && at !== 0) err(pw, 'the first page must start at the first paragraph');
+      else if (i > 0 && at <= starts[i - 1]) err(pw, 'pages must start in reading order');
+      starts.push(at);
+      return { path: artRecord('focus', id + ':page:' + (i + 1), pg, pw) };
+    });
+    if (pages.some((p) => !p) || starts.some((s) => s < 0)) return null;
+    pages.forEach((p, i) => { p.paragraphs = (i + 1 < starts.length ? starts[i + 1] : paras.length) - starts[i]; });
+    return { pages };
+  }
   chapterIds.forEach((chId) => Object.keys(outChapters[chId].nodes).forEach((nid) => {
     const n = outChapters[chId].nodes[nid];
-    if (n.mode === 'focus' && typeof n.focus === 'string' && !has(focus, n.focus)) focus[n.focus] = artRecord('focus', n.focus, focusArt[n.focus], 'node ' + chId + ':' + nid);
+    if (n.mode !== 'focus' || typeof n.focus !== 'string') return;
+    const rec = focusArt[n.focus];
+    const where = 'node ' + chId + ':' + nid;
+    if (obj(rec) && Array.isArray(rec.pages)) {
+      const paged = pagedFocus(n.focus, rec, n, where);
+      if (has(focus, n.focus) && JSON.stringify(focus[n.focus]) !== JSON.stringify(paged)) err(where, 'every node showing paged focus ' + n.focus + ' must split its text into the same pages');
+      focus[n.focus] = paged;
+    } else if (!has(focus, n.focus)) focus[n.focus] = artRecord('focus', n.focus, rec, where);
   }));
   Object.keys(scenesArt).forEach((id) => { if (scenesUsed.indexOf(id) === -1) info.push('artwork scene ' + id + ' is not used by any imported chapter (not imported)'); });
 
@@ -339,7 +440,7 @@ function convert(input, opts) {
   if (obj(init.flags)) Object.keys(init.flags).forEach((f) => { flags[f] = init.flags[f]; });
   const initialState = { flags, inventory: Array.isArray(init.inventory) ? init.inventory : [], items: obj(init.items) ? init.items : {} };
 
-  const nullArt = JSON.stringify({ scenes, portraits, focus, outItems }).indexOf(':null') !== -1;
+  const nullArt = JSON.stringify({ scenes, portraits, focus, outItems, sceneStates }).indexOf(':null') !== -1;
   const story = {
     schema: STORY_SCHEMA,
     id: settings.story,
@@ -354,9 +455,10 @@ function convert(input, opts) {
     assets: { scenes, portraits, focus },
     chapters: outChapters
   };
+  if (Object.keys(sceneStates).length) story.assets.sceneStates = sceneStates;
   if (marksSet.length) story.marks = marksSet.slice().sort();
   if (nullArt) warnings.push('story: some art is missing, so this build uses the fixture profile (labelled DEV PLACEHOLDERS)');
-  return { ok: !errors.length, errors, warnings, info, draftStops, story, art, artPending };
+  return { ok: !errors.length, errors, warnings, info, draftStops, story, art, artPending, artUnbound };
 }
 
 module.exports = { convert, STORY_SCHEMA, ARTWORK_SCHEMA, SETTINGS_SCHEMA, DRAFT_STOP_ID, DRAFT_STOP_TEXT, APPROVED_ART };

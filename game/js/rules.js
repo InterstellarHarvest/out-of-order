@@ -803,6 +803,29 @@
     return !!a && !!a.once && state.contextDone.indexOf(a.id) !== -1;
   }
 
+  // Scene states (docs/92 section 3) -----------------------------------------------------------
+  // assets.sceneStates: { <scene>: [{ id, layer: 'replace' | 'overlay', path, at?, focus?, if? }] }.
+  // A 'replace' state is an opaque alternate of the whole scene; an 'overlay' is one transparent
+  // layer on it, sharing its origin. A state shows when every selector it names holds: `at` (the
+  // current node, as chapter:node), `focus` (the close-up on show) and `if` (an ordinary condition
+  // over the real state: flags, inventory, marks, checks). Nothing here is remembered: the same
+  // state always selects the same art, so a restore, a return or a page change can never leave a
+  // stale layer behind. validateStory proves at most one state per layer matches in every
+  // reachable state, and that every state shows in some reachable state.
+  function stateSelected(st, state, n) {
+    if (st.at && st.at.indexOf(at(state)) === -1) return false;
+    if (st.focus !== undefined && !(n.mode === 'focus' && n.focus === st.focus)) return false;
+    return holds(st.if, state);
+  }
+  function sceneStatesOf(story, state) {
+    var n = here(story, state);
+    var all = (story.assets && story.assets.sceneStates) || {};
+    var list = all[sceneOf(story, state.chapter, state.node)] || [];
+    var out = { replace: [], overlay: [] };
+    list.forEach(function (st) { if (stateSelected(st, state, n)) out[st.layer].push(st.id); });
+    return out;
+  }
+
   // The view: everything the renderer needs to draw the current state ----------------------------
   function view(story, state) {
     requireStory(story);
@@ -812,8 +835,12 @@
     if (n.mode === 'dialogue') {
       var pid = story.cast[n.speaker].portrait;
       var reg = story.assets.portraits[pid];
-      portrait = { cast: n.speaker, id: pid, background: n.backdrop || reg.background, pose: n.pose || reg.pose };
+      // An opaque-complete portrait (docs/92 section 1) is one whole image per location: `view`,
+      // chosen by the node's backdrop, instead of a background and a pose layer.
+      portrait = reg.views ? { cast: n.speaker, id: pid, view: n.backdrop || reg.view }
+        : { cast: n.speaker, id: pid, background: n.backdrop || reg.background, pose: n.pose || reg.pose };
     }
+    var sel = sceneStatesOf(story, state);
     var ctx = contextOf(story, state);
     return {
       story: story.id,
@@ -822,6 +849,8 @@
       node: state.node,
       mode: n.mode,
       scene: sceneOf(story, state.chapter, state.node),
+      // The scene state ids on show (null: the scene's own art, no overlay).
+      sceneArt: { replace: sel.replace[0] || null, overlay: sel.overlay[0] || null },
       speaker: n.mode === 'dialogue' ? n.speaker : null,
       portrait: portrait,
       focus: n.mode === 'focus' ? n.focus : null,
@@ -1482,19 +1511,40 @@
     var scenes = obj(assets.scenes) ? assets.scenes : {};
     var portraits = obj(assets.portraits) ? assets.portraits : {};
     var focusArt = obj(assets.focus) ? assets.focus : {};
-    onlyKeys('assets', assets, ['scenes', 'portraits', 'focus']);
+    onlyKeys('assets', assets, ['scenes', 'portraits', 'focus', 'sceneStates']);
     Object.keys(scenes).forEach(function (id) {
       if (!/^[a-z0-9_]+\/[a-z0-9_]+$/.test(id)) err('assets.scenes ' + id, 'id must be location/scene');
       assetPath('assets.scenes ' + id, scenes[id]);
     });
+    // A close-up is one image, or semantic pages (docs/92 section 2): { pages: [{ path, paragraphs }] },
+    // each picture paired with that many paragraphs of the focus node's text, in order.
     Object.keys(focusArt).forEach(function (id) {
       if (!/^[a-z0-9_]+\/[a-z0-9_]+\/[a-z0-9_]+$/.test(id)) err('assets.focus ' + id, 'id must be location/scene/target');
-      assetPath('assets.focus ' + id, focusArt[id]);
+      var f = focusArt[id];
+      if (!obj(f)) return assetPath('assets.focus ' + id, f);
+      onlyKeys('assets.focus ' + id, f, ['pages']);
+      if (!Array.isArray(f.pages) || f.pages.length < 2) return err('assets.focus ' + id, 'pages must list two or more { path, paragraphs }');
+      f.pages.forEach(function (pg, i) {
+        var pw = 'assets.focus ' + id + ' page ' + (i + 1);
+        if (!obj(pg)) return err(pw, 'must be an object');
+        onlyKeys(pw, pg, ['path', 'paragraphs']);
+        assetPath(pw, pg.path);
+        if (typeof pg.paragraphs !== 'number' || pg.paragraphs < 1 || Math.floor(pg.paragraphs) !== pg.paragraphs) err(pw, 'paragraphs must be a whole number, 1 or more');
+      });
     });
     Object.keys(portraits).forEach(function (id) {
       var p = portraits[id];
       var w = 'assets.portraits ' + id;
-      if (!obj(p) || !obj(p.backgrounds) || !obj(p.poses)) return err(w, 'needs backgrounds {} and poses {}');
+      if (obj(p) && has(p, 'views')) {
+        // Opaque-complete (docs/92 section 1): one whole image per location, no layers.
+        if (!obj(p.views) || !Object.keys(p.views).length) return err(w, 'views must name one complete image per location');
+        onlyKeys(w, p, ['views', 'view']);
+        Object.keys(p.views).forEach(function (v) { assetPath(w + ' view ' + v, p.views[v]); });
+        if (!has(p.views, p.view)) err(w, 'default view ' + p.view + ' is not registered');
+        refs.layers[id + ':view:' + p.view] = true;
+        return;
+      }
+      if (!obj(p) || !obj(p.backgrounds) || !obj(p.poses)) return err(w, 'needs backgrounds {} and poses {} (or views {} for an opaque-complete portrait)');
       onlyKeys(w, p, ['backgrounds', 'poses', 'background', 'pose']);
       Object.keys(p.backgrounds).forEach(function (b) { assetPath(w + ' background ' + b, p.backgrounds[b]); });
       Object.keys(p.poses).forEach(function (b) { assetPath(w + ' pose ' + b, p.poses[b]); });
@@ -1585,8 +1635,13 @@
           if (!cast[n.speaker]) err(w, 'a dialogue node needs a speaker from the cast');
           else {
             var reg = portraits[cast[n.speaker].portrait] || { backgrounds: {}, poses: {} };
-            if (n.pose !== undefined) { if (!has(reg.poses, n.pose)) err(w, 'unregistered pose ' + n.pose); else refs.layers[cast[n.speaker].portrait + ':pose:' + n.pose] = true; }
-            if (n.backdrop !== undefined) { if (!has(reg.backgrounds, n.backdrop)) err(w, 'unregistered backdrop ' + n.backdrop); else refs.layers[cast[n.speaker].portrait + ':background:' + n.backdrop] = true; }
+            if (obj(reg.views)) {
+              if (n.pose !== undefined) err(w, 'an opaque-complete portrait has no poses (pose ' + n.pose + ')');
+              if (n.backdrop !== undefined) { if (!has(reg.views, n.backdrop)) err(w, 'unregistered complete view ' + n.backdrop); else refs.layers[cast[n.speaker].portrait + ':view:' + n.backdrop] = true; }
+            } else {
+              if (n.pose !== undefined) { if (!has(reg.poses, n.pose)) err(w, 'unregistered pose ' + n.pose); else refs.layers[cast[n.speaker].portrait + ':pose:' + n.pose] = true; }
+              if (n.backdrop !== undefined) { if (!has(reg.backgrounds, n.backdrop)) err(w, 'unregistered backdrop ' + n.backdrop); else refs.layers[cast[n.speaker].portrait + ':background:' + n.backdrop] = true; }
+            }
           }
         } else {
           ['speaker', 'pose', 'backdrop', 'show'].forEach(function (k) { if (has(n, k)) err(w, k + ' is for dialogue nodes only'); });
@@ -1595,7 +1650,20 @@
         if (n.mode === 'focus') {
           if (typeof n.focus !== 'string') err(w, 'a focus node needs a focus id');
           else if (!has(focusArt, n.focus)) err(w, 'unregistered focus ' + n.focus);
-          else refs.focus[n.focus] = true;
+          else {
+            refs.focus[n.focus] = true;
+            var paged = obj(focusArt[n.focus]) && Array.isArray(focusArt[n.focus].pages) ? focusArt[n.focus].pages : null;
+            if (paged) {
+              // Each picture is paired with its own paragraphs: the node's one text must have exactly
+              // as many paragraphs as the pages claim, or a picture would show beside the wrong text.
+              var want = paged.reduce(function (a, pg) { return a + (obj(pg) ? pg.paragraphs : 0); }, 0);
+              if (isVariants(n.text)) err(w, 'a paged focus node needs one text, not variants');
+              else if (typeof n.text === 'string' || Array.isArray(n.text)) {
+                var got = toParas(n.text, arrivalCtx(n)).filter(function (p) { return p.length; }).length;
+                if (got !== want) err(w, 'its text has ' + got + ' paragraphs; the pages of ' + n.focus + ' pair ' + want);
+              }
+            }
+          }
         } else if (has(n, 'focus')) err(w, 'focus is for focus nodes only');
         if (has(n, 'scenePickup')) {
           var pickup = n.scenePickup;
@@ -1689,9 +1757,44 @@
     if (!endings) err('story', 'no node is marked end: true');
     Object.keys(scenes).forEach(function (id) { if (!refs.scenes[id]) err('assets.scenes ' + id, 'registered but never used'); });
     Object.keys(focusArt).forEach(function (id) { if (!refs.focus[id]) err('assets.focus ' + id, 'registered but never used'); });
+    // Scene states: on a registered scene, valid selectors, and (after the walk) each one shown.
+    var sceneStates = obj(assets.sceneStates) ? assets.sceneStates : {};
+    if (has(assets, 'sceneStates') && !obj(assets.sceneStates)) err('assets.sceneStates', 'must be an object');
+    Object.keys(sceneStates).forEach(function (sid) {
+      var w = 'assets.sceneStates ' + sid;
+      if (!has(scenes, sid)) err(w, 'unregistered scene');
+      var list = sceneStates[sid];
+      if (!Array.isArray(list) || !list.length) return err(w, 'must be a non-empty list');
+      var ids = {};
+      list.forEach(function (st, i) {
+        var x = w + '[' + i + ']';
+        if (!obj(st)) return err(x, 'must be an object');
+        onlyKeys(x, st, ['id', 'layer', 'path', 'at', 'focus', 'if']);
+        if (typeof st.id !== 'string' || !/^[a-z0-9_]+$/.test(st.id)) err(x, 'id must be a lower-case id');
+        else if (ids[st.id]) err(x, 'duplicate state id ' + st.id);
+        else ids[st.id] = true;
+        if (st.layer !== 'replace' && st.layer !== 'overlay') err(x, 'layer must be replace or overlay');
+        assetPath(x, st.path);
+        if (!has(st, 'at') && !has(st, 'focus') && !has(st, 'if')) err(x, 'selects nothing: it needs at, focus or if');
+        if (has(st, 'at')) {
+          if (!Array.isArray(st.at) || !st.at.length) err(x, 'at must be a list of chapter:node');
+          else st.at.forEach(function (a) {
+            var m = /^([a-z0-9_-]+):([a-z0-9_-]+)$/.exec(a);
+            if (!m || !story.chapters[m[1]] || !obj(story.chapters[m[1]].nodes) || !story.chapters[m[1]].nodes[m[2]]) err(x, 'at names an unknown node ' + a);
+            else if (sceneOf(story, m[1], m[2]) !== sid) err(x, 'at ' + a + ' is not in scene ' + sid);
+          });
+        }
+        if (has(st, 'focus') && !has(focusArt, st.focus)) err(x, 'focus names an unregistered close-up ' + st.focus);
+        cond(x, st.if);
+      });
+    });
     Object.keys(portraits).forEach(function (id) {
       if (!refs.portraits[id]) err('assets.portraits ' + id, 'registered but no cast member uses it');
       var p = portraits[id];
+      if (obj(p) && obj(p.views)) {
+        Object.keys(p.views).forEach(function (v) { if (!refs.layers[id + ':view:' + v]) err('assets.portraits ' + id, 'view ' + v + ' is never shown'); });
+        return;
+      }
       if (!obj(p) || !obj(p.backgrounds) || !obj(p.poses)) return;
       Object.keys(p.backgrounds).forEach(function (b) { if (!refs.layers[id + ':background:' + b]) err('assets.portraits ' + id, 'background ' + b + ' is never shown'); });
       Object.keys(p.poses).forEach(function (b) { if (!refs.layers[id + ':pose:' + b]) err('assets.portraits ' + id, 'pose ' + b + ' is never shown'); });
@@ -1778,7 +1881,11 @@
         });
       };
       var globalReads = { flags: {}, checks: {}, nodes: {} };
-      Object.keys(story).forEach(function (k) { if (k !== 'chapters') scanReads(story[k], globalReads, null, null); });
+      // Scene-state selections (assets.sceneStates) are read only where their scene shows, so they
+      // count as reads of that scene's nodes, not as global reads (a stored-item flag stays live in
+      // the storage room, not for the rest of the game). Nothing else in assets reads state.
+      Object.keys(story).forEach(function (k) { if (k !== 'chapters' && k !== 'assets') scanReads(story[k], globalReads, null, null); });
+      var artReads = (obj(story.assets) && obj(story.assets.sceneStates)) ? story.assets.sceneStates : {};
       var live = {};
       var succOf = {};
       chapterIds.forEach(function (chId) {
@@ -1788,6 +1895,7 @@
           acc.nodes[w] = true;
           succOf[w] = {};
           scanReads(story.chapters[chId].nodes[id], acc, chId, succOf[w]);
+          scanReads(artReads[sceneOf(story, chId, id)] || [], acc, chId, null);
           live[w] = acc;
         });
       });
@@ -1852,6 +1960,8 @@
       return s;
     }
     var seen = {};
+    var anyStates = obj(assets.sceneStates) && Object.keys(assets.sceneStates).length > 0;
+    var stacked = {};
     var first = begin(story, { obs: seen }).state;
     // Full canonical state keys remain collision-free; edges and endings use
     // compact numeric ids. Processed states no longer stay alive for the
@@ -1896,6 +2006,17 @@
       var fromId = current.id;
       var n = here(story, s);
       var where = at(s);
+      if (anyStates) {
+        var sel = sceneStatesOf(story, s);
+        var sid = sceneOf(story, s.chapter, s.node);
+        ['replace', 'overlay'].forEach(function (layer) {
+          sel[layer].forEach(function (id) { seen['scene state ' + sid + '#' + id] = true; });
+          if (sel[layer].length > 1 && !stacked[where + ' ' + layer]) {
+            stacked[where + ' ' + layer] = true;
+            errors.push('scene ' + sid + ' at ' + where + ': ' + sel[layer].join(' and ') + ' (' + layer + ') select at once; at most one ' + layer + ' state may show');
+          }
+        });
+      }
       (story.files || []).forEach(function (f, i) { if (holds(f.if, s)) seen['files[' + i + ']'] = true; });
       if (!s.returnTo && n.choices.some(function (c) { return c.back; }) && !backless[where]) {
         backless[where] = true;
@@ -1961,6 +2082,9 @@
       if (isVariants(d)) d.forEach(function (v, i) { if (!seen['item ' + id + ' description[' + i + ']']) errors.push('description variant never seen: ' + id + '[' + i + ']'); });
     });
     (story.files || []).forEach(function (f, i) { if (!seen['files[' + i + ']']) errors.push('case-file entry never shown: files[' + i + ']'); });
+    Object.keys(anyStates ? assets.sceneStates : {}).forEach(function (sid) {
+      assets.sceneStates[sid].forEach(function (st) { if (!seen['scene state ' + sid + '#' + st.id]) errors.push('scene state never shown: ' + sid + '#' + st.id); });
+    });
     Object.keys(items).forEach(function (id) {
       if (!Object.keys(seen).some(function (k) { return k.indexOf('item ' + id + ' description[') === 0; })) errors.push('item never held: ' + id);
     });

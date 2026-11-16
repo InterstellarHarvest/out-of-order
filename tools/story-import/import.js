@@ -25,7 +25,10 @@ const DEFAULT_OUT = path.join(ROOT, 'game/content/story.generated.js');
 const BUILD_SCHEMA = 'cyoa-story-build-v1';
 const IMPORTER_VERSION = 1;
 // Native sizes per art kind (docs/54, docs/72 section 4.1).
-const ART_SIZE = { scene: [314, 206], 'portrait-pose': [564, 278], 'portrait-background': [564, 278], focus: [564, 278], 'item-slot': [96, 96], 'item-inspect': [565, 451] };
+// scene-replace / scene-overlay: a scene state (docs/92 section 3) is a whole 314x206 scene, an
+// overlay sharing its origin; portrait-view: an opaque-complete conversation view (docs/92 section 1).
+const ART_SIZE = { scene: [314, 206], 'scene-replace': [314, 206], 'scene-overlay': [314, 206], 'portrait-pose': [564, 278], 'portrait-background': [564, 278],
+  'portrait-view': [564, 278], focus: [564, 278], 'item-slot': [96, 96], 'item-inspect': [565, 451], 'scene-state': [314, 206] };
 
 const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 const gitBlob = (buf) => crypto.createHash('sha1').update('blob ' + buf.length + '\0').update(buf).digest('hex');
@@ -146,6 +149,15 @@ function build(opts) {
     report.art.push(entry);
   });
   report.art.sort((x, y) => (x.kind + x.id < y.kind + y.id ? -1 : 1));
+  // Installed art bound to no authored view (a scene state with selection null): never in the
+  // story, but its file must still exist at its class's size.
+  (c.artUnbound || []).forEach((a) => {
+    const file = path.join(ROOT, a.path);
+    if (!fs.existsSync(file)) return report.errors.push(a.kind + ' ' + a.id + ': art file missing: ' + a.path);
+    const size = pngSize(fs.readFileSync(file));
+    const want = ART_SIZE[a.kind];
+    if (!size || size[0] !== want[0] || size[1] !== want[1]) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' is ' + (size ? size.join('x') : 'not a PNG') + ', must be ' + want.join('x'));
+  });
 
   const ok = !report.errors.length;
   if (!ok) return { ok, text: null, report };
