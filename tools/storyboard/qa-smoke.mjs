@@ -67,7 +67,7 @@ for(const ch of chapters){
 }
 assert.deepEqual(Object.keys(layoutSource.chapters),['prologue-00','chapter-01','chapter-02','chapter-03'],'layout has four chapters');
 assert.deepEqual(layoutSource.chapters['prologue-00'].positions,{},'prologue positions retained exactly (none committed)');
-assert.equal(Object.keys(chapters[3].nodes).length,63,'Chapter 3 has 63 storyboard nodes');
+assert.equal(Object.keys(chapters[3].nodes).length,62,'Chapter 3 has 63 storyboard nodes');
 assert.equal(chapters[3].nodes.end_model_citizen.deathPopup.title,'A MODEL CITIZEN','owner-approved fatal metadata');
 assert.equal(chapters[3].nodes.b_gate.choices.find(c=>c.id==='ch3_b03_c').check.need,4,'departure counter check');
 for(const id of ['end_concourse_robot','end_underground_station','end_public','end_maintenance','end_customs'])
@@ -313,7 +313,7 @@ assert.ok(ch3Link&&!ch3Link.disabled,'Chapter 2 ending provides Chapter 3 storyb
 ch3Link.click();
 await new Promise(resolve=>setTimeout(resolve,20));
 assert.equal(select.value,'3','chapter transition opens Chapter 3');
-assert.equal(nodeIds().length,63,'Chapter 3 graph shows 63 nodes');
+assert.equal(nodeIds().length,62,'Chapter 3 graph shows 63 nodes');
 findNode('end_model_citizen').click();
 assert.ok(flatten(pane()).some(x=>String(x.textContent).includes('ILLUSTRATION PENDING')),'fatal popup design preview');
 assert.ok(flatten(pane()).some(x=>String(x.textContent).includes('A MODEL CITIZEN')),'fatal popup title');

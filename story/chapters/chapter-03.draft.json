@@ -391,9 +391,24 @@
         {
           "id": "image_1",
           "kind": "action",
-          "text": "USE AVAILABLE PROOF OF PHYSICAL PRESENCE",
+          "text": "SUBMIT THE HOUSE PHOTOGRAPH AS SOURCE EVIDENCE.",
           "to": "a_fourth",
-          "notes": " Alternative outcome if family_portrait_photo held: a_empty"
+          "notes": " Alternative outcome if family_portrait_photo held: a_empty",
+          "if": {
+            "has": "family_portrait_photo"
+          },
+          "displayGroup": "image_source_proof"
+        },
+        {
+          "id": "ch3_image_no_source_photo",
+          "kind": "action",
+          "text": "REQUEST A PHOTOGRAPHIC CLAIMANT CORRECTION — NO HOUSE PHOTO.",
+          "to": "a_empty",
+          "notes": " Alternative outcome if family_portrait_photo held: a_empty",
+          "if": {
+            "lacks": "family_portrait_photo"
+          },
+          "displayGroup": "image_source_proof"
         },
         {
           "id": "image_2",
@@ -464,7 +479,15 @@
           "to": "c_feed"
         }
       ],
-      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration."
+      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration. Owner-owned alternate evidence must survive without House photograph. A factual empty claimant photograph is produced at this scene.",
+      "effects": {
+        "give": [
+          "pavilion_empty_claimant_photo"
+        ],
+        "set": {
+          "pavilion_empty_photo_captured": true
+        }
+      }
     },
     "a_exposure": {
       "mode": "narrative",
@@ -521,8 +544,16 @@
           "notes": "Authoring check; proposed bonus: one relevant tool +1, nonstacking"
         }
       ],
-      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration.",
-      "focus": "pavilion/fourth_chair_source_photo"
+      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration. Only reached if family_portrait_photo actually held; the source photograph is scanned and returned, not consumed.",
+      "focus": "pavilion/fourth_chair_source_photo",
+      "effects": {
+        "give": [
+          "pavilion_source_contribution_receipt"
+        ],
+        "set": {
+          "pavilion_house_photo_matched": true
+        }
+      }
     },
     "a_custody": {
       "mode": "narrative",
@@ -794,20 +825,6 @@
       ],
       "notes": "Owner approved all three choices. B airtight coating suffocation death is locked. A/C consequences remain awaiting collaborative review.",
       "focus": "pavilion/replacement_request_notice"
-    },
-    "c_fail": {
-      "mode": "narrative",
-      "scene": "pavilion/human_behavior_workshop",
-      "text": "Cable locked; unauthorized interference recorded, nonfatal.",
-      "choices": [
-        {
-          "id": "c_fail_0",
-          "kind": "continue",
-          "text": "CONTINUE",
-          "to": "c_feed"
-        }
-      ],
-      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration."
     },
     "c_feed": {
       "mode": "narrative",
