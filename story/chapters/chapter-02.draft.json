@@ -988,7 +988,9 @@
           "text": "BEGIN AGAIN",
           "restart": true
         }
-      ]
+      ],
+      "storyboardNextChapter": "chapter-03",
+      "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
     },
     "end_underground_station": {
       "mode": "narrative",
@@ -1009,7 +1011,9 @@
           "text": "BEGIN AGAIN",
           "restart": true
         }
-      ]
+      ],
+      "storyboardNextChapter": "chapter-03",
+      "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
     },
     "flower_arrival": {
       "mode": "narrative",
@@ -2812,7 +2816,9 @@
           "text": "BEGIN AGAIN",
           "restart": true
         }
-      ]
+      ],
+      "storyboardNextChapter": "chapter-03",
+      "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
     },
     "end_maintenance": {
       "mode": "narrative",
@@ -2889,7 +2895,9 @@
           "text": "BEGIN AGAIN",
           "restart": true
         }
-      ]
+      ],
+      "storyboardNextChapter": "chapter-03",
+      "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
     },
     "end_customs": {
       "mode": "narrative",
@@ -2939,7 +2947,9 @@
           "text": "BEGIN AGAIN",
           "restart": true
         }
-      ]
+      ],
+      "storyboardNextChapter": "chapter-03",
+      "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
     }
   }
 }

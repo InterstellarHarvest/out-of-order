@@ -345,5 +345,261 @@
         ]
       }
     }
+  },
+  "pavilion_approved_departure_authorization": {
+    "name": "APPROVED DEPARTURE AUTHORIZATION",
+    "description": "A valid permit stamped ALREADY USED. The Pavilion insists it was redeemed before you got it.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_approved_departure_authorization",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_certified_record_discrepancy": {
+    "name": "CERTIFIED IDENTITY DISCREPANCY",
+    "description": "A machine-certified conflict between the departed Original and physically present claimant.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_certified_record_discrepancy",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_presentation_service_authorization": {
+    "name": "PRESENTATION SERVICE AUTHORIZATION",
+    "description": "A provisional one-use technical authorization for the hearing.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_presentation_service_authorization",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_representation_diagnostic_record": {
+    "name": "REPRESENTATION DIAGNOSTIC RECORD",
+    "description": "A paper trace of unauthorized movement; exact source must be verified.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_representation_diagnostic_record",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_broadcast_override_sequence": {
+    "name": "BROADCAST OVERRIDE SEQUENCE",
+    "description": "The official patch-panel sequence for simultaneous Pavilion presentation feeds.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_broadcast_override_sequence",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "certificate_fulfilled_requirements": {
+    "name": "SATISFACTION CERTIFICATE",
+    "description": "A document stating all your requirements were fulfilled, despite the evidence.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "certificate_fulfilled_requirements",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_discrepancy_receipt": {
+    "name": "DISCREPANCY RECEIPT",
+    "description": "Proof that the Pavilion accepted a complaint about its own completed record.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_discrepancy_receipt",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_temporary_staff_pass": {
+    "name": "TEMPORARY STAFF PASS",
+    "description": "Provisional status authorizing one service inspection.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_temporary_staff_pass",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_original_appearance_order": {
+    "name": "ORIGINAL APPEARANCE ORDER",
+    "description": "A formal demand that the Original attend a hearing.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_original_appearance_order",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_proof_of_life": {
+    "name": "PROOF OF LIFE CERTIFICATE",
+    "description": "Pulse and warmth are verified, but identity remains disputed.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_proof_of_life",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_duplicate_routing_tag": {
+    "name": "DUPLICATE ROUTING TAG",
+    "description": "A warehouse label assigning your body to surplus registration.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_duplicate_routing_tag",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_empty_claimant_photo": {
+    "name": "EMPTY CLAIMANT PHOTOGRAPH",
+    "description": "The photograph officially excludes the person who sat for it.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_empty_claimant_photo",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_unapproved_exposure": {
+    "name": "UNAPPROVED EXPOSURE",
+    "description": "An authentic photograph rejected by the Pavilion's approved-image machinery.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_unapproved_exposure",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_source_contribution_receipt": {
+    "name": "SOURCE CONTRIBUTION RECEIPT",
+    "description": "A source-credit receipt for the House's partly occupied fourth chair.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_source_contribution_receipt",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_household_routing_strip": {
+    "name": "HOUSEHOLD ROUTING STRIP",
+    "description": "Three empty chair positions linked to three administrative routes.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_household_routing_strip",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "pavilion_registration_provenance_strip": {
+    "name": "REGISTRATION PROVENANCE STRIP",
+    "description": "Separate certified Original and present claimant serials linked to one name.",
+    "slotArt": null,
+    "inspectArt": null,
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "pavilion_registration_provenance_strip",
+            "read"
+          ]
+        ]
+      }
+    }
   }
 }
