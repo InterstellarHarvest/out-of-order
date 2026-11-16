@@ -18,6 +18,23 @@ Each unique death presentation contains:
 
 Every distinct fatal outcome should receive appropriate unique illustration and copy. Distinguish differently caused deaths even where several branches converge on one fatal ending node. The presentation is a **comic coda**, not a horror jumpscare. Maintain the game's low-resolution aesthetic, though overlay image dimensions and degree of pixel detail are not locked.
 
+### Owner's concrete visual references — 2026-11-15
+
+The owner supplied two classic *Space Quest* death-dialog screenshots to sharpen this direction:
+
+1. **Larger center-screen death box:** compact illustrated aftermath at left, unusually sardonic text at right, an optional joke/headline across the top (example's headline: “Don't Trust Guys in Black Spacesuits”), and Restore / Restart / Quit buttons in the same main panel.
+2. **Smaller deadpan panel:** comic aftermath art on a simple gray stage, short text beside it, and a separate, narrower row of buttons below; surrounding screen remains visible.
+
+The shared appeal is **absurd visual aftermath plus a short sarcastic or stupid punchline**; not simply a formal “you died” message. The whole 16:9 game should remain the context, with a centered popup large enough to read and see the art. The joke belongs in the situation-specific illustration and copy, not necessarily a title.
+
+**Owner has explicitly NOT decided:**
+- Whether the death has a headline at all, or where it goes (if present).
+- Whether the art is a square/rectangular fully illustrated inset **or** a transparent cutout sprite against the popup surface.
+- Whether the buttons live within the death description box **or** in a physically distinct attached/separate control panel.
+- What the buttons say or which checkpoint/replay behavior they provide.
+
+Do not interpret any one reference layout or assistant preference as a locked design. **First design study:** render both illustration formats for the **same Rest Assured fatal scenario** in the actual game UI, comparing clear readability, comic timing, spatial hierarchy, and the visual relationship between scene, death illustration, and buttons. Use original The Acceptable Error artwork and jokes, not copied Sierra imagery. After owner feedback, finalize reusable layout dimensions and button interaction contract before mass-producing death vignettes.
+
 ### Interaction details still unresolved
 
 - Whether to dim underlying UI; overlay frame, title, art dimensions and typography.
