@@ -202,8 +202,13 @@ function convert(input, opts) {
       // Node-level authoring fields were already excluded by NODE_KEYS at clone time.
       if (Array.isArray(out.choices)) out.choices = out.choices.map((sourceChoice) => {
         if (!obj(sourceChoice)) return clone(sourceChoice);
+        // Existing choices with no authoring hints must remain byte-for-byte equivalent
+        // to the previous generated story (including field insertion order).
+        if (!CHOICE_AUTHORING_ONLY.some((key) => has(sourceChoice, key))) return clone(sourceChoice);
         const clean = {};
-        CHOICE_KEYS.forEach((key) => { if (has(sourceChoice, key)) clean[key] = clone(sourceChoice[key]); });
+        Object.keys(sourceChoice).forEach((key) => {
+          if (CHOICE_KEYS.indexOf(key) !== -1) clean[key] = clone(sourceChoice[key]);
+        });
         return clean;
       });
       // An unfinished node (no cards, not an ending): an explicit development state, never a
