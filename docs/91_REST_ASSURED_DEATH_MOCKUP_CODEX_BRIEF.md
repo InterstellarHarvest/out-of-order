@@ -4,6 +4,8 @@
 **Purpose:** Produce a SMALL PRIVATE, NON-PRODUCTION design study for the reusable death-screen presentation using ONE Chapter 1 Rest Assured fatal scenario. Generate actual original artwork / static visual proof, not just a written plan.
 **Read first:** docs/88_DEATH_PRESENTATION_AND_CHAPTER_TRANSITIONS.md, docs/90_DEATH_SCREEN_REUSABLE_DESIGN_BRIEF.md, current game's 1920×1080 shell/production UI contract, and the Chapter 1 death nodes.
 
+> **Historical study brief:** The first study is complete. The owner has since approved the A1 framed layout with integrated button slots, title on, 10px background pixelation, 65% darkness, x=280/y=135 at 1920×1080, and exact toes-up sole-visible art. Do NOT reuse this brief to regenerate artwork or infer that layout alternatives remain open for this death. The next stage is `docs/93_REST_ASSURED_APPROVED_DEATH_PRESENTATION_IMPLEMENTATION_BRIEF.md`. Button text and actions are still undecided.
+
 ## 1. Starting reference and scope
 
 Use a new isolated art-review branch/worktree from a verified available private branch; do not touch anyone else's current art/content branch. Start with the already created chair-in-use illustration:

@@ -44,6 +44,21 @@ Do not interpret any one reference layout or assistant preference as a locked de
 
 See docs/90_DEATH_SCREEN_REUSABLE_DESIGN_BRIEF.md and docs/91_REST_ASSURED_DEATH_MOCKUP_CODEX_BRIEF.md.
 
+### Approved first death-screen design — Rest Assured voluntary surrender (owner, 2026-11-15)
+
+The layout comparison is now resolved **for the first Rest Assured death**; see `docs/93_REST_ASSURED_APPROVED_DEATH_PRESENTATION_IMPLEMENTATION_BRIEF.md`. Earlier "undecided" layout questions above document the historical exploration, not the current decision for this death.
+
+- **A1 selected:** framed comic aftermath picture, three buttons inside a single popup underneath a separator.
+- **Full-screen frozen background:** nearest-neighbor **10-display-pixel square blocks** and **65% darkening**, no blur; the overlay itself stays crisp.
+- **Position:** on the canonical 1920×1080 shell, popup **1360×640 at x=280,y=135**. Its center y=455 aligns with the main-scene center, using study-lab vertical offset −85.
+- **Title:** on, literal **PERMANENTLY SATISFIED.** Title text remains independent of the PNG.
+- **Button geometry:** raised 12px from initial study; entire footprint including shadow has **24px clear space above and below**. Exactly three visual button slots. **RETRY / BEGIN AGAIN / EXIT remain placeholder wording only**, and checkpoint/restart/save meanings remain unapproved.
+- **Exact chosen art:** `agent/rest-assured-death-study-20261115` at `000f096d7699b8205affd783332a8d2aa446bf93`, `review/death-screen-layout-study-2026-11-15/approved-default/original.png` (SHA-256 `163a9a4174dfb3608e49fce99624db051e38b43c1a47370ec95ba96adef80b67`). Use its byte-preserved original or pinned nearest-neighbor native `approved-default/native-314x206.png` (SHA-256 `7f469efa40548568af5dfe3c11602b9c6293282d9574caa5f36fc37113e72d9c`). The exact approved full mockup is `approved-default/A1-1920x1080.png` (SHA-256 `f38c8031b896d365bab060c2d3e073ff70f4bc5c4029b71a654b639e11d5b07d`). Never regenerate/replace with resting shoes, arms exposed, upright pose or placard artwork.
+- **Image specifics:** reclined chair; sheet fully conceals customer; large brown shoes toes-up with **both soles visible**; picked tuft, green successful-treatment indicator, original hardware and complete pedestal preserved; no protagonist face, exposed arms or placard. The illustrated death only covers voluntary permanent relaxation, **not the other two causes** that presently reach the shared ending node.
+- **Copy:** "You have achieved permanent relaxation. The House is delighted to report that its newest customer has stopped complaining." is still provisional text, not a locked script.
+
+The owner approved the **visual reference** for the next implementation brief, not production wiring or an active three-button save/checkpoint contract. Build a private gated implementation proof first. No live button claims, merges, or deployments without the next owner decision.
+
 ### Interaction details still unresolved
 
 - Whether to dim underlying UI; overlay frame, title, art dimensions and typography.
