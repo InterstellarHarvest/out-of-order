@@ -149,12 +149,21 @@
   //   portrait:<portrait>:pose:<id>              portrait pose (the character), 564x278 at 1x
   //   focus:<location>/<scene>/<target>          Focus A close-up, 564x278 at 1x (drawn from S6)
   //   item:<id>  /  inspect:<id>                 item slot 96x96 / inspect 565x451 (names as in M2)
+  // and, for the art that follows the state (docs/92):
+  //   scene:<location>/<scene>#<state>           a scene state: an opaque alternate scene (class
+  //                                              scene) or one transparent overlay on it (class
+  //                                              overlay), 314x206 at 4x from the same origin
+  //   portrait:<portrait>:view:<location/scene>  an opaque-complete conversation view, 564x278 at 1x:
+  //                                              one whole image, no background or pose layer
+  //   focus:<location>/<scene>/<target>:page:<n> one semantic page of a paged close-up
   // UI art (shell, item overlay, panels, slip, sprites, glyphs) is engine-owned and stays out of it.
   var ART_CLASS = (G.ART_CLASS = {
     scene: { size: [314, 206], scale: 4 },
     background: { size: [564, 278], scale: 1, offset: function () { return [TU.portrait.backgroundX, TU.portrait.backgroundY]; } },
     pose: { size: [564, 278], scale: 1, offset: function () { return [TU.portrait.npcX, TU.portrait.npcY]; } },
     focus: { size: [564, 278], scale: 1 },
+    overlay: { size: [314, 206], scale: 4 },
+    view: { size: [564, 278], scale: 1, offset: function () { return [TU.portrait.backgroundX, TU.portrait.backgroundY]; } },
     slot: { size: [96, 96] },
     inspect: { size: [565, 451] }
   });
@@ -163,6 +172,9 @@
     background: function (portrait, id) { return 'portrait:' + portrait + ':background:' + id; },
     pose: function (portrait, id) { return 'portrait:' + portrait + ':pose:' + id; },
     focus: function (id) { return 'focus:' + id; },
+    sceneState: function (scene, state) { return 'scene:' + scene + '#' + state; },
+    view: function (portrait, id) { return 'portrait:' + portrait + ':view:' + id; },
+    focusPage: function (id, n) { return 'focus:' + id + ':page:' + n; },
     slot: function (id) { return 'item:' + id; },
     inspect: function (id) { return G.inspectImageName(id); }
   });
@@ -180,12 +192,20 @@
       if (portrait) reg[key].portrait = portrait;
     }
     Object.keys(a.scenes || {}).forEach(function (id) { add(artKey.scene(id), 'scene', id, a.scenes[id]); });
+    Object.keys(a.sceneStates || {}).forEach(function (id) {
+      a.sceneStates[id].forEach(function (st) { add(artKey.sceneState(id, st.id), st.layer === 'overlay' ? 'overlay' : 'scene', id + '#' + st.id, st.path); });
+    });
     Object.keys(a.portraits || {}).forEach(function (pid) {
       var p = a.portraits[pid];
       Object.keys(p.backgrounds || {}).forEach(function (id) { add(artKey.background(pid, id), 'background', id, p.backgrounds[id], pid); });
       Object.keys(p.poses || {}).forEach(function (id) { add(artKey.pose(pid, id), 'pose', id, p.poses[id], pid); });
+      Object.keys(p.views || {}).forEach(function (id) { add(artKey.view(pid, id), 'view', id, p.views[id], pid); });
     });
-    Object.keys(a.focus || {}).forEach(function (id) { add(artKey.focus(id), 'focus', id, a.focus[id]); });
+    Object.keys(a.focus || {}).forEach(function (id) {
+      var f = a.focus[id];
+      if (f && typeof f === 'object') f.pages.forEach(function (pg, i) { add(artKey.focusPage(id, i + 1), 'focus', id + ':page:' + (i + 1), pg.path); });
+      else add(artKey.focus(id), 'focus', id, f);
+    });
     Object.keys(story.items || {}).forEach(function (id) {
       var it = story.items[id];
       if (it.slotArt !== undefined) add(artKey.slot(id), 'slot', id, it.slotArt);
@@ -201,21 +221,36 @@
     var ch = story.chapters && story.chapters[chapterId];
     if (!ch) throw new Error('Unknown chapter: ' + chapterId);
     var keys = [];
+    var states = (story.assets && story.assets.sceneStates) || {};
     function use(k) { if (keys.indexOf(k) === -1) keys.push(k); }
-    use(artKey.scene(ch.scene));
+    // A scene, then every state of it: whichever the state selects is decoded before any fade.
+    function useScene(id) {
+      use(artKey.scene(id));
+      (states[id] || []).forEach(function (st) { use(artKey.sceneState(id, st.id)); });
+    }
+    useScene(ch.scene);
     Object.keys(ch.nodes).forEach(function (nid) {
       var n = ch.nodes[nid];
-      if (n.scene) use(artKey.scene(n.scene));
+      if (n.scene) useScene(n.scene);
       if (n.mode === 'dialogue') {
         var cast = story.cast && story.cast[n.speaker];
         var p = cast && story.assets.portraits && story.assets.portraits[cast.portrait];
         if (!p) throw new Error('No registered portrait for speaker ' + n.speaker + ' (' + chapterId + ':' + nid + ')');
-        use(artKey.background(cast.portrait, p.background));
-        use(artKey.pose(cast.portrait, p.pose));
-        if (n.backdrop) use(artKey.background(cast.portrait, n.backdrop));
-        if (n.pose) use(artKey.pose(cast.portrait, n.pose));
+        if (p.views) {
+          use(artKey.view(cast.portrait, p.view));
+          if (n.backdrop) use(artKey.view(cast.portrait, n.backdrop));
+        } else {
+          use(artKey.background(cast.portrait, p.background));
+          use(artKey.pose(cast.portrait, p.pose));
+          if (n.backdrop) use(artKey.background(cast.portrait, n.backdrop));
+          if (n.pose) use(artKey.pose(cast.portrait, n.pose));
+        }
       }
-      if (n.mode === 'focus') use(artKey.focus(n.focus));
+      if (n.mode === 'focus') {
+        var f = story.assets.focus && story.assets.focus[n.focus];
+        if (f && typeof f === 'object') f.pages.forEach(function (pg, i) { use(artKey.focusPage(n.focus, i + 1)); });
+        else use(artKey.focus(n.focus));
+      }
     });
     return keys;
   };
@@ -252,6 +287,9 @@
     var pid = story.cast[node.speaker].portrait;
     var p = story.assets.portraits[pid];
     var scene = node.scene || ch.scene;
+    // An opaque-complete speaker opens on its one complete view (docs/92 section 1).
+    if (p.views) return { scene: artKey.scene(scene), sceneLabel: LEGACY_LABELS.scene[scene] || scene, background: null, pose: null,
+      view: artKey.view(pid, node.backdrop || p.view), castLabel: LEGACY_LABELS.cast[node.speaker] || story.cast[node.speaker].name };
     return {
       scene: artKey.scene(scene),
       sceneLabel: LEGACY_LABELS.scene[scene] || scene,
@@ -320,6 +358,9 @@
     els.portrait = el('div', 'aperture art-aperture', stage, { id: 'portrait', role: 'img', 'aria-label': on.castLabel });
     place(els.portrait, pr[0], pr[1], pr[2], pr[3]);
     els.portraitBackground = on.background ? artLayer(els.portrait, on.background, 'portraitBackground') : null;
+    // An opaque-complete view takes the background's place (and offset); it has no pose layer.
+    els.portraitView = on.view ? artLayer(els.portrait, on.view, 'portraitView') : null;
+    if (els.portraitView) els.portraitView.dataset.art = on.view;
     els.portraitRearFx = fxLayer(els.portrait, 'portraitRearFx', pr);
     els.portraitNpc = on.pose ? artLayer(els.portrait, on.pose, 'portraitNpc') : null;
     if (els.portraitBackground) els.portraitBackground.dataset.art = on.background;
@@ -357,15 +398,28 @@
     node.dataset.art = key;
     return node;
   }
-  G.setSceneArt = function (key, label) {
-    if (els.sceneArt && els.sceneArt.dataset.art === key) return;
-    els.sceneArt = swapLayer(els.scene, els.sceneArt, key, 'sceneArt');
-    els.scene.setAttribute('aria-label', label || key);
+  // key: the scene, or its opaque alternate (a 'replace' scene state); overlay: at most one
+  // transparent scene state drawn over it from the same origin, or null. Each layer is compared
+  // on its own, so a change of state within one scene swaps exactly the layer that changed, and an
+  // overlay never outlives the state that selected it.
+  G.setSceneArt = function (key, label, overlay) {
+    if (!(els.sceneArt && els.sceneArt.dataset.art === key)) {
+      els.sceneArt = swapLayer(els.scene, els.sceneArt, key, 'sceneArt', els.sceneOverlay);
+      els.scene.setAttribute('aria-label', label || key);
+    }
+    if ((els.sceneOverlay ? els.sceneOverlay.dataset.art : null) !== (overlay || null)) {
+      els.sceneOverlay = swapLayer(els.scene, els.sceneOverlay, overlay || null, 'sceneOverlay');
+    }
+    els.scene.dataset.art = key + (overlay ? ' + ' + overlay : '');
   };
-  // which: { background, pose, label } | { focus, label } | null (nothing: Narrative B covers it).
+  // which: { background, pose, label } | { view, label } (an opaque-complete portrait) |
+  // { focus, label } | null (nothing: Narrative B covers it).
   G.setPortraitArt = function (which) {
     var w = which || {};
     show(els.portrait, !!which);
+    if ((els.portraitView && els.portraitView.dataset.art) !== w.view) {
+      els.portraitView = swapLayer(els.portrait, els.portraitView, w.view, 'portraitView', els.portraitRearFx);
+    }
     if ((els.portraitBackground && els.portraitBackground.dataset.art) !== w.background) {
       els.portraitBackground = swapLayer(els.portrait, els.portraitBackground, w.background, 'portraitBackground', els.portraitRearFx);
     }
@@ -376,6 +430,7 @@
       els.focusArt = swapLayer(els.portrait, els.focusArt, w.focus, 'focusArt', els.portraitFrontFx);
     }
     els.portrait.dataset.mode = w.focus ? 'focus' : which ? 'portrait' : 'none';
+    els.portrait.dataset.layers = w.view ? 'complete' : w.background || w.pose ? 'layered' : '';
     if (which) els.portrait.setAttribute('aria-label', w.label || '');
   };
 

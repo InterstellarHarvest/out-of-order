@@ -145,18 +145,41 @@
   // with everything already presented (transcript entries before `shown`).
   // The apertures alone, for the node as it stands: a node in the same scene and mode can still
   // change the portrait (another pose or backdrop) or the close-up.
+  // Everything here comes from the view (js/rules.js): the scene or the opaque alternate its state
+  // selects, at most one overlay (docs/92 section 3), the portrait as layers or as one complete
+  // view (section 1), and a paged close-up's picture for the semantic page on show (section 2).
+  // It is called again whenever what is presented can change (a node's text, a Focus A page, an
+  // item or context step in place, a transition, a restore), and re-derives everything each time:
+  // nothing art-related is remembered, so no layer can go stale.
   function applyArt(v) {
-    G.setSceneArt(G.artKey.scene(v.scene), sceneLabel(v.scene));
+    var sa = v.sceneArt || {};
+    G.setSceneArt(sa.replace ? G.artKey.sceneState(v.scene, sa.replace) : G.artKey.scene(v.scene), sceneLabel(v.scene),
+      sa.overlay ? G.artKey.sceneState(v.scene, sa.overlay) : null);
     if (v.mode === 'dialogue') {
-      G.setPortraitArt({ background: G.artKey.background(v.portrait.id, v.portrait.background), pose: G.artKey.pose(v.portrait.id, v.portrait.pose), label: story.cast[v.speaker].name });
+      var label = story.cast[v.speaker].name;
+      if (v.portrait.view) G.setPortraitArt({ view: G.artKey.view(v.portrait.id, v.portrait.view), label: label });
+      else G.setPortraitArt({ background: G.artKey.background(v.portrait.id, v.portrait.background), pose: G.artKey.pose(v.portrait.id, v.portrait.pose), label: label });
     } else if (v.mode === 'focus') {
-      G.setPortraitArt({ focus: G.artKey.focus(v.focus), label: v.focus });
+      var pages = focusPages(v.focus);
+      var key = pages ? G.artKey.focusPage(v.focus, Math.min(G.surfaces.segmentA(), pages.length - 1) + 1) : G.artKey.focus(v.focus);
+      G.setPortraitArt({ focus: key, label: v.focus });
     } else {
       G.setPortraitArt(null);
     }
   }
+  function focusPages(id) {
+    var f = story.assets.focus[id];
+    return f && typeof f === 'object' ? f.pages : null;
+  }
+  // Where each semantic page of a paged close-up starts, in the visit's paragraphs.
+  function focusBreaks(id) {
+    var pages = focusPages(id);
+    if (!pages) return null;
+    var at = 0;
+    return pages.map(function (pg) { var b = at; at += pg.paragraphs; return b; });
+  }
+  function refreshArt() { applyArt(view()); }
   function applyView(v) {
-    applyArt(v);
     // Scene pickups open only once their authored description has finished
     // typing. Transitions never preserve an overlay from the previous node.
     if (G.ui.inspector && G.ui.inspector.scenePickup) G.ui.inspector = null;
@@ -172,9 +195,11 @@
       G.surfaces.setB(idx.map(function (i) { return G.narrationText(t[i].runs); }));
       G.surfaces.show('narrative');
     } else {
-      G.surfaces.setA(idx.map(function (i) { return G.narrationText(t[i].runs); }));
+      G.surfaces.setA(idx.map(function (i) { return G.narrationText(t[i].runs); }), focusBreaks(v.focus));
       G.surfaces.show('focus');
     }
+    // After the surfaces: a paged close-up's picture follows the page Focus A now shows.
+    applyArt(v);
     document.body.dataset.node = v.chapter + ':' + v.node;
     document.body.dataset.scene = v.scene;
     G.surfaces.draftStamp(v.chapter);
@@ -281,6 +306,7 @@
     shown += ev.paras.length;
     if (surface === 'focus') {
       G.surfaces.appendA(texts);
+      refreshArt();
       after = afterFocusPage;
       return setPhase('typing');
     }
@@ -315,6 +341,7 @@
       after = afterGroup;
     } else {
       G.surfaces.nextPageA();
+      refreshArt();
       after = afterFocusPage;
     }
     setPhase('typing');
@@ -417,6 +444,7 @@
         if (ev.lost.indexOf(id) !== -1) G.ui.inspector = null;
       }
     });
+    refreshArt(); // an item step in place can change what the scene's state selects
     G.renderAll();
     if (!G.ui.inspector) return refreshCards();
     var first = G.utilityActions()[0].enabled ? 'util-0' : 'inspectClose';
@@ -475,6 +503,7 @@
           shown += ev.paras.length;
         }
       });
+      refreshArt();
       G.renderUtility();
       G.renderOverlay();
       return;
@@ -500,6 +529,7 @@
       var rr = commit({ item: id, verb: 'read' });
       pendingEvents = null;
       rr.events.forEach(function (ev) { if (ev.t === 'items') ev.gained.forEach(function (x) { G.notifyItem(x); }); });
+      refreshArt();
       G.renderAll();
       return;
     }

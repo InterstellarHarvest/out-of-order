@@ -23,7 +23,7 @@
 
   var els = {};
   var B = { paras: [], newFrom: 0, scroll: 0, typing: false, typeStart: 0, revealed: 0 };
-  var A = { paras: [], newFrom: 0, page: 0, typing: false, typeStart: 0, revealed: 0 };
+  var A = { paras: [], breaks: null, newFrom: 0, page: 0, typing: false, typeStart: 0, revealed: 0 };
   var on = null; // 'narrative' | 'focus' | null
 
   // A paragraph's runs as narration: speech quoted, everything else plain (docs/70 section 1).
@@ -225,17 +225,34 @@
   }
 
   // Focus A ------------------------------------------------------------------------------------
+  // A.breaks (a paged close-up, docs/92 section 2): the paragraph indices where each semantic page
+  // starts. A text page never spans two semantic pages, so the picture paired with one is never
+  // shown beside the next one's text; a semantic page longer than the panel continues on further
+  // text pages of its own (`seg` stays the same). Without breaks there is one segment: the
+  // paging is exactly as before.
   function pagesA() {
     var b = box('focus');
     var L = linesOf(A.paras, b);
     var pages = [];
-    for (var i = 0; i < L.lines.length; i += b.cap) {
-      var p = L.lines.slice(i, i + b.cap);
-      while (p.length && p[0] === '') p.shift(); // a page never opens on the blank between paragraphs
-      pages.push({ from: i, lines: p });
+    var segs = [[0, L.lines.length]];
+    if (A.breaks) {
+      var starts = A.breaks.filter(function (p) { return p > 0 && p < A.paras.length; });
+      segs = [];
+      [0].concat(starts).forEach(function (p, k, all) {
+        var from = p === 0 ? 0 : L.starts[p];
+        // A segment ends before the blank between its last paragraph and the next segment.
+        segs.push([from, k + 1 < all.length ? L.starts[all[k + 1]] - 1 : L.lines.length]);
+      });
     }
+    segs.forEach(function (sg, seg) {
+      for (var i = sg[0]; i < sg[1]; i += b.cap) {
+        var p = L.lines.slice(i, Math.min(i + b.cap, sg[1]));
+        while (p.length && p[0] === '') p.shift(); // a page never opens on the blank between paragraphs
+        pages.push({ from: i, lines: p, seg: seg });
+      }
+    });
     var newRow = A.newFrom < A.paras.length ? L.starts[A.newFrom] : L.lines.length;
-    return { b: b, pages: pages.length ? pages : [{ from: 0, lines: [] }], newRow: newRow };
+    return { b: b, pages: pages.length ? pages : [{ from: 0, lines: [], seg: 0 }], newRow: newRow };
   }
   function renderA() {
     if (!els.layerA) return;
@@ -248,14 +265,16 @@
     place(els.textA, b.x, b.y, b.width, b.height);
     els.hitA.dataset.page = A.page;
     els.hitA.dataset.pages = P.pages.length;
+    els.hitA.dataset.segment = page.seg;
     els.hitA.dataset.typing = A.typing ? 'true' : 'false';
     els.hitA.dataset.text = A.paras.join('\n');
     els.hitA.setAttribute('aria-label', page.lines.join(' ') || 'Description');
   }
-  function setA(texts) {
+  // breaks: the semantic page starts of a paged close-up (paragraph indices), or null.
+  function setA(texts, breaks) {
     ensure();
     texts = solid(texts);
-    A = { paras: texts.slice(), newFrom: texts.length, page: 0, typing: false, typeStart: 0, revealed: 0 };
+    A = { paras: texts.slice(), breaks: breaks || null, newFrom: texts.length, page: 0, typing: false, typeStart: 0, revealed: 0 };
     var P = pagesA();
     A.page = P.pages.length - 1;
     renderA();
@@ -288,6 +307,12 @@
   function nextPageA() {
     A.page++;
     typePageA(pagesA(), false);
+  }
+  // The semantic page (0-based) of the text page on show: which picture of a paged close-up goes
+  // with it. Always 0 without breaks.
+  function segmentA() {
+    var P = pagesA();
+    return P.pages[Math.max(0, Math.min(A.page, P.pages.length - 1))].seg;
   }
 
   // Shared -------------------------------------------------------------------------------------
@@ -398,6 +423,7 @@
     appendA: appendA,
     hasMoreA: hasMoreA,
     nextPageA: nextPageA,
+    segmentA: segmentA,
     typeTick: typeTick,
     finish: finish,
     focusTarget: focusTarget,
