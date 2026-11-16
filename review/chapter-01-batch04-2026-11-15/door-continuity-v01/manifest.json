@@ -1,0 +1,171 @@
+{
+  "scope": "Review metadata only; two corrected scenes, not runtime schema",
+  "baseline": "f867fee7b0f104dae0978d98311b95d2759e8f92",
+  "branch": "agent/ch01-art-batch04-20261115",
+  "tool": "built-in image_gen.imagegen",
+  "status": "generated",
+  "ownerApproved": false,
+  "assets": [
+    {
+      "registryTarget": "house_of_tomorrow/foyer",
+      "title": "Foyer \u2014 closed single door",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/foyer-single-door-v03.png",
+      "preview4xPath": "previews/foyer-single-door-v03-4x.png",
+      "sourcePath": "generation-source/foyer-single-door-v03.png",
+      "sourceSHA256": "19b0cec32e805657f281f86981d6101da4f8831d3dc9ec9dea9597296610ec68",
+      "beforePath": "review/chapter-01-speaker-revision-2026-11-15/candidates/foyer-v04.png",
+      "beforeSHA256": "f9b520088d1d3800c122fc30d1ed2076220e085db16ceef79fa99eab3064b2c0",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "uniqueColors": 210,
+      "sha256": "9e4ea0bc781dbb7cf40d90d71ebce661d244c45bf5892c45ea6e420c9b329607",
+      "previewSHA256": "a6daf56deb3967ed969b844f51d77cdf2bd8c63112b8cd6668ee451bd8f08368",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    },
+    {
+      "registryTarget": "house_of_tomorrow/public_exit",
+      "title": "Public exit \u2014 open single door",
+      "status": "generated",
+      "ownerApproved": false,
+      "assetPath": null,
+      "candidatePath": "candidates/public-exit-single-door-v01.png",
+      "preview4xPath": "previews/public-exit-single-door-v01-4x.png",
+      "sourcePath": "generation-source/public-exit-single-door-v01.png",
+      "sourceSHA256": "25940d00b09d511d20b9fcfc7e5f7c4f85f6eed7c7687963d4645cb879e3487c",
+      "beforePath": "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "beforeSHA256": "e5755940de849afbb89223186c88a696783baecba527275fe5a3d0da5a3afbdd",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "uniqueColors": 201,
+      "sha256": "0ad83a23a5ee0a52ccd2e53e00c19727f8f51153eb666143714646686f97d034",
+      "previewSHA256": "58a046f7294225d8756d53e4ada64c5c8eb0033ad2bdb4308350d505ba2aebe4",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "cropBox": [
+        0,
+        0.2165605095541423,
+        1548,
+        1015.7834394904459
+      ],
+      "normalization": "Exact-aspect crop + NEAREST; nonspatial existing-color radius18 substitution; no fixed palette count"
+    }
+  ],
+  "canonicalArrival": {
+    "path": "review/chapter-01-batch04-2026-11-15/arrival-correction-v03/arrival-v03.png",
+    "sha256": "7029c0e66b06a784447313a0e06e831ad4f5c48260ed809da195d3810b57dcde",
+    "changed": false
+  },
+  "generationSources": [
+    {
+      "path": "generation-source/foyer-single-door-v01.png",
+      "sha256": "e6ceb183162e6155f5d89640c0f59dbf3f0344547106210eb53c4296670286f9",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": false
+    },
+    {
+      "path": "generation-source/foyer-single-door-v02.png",
+      "sha256": "679e0967018645365bd9fd62adb934ebc73dfd2b922f404cfa2a8fb8ed59d786",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": false
+    },
+    {
+      "path": "generation-source/foyer-single-door-v03.png",
+      "sha256": "19b0cec32e805657f281f86981d6101da4f8831d3dc9ec9dea9597296610ec68",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": true
+    },
+    {
+      "path": "generation-source/public-exit-single-door-v01.png",
+      "sha256": "25940d00b09d511d20b9fcfc7e5f7c4f85f6eed7c7687963d4645cb879e3487c",
+      "dimensions": [
+        1548,
+        1016
+      ],
+      "mode": "RGB",
+      "selected": true
+    }
+  ],
+  "comparisonNative": {
+    "path": "comparisons/arrival-foyer-public-exit-native.png",
+    "dimensions": [
+      1002,
+      246
+    ],
+    "eachSceneDimensions": [
+      314,
+      206
+    ],
+    "sha256": "a903b3fc0dafeb64129f2786daa30e114cb0f75c9b1f895c907ac46603b1f53c"
+  },
+  "comparison4x": {
+    "path": "comparisons/arrival-foyer-public-exit-4x.png",
+    "dimensions": [
+      4008,
+      984
+    ],
+    "eachSceneDimensions": [
+      1256,
+      824
+    ],
+    "method": "entire native comparison exactly4x NEAREST",
+    "sha256": "2fa0df0e293901b6b2489b80470ed1f05ca3c61253a20ff188c86c36f7ce8818"
+  },
+  "doorConvention": {
+    "outsideArrival": "hinges viewer-right, lever viewer-left",
+    "insideClosed": "hinges viewer-left, lever viewer-right",
+    "insideOpen": "same inside-left hinge jamb; one leaf opens outward into corridor",
+    "wallInfill": "former left part of double opening filled flush; right jamb/scanner retained",
+    "additionalRoomOrDoor": false
+  },
+  "baselinePNGsPreserved": 347,
+  "baselineFilesVerified": 398,
+  "separateServiceExitsChanged": false,
+  "storyEngineProductionChanged": false,
+  "nativeFrameEdgeCheck": {
+    "leftRightEdgesInclusive": {
+      "house_of_tomorrow/foyer": [
+        82,
+        147
+      ],
+      "house_of_tomorrow/public_exit": [
+        82,
+        147
+      ]
+    },
+    "tolerancePixels": 1,
+    "method": "Long neutral-gray frame strips within fixed entrance region; visually checked alongside comparison"
+  }
+}

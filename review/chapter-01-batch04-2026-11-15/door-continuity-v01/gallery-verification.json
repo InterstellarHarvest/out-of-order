@@ -1,0 +1,43 @@
+{
+  "sceneCandidateCount": 2,
+  "nativeDimensions": [
+    314,
+    206
+  ],
+  "nativeMode": "RGB",
+  "scene4xDimensions": [
+    1256,
+    824
+  ],
+  "nativeComparisonDimensions": [
+    1002,
+    246
+  ],
+  "comparison4xDimensions": [
+    4008,
+    984
+  ],
+  "comparison4xMethod": "exact whole-sheet nearest-neighbor replication",
+  "canonicalArrivalUnchanged": true,
+  "earlierPNGsPreserved": 347,
+  "serviceExitsUnchanged": true,
+  "doorFrameEdges": {
+    "leftRightEdgesInclusive": {
+      "house_of_tomorrow/foyer": [
+        82,
+        147
+      ],
+      "house_of_tomorrow/public_exit": [
+        82,
+        147
+      ]
+    },
+    "tolerancePixels": 1,
+    "method": "Long neutral-gray frame strips within fixed entrance region; visually checked alongside comparison"
+  },
+  "localLinksChecked": 12,
+  "displayedImageDimensionsChecked": 8,
+  "allReferenceHashesMatch": true,
+  "status": "generated; pending owner approval",
+  "browserAutomation": "not run"
+}

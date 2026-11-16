@@ -1,4 +1,4 @@
-**Latest correction:** [single-door, unmarked arrival — current review and before/after](arrival-correction-v03/index.html). Only arrival changes; the other five scenes remain byte-for-byte unchanged. The original package below is preserved.
+**Latest continuity correction:** [one physical single door — arrival / closed foyer / open public exit](door-continuity-v01/index.html). Two replacement scenes only; canonical arrival and separate service exits are unchanged. [Arrival-only correction](arrival-correction-v03/index.html) and original Batch4 package below are preserved snapshots.
 
 # Chapter1 Batch4 — final six environments
 
