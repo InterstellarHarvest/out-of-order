@@ -323,7 +323,9 @@
           "to": "image"
         }
       ],
-      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration."
+      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration.",
+      "speaker": "original_witness",
+      "pose": "screened"
     },
     "a_witstd": {
       "mode": "narrative",
@@ -436,7 +438,8 @@
           "to": "c_feed"
         }
       ],
-      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration."
+      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration.",
+      "focus": "pavilion/image_negative"
     },
     "a_empty": {
       "mode": "narrative",
@@ -518,7 +521,8 @@
           "notes": "Authoring check; proposed bonus: one relevant tool +1, nonstacking"
         }
       ],
-      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration."
+      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration.",
+      "focus": "pavilion/fourth_chair_source_photo"
     },
     "a_custody": {
       "mode": "narrative",
@@ -717,7 +721,8 @@
           "notes": "OWNER-LOCKED: timing_clicker OR red_stapler OR rubber_band_ball grants one +1; no stacking; no consumption. Runtime OR-condition needs implementation; do not misrepresent odds."
         }
       ],
-      "notes": "Collaboratively selected A, B, C. The counter outcome and +1 item rule are owner-approved."
+      "notes": "Collaboratively selected A, B, C. The counter outcome and +1 item rule are owner-approved.",
+      "focus": "pavilion/departure_counter"
     },
     "c_control": {
       "mode": "narrative",
@@ -787,7 +792,8 @@
           "to": "c02_c"
         }
       ],
-      "notes": "Owner approved all three choices. B airtight coating suffocation death is locked. A/C consequences remain awaiting collaborative review."
+      "notes": "Owner approved all three choices. B airtight coating suffocation death is locked. A/C consequences remain awaiting collaborative review.",
+      "focus": "pavilion/replacement_request_notice"
     },
     "c_fail": {
       "mode": "narrative",
@@ -941,7 +947,9 @@
           "notes": "Authoring check; proposed bonus: +1 independent Original response; +1 separate-source evidence; max +2"
         }
       ],
-      "notes": "UNREVIEWED FINALE CHOICES from structural audit; user already ruled Original may escape independently. Do not finalize identity-erasure fallback without owner approval."
+      "notes": "UNREVIEWED FINALE CHOICES from structural audit; user already ruled Original may escape independently. Do not finalize identity-erasure fallback without owner approval.",
+      "speaker": "registrar",
+      "pose": "idle"
     },
     "registry": {
       "mode": "narrative",
@@ -983,7 +991,8 @@
           "notes": "Authoring check; proposed bonus: feed authorization/override +1"
         }
       ],
-      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration."
+      "notes": "UNREVIEWED PROPOSED SCENE/RESULT — retained as linked storyboard scaffold, not owner-approved narration.",
+      "focus": "pavilion/grand_registry"
     },
     "disposition": {
       "mode": "narrative",
@@ -1488,7 +1497,8 @@
         "set": {
           "pavilion_free_will_contradiction_seen": true
         }
-      }
+      },
+      "focus": "pavilion/free_will_buttons"
     },
     "c02_c": {
       "mode": "narrative",
@@ -1532,7 +1542,8 @@
         "status": "owner-approved",
         "artRef": "pavilion/a_model_citizen"
       },
-      "endingArt": "pavilion/a_model_citizen"
+      "endingArt": "pavilion/a_model_citizen",
+      "focus": "pavilion/death_pedestal_detail"
     }
   }
 }
