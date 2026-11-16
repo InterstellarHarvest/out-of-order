@@ -32,6 +32,10 @@
   var after = null; // what the current typing / motion leads to
   var storageKey = null;
   var saving = true;
+  // Restore points for the review-gated death controls (docs/96): tracked ONLY when the ending
+  // presentation's gate is on. Off (the default), nothing is tracked and saves are exactly as before.
+  var tracking = false;
+  var points = null;
 
   // The port js/stage.js reads the story through (story-v2) -------------------------------------
   function view() { return Rules.view(story, G.state); }
@@ -112,7 +116,8 @@
     if (!saving || !story.save) return;
     var ls = storage();
     if (!ls) return;
-    try { ls.setItem(storageKey, Rules.serialize(story, G.state, { presented: shown })); } catch (e) { /* storage full or blocked */ }
+    // One write: the state, its cursor and (when tracked) its restore points, atomically together.
+    try { ls.setItem(storageKey, Rules.serialize(story, G.state, { presented: shown, points: tracking ? points : undefined })); } catch (e) { /* storage full or blocked */ }
   }
   // { state, cursor, how } from the autosave, or null for a fresh start. A save that does not fit
   // this content is never loaded: it is kept aside under a separate key and the reason reported.
@@ -383,7 +388,8 @@
     // review proof, js/end-presentation.js; off by default). It never steps the rules or saves.
     if (v.end && G.endPresentation) {
       G.renderChoices(performance.now());
-      if (G.endPresentation.reached(Rules.endCause(story, G.state), G.state.steps + '@' + v.chapter + ':' + v.node)) return;
+      // The key names the attempt too: dying again after a RETRY is a new ending to present.
+      if (G.endPresentation.reached(Rules.endCause(story, G.state), (G.state.attempt || 0) + ':' + G.state.steps + '@' + v.chapter + ':' + v.node)) return;
     }
     if (v.scenePickup) {
       var n = story.chapters[v.chapter].nodes[v.node];
@@ -420,8 +426,10 @@
   // One committed rules step: the new state replaces the old at once and is saved; its events are
   // presented once the cards have gone.
   function commit(input) {
+    var before = G.state;
     var r = Rules.step(story, G.state, input);
     G.state = r.state;
+    if (tracking) points = Rules.trackPoints(story, points, before, input, r);
     pendingEvents = r.events;
     save();
     return r;
@@ -586,16 +594,20 @@
     story = G.story;
     G.port = PORT;
     storageKey = 'cyoa-save:' + story.id;
+    tracking = !!(G.endPresentation && G.endPresentation.enabled);
     var loaded = loadSave();
     var events;
     if (loaded) {
       G.state = loaded.state;
+      points = tracking ? loaded.points || null : null;
+      if (loaded.pointsDropped) console.info('Restore points not kept: ' + loaded.pointsDropped.join('; '));
       var res = Rules.resume(story, G.state, loaded.cursor);
       shown = res.from;
       events = res.events;
     } else {
       var b = Rules.begin(story, { seed: freshSeed() });
       G.state = b.state;
+      if (tracking) points = Rules.trackPoints(story, null, null, null, b);
       shown = 0;
       // The opening's chapter / scene / mode are set up directly, without a fade.
       events = b.events.filter(function (e) { return ['chapter', 'scene', 'mode'].indexOf(e.t) === -1; });
@@ -620,6 +632,49 @@
       return String(Date.now());
     }
   }
+
+  // RETRY / CHECKPOINT (docs/96; owner rulings on PR #11), review-gated. kind: 'retry' | 'checkpoint'.
+  // Available only for the ending the state stands on (Rules.canRestore). The restore is one atomic
+  // swap to the point's genuine state in a new attempt (Rules.restoreFrom), saved at once with its
+  // points, then presented as a load is: the chapter's art decoded, the view rebuilt, and the
+  // point's not-yet-presented text (a chapter entry's arrival narration) typed again.
+  F.restoreAvailable = function (kind) {
+    return tracking && !!view().end && Rules.canRestore(story, G.state, points, kind, Rules.endCause(story, G.state));
+  };
+  F.restore = function (kind) {
+    if (!F.restoreAvailable(kind)) return false;
+    var r = Rules.restoreFrom(story, G.state, points, kind);
+    if (!r.ok) return false;
+    if (G.endPresentation && G.endPresentation.isOpen()) G.endPresentation.close(kind);
+    queue = [];
+    timer = null;
+    after = null;
+    group = null;
+    pendingEvents = null;
+    G.ui.motion = null;
+    G.ui.inspector = null;
+    G.ui.overlay = null;
+    G.ui.inv.start = 0;
+    G.clearNotices();
+    G.setChoices([]);
+    G.state = r.state;
+    points = r.points;
+    var res = Rules.resume(story, G.state, r.cursor);
+    shown = res.from;
+    save();
+    setPhase('transition');
+    var ms = G.TUNING.story.transitionMs;
+    G.preloadChapter(G.state.chapter).then(function () {
+      fade(1, 0, ms / 2, function () {
+        applyView(view());
+        G.renderAll();
+        fade(0, 1, ms / 2, function () { run(res.events); });
+      });
+    }, failed);
+    return true;
+  };
+  // QA only: the restore points (read-only copies).
+  F.points = function () { return points ? JSON.parse(JSON.stringify(points)) : null; };
 
   // QA only: the rules state and the view, read-only.
   F.view = view;

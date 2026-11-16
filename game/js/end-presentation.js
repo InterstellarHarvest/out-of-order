@@ -16,10 +16,14 @@
 // Everything sits inside #stage, so the game's fit-to-window scale applies to it uniformly; it is
 // never re-centred on the physical window.
 //
-// Review-only: the controls draw the approved footprints with PROVISIONAL labels and perform NO
-// game action (activating one only says so in the review notice). Escape closes the proof and
-// returns to the authored ending exactly as it was (its BEGIN AGAIN card still works). Opening or
-// closing never commits a rules step, saves, or changes the state.
+// Controls (owner rulings on PR #11; docs/96): each slot names an `action` from a fixed list, never
+// a free behaviour. 'retry' and 'checkpoint' ask the flow to restore that point (G.flow.restore);
+// a slot whose action is null, or whose point is not available for this ending, is drawn
+// unavailable (muted label, aria-disabled) and activating it only shows its explanation (EXIT: the
+// main menu does not exist yet). Escape (review only) closes the proof and returns to the authored
+// ending exactly as it was (its BEGIN AGAIN card still works). Opening or closing never commits a
+// rules step, saves, or changes the state; only an available RETRY / CHECKPOINT does, through the
+// flow.
 //
 // While open: every other stage element is `inert` (no pointer or focus); keys other than Tab,
 // Shift+Tab, Enter, Space and Escape are swallowed before the game sees them; the flow's own input
@@ -36,6 +40,10 @@
   var open = null; // { entry, root, buttons, before, key, keyHandler }
   var shownFor = {}; // state step key -> true: an ending opens its presentation once per page
   var log = []; // QA: what opened and closed, and why
+  var ACTIONS = ['retry', 'checkpoint']; // the only actions a control may name
+  function available(c) {
+    return !!c.action && ACTIONS.indexOf(c.action) !== -1 && !!(G.flow && G.flow.restoreAvailable && G.flow.restoreAvailable(c.action));
+  }
 
   function matches(when, cause) {
     return !!cause && Object.keys(when).every(function (k) { return cause[k] === when[k]; });
@@ -183,7 +191,7 @@
     var sp = L.separator;
     rect(ctx, sp[0], sp[1], sp[2], 4, C.separator); rect(ctx, sp[0], sp[1] + 4, sp[2], 2, C.separatorLight);
     var K = L.controls;
-    e.controls.forEach(function (label, i) {
+    e.controls.forEach(function (c, i) {
       var bx = K.x + i * K.step;
       rect(ctx, bx + K.shadow, K.y + K.shadow, K.w, K.h, C.controlShadow); rect(ctx, bx, K.y, K.w, K.h, C.controlEdge);
       rect(ctx, bx + 4, K.y + 4, K.w - 8, K.h - 8, C.controlFace); rect(ctx, bx + 8, K.y + 8, K.w - 16, 4, C.controlHighlight);
@@ -213,20 +221,24 @@
       by += B.paragraphGap;
     });
     textCanvas('endBody', root, B.x, B.y, B.width + 32, by, lines, B.role, B.scale, C.ink);
-    // Controls: real buttons for focus and assistive tech, labelled as provisional previews.
-    var buttons = e.controls.map(function (label, i) {
+    // Controls: real buttons. An available one restores its point; an unavailable one is drawn
+    // in the muted ink and only explains why (never a silent no-op, never a fake action).
+    var buttons = e.controls.map(function (c, i) {
       var bx = K.x + i * K.step;
-      var btn = el('button', { type: 'button', id: 'endControl' + i, class: 'hit', 'aria-disabled': 'true',
-        'aria-label': 'Preview control ' + (i + 1) + ', provisional label ' + label + ': not approved, performs no game action' }, root);
+      var ok = available(c);
+      var btn = el('button', { type: 'button', id: 'endControl' + i, class: 'hit', 'aria-disabled': ok ? 'false' : 'true',
+        'aria-label': c.label + (ok ? '' : ': unavailable. ' + c.unavailable) }, root);
       place(btn, bx, K.y, K.w, K.h);
       btn.style.background = 'none';
       btn.style.border = '0';
       btn.style.padding = '0';
-      btn.dataset.label = label;
-      var lw = measure(label, K.role, K.scale);
-      var lc = textCanvas('endControlLabel' + i, btn, Math.round((K.w - lw) / 2), K.labelY, lw, face(K.role).lineHeight * K.scale, [{ text: label, x: 0, y: 0 }], K.role, K.scale, C.ink);
+      btn.dataset.label = c.label;
+      btn.dataset.action = c.action || '';
+      btn.dataset.available = ok ? 'true' : 'false';
+      var lw = measure(c.label, K.role, K.scale);
+      var lc = textCanvas('endControlLabel' + i, btn, Math.round((K.w - lw) / 2), K.labelY, lw, face(K.role).lineHeight * K.scale, [{ text: c.label, x: 0, y: 0 }], K.role, K.scale, ok ? C.ink : C.inkUnavailable);
       lc.style.pointerEvents = 'none';
-      btn.addEventListener('click', function () { note(label); });
+      btn.addEventListener('click', function () { activate(i); });
       return btn;
     });
     // The review notice, on the backdrop above the popup (never inside the approved composition).
@@ -242,11 +254,22 @@
     return buttons;
   }
 
-  // A provisional control was activated: say so, do nothing else.
-  function note(label) {
+  // A control was activated: an available one restores its point through the flow (which closes
+  // this presentation); an unavailable one shows its explanation and does nothing else.
+  function activate(i) {
+    if (!open) return;
+    var c = open.entry.controls[i];
+    if (available(c)) {
+      log.push({ t: 'control', label: c.label, action: c.action });
+      if (!G.flow.restore(c.action)) note(c.label + ' FAILED - NOTHING WAS CHANGED');
+      return;
+    }
+    log.push({ t: 'control', label: c.label, action: null });
+    note(c.unavailable);
+  }
+  function note(msg) {
     if (!open) return;
     var plate = open.root.querySelector('#endNotice');
-    var msg = 'PREVIEW CONTROL "' + label + '" - LABEL NOT APPROVED, NO GAME ACTION - ESC CLOSES';
     var N = open.entry.layout.notice;
     var nw = measure(msg, N.role, N.scale);
     var lh = face(N.role).lineHeight * N.scale;
@@ -254,7 +277,6 @@
     place(plate, N.x, N.y, nw + 20, lh + 16);
     textCanvas('endNoticeText', plate, 10, 8, nw, lh, [{ text: msg, x: 0, y: 0 }], N.role, N.scale, open.entry.palette.noticeInk).style.pointerEvents = 'none';
     plate.setAttribute('aria-label', msg);
-    log.push({ t: 'control', label: label });
   }
 
   // Open / close ---------------------------------------------------------------------------------
@@ -289,7 +311,7 @@
       if ((ev.key === 'Enter' || ev.key === ' ') && buttons.indexOf(document.activeElement) !== -1) {
         ev.preventDefault();
         ev.stopPropagation();
-        if (!ev.repeat) note(document.activeElement.dataset.label);
+        if (!ev.repeat) activate(buttons.indexOf(document.activeElement));
         return;
       }
       ev.preventDefault();
@@ -329,8 +351,9 @@
       openFor(entry, stepKey);
       return entry.id;
     },
-    // Review-only dismissal (Escape does the same): back to the authored ending, unchanged.
-    close: function () { close('api'); },
+    // Dismissal (Escape does the same, review only): back to the authored ending, unchanged. The
+    // flow also closes it, with the action's name, just before a RETRY / CHECKPOINT restore.
+    close: function (why) { close(why || 'api'); },
     log: function () { return log.slice(); },
     entries: function () { return DATA.entries.slice(); }
   };

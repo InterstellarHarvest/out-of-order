@@ -11,10 +11,11 @@
 // there and, for a checked choice, the check id and outcome). The ending node alone is never
 // enough: three choices share this ending, and only the voluntary one has approved art.
 //
-// Owner status (docs/93 sections 2 and 5): the VISUAL DESIGN is locked; the body copy is
-// provisional; the three control positions are approved, but their labels and behaviour are NOT.
-// The labels below are the A1 mockup's placeholders, shown only as provisional preview controls
-// that perform no game action.
+// Owner status: the VISUAL DESIGN is locked (docs/93); the body copy is provisional. The three
+// control LABELS, positions and destinations are locked by the owner rulings on PR #11
+// (2026-11-16): RETRY (the state just before the fatal decision), CHECKPOINT (the chapter-entry
+// state), EXIT (the main menu, which does not exist yet: shown unavailable). Retried and
+// checkpointed checks roll fresh (docs/96). Still review-gated: not activated in ordinary play.
 (function (root) {
   'use strict';
   var DATA = {
@@ -29,8 +30,12 @@
       art: { path: 'art/deaths/rest_assured_voluntary.png', sha256: '7f469efa40548568af5dfe3c11602b9c6293282d9574caa5f36fc37113e72d9c', size: [314, 206], scale: 2 },
       title: 'PERMANENTLY SATISFIED.',
       body: ['You have achieved permanent relaxation.', 'The House is delighted to report that its newest customer has stopped complaining.'],
-      controls: ['RETRY', 'BEGIN AGAIN', 'EXIT'],
-      notice: 'REVIEW PROOF - PROVISIONAL CONTROLS: LABELS NOT APPROVED, NO GAME ACTION - ESC CLOSES',
+      controls: [
+        { label: 'RETRY', action: 'retry', unavailable: 'RETRY UNAVAILABLE - NO SAVED STATE BEFORE THIS DECISION' },
+        { label: 'CHECKPOINT', action: 'checkpoint', unavailable: 'CHECKPOINT UNAVAILABLE - NO CHAPTER-ENTRY SNAPSHOT' },
+        { label: 'EXIT', action: null, unavailable: 'EXIT LEADS TO THE MAIN MENU, WHICH DOES NOT EXIST YET' }
+      ],
+      notice: 'REVIEW BUILD - RETRY AND CHECKPOINT ARE LIVE - EXIT AWAITS THE MAIN MENU - ESC CLOSES',
       // The frozen backdrop: the real game frame in hard blocks, each RGB channel multiplied.
       backdrop: { block: 10, multiply: 0.35 },
       // The approved A1 composition at canonical 1920x1080 stage coordinates (the study's lab
@@ -48,7 +53,7 @@
         shadow: '#101e22', edge: '#19393e', bevel: '#abc3b9', light: '#f9f0d9', face: '#e8dfc6', lowerBorder: '#ab9e85',
         artFrame: '#24484a', artMat: '#f6edd5', separator: '#b4aa92', separatorLight: '#f9f0d9',
         controlShadow: '#9d927d', controlEdge: '#244348', controlFace: '#bacdc0', controlHighlight: '#f4efda',
-        ink: '#233a3b', noticePlate: '#0e1b20', noticeInk: '#f1d898'
+        ink: '#233a3b', inkUnavailable: '#7d9189', noticePlate: '#0e1b20', noticeInk: '#f1d898'
       }
     }]
   };
