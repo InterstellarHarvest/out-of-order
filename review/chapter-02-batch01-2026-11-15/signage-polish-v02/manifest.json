@@ -1,0 +1,110 @@
+{
+  "reviewedCommit": "e9dff9cb9c06ec38cda0b29cff8141df4263fb40",
+  "assets": [
+    {
+      "id": "A",
+      "effectivePath": "candidates/A-conveniences-bureau.png",
+      "sha256": "90e2e936ca828ff429da78d86c5e694b083d7ea5909d56ab26a107ef0a1c9676",
+      "originalPath": "../candidates/A-conveniences-bureau.png",
+      "originalSha256": "f6f2a07db98c03e56ce2646bb0411e5d9d483a826c543abf68d8b99f45cc97e9",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "signageRevised": true,
+      "compositionStatus": "accepted",
+      "productionPath": null
+    },
+    {
+      "id": "B",
+      "effectivePath": "../candidates/B-groundskeeper.png",
+      "sha256": "5f3ff412dff5b710bfbbe7a33c6f4b4de0ee815208b7854c393b546212371e95",
+      "originalPath": "../candidates/B-groundskeeper.png",
+      "originalSha256": "5f3ff412dff5b710bfbbe7a33c6f4b4de0ee815208b7854c393b546212371e95",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "signageRevised": false,
+      "compositionStatus": "accepted",
+      "productionPath": null
+    },
+    {
+      "id": "C",
+      "effectivePath": "candidates/C-formal-entrance.png",
+      "sha256": "d1a55f75863a7e2a3b854566638128064b998c5d6a83659399e4ad53ce66f2e9",
+      "originalPath": "../candidates/C-formal-entrance.png",
+      "originalSha256": "4a637bb22d89af132a2b51b203c431dd09b2a8e048a0c2753114800dd69f9ac9",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "signageRevised": true,
+      "compositionStatus": "accepted",
+      "productionPath": null
+    },
+    {
+      "id": "D",
+      "effectivePath": "../candidates/D-service-entry.png",
+      "sha256": "c25a49a72a96df1dc1379dad8ebd445af2f6c8b6adf75705cb52e8800195135c",
+      "originalPath": "../candidates/D-service-entry.png",
+      "originalSha256": "c25a49a72a96df1dc1379dad8ebd445af2f6c8b6adf75705cb52e8800195135c",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "signageRevised": false,
+      "compositionStatus": "accepted",
+      "productionPath": null
+    },
+    {
+      "id": "E",
+      "effectivePath": "candidates/E-jungle-junction.png",
+      "sha256": "0161d0a7132bf1656a5037e6ec2812e62220c9853e4ed251176c161086fed003",
+      "originalPath": "../candidates/E-jungle-junction.png",
+      "originalSha256": "310a8d952ee7e1d3e195b67db2eb916136a8f661507ffe974eca187db1e606ae",
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "signageRevised": true,
+      "compositionStatus": "accepted",
+      "productionPath": null
+    },
+    {
+      "id": "F",
+      "effectivePath": "../candidates/F-groundskeeper-background.png",
+      "sha256": "c96f40c20412bff3ea42238d190c85558959b37a9120eec9858182c980f11f68",
+      "originalPath": "../candidates/F-groundskeeper-background.png",
+      "originalSha256": "c96f40c20412bff3ea42238d190c85558959b37a9120eec9858182c980f11f68",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "signageRevised": false,
+      "compositionStatus": "accepted",
+      "productionPath": null
+    },
+    {
+      "id": "G",
+      "effectivePath": "../candidates/G-groundskeeper-foreground.png",
+      "sha256": "afc7055ffe4b60f3efc4cb3747bc21fee61275f937cdefa1c1794f4b02adb402",
+      "originalPath": "../candidates/G-groundskeeper-foreground.png",
+      "originalSha256": "afc7055ffe4b60f3efc4cb3747bc21fee61275f937cdefa1c1794f4b02adb402",
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGBA",
+      "signageRevised": false,
+      "compositionStatus": "accepted",
+      "productionPath": null
+    }
+  ]
+}

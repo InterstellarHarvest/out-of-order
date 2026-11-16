@@ -167,5 +167,24 @@
       ],
       "hidden_rgb_zero": true
     }
-  ]
+  ],
+  "latestRevision": {
+    "path": "signage-polish-v02/",
+    "gallery": "signage-polish-v02/index.html",
+    "qa": "signage-polish-v02/qa.json",
+    "manifest": "signage-polish-v02/manifest.json",
+    "compositionStatus": "All seven compositions accepted at e9dff9cb9c06ec38cda0b29cff8141df4263fb40",
+    "revisedAssets": [
+      "A",
+      "C",
+      "E"
+    ],
+    "unchangedAssets": [
+      "B",
+      "D",
+      "F",
+      "G"
+    ],
+    "note": "Original measurements below remain valid for original candidate files; follow latestRevision for selected signage exports."
+  }
 }

@@ -1,0 +1,165 @@
+{
+  "reviewedCommit": "e9dff9cb9c06ec38cda0b29cff8141df4263fb40",
+  "passed": true,
+  "method": "Explicit integer-coordinate native pixel fills, bitmap glyphs and pictograms; no image generation or scene resampling",
+  "allOriginalPngStoryGameFilesPreserved": true,
+  "preservedFileCount": 560,
+  "preservationFailures": [],
+  "totalOutsideAllowedChanges": 0,
+  "unchangedAssets": [
+    "B",
+    "D",
+    "F",
+    "G"
+  ],
+  "revisedAssets": [
+    "A",
+    "C",
+    "E"
+  ],
+  "assets": {
+    "A": {
+      "changedPixels": 454,
+      "changedBounds": [
+        88,
+        113,
+        131,
+        143
+      ],
+      "allowedRegions": [
+        [
+          101,
+          113,
+          132,
+          126
+        ],
+        [
+          86,
+          130,
+          130,
+          143
+        ]
+      ],
+      "outsideAllowedChangedPixels": 0,
+      "dimensionsUnchanged": true,
+      "modeUnchanged": true,
+      "paletteUnchanged": true,
+      "exact4xVerified": true,
+      "byteIdenticalOriginal": false
+    },
+    "B": {
+      "changedPixels": 0,
+      "changedBounds": null,
+      "allowedRegions": [],
+      "outsideAllowedChangedPixels": 0,
+      "dimensionsUnchanged": true,
+      "modeUnchanged": true,
+      "paletteUnchanged": true,
+      "exact4xVerified": "unchanged original",
+      "byteIdenticalOriginal": true
+    },
+    "C": {
+      "changedPixels": 1105,
+      "changedBounds": [
+        49,
+        71,
+        267,
+        106
+      ],
+      "allowedRegions": [
+        [
+          49,
+          71,
+          72,
+          106
+        ],
+        [
+          242,
+          71,
+          267,
+          106
+        ]
+      ],
+      "outsideAllowedChangedPixels": 0,
+      "dimensionsUnchanged": true,
+      "modeUnchanged": true,
+      "paletteUnchanged": true,
+      "exact4xVerified": true,
+      "byteIdenticalOriginal": false
+    },
+    "D": {
+      "changedPixels": 0,
+      "changedBounds": null,
+      "allowedRegions": [],
+      "outsideAllowedChangedPixels": 0,
+      "dimensionsUnchanged": true,
+      "modeUnchanged": true,
+      "paletteUnchanged": true,
+      "exact4xVerified": "unchanged original",
+      "byteIdenticalOriginal": true
+    },
+    "E": {
+      "changedPixels": 1194,
+      "changedBounds": [
+        106,
+        103,
+        151,
+        158
+      ],
+      "allowedRegions": [
+        [
+          106,
+          103,
+          151,
+          116
+        ],
+        [
+          106,
+          123,
+          151,
+          132
+        ],
+        [
+          106,
+          136,
+          151,
+          145
+        ],
+        [
+          106,
+          149,
+          151,
+          158
+        ]
+      ],
+      "outsideAllowedChangedPixels": 0,
+      "dimensionsUnchanged": true,
+      "modeUnchanged": true,
+      "paletteUnchanged": true,
+      "exact4xVerified": true,
+      "byteIdenticalOriginal": false
+    },
+    "F": {
+      "changedPixels": 0,
+      "changedBounds": null,
+      "allowedRegions": [],
+      "outsideAllowedChangedPixels": 0,
+      "dimensionsUnchanged": true,
+      "modeUnchanged": true,
+      "paletteUnchanged": true,
+      "exact4xVerified": "unchanged original",
+      "byteIdenticalOriginal": true
+    },
+    "G": {
+      "changedPixels": 0,
+      "changedBounds": null,
+      "allowedRegions": [],
+      "outsideAllowedChangedPixels": 0,
+      "dimensionsUnchanged": true,
+      "modeUnchanged": true,
+      "paletteUnchanged": true,
+      "exact4xVerified": "unchanged original",
+      "byteIdenticalOriginal": true
+    }
+  }
+}

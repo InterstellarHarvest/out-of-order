@@ -1,0 +1,45 @@
+{
+  "browser": "Chrome headless",
+  "mode": "local file; no server or hosting",
+  "result": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "all native images load",
+        "pass": true
+      },
+      {
+        "name": "three revision comparison sections",
+        "pass": true
+      },
+      {
+        "name": "four unchanged assets",
+        "pass": true
+      },
+      {
+        "name": "native comparison is650pixels",
+        "pass": true
+      },
+      {
+        "name": "pixel counts current",
+        "pass": true
+      },
+      {
+        "name": "4x comparison is2600pixels",
+        "pass": true
+      },
+      {
+        "name": "4x masks are1256pixels",
+        "pass": true
+      },
+      {
+        "name": "all4ximages load",
+        "pass": true
+      },
+      {
+        "name": "return to native width",
+        "pass": true
+      }
+    ]
+  }
+}

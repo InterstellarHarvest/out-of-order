@@ -1,5 +1,7 @@
 # Chapter 2 · Batch 1 · Biology Park foundation
 
+> Current review: all seven compositions accepted at `e9dff9c`. See [signage polish v02](signage-polish-v02/index.html) for the A/C/E corrections, before/after comparisons, masks and updated QA. Every original PNG below is preserved unchanged.
+
 Seven generated PNG candidates, created with the **built-in image_gen workflow**, exported with controlled pixel processing, and ready for owner visual review. Open [the private review gallery](index.html) directly from disk. It has native/4× switches, independently composited portrait layers, and checkerboard/light/dark alpha inspection. This folder is private local review material; no hosting or deployment was created.
 
 | ID | Candidate | Registry mapping | Contract |
