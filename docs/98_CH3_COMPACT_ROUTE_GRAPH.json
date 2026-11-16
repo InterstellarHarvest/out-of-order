@@ -9,10 +9,10 @@
     "checks": 11,
     "entry": {
       "E_PUBLIC": {
-        "routes": 4449,
-        "minHubs": 3,
-        "maxHubs": 13,
-        "maxVisited": 17,
+        "routes": 3873,
+        "minHubs": 5,
+        "maxHubs": 12,
+        "maxVisited": 16,
         "successes": [
           "END_ADMIN",
           "END_UNREG_WIDE",
@@ -26,10 +26,10 @@
         ]
       },
       "E_SERVICE": {
-        "routes": 4449,
-        "minHubs": 3,
-        "maxHubs": 13,
-        "maxVisited": 17,
+        "routes": 3873,
+        "minHubs": 5,
+        "maxHubs": 12,
+        "maxVisited": 16,
         "successes": [
           "END_ADMIN",
           "END_UNREG_WIDE",
@@ -43,10 +43,10 @@
         ]
       },
       "E_TRAM": {
-        "routes": 4449,
-        "minHubs": 3,
-        "maxHubs": 13,
-        "maxVisited": 17,
+        "routes": 3873,
+        "minHubs": 5,
+        "maxHubs": 12,
+        "maxVisited": 16,
         "successes": [
           "END_ADMIN",
           "END_UNREG_WIDE",
@@ -175,11 +175,11 @@
     },
     "A_DEMO": {
       "type": "scene",
-      "desc": "Participation classification discrepancy; short admin route",
+      "desc": "Demonstrator record is sent for anticipated-conduct review; no immediate short-circuit to finale",
       "choices": [
         {
           "label": "CONTINUE",
-          "to": "STAGE_ADMIN",
+          "to": "B_CONDUCT",
           "kind": "continue"
         }
       ]
@@ -351,8 +351,8 @@
           "flag": "ch3_original_independent_response_seen"
         },
         {
-          "label": "Trace its unscripted speech line",
-          "to": "C_WORKSHOP",
+          "label": "Trace the witness speech feed to the hearing control interface",
+          "to": "STAGE_TECH",
           "flag": "ch3_original_independent_response_seen"
         }
       ]
@@ -534,8 +534,8 @@
           "to": "STAGE_ADMIN"
         },
         {
-          "label": "Follow the correction equipment control line",
-          "to": "C_WORKSHOP"
+          "label": "Follow correction control cables to the hearing's service interface",
+          "to": "STAGE_TECH"
         }
       ]
     },

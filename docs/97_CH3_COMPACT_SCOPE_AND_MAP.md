@@ -16,7 +16,13 @@
 | Fatal endings | 5 | 2 proposed |
 | Longest graph decision path | 11 on Chapter 2 no-repeat analysis | 13 |
 
-**Scope target:** keep Chapter 3 at approximately **65–85 meaningful action cards, 22–29 branching hubs, 80–100 story nodes at most if authored narration needs splits, and no route more than ~12–13 decision points without an exceptional creative reason.** This smaller-first graph includes 71 cards, 28 hubs, and is within the budget. Do not fill unused slots with arbitrary paperwork decisions. A shorter graph can contain more narration, so scene prose must be edited for pace against Chapter 2 as well.
+**Scope target:** keep Chapter 3 at approximately **65–85 meaningful action cards, 22–29 branching hubs, 80–100 story nodes at most if authored narration needs splits, and no route more than ~12 decision points, with only the deepest optional paths approaching that length.** This smaller-first graph includes 71 cards, 28 hubs, and is within the budget. Do not fill unused slots with arbitrary paperwork decisions. A shorter graph can contain more narration, so scene prose must be edited for pace against Chapter 2 as well.
+
+## Measured playthrough pacing
+
+The revised graph has **5–12 meaningful decision hubs per modeled route** (Chapter 2 non-repeating surviving routes: **5–11**). The shortest paths now require engagement with at least one substantive records or technical incident before the hearing. The longest paths are optional cross-route investigations and add at most one decision relative to Chapter 2's observed maximum. This counts structural decisions, not reading time; scene prose will be edited for equivalent pacing.
+
+The **49 planning nodes are not directly comparable** to Chapter 2's 99 playable nodes: the draft often records outcomes as inline text plus effects, while Chapter 2 uses separate narration, choice and continue nodes. The relevant comparable metrics at this stage are 71 action cards versus 80, and 28 branching hubs versus 27. Do not pad the graph to force node parity.
 
 ## What stays
 
@@ -29,9 +35,9 @@
 
 ## What was CUT or collapsed
 
-1. **Plumbing and demonstrator registration:** each becomes ONE narrated event with a CONTINUE to an appropriate finale/other route, rather than new three-card question menus.
+1. **Plumbing and demonstrator registration:** each becomes ONE narrated event with a CONTINUE to a substantive records or technical route, rather than new three-card question menus.
 2. **Records Review, Backstage Facility, Original Records, Staff Services:** choice-specific result text and one-way continuation, NOT new three-card hubs.
-3. **Shared correction:** one two-card decision node reused after several nonfatal failures, rather than three separate correction departments.
+3. **Shared correction:** one two-card decision node reused after several nonfatal failures, leading directly to finale staging, rather than three separate correction departments.
 4. **Human Verification, Surplus, Witness Standards, Technical Adjustments, Source Registration, Empty Photo Correction, Unapproved Exposure:** only TWO meaningful actions each; remove the least distinctive third procedure.
 5. **Custody of Originals and Household Routing:** two choices each; preserve photo story evidence without one extra bureaucratic investigation.
 6. **Representation Repair:** result and CONTINUE to technical staging, no extra three-choice incident.
