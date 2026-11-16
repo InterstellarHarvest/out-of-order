@@ -1,0 +1,47 @@
+[
+  {
+    "id": "B",
+    "name": "plant-pedestal",
+    "prompt": "Use case: stylized-concept. New game object sprite, genuine transparent background. Reference images provide identity and chunky pixel palette only; do NOT copy or regenerate any room. Author independently for tiny environmental pixel density: broad clean pixel clusters, hard stepped edges, very limited colors, no anti-aliasing, no noise, no text, no floor or room. View slightly from above/front, light upper-left, warm ivory highlights, restrained shadow lower-right. Object fully visible centered with generous transparent margin. Design intended for a 314x206 point-and-click scene, not a detailed inventory icon. A modest 1960s automated domestic plant adoption station, logical sprite about 40 pixels wide and 62 tall. Actual reference plant: a few variegated arrow-shaped green leaves in a small white fluted plastic pot, pencil waterline. Plant modest, pot only about 12 pixels wide. Pot on a narrow waist-high ivory/aluminum pedestal with pale aqua trim, small stable oval foot. A small directed care lamp on a short bent arm beside pot, and one compact watering nozzle directed at soil. Charming sincere House of Tomorrow care device, not medical machinery. No other objects. Match scale and style of foyer reference; it is context only.",
+    "refs": [
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/art/items/small_desk_plant_inspect.png",
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/foyer-single-door-v03.png"
+    ]
+  },
+  {
+    "id": "C",
+    "name": "stored-plant",
+    "prompt": "Use case: stylized-concept. New game object sprite, genuine transparent background. Reference images provide identity and chunky pixel palette only; do NOT copy or regenerate any room. Author independently for tiny environmental pixel density: broad clean pixel clusters, hard stepped edges, very limited colors, no anti-aliasing, no noise, no text, no floor or room. View slightly from above/front, light upper-left, warm ivory highlights, restrained shadow lower-right. Object fully visible centered with generous transparent margin. Design intended for a 314x206 point-and-click scene, not a detailed inventory icon. Only the desk plant, independently authored at about 24x29 logical pixels. Preserve pointed variegated leaves, stems and WHITE FLUTED plastic pot with dark soil and tiny pencil waterline. Warm scene lighting. No pedestal, no lamp, no nozzle, no platform. Storage scene reference is color and perspective context only.",
+    "refs": [
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/art/items/small_desk_plant_inspect.png",
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png"
+    ]
+  },
+  {
+    "id": "D",
+    "name": "stored-stapler",
+    "prompt": "Use case: stylized-concept. New game object sprite, genuine transparent background. Reference images provide identity and chunky pixel palette only; do NOT copy or regenerate any room. Author independently for tiny environmental pixel density: broad clean pixel clusters, hard stepped edges, very limited colors, no anti-aliasing, no noise, no text, no floor or room. View slightly from above/front, light upper-left, warm ivory highlights, restrained shadow lower-right. Object fully visible centered with generous transparent margin. Design intended for a 314x206 point-and-click scene, not a detailed inventory icon. Only the red metal office stapler. Independently authored for about 25x13 logical pixels, broad red silhouette, chrome internal jaw, black base. Three-quarter view from slightly above, long horizontal axis. Preserve reference identity, omit lettering because world-scale too small. No extra objects or platform.",
+    "refs": [
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/art/items/red_swangline_stapler_inspect.png",
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png"
+    ]
+  },
+  {
+    "id": "E",
+    "name": "stored-band-ball",
+    "prompt": "Use case: stylized-concept. New game object sprite, genuine transparent background. Reference images provide identity and chunky pixel palette only; do NOT copy or regenerate any room. Author independently for tiny environmental pixel density: broad clean pixel clusters, hard stepped edges, very limited colors, no anti-aliasing, no noise, no text, no floor or room. View slightly from above/front, light upper-left, warm ivory highlights, restrained shadow lower-right. Object fully visible centered with generous transparent margin. Design intended for a 314x206 point-and-click scene, not a detailed inventory icon. Only a small round office rubber-band ball. Independently authored for about 15x15 logical pixels: broad interwoven tan, muted orange-red and slate blue-gray rubber bands, simple round silhouette and upper-left highlight. No extra objects or platform.",
+    "refs": [
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/art/items/rubber_band_ball_inspect.png",
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png"
+    ]
+  },
+  {
+    "id": "F",
+    "name": "stored-clicker",
+    "prompt": "Use case: stylized-concept. New game object sprite, genuine transparent background. Reference images provide identity and chunky pixel palette only; do NOT copy or regenerate any room. Author independently for tiny environmental pixel density: broad clean pixel clusters, hard stepped edges, very limited colors, no anti-aliasing, no noise, no text, no floor or room. View slightly from above/front, light upper-left, warm ivory highlights, restrained shadow lower-right. Object fully visible centered with generous transparent margin. Design intended for a 314x206 point-and-click scene, not a detailed inventory icon. Only the reference applause timing clicker, independently authored for about 15x21 logical pixels. Blue-gray rectangular metal case, large round cream dial with dark pointer, red-brown round Bakelite button lower right, three dark slots lower left, little silver top plunger/loop. Slightly tilted backward resting on its small base, front visible from above. Omit unreadable numbers. No extra objects or platform.",
+    "refs": [
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/art/items/applause_timing_clicker_inspect.png",
+      "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch01-art-batch05/review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png"
+    ]
+  }
+]

@@ -1,0 +1,219 @@
+{
+  "baseline": "a4a5c012ef32cd08e78c05914e742f9049a58f74",
+  "canonical_count": 7,
+  "original_png_count": 359,
+  "original_pngs_unchanged": true,
+  "assets": [
+    {
+      "id": "A",
+      "file": "assets/A-album-removed.png",
+      "status": "generated",
+      "parent": "review/chapter-01-batch03-2026-11-15/wide-speaker-position-v05/gallery-v05.png",
+      "size": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "96c1b1ced5a3897b6caa51b98ad85b38030bce539ec25f21d38e628ebd362fdd",
+      "allowed_bbox": [
+        253,
+        89,
+        308,
+        111
+      ],
+      "actual_change_bbox": [
+        253,
+        89,
+        307,
+        110
+      ],
+      "changed_pixels": 837,
+      "outside_changes": 0,
+      "binary_alpha": null,
+      "hidden_rgb_zero": null
+    },
+    {
+      "id": "B",
+      "file": "assets/B-plant-adoption.png",
+      "status": "generated",
+      "parent": "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/foyer-single-door-v03.png",
+      "size": [
+        314,
+        206
+      ],
+      "mode": "RGBA",
+      "sha256": "dd974ade353c0366d150e40662fdd6d19a478c9e6303d993be1b944039e70236",
+      "allowed_bbox": [
+        173,
+        112,
+        208,
+        177
+      ],
+      "actual_change_bbox": [
+        173,
+        112,
+        205,
+        176
+      ],
+      "changed_pixels": 974,
+      "outside_changes": 0,
+      "binary_alpha": true,
+      "hidden_rgb_zero": true
+    },
+    {
+      "id": "C",
+      "file": "assets/C-stored-plant.png",
+      "status": "generated",
+      "parent": "review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png",
+      "size": [
+        314,
+        206
+      ],
+      "mode": "RGBA",
+      "sha256": "867019e15581bed769bf34421ef7259dfa11d651aa36313b73ee69f888d1336c",
+      "allowed_bbox": [
+        145,
+        56,
+        171,
+        85
+      ],
+      "actual_change_bbox": [
+        145,
+        56,
+        168,
+        84
+      ],
+      "changed_pixels": 310,
+      "outside_changes": 0,
+      "binary_alpha": true,
+      "hidden_rgb_zero": true
+    },
+    {
+      "id": "D",
+      "file": "assets/D-stored-stapler.png",
+      "status": "generated",
+      "parent": "review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png",
+      "size": [
+        314,
+        206
+      ],
+      "mode": "RGBA",
+      "sha256": "d524b3eee63fd3c5f1f2613d834926c53575528c4e3595d9e2e9611c8763bea9",
+      "allowed_bbox": [
+        145,
+        69,
+        172,
+        85
+      ],
+      "actual_change_bbox": [
+        145,
+        69,
+        172,
+        85
+      ],
+      "changed_pixels": 332,
+      "outside_changes": 0,
+      "binary_alpha": true,
+      "hidden_rgb_zero": true
+    },
+    {
+      "id": "E",
+      "file": "assets/E-stored-band-ball.png",
+      "status": "generated",
+      "parent": "review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png",
+      "size": [
+        314,
+        206
+      ],
+      "mode": "RGBA",
+      "sha256": "00f4926835332c59378719306c01a26385567125ef25e4220dcc6ad5a8c2dccc",
+      "allowed_bbox": [
+        150,
+        70,
+        166,
+        85
+      ],
+      "actual_change_bbox": [
+        150,
+        70,
+        166,
+        85
+      ],
+      "changed_pixels": 162,
+      "outside_changes": 0,
+      "binary_alpha": true,
+      "hidden_rgb_zero": true
+    },
+    {
+      "id": "F",
+      "file": "assets/F-stored-clicker.png",
+      "status": "generated",
+      "parent": "review/chapter-01-batch04-2026-11-15/candidates/storage-v02.png",
+      "size": [
+        314,
+        206
+      ],
+      "mode": "RGBA",
+      "sha256": "22660a4ea50b2f8bdbf0a7ed1f30b48110503a2625660c3a7f4209f7aa7ca9a6",
+      "allowed_bbox": [
+        150,
+        63,
+        167,
+        85
+      ],
+      "actual_change_bbox": [
+        150,
+        63,
+        167,
+        85
+      ],
+      "changed_pixels": 283,
+      "outside_changes": 0,
+      "binary_alpha": true,
+      "hidden_rgb_zero": true
+    },
+    {
+      "id": "G",
+      "file": "assets/G-returns-display.png",
+      "status": "generated",
+      "parent": "review/chapter-01-batch04-2026-11-15/candidates/utility-exit-v01.png",
+      "size": [
+        314,
+        206
+      ],
+      "mode": "RGBA",
+      "sha256": "a6df04106deb0da8fb62600b05b3ee9d9a24bc1cf39d008b7b60bfaa63fd9c30",
+      "allowed_bbox": [
+        229,
+        84,
+        271,
+        100
+      ],
+      "actual_change_bbox": [
+        232,
+        88,
+        266,
+        95
+      ],
+      "changed_pixels": 128,
+      "outside_changes": 0,
+      "binary_alpha": true,
+      "hidden_rgb_zero": true
+    }
+  ],
+  "generated_source_hashes": {
+    "sources/B-plant-pedestal-render.png": "744fe0ad336b2e807b5dbae3bd787b7e06f6e7751889d7ea8f900c2b2bae44ee",
+    "sources/C-stored-plant-render.png": "7ce6e5fb6da05f0dfa0d6b0d461e0c854f33928068228513ad6e3e09efed179a",
+    "sources/E-stored-band-ball-render.png": "f7397345e835d5402682d671b2509f66f48ae4d711758fe60440c2ee2ee9dc96",
+    "sources/D-stored-stapler-render.png": "4a110cfba35bfa829cef201067f9a1d89cada07df1936cd557f07f13314fedc5",
+    "sources/F-stored-clicker-render.png": "c1eabc2f2a770f4fc546fdc22f57bde160e07d1029dced86f613e4f8dcea9117"
+  },
+  "independent_checks": {
+    "exact_4x_all_states": true,
+    "all_gallery_links_resolve": true,
+    "storage_lip_y89_onward_clear": true,
+    "canonical_count_modes_hashes_valid": true,
+    "saved_composites_and_masks_match": true,
+    "originals_hashes_match": true
+  }
+}
