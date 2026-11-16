@@ -55,6 +55,8 @@ jobs:
         run: node game/qa/validate_ch02_routes.js
       - name: Chapter 1 production art (29-image provenance, registry, state-dependent art on real routes)
         run: node game/qa/validate_ch01_art.js
+      - name: Death controls (restore points, attempt-scoped dice, saves; RETRY / CHECKPOINT rules)
+        run: node game/qa/validate_death_controls.js
       - name: Assets (static)
         run: node game/qa/validate_assets.js
       - name: Storyboard viewer (chapters, independent layouts, shared art catalog)
@@ -70,6 +72,7 @@ jobs:
             game/qa/story_import_results.json
             game/qa/ch02_route_results.json
             game/qa/ch01_art_results.json
+            game/qa/death_controls_results.json
             game/qa/asset_results.json
           if-no-files-found: ignore
 
@@ -108,6 +111,9 @@ jobs:
       - name: Rest Assured death presentation proof (feature-gated; geometry, A1 parity, backdrop, isolation, cause selection)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_end_presentation_qa.js
+      - name: Death controls in the game (RETRY / CHECKPOINT / EXIT, reloads, save compatibility, two browsers)
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_death_controls_qa.js
       - name: Biology Park full routes + Scene Pickup Inspector (House hand-offs, antidote kits, two browsers)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch02_routes_qa.js
@@ -138,6 +144,7 @@ jobs:
             game/qa/ch01_route_screenshots/
             game/qa/ch01_art_screenshots/
             game/qa/end_presentation_screenshots/
+            game/qa/death_controls_screenshots/
             game/qa/ch02_route_screenshots/
             tools/m2-reception-polish-lab/qa/
             tools/layout-lab/qa/qa_results.json

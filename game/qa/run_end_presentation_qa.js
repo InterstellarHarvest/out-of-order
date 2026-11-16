@@ -15,8 +15,9 @@
 //     uniform and equal to that frame's block-centre pixel x 0.35; the capture itself against the
 //     real screenshot;
 //   - freeze and isolation: frames stable, no input/focus/keyboard reaches the game, Tab stays on
-//     the three provisional controls, which do nothing; no save, state, inventory, flag or dice
-//     change; Escape returns to the identical ending frame, whose BEGIN AGAIN still works;
+//     the unavailable EXIT control, which only explains itself (RETRY / CHECKPOINT restores are
+//     run_death_controls_qa.js's); no save, state, inventory, flag or dice change; Escape returns
+//     to the identical ending frame, whose BEGIN AGAIN still works;
 //   - resize (uniform scale, then restored exactly), reduced motion, reload;
 //   - cause selection: only accept_permanent_rest opens it; failed stapler and unarmed checks, a
 //     successful escape, other endings and the gate-off game do not.
@@ -58,11 +59,11 @@ if (!A1) console.log('SKIP A1 parity: the pinned study commit ' + STUDY.slice(0,
 
 // Real states --------------------------------------------------------------------------------------
 const CHAIR = R.HOUSE.chair_fatal.path.slice(0, -1); // ... enter_rest_assured: at chair_locked
+// The save the gated game would have written at the chair (state + restore points, docs/96).
 function chairSave(item) {
-  const path = item ? R.HOUSE.stapler_clean.path.slice(0, R.HOUSE.stapler_clean.path.indexOf('enter_rest_assured') + 1) : CHAIR;
-  const s = R.stepAll(story, R.prologue(story, item, 1), path);
-  if (s.node !== 'chair_locked') throw new Error('not at the chair');
-  return Rules.serialize(story, s, { presented: s.transcript.length });
+  const t = require('./tracked_routes.js').tracked(story, item, 1).steps(item ? require('./tracked_routes.js').STAPLER_CHAIR : CHAIR);
+  if (t.state.node !== 'chair_locked') throw new Error('not at the chair');
+  return t.save();
 }
 // A seed whose real roll gives `ok` for `check` when taking `choice` at the chair.
 function seedFor(item, choice, checkId, ok) {
@@ -199,8 +200,9 @@ async function run(name, base) {
     C('title and body are independent text canvases (never baked into the art), with the brief\'s exact words',
       dom.title === 'PERMANENTLY SATISFIED.' && dom.titleTag === 'CANVAS' && dom.bodyTag === 'CANVAS'
       && dom.body.replace(/\n/g, ' ') === 'You have achieved permanent relaxation. The House is delighted to report that its newest customer has stopped complaining.', dom);
-    C('three provisional controls at the approved footprints, each marked not approved / no action', dom.controls.map((c) => c.r.join()).join('|') === '570,669,240,62|840,669,240,62|1110,669,240,62'
-      && dom.controls.every((c) => c.disabled === 'true' && /provisional label .*not approved, performs no game action/.test(c.aria)) && /PROVISIONAL CONTROLS: LABELS NOT APPROVED, NO GAME ACTION/.test(dom.notice), dom.controls);
+    C('the owner-locked controls at the approved footprints: RETRY and CHECKPOINT available, EXIT unavailable (main menu pending)', dom.controls.map((c) => c.r.join()).join('|') === '570,669,240,62|840,669,240,62|1110,669,240,62'
+      && dom.controls.map((c) => c.label + ':' + c.disabled).join() === 'RETRY:false,CHECKPOINT:false,EXIT:true' && /MAIN MENU, WHICH DOES NOT EXIST YET/.test(dom.controls[2].aria)
+      && /RETRY AND CHECKPOINT ARE LIVE - EXIT AWAITS THE MAIN MENU/.test(dom.notice), dom.controls);
     C('topmost layer of the stage; everything beneath inert; focus inside the dialog', dom.top === 'endPresentation' && dom.inert && dom.focus !== 'outside', dom);
     C('backdrop computed exactly from readable captured pixels (images, canvases, fills)', dom.method === 'exact' && dom.capture.images >= 15 && dom.capture.canvases >= 5, dom.capture);
 
@@ -263,16 +265,19 @@ async function run(name, base) {
       // A1 parity: the popup region (incl. shadow) pixel for pixel, title rows reported apart.
       if (a1) {
         const A1 = await pixels(a1);
-        let n = 0, diff = 0, titleDiff = 0, diffOutsideTitle = [];
+        // The control label faces (owner-locked labels RETRY / CHECKPOINT / EXIT replace the
+        // mockup's; EXIT is drawn in the unavailable ink) are reported apart, like the title row.
+        const label = (x, y) => [570, 840, 1110].some((bx) => x >= bx + 8 && x < bx + 232 && y >= 669 + 13 && y < 669 + 58);
+        let n = 0, diff = 0, titleDiff = 0, labelDiff = 0, diffOutsideTitle = [];
         for (let y = 135; y < 787; y++) for (let x = 280; x < 1652; x++) {
           const a = at(S, x, y), b = at(A1, x, y); n++;
           if (a[0] !== b[0] || a[1] !== b[1] || a[2] !== b[2]) {
-            if (y >= 160 && y < 190) titleDiff++; else { diff++; if (diffOutsideTitle.length < 5) diffOutsideTitle.push([x, y]); }
+            if (y >= 160 && y < 190) titleDiff++; else if (label(x, y)) labelDiff++; else { diff++; if (diffOutsideTitle.length < 5) diffOutsideTitle.push([x, y]); }
           }
         }
         let bg = 0, bgDiff = 0;
         for (let y = 0; y < 1080; y += 2) for (let x = 0; x < 1920; x += 2) { if (inside(x, y)) continue; bg++; const a = at(S, x, y), b = at(A1, x, y); if (a[0] !== b[0] || a[1] !== b[1] || a[2] !== b[2]) bgDiff++; }
-        out.a1 = { popupPixels: n, diffOutsideTitle: diff, sample: diffOutsideTitle, titleRowDiff: titleDiff, backdropSampled: bg, backdropDiffer: bgDiff };
+        out.a1 = { popupPixels: n, diffOutsideTitle: diff, sample: diffOutsideTitle, titleRowDiff: titleDiff, controlLabelDiff: labelDiff, backdropSampled: bg, backdropDiffer: bgDiff };
       }
       return out;
     }, { downscaled, shot: b64(canonical), a1: A1 ? b64(A1) : null, art: b64(fs.readFileSync(path.join(ROOT, ENTRY.art.path))), frame: b64(endingFrame), popup: { notice: await page.evaluate(() => { const b = document.getElementById('endNotice').getBoundingClientRect(); return [b.left, b.top, b.width, b.height]; }) } });
@@ -289,7 +294,8 @@ async function run(name, base) {
       px.backdrop.inexactElsewhere === 0 && px.backdrop.lighter === 0 && px.backdrop.exact / px.backdrop.blocks >= 0.97, px.backdrop);
     C('backdrop darkened to 35% of the real frame (65% darker): luminance ratio 0.35 +- 0.01', Math.abs(px.darkRatio - 0.35) <= 0.01, px.darkRatio);
     if (px.a1) {
-      C('A1 parity: every popup pixel (frame, shadow, art, copy, separator, controls) identical to the approved A1 except the title row', px.a1.diffOutsideTitle === 0, px.a1);
+      C('A1 parity: every popup pixel (frame, shadow, art, copy, separator, control boxes) identical to the approved A1 except the title row and the control label faces', px.a1.diffOutsideTitle === 0, px.a1);
+      C('A1 parity: the control label faces differ only because the owner-locked labels / EXIT\'s unavailable ink replace the mockup\'s', px.a1.controlLabelDiff > 0 && px.a1.controlLabelDiff < 12000, px.a1);
       C('A1 parity: the title row differs only because the brief\'s title adds a period (re-centred)', px.a1.titleRowDiff > 0 && px.a1.titleRowDiff < 4000, px.a1);
     }
     // The capture against the real browser frame (same state, gate off).
@@ -319,14 +325,14 @@ async function run(name, base) {
     await page.mouse.wheel(0, 400);
     for (const k of ['Enter', ' ', 'ArrowDown', 'ArrowUp', 'Home', 'End', 'n', 'f']) await page.keyboard.press(k);
     await page.evaluate(() => { const F = window.CYOA_GAME.flow; F.choose(0); F.toggleInspect('expo_examiner_badge'); F.utility('notes'); F.skip(); });
-    await page.evaluate(() => document.getElementById('endControl0').focus());
+    await page.evaluate(() => document.getElementById('endControl2').focus());
     await page.keyboard.press('Enter');
     await page.keyboard.press(' ');
     const after = await snapshot(page);
     const ui = await page.evaluate(() => ({ overlay: window.CYOA_GAME.ui.overlay, inspector: window.CYOA_GAME.ui.inspector, phase: document.body.dataset.phase, open: !!document.body.dataset.endPresentation, log: window.CYOA_GAME.endPresentation.log() }));
     C('no click, wheel, key or flow call reaches the game: state and save unchanged, no NOTES/inspector, still the one proof',
       after.state === atOpen.state && after.save === atOpen.save && !ui.overlay && !ui.inspector && ui.open && ui.log.filter((x) => x.t === 'open').length === 1, ui);
-    C('the provisional controls do nothing but say so (Enter/Space on a control only updates the review notice)', ui.log.filter((x) => x.t === 'control').length >= 1
+    C('the unavailable EXIT does nothing but say so (Enter/Space on it only updates the review notice)', ui.log.filter((x) => x.t === 'control' && x.label === 'EXIT' && x.action === null).length >= 1
       && after.state === atOpen.state, ui.log);
     await page.evaluate(() => document.getElementById('endPresentation').focus());
     const tabs = [];
@@ -334,9 +340,10 @@ async function run(name, base) {
     await page.keyboard.press('Shift+Tab');
     tabs.push(await page.evaluate(() => document.activeElement.id));
     C('Tab / Shift+Tab cycle only the three controls (focus never leaves the dialog)', tabs.join() === 'endControl0,endControl1,endControl2,endControl0,endControl1,endControl0', tabs);
-    await page.mouse.click(840 + 120, 669 + 31); // a real pointer click on the middle control (aria-disabled: Playwright's click() refuses it)
+    await page.mouse.click(1110 + 120, 669 + 31); // a real pointer click on EXIT (aria-disabled: Playwright's click() refuses it)
     const clicked = await page.evaluate(() => document.getElementById('endNotice').getAttribute('aria-label'));
-    C('a control click performs no game action', /PREVIEW CONTROL "BEGIN AGAIN" - LABEL NOT APPROVED, NO GAME ACTION/.test(clicked) && (await snapshot(page)).state === atOpen.state, clicked);
+    C('clicking EXIT explains the pending main menu and performs no game action (no fake quit, no save change)', /EXIT LEADS TO THE MAIN MENU, WHICH DOES NOT EXIST YET/.test(clicked)
+      && (await snapshot(page)).state === atOpen.state && (await snapshot(page)).save === atOpen.save, clicked);
     await shot(page, '02_voluntary_control_clicked');
 
     // Resize: uniform scale with the stage, then restored exactly.

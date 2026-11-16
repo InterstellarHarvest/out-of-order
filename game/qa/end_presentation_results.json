@@ -1,6 +1,6 @@
 {
- "passed": 94,
- "total": 94,
+ "passed": 96,
+ "total": 96,
  "measures": {
   "chromium": {
    "downscaledBoxes": 5,
@@ -71,6 +71,7 @@
      "diffOutsideTitle": 0,
      "sample": [],
      "titleRowDiff": 2280,
+     "controlLabelDiff": 1596,
      "backdropSampled": 283034,
      "backdropDiffer": 18200
     }
@@ -162,6 +163,7 @@
      "diffOutsideTitle": 0,
      "sample": [],
      "titleRowDiff": 2280,
+     "controlLabelDiff": 1596,
      "backdropSampled": 283034,
      "backdropDiffer": 25250
     }
@@ -273,7 +275,7 @@
   {
    "browser": "chromium",
    "scenario": "voluntary",
-   "name": "three provisional controls at the approved footprints, each marked not approved / no action",
+   "name": "the owner-locked controls at the approved footprints: RETRY and CHECKPOINT available, EXIT unavailable (main menu pending)",
    "ok": true
   },
   {
@@ -345,7 +347,13 @@
   {
    "browser": "chromium",
    "scenario": "voluntary",
-   "name": "A1 parity: every popup pixel (frame, shadow, art, copy, separator, controls) identical to the approved A1 except the title row",
+   "name": "A1 parity: every popup pixel (frame, shadow, art, copy, separator, control boxes) identical to the approved A1 except the title row and the control label faces",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "A1 parity: the control label faces differ only because the owner-locked labels / EXIT's unavailable ink replace the mockup's",
    "ok": true
   },
   {
@@ -375,7 +383,7 @@
   {
    "browser": "chromium",
    "scenario": "voluntary",
-   "name": "the provisional controls do nothing but say so (Enter/Space on a control only updates the review notice)",
+   "name": "the unavailable EXIT does nothing but say so (Enter/Space on it only updates the review notice)",
    "ok": true
   },
   {
@@ -387,7 +395,7 @@
   {
    "browser": "chromium",
    "scenario": "voluntary",
-   "name": "a control click performs no game action",
+   "name": "clicking EXIT explains the pending main menu and performs no game action (no fake quit, no save change)",
    "ok": true
   },
   {
@@ -537,7 +545,7 @@
   {
    "browser": "firefox",
    "scenario": "voluntary",
-   "name": "three provisional controls at the approved footprints, each marked not approved / no action",
+   "name": "the owner-locked controls at the approved footprints: RETRY and CHECKPOINT available, EXIT unavailable (main menu pending)",
    "ok": true
   },
   {
@@ -609,7 +617,13 @@
   {
    "browser": "firefox",
    "scenario": "voluntary",
-   "name": "A1 parity: every popup pixel (frame, shadow, art, copy, separator, controls) identical to the approved A1 except the title row",
+   "name": "A1 parity: every popup pixel (frame, shadow, art, copy, separator, control boxes) identical to the approved A1 except the title row and the control label faces",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "A1 parity: the control label faces differ only because the owner-locked labels / EXIT's unavailable ink replace the mockup's",
    "ok": true
   },
   {
@@ -639,7 +653,7 @@
   {
    "browser": "firefox",
    "scenario": "voluntary",
-   "name": "the provisional controls do nothing but say so (Enter/Space on a control only updates the review notice)",
+   "name": "the unavailable EXIT does nothing but say so (Enter/Space on it only updates the review notice)",
    "ok": true
   },
   {
@@ -651,7 +665,7 @@
   {
    "browser": "firefox",
    "scenario": "voluntary",
-   "name": "a control click performs no game action",
+   "name": "clicking EXIT explains the pending main menu and performs no game action (no fake quit, no save change)",
    "ok": true
   },
   {
