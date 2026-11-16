@@ -106,6 +106,9 @@
     // An imported story's Narrative B overlay (js/surfaces.js), decoded before ready like the rest.
     if (G.storyMode) items.push({ name: G.NARRATIVE_ART.image, url: G.url(G.NARRATIVE_ART.path) });
 
+    // Ending-presentation art (js/end-presentation.js): only when its review gate is on.
+    if (G.storyMode && G.endPresentation) items = items.concat(G.endPresentation.bootImages());
+
     // Glyphs are also drawn to canvas for their inactive treatment, so they are decoded up front:
     // NOTES, FILES, the inspector's READ / USE / SHOW, and every context action's glyph named in
     // the content (docs/64; reception: watch).

@@ -352,8 +352,10 @@
     after = null;
     if (fn) fn();
   }
+  // While an ending presentation is open nothing underneath takes input (js/end-presentation.js).
+  function modal() { return !!(G.endPresentation && G.endPresentation.isOpen()); }
   F.skip = function () {
-    if (F.phase !== 'typing') return;
+    if (F.phase !== 'typing' || modal()) return;
     if (G.surfaces.mode()) G.surfaces.finish();
     else G.finishTyping();
     typingDone();
@@ -377,6 +379,12 @@
     G.ui.thumbOn = true;
     setPhase('choosing');
     var v = view();
+    // A settled authored ending: a cause-specific presentation may open over it (feature-gated
+    // review proof, js/end-presentation.js; off by default). It never steps the rules or saves.
+    if (v.end && G.endPresentation) {
+      G.renderChoices(performance.now());
+      if (G.endPresentation.reached(Rules.endCause(story, G.state), G.state.steps + '@' + v.chapter + ':' + v.node)) return;
+    }
     if (v.scenePickup) {
       var n = story.chapters[v.chapter].nodes[v.node];
       var pickup = Object.assign({}, v.scenePickup);
@@ -395,7 +403,7 @@
   // Taking a card ---------------------------------------------------------------------------------
   var pendingEvents = null;
   F.choose = function (index) {
-    if (F.phase !== 'choosing' || G.ui.inspector) return;
+    if (F.phase !== 'choosing' || G.ui.inspector || modal()) return;
     var card = G.ui.cards[index];
     if (!card) return;
     G.ui.thumbOn = false;
@@ -428,7 +436,7 @@
 
   // Items -----------------------------------------------------------------------------------------
   F.toggleInspect = function (id) {
-    if (F.phase !== 'choosing' || (G.ui.inspector && G.ui.inspector.scenePickup)) return;
+    if (F.phase !== 'choosing' || (G.ui.inspector && G.ui.inspector.scenePickup) || modal()) return;
     if (G.ui.inspector && G.ui.inspector.id === id) F.closeInspector();
     else openInspector(id);
   };
@@ -463,7 +471,7 @@
     }
   }
   F.closeInspector = function () {
-    if (!G.ui.inspector) return;
+    if (!G.ui.inspector || modal()) return;
     if (G.ui.inspector.scenePickup) {
       if (F.phase !== 'choosing') return;
       // Exactly one close action: the author's existing back/return choice
@@ -485,6 +493,7 @@
   };
 
   F.utility = function (action) {
+    if (modal()) return;
     if (action === 'notes' || action === 'files') {
       G.ui.overlay = G.ui.overlay === action ? null : action;
       G.ui.overlayScroll = action === 'notes' ? 1e9 : 0;
@@ -616,7 +625,7 @@
   F.view = view;
 
   document.addEventListener('keydown', function (e) {
-    if (G.flow !== F) return;
+    if (G.flow !== F || modal()) return;
     if (e.key === 'Escape') {
       if (G.ui.inspector) F.closeInspector();
       else if (G.ui.overlay) F.utility(G.ui.overlay);
