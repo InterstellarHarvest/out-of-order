@@ -621,8 +621,26 @@
     }
     return h >>> 0;
   }
-  function rollFor(seed, id, sides) {
-    return 1 + (fnv1a(seed + ':' + id) % sides);
+  // attempt (docs/96): 0 / absent for every ordinary roll, exactly as before. A check resolved after
+  // a RETRY or CHECKPOINT restore (state.attempt = k >= 1) rolls in its own namespace, so a check
+  // attempted again gets an independent roll, reproducible for that attempt across saves.
+  //
+  // An attempt roll is additionally passed through murmur3's 32-bit finalizer (fmix32). FNV-1a alone
+  // keeps the low bit a plain XOR of the input characters' low bits, so with an even number of
+  // sides the namespaced roll's parity would be locked to the original roll's (measured: the same
+  // d6 face 36% of the time instead of 1/6). The finalizer mixes every bit; ordinary rolls do not
+  // use it and are unchanged bit for bit.
+  function fmix32(h) {
+    h ^= h >>> 16;
+    h = Math.imul(h, 0x85ebca6b) >>> 0;
+    h ^= h >>> 13;
+    h = Math.imul(h, 0xc2b2ae35) >>> 0;
+    h ^= h >>> 16;
+    return h >>> 0;
+  }
+  function rollFor(seed, id, sides, attempt) {
+    if (!attempt) return 1 + (fnv1a(seed + ':' + id) % sides);
+    return 1 + (fmix32(fnv1a(seed + ':attempt' + attempt + ':' + id)) % sides);
   }
   function checkBonus(check, state) {
     var sum = 0;
@@ -1104,7 +1122,8 @@
     if (e.check) {
       var ck = e.check;
       var bonus = checkBonus(ck, s);
-      var raw = rollFor(s.seed, ck.id, ck.sides);
+      var attempt = s.attempt || 0;
+      var raw = rollFor(s.seed, ck.id, ck.sides, attempt);
       if (opts && opts.force) {
         raw = 0;
         for (var x = 1; x <= ck.sides && !raw; x++) if (passes(ck, x, bonus) === (opts.force === 'pass')) raw = x;
@@ -1112,6 +1131,7 @@
       }
       var ok = passes(ck, raw, bonus);
       s.checks[ck.id] = { roll: raw, bonus: bonus, ok: ok };
+      if (attempt) s.checks[ck.id].attempt = attempt; // which roll namespace (restore re-derives it)
       which = ok ? 'pass' : 'fail';
       outcome = e[which];
       tx.see('outcome ' + ck.id + ':' + which);
@@ -1197,6 +1217,9 @@
     if (meta && meta.savedAt !== undefined) env.savedAt = meta.savedAt;
     env.state = state;
     if (meta && meta.presented !== undefined) env.cursor = { presented: meta.presented };
+    // Restore points (docs/96): written only by a caller that tracks them (the review-gated death
+    // controls). Absent otherwise, so an ordinary save is byte-for-byte as before.
+    if (meta && meta.points) env.points = meta.points;
     return JSON.stringify(env);
   }
 
@@ -1214,8 +1237,10 @@
       if (env.story !== story.id) fail('save is for another story (' + env.story + ')');
       if (env.version !== story.version) fail('save is for version ' + env.version + ' of this story, not ' + story.version);
       if (!obj(s) || s.v !== STATE_VERSION || s.story !== story.id) fail('state is not a v' + STATE_VERSION + ' state of this story');
-      var keys = Object.keys(s).sort().join();
-      if (keys !== STATE_FIELDS.slice().sort().join()) fail('state fields differ: ' + keys);
+      // `attempt` (docs/96) is the one optional field: present only after a RETRY / CHECKPOINT.
+      var keys = Object.keys(s).filter(function (k) { return k !== 'attempt'; }).sort().join();
+      if (keys !== STATE_FIELDS.slice().sort().join()) fail('state fields differ: ' + Object.keys(s).sort().join());
+      if (has(s, 'attempt') && !whole(s.attempt, 1, Infinity)) fail('attempt must be a whole number from 1');
       var ch = story.chapters[s.chapter];
       if (!ch || !ch.nodes[s.node]) fail('unknown node ' + s.chapter + ':' + s.node);
       var n = ch.nodes[s.node];
@@ -1255,17 +1280,102 @@
         if (!known[id] || known[id].length !== 1) fail('unknown check ' + id);
         var ck = known[id][0].check;
         if (!obj(r) || !whole(r.roll, 1, ck.sides) || !whole(r.bonus, -Infinity, Infinity) || typeof r.ok !== 'boolean') fail('check ' + id + ' is malformed');
-        if (r.roll !== rollFor(s.seed, id, ck.sides) || r.ok !== passes(ck, r.roll, r.bonus)) fail('check ' + id + ' does not match its seed: refusing a changed roll');
+        if (has(r, 'attempt') && (!whole(r.attempt, 1, s.attempt || 0))) fail('check ' + id + ' names an attempt this state has not reached');
+        if (r.roll !== rollFor(s.seed, id, ck.sides, r.attempt || 0) || r.ok !== passes(ck, r.roll, r.bonus)) fail('check ' + id + ' does not match its seed: refusing a changed roll');
       });
       var presented = s.presentFrom;
       if (env.cursor !== undefined) {
         if (!obj(env.cursor) || !whole(env.cursor.presented, 0, Infinity)) fail('cursor is malformed');
         presented = Math.max(s.presentFrom, Math.min(s.transcript.length, env.cursor.presented));
       }
-      return { ok: true, state: s, cursor: { presented: presented } };
+      var out = { ok: true, state: s, cursor: { presented: presented } };
+      if (env.points !== undefined) {
+        var pv = checkPoints(story, env, s);
+        out.points = pv.points;
+        if (pv.dropped.length) out.pointsDropped = pv.dropped;
+      }
+      return out;
     } catch (e) {
       return { ok: false, reason: e.message };
     }
+  }
+
+  // Restore points (docs/96) -----------------------------------------------------------------------
+  // points = { checkpoint: { chapter, state, cursor } | null, retry: { at, input, state, cursor } | null }
+  //   checkpoint  the state as it stood on entering the current chapter (with everything earlier
+  //               chapters left in it), and how far its text had been presented (none of it);
+  //   retry       the state immediately before the latest decision (a choice, or SHOW / USE), fully
+  //               presented, with the decision it preceded.
+  // Each is a complete, genuine state, recorded atomically with the step that made it (trackPoints)
+  // and saved in the same envelope as the live state. A point is validated exactly like a save
+  // (restore), and must share the live state's seed and precede its attempt; an invalid point is
+  // dropped (its control becomes unavailable), never fatal to the save itself.
+  function checkPoints(story, env, live) {
+    var kept = { checkpoint: null, retry: null };
+    var dropped = [];
+    var obj = function (v) { return !!v && typeof v === 'object' && !Array.isArray(v); };
+    var P = obj(env.points) ? env.points : {};
+    if (!obj(env.points)) dropped.push('points is not an object');
+    ['checkpoint', 'retry'].forEach(function (kind) {
+      var p = P[kind];
+      if (p === null || p === undefined) return;
+      var why = null;
+      if (!obj(p) || !obj(p.state) || !obj(p.cursor)) why = 'malformed';
+      else {
+        var r = restore(story, { schema: SAVE_SCHEMA, story: story.id, version: story.version, state: p.state, cursor: p.cursor });
+        if (!r.ok) why = r.reason;
+        else if (p.state.seed !== live.seed) why = 'another playthrough (seed)';
+        else if ((p.state.attempt || 0) > (live.attempt || 0)) why = 'a later attempt than the live state';
+        else if (kind === 'checkpoint' && (p.chapter !== p.state.chapter || p.state.node !== story.chapters[p.state.chapter].start)) why = 'not a chapter entry';
+        else if (kind === 'retry' && (p.at !== at(p.state) || !obj(p.input))) why = 'not a decision point';
+        if (!why) kept[kind] = { state: r.state, cursor: r.cursor };
+        if (!why && kind === 'checkpoint') kept.checkpoint.chapter = p.chapter;
+        if (!why && kind === 'retry') { kept.retry.at = p.at; kept.retry.input = clone(p.input); }
+      }
+      if (why) dropped.push(kind + ': ' + why);
+    });
+    return { points: kept, dropped: dropped };
+  }
+  // The points after one committed step: `before` is the state the step was taken from (null for
+  // begin), `result` what step() / begin() returned. A new playthrough (restart) starts with none;
+  // entering a chapter records its entry; a decision records the state just before it.
+  function trackPoints(story, points, before, input, result) {
+    requireStory(story);
+    var p = { checkpoint: (points && points.checkpoint) || null, retry: (points && points.retry) || null };
+    var evs = result.events || [];
+    var restarted = evs.some(function (e) { return e.t === 'restart'; });
+    if (restarted) p = { checkpoint: null, retry: null };
+    if (evs.some(function (e) { return e.t === 'chapter'; })) {
+      p.checkpoint = { chapter: result.state.chapter, state: result.state, cursor: { presented: result.state.presentFrom } };
+    }
+    if (before && input && !restarted && (input.choice !== undefined || input.verb === 'show' || input.verb === 'use')) {
+      p.retry = { at: at(before), input: clone(input), state: before, cursor: { presented: before.transcript.length } };
+    }
+    return p;
+  }
+  // Is the `kind` point usable for the ending `cause` (Rules.endCause) the state stands on?
+  //   retry       its decision is exactly the one that caused the ending, at the node it came from;
+  //   checkpoint  it is the entry of the chapter the state is in.
+  function canRestore(story, state, points, kind, cause) {
+    var p = points && points[kind];
+    if (!p || !p.state || p.state.seed !== state.seed) return false;
+    if (kind === 'retry') return !!cause && p.at === cause.from && (cause.choice !== undefined ? p.input.choice === cause.choice : p.input.item === cause.item && p.input.verb === cause.verb);
+    if (kind === 'checkpoint') return p.chapter === state.chapter;
+    return false;
+  }
+  // The restore itself: the point's state, exactly, in a NEW attempt. attempt is always the live
+  // state's + 1, never the point's, so no restore (however old the point) can reuse a namespace,
+  // and every check resolved from here on rolls fresh. Checks the point already holds (earlier
+  // chapters, earlier decisions) are kept as they are. A checkpoint drops the retry point (it
+  // belongs to the abandoned course of play); a retry keeps the checkpoint.
+  function restoreFrom(story, state, points, kind) {
+    requireStory(story);
+    var p = points && points[kind];
+    if (!p || !p.state) return { ok: false, reason: 'no ' + kind + ' point' };
+    if (p.state.seed !== state.seed) return { ok: false, reason: kind + ' point belongs to another playthrough' };
+    var s = copyJson(p.state);
+    s.attempt = (state.attempt || 0) + 1;
+    return { ok: true, state: s, cursor: { presented: p.cursor.presented }, points: { checkpoint: points.checkpoint || null, retry: kind === 'checkpoint' ? null : points.retry || null } };
   }
 
   // A save written by another content revision of the same story (docs/84 section 6). The story's
@@ -1303,6 +1413,14 @@
         return !(n[t.verb] && n[t.verb][t.item]);
       });
       if (bad.length) return { ok: false, reason: 'incompatible content revision: decisions refer to removed nodes or choices: ' + bad.map(function (t) { return t.at + ' ' + (t.c || t.verb + ' ' + t.item); }).join('; ') };
+      if (env.points && typeof env.points === 'object') {
+        ['checkpoint', 'retry'].forEach(function (kind) {
+          var p = env.points[kind];
+          if (!p || typeof p !== 'object') return;
+          var m = migrate(story, { schema: SAVE_SCHEMA, story: env.story, version: env.version, state: p.state, cursor: p.cursor });
+          if (m.ok) p.state = m.state; else env.points[kind] = null;
+        });
+      }
       env.version = story.version;
       var r = restore(story, env);
       if (!r.ok) return { ok: false, reason: 'incompatible content revision: ' + r.reason };
@@ -2182,6 +2300,9 @@
     step: step,
     view: view,
     endCause: endCause,
+    trackPoints: trackPoints,
+    canRestore: canRestore,
+    restoreFrom: restoreFrom,
     paras: toParas,
     applyEffects: applyEffects,
     holds: holds,
