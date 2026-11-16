@@ -38,9 +38,11 @@ The owner calls for each death to be customized. Preserve the specific fatal cau
 
 No death-comic image or popup art has been commissioned/generated for Chapter 1 as of this note.
 
-## 2. Chapter transitions — owner direction
+## 2. Chapter transitions — owner direction (DEFERRED UNTIL LATE PRODUCTION)
 
-**The same reusable audiovisual transition sequence is used between chapters, regardless of which previous-chapter exit triggered it.**
+**Priority ruling (owner, 2026-11-15):** Defer chapter-title interstitials, pixelation/fade treatments, type-on text and related visual polish until most chapters and other gameplay systems are implemented and working. This is **not a blocker** for Chapter 1–2 artwork integration, Chapter 2/3 story development, route QA or core engine work. For now, preserve reliable transitions and carried state with the existing functional scene/chapter change behavior. Revisit the final presentation near the end of game creation.
+
+**The same reusable audiovisual transition sequence is eventually used between chapters, regardless of which previous-chapter exit triggered it.**
 
 Candidate sequence:
 1. The present interface fades, pixelates, or otherwise transitions away.
@@ -60,7 +62,7 @@ The title should use chapter number and title data, not be baked into a location
 |---|---|---|
 | Centered unique death comic and sarcastic aftermath text | Owner direction locked; no new image produced | Death mockup, per-cause art/story copy, owner approval |
 | Begin again / checkpoint controls | Intent recorded; checkpoint rules unresolved | Gameplay PMO defines safe resume/reset contract |
-| Uniform chapter-title transition | Owner direction locked; visual treatment undecided | Preview alternatives and owner selection |
+| Uniform chapter-title transition | **Deferred until late production**; visual treatment undecided | Revisit after most gameplay is working; preview alternatives then |
 | Carry through chapter-specific consequences | Existing engine/story continuity, reaffirmed | Regression QA for every route |
 
 Story Director: compile fatal outcome causes, commission unique art and comic copy, preserve chapter title puns. Art PMO: propose overlay composition after technical sizing. Gameplay PMO: determine death presentation state, checkpoint semantics, transitions, preloading and QA. Owner: creative approval before broad implementation.
