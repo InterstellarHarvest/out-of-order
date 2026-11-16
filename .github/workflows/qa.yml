@@ -53,6 +53,8 @@ jobs:
         run: node game/qa/validate_story_import.js
       - name: Biology Park routes (engine; every Chapter 2 node and check outcome, gating, antidotes)
         run: node game/qa/validate_ch02_routes.js
+      - name: Chapter 1 production art (29-image provenance, registry, state-dependent art on real routes)
+        run: node game/qa/validate_ch01_art.js
       - name: Assets (static)
         run: node game/qa/validate_assets.js
       - name: Storyboard viewer (chapters, independent layouts, shared art catalog)
@@ -67,6 +69,7 @@ jobs:
             game/qa/story_results.json
             game/qa/story_import_results.json
             game/qa/ch02_route_results.json
+            game/qa/ch01_art_results.json
             game/qa/asset_results.json
           if-no-files-found: ignore
 
@@ -99,6 +102,9 @@ jobs:
       - name: House of Tomorrow full branch acceptance (actual Prologue inventory, 9 routes in two browsers)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch01_routes_qa.js
+      - name: Chapter 1 production art in the game (album pages, storage, pedestal, RETURNS, House views; pixels vs source; reloads)
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_ch01_art_qa.js
       - name: Biology Park full routes + Scene Pickup Inspector (House hand-offs, antidote kits, two browsers)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch02_routes_qa.js
@@ -127,6 +133,7 @@ jobs:
             game/qa/screenshots/
             game/qa/story_screenshots/
             game/qa/ch01_route_screenshots/
+            game/qa/ch01_art_screenshots/
             game/qa/ch02_route_screenshots/
             tools/m2-reception-polish-lab/qa/
             tools/layout-lab/qa/qa_results.json

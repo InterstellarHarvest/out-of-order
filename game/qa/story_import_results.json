@@ -86,7 +86,7 @@
     },
     {
       "group": "baseline",
-      "name": "every art file is recorded with its artwork status and sha256 (28 generated drafts, 5 reused approved)",
+      "name": "every art file is recorded with its artwork status and sha256 (28 generated Prologue drafts + 28 generated House images, 5 reused approved)",
       "ok": true
     },
     {
@@ -381,7 +381,7 @@
     },
     {
       "group": "independence",
-      "name": "no id of the imported story (544 ids) and none of its prose (490 passages) appears in game code",
+      "name": "no id of the imported story (544 ids) and none of its prose (489 passages) appears in game code",
       "ok": true
     },
     {
@@ -436,7 +436,7 @@
     },
     {
       "group": "art-status",
-      "name": "the build records every story image with its artwork status and sha256 (28 generated prologue images, none approved)",
+      "name": "the build records every story image with its artwork status and sha256 (28 generated Prologue + 28 generated House images matching their provenance, none approved)",
       "ok": true
     },
     {
@@ -471,7 +471,7 @@
     },
     {
       "group": "handoff",
-      "name": "House Chapter 1 uses 14 independently declared not-started scene previews, not Prologue corridor art",
+      "name": "House Chapter 1 uses its 14 independently declared scenes, each with its own House production file, not Prologue corridor art",
       "ok": true
     },
     {

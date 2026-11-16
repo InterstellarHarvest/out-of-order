@@ -337,7 +337,7 @@
           ],
           "ms": 158
         },
-        "href0": "http://127.0.0.1:52523/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:54898/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -576,17 +576,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "128px",
-          "96px",
-          "70px",
-          "49px",
-          "34px",
-          "24px",
-          "16px",
-          "12px",
-          "10px",
+          "111px",
+          "83px",
+          "59px",
+          "42px",
+          "29px",
+          "20px",
+          "11px",
           "9px",
-          "11px"
+          "10px",
+          "13px",
+          "15px"
         ]
       }
     },
@@ -608,8 +608,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:52523/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:52523/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:54898/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:54898/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -633,7 +633,7 @@
       "browser": "chromium",
       "name": "ITEM RECEIVED uses the current LAB fade values (600 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "600,400,0.42033333336313566,730px"
+      "detail": "600,400,0.42183333332339923,730px"
     },
     {
       "browser": "chromium",
@@ -1105,9 +1105,9 @@
             51,
             52
           ],
-          "ms": 155
+          "ms": 158
         },
-        "href0": "http://127.0.0.1:52523/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
+        "href0": "http://127.0.0.1:54898/tools/m2-reception-polish-lab/stage.html?mode=lab&n=1"
       }
     },
     {
@@ -1346,17 +1346,17 @@
         "rSlide": "ok",
         "xs": [
           "14px",
-          "109px",
-          "81px",
-          "57px",
-          "40px",
-          "28px",
-          "19px",
+          "124px",
+          "91px",
+          "65px",
+          "47px",
+          "32px",
+          "22px",
+          "15px",
+          "12px",
           "10px",
           "9px",
-          "11px",
-          "13px",
-          "15px"
+          "11px"
         ]
       }
     },
@@ -1378,8 +1378,8 @@
       "name": "the triggers leave the PRODUCTION comparison frame untouched (same node, transcript, phase, no slip, never reloaded)",
       "ok": true,
       "detail": {
-        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:52523/tools/m2-reception-polish-lab/stage.html?mode=production",
-        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:52523/tools/m2-reception-polish-lab/stage.html?mode=production"
+        "p0": "misassign|3|choosing|false|1|http://127.0.0.1:54898/tools/m2-reception-polish-lab/stage.html?mode=production",
+        "p1": "misassign|3|choosing|false|1|http://127.0.0.1:54898/tools/m2-reception-polish-lab/stage.html?mode=production"
       }
     },
     {
@@ -1403,7 +1403,7 @@
       "browser": "firefox",
       "name": "ITEM RECEIVED uses the current LAB fade values (600 ms fade-in still rising at 250 ms) at y 730",
       "ok": true,
-      "detail": "600,400,0.4216666666666667,730px"
+      "detail": "600,400,0.435,730px"
     },
     {
       "browser": "firefox",

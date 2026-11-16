@@ -2,7 +2,7 @@
   "suite": "story-browser",
   "passed": 124,
   "total": 124,
-  "content": "8307a99e35f77fda32e652f6d7d92fb9d46a5fc92b4729ea92db78f27773e0d6",
+  "content": "407d8ec78f1ceee950cb4330bc5e6460720bbbede0e04d0218b2a2514de1c00d",
   "results": [
     {
       "browser": "chromium",
@@ -171,7 +171,7 @@
     },
     {
       "browser": "chromium",
-      "name": "HAND-OFF: the game enters House of Tomorrow authored arrival with a labelled missing-art preview",
+      "name": "HAND-OFF: the game enters House of Tomorrow authored arrival with its production arrival art",
       "ok": true
     },
     {
@@ -481,7 +481,7 @@
     },
     {
       "browser": "firefox",
-      "name": "HAND-OFF: the game enters House of Tomorrow authored arrival with a labelled missing-art preview",
+      "name": "HAND-OFF: the game enters House of Tomorrow authored arrival with its production arrival art",
       "ok": true
     },
     {

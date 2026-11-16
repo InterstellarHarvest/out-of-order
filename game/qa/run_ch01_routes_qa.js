@@ -226,10 +226,12 @@ async function run(browserName,base){
           sawFocus && sawDialogue && sawNarrative && actual.flags.family_album_inspected===true);
         check(browserName,spec.name,'album yields a carried photo and fake bathroom callback',
           actual.inventory.includes('family_portrait_photo') && actual.flags.fake_bathroom_discovered===true);
-        check(browserName,spec.name,'text/photo brief excludes protagonist identity beyond legs and shoes',
-          /ONLY YOUR SHOES AND LOWER LEGS/.test(photo.description)
-          && /only your shoes and the lower parts of your legs/i.test(portraitNode.text));
-        // No artwork image exists yet; visual crop requires the later art production gate.
+        // PR #7 (approved): a cropped fourth chair with part of the seated visitor's shirt, lap, legs
+        // and forward-facing shoes; the head and face stay out of frame. The art is docs/92's photo pair.
+        check(browserName,spec.name,'text/photo brief keeps the protagonist faceless (head out of frame)',
+          /YOUR HEAD IS OUT OF FRAME/.test(photo.description) && /FORWARD-FACING SHOES/.test(photo.description)
+          && /Your head is entirely out of frame/.test(portraitNode.text)
+          && photo.slotArt==='art/items/family_portrait_photo_slot.png' && photo.inspectArt==='art/items/family_portrait_photo_inspect.png');
       }
       await shot(page,browserName+'_'+spec.name);
       check(browserName,spec.name,'no browser or console errors',errors.length===0,errors);

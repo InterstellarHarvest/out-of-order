@@ -77,10 +77,12 @@ async function run(name, base) {
   await page.screenshot({ path: path.join(OUT, name + '_1_prologue.png') });
   await choose(page, 1, 36);
   const ch1Inspector = await page.evaluate(() => document.getElementById('details').innerText);
-  check(b, 'Chapter 1: 36 authored nodes, arrival inspector, item choice, and independent unstarted scene reference',
-    /HOUSE OF TOMORROW/.test(ch1Inspector)
-    && /scenes\/house_of_tomorrow\/arrival · not-started/.test(ch1Inspector)
-    && /PUSH OPEN THE DISPLAY ENTRANCE/.test(ch1Inspector)
+  // docs/92: the House scenes are now generated production art (owner approval pending).
+  check(b, 'Chapter 1: 36 authored nodes, arrival inspector, item choice, and its own generated arrival scene reference',
+    // PR #7 (approved): an unmarked single ivory door; the choice reads TRY THE UNMARKED DOOR.
+    /plain ivory door with no nameplate or window/.test(ch1Inspector)
+    && /scenes\/house_of_tomorrow\/arrival · generated · art\/scenes\/house_of_tomorrow\/arrival\.png/.test(ch1Inspector)
+    && /TRY THE UNMARKED DOOR/.test(ch1Inspector)
     && !/facilities_corridor/.test(ch1Inspector), ch1Inspector.slice(0, 500));
   const c = await drag(page, 'house_arrival', 160, 110);
   await page.screenshot({ path: path.join(OUT, name + '_2_chapter01.png') });
@@ -146,8 +148,9 @@ async function run(name, base) {
   const items = await p2.evaluate(() => document.querySelectorAll('#details .item-button').length);
   await p2.click('#showArtwork');
   const art = await p2.evaluate(() => document.getElementById('details').innerText);
-  check(b, 'zoom, Items and Artwork panels still work (98 shared art records, 65 not-started)', before !== await p2.evaluate(() => document.getElementById('stage').style.transform)
-    && items === 16 && /98 shared art records/.test(art) && /65 not-started/.test(art), [items, art.slice(0, 200)]);
+  // 109 records incl. the docs/92 sub-records (scene states, House views, album pages); only Chapter 2 is not-started.
+  check(b, 'zoom, Items and Artwork panels still work (109 shared art records, 59 generated, 45 not-started)', before !== await p2.evaluate(() => document.getElementById('stage').style.transform)
+    && items === 16 && /109 shared art records · 59 generated · 5 reused · 45 not-started/.test(art), [items, art.slice(0, 200)]);
   await p2.screenshot({ path: path.join(OUT, name + '_3_imported.png') });
   await ctx2.close();
   check(b, 'no console or page errors', !errors.length, errors);

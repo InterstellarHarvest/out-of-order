@@ -323,10 +323,12 @@ async function suite(name, base) {
   s = await info(page);
   const after = await page.evaluate(() => JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
   const same = (k) => JSON.stringify(after[k]) === JSON.stringify(before[k]);
-  check(b, 'HAND-OFF: the game enters House of Tomorrow authored arrival with a labelled missing-art preview', s.node === 'chapter-01:house_arrival'
+  // docs/92: the arrival now shows its selected production art (a decoded image at 4x, not the
+  // labelled DEV PLACEHOLDER canvas); PR #7: the approach is an unmarked single ivory door.
+  check(b, 'HAND-OFF: the game enters House of Tomorrow authored arrival with its production arrival art', s.node === 'chapter-01:house_arrival'
     && s.scene === 'house_of_tomorrow/arrival' && s.sceneArt === 'scene:house_of_tomorrow/arrival'
-    && await page.evaluate(() => { const c = document.getElementById('sceneArt'); return c.tagName === 'CANVAS' && /house_of_tomorrow\/arrival/i.test(c.dataset.placeholder || ''); })
-    && /HOUSE OF TOMORROW/.test(s.narration) && s.cards.some((c) => c.id === 'enter_show_home'), s);
+    && await page.evaluate(() => { const c = document.getElementById('sceneArt'); return c.tagName === 'IMG' && c.complete && c.naturalWidth === 314 && c.naturalHeight === 206 && c.width === 1256 && /house_of_tomorrow\/arrival\.png/.test(c.getAttribute('src') || c.src); })
+    && /ivory door/.test(s.narration) && s.cards.some((c) => c.id === 'enter_show_home'), s);
   check(b, 'HAND-OFF: inventory, flags, item marks, resolved checks and seed are unchanged; House sets its own objective',
     ['flags', 'inventory', 'items', 'checks', 'seed'].every(same)
     && after.objective === 'FIND A FUNCTIONING BATHROOM.' && before.inventory.length >= 3,

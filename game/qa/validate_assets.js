@@ -32,7 +32,9 @@ const sha256 = (b) => crypto.createHash('sha256').update(b).digest('hex');
 
 // The art classes of docs/72 section 4.1, written out here so the runtime's G.ART_CLASS is checked
 // against the contract rather than against itself.
-const CLASS_SIZE = { scene: [314, 206], background: [564, 278], pose: [564, 278], focus: [564, 278], slot: [96, 96], inspect: [565, 451] };
+// docs/92 adds two: overlay (a transparent scene state, a whole 314x206 scene layer) and view (an
+// opaque-complete conversation view, one whole 564x278 portrait image).
+const CLASS_SIZE = { scene: [314, 206], background: [564, 278], pose: [564, 278], focus: [564, 278], overlay: [314, 206], view: [564, 278], slot: [96, 96], inspect: [565, 451] };
 const OVERLAY_SIZE = [1920, 1080];
 const UNAPPROVED = /(^|\/)(source|originals|review)\//;
 
@@ -146,8 +148,8 @@ const clean = (a) => !a.A1.length && !a.A2.length && !a.A3.length;
   const g = 'registry';
   check(g, 'G.ART_CLASS sizes are the docs/72 section 4.1 art classes', Object.keys(CLASS_SIZE).every((c) => G.ART_CLASS[c] && G.ART_CLASS[c].size.join() === CLASS_SIZE[c].join())
     && Object.keys(G.ART_CLASS).length === Object.keys(CLASS_SIZE).length, Object.keys(G.ART_CLASS).map((c) => [c, G.ART_CLASS[c].size]));
-  check(g, 'scene drawn at 4x; portrait background, pose and focus at 1x', G.ART_CLASS.scene.scale === 4
-    && ['background', 'pose', 'focus'].every((c) => G.ART_CLASS[c].scale === 1));
+  check(g, 'scene and scene overlay drawn at 4x; portrait background, pose, complete view and focus at 1x', G.ART_CLASS.scene.scale === 4 && G.ART_CLASS.overlay.scale === 4
+    && ['background', 'pose', 'view', 'focus'].every((c) => G.ART_CLASS[c].scale === 1));
   check(g, 'image keys: scene:<id>, portrait:<portrait>:background|pose:<id>, focus:<id>, item:<id>, inspect:<id>',
     G.artKey.scene('a/b') === 'scene:a/b' && G.artKey.background('p', 'x') === 'portrait:p:background:x' && G.artKey.pose('p', 'y') === 'portrait:p:pose:y'
     && G.artKey.focus('a/b/c') === 'focus:a/b/c' && G.artKey.slot('k') === 'item:k' && G.artKey.inspect('k') === 'inspect:k' && G.inspectImageName('k') === 'inspect:k');
