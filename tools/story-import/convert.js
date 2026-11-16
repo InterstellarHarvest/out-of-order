@@ -36,7 +36,10 @@ const ENTRY_KEYS = ['kind', 'say', 'if', 'effects', 'once', 'result', 'check', '
 const ITEM_KEYS = ['name', 'description', 'read', 'inspect', 'slotArt', 'inspectArt'];
 const SETTINGS_KEYS = ['schema', 'story', 'save', 'cast', 'start', 'initialState'];
 // Authoring-only node annotations: reported, never imported.
-const AUTHORING_ONLY = ['notes', 'comment', 'position', 'layout'];
+const AUTHORING_ONLY = ['notes', 'comment', 'position', 'layout',
+  'storyboardNextChapter', 'deathPopup', 'endingArt'];
+// These authoring hints are visible in the storyboard but MUST NOT become runtime choice data.
+const CHOICE_AUTHORING_ONLY = ['notes', 'displayGroup', 'missingReason'];
 // Artwork statuses (artwork.statusValues). Only these count as approved production art.
 const APPROVED_ART = ['approved', 'integrated', 'reused'];
 
@@ -185,7 +188,7 @@ function convert(input, opts) {
       scanText(n.text);
       scanText(n.objective);
       (Array.isArray(n.choices) ? n.choices : []).forEach((c, i) => {
-        if (obj(c)) onlyKeys(w + ' choice ' + (c.id || '#' + i), c, CHOICE_KEYS);
+        if (obj(c)) onlyKeys(w + ' choice ' + (c.id || '#' + i), c, CHOICE_KEYS, CHOICE_AUTHORING_ONLY);
         scanChoice(c);
       });
       ['show', 'use'].forEach((verb) => {
@@ -194,6 +197,14 @@ function convert(input, opts) {
           if (obj(n[verb][item])) onlyKeys(w + ' ' + verb + ' ' + item, n[verb][item], ENTRY_KEYS);
           scanChoice(n[verb][item]);
         });
+      });
+      // Explicitly strip storyboard-only per-choice hints before emitting runtime content.
+      // Node-level authoring fields were already excluded by NODE_KEYS at clone time.
+      if (Array.isArray(out.choices)) out.choices = out.choices.map((sourceChoice) => {
+        if (!obj(sourceChoice)) return clone(sourceChoice);
+        const clean = {};
+        CHOICE_KEYS.forEach((key) => { if (has(sourceChoice, key)) clean[key] = clone(sourceChoice[key]); });
+        return clean;
       });
       // An unfinished node (no cards, not an ending): an explicit development state, never a
       // silent gap. Preview builds end there with one clearly labelled system card.
