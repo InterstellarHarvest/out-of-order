@@ -21,26 +21,39 @@ assert.equal(manifest.artwork,'artwork.draft.json');
 assert.equal(artwork.scenes['workplace/corridor'].portraitBackground.dimensions,'564x278','corridor paired portrait background dimensions');
 assert.equal(artwork.scenes['workplace/corridor'].portraitBackground.status,'generated','corridor paired portrait background generated');
 assert.equal(artwork.scenes['exposition/reception'].portraitBackground.status,'reused','approved reception background reuse');
+// Sub-records (docs/92): paired portrait backgrounds, scene states, opaque-complete portrait views,
+// paged close-up pages. Each is a record of its own in the catalog.
+const subRecords=r=>[...(r.portraitBackground?[r.portraitBackground]:[]),...(r.states||[]),...Object.values(r.views||{}),...(r.pages||[])];
 const productionRecords=[
-  ...Object.values(artwork.scenes).flatMap(scene=>[scene,...(scene.portraitBackground?[scene.portraitBackground]:[])]),
-  ...Object.values(artwork.portraits),
+  ...Object.values(artwork.scenes).flatMap(scene=>[scene,...subRecords(scene)]),
+  ...Object.values(artwork.portraits).flatMap(p=>[p,...subRecords(p)]),
   ...Object.values(artwork.items).flatMap(variants=>Object.values(variants)),
-  ...Object.values(artwork.focus||{})
+  ...Object.values(artwork.focus||{}).flatMap(f=>[f,...subRecords(f)])
 ];
-assert.equal(productionRecords.length,98,'artwork record count (33 prologue + 20 Chapter 1 + 45 Chapter 2 references)');
-assert.equal(productionRecords.filter(r=>r.status==='generated').length,28,'published metadata matches private generated count');
+assert.equal(productionRecords.length,109,'artwork record count (33 prologue + 31 Chapter 1 + 45 Chapter 2 references)');
+assert.equal(productionRecords.filter(r=>r.status==='generated').length,59,'generated: 28 prologue + 31 Chapter 1 (docs/92 production art, owner approval pending)');
 assert.equal(productionRecords.filter(r=>r.status==='reused').length,5,'approved reused records unchanged');
-assert.equal(productionRecords.filter(r=>r.status==='not-started').length,65,'65 not-started art records (20 Chapter 1, 45 Chapter 2)');
+assert.equal(productionRecords.filter(r=>r.status==='not-started').length,45,'45 not-started art records (all Chapter 2)');
+assert.equal(productionRecords.filter(r=>['approved','integrated'].includes(r.status)).length,0,'no record claims owner approval');
 assert.equal(artwork.scenes['biology_park/conveniences_bureau']?.status,'not-started','Chapter 2 Bureau scene is not-started');
 assert.equal(artwork.scenes['biology_park/conveniences_bureau']?.assetPath,null,'Chapter 2 Bureau scene has no image yet');
-assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.status,'not-started','Chapter 1 arrival scene is not-started');
-assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.assetPath,null,'Chapter 1 arrival scene has no image yet');
+assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.status,'generated','Chapter 1 arrival scene is generated production art');
+assert.equal(artwork.scenes['house_of_tomorrow/arrival']?.assetPath,'art/scenes/house_of_tomorrow/arrival.png','Chapter 1 arrival scene file');
+for(const record of productionRecords)if(record.assetPath)assert.ok(fs.existsSync(path.join(root,record.assetPath)),'registered file exists: '+record.assetPath);
 for(const record of productionRecords){
-  if(record.status==='generated')assert.ok(record.assetPath?.endsWith('.png'),'generated art has logical PNG path: '+record.title);
+  // A multi-image record (complete views, album pages) keeps its files on its sub-records.
+  if(record.status==='generated')assert.ok(record.assetPath?.endsWith('.png')||(subRecords(record).length>0&&subRecords(record).every(x=>x.assetPath?.endsWith('.png'))),'generated art has logical PNG path: '+record.title);
 }
 // Public storyboard intentionally mirrors metadata, not private generated images.
 
 for(const portrait of Object.values(artwork.portraits)){
+  // docs/92 section 1: the House intercom is the one opaque-complete exception (a whole 564x278
+  // image per talking room); every NPC is a transparent foreground over a paired background.
+  if(portrait.format==='opaque-complete'){
+    assert.ok(Object.keys(portrait.views||{}).length&&Object.keys(portrait.views).every(sc=>artwork.scenes[sc]),'complete views are keyed by real scenes');
+    assert.ok(!portrait.foregroundFormat&&!portrait.layers,'a complete view claims no layers');
+    continue;
+  }
   assert.equal(portrait.foregroundFormat,'transparent-rgba-png','all NPC foregrounds are transparent');
   assert.ok(artwork.scenes[portrait.portraitBackgroundScene]?.portraitBackground,"portrait scene background exists");
 }
@@ -259,11 +272,12 @@ assert.equal(select.value,'1','selector shows Chapter 1');
 assert.equal(nodeIds().length,36,'Chapter 1 graph shows all 36 authored nodes');
 assert.match(document.getElementById('chapterTitle').textContent,/^Chapter 1 — House of Tomorrow · draft$/,'board heading names the chapter and its draft status');
 assert.ok(flatten(pane()).some(x=>x.textContent==='House Arrival'),'Chapter 1 inspector opens on its authored start node');
-assert.ok(flatten(pane()).some(x=>/HOUSE OF TOMORROW/.test(String(x.textContent))),'House arrival narration appears in the inspector');
+// PR #7 (approved): the approach shows an unmarked single ivory door; HOUSE OF TOMORROW is revealed only at badge registration.
+assert.ok(flatten(pane()).some(x=>/plain ivory door with no nameplate or window/.test(String(x.textContent))),'House arrival narration appears in the inspector');
 const ch1Art=flatten(pane()).find(x=>x.tagName==='button'&&String(x.textContent).includes('HOUSE OF TOMORROW'));
-assert.ok(ch1Art&&flatten(ch1Art).some(x=>/scenes\/house_of_tomorrow\/arrival · not-started/.test(String(x.textContent))),'House arrival art resolves through shared catalog as not-started');
+assert.ok(ch1Art&&flatten(ch1Art).some(x=>/scenes\/house_of_tomorrow\/arrival · generated · art\/scenes\/house_of_tomorrow\/arrival\.png/.test(String(x.textContent))),'House arrival art resolves through shared catalog as generated production art');
 assert.ok(!flatten(pane()).some(x=>/facilities_corridor/.test(String(x.textContent))),'Chapter 1 does not borrow the facilities corridor art');
-assert.ok(flatten(pane()).some(x=>/PUSH OPEN THE DISPLAY ENTRANCE/.test(String(x.textContent))),'authored arrival choice appears in the Chapter 1 inspector');
+assert.ok(flatten(pane()).some(x=>/TRY THE UNMARKED DOOR/.test(String(x.textContent))),'authored arrival choice appears in the Chapter 1 inspector');
 // 3. Move the Chapter 1 node.
 const ch1=dragNode('house_arrival',210,130,33);
 assert.ok(storage.has('cyoa-storyboard-layout-v1:chapter-01'),'Chapter 1 positions cached under their own key');

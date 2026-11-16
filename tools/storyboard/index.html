@@ -319,19 +319,62 @@
    pane.append(section);
  }
  
+ // Sub-records (docs/92): a scene's states ("state:<id>"), an opaque-complete portrait's views
+ // ("view:<scene>") and a paged close-up's pages ("page:<n>"), besides the paired portrait background.
+ function subRecord(record,variant){
+   if(!record||!variant)return record||null;
+   if(variant==="portraitBackground")return record.portraitBackground||null;
+   const [kind,key]=[variant.slice(0,variant.indexOf(":")),variant.slice(variant.indexOf(":")+1)];
+   if(kind==="state")return (record.states||[]).find(x=>x.id===key)||null;
+   if(kind==="view")return record.views?.[key]||null;
+   if(kind==="page")return record.pages?.[Number(key)-1]||null;
+   return null;
+ }
  function artworkAt(group,id,variant){
    const library=state.artwork?.[group];
-   return group==="items"?library?.[id]?.[variant]||null:group==="scenes"&&variant==="portraitBackground"?library?.[id]?.portraitBackground||null:library?.[id]||null;
+   return group==="items"?library?.[id]?.[variant]||null:subRecord(library?.[id],variant);
+ }
+ function setArtwork(ref,obj){
+   const lib=state.artwork[ref.group];
+   if(ref.group==="items"){lib[ref.id][ref.variant]=obj;return;}
+   if(!ref.variant){lib[ref.id]=obj;return;}
+   if(ref.variant==="portraitBackground"){lib[ref.id].portraitBackground=obj;return;}
+   const parent=lib[ref.id],kind=ref.variant.slice(0,ref.variant.indexOf(":")),key=ref.variant.slice(ref.variant.indexOf(":")+1);
+   if(kind==="state")parent.states[parent.states.findIndex(x=>x.id===key)]=obj;
+   else if(kind==="view")parent.views[key]=obj;
+   else if(kind==="page")parent.pages[Number(key)-1]=obj;
+ }
+ function subRefs(group,id,record){
+   const out=[];
+   if(group==="scenes"&&record?.portraitBackground)out.push({group,id,variant:"portraitBackground",record:record.portraitBackground});
+   (record?.states||[]).forEach(x=>out.push({group,id,variant:"state:"+x.id,record:x}));
+   Object.entries(record?.views||{}).forEach(([k,x])=>out.push({group,id,variant:"view:"+k,record:x}));
+   (record?.pages||[]).forEach((x,i)=>out.push({group,id,variant:"page:"+(i+1),record:x}));
+   return out;
  }
  function artKey(ref){return ref.group+"/"+ref.id+(ref.variant?"/"+ref.variant:"");}
- function artRefsForNode(node){
-   const refs=[],scene=node.scene||state.chapter?.scene;
+ function artRefsForNode(node,nodeId){
+   const refs=[],scene=node.scene||state.chapter?.scene,at=(state.chapterKey||"")+":"+nodeId;
    if(scene){
     refs.push({group:"scenes",id:scene});
     if(node.speaker&&state.artwork?.scenes?.[scene]?.portraitBackground)refs.push({group:"scenes",id:scene,variant:"portraitBackground"});
+    // The scene states this node can show: bound ones whose node / close-up selectors admit it.
+    (state.artwork?.scenes?.[scene]?.states||[]).forEach(x=>{
+      const sel=x.selection;if(!sel)return;
+      if(sel.at&&!sel.at.includes(at))return;
+      if(sel.focus&&sel.focus!==node.focus)return;
+      refs.push({group:"scenes",id:scene,variant:"state:"+x.id});
+    });
   }
-   if(node.speaker)refs.push({group:"portraits",id:node.speaker+":"+(node.pose||"default")});
-   if(node.focus)refs.push({group:"focus",id:node.focus});
+   if(node.speaker){
+    const pid=node.speaker+":"+(node.pose||"default"),rec=state.artwork?.portraits?.[pid];
+    refs.push({group:"portraits",id:pid});
+    if(rec?.views?.[scene])refs.push({group:"portraits",id:pid,variant:"view:"+scene});
+   }
+   if(node.focus){
+    refs.push({group:"focus",id:node.focus});
+    (state.artwork?.focus?.[node.focus]?.pages||[]).forEach((x,i)=>refs.push({group:"focus",id:node.focus,variant:"page:"+(i+1)}));
+   }
    return refs;
  }
  function artRefsForItem(id){return [{group:"items",id,variant:"slot"},{group:"items",id,variant:"inspect"}];}
@@ -351,7 +394,7 @@
    if(ref.group==="items")return [{id:ref.id,kind:"item"}];
    const found=[];
    Object.entries(state.chapter?.nodes||{}).forEach(([id,node])=>{
-     if(artRefsForNode(node).some(r=>artKey(r)===artKey(ref)))found.push({id,kind:"node"});
+     if(artRefsForNode(node,id).some(r=>artKey(r)===artKey(ref)))found.push({id,kind:"node"});
    });
    return found;
  }
@@ -375,17 +418,13 @@
    apply.addEventListener("click",()=>{
      const next={...record,status:status.value};
      Object.entries(fields).forEach(([key,input])=>next[key]=input.value.trim()||(key==="prompt"||key==="notes"?"":null));
-     if(ref.group==="items")state.artwork.items[ref.id][ref.variant]=next;
-     else if(ref.group==="scenes"&&ref.variant==="portraitBackground")state.artwork.scenes[ref.id].portraitBackground=next;
-      else state.artwork[ref.group][ref.id]=next;
+     setArtwork(ref,next);
      selectArt(ref);setStatus("Artwork edits are in memory. Export artwork JSON to keep them.");
    });
    section.append(apply);pane.append(section);
    editor(pane,record,obj=>{
      if(!obj||typeof obj!=="object"||Array.isArray(obj))throw Error("Artwork record must be an object");
-     if(ref.group==="items")state.artwork.items[ref.id][ref.variant]=obj;
-     else if(ref.group==="scenes"&&ref.variant==="portraitBackground")state.artwork.scenes[ref.id].portraitBackground=obj;
-      else state.artwork[ref.group][ref.id]=obj;
+     setArtwork(ref,obj);
      selectArt(ref);
    });
  }
@@ -399,6 +438,14 @@
    labeled(pane,"Actual asset",record.assetPath||"Not generated / not integrated");
    if(record.suggestedFilename)labeled(pane,"Proposed filename",record.suggestedFilename);
    if(record.layers)labeled(pane,"Separate art layers",JSON.stringify(record.layers,null,2));
+   if(record.format)labeled(pane,"Portrait format",record.format);
+   if(record.layer)labeled(pane,"Scene state layer",record.layer==="replace"?"replace: an opaque alternate of the whole scene":"overlay: one transparent layer over the scene, same origin");
+   if(record.layer)labeled(pane,"Shown when",record.selection?JSON.stringify(record.selection):"Never: installed but bound to no authored view");
+   if(record.startsWith)labeled(pane,"Paired text (paragraph starting)",record.startsWith);
+   for(const sub of subRefs(ref.group,ref.id,ref.variant?null:record).filter(x=>x.variant!=="portraitBackground")){
+     const b=el("button","art-brief",sub.record.title||artKey(sub));b.append(el("span","art-meta",artKey(sub)+" · "+(sub.record.status||"not-started")));
+     b.onclick=()=>selectArt(sub);pane.append(b);
+   }
    if(record.portraitBackgroundScene)labeled(pane,"Paired portrait background scene",record.portraitBackgroundScene);
    if(record.foregroundFormat)labeled(pane,"Foreground format",record.foregroundFormat);
    if(ref.group==="scenes"&&ref.variant!=="portraitBackground"&&record.portraitBackground){
@@ -416,6 +463,9 @@
      const b=el("button","item-button",used.id);
      b.onclick=()=>used.kind==="item"?selectItem(used.id):selectNode(used.id);pane.append(b);
    });
+   if(record.assetPath&&!record.previewUrl&&typeof location!=="undefined"&&/^https?:$/.test(location.protocol)){
+     const img=el("img","preview");img.alt=record.title||artKey(ref);img.onerror=()=>img.remove();img.src="../../"+record.assetPath;pane.append(img);
+   }
    if(record.previewUrl){
      const img=el("img","preview");img.src=record.previewUrl;img.alt=record.title||artKey(ref);pane.append(img);
    }
@@ -430,7 +480,7 @@
    for(const group of ["scenes","portraits","focus"]){
      Object.entries(a[group]||{}).forEach(([id,record])=>{
        all.push({group,id,record});
-       if(group==="scenes"&&record.portraitBackground)all.push({group,id,variant:"portraitBackground",record:record.portraitBackground});
+       all.push(...subRefs(group,id,record));
      });
    }
    Object.entries(a.items||{}).forEach(([id,variants])=>{
@@ -462,7 +512,7 @@
    if(node.objective)labeled(pane,"Objective",textOf(node.objective));
    labeled(pane,"Actual script",textOf(node.text));
    if(node.notes)labeled(pane,"Authoring notes (not imported into the game)",textOf(node.notes));
-    artworkLinks(pane,artRefsForNode(node));
+    artworkLinks(pane,artRefsForNode(node,id));
    pane.append(el("h3","","Choices & destinations"));
    choicesFor(node).forEach(c=>{
      const b=el("button","choice",c.text||c.id);
