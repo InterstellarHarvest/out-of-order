@@ -7,18 +7,18 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "8307a99e35f77fda32e652f6d7d92fb9d46a5fc92b4729ea92db78f27773e0d6",
-    "version": 137394842,
+    "contentHash": "407d8ec78f1ceee950cb4330bc5e6460720bbbede0e04d0218b2a2514de1c00d",
+    "version": 67623149,
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "21103c5b0115c698d41475603ae4d91f984a17642e4f8275352aedeab4c36fd1",
-        "gitBlob": "21fd1b6c0cb6b013b858c667f180b86829313ab4"
+        "sha256": "c2bbd9049fa1507c8a71f942a1e4ef8da99c5d26258099d3908e32dacb010f29",
+        "gitBlob": "e1e8ca49b13ba25404abc3097fe27dd30bfc9cf0"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
-        "sha256": "bff70e3b29de2033eea610c87ff18d364acb4d47191a826c263d3f83fe799fd6",
-        "gitBlob": "45c10ee78a08442b530760ae5e6949dedab0adcb"
+        "sha256": "884f9b40934cd450085a145fe8da56c87a31e5fde36cdfa3e6897bb6176a880a",
+        "gitBlob": "edac7083c1a4c4be24c09f6a066abf46cd11353b"
       },
       {
         "path": "story/chapters/chapter-02.draft.json",
@@ -32,8 +32,8 @@
       },
       {
         "path": "story/items.draft.json",
-        "sha256": "b18be0d8ba2f62a25b5684f4f81d8847791849c8342b3ffab2cdfa40454fc067",
-        "gitBlob": "ad375a4258c6013b3079294c1b950d026abfdd82"
+        "sha256": "67c5bba99702a93c4440dce1841e1dfd67f504f96c9d94ef63b1fe4156081255",
+        "gitBlob": "84c0d807031bf1e09a9d447287eb8ac16c82cde1"
       },
       {
         "path": "story/runtime-settings.json",
@@ -66,6 +66,27 @@
     "draftStops": [],
     "art": [
       {
+        "kind": "focus",
+        "id": "house_of_tomorrow/portrait_gallery/album:page:1",
+        "path": "art/focus/house_of_tomorrow/album_page_1.png",
+        "status": "generated",
+        "sha256": "c789a17a2e2ee45a7db07cd9e2aa0a4457dabe68dd88901aaf254f168a100ba7"
+      },
+      {
+        "kind": "focus",
+        "id": "house_of_tomorrow/portrait_gallery/album:page:2",
+        "path": "art/focus/house_of_tomorrow/album_page_2.png",
+        "status": "generated",
+        "sha256": "fcf0dcc0e10dfaa7cce3bf6a5b58687255681430811c551519edc883fa27c7a5"
+      },
+      {
+        "kind": "focus",
+        "id": "house_of_tomorrow/portrait_gallery/album:page:3",
+        "path": "art/focus/house_of_tomorrow/album_page_3.png",
+        "status": "generated",
+        "sha256": "579c0b2e14589e7c3ada53ddf1c5bc984f209170c48619b18336e883b97616ad"
+      },
+      {
         "kind": "item-inspect",
         "id": "desk_plant",
         "path": "art/items/small_desk_plant_inspect.png",
@@ -92,6 +113,13 @@
         "path": "art/items/expo_examiner_badge_inspect.png",
         "status": "generated",
         "sha256": "bcbfbf9415eae2e9e1bcdc85eef0dc67a25524ededeb9bb2f3494c3f80b639ea"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "family_portrait_photo",
+        "path": "art/items/family_portrait_photo_inspect.png",
+        "status": "generated",
+        "sha256": "cf9cebc88a5e320d1f3cba3626477c8919c2e418f9c43923691cee5a05ba86d3"
       },
       {
         "kind": "item-inspect",
@@ -162,6 +190,13 @@
         "path": "art/items/expo_examiner_badge_slot.png",
         "status": "generated",
         "sha256": "7347b7afd9b2509fa59270b9ef2db901429c50466a0a617c1ff324843721fa79"
+      },
+      {
+        "kind": "item-slot",
+        "id": "family_portrait_photo",
+        "path": "art/items/family_portrait_photo_slot.png",
+        "status": "generated",
+        "sha256": "7e1e0b42f5def951dcc17095df0f5951ddfee5b16b916080681442d97d50f50c"
       },
       {
         "kind": "item-slot",
@@ -241,6 +276,69 @@
         "sha256": "3f3de8d333a4ab2784f54a9c01da662908601a69227d348b731f28fa6f8b1867"
       },
       {
+        "kind": "portrait-view",
+        "id": "house@house_of_tomorrow/foyer",
+        "path": "art/portraits/house/foyer_conversation.png",
+        "status": "generated",
+        "sha256": "a77eb0a6ca2479cf5e6490a08e14616e73ef57a15e3340b5fe2af7da159781d0"
+      },
+      {
+        "kind": "portrait-view",
+        "id": "house@house_of_tomorrow/portrait_gallery",
+        "path": "art/portraits/house/portrait_gallery_conversation.png",
+        "status": "generated",
+        "sha256": "a365560b66e6d4bbb1f865214768a20dfb6bed2a870bd62ab31ce2c5b9f66f4d"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/foyer#named_plant_pedestal",
+        "path": "art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png",
+        "status": "generated",
+        "sha256": "e1c42ce00d5fe2ad95d98f74529abb3796be4e2be8ecd9f023844851afa4b4d2"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/storage#stored_desk_plant",
+        "path": "art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png",
+        "status": "generated",
+        "sha256": "867019e15581bed769bf34421ef7259dfa11d651aa36313b73ee69f888d1336c"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/storage#stored_red_stapler",
+        "path": "art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png",
+        "status": "generated",
+        "sha256": "d524b3eee63fd3c5f1f2613d834926c53575528c4e3595d9e2e9611c8763bea9"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/storage#stored_rubber_band_ball",
+        "path": "art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png",
+        "status": "generated",
+        "sha256": "00f4926835332c59378719306c01a26385567125ef25e4220dcc6ad5a8c2dccc"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/storage#stored_timing_clicker",
+        "path": "art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png",
+        "status": "generated",
+        "sha256": "22660a4ea50b2f8bdbf0a7ed1f30b48110503a2625660c3a7f4209f7aa7ca9a6"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/utility_exit#returns_display",
+        "path": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png",
+        "status": "generated",
+        "sha256": "a6df04106deb0da8fb62600b05b3ee9d9a24bc1cf39d008b7b60bfaa63fd9c30"
+      },
+      {
+        "kind": "scene-replace",
+        "id": "house_of_tomorrow/portrait_gallery#album_removed",
+        "path": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png",
+        "status": "generated",
+        "sha256": "96c1b1ced5a3897b6caa51b98ad85b38030bce539ec25f21d38e628ebd362fdd"
+      },
+      {
         "kind": "scene",
         "id": "exposition/entrance",
         "path": "art/scenes/exposition/continuity-v03/entrance.png",
@@ -267,6 +365,104 @@
         "path": "art/scenes/conference_hall/reception/reception_scene.png",
         "status": "reused",
         "sha256": "fb010301d2df0c06d0cedaff6e35e60661e18764c9e5d9ed755ad78b0ac5fd53"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/arrival",
+        "path": "art/scenes/house_of_tomorrow/arrival.png",
+        "status": "generated",
+        "sha256": "7029c0e66b06a784447313a0e06e831ad4f5c48260ed809da195d3810b57dcde"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/bathroom",
+        "path": "art/scenes/house_of_tomorrow/bathroom.png",
+        "status": "generated",
+        "sha256": "418061f623770ec40a6a708083ad3a797b3cfc43c6e9b461ecb95799cc5267fc"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/bedroom",
+        "path": "art/scenes/house_of_tomorrow/bedroom.png",
+        "status": "generated",
+        "sha256": "792f7930e572ee91f49e7015cbcfd9625e8896ce40faca6d0992621a57217df4"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/chair",
+        "path": "art/scenes/house_of_tomorrow/chair.png",
+        "status": "generated",
+        "sha256": "5cef601a39f2aa3ec8f37da6a0c6d9dcc99702b26821e68f64385d33a3ebff1b"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/dining",
+        "path": "art/scenes/house_of_tomorrow/dining.png",
+        "status": "generated",
+        "sha256": "2bd4f7b2127e7af45894224b8d04a128663357d99cba115a8ac4b80fb1c3761d"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/foyer",
+        "path": "art/scenes/house_of_tomorrow/foyer.png",
+        "status": "generated",
+        "sha256": "9e4ea0bc781dbb7cf40d90d71ebce661d244c45bf5892c45ea6e420c9b329607"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/lounge",
+        "path": "art/scenes/house_of_tomorrow/lounge.png",
+        "status": "generated",
+        "sha256": "9dc600a286bc585a5fb8fc1a5bf85cca31a06ea4f42f4b83057f3845242b92f8"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/maintenance",
+        "path": "art/scenes/house_of_tomorrow/maintenance.png",
+        "status": "generated",
+        "sha256": "cd575f82b52796a7393f144ad3234a637cd4ef6a5742e872dd2be8f047318efd"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/passage",
+        "path": "art/scenes/house_of_tomorrow/passage.png",
+        "status": "generated",
+        "sha256": "acdacefbaeac9649737286d909e3ee859e768d7319bfeee6001d8a97aae0fbcd"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/portrait_gallery",
+        "path": "art/scenes/house_of_tomorrow/portrait_gallery.png",
+        "status": "generated",
+        "sha256": "7fd52ebec4008005af452880aa0c54df97aad75b97d5e28c9f8d4c6bd8605c8d"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/public_exit",
+        "path": "art/scenes/house_of_tomorrow/public_exit.png",
+        "status": "generated",
+        "sha256": "0ad83a23a5ee0a52ccd2e53e00c19727f8f51153eb666143714646686f97d034"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/service_hatch",
+        "path": "art/scenes/house_of_tomorrow/service_hatch.png",
+        "status": "generated",
+        "sha256": "1f978f6fe2334ce4c5af8a48fc2322a79b74899fb504935c0e948b3bc8f50580"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/storage",
+        "path": "art/scenes/house_of_tomorrow/storage.png",
+        "status": "generated",
+        "sha256": "635307df628fcdaad921a1901d668eebb75af6875ffbbb4d0ace89c3219eb11d"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/utility_exit",
+        "path": "art/scenes/house_of_tomorrow/utility_exit.png",
+        "status": "generated",
+        "sha256": "907b962a20485b4c96cd4acae253311484c71e6689d625aad04f2d88f45104de"
       },
       {
         "kind": "scene",
@@ -311,7 +507,7 @@
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 137394842,
+    "version": 67623149,
     "profile": "fixture",
     "save": true,
     "start": "prologue-00",
@@ -614,9 +810,9 @@
       },
       "family_portrait_photo": {
         "name": "COMPLIMENTARY FAMILY PORTRAIT",
-        "slotArt": null,
-        "inspectArt": null,
-        "description": "A STIFF SHOWROOM PHOTOGRAPH OF THREE EMPTY CHAIRS. THE CAMERA WAS CROOKED: ONLY YOUR SHOES AND LOWER LEGS APPEAR AT THE BOTTOM EDGE. THE BACK IS STAMPED OFFICIAL HOUSEHOLD RECORD - COMPLIMENTARY COPY.",
+        "slotArt": "art/items/family_portrait_photo_slot.png",
+        "inspectArt": "art/items/family_portrait_photo_inspect.png",
+        "description": "A STIFF SHOWROOM PHOTOGRAPH OF THREE EMPTY CHAIRS. THE CROOKED CAMERA CATCHES PART OF A FOURTH CHAIR AT THE RIGHT EDGE, WITH PART OF YOUR SHIRT, LAP, LEGS AND FORWARD-FACING SHOES. YOUR HEAD IS OUT OF FRAME. THE BACK IS STAMPED OFFICIAL HOUSEHOLD RECORD - COMPLIMENTARY COPY.",
         "read": {
           "effects": {
             "mark": [
@@ -759,20 +955,20 @@
         "exposition/property_intake": "art/scenes/exposition/continuity-v02/property-intake.png",
         "exposition/reception": "art/scenes/conference_hall/reception/reception_scene.png",
         "exposition/facilities_corridor": "art/scenes/exposition/continuity-v03/facilities-corridor.png",
-        "house_of_tomorrow/arrival": null,
-        "house_of_tomorrow/foyer": null,
-        "house_of_tomorrow/lounge": null,
-        "house_of_tomorrow/storage": null,
-        "house_of_tomorrow/dining": null,
-        "house_of_tomorrow/public_exit": null,
-        "house_of_tomorrow/bedroom": null,
-        "house_of_tomorrow/passage": null,
-        "house_of_tomorrow/service_hatch": null,
-        "house_of_tomorrow/chair": null,
-        "house_of_tomorrow/maintenance": null,
-        "house_of_tomorrow/utility_exit": null,
-        "house_of_tomorrow/portrait_gallery": null,
-        "house_of_tomorrow/bathroom": null,
+        "house_of_tomorrow/arrival": "art/scenes/house_of_tomorrow/arrival.png",
+        "house_of_tomorrow/foyer": "art/scenes/house_of_tomorrow/foyer.png",
+        "house_of_tomorrow/lounge": "art/scenes/house_of_tomorrow/lounge.png",
+        "house_of_tomorrow/storage": "art/scenes/house_of_tomorrow/storage.png",
+        "house_of_tomorrow/dining": "art/scenes/house_of_tomorrow/dining.png",
+        "house_of_tomorrow/public_exit": "art/scenes/house_of_tomorrow/public_exit.png",
+        "house_of_tomorrow/bedroom": "art/scenes/house_of_tomorrow/bedroom.png",
+        "house_of_tomorrow/passage": "art/scenes/house_of_tomorrow/passage.png",
+        "house_of_tomorrow/service_hatch": "art/scenes/house_of_tomorrow/service_hatch.png",
+        "house_of_tomorrow/chair": "art/scenes/house_of_tomorrow/chair.png",
+        "house_of_tomorrow/maintenance": "art/scenes/house_of_tomorrow/maintenance.png",
+        "house_of_tomorrow/utility_exit": "art/scenes/house_of_tomorrow/utility_exit.png",
+        "house_of_tomorrow/portrait_gallery": "art/scenes/house_of_tomorrow/portrait_gallery.png",
+        "house_of_tomorrow/bathroom": "art/scenes/house_of_tomorrow/bathroom.png",
         "biology_park/conveniences_bureau": null,
         "biology_park/groundskeeper": null,
         "biology_park/formal_entrance": null,
@@ -824,15 +1020,11 @@
           "pose": "idle"
         },
         "house": {
-          "backgrounds": {
-            "house_of_tomorrow/foyer": null,
-            "house_of_tomorrow/portrait_gallery": null
+          "views": {
+            "house_of_tomorrow/foyer": "art/portraits/house/foyer_conversation.png",
+            "house_of_tomorrow/portrait_gallery": "art/portraits/house/portrait_gallery_conversation.png"
           },
-          "poses": {
-            "idle": null
-          },
-          "background": "house_of_tomorrow/foyer",
-          "pose": "idle"
+          "view": "house_of_tomorrow/foyer"
         },
         "receptionist": {
           "backgrounds": {
@@ -857,10 +1049,113 @@
         }
       },
       "focus": {
-        "house_of_tomorrow/portrait_gallery/album": null,
+        "house_of_tomorrow/portrait_gallery/album": {
+          "pages": [
+            {
+              "path": "art/focus/house_of_tomorrow/album_page_1.png",
+              "paragraphs": 1
+            },
+            {
+              "path": "art/focus/house_of_tomorrow/album_page_2.png",
+              "paragraphs": 1
+            },
+            {
+              "path": "art/focus/house_of_tomorrow/album_page_3.png",
+              "paragraphs": 2
+            }
+          ]
+        },
         "biology_park/public_exit/aid_box_open": null,
         "biology_park/maintenance_exit/decontamination_kit_open": null,
         "biology_park/agricultural_customs/exposure_dispenser_open": null
+      },
+      "sceneStates": {
+        "house_of_tomorrow/foyer": [
+          {
+            "id": "named_plant_pedestal",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png",
+            "at": [
+              "chapter-01:plant_adoption"
+            ],
+            "if": {
+              "has": "desk_plant",
+              "notFlag": "plant_registered_as_resident"
+            }
+          }
+        ],
+        "house_of_tomorrow/storage": [
+          {
+            "id": "stored_desk_plant",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png",
+            "if": {
+              "flagIs": [
+                "house_stored_item",
+                "desk_plant"
+              ],
+              "notFlag": "house_storage_recovered",
+              "lacks": "desk_plant"
+            }
+          },
+          {
+            "id": "stored_red_stapler",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png",
+            "if": {
+              "flagIs": [
+                "house_stored_item",
+                "red_stapler"
+              ],
+              "notFlag": "house_storage_recovered",
+              "lacks": "red_stapler"
+            }
+          },
+          {
+            "id": "stored_rubber_band_ball",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png",
+            "if": {
+              "flagIs": [
+                "house_stored_item",
+                "rubber_band_ball"
+              ],
+              "notFlag": "house_storage_recovered",
+              "lacks": "rubber_band_ball"
+            }
+          },
+          {
+            "id": "stored_timing_clicker",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png",
+            "if": {
+              "flagIs": [
+                "house_stored_item",
+                "timing_clicker"
+              ],
+              "notFlag": "house_storage_recovered",
+              "lacks": "timing_clicker"
+            }
+          }
+        ],
+        "house_of_tomorrow/utility_exit": [
+          {
+            "id": "returns_display",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png",
+            "if": {
+              "flag": "equipment_registered"
+            }
+          }
+        ],
+        "house_of_tomorrow/portrait_gallery": [
+          {
+            "id": "album_removed",
+            "layer": "replace",
+            "path": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png",
+            "focus": "house_of_tomorrow/portrait_gallery/album"
+          }
+        ]
       }
     },
     "chapters": {
@@ -1988,23 +2283,23 @@
                     "disputed"
                   ]
                 },
-                "text": "You follow the facilities pictogram through a humming corridor. You are still waiting for somebody to review your dismissal. The review has not made the need for a bathroom any less urgent.\n\nA sign ahead reads HOUSE OF TOMORROW. The restroom-like symbol belongs to its advertising."
+                "text": "You follow the facilities pictogram through a humming corridor. You are still waiting for somebody to review your dismissal. The review has not made the need for a bathroom any less urgent.\n\nAround the corner, the blue figure beside a square points to an ordinary, unmarked ivory door. Finally, a plausible destination."
               },
               {
                 "if": {
                   "flag": "appointment_disputed"
                 },
-                "text": "You follow the facilities pictogram, still disputing the appointment that was foisted on you. The painted figure beside a square was not a restroom symbol after all. It belongs to a display marked HOUSE OF TOMORROW."
+                "text": "You follow the facilities pictogram, still disputing the appointment that was foisted on you. A painted figure beside a square points to one solid ivory door. Nothing on it tells you that your interpretation is wrong."
               },
               {
-                "text": "You follow the pale blue facilities pictogram around a corner. The complete sign reads HOUSE OF TOMORROW. It is not a bathroom sign at all."
+                "text": "You follow the pale blue facilities pictogram around a corner. It points to a plain ivory door with no nameplate or window. At last, something that might be a bathroom."
               }
             ],
             "choices": [
               {
                 "id": "enter_show_home",
                 "kind": "action",
-                "text": "PUSH OPEN THE DISPLAY ENTRANCE.",
+                "text": "TRY THE UNMARKED DOOR.",
                 "to": "badge_registration"
               }
             ]
@@ -2012,7 +2307,7 @@
           "badge_registration": {
             "mode": "narrative",
             "scene": "house_of_tomorrow/foyer",
-            "text": "Your pale blue Examiner badge slides past the entrance scanner. A green light blinks: DEMONSTRATION PARTICIPANT ACCEPTED. You did not apply for this position.\n\nThe outer door closes behind you. A wall speaker swivels into view.",
+            "text": "Your pale blue Examiner badge slides past the entrance scanner. A green light blinks. A pleasant recorded voice announces: HOUSE OF TOMORROW. DEMONSTRATION PARTICIPANT ACCEPTED. You did not apply for this position.\n\nThe door closes behind you. A wall intercom's recessed faceplate tilts toward you.",
             "choices": [
               {
                 "id": "hear_house_greeting",
@@ -2887,7 +3182,7 @@
                 ]
               }
             ],
-            "text": "\"Martin, stop making faces. Everyone ready? Say cheese!\"\n\nThe off-center camera fires. A photograph slides from the machine. Three empty chairs occupy nearly the entire image. At the very bottom are only your shoes and the lower parts of your legs.\n\n\"The best one we've taken in years! Please accept a complimentary copy.\"\n\nAn enormous family album lies beside the printer.",
+            "text": "\"Martin, stop making faces. Everyone ready? Say cheese!\"\n\nThe off-center camera fires. A photograph slides from the machine. Three empty chairs occupy nearly the entire image. At the right edge, a slice of the fourth chair appears, along with part of your shirt, your lap, your legs, and your forward-facing shoes. Your head is entirely out of frame.\n\n\"The best one we've taken in years! Please accept a complimentary copy.\"\n\nAn enormous family album lies beside the printer.",
             "choices": [
               {
                 "id": "inspect_album",
@@ -2986,7 +3281,7 @@
           "showroom_reset": {
             "mode": "narrative",
             "scene": "house_of_tomorrow/public_exit",
-            "text": "\"Congratulations! All domestic requirements have been satisfied. Please exit promptly so we may prepare for your next visit.\"\n\nThe house initiates its automated showroom reset. For a few seconds, it suspends the occupancy rule. The public-facing doors swing open.",
+            "text": "\"Congratulations! All domestic requirements have been satisfied. Please exit promptly so we may prepare for your next visit.\"\n\nThe house initiates its automated showroom reset. For a few seconds, it suspends the occupancy rule. The public-facing door swings outward.",
             "choices": [
               {
                 "id": "leave_during_reset",
@@ -3006,7 +3301,7 @@
                 }
               }
             ],
-            "text": "You walk back onto the visitor concourse. The house thanks you for being a valued member of the demonstration family and closes its doors.\n\nYou survived a domestic future that has no working toilet. Your original problem remains entirely unresolved.",
+            "text": "You walk back onto the visitor concourse. The house thanks you for being a valued member of the demonstration family and closes its door.\n\nYou survived a domestic future that has no working toilet. Your original problem remains entirely unresolved.",
             "choices": [
               {
                 "id": "continue_to_chapter_02_exit_showroom_reset",
