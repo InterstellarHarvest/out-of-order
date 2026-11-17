@@ -1,0 +1,76 @@
+{
+  "publicationCommit": "d4734da87faa75aea43c08bdbcabdbab92ee79b7",
+  "candidateSourceCommit": "c7b624df0511cf33378658ff6920fd9f4438a3cc",
+  "checkedAtUtc": "2026-11-17T16:46:21.657085+00:00",
+  "checks": {
+    "canonical": {
+      "ok": true,
+      "errors": [],
+      "notes": [
+        "game build 20b52601c573 consumed storyboard d95c01ef5059 (63 images)"
+      ],
+      "stats": {
+        "chapters": 4,
+        "nodes": 227,
+        "routes": 359,
+        "artRecords": 182,
+        "statuses": {
+          "integrated": 59,
+          "reused": 5,
+          "approved": 15,
+          "not-started": 96,
+          "generated": 7
+        },
+        "previewed": 78
+      }
+    },
+    "storyboardSmoke": "PASS",
+    "deathPresentationsExport": "PASS: 9 records exact",
+    "publicArtLabStatic": "PASS",
+    "syncGuardSuite": {
+      "result": "PASS",
+      "checks": 22,
+      "results": [
+        "baseline passes (78 previews)",
+        "missing chapter",
+        "broken route",
+        "undeclared field",
+        "manifest key the importer rejects",
+        "approved art regresses to generated",
+        "integrated art regresses to not-started",
+        "preview bytes tampered",
+        "preview file missing",
+        "stray unregistered package file",
+        "selected record without preview",
+        "integrated but not in the game report",
+        "game uses an approved-only image",
+        "game pixels differ from preview",
+        "register refuses wrong native size",
+        "register refuses a scene as a portrait",
+        "register requires a pinned full commit",
+        "register refuses source/ masters",
+        "register refuses containers",
+        "register refuses unknown records",
+        "register never lowers integrated -> approved",
+        "register: selection = approval, no invented assetPath"
+      ]
+    }
+  },
+  "allChecksPassed": true,
+  "selectedPreviewCountPreserved": 78,
+  "previousSelectedPngBytesPreserved": true,
+  "allAuthoredChapterAndItemBytesPreserved": true,
+  "changedCanonicalFiles": [
+    "story/artwork.draft.json",
+    "tools/storyboard/qa-smoke.mjs",
+    "tools/storyboard/qa-fixtures/legacy-render-snapshot.json"
+  ],
+  "preexistingQaDrift": {
+    "baselineCommit": "8c4aff5bc7f04881b744e7e3c0e04e0ea30b7ef5",
+    "hardcodedNodeCounts": [
+      62,
+      63
+    ],
+    "repair": "Refresh generated current-source renderer snapshot; derive expected node counts from committed fixture and authored nodes. No authored Chapter 3 or viewer edits."
+  }
+}

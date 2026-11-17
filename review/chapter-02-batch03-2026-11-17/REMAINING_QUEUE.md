@@ -49,3 +49,5 @@
 9 base scenes + 1 nested portrait background + 1 portrait + 10 item variants + 3 Focus A images + 5 death screens = 29. Full canonical records and briefs: [remaining-queue.source.json](remaining-queue.source.json).
 
 The three Focus A records currently declare 564×278. Future ScenePickup migration language mentions 565×451; resolve that authoring contract before their later production. No dimensions were silently changed here. No separate Chapter 2 conditional scene-state records are currently registered; a later spore-inundated tower is narrative context, not an additional invented candidate.
+
+Re-enumerated after canonical publication `d4734da87faa75aea43c08bdbcabdbab92ee79b7`: all 29 keys remain not-started. See [current complete records](remaining-queue.current.json).

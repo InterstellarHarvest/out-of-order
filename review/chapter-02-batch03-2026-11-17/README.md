@@ -39,3 +39,5 @@ python3 build_gallery.py
 Eight raw generations are retained for seven final candidates. Translator C-v01 prematurely exposed the later service door; C-v02 covers that door with roots. The initial and edit prompts and both raw sources remain available. All other scenes have their first raw generation preserved. No approved Batch 1 or Batch 2 image is edited.
 
 Status: `generated`, `selected: false`, production `assetPath: null`. Pixel QA passes; selection remains with the owner/Art Director. See [publication receipt](STORYBOARD_SYNC.md) for canonical generated-status publication, separate from approval.
+
+Immutable seven-candidate source commit: `c7b624df0511cf33378658ff6920fd9f4438a3cc`. Canonical generated-status publication: `d4734da87faa75aea43c08bdbcabdbab92ee79b7`. Pages deployment and live verification passed; see [publication receipt](publication-receipt.json). Final review-branch receipt commits retain these exact candidate bytes. No actual blockers remain.
