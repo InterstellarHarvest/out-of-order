@@ -1,6 +1,6 @@
 # Remaining Chapter2 art — ordered review batches
 
-Exhaustive catalog image records at source `25921b9bb0e263c017a804c57e9069c172f6b3b4`, excluding the seven actually generated Batch2 targets. Public generated-status synchronization is recorded separately. Every listed record remains `not-started`; approved Batch1 is omitted. Source JSON in `remaining-queue.source.json` includes full authored prompts.
+Exhaustive current published catalog image records at `a1dc9a2ef5730a31d62ad6f60244acfab6c40db5`, enumerated after the seven Batch2 records became generated. Every listed record remains `not-started`; approved Batch1 and generated Batch2 are omitted. `remaining-queue.current.json` is the direct current enumeration. The original generation-source enumeration remains in `remaining-queue.source.json`; both sets contain the same36 pending keys and full authored prompts.
 
 **36 remaining images:** 16 scene backgrounds, one nested portrait background, one foreground portrait, ten item variants, three FocusA images and five fatal illustrations.
 

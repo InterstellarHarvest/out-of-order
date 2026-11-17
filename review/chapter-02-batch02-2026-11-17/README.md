@@ -46,6 +46,8 @@ Fine foliage, bark, cables and steel grating remain denser than broad office sur
 
 ## Canonical synchronization and remaining work
 
-[Storyboard synchronization receipt](STORYBOARD_SYNC.md) records the final public generated-status commit and Pages result once published. It changes only candidate metadata and the corresponding QA expectations; the selected-art collection and ledger remain untouched. The game repository story tree and engine are unchanged.
+[Storyboard synchronization receipt](STORYBOARD_SYNC.md) records the published public main commit `a1dc9a2ef5730a31d62ad6f60244acfab6c40db5` and successful Pages workflow. It changes only candidate metadata and the corresponding QA expectations; the selected-art collection and ledger remain untouched. The game repository story tree and engine are unchanged.
 
 [The ordered Chapter2 queue](REMAINING_QUEUE.md) enumerates all 36 remaining catalog records after excluding these seven new candidates, including the Concourse Crash portrait background, Courtesy Conductor foreground, all item slot/inspection pairs, three FocusA records and five death-popup illustrations. No Chapter3 art is started.
+
+Public publication is complete: seven generated statuses, successful Pages deployment, live catalog verified, no selected-preview additions. See [the receipt](STORYBOARD_SYNC.md). All seven requested images are complete; there are no blocked images. Initial unused F/G prompt drafts are preserved under `prompts/planned-unused/`.

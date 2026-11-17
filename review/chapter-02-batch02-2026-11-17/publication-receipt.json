@@ -1,0 +1,24 @@
+{
+  "generationSourceCommit": "25921b9bb0e263c017a804c57e9069c172f6b3b4",
+  "artworkBaseline": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+  "candidateSourceCommit": "34094799ca7dc96eb0c81db504b8ded2272816f1",
+  "candidateSourceBranch": "agent/ch02-art-batch02-biopark-routes",
+  "canonicalPublicationBase": "10663faa305b9a453f58cdec25c2a621fcd3c561",
+  "canonicalPublishedCommit": "a1dc9a2ef5730a31d62ad6f60244acfab6c40db5",
+  "generatedCount": 7,
+  "productionAssetPathsRemainNull": true,
+  "selectedPreviewCollectionUnchanged": true,
+  "selectedBatch1Preserved": true,
+  "pages": {
+    "runId": 44104890292,
+    "url": "https://github.com/InterstellarHarvest/CYOA-storyboard/actions/runs/44104890292",
+    "headSha": "a1dc9a2ef5730a31d62ad6f60244acfab6c40db5",
+    "status": "completed",
+    "conclusion": "success",
+    "site": "https://interstellarharvest.github.io/CYOA-storyboard/tools/storyboard/",
+    "liveCatalogMatchesPublishedData": true,
+    "liveCatalogSha256": "90e3e4ea64bf9541f335c2d2cee2d6663fea164c68e7cc0d00888ef3813211ff"
+  },
+  "remainingChapter2Records": 36,
+  "blockedImages": []
+}

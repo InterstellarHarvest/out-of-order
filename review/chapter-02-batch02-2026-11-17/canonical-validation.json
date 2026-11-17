@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "publicationBaseline": "10663faa305b9a453f58cdec25c2a621fcd3c561",
+  "changedFiles": [
+    "story/artwork.draft.json",
+    "tools/storyboard/qa-fixtures/legacy-render-snapshot.json",
+    "tools/storyboard/qa-smoke.mjs"
+  ],
+  "allOtherTrackedFilesPreserved": true,
+  "storyAndItemsUnchanged": true,
+  "selectedArtworkLedgerAndPreviewsUnchanged": true,
+  "qaSnapshotReason": "Identical Chapter3 legacy-render failure reproduced in unmodified public main10663fa; snapshot refreshed from that unchanged baseline renderer, with no narrative, viewer, geometry-source or artwork edits.",
+  "validations": [
+    "node tools/sync/check-canon.mjs",
+    "node tools/storyboard/qa-smoke.mjs",
+    "node tools/storyboard/export-death-presentations.mjs --check",
+    "node tools/prologue-art-lab/qa/qa-static.mjs",
+    "node tools/sync/qa-sync.mjs (22guards)"
+  ]
+}
