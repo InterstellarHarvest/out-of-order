@@ -10,3 +10,4 @@ originals/
 
 # CI artifact index (tools/ci/qa-artifact-index.js, docs/100): a CI output, never committed
 game/qa/ci_artifact_index_*.json
+qa-failure-screenshots/

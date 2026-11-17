@@ -10,15 +10,16 @@
 # CI environment limits are recorded in docs/84 section 7.2 (no Safari/WebKit by owner rule, Linux
 # runners only, timing-sensitive checks are the first suspects in a one-off failure).
 #
-# Artifacts (docs/100). Actions storage on this private repository is billed, and the browser
-# screenshots are about 300 MB per run, so:
-#   qa-content              JSON results of the content job        every run   7 days
-#   qa-browsers-summary     JSON results + artifact index          every run   7 days
-#   qa-browsers-screenshots PNG screenshots of every browser suite failed run  1 day
-#                                                                  or manual visual-review run
+# Artifacts (docs/100). Actions storage on this private repository is billed against a small
+# allowance, and the browser screenshots are about 300 MB per run, so:
+#   qa-content                       content-job JSON results          every run       7 days
+#   qa-browsers-summary              browser JSON results + index      every run       7 days
+#   qa-browsers-failure-screenshots  PNGs of the FAILED suites only    failed run      1 day
+#   qa-browsers-screenshots          every PNG of every suite          visual review   1 day
 # A manual visual-review run: Actions > QA > Run workflow, choose the branch, tick visual_review
 # (or: gh workflow run qa.yml --ref <branch> -f visual_review=true). Download within 24 hours.
-# Every test still runs on every run; only what is kept afterwards changed.
+# Every test still runs on every run; only what is kept afterwards changed. Upload steps are
+# continue-on-error, so a refused upload can neither fail a passing run nor pass a failing one.
 name: QA
 
 on:
@@ -87,6 +88,7 @@ jobs:
         run: node tools/ci/check-qa-artifacts.js
       - name: Results
         if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: qa-content
@@ -123,46 +125,61 @@ jobs:
           "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium firefox
           echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
       - name: Assets (in the browser)
+        id: assets_browser
         run: node game/qa/validate_assets.js --browser
       - name: Imported story in the browser (Narrative B, dialogue, Focus A, dice checks, saves, draft stamp)
+        id: story
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_story_qa.js
       - name: House of Tomorrow full branch acceptance (actual Prologue inventory, 9 routes in two browsers)
+        id: ch01_routes
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch01_routes_qa.js
       - name: Chapter 1 production art in the game (album pages, storage, pedestal, RETURNS, House views; pixels vs source; reloads)
+        id: ch01_art
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch01_art_qa.js
       - name: Rest Assured death presentation proof (feature-gated; geometry, A1 parity, backdrop, isolation, cause selection)
+        id: end_presentation
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_end_presentation_qa.js
       - name: Death controls in the game (RETRY / CHECKPOINT / EXIT, reloads, save compatibility, two browsers)
+        id: death_controls
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_death_controls_qa.js
       - name: Biology Park full routes + Scene Pickup Inspector (House hand-offs, antidote kits, two browsers)
+        id: ch02_routes
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch02_routes_qa.js
       - name: M2 reception game (regression fixture, ?story=reception)
+        id: m2_reception
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_qa.js
       - name: Polish lab
+        id: polish_lab
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node tools/m2-reception-polish-lab/qa/run_qa.js
       - name: Layout lab (only the 8 known failures allowed)
+        id: layout_lab
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: |
           rm -f tools/layout-lab/qa/qa_results.json
           node tools/layout-lab/qa/run_qa.js || true
           node game/qa/check_known_failures.js tools/layout-lab/qa/qa_results.json game/qa/known_failures/layout-lab.json
-      # Small JSON results on every run; the PNGs only when they are needed (docs/100).
-      - name: Artifact index (every results file and screenshot of this run, by name, size and SHA-256)
+      # Small JSON results on every run; PNGs only when they are needed (docs/100). The upload steps
+      # are continue-on-error: an upload refused by GitHub (for example, storage quota reached) must
+      # never turn a passing run red, and cannot turn a failing run green: the job's result comes
+      # only from the QA steps above (checked by tools/ci/check-qa-artifacts.js).
+      - name: Artifact index (every results file and screenshot of this run; stages the failed suites' screenshots)
         if: always()
         env:
           JOB_STATUS: ${{ job.status }}
           VISUAL_REVIEW: ${{ github.event_name == 'workflow_dispatch' && inputs.visual_review }}
+          STEP_OUTCOMES: ${{ toJSON(steps) }}
         run: node tools/ci/qa-artifact-index.js
       - name: Results summary (every run, 7 days)
         if: always()
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: qa-browsers-summary
@@ -179,13 +196,25 @@ jobs:
             tools/m2-reception-polish-lab/qa/qa_results.json
             tools/layout-lab/qa/qa_results.json
           if-no-files-found: warn
-      - name: Screenshots (failed run or manual visual review only, 1 day)
-        if: ${{ !cancelled() && (failure() || (github.event_name == 'workflow_dispatch' && inputs.visual_review)) }}
+      - name: Failure screenshots (only the failed suites' folders, 1 day)
+        if: ${{ !cancelled() && failure() && !(github.event_name == 'workflow_dispatch' && inputs.visual_review) }}
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-browsers-failure-screenshots
+          retention-days: 1
+          # PNGs are already compressed; zipping them again only costs time.
+          compression-level: 0
+          path: |
+            qa-failure-screenshots/**/*.png
+          if-no-files-found: warn
+      - name: All screenshots (manual visual-review run only, 1 day)
+        if: ${{ !cancelled() && github.event_name == 'workflow_dispatch' && inputs.visual_review }}
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: qa-browsers-screenshots
           retention-days: 1
-          # PNGs are already compressed; zipping them again only costs time.
           compression-level: 0
           path: |
             game/qa/screenshots/*.png

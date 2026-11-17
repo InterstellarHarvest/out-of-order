@@ -1,7 +1,7 @@
 class	artifact_id	name	MB	created_utc	expires	branch	sha	run_id	reason
-KEEP	14139151659	qa-content	0.0	2026-11-15 00:32	2027-02-13	main	2cb743a	43658643368	main / Pages release head (PR #1 merge)
-KEEP	14140215004	qa-browsers	119.6	2026-11-15 00:48	2027-02-13	main	2cb743a	43658643368	earlier re-run attempt at the main / Pages release head (main-head artifacts are never pruned)
-KEEP	14140450685	qa-browsers	119.8	2026-11-15 01:02	2027-02-13	main	2cb743a	43658643368	main / Pages release head (PR #1 merge)
+KEEP	14139151659	qa-content	0.0	2026-11-15 00:32	2027-02-13	main	2cb743a	43658643368	main head (PR #1 merge)
+KEEP	14140215004	qa-browsers	119.6	2026-11-15 00:48	2027-02-13	main	2cb743a	43658643368	earlier re-run attempt at the main head (main-head artifacts are never pruned)
+KEEP	14140450685	qa-browsers	119.8	2026-11-15 01:02	2027-02-13	main	2cb743a	43658643368	main head (PR #1 merge)
 KEEP	14335619929	qa-content	0.0	2026-11-17 14:23	2027-02-15	agent/death-popups-ordinary-play-20261117	7592eff	44100637072	PR #16 head evidence (latest verified implementation)
 KEEP	14337793160	qa-browsers	302.2	2026-11-17 14:45	2027-02-15	agent/death-popups-ordinary-play-20261117	7592eff	44100637072	PR #16 head evidence (latest verified implementation)
 OWNER	13065321664	m1-sprite-intake-assembly	5.1	2026-11-01 01:27	2026-12-01	review/m1-ui-shell-v2	ba15f40	41261147588	latest art-review evidence of this branch (not produced by qa.yml)
