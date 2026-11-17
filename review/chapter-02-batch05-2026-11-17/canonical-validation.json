@@ -1,0 +1,78 @@
+{
+  "candidateSourceCommit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+  "canonicalPublicationBaseline": "a817b79c87b5dce785cb255a9ee2854089a267ed",
+  "checkedAtUtc": "2026-11-17T20:48:43.827794+00:00",
+  "allChecksPassed": true,
+  "checks": {
+    "canonical": {
+      "ok": true,
+      "errors": [],
+      "notes": [
+        "game build 20b52601c573 consumed storyboard d95c01ef5059 (63 images)"
+      ],
+      "stats": {
+        "chapters": 4,
+        "nodes": 230,
+        "routes": 362,
+        "artRecords": 182,
+        "statuses": {
+          "integrated": 59,
+          "reused": 5,
+          "approved": 28,
+          "generated": 5,
+          "not-started": 85
+        },
+        "previewed": 91
+      }
+    },
+    "storyboardSmoke": "PASS",
+    "deathPresentationsExport": "PASS:9 exact records",
+    "publicArtLabStatic": "PASS",
+    "syncGuards": {
+      "result": "PASS",
+      "checks": 22,
+      "results": [
+        "baseline passes (91 previews)",
+        "missing chapter",
+        "broken route",
+        "undeclared field",
+        "manifest key the importer rejects",
+        "approved art regresses to generated",
+        "integrated art regresses to not-started",
+        "preview bytes tampered",
+        "preview file missing",
+        "stray unregistered package file",
+        "selected record without preview",
+        "integrated but not in the game report",
+        "game uses an approved-only image",
+        "game pixels differ from preview",
+        "register refuses wrong native size",
+        "register refuses a scene as a portrait",
+        "register requires a pinned full commit",
+        "register refuses source/ masters",
+        "register refuses containers",
+        "register refuses unknown records",
+        "register never lowers integrated -> approved",
+        "register: selection = approval, no invented assetPath"
+      ]
+    }
+  },
+  "changedCanonicalFiles": [
+    "story/artwork.draft.json",
+    "tools/storyboard/qa-fixtures/legacy-render-snapshot.json"
+  ],
+  "artworkChangeScope": "Only five statuses and appended provenance notes",
+  "allOtherTrackedCanonicalFilesPreserved": 209,
+  "previousSelectedEntriesAndPngsPreserved": 91,
+  "allAuthoredChapterAndItemBytesPreserved": true,
+  "allDeathScreenArtworkRecordsUnchanged": true,
+  "allInventoryAndFocusRecordsAndDimensionsUnchanged": true,
+  "allProductionPathsRemainNull": true,
+  "noCandidatesAddedToSelectedPreviews": true,
+  "preexistingQaDrift": {
+    "expectedChapter3NodesInOldFixture": 65,
+    "actualAuthoredChapter3Nodes": 66,
+    "repair": "Refresh generated renderer fixture from unchanged current canonical source; no authored Chapter3 or QA implementation edits."
+  },
+  "canonicalPublicationCommit": "1a4a67c844704b1f37f2aed0302f95c9300aa2ec"
+}

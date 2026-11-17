@@ -34,3 +34,5 @@
 Inventory dimensions remain96×96 slot /565×451 inspect. The three Focus A records still declare564×278; future Scene Pickup language mentions565×451. This discrepancy remains a separate authoring issue. No dimension or death-screen record was changed during Batch5.
 
 Stop here for Art Director review. No Batch6 production or gameplay integration is part of this delivery.
+
+Re-enumerated after publication `1a4a67c844704b1f37f2aed0302f95c9300aa2ec`: all18 keys remain not-started. See [current complete records](remaining-queue.current.json).

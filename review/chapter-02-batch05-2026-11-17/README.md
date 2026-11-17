@@ -41,3 +41,5 @@ All five source generations are preserved with exact prompts, original tool path
 45 approved reference PNGs are copied byte-exact and checked, including exact4× blocks and alpha where applicable. All source/image checksum lists are supplied. No approved Batch1–4 pixels are modified.
 
 Status: generated, selected:false, production assetPath:null. Technical checks do not establish creative approval. See [canonical publication receipt](STORYBOARD_SYNC.md). Stop after Batch5 for Art Director review; Gameplay PMO integration remains separate.
+
+Immutable five-candidate source commit: `a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf`. Canonical generated-status publication: `1a4a67c844704b1f37f2aed0302f95c9300aa2ec`. Pages and live verification passed, including all91 selected public PNG hashes. Final receipt commits retain the same five candidate bytes. No actual delivery blocker remains.
