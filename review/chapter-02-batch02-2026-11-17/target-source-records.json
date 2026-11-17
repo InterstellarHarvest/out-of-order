@@ -1,0 +1,560 @@
+{
+  "A": {
+    "key": "biology_park/control_tower",
+    "record": {
+      "title": "CONTROL TOWER",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: control tower. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "tower_arrival",
+    "nodes": {
+      "tower_arrival": {
+        "mode": "narrative",
+        "scene": "biology_park/control_tower",
+        "effects": {
+          "set": {
+            "tower_visited": true
+          }
+        },
+        "text": "The Environmental Control Tower is remarkably tidy compared with the Park below. Each desk has three sign-off stamps and no occupied chair. A console reports APPROVAL CAPACITY: EXCELLENT.",
+        "choices": [
+          {
+            "id": "inspect_tower_approvals",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "tower_archive"
+          }
+        ]
+      },
+      "cease_stairs": {
+        "mode": "narrative",
+        "scene": "biology_park/control_tower",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "director_cease"
+          }
+        },
+        "text": "The new expansion permits are suspended pending review. Existing vegetation stays exactly where it has no right to be. A personnel evacuation stairwell unlocks beneath the tower.",
+        "choices": [
+          {
+            "id": "descend_cease_stairwell",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "irrigation_hub"
+          }
+        ]
+      },
+      "director_passage": {
+        "mode": "narrative",
+        "scene": "biology_park/control_tower",
+        "effects": {
+          "set": {
+            "director_pending_dispute": true
+          }
+        },
+        "text": "A pneumatic message confirms your hearing with the newly independent botanical district. The tower opens an inspection passage directly to its biological translator.",
+        "choices": [
+          {
+            "id": "arrive_at_flower_with_appeal",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      },
+      "tower_late_entry": {
+        "mode": "narrative",
+        "scene": "biology_park/control_tower",
+        "effects": {
+          "set": {
+            "tower_visited": true
+          }
+        },
+        "text": [
+          {
+            "if": {
+              "flag": "office_spore_inundation"
+            },
+            "text": "You reach the tower through a rear walkway. Spores you diverted into its ducts have transformed the offices into a green choking thicket. The authorization console still works, barely. The way to the public building is beyond it."
+          },
+          {
+            "text": "You enter the tower by a rear walkway. The authorization archive is unlocked. The other exit leads toward the Exposition's ordinary public halls."
+          }
+        ],
+        "choices": [
+          {
+            "id": "read_late_tower_archive",
+            "kind": "action",
+            "text": "INSPECT THE AUTHORITIES BEHIND THE FLOWER'S REQUESTS.",
+            "to": "tower_late_records"
+          },
+          {
+            "id": "leave_late_tower",
+            "kind": "action",
+            "text": "TAKE THE TOWER-SIDE EXIT TO THE MAIN BUILDING.",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "sabotage_tower_escape"
+              }
+            },
+            "to": "public_exit_staging"
+          }
+        ]
+      },
+      "tower_bypass_exit": {
+        "mode": "narrative",
+        "scene": "biology_park/control_tower",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "sabotage_tower_bypass"
+          }
+        },
+        "text": "You pass the Environmental Control Tower by the same walkway used earlier. The file cabinets have not moved, except for the ones pulled into the walls by roots. A tower-side emergency egress opens toward the main building.",
+        "choices": [
+          {
+            "id": "leave_tower_bypass",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "public_exit_staging"
+          }
+        ]
+      }
+    }
+  },
+  "B": {
+    "key": "biology_park/spore_garden",
+    "record": {
+      "title": "SPORE GARDEN",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Beautiful pale flowering spore garden with visible green particles and risk signs, damaged perimeter catwalk. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "spore_garden",
+    "nodes": {
+      "spore_garden": {
+        "mode": "narrative",
+        "scene": "biology_park/spore_garden",
+        "text": "A clearing opens in the jungle. Beautiful pale blooms release clouds of fine green spores. A dead ventilation fan wears a sign: RESPIRATORY EXPOSURE ADVISORY. A more distant maintenance walkway has lost several sections.",
+        "choices": [
+          {
+            "id": "cross_spore_cloud_direct",
+            "kind": "action",
+            "text": "TAKE THE SHORT ROUTE THROUGH THE SPORE CLOUD.",
+            "check": {
+              "id": "ch2_spore_direct",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "garden_crossed"
+            },
+            "fail": {
+              "to": "garden_infected",
+              "effects": {
+                "set": {
+                  "spore_infected": true
+                }
+              }
+            }
+          },
+          {
+            "id": "take_broken_perimeter",
+            "kind": "action",
+            "text": "CIRCLE THE CLEARING ON THE DAMAGED MAINTENANCE WALKWAY.",
+            "to": "walkway_crossing"
+          },
+          {
+            "id": "vent_spores_into_offices",
+            "kind": "action",
+            "text": "USE THE GARDEN VENTILATION TO CLEAR THE WALKING ROUTE.",
+            "effects": {
+              "set": {
+                "office_spore_inundation": true
+              }
+            },
+            "to": "garden_vented"
+          }
+        ]
+      },
+      "garden_crossed": {
+        "mode": "narrative",
+        "scene": "biology_park/spore_garden",
+        "text": "You cross while the clouds drift away from you. The huge bloom at the center of the Park is visible through the thinning foliage.",
+        "choices": [
+          {
+            "id": "follow_garden_edge",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "garden_after"
+          }
+        ]
+      },
+      "garden_infected": {
+        "mode": "narrative",
+        "scene": "biology_park/spore_garden",
+        "text": "A thread of green dust catches in your throat. By the far side, there is an unfamiliar sweet taste and a thin line of green beneath one fingernail. Your breathing returns to normal. The line does not go away.",
+        "choices": [
+          {
+            "id": "follow_garden_infected",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "garden_after"
+          }
+        ]
+      },
+      "garden_vented": {
+        "mode": "narrative",
+        "scene": "biology_park/spore_garden",
+        "text": "You engage the extraction fan. The spore cloud clears from the path, but a green plume rushes along a visible glass duct into the Environmental Control Tower. Distant alarms sound. Leaves start pushing through the tower windows.",
+        "choices": [
+          {
+            "id": "cross_vented_garden",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "garden_after"
+          }
+        ]
+      }
+    }
+  },
+  "C": {
+    "key": "biology_park/tour_tram",
+    "record": {
+      "title": "TOUR TRAM",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "1960s automatic sightseeing tram interior, molded plastic seats, mechanical announcement panel, unsettling artificial jungle outside. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "tour_start",
+    "nodes": {
+      "tour_start": {
+        "mode": "narrative",
+        "scene": "biology_park/tour_tram",
+        "text": "The automated Nature Tram welcomes you aboard. Its taped guide explains that all botanical life is carefully contained. The doors open at an unscheduled stop. Pale, quietly moving plants board and take the empty passenger seats.",
+        "choices": [
+          {
+            "id": "watch_tram_become_greenhouse",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "tour_rooted"
+          }
+        ]
+      },
+      "tour_roof_escape": {
+        "mode": "narrative",
+        "scene": "biology_park/tour_tram",
+        "text": "You pull yourself onto a raised botanic walkway as the rooted tram grinds away beneath it. A branch line connects to an abandoned reserve siding.",
+        "choices": [
+          {
+            "id": "follow_tram_siding_roof",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "tram_siding"
+          }
+        ]
+      },
+      "tour_brake_slide": {
+        "mode": "narrative",
+        "scene": "biology_park/tour_tram",
+        "text": "The emergency brake seizes. Roots caught in the chassis pull the entire tram off the guideway. It slides down an embankment and deposits you beside the Moving Forest.",
+        "choices": [
+          {
+            "id": "enter_forest_after_slide",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "forest_arrival"
+          }
+        ]
+      }
+    }
+  },
+  "D": {
+    "key": "biology_park/damaged_walkway",
+    "record": {
+      "title": "DAMAGED WALKWAY",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: damaged walkway. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "walkway_crossing",
+    "nodes": {
+      "walkway_crossing": {
+        "mode": "narrative",
+        "scene": "biology_park/damaged_walkway",
+        "text": "A metal catwalk circles the clearing above the spores. Several grates are missing and a support has been twisted into a vine.",
+        "choices": [
+          {
+            "id": "cross_broken_grates",
+            "kind": "action",
+            "text": "STEP ACROSS THE MISSING GRATES.",
+            "check": {
+              "id": "ch2_walkway_crossing",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "walkway_success"
+            },
+            "fail": {
+              "to": "walkway_failure"
+            }
+          }
+        ]
+      },
+      "walkway_success": {
+        "mode": "narrative",
+        "scene": "biology_park/damaged_walkway",
+        "text": "The catwalk shudders but holds. You reach the far side with the spore cloud still below you.",
+        "choices": [
+          {
+            "id": "leave_walkway",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "garden_after"
+          }
+        ]
+      },
+      "walkway_failure": {
+        "mode": "narrative",
+        "scene": "biology_park/damaged_walkway",
+        "text": "The railing breaks and you land on an old maintenance platform below the walkway. A slow elevator, clearly awaiting an inspection it will never receive, carries you past the damaged span.",
+        "choices": [
+          {
+            "id": "ride_platform_to_path",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "garden_after"
+          }
+        ]
+      },
+      "forest_overhead": {
+        "mode": "narrative",
+        "scene": "biology_park/damaged_walkway",
+        "text": "From the high observation platform you can see a flower wider than the concourse, connected by thick cables to a humming administrative machine.",
+        "choices": [
+          {
+            "id": "descend_to_flower",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      },
+      "forest_fall": {
+        "mode": "narrative",
+        "scene": "biology_park/damaged_walkway",
+        "text": "The walkway lurches sideways. You drop onto a maintenance gantry and crawl through a narrow service gap. The flower's cable bundles lead you the rest of the way.",
+        "choices": [
+          {
+            "id": "climb_from_gantry",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      }
+    }
+  },
+  "E": {
+    "key": "biology_park/moving_forest",
+    "record": {
+      "title": "MOVING FOREST",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Large shifting trees on concealed mechanical tracks with numbered maintenance plaques, thorned branch. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "forest_arrival",
+    "nodes": {
+      "forest_arrival": {
+        "mode": "narrative",
+        "scene": "biology_park/moving_forest",
+        "text": "The forest begins moving as if the paths are pieces of furniture. Heavy trunks slide along concealed tracks, leaving new gaps and sealing old ones. Numbered plates on the bark flash past.\n\nDESIGNATED PATH SUBJECT TO CHANGE.",
+        "choices": [
+          {
+            "id": "push_through_thorns",
+            "kind": "action",
+            "text": "PUSH BETWEEN THE TREES UNDER THE THORNED BRANCH.",
+            "check": {
+              "id": "ch2_thorn_gap",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "forest_clear"
+            },
+            "fail": {
+              "to": "forest_thorn",
+              "effects": {
+                "set": {
+                  "thorn_infected": true
+                }
+              }
+            }
+          },
+          {
+            "id": "climb_forest_observation",
+            "kind": "action",
+            "text": "CLIMB TO THE OVERHEAD OBSERVATION WALKWAY.",
+            "check": {
+              "id": "ch2_forest_walkway",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "forest_overhead"
+            },
+            "fail": {
+              "to": "forest_fall"
+            }
+          },
+          {
+            "id": "follow_movement_markers",
+            "kind": "action",
+            "text": "FOLLOW THE NUMBERED MAINTENANCE MARKERS.",
+            "to": "sensor_gallery"
+          }
+        ]
+      },
+      "forest_clear": {
+        "mode": "narrative",
+        "scene": "biology_park/moving_forest",
+        "text": "You reach the flower approach just before two moving trunks close the path behind you.",
+        "choices": [
+          {
+            "id": "enter_flower_from_ground",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      },
+      "forest_thorn": {
+        "mode": "narrative",
+        "scene": "biology_park/moving_forest",
+        "text": "A long thorn punches through your sleeve. Its tip leaves a sharply outlined green puncture beneath the skin. Nearby roots seem to turn in your direction.",
+        "choices": [
+          {
+            "id": "enter_flower_with_thorn",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      },
+      "tour_roof_fall": {
+        "mode": "narrative",
+        "scene": "biology_park/moving_forest",
+        "text": "You fall into dense lower vegetation. The vines cushion the impact only because they have already occupied the area. You emerge among trees that are moving along tracks.",
+        "choices": [
+          {
+            "id": "find_route_from_roof_fall",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "forest_arrival"
+          }
+        ]
+      }
+    }
+  },
+  "F": {
+    "key": "biology_park/overgrown_tram",
+    "record": {
+      "title": "OVERGROWN TRAM",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Tourist tram seats rooted over by pale motile plants and vines, emergency roof hatch visible. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "tour_rooted",
+    "nodes": {
+      "tour_rooted": {
+        "mode": "narrative",
+        "scene": "biology_park/overgrown_tram",
+        "text": "The passengers root themselves through the upholstery. Vines knot the handrails and seal the ordinary doors. The recorded guide assures everyone that vegetation has never interfered with passenger comfort.",
+        "choices": [
+          {
+            "id": "climb_rooted_tram_roof",
+            "kind": "action",
+            "text": "CLIMB THROUGH THE ROOF HATCH ONTO THE MOVING TRAM.",
+            "check": {
+              "id": "ch2_tour_roof",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "tour_roof_escape"
+            },
+            "fail": {
+              "to": "tour_roof_fall"
+            }
+          },
+          {
+            "id": "pull_rooted_tram_brake",
+            "kind": "action",
+            "text": "PULL THE EMERGENCY BRAKE.",
+            "to": "tour_brake_slide"
+          },
+          {
+            "id": "call_rooted_tram_rescue",
+            "kind": "action",
+            "text": "SUMMON THE GROUNDSKEEPER FOR EMERGENCY EXTRACTION.",
+            "to": "tour_rescue"
+          }
+        ]
+      }
+    }
+  },
+  "G": {
+    "key": "biology_park/sensor_gallery",
+    "record": {
+      "title": "SENSOR GALLERY",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: sensor gallery. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "sensor_gallery",
+    "nodes": {
+      "sensor_gallery": {
+        "mode": "narrative",
+        "scene": "biology_park/sensor_gallery",
+        "text": "The numbered markers lead to a service gallery above the central chamber. Needles on a physiological instrument twitch whenever the flower flexes. Each twitch produces another punched-paper request.",
+        "choices": [
+          {
+            "id": "leave_gallery_for_flower",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+# Batch2 — observed visual review
+
+Reviewed the seven-scene native contact sheet, selected/reference comparisons and the clean/rooted tram pair; inspected the garden at exact4x and the raw generation images. The revised rendering uses the finer illustrated detail and subdued materials accepted by the owner after the tower calibration. The first five chunky studies remain rejected and separately preserved.
+
+A has an orderly gray/teal office with two empty desks, three stamp handles per desk, filing cabinets, a working analog approval console and greenhouse context beyond the windows. Small decorative greenery does not turn it into the later choking thicket. The office remains initially usable. The distant elevated office block is treated as part of the existing office complex, not evidence of a newly authored second route.
+
+B reads as a cultivated exhibit: pale flowers, contained beds, gray visitor path, a stopped fan, respirator advisory pictogram, glass duct toward the elevated office, single manufactured sun and raised perimeter catwalk. The tiny generated prose was converted to deliberate bars in a sign-only mask. D changes camera to the higher route; missing grates expose side stringers/cross-members, the support is vine-twisted and a lower maintenance lift/landing is visible. Their common flowers, duct, office and engineered enclosure support continuity.
+
+C/F form the strongest direct identity pair. The same rear-left view, seat rows, floor, window posts, ceiling lights, grab handles, tape/speaker panel, brake and roof hatch remain identifiable. C has empty intact seats and pale plants beginning to board through the open right doorway. F has plants rooted through upholstery and vines blocking the ordinary doorway while the closed roof hatch and red brake remain visible. Neither paints an escape, fall, crash or rescue outcome.
+
+E presents real large trunks and a thorned branch above steel-guided root-bed infrastructure, with03/07 bark markers and an observation walkway. Exposed rails explain motion; some guideway hardware is more visible than the phrase concealed tracks alone might suggest, while the actual carriers remain beneath the planting beds. The first view makes changing route gaps plausible without cartoon motion lines or humanlike plants.
+
+G is an elevated utility gallery with three large needle dials, a red mechanical physiological trace, punched-paper printer and chunky cable runs descending beyond the rail. It connects material language to the selected service entry and marker route. It avoids showing the entire central flower or later planting/district event. Native tape holes and small needles remain dot/line clusters rather than readable documents.
+
+Limitations: fine greenhouse ribs, grating, bark and layered foliage are visually busy, especially D/G, and can produce sparkling one-pixel transitions at4x. The source normalization does not erase that detail with smoothing. Density measurements are descriptive, not an automatic visual pass. Small stamps, plate digits and instrument marks should be judged at native size; the source story supplies all long official wording. Palette mapping can flatten some subtle source shades, with measured RGB errors reported per image.
+
+The seven candidates are technically conformant and visually reviewable. This is an observed production review, not owner selection of final asset versions. No new record is marked approved, integrated or reused.

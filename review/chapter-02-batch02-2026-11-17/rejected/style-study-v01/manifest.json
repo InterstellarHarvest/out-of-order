@@ -1,0 +1,90 @@
+{
+  "status": "rejected",
+  "reason": "Owner style mismatch correction on 2026-11-17. All five completed raw renders and exact prompts retained in package. F/G were paused before generation. These are not selected delivery candidates.",
+  "records": {
+    "A": {
+      "key": "biology_park/control_tower",
+      "prompt": "prompts/A.txt",
+      "source": "generation-source/A-control-tower-v01.png",
+      "references": [
+        "references/E-jungle-junction.png"
+      ],
+      "referenceRoles": [
+        "approved selected Jungle Junction"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-7dc59dbf-78c6-4861-8361-67e129639b98.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "rejected",
+      "rejection": "Owner feedback 2026-11-17: style does not match previous Chapter2/other project artwork; too chunky, flat and graphic."
+    },
+    "B": {
+      "key": "biology_park/spore_garden",
+      "prompt": "prompts/B.txt",
+      "source": "generation-source/B-spore-garden-v01.png",
+      "references": [
+        "references/E-jungle-junction.png"
+      ],
+      "referenceRoles": [
+        "approved selected Jungle Junction"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-848a73e9-15bd-4b2d-897c-64c624156376.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "rejected",
+      "rejection": "Owner feedback 2026-11-17: style does not match previous Chapter2/other project artwork; too chunky, flat and graphic."
+    },
+    "C": {
+      "key": "biology_park/tour_tram",
+      "prompt": "prompts/C.txt",
+      "source": "generation-source/C-tour-tram-v01.png",
+      "references": [
+        "references/E-jungle-junction.png",
+        "references/C-formal-entrance.png"
+      ],
+      "referenceRoles": [
+        "approved selected Junction tram exterior and greenhouse",
+        "approved selected formal-entry institutional materials"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-27b52a1f-35a6-4853-bff1-24e8334c36ea.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "rejected",
+      "rejection": "Owner feedback 2026-11-17: style does not match previous Chapter2/other project artwork; too chunky, flat and graphic."
+    },
+    "D": {
+      "key": "biology_park/damaged_walkway",
+      "prompt": "prompts/D.txt",
+      "source": "generation-source/D-damaged-walkway-v01.png",
+      "references": [
+        "generation-source/B-spore-garden-v01.png",
+        "references/D-service-entry.png"
+      ],
+      "referenceRoles": [
+        "new Batch2 garden, exact fan/duct/catwalk continuity",
+        "approved selected service-entry materials"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-fd33292d-dc0d-42f2-8864-8b7ce99f3eda.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "rejected",
+      "rejection": "Owner feedback 2026-11-17: style does not match previous Chapter2/other project artwork; too chunky, flat and graphic."
+    },
+    "E": {
+      "key": "biology_park/moving_forest",
+      "prompt": "prompts/E.txt",
+      "source": "generation-source/E-moving-forest-v01.png",
+      "references": [
+        "references/E-jungle-junction.png"
+      ],
+      "referenceRoles": [
+        "approved selected Jungle Junction"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-3d9e2bc8-74cf-4c61-8a48-14c3c9df2b16.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "rejected",
+      "rejection": "Owner feedback 2026-11-17: style does not match previous Chapter2/other project artwork; too chunky, flat and graphic."
+    }
+  }
+}

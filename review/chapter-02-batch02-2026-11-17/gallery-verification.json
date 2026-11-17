@@ -1,0 +1,41 @@
+{
+  "browser": "Chrome headless",
+  "mode": "private localfile, no hosting",
+  "result": {
+    "passed": true,
+    "checks": [
+      {
+        "name": "seven candidate cards",
+        "pass": true
+      },
+      {
+        "name": "all native images load",
+        "pass": true
+      },
+      {
+        "name": "native scenes exactly314x206",
+        "pass": true
+      },
+      {
+        "name": "all4ximages load",
+        "pass": true
+      },
+      {
+        "name": "4xscenes exactly1256x824",
+        "pass": true
+      },
+      {
+        "name": "4x button state",
+        "pass": true
+      },
+      {
+        "name": "native size restored",
+        "pass": true
+      },
+      {
+        "name": "six continuity comparisons",
+        "pass": true
+      }
+    ]
+  }
+}

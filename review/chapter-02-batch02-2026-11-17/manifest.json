@@ -1,0 +1,358 @@
+{
+  "canonicalSourceCommit": "25921b9bb0e263c017a804c57e9069c172f6b3b4",
+  "artworkBaseline": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+  "branch": "agent/ch02-art-batch02-biopark-routes",
+  "status": "generated",
+  "assets": [
+    {
+      "id": "A",
+      "registryKey": "scenes:biology_park/control_tower",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/A-control-tower.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "fde023d3741641aa0f376ad1ac65508de3aeef84a05a8be0defecb3f4603daca",
+      "source": "generation-source/A-control-tower-v02.png",
+      "sourceSha256": "9536173df0030d368fdc399d672cfddb18b474a300ecf8fa0c1ef01685739e69",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "whole-canvas NEAREST to314x206, no crop or padding; existing64-color palette, no dithering; B has recorded local notice polish",
+      "localSignageEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "paletteMembershipVerified": true,
+      "opaqueVerified": true,
+      "rgbQuantizationRmse": 6.704,
+      "rgbQuantizationDistanceP95": 21.61,
+      "isolatedFourNeighborPixels": 13791,
+      "isolatedFraction": 0.213206,
+      "equalNeighborEdgeFraction": 0.449437,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/A-conveniences-bureau-selected-4x.png",
+          "sha256": "d20c5e77ea7f736d41718cee387b955050824ccc08a1e63a552e7bcd66b7cf3d",
+          "role": "approved Bureau exact4x rendering/style anchor"
+        },
+        {
+          "path": "references/E-jungle-junction-selected-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved Junction exact4x world/greenhouse anchor"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "registryKey": "scenes:biology_park/spore_garden",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/B-spore-garden.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "aded321d36cf2ea9c50d3d696230fe2a1606f181ff8fc0d1f2f7bffb92af4ed3",
+      "source": "generation-source/B-spore-garden-v02.png",
+      "sourceSha256": "6795577ef748175e7ac8a278486e8662036dc32d935b09123cfb948d3225c9e5",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "whole-canvas NEAREST to314x206, no crop or padding; existing64-color palette, no dithering; B has recorded local notice polish",
+      "localSignageEdit": {
+        "allowedBox": [
+          54,
+          149,
+          86,
+          166
+        ],
+        "changedPixels": 268,
+        "outsideAllowedChanges": 0,
+        "method": "native opaque paint and three2px administrative bars; existing palette only"
+      },
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "paletteMembershipVerified": true,
+      "opaqueVerified": true,
+      "rgbQuantizationRmse": 8.751,
+      "rgbQuantizationDistanceP95": 27.586,
+      "isolatedFourNeighborPixels": 18367,
+      "isolatedFraction": 0.28395,
+      "equalNeighborEdgeFraction": 0.386067,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/A-conveniences-bureau-selected-4x.png",
+          "sha256": "d20c5e77ea7f736d41718cee387b955050824ccc08a1e63a552e7bcd66b7cf3d",
+          "role": "approved Bureau rendering anchor"
+        },
+        {
+          "path": "references/E-jungle-junction-selected-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved Junction world/greenhouse anchor"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "registryKey": "scenes:biology_park/tour_tram",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/C-tour-tram.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "fd2b01dbff9db37a79b5a1519b0adc5be3ce8e60c425d7bfb039a5a2194f6d57",
+      "source": "generation-source/C-tour-tram-v02.png",
+      "sourceSha256": "40b75870c878c0f1d7b0c21da64b859ab03ba04161b25fa518bb499eca897524",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "whole-canvas NEAREST to314x206, no crop or padding; existing64-color palette, no dithering; B has recorded local notice polish",
+      "localSignageEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "paletteMembershipVerified": true,
+      "opaqueVerified": true,
+      "rgbQuantizationRmse": 6.889,
+      "rgbQuantizationDistanceP95": 21.471,
+      "isolatedFourNeighborPixels": 13376,
+      "isolatedFraction": 0.20679,
+      "equalNeighborEdgeFraction": 0.493551,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/A-conveniences-bureau-selected-4x.png",
+          "sha256": "d20c5e77ea7f736d41718cee387b955050824ccc08a1e63a552e7bcd66b7cf3d",
+          "role": "approved Bureau rendering/material anchor"
+        },
+        {
+          "path": "references/E-jungle-junction-selected-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved Junction tram exterior/world anchor"
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "registryKey": "scenes:biology_park/damaged_walkway",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/D-damaged-walkway.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "8ca919bedda4f414a7bfac7bfc1f0003f8531e7fcee36ce8f2873db0985af642",
+      "source": "generation-source/D-damaged-walkway-v02.png",
+      "sourceSha256": "0ed8ca234b78a1e3e2b08661553b9be9fbbdec064b78fb6fa9ac41a1018c0498",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "whole-canvas NEAREST to314x206, no crop or padding; existing64-color palette, no dithering; B has recorded local notice polish",
+      "localSignageEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "paletteMembershipVerified": true,
+      "opaqueVerified": true,
+      "rgbQuantizationRmse": 8.485,
+      "rgbQuantizationDistanceP95": 27.659,
+      "isolatedFourNeighborPixels": 21051,
+      "isolatedFraction": 0.325444,
+      "equalNeighborEdgeFraction": 0.325283,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/A-conveniences-bureau-selected-4x.png",
+          "sha256": "d20c5e77ea7f736d41718cee387b955050824ccc08a1e63a552e7bcd66b7cf3d",
+          "role": "approved rendering anchor"
+        },
+        {
+          "path": "references/E-jungle-junction-selected-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved greenhouse anchor"
+        },
+        {
+          "path": "generation-source/B-spore-garden-v02.png",
+          "sha256": "6795577ef748175e7ac8a278486e8662036dc32d935b09123cfb948d3225c9e5",
+          "role": "new corrected garden/catwalk continuity"
+        },
+        {
+          "path": "references/D-service-entry-selected-4x.png",
+          "sha256": "e488ffe635238f58512507c36aad2a3e3991fba121ce5697aa993cc110b2cb75",
+          "role": "approved maintenance engineering materials"
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "registryKey": "scenes:biology_park/moving_forest",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/E-moving-forest.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "5a1f61ab9c8a1c7fac129683df09da9bae48a0f22adb9012d98183e0d10f5c81",
+      "source": "generation-source/E-moving-forest-v02.png",
+      "sourceSha256": "42eac19ebe0c6c80588734de786e72ec73244226c84f8f4f78ec2c6fde637548",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "whole-canvas NEAREST to314x206, no crop or padding; existing64-color palette, no dithering; B has recorded local notice polish",
+      "localSignageEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "paletteMembershipVerified": true,
+      "opaqueVerified": true,
+      "rgbQuantizationRmse": 9.049,
+      "rgbQuantizationDistanceP95": 28.705,
+      "isolatedFourNeighborPixels": 17554,
+      "isolatedFraction": 0.271381,
+      "equalNeighborEdgeFraction": 0.391756,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/A-conveniences-bureau-selected-4x.png",
+          "sha256": "d20c5e77ea7f736d41718cee387b955050824ccc08a1e63a552e7bcd66b7cf3d",
+          "role": "approved rendering/material anchor"
+        },
+        {
+          "path": "references/E-jungle-junction-selected-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved greenhouse/world anchor"
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "registryKey": "scenes:biology_park/overgrown_tram",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/F-overgrown-tram.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "d4c381642d2d54e6341fd82121ddcf5caef11029fa37c16d221edd5173d470c7",
+      "source": "generation-source/F-overgrown-tram-v02.png",
+      "sourceSha256": "8d6af889879b451bf3f5587c3bd277e78a773ee28b4bd9a76ed3b1876114f904",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "whole-canvas NEAREST to314x206, no crop or padding; existing64-color palette, no dithering; B has recorded local notice polish",
+      "localSignageEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "paletteMembershipVerified": true,
+      "opaqueVerified": true,
+      "rgbQuantizationRmse": 8.695,
+      "rgbQuantizationDistanceP95": 29.682,
+      "isolatedFourNeighborPixels": 18365,
+      "isolatedFraction": 0.283919,
+      "equalNeighborEdgeFraction": 0.399238,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/A-conveniences-bureau-selected-4x.png",
+          "sha256": "d20c5e77ea7f736d41718cee387b955050824ccc08a1e63a552e7bcd66b7cf3d",
+          "role": "approved rendering anchor"
+        },
+        {
+          "path": "references/E-jungle-junction-selected-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved greenhouse anchor"
+        },
+        {
+          "path": "generation-source/C-tour-tram-v02.png",
+          "sha256": "40b75870c878c0f1d7b0c21da64b859ab03ba04161b25fa518bb499eca897524",
+          "role": "new corrected tram exact interior/camera identity"
+        }
+      ]
+    },
+    {
+      "id": "G",
+      "registryKey": "scenes:biology_park/sensor_gallery",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/G-sensor-gallery.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "b2f23c8d015c1f45af200733ba28201627c6d10102dcd9e34b92230c32683a7c",
+      "source": "generation-source/G-sensor-gallery-v02.png",
+      "sourceSha256": "061d1628d52bd5e0359b28031a256959fa6e070e70f2ce7e45bb02a758364ea5",
+      "sourceSize": [
+        1547,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "whole-canvas NEAREST to314x206, no crop or padding; existing64-color palette, no dithering; B has recorded local notice polish",
+      "localSignageEdit": null,
+      "aspectRatioCorrectionPercent": 0.107202,
+      "visibleColors": 64,
+      "paletteMembershipVerified": true,
+      "opaqueVerified": true,
+      "rgbQuantizationRmse": 7.834,
+      "rgbQuantizationDistanceP95": 24.759,
+      "isolatedFourNeighborPixels": 18042,
+      "isolatedFraction": 0.278925,
+      "equalNeighborEdgeFraction": 0.374309,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/A-conveniences-bureau-selected-4x.png",
+          "sha256": "d20c5e77ea7f736d41718cee387b955050824ccc08a1e63a552e7bcd66b7cf3d",
+          "role": "approved rendering anchor"
+        },
+        {
+          "path": "references/E-jungle-junction-selected-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved greenhouse anchor"
+        },
+        {
+          "path": "references/D-service-entry-selected-4x.png",
+          "sha256": "e488ffe635238f58512507c36aad2a3e3991fba121ce5697aa993cc110b2cb75",
+          "role": "approved service infrastructure"
+        },
+        {
+          "path": "generation-source/E-moving-forest-v02.png",
+          "sha256": "42eac19ebe0c6c80588734de786e72ec73244226c84f8f4f78ec2c6fde637548",
+          "role": "new corrected numbered forest/service-route continuation"
+        }
+      ]
+    }
+  ]
+}

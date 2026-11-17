@@ -1,0 +1,17 @@
+{
+  "A-conveniences-bureau-selected-4x.png": {
+    "source": "A-conveniences-bureau.png",
+    "transform": "exact4x NEAREST",
+    "sha256": "d20c5e77ea7f736d41718cee387b955050824ccc08a1e63a552e7bcd66b7cf3d"
+  },
+  "E-jungle-junction-selected-4x.png": {
+    "source": "E-jungle-junction.png",
+    "transform": "exact4x NEAREST",
+    "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841"
+  },
+  "D-service-entry-selected-4x.png": {
+    "source": "D-service-entry.png",
+    "transform": "exact4x NEAREST",
+    "sha256": "e488ffe635238f58512507c36aad2a3e3991fba121ce5697aa993cc110b2cb75"
+  }
+}

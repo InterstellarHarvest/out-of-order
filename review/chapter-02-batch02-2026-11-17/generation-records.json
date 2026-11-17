@@ -1,0 +1,139 @@
+{
+  "status": "generated",
+  "selectionStatus": "unselected; ArtDirector/owner review required",
+  "canonicalSource": "25921b9bb0e263c017a804c57e9069c172f6b3b4",
+  "artworkBaseline": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+  "styleCorrection": "Owner rejected first five chunky studies. Owner accepted revised rendering STYLE after tower calibration, then generation continued; this is not approval or selection of the seven candidate images.",
+  "assets": {
+    "A": {
+      "key": "biology_park/control_tower",
+      "prompt": "prompts/A-v02.txt",
+      "source": "generation-source/A-control-tower-v02.png",
+      "references": [
+        "references/A-conveniences-bureau-selected-4x.png",
+        "references/E-jungle-junction-selected-4x.png"
+      ],
+      "referenceRoles": [
+        "approved Bureau exact4x rendering/style anchor",
+        "approved Junction exact4x world/greenhouse anchor"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-ee3a79d6-10ac-4f2f-9840-7cef58998f9d.png",
+      "status": "generated",
+      "styleFeedback": "Owner accepted revised rendering style on2026-11-17; individual candidate remains unselected.",
+      "tool": "built-in image_gen",
+      "transparent_background": false
+    },
+    "B": {
+      "key": "biology_park/spore_garden",
+      "prompt": "prompts/B-v02.txt",
+      "source": "generation-source/B-spore-garden-v02.png",
+      "references": [
+        "references/A-conveniences-bureau-selected-4x.png",
+        "references/E-jungle-junction-selected-4x.png"
+      ],
+      "referenceRoles": [
+        "approved Bureau rendering anchor",
+        "approved Junction world/greenhouse anchor"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-28ff603b-c318-4735-9479-bd253ae6d19f.png",
+      "status": "generated",
+      "tool": "built-in image_gen",
+      "transparent_background": false
+    },
+    "C": {
+      "key": "biology_park/tour_tram",
+      "prompt": "prompts/C-v02.txt",
+      "source": "generation-source/C-tour-tram-v02.png",
+      "references": [
+        "references/A-conveniences-bureau-selected-4x.png",
+        "references/E-jungle-junction-selected-4x.png"
+      ],
+      "referenceRoles": [
+        "approved Bureau rendering/material anchor",
+        "approved Junction tram exterior/world anchor"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-a065e086-a0de-48f2-a8f1-637109b790ba.png",
+      "status": "generated",
+      "tool": "built-in image_gen",
+      "transparent_background": false
+    },
+    "D": {
+      "key": "biology_park/damaged_walkway",
+      "prompt": "prompts/D-v02.txt",
+      "source": "generation-source/D-damaged-walkway-v02.png",
+      "references": [
+        "references/A-conveniences-bureau-selected-4x.png",
+        "references/E-jungle-junction-selected-4x.png",
+        "generation-source/B-spore-garden-v02.png",
+        "references/D-service-entry-selected-4x.png"
+      ],
+      "referenceRoles": [
+        "approved rendering anchor",
+        "approved greenhouse anchor",
+        "new corrected garden/catwalk continuity",
+        "approved maintenance engineering materials"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-85c5e41f-cfc8-4e8a-91ff-4a7abcbcb16d.png",
+      "status": "generated",
+      "tool": "built-in image_gen",
+      "transparent_background": false
+    },
+    "E": {
+      "key": "biology_park/moving_forest",
+      "prompt": "prompts/E-v02.txt",
+      "source": "generation-source/E-moving-forest-v02.png",
+      "references": [
+        "references/A-conveniences-bureau-selected-4x.png",
+        "references/E-jungle-junction-selected-4x.png"
+      ],
+      "referenceRoles": [
+        "approved rendering/material anchor",
+        "approved greenhouse/world anchor"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-e138b11d-f853-441c-b4fc-70b001d6d60d.png",
+      "status": "generated",
+      "tool": "built-in image_gen",
+      "transparent_background": false
+    },
+    "F": {
+      "key": "biology_park/overgrown_tram",
+      "prompt": "prompts/F-v02.txt",
+      "source": "generation-source/F-overgrown-tram-v02.png",
+      "references": [
+        "references/A-conveniences-bureau-selected-4x.png",
+        "references/E-jungle-junction-selected-4x.png",
+        "generation-source/C-tour-tram-v02.png"
+      ],
+      "referenceRoles": [
+        "approved rendering anchor",
+        "approved greenhouse anchor",
+        "new corrected tram exact interior/camera identity"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-ea6e999d-5b22-4be4-bba5-c91dc5d50b19.png",
+      "status": "generated",
+      "tool": "built-in image_gen",
+      "transparent_background": false
+    },
+    "G": {
+      "key": "biology_park/sensor_gallery",
+      "prompt": "prompts/G-v02.txt",
+      "source": "generation-source/G-sensor-gallery-v02.png",
+      "references": [
+        "references/A-conveniences-bureau-selected-4x.png",
+        "references/E-jungle-junction-selected-4x.png",
+        "references/D-service-entry-selected-4x.png",
+        "generation-source/E-moving-forest-v02.png"
+      ],
+      "referenceRoles": [
+        "approved rendering anchor",
+        "approved greenhouse anchor",
+        "approved service infrastructure",
+        "new corrected numbered forest/service-route continuation"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-2bc3c2e2-4189-4ce8-8752-075ccf35af5f.png",
+      "status": "generated",
+      "tool": "built-in image_gen",
+      "transparent_background": false
+    }
+  }
+}
