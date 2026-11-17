@@ -1,0 +1,101 @@
+{
+  "canonicalSource": "1316cfc591d806aca7daeda7ce0c4ce13446d2e1",
+  "artworkBaseline": "ec54699bf15455e1003e8aa41cec008abac1983f",
+  "tool": "built-in image_gen",
+  "assets": {
+    "A": {
+      "id": "A",
+      "key": "scenes:biology_park/lower_irrigation",
+      "source": "generation-source/A-lower-irrigation-v01.png",
+      "prompt": "prompts/A-v01.txt",
+      "references": [
+        "references/batch3-G-waste-chute-4x.png",
+        "references/batch4-F-abandoned-station-4x.png"
+      ],
+      "referenceRoles": [
+        "approved waste-chute route and utility materials",
+        "approved below-ground service lighting/concrete"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-526025d6-d60b-45e6-ac96-fe6ab3a4b556.png",
+      "status": "generated",
+      "selected": false,
+      "transparentBackgroundRequested": false
+    },
+    "B": {
+      "id": "B",
+      "key": "scenes:biology_park/public_exit",
+      "source": "generation-source/B-public-exit-v01.png",
+      "prompt": "prompts/B-v01.txt",
+      "references": [
+        "references/batch2-A-control-tower-4x.png",
+        "references/batch1-C-formal-entrance.png"
+      ],
+      "referenceRoles": [
+        "approved tower personnel-area architecture",
+        "approved formal Park institutional engineering"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-063dbd1f-3ee5-4bea-b7d5-779aaf16128a.png",
+      "status": "generated",
+      "selected": false,
+      "transparentBackgroundRequested": false
+    },
+    "C": {
+      "id": "C",
+      "key": "scenes:biology_park/maintenance_exit",
+      "source": "generation-source/C-maintenance-exit-v01.png",
+      "prompt": "prompts/C-v01.txt",
+      "references": [
+        "generation-source/A-lower-irrigation-v01.png",
+        "generation-source/B-public-exit-v01.png"
+      ],
+      "referenceRoles": [
+        "new unselected passage: same door/locker identity",
+        "new unselected public box: functional contrast only"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-b002198f-2f91-47a7-997d-cc12edb85664.png",
+      "status": "generated",
+      "selected": false,
+      "transparentBackgroundRequested": false
+    },
+    "D": {
+      "id": "D",
+      "key": "scenes:biology_park/agricultural_customs",
+      "source": "generation-source/D-agricultural-customs-v01.png",
+      "prompt": "prompts/D-v01.txt",
+      "references": [
+        "references/batch3-A-authorization-archive-4x.png",
+        "references/batch1-C-formal-entrance.png",
+        "generation-source/B-public-exit-v01.png",
+        "generation-source/C-maintenance-exit-v01.png"
+      ],
+      "referenceRoles": [
+        "approved administrative machinery and material rendering",
+        "approved institutional framing",
+        "new unselected public box: contrast with dispenser",
+        "new unselected industrial locker: contrast with dispenser"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-664158b5-3ef6-429d-b8c1-1e5940f27c6a.png",
+      "status": "generated",
+      "selected": false,
+      "transparentBackgroundRequested": false
+    },
+    "E": {
+      "id": "E",
+      "key": "scenes:biology_park/exposition_concourse",
+      "source": "generation-source/E-exposition-concourse-v01.png",
+      "prompt": "prompts/E-v01.txt",
+      "references": [
+        "references/batch4-C-concourse-crash-4x.png",
+        "generation-source/B-public-exit-v01.png"
+      ],
+      "referenceRoles": [
+        "approved public-concourse architecture, not an edit target",
+        "new unselected public corridor material continuity"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-d1dc32d3-15ca-4e36-9903-8fc5d854b6d2.png",
+      "status": "generated",
+      "selected": false,
+      "transparentBackgroundRequested": false
+    }
+  }
+}

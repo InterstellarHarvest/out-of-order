@@ -1,0 +1,35 @@
+{
+  "method": "Direct whole-canvas NEAREST sampling and existing fixed palette; no subsequent edits or discarded generation variants",
+  "assets": [
+    {
+      "source": "generation-source/A-lower-irrigation-v01.png",
+      "sourceSha256": "486e8253fc73d6b8ace5e5991a55c4d9a2bf588a2cb9a82ef239fdbe835628f5",
+      "candidate": "candidates/A-lower-irrigation.png",
+      "sha256": "8f0df4ad7cbdd73182e5266bb253a8f415c2fbb4536fe908eff544b2902182a8"
+    },
+    {
+      "source": "generation-source/B-public-exit-v01.png",
+      "sourceSha256": "23963ccaa0ad500be99c2f56d3eb6a1650922a1080213d9a0a6ce81fcdfaefff",
+      "candidate": "candidates/B-public-exit.png",
+      "sha256": "e47576d21610f3d5f2d85027192e37197cf317ffdabdbe72977bd971ec9a97aa"
+    },
+    {
+      "source": "generation-source/C-maintenance-exit-v01.png",
+      "sourceSha256": "a482f470e2297c3391f2026681b819c61cd041f1c0fd5245f11202b2a654d2b3",
+      "candidate": "candidates/C-maintenance-exit.png",
+      "sha256": "1417e2700c2d6bf29ef937dc4924e11cfcbdcee65f6daf1ef3710ddd2caed7c7"
+    },
+    {
+      "source": "generation-source/D-agricultural-customs-v01.png",
+      "sourceSha256": "a18adf7a8efe2b25a7dda27823711f4b099d6ff424fcc81a22f06845cb2e6410",
+      "candidate": "candidates/D-agricultural-customs.png",
+      "sha256": "9bc80696f31efacdbba2babd95abfe460a9fb6158ad8b674299a91744403cdef"
+    },
+    {
+      "source": "generation-source/E-exposition-concourse-v01.png",
+      "sourceSha256": "823104bd8c302cb953736b3ef787cdeb634bc4c630165d704c96404a42ee1aef",
+      "candidate": "candidates/E-exposition-concourse.png",
+      "sha256": "8d7f81908f9d65d2c24c042ea928b3a2d3f7497580b217e9fec673591ba575e3"
+    }
+  ]
+}

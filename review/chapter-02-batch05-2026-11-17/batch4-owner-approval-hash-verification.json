@@ -1,0 +1,55 @@
+{
+  "immutableCandidateCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+  "finalReviewCommit": "ec54699bf15455e1003e8aa41cec008abac1983f",
+  "allMatch": true,
+  "assets": [
+    {
+      "registryKey": "scenes:biology_park/reserve_siding",
+      "candidatePath": "review/chapter-02-batch04-2026-11-17/candidates/A-reserve-siding.png",
+      "sha256": "c54cc60a878faaf91edc7e642fb9c854a963bb455a86d6d724d6f2f483e7ae2e",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "scenes:biology_park/reserve_tram",
+      "candidatePath": "review/chapter-02-batch04-2026-11-17/candidates/B-reserve-tram.png",
+      "sha256": "e17c2d8fd7b569404248d86028b7a7ca4164a3856f36f261654bc941a13a7eaf",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "scenes:biology_park/concourse_crash",
+      "candidatePath": "review/chapter-02-batch04-2026-11-17/candidates/C-concourse-crash.png",
+      "sha256": "50552704840db6220eff3d588bb4a974d51edcd32a816717803f73b6d97d11f8",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "scenes:biology_park/concourse_crash#portraitBackground",
+      "candidatePath": "review/chapter-02-batch04-2026-11-17/candidates/D-concourse-portrait-background.png",
+      "sha256": "9f8f3d19d44a6433ef70391118a616d7dd6c8626f43eccda48d55af8fdd1cd80",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "portraits:courtesy_conductor:talking",
+      "candidatePath": "review/chapter-02-batch04-2026-11-17/candidates/E-courtesy-conductor-talking.png",
+      "sha256": "8c6601db91d262f5a6b362609b878589025cb924c15c0753df268d4f84592e4d",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "scenes:biology_park/abandoned_station",
+      "candidatePath": "review/chapter-02-batch04-2026-11-17/candidates/F-abandoned-station.png",
+      "sha256": "c9f78d96427d5fce0d1bde3651b90f09fd8d3380a65542378273c2fd1aa803f7",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    }
+  ]
+}

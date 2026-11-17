@@ -1,0 +1,251 @@
+{
+  "passed": true,
+  "candidateCount": 5,
+  "sceneCount": 5,
+  "nativeDimensions": [
+    314,
+    206
+  ],
+  "nativeMode": "RGB",
+  "scenePreviewDimensions": [
+    1256,
+    824
+  ],
+  "sourceGenerationCount": 5,
+  "sharedPaletteColors": 64,
+  "dithering": "none",
+  "croppingOrPadding": "none",
+  "localPixelRepainting": "none: generated signage already uses nonletter bars/pictograms",
+  "originalTrackedFilesPreserved": 1353,
+  "preservationFailures": [],
+  "approvedReferenceHashesVerified": 45,
+  "allCandidatesUnselected": true,
+  "allProductionPathsNull": true,
+  "densityNote": "Singleton/RMSE metrics are descriptive, not creative approval. Native readability requires visual assessment.",
+  "environment": {
+    "python": "3.13.15 (v3.13.15:4061bc4c35f, Aug  5 2026, 09:08:51) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "pillow": "12.3.0"
+  },
+  "assets": [
+    {
+      "id": "A",
+      "registryKey": "scenes:biology_park/lower_irrigation",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/A-lower-irrigation.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "8f0df4ad7cbdd73182e5266bb253a8f415c2fbb4536fe908eff544b2902182a8",
+      "source": "generation-source/A-lower-irrigation-v01.png",
+      "sourceSha256": "486e8253fc73d6b8ace5e5991a55c4d9a2bf588a2cb9a82ef239fdbe835628f5",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "normalization": "Full-canvas NEAREST to314x206; exact existing64-paint palette, no dithering, no crop/pad; no local repainting",
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 60,
+      "rgbQuantizationRmse": 5.464,
+      "isolatedFourNeighborPixels": 12448,
+      "isolatedFraction": 0.192443,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch3-G-waste-chute-4x.png",
+          "sha256": "2ec57848294e96459ec9b63a947325e554aa477c16fd543148771105d4b06ad8",
+          "role": "approved waste-chute route and utility materials"
+        },
+        {
+          "path": "references/batch4-F-abandoned-station-4x.png",
+          "sha256": "ce4d47a0ad5052e961d95e23acd9845ad9440a0faf8abf73b2518e0b4bc1de1a",
+          "role": "approved below-ground service lighting/concrete"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "registryKey": "scenes:biology_park/public_exit",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/B-public-exit.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "e47576d21610f3d5f2d85027192e37197cf317ffdabdbe72977bd971ec9a97aa",
+      "source": "generation-source/B-public-exit-v01.png",
+      "sourceSha256": "23963ccaa0ad500be99c2f56d3eb6a1650922a1080213d9a0a6ce81fcdfaefff",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "normalization": "Full-canvas NEAREST to314x206; exact existing64-paint palette, no dithering, no crop/pad; no local repainting",
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 61,
+      "rgbQuantizationRmse": 5.083,
+      "isolatedFourNeighborPixels": 8851,
+      "isolatedFraction": 0.136834,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch2-A-control-tower-4x.png",
+          "sha256": "ec024b48500b49ebda6d5e63d1c7e714ba525652345ff83e52d58ef144a4b9fc",
+          "role": "approved tower personnel-area architecture"
+        },
+        {
+          "path": "references/batch1-C-formal-entrance.png",
+          "sha256": "d1a55f75863a7e2a3b854566638128064b998c5d6a83659399e4ad53ce66f2e9",
+          "role": "approved formal Park institutional engineering"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "registryKey": "scenes:biology_park/maintenance_exit",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/C-maintenance-exit.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "1417e2700c2d6bf29ef937dc4924e11cfcbdcee65f6daf1ef3710ddd2caed7c7",
+      "source": "generation-source/C-maintenance-exit-v01.png",
+      "sourceSha256": "a482f470e2297c3391f2026681b819c61cd041f1c0fd5245f11202b2a654d2b3",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "normalization": "Full-canvas NEAREST to314x206; exact existing64-paint palette, no dithering, no crop/pad; no local repainting",
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 60,
+      "rgbQuantizationRmse": 5.263,
+      "isolatedFourNeighborPixels": 10188,
+      "isolatedFraction": 0.157504,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "generation-source/A-lower-irrigation-v01.png",
+          "sha256": "486e8253fc73d6b8ace5e5991a55c4d9a2bf588a2cb9a82ef239fdbe835628f5",
+          "role": "new unselected passage: same door/locker identity"
+        },
+        {
+          "path": "generation-source/B-public-exit-v01.png",
+          "sha256": "23963ccaa0ad500be99c2f56d3eb6a1650922a1080213d9a0a6ce81fcdfaefff",
+          "role": "new unselected public box: functional contrast only"
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "registryKey": "scenes:biology_park/agricultural_customs",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/D-agricultural-customs.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "9bc80696f31efacdbba2babd95abfe460a9fb6158ad8b674299a91744403cdef",
+      "source": "generation-source/D-agricultural-customs-v01.png",
+      "sourceSha256": "a18adf7a8efe2b25a7dda27823711f4b099d6ff424fcc81a22f06845cb2e6410",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "normalization": "Full-canvas NEAREST to314x206; exact existing64-paint palette, no dithering, no crop/pad; no local repainting",
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 58,
+      "rgbQuantizationRmse": 5.063,
+      "isolatedFourNeighborPixels": 10790,
+      "isolatedFraction": 0.166811,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch3-A-authorization-archive-4x.png",
+          "sha256": "2d49f009b45433ed2b590fef126883112e5d5b258cf649f2ea6669cbe06d4e85",
+          "role": "approved administrative machinery and material rendering"
+        },
+        {
+          "path": "references/batch1-C-formal-entrance.png",
+          "sha256": "d1a55f75863a7e2a3b854566638128064b998c5d6a83659399e4ad53ce66f2e9",
+          "role": "approved institutional framing"
+        },
+        {
+          "path": "generation-source/B-public-exit-v01.png",
+          "sha256": "23963ccaa0ad500be99c2f56d3eb6a1650922a1080213d9a0a6ce81fcdfaefff",
+          "role": "new unselected public box: contrast with dispenser"
+        },
+        {
+          "path": "generation-source/C-maintenance-exit-v01.png",
+          "sha256": "a482f470e2297c3391f2026681b819c61cd041f1c0fd5245f11202b2a654d2b3",
+          "role": "new unselected industrial locker: contrast with dispenser"
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "registryKey": "scenes:biology_park/exposition_concourse",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/E-exposition-concourse.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "8d7f81908f9d65d2c24c042ea928b3a2d3f7497580b217e9fec673591ba575e3",
+      "source": "generation-source/E-exposition-concourse-v01.png",
+      "sourceSha256": "823104bd8c302cb953736b3ef787cdeb634bc4c630165d704c96404a42ee1aef",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "normalization": "Full-canvas NEAREST to314x206; exact existing64-paint palette, no dithering, no crop/pad; no local repainting",
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 61,
+      "rgbQuantizationRmse": 8.195,
+      "isolatedFourNeighborPixels": 17424,
+      "isolatedFraction": 0.269371,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch4-C-concourse-crash-4x.png",
+          "sha256": "c9e8052db8de50794f0cd8a53e3125c56c8f7776b3acb797404f5283cd4a6648",
+          "role": "approved public-concourse architecture, not an edit target"
+        },
+        {
+          "path": "generation-source/B-public-exit-v01.png",
+          "sha256": "23963ccaa0ad500be99c2f56d3eb6a1650922a1080213d9a0a6ce81fcdfaefff",
+          "role": "new unselected public corridor material continuity"
+        }
+      ]
+    }
+  ]
+}

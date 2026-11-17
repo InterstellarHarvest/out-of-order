@@ -1,0 +1,317 @@
+{
+  "batch2-A-control-tower.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/candidates/A-control-tower.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/control_tower",
+    "sha256": "fde023d3741641aa0f376ad1ac65508de3aeef84a05a8be0defecb3f4603daca"
+  },
+  "batch2-A-control-tower-4x.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/previews/A-control-tower-4x.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "ec024b48500b49ebda6d5e63d1c7e714ba525652345ff83e52d58ef144a4b9fc"
+  },
+  "batch2-B-spore-garden.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/candidates/B-spore-garden.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/spore_garden",
+    "sha256": "aded321d36cf2ea9c50d3d696230fe2a1606f181ff8fc0d1f2f7bffb92af4ed3"
+  },
+  "batch2-B-spore-garden-4x.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/previews/B-spore-garden-4x.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "9d09a85b41a34657395da081c0956658472c753f28de5b60ec365d4c0b882448"
+  },
+  "batch2-C-tour-tram.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/candidates/C-tour-tram.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/tour_tram",
+    "sha256": "fd2b01dbff9db37a79b5a1519b0adc5be3ce8e60c425d7bfb039a5a2194f6d57"
+  },
+  "batch2-C-tour-tram-4x.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/previews/C-tour-tram-4x.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "ac5f7a42b5a629b7f481639ff86c6cff9c67888d554fd8b6a8272ce6963f1fb6"
+  },
+  "batch2-D-damaged-walkway.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/candidates/D-damaged-walkway.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/damaged_walkway",
+    "sha256": "8ca919bedda4f414a7bfac7bfc1f0003f8531e7fcee36ce8f2873db0985af642"
+  },
+  "batch2-D-damaged-walkway-4x.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/previews/D-damaged-walkway-4x.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "7d063ca49820b4bfddef0dd81b057f1ae23d01502d0aa974111d20f2e0ee334d"
+  },
+  "batch2-E-moving-forest.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/candidates/E-moving-forest.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/moving_forest",
+    "sha256": "5a1f61ab9c8a1c7fac129683df09da9bae48a0f22adb9012d98183e0d10f5c81"
+  },
+  "batch2-E-moving-forest-4x.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/previews/E-moving-forest-4x.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "57cfbc4a6bdcc88a29187c662c5fb41048db6c2ba9ea54c0cea441e7e9b8b6ed"
+  },
+  "batch2-F-overgrown-tram.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/candidates/F-overgrown-tram.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/overgrown_tram",
+    "sha256": "d4c381642d2d54e6341fd82121ddcf5caef11029fa37c16d221edd5173d470c7"
+  },
+  "batch2-F-overgrown-tram-4x.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/previews/F-overgrown-tram-4x.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "3b90aba229c3530fb7b1f26b679e998467734f6bef4f6a2df695f791c48dc30e"
+  },
+  "batch2-G-sensor-gallery.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/candidates/G-sensor-gallery.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/sensor_gallery",
+    "sha256": "b2f23c8d015c1f45af200733ba28201627c6d10102dcd9e34b92230c32683a7c"
+  },
+  "batch2-G-sensor-gallery-4x.png": {
+    "sourcePath": "review/chapter-02-batch02-2026-11-17/previews/G-sensor-gallery-4x.png",
+    "sourceCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "8cb3e8b8c1de9923a6da1c428cce20dbedb5013ce288354a00e04d6b348cf47f"
+  },
+  "batch3-A-authorization-archive.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/A-authorization-archive.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/authorization_archive",
+    "sha256": "cf56a225b9341ac24c654562e002e4d45d5c56be36aa7f4d3f40f045bebc79ec"
+  },
+  "batch3-A-authorization-archive-4x.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/A-authorization-archive-4x.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "2d49f009b45433ed2b590fef126883112e5d5b258cf649f2ea6669cbe06d4e85"
+  },
+  "batch3-B-central-flower.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/B-central-flower.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/central_flower",
+    "sha256": "68698aea02b19bbc9fedca48b978be1c2329ca136c140084b2396dfafe4f8e58"
+  },
+  "batch3-B-central-flower-4x.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/B-central-flower-4x.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "dc8895bdef1479bbf05af18ef0eacefa53304b445768cb64bfc45ddfd482fd5c"
+  },
+  "batch3-C-translator-machine.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/C-translator-machine.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/translator_machine",
+    "sha256": "ff5704d99d027ea8a86e78b228102826bcceec03b5ae1ba583200a99822e95a3"
+  },
+  "batch3-C-translator-machine-4x.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/C-translator-machine-4x.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "6ed0370767d718532210d7fe09c98bc178619af7e6bff90a8ee8818732daeb01"
+  },
+  "batch3-D-planting-machine.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/D-planting-machine.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/planting_machine",
+    "sha256": "047282bbf1e5189645e5784d9b30278cb5b641a708eeed50f43945017d9b78da"
+  },
+  "batch3-D-planting-machine-4x.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/D-planting-machine-4x.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "83efc906c72c126d0c74c148aee77295de39642ae9fb633a9c1571ae863963d9"
+  },
+  "batch3-E-sorting-conveyor.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/E-sorting-conveyor.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/sorting_conveyor",
+    "sha256": "fe26ce88586bc207a50c8a9ccc9bcb3ddf30dac1bfd1f9e2468abfdae0167e3b"
+  },
+  "batch3-E-sorting-conveyor-4x.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/E-sorting-conveyor-4x.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "62bff744da481e93f134cc3b9e3817d9c9429bada3b581ef00a42d5049712760"
+  },
+  "batch3-F-planting-hopper.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/F-planting-hopper.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/planting_hopper",
+    "sha256": "5ab29aef160eb59a0d34465782d165c042b6ad8131ac04ad87215b03c33deb3b"
+  },
+  "batch3-F-planting-hopper-4x.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/F-planting-hopper-4x.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "879de02fe05066740653a9fef0663257da1b2985ed9cc671c0d2cbd8def52722"
+  },
+  "batch3-G-waste-chute.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/G-waste-chute.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/waste_chute",
+    "sha256": "fa2f9021a7c33f6ff188eff438ef4abec35d9ba0d1a77d805cd2ceb98bbaf498"
+  },
+  "batch3-G-waste-chute-4x.png": {
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/G-waste-chute-4x.png",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "2ec57848294e96459ec9b63a947325e554aa477c16fd543148771105d4b06ad8"
+  },
+  "batch4-A-reserve-siding.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/candidates/A-reserve-siding.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/reserve_siding",
+    "sha256": "c54cc60a878faaf91edc7e642fb9c854a963bb455a86d6d724d6f2f483e7ae2e"
+  },
+  "batch4-A-reserve-siding-4x.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/previews/A-reserve-siding-4x.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "37f9a944c60679fdbfb49ddfca47220207771067f748be914215c12042133801"
+  },
+  "batch4-B-reserve-tram.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/candidates/B-reserve-tram.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/reserve_tram",
+    "sha256": "e17c2d8fd7b569404248d86028b7a7ca4164a3856f36f261654bc941a13a7eaf"
+  },
+  "batch4-B-reserve-tram-4x.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/previews/B-reserve-tram-4x.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "1a34d6b154a6c39539d3a267f21e640ee88d63fdd9129ab91dded5fe5da978af"
+  },
+  "batch4-C-concourse-crash.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/candidates/C-concourse-crash.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/concourse_crash",
+    "sha256": "50552704840db6220eff3d588bb4a974d51edcd32a816717803f73b6d97d11f8"
+  },
+  "batch4-C-concourse-crash-4x.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/previews/C-concourse-crash-4x.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "c9e8052db8de50794f0cd8a53e3125c56c8f7776b3acb797404f5283cd4a6648"
+  },
+  "batch4-D-concourse-portrait-background.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/candidates/D-concourse-portrait-background.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/concourse_crash#portraitBackground",
+    "sha256": "9f8f3d19d44a6433ef70391118a616d7dd6c8626f43eccda48d55af8fdd1cd80"
+  },
+  "batch4-D-concourse-portrait-background-4x.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/previews/D-concourse-portrait-background-4x.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "6d13148d90126526ae8369807a9626c1dc38d98858f0947ac6cef730dabce928"
+  },
+  "batch4-E-courtesy-conductor-talking.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/candidates/E-courtesy-conductor-talking.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact owner-selected portraits:courtesy_conductor:talking",
+    "sha256": "8c6601db91d262f5a6b362609b878589025cb924c15c0753df268d4f84592e4d"
+  },
+  "batch4-E-courtesy-conductor-talking-4x.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/previews/E-courtesy-conductor-talking-4x.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "4b22e6b0a721a916444f61e79e6076b80ba4629e408f9cb03c080d74cafab947"
+  },
+  "batch4-F-abandoned-station.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/candidates/F-abandoned-station.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact owner-selected scenes:biology_park/abandoned_station",
+    "sha256": "c9f78d96427d5fce0d1bde3651b90f09fd8d3380a65542378273c2fd1aa803f7"
+  },
+  "batch4-F-abandoned-station-4x.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/previews/F-abandoned-station-4x.png",
+    "sourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+    "status": "approved",
+    "role": "Exact4x approved reference",
+    "sha256": "ce4d47a0ad5052e961d95e23acd9845ad9440a0faf8abf73b2518e0b4bc1de1a"
+  },
+  "batch1-D-service-entry.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/references/batch1-D-service-entry.png",
+    "sourceCommit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "status": "approved",
+    "role": "Approved Batch1 world / machinery distinction",
+    "sha256": "c25a49a72a96df1dc1379dad8ebd445af2f6c8b6adf75705cb52e8800195135c"
+  },
+  "batch1-D-service-entry-4x.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/references/batch1-D-service-entry-4x.png",
+    "sourceCommit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "status": "approved",
+    "role": "Approved Batch1 world / machinery distinction",
+    "sha256": "e488ffe635238f58512507c36aad2a3e3991fba121ce5697aa993cc110b2cb75"
+  },
+  "batch1-E-jungle-junction.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/references/batch1-E-jungle-junction.png",
+    "sourceCommit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "status": "approved",
+    "role": "Approved Batch1 world / machinery distinction",
+    "sha256": "0161d0a7132bf1656a5037e6ec2812e62220c9853e4ed251176c161086fed003"
+  },
+  "batch1-E-jungle-junction-4x.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/references/batch1-E-jungle-junction-4x.png",
+    "sourceCommit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "status": "approved",
+    "role": "Approved Batch1 world / machinery distinction",
+    "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841"
+  },
+  "batch1-C-formal-entrance.png": {
+    "sourcePath": "review/chapter-02-batch04-2026-11-17/references/batch1-C-formal-entrance.png",
+    "sourceCommit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "status": "approved",
+    "role": "Approved public Exposition architectural world",
+    "sha256": "d1a55f75863a7e2a3b854566638128064b998c5d6a83659399e4ad53ce66f2e9"
+  }
+}

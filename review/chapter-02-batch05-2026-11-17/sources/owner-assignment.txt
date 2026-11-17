@@ -1,0 +1,114 @@
+# The Acceptable Error — Chapter 2 Art: Batch 4 Approval + Batch 5 Production
+
+## 1. Owner approval — FINAL
+
+Nate has approved **all six Batch 4 images without changes**.
+
+Art Director review: PASS for A–F. No regeneration or additional selection is required.
+
+Approved source:
+- Repository: `InterstellarHarvest/CYOA`
+- Branch: `agent/ch02-art-batch04-reserve-transit`
+- Immutable candidate commit: `9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a`
+- Final review commit: `ec54699bf15455e1003e8aa41cec008abac1983f`
+- Directory: `review/chapter-02-batch04-2026-11-17/candidates/`
+
+Register these exact assets:
+
+| ID | Filename | Approved SHA-256 |
+|---|---|---|
+| A | `A-reserve-siding.png` | `c54cc60a878faaf91edc7e642fb9c854a963bb455a86d6d724d6f2f483e7ae2e` |
+| B | `B-reserve-tram.png` | `e17c2d8fd7b569404248d86028b7a7ca4164a3856f36f261654bc941a13a7eaf` |
+| C | `C-concourse-crash.png` | `50552704840db6220eff3d588bb4a974d51edcd32a816717803f73b6d97d11f8` |
+| D | `D-concourse-portrait-background.png` | `9f8f3d19d44a6433ef70391118a616d7dd6c8626f43eccda48d55af8fdd1cd80` |
+| E | `E-courtesy-conductor-talking.png` | `8c6601db91d262f5a6b362609b878589025cb924c15c0753df268d4f84592e4d` |
+| F | `F-abandoned-station.png` | `c9f78d96427d5fce0d1bde3651b90f09fd8d3380a65542378273c2fd1aa803f7` |
+
+### Registration requirements
+
+Follow the established Batch 3 process documented in `docs/105` and `review/chapter-02-batch04-2026-11-17/BATCH3_APPROVAL.md`.
+
+1. Verify all six candidate SHA-256 values.
+2. Promote their canonical storyboard records from `generated` to `approved`.
+3. Record exact source commit, candidate paths, hashes, and owner approval provenance.
+4. Copy the approved PNG bytes to public selected-art locations using the established registration tooling (`tools/sync/register-art.mjs --batch`).
+5. Preserve the 85 previously approved selected-art images byte-for-byte.
+6. Publish and verify the storyboard updates.
+7. Keep gameplay production paths null until the Gameplay PMO integrates them.
+8. Preserve original generations, prompts, comparisons, and processing history.
+
+Do not alter artwork pixels or previously approved images.
+
+If GitHub Actions storage limits prevent deployment, report the blocker. Do not delete existing artifacts or workflow history without authorization.
+
+## 2. Proceed immediately to Batch 5
+
+Once Batch 4 approval registration is committed, begin generation of the next five Chapter 2 scene records.
+
+**Batch 5 — Irrigation and Exits**
+
+1. `scenes:biology_park/lower_irrigation`
+2. `scenes:biology_park/public_exit`
+3. `scenes:biology_park/maintenance_exit`
+4. `scenes:biology_park/agricultural_customs`
+5. `scenes:biology_park/exposition_concourse`
+
+Use the latest approved canonical storyboard as the source of truth.
+
+Read each complete artwork record and every associated narrative node before generating. Inspect approved scenes for continuity.
+
+### Art direction
+
+- Native scene resolution: **314 × 206**.
+- Preserve the established industrial silver/teal/gray palette.
+- Maintain consistency with the approved Biology Park artwork.
+- Clean, readable pixel forms with restrained texture.
+- No brass or steampunk styling.
+- Avoid excessive dithering, malformed lettering, and unnecessary visual noise.
+- Distinct locations should have recognizable architectural and functional differences.
+- Depict the narrative state specified by the artwork record, without introducing future events prematurely.
+- Preserve established character, machinery, and environmental continuity.
+
+Use genuine image generation for every candidate.
+
+Follow the established workflow for source preservation, palette normalization, native-resolution exports, exact 4× previews, checksums, QA, and visual comparisons.
+
+### Deliverables
+
+Create a Batch 5 review gallery containing:
+
+- All five generated scene candidates.
+- Native and exact 4× views.
+- Comparison against relevant approved artwork.
+- Source prompts and original generated files.
+- Technical QA and SHA-256 manifest.
+- Visual continuity review.
+- Updated remaining-artwork queue.
+
+Publish Batch 5 statuses as `generated`, not `approved`. Do not assign production paths or integrate anything into gameplay.
+
+## 3. Boundaries
+
+Do not change:
+
+- Approved narrative or Chapter 3 content.
+- Gameplay engine or route logic.
+- Previously approved artwork.
+- Death-screen artwork records.
+- Inventory or Focus A dimensions.
+
+The Focus A dimension discrepancy identified for Batch 7 remains a separate issue; do not silently resolve it during Batch 5.
+
+## 4. Report back
+
+Provide:
+
+1. Batch 4 approval-registration commit and public verification.
+2. Confirmation that all **91 approved selected-art images** (85 previous + 6 new) match their source hashes.
+3. Batch 5 branch and final commit.
+4. Review gallery path.
+5. Five candidate filenames and SHA-256 values.
+6. QA results and visual concerns.
+7. Remaining artwork queue.
+
+**Stop after Batch 5 generation for Art Director review. Do not wait between Batch 4 registration and Batch 5 generation unless a real blocker occurs.**

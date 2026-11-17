@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "checks": [
+    "five candidate cards",
+    "six continuity comparisons",
+    "all native scenes314x206",
+    "pixelated rendering",
+    "exact4x scenes1256x824",
+    "4x button state",
+    "native view restored"
+  ],
+  "imagesLoaded": 13,
+  "sceneCards": 5,
+  "comparisons": 6,
+  "browser": "Chrome headless",
+  "localLinksVerified": true,
+  "chromeExitTimedOutAfterSuccessfulDomCapture": true
+}

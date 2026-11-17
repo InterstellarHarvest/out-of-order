@@ -1,0 +1,195 @@
+{
+  "baselineCommit": "ec54699bf15455e1003e8aa41cec008abac1983f",
+  "preexistingTrackedFiles": 1353,
+  "localAndFetchedRemoteRefsInspected": 75,
+  "duplicateTargetsFound": false,
+  "matchingTargetPngs": {},
+  "otherChapterNameMatches": {
+    "refs/heads/agent/canonical-death-popups-20261117": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/heads/agent/canonical-storyboard-sync-20261116": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/heads/agent/ch01-art-batch04-20261115": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/heads/agent/ch01-art-batch05-interactive-states": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/heads/agent/ch01-production-art-integration": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/heads/agent/ch02-art-batch01-biopark-foundation": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/heads/agent/ch02-art-batch02-biopark-routes": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/heads/agent/ch02-art-batch03-biopark-machinery": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/heads/agent/ch02-art-batch04-reserve-transit": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/heads/agent/ch02-art-batch05-irrigation-exits": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/heads/agent/ci-artifact-retention-20261117": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/heads/agent/death-popups-ordinary-play-20261117": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/heads/agent/rest-assured-death-retry-checkpoint": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/heads/agent/rest-assured-death-visual-proof": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/remotes/origin/agent/canonical-death-popups-20261117": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/remotes/origin/agent/canonical-storyboard-sync-20261116": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/remotes/origin/agent/ch01-art-batch04-20261115": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/remotes/origin/agent/ch01-art-batch05-interactive-states": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/remotes/origin/agent/ch01-production-art-integration": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/remotes/origin/agent/ch02-art-batch01-biopark-foundation": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/remotes/origin/agent/ch02-art-batch02-biopark-routes": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/remotes/origin/agent/ch02-art-batch03-biopark-machinery": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/remotes/origin/agent/ch02-art-batch04-reserve-transit": [
+      "review/chapter-01-batch04-2026-11-15/candidates/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/candidates/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-4x.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/arrival-foyer-public-exit-native.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/comparisons/public_exit-before-after.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/generation-source/public-exit-single-door-v01.png",
+      "review/chapter-01-batch04-2026-11-15/door-continuity-v01/previews/public-exit-single-door-v01-4x.png",
+      "review/chapter-01-batch04-2026-11-15/generation-source/public-exit-v01.png",
+      "review/chapter-01-batch04-2026-11-15/previews/public-exit-v01-4x.png"
+    ],
+    "refs/remotes/origin/agent/ci-artifact-retention-20261117": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/remotes/origin/agent/death-popups-ordinary-play-20261117": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/remotes/origin/agent/rest-assured-death-retry-checkpoint": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ],
+    "refs/remotes/origin/agent/rest-assured-death-visual-proof": [
+      "art/scenes/house_of_tomorrow/public_exit.png"
+    ]
+  },
+  "note": "Name-only public_exit matches belong to Chapter1 House of Tomorrow; no Chapter2 Batch5 target PNGs found."
+}

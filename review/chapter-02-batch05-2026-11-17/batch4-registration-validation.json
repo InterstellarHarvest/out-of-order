@@ -1,0 +1,23 @@
+{
+  "allSixOwnerHashesMatch": true,
+  "previousSelectedEntriesPreserved": 85,
+  "newSelectedEntries": 6,
+  "selectedEntryCount": 91,
+  "allPreviousSelectedPngBytesPreserved": true,
+  "allAuthoredChapterAndItemBytesPreserved": true,
+  "changedTrackedFiles": [
+    "docs/103_RETROACTIVE_ARTWORK_APPROVAL_LEDGER.md",
+    "story/artwork-preview.json",
+    "story/artwork.draft.json",
+    "tools/storyboard/qa-fixtures/legacy-render-snapshot.json"
+  ],
+  "allFiveChecksPassed": true,
+  "preexistingQaDrift": {
+    "concurrentCanonicalCommit": "1adef415e527f1a1581df476fe30ff82ce5af156",
+    "staleRendererSnapshotNodeCounts": [
+      63,
+      65
+    ],
+    "repair": "Refresh generated renderer snapshot from unchanged current canonical source; no authored Chapter3 or QA implementation edits."
+  }
+}
