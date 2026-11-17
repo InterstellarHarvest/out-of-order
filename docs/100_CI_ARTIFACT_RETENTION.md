@@ -151,6 +151,14 @@ The input is read from the branch's own `qa.yml`. A branch without this change i
   - **89 artifacts and 5.86 GB deleted** (superseded intermediate pushes and earlier re-run attempts); none skipped.
   - Every KEEP and OWNER artifact was confirmed still present.
   - Live total afterwards: 52 artifacts, 4.18 GB.
+- **2026-11-17, about 21:40 UTC: every test-result artifact deleted with owner authorisation** ("we don't need test results, delete them along with the recommended").
+  - From the r2 inventory, these were deleted:
+    - CANDIDATE: 20 artifacts, 2,615 MB;
+    - the `qa-*` OWNER rows: 10 artifacts, 1,028 MB;
+    - the `qa-*` KEEP rows: 16 artifacts, 423 MB. This includes PR #16's proof; its green checks and run logs remain on the PR.
+  - **46 artifacts, about 4.07 GB, in total.**
+  - Left: the 8 art-review artifacts (Prologue art lab plus M1), **112 MB**, under the 500 MB allowance. Uploads resume after GitHub recalculates usage (every 6–12 hours).
+  - No workflow run or log was deleted.
 
 ### Current inventory (r2, 2026-11-17 20:30 UTC: 54 artifacts, 4.18 GB)
 
