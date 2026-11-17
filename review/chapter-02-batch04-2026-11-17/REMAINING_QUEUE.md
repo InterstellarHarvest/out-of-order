@@ -42,3 +42,5 @@
 The three Focus A records currently declare 564×278, while future ScenePickup migration language mentions 565×451. Resolve that authoring contract before their production; no dimensions were silently changed in this batch. No additional Chapter 2 conditional scene-state records are currently registered.
 
 Stop after Batch 4 for owner/Art Director visual selection. No Batch 5 generation or gameplay integration is part of this delivery.
+
+Re-enumerated after canonical publication `d8474e60b3f8aa44a82fcb3d5053e0c0cdaa6359`: all23 keys remain not-started. See [current complete records](remaining-queue.current.json).

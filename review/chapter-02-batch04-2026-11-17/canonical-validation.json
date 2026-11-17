@@ -1,0 +1,69 @@
+{
+  "candidateSourceCommit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+  "canonicalBaseline": "744399cf57d0de07a122ab2449b774cc4598d065",
+  "checkedAtUtc": "2026-11-17T17:56:16.801168+00:00",
+  "allChecksPassed": true,
+  "checks": {
+    "canonical": {
+      "ok": true,
+      "errors": [],
+      "notes": [
+        "game build 20b52601c573 consumed storyboard d95c01ef5059 (63 images)"
+      ],
+      "stats": {
+        "chapters": 4,
+        "nodes": 227,
+        "routes": 359,
+        "artRecords": 182,
+        "statuses": {
+          "integrated": 59,
+          "reused": 5,
+          "approved": 22,
+          "generated": 6,
+          "not-started": 90
+        },
+        "previewed": 85
+      }
+    },
+    "storyboardSmoke": "PASS",
+    "deathPresentationsExport": "PASS:9 exact records",
+    "publicArtLabStatic": "PASS",
+    "syncGuards": {
+      "result": "PASS",
+      "checks": 22,
+      "results": [
+        "baseline passes (85 previews)",
+        "missing chapter",
+        "broken route",
+        "undeclared field",
+        "manifest key the importer rejects",
+        "approved art regresses to generated",
+        "integrated art regresses to not-started",
+        "preview bytes tampered",
+        "preview file missing",
+        "stray unregistered package file",
+        "selected record without preview",
+        "integrated but not in the game report",
+        "game uses an approved-only image",
+        "game pixels differ from preview",
+        "register refuses wrong native size",
+        "register refuses a scene as a portrait",
+        "register requires a pinned full commit",
+        "register refuses source/ masters",
+        "register refuses containers",
+        "register refuses unknown records",
+        "register never lowers integrated -> approved",
+        "register: selection = approval, no invented assetPath"
+      ]
+    }
+  },
+  "onlyChangedCanonicalFile": "story/artwork.draft.json",
+  "changedRecordFields": "Six not-started to generated statuses and appended provenance notes only",
+  "previousSelectedEntriesAndPngsPreserved": 85,
+  "allOtherTrackedCanonicalFilesPreserved": 204,
+  "allAuthoredChapterAndItemBytesPreserved": true,
+  "productionPathsRemainNull": true,
+  "noCandidatesAddedToSelectedPreviews": true,
+  "noQaHarnessOrChapter3Changes": true,
+  "canonicalPublicationCommit": "d8474e60b3f8aa44a82fcb3d5053e0c0cdaa6359"
+}

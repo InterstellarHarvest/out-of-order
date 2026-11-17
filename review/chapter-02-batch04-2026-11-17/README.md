@@ -43,3 +43,5 @@ Six original tool outputs, exact prompts and all reference roles are recorded in
 [Candidate paths and hashes](CANDIDATE_HASHES.md) · [Pixel QA](qa.json) · [Browser QA](gallery-verification.json) · [Visual findings](ARTWORK_CONTINUITY_REVIEW.md) · [Story context](STORY_CONTINUITY.md) · [Remaining 23-record queue](REMAINING_QUEUE.md) · [Canonical status publication](STORYBOARD_SYNC.md).
 
 All six records remain generated, selected:false, production assetPath:null. Stop here for owner/Art Director visual selection. Gameplay integration is separate.
+
+Immutable six-candidate source commit: `9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a`. Canonical generated-status publication: `d8474e60b3f8aa44a82fcb3d5053e0c0cdaa6359`. Pages and live verification passed, including all85 selected public PNG hashes. Later receipt commits retain the same six candidate bytes. No actual delivery blockers.
