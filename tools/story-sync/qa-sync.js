@@ -123,6 +123,15 @@ try {
   const F = commit('F');
   r = sync('pull', '--rev', F, '--from-git', PUB); assert.equal(r.code, 1); assert.match(r.out, /chapter chapter-02 is not published/); ok('missing consumed chapter refused');
 
+  // 11. The integration report on the real build: every used image keyed, plus review-gated end art.
+  const rep = JSON.parse(execFileSync(process.execPath, [path.join(ROOT, 'tools/story-sync/sync.js'), 'report'], { cwd: ROOT, encoding: 'utf8' }));
+  const { build } = require(path.join(ROOT, 'game/content/story.generated.js'));
+  const paths = new Set(rep.images.map((i) => i.path));
+  assert.ok(build.art.every((a) => paths.has(a.path)), 'every build image is reported');
+  assert.ok(rep.images.every((i) => /^[a-zA-Z]+:/.test(i.key) && /^[0-9a-f]{64}$/.test(i.sha256)));
+  assert.ok(rep.images.some((i) => i.gate === 'deathproof' && /^deathScreens:/.test(i.key)), 'review-gated death art is reported');
+  ok('integration report covers every build image + gated end-presentation art');
+
   console.log(JSON.stringify({ result: 'PASS', checks: results.length, results }, null, 1));
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });

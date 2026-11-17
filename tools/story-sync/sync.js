@@ -303,10 +303,9 @@ function buildReport() {
   // Review-gated end presentations (docs/94, docs/96): real game code, off unless ?<gate>.
   const ep = path.join(ROOT, 'game/content/end-presentations.review.js');
   if (fs.existsSync(ep)) {
-    const sandbox = {};
-    new Function('window', 'module', fs.readFileSync(ep, 'utf8'))(sandbox, undefined);
-    const data = Object.values(sandbox).find((v) => v && v.entries);
-    ((data && data.entries) || []).forEach((e) => { if (e.art && e.art.path) add(e.art.path, 'death-screen', data.gate); });
+    const data = require(ep);
+    if (!data || !Array.isArray(data.entries)) problems.push('game/content/end-presentations.review.js: no entries');
+    else data.entries.forEach((e) => { if (e.art && e.art.path) add(e.art.path, 'death-screen', data.gate); });
   }
   const seen = new Set();
   const unique = images.filter((i) => (seen.has(i.key) ? false : seen.add(i.key))).sort((a, b) => (a.key < b.key ? -1 : 1));
