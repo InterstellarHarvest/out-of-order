@@ -1,0 +1,75 @@
+{
+  "candidateSourceCommit": "db91a0a1e49d308292fa68348bf5d06ee7548417",
+  "canonicalPublicationBaseline": "7f4d086d209657f16a9ba71bcea1f0b6a52f89e0",
+  "checkedAtUtc": "2026-11-17T21:29:01.022555+00:00",
+  "allChecksPassed": true,
+  "checks": {
+    "canonical": {
+      "ok": true,
+      "errors": [],
+      "notes": [
+        "game build 20b52601c573 consumed storyboard d95c01ef5059 (63 images)"
+      ],
+      "stats": {
+        "chapters": 4,
+        "nodes": 230,
+        "routes": 361,
+        "artRecords": 182,
+        "statuses": {
+          "integrated": 59,
+          "reused": 5,
+          "approved": 33,
+          "not-started": 81,
+          "generated": 4
+        },
+        "previewed": 96
+      }
+    },
+    "storyboardSmoke": "PASS",
+    "deathPresentationsExport": "PASS:9 exact records",
+    "publicArtLabStatic": "PASS",
+    "syncGuards": {
+      "result": "PASS",
+      "checks": 22,
+      "results": [
+        "baseline passes (96 previews)",
+        "missing chapter",
+        "broken route",
+        "undeclared field",
+        "manifest key the importer rejects",
+        "approved art regresses to generated",
+        "integrated art regresses to not-started",
+        "preview bytes tampered",
+        "preview file missing",
+        "stray unregistered package file",
+        "selected record without preview",
+        "integrated but not in the game report",
+        "game uses an approved-only image",
+        "game pixels differ from preview",
+        "register refuses wrong native size",
+        "register refuses a scene as a portrait",
+        "register requires a pinned full commit",
+        "register refuses source/ masters",
+        "register refuses containers",
+        "register refuses unknown records",
+        "register never lowers integrated -> approved",
+        "register: selection = approval, no invented assetPath"
+      ]
+    }
+  },
+  "changedCanonicalFiles": [
+    "story/artwork.draft.json"
+  ],
+  "artworkChangeScope": "Only four item-variant statuses and appended provenance notes",
+  "allOtherTrackedCanonicalFilesPreserved": 215,
+  "previousSelectedEntriesAndPngsPreserved": 96,
+  "allAuthoredChapterAndItemDescriptionBytesPreserved": true,
+  "allFocusRecordsAndDimensionsUnchanged": true,
+  "allDeathScreenArtworkRecordsUnchanged": true,
+  "allAntidoteItemRecordsUnchanged": true,
+  "noCandidatesAddedToSelectedPreviews": true,
+  "allCandidateProductionPathsNull": true,
+  "batch7NotStarted": true,
+  "noQaImplementationOrFixtureEditsNeededForThisPublication": true,
+  "canonicalPublicationCommit": "760099c8ff402da7f3d5b0837cc73640ebe9c44a"
+}

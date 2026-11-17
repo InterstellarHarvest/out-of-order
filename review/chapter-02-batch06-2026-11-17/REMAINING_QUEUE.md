@@ -27,3 +27,5 @@ Batch7:6 antidote item variants +3 Focus A records =9. Batch8:5 fatal-ending ill
 The three Focus A records still declare564×278, while future Scene Pickup presentation text references565×451. This discrepancy remains unresolved for explicit owner/Story Director resolution before Batch7. Inventory dimensions and all death-screen specifications remain unchanged. Full remaining records/prompts: [remaining-queue.source.json](remaining-queue.source.json).
 
 Stop here for Art Director review. No Batch7 generation or gameplay integration is part of this delivery.
+
+Re-enumerated after publication `760099c8ff402da7f3d5b0837cc73640ebe9c44a`:all14 keys remain not-started. See [current complete records](remaining-queue.current.json).

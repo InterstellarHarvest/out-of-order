@@ -47,3 +47,5 @@ Four independent original item generations are preserved, plus B-v02 targeted co
 The canonical seed-item description still says “dull metal cylinder.” The owner's explicit Batch6 instruction makes the approved Customs scene's rounded-rectangular case authoritative for art. Both new cargo variants follow it. No narrative wording was silently changed. See [story continuity](STORY_CONTINUITY.md).
 
 Stop after Batch6 for Art Director visual review. Batch7's separate Focus dimension issue and gameplay integration remain outside this work. [Canonical status publication](STORYBOARD_SYNC.md).
+
+Immutable candidate commit:`db91a0a1e49d308292fa68348bf5d06ee7548417`. Canonical generated-status publication:`760099c8ff402da7f3d5b0837cc73640ebe9c44a`. Pages and live verification passed,including all96 selected public PNG hashes. Later receipt commits retain exactly the same four candidate bytes. No actual delivery blocker remains.
