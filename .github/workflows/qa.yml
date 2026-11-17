@@ -9,6 +9,16 @@
 #             (game/qa/known_failures/layout-lab.json); anything else fails.
 # CI environment limits are recorded in docs/84 section 7.2 (no Safari/WebKit by owner rule, Linux
 # runners only, timing-sensitive checks are the first suspects in a one-off failure).
+#
+# Artifacts (docs/100). Actions storage on this private repository is billed, and the browser
+# screenshots are about 300 MB per run, so:
+#   qa-content              JSON results of the content job        every run   7 days
+#   qa-browsers-summary     JSON results + artifact index          every run   7 days
+#   qa-browsers-screenshots PNG screenshots of every browser suite failed run  1 day
+#                                                                  or manual visual-review run
+# A manual visual-review run: Actions > QA > Run workflow, choose the branch, tick visual_review
+# (or: gh workflow run qa.yml --ref <branch> -f visual_review=true). Download within 24 hours.
+# Every test still runs on every run; only what is kept afterwards changed.
 name: QA
 
 on:
@@ -16,6 +26,11 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      visual_review:
+        description: 'Keep the full browser screenshots (qa-browsers-screenshots, 1 day) for creative / visual review'
+        type: boolean
+        default: false
 
 concurrency:
   group: qa-${{ github.ref }}
@@ -68,11 +83,14 @@ jobs:
         run: node game/qa/validate_death_controls.js
       - name: Assets (static)
         run: node game/qa/validate_assets.js
+      - name: CI artifact policy (upload paths match the artifact index; retention and conditions, docs/100)
+        run: node tools/ci/check-qa-artifacts.js
       - name: Results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: qa-content
+          retention-days: 7
           path: |
             game/qa/route_results*.json
             game/qa/story_results.json
@@ -136,21 +154,47 @@ jobs:
           rm -f tools/layout-lab/qa/qa_results.json
           node tools/layout-lab/qa/run_qa.js || true
           node game/qa/check_known_failures.js tools/layout-lab/qa/qa_results.json game/qa/known_failures/layout-lab.json
-      - name: Results and screenshots
+      # Small JSON results on every run; the PNGs only when they are needed (docs/100).
+      - name: Artifact index (every results file and screenshot of this run, by name, size and SHA-256)
+        if: always()
+        env:
+          JOB_STATUS: ${{ job.status }}
+          VISUAL_REVIEW: ${{ github.event_name == 'workflow_dispatch' && inputs.visual_review }}
+        run: node tools/ci/qa-artifact-index.js
+      - name: Results summary (every run, 7 days)
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: qa-browsers
+          name: qa-browsers-summary
+          retention-days: 7
           path: |
-            game/qa/*.json
-            game/qa/screenshots/
-            game/qa/story_screenshots/
-            game/qa/ch01_route_screenshots/
-            game/qa/ch01_art_screenshots/
-            game/qa/end_presentation_screenshots/
-            game/qa/death_controls_screenshots/
-            game/qa/ch02_route_screenshots/
-            tools/m2-reception-polish-lab/qa/
+            game/qa/ci_artifact_index_browsers.json
+            game/qa/asset_results.json
+            game/qa/story_qa_results.json
+            game/qa/ch01_art_qa_results.json
+            game/qa/end_presentation_results.json
+            game/qa/death_controls_qa_results.json
+            game/qa/ch02_route_results_browser.json
+            game/qa/qa_results.json
+            tools/m2-reception-polish-lab/qa/qa_results.json
             tools/layout-lab/qa/qa_results.json
-            tools/layout-lab/qa/screenshots/
-          if-no-files-found: ignore
+          if-no-files-found: warn
+      - name: Screenshots (failed run or manual visual review only, 1 day)
+        if: ${{ !cancelled() && (failure() || (github.event_name == 'workflow_dispatch' && inputs.visual_review)) }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: qa-browsers-screenshots
+          retention-days: 1
+          # PNGs are already compressed; zipping them again only costs time.
+          compression-level: 0
+          path: |
+            game/qa/screenshots/*.png
+            game/qa/story_screenshots/*.png
+            game/qa/ch01_route_screenshots/*.png
+            game/qa/ch01_art_screenshots/*.png
+            game/qa/end_presentation_screenshots/*.png
+            game/qa/death_controls_screenshots/*.png
+            game/qa/ch02_route_screenshots/*.png
+            tools/m2-reception-polish-lab/qa/screenshots/*.png
+            tools/layout-lab/qa/screenshots/*.png
+          if-no-files-found: warn
