@@ -1,0 +1,170 @@
+{
+  "batch2-A-control-tower.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/candidates/A-control-tower.png",
+    "sha256": "fde023d3741641aa0f376ad1ac65508de3aeef84a05a8be0defecb3f4603daca",
+    "role": "approved native pixels",
+    "status": "approved"
+  },
+  "batch2-A-control-tower-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/previews/A-control-tower-4x.png",
+    "sha256": "ec024b48500b49ebda6d5e63d1c7e714ba525652345ff83e52d58ef144a4b9fc",
+    "role": "exact4x selected display reference",
+    "status": "approved"
+  },
+  "batch2-B-spore-garden.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/candidates/B-spore-garden.png",
+    "sha256": "aded321d36cf2ea9c50d3d696230fe2a1606f181ff8fc0d1f2f7bffb92af4ed3",
+    "role": "approved native pixels",
+    "status": "approved"
+  },
+  "batch2-B-spore-garden-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/previews/B-spore-garden-4x.png",
+    "sha256": "9d09a85b41a34657395da081c0956658472c753f28de5b60ec365d4c0b882448",
+    "role": "exact4x selected display reference",
+    "status": "approved"
+  },
+  "batch2-C-tour-tram.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/candidates/C-tour-tram.png",
+    "sha256": "fd2b01dbff9db37a79b5a1519b0adc5be3ce8e60c425d7bfb039a5a2194f6d57",
+    "role": "approved native pixels",
+    "status": "approved"
+  },
+  "batch2-C-tour-tram-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/previews/C-tour-tram-4x.png",
+    "sha256": "ac5f7a42b5a629b7f481639ff86c6cff9c67888d554fd8b6a8272ce6963f1fb6",
+    "role": "exact4x selected display reference",
+    "status": "approved"
+  },
+  "batch2-D-damaged-walkway.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/candidates/D-damaged-walkway.png",
+    "sha256": "8ca919bedda4f414a7bfac7bfc1f0003f8531e7fcee36ce8f2873db0985af642",
+    "role": "approved native pixels",
+    "status": "approved"
+  },
+  "batch2-D-damaged-walkway-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/previews/D-damaged-walkway-4x.png",
+    "sha256": "7d063ca49820b4bfddef0dd81b057f1ae23d01502d0aa974111d20f2e0ee334d",
+    "role": "exact4x selected display reference",
+    "status": "approved"
+  },
+  "batch2-E-moving-forest.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/candidates/E-moving-forest.png",
+    "sha256": "5a1f61ab9c8a1c7fac129683df09da9bae48a0f22adb9012d98183e0d10f5c81",
+    "role": "approved native pixels",
+    "status": "approved"
+  },
+  "batch2-E-moving-forest-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/previews/E-moving-forest-4x.png",
+    "sha256": "57cfbc4a6bdcc88a29187c662c5fb41048db6c2ba9ea54c0cea441e7e9b8b6ed",
+    "role": "exact4x selected display reference",
+    "status": "approved"
+  },
+  "batch2-F-overgrown-tram.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/candidates/F-overgrown-tram.png",
+    "sha256": "d4c381642d2d54e6341fd82121ddcf5caef11029fa37c16d221edd5173d470c7",
+    "role": "approved native pixels",
+    "status": "approved"
+  },
+  "batch2-F-overgrown-tram-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/previews/F-overgrown-tram-4x.png",
+    "sha256": "3b90aba229c3530fb7b1f26b679e998467734f6bef4f6a2df695f791c48dc30e",
+    "role": "exact4x selected display reference",
+    "status": "approved"
+  },
+  "batch2-G-sensor-gallery.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/candidates/G-sensor-gallery.png",
+    "sha256": "b2f23c8d015c1f45af200733ba28201627c6d10102dcd9e34b92230c32683a7c",
+    "role": "approved native pixels",
+    "status": "approved"
+  },
+  "batch2-G-sensor-gallery-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+    "path": "review/chapter-02-batch02-2026-11-17/previews/G-sensor-gallery-4x.png",
+    "sha256": "8cb3e8b8c1de9923a6da1c428cce20dbedb5013ce288354a00e04d6b348cf47f",
+    "role": "exact4x selected display reference",
+    "status": "approved"
+  },
+  "batch1-B-groundskeeper.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "path": "review/chapter-02-batch01-2026-11-15/candidates/B-groundskeeper.png",
+    "sha256": "5f3ff412dff5b710bfbbe7a33c6f4b4de0ee815208b7854c393b546212371e95",
+    "role": "approved machinery/world native reference",
+    "status": "approved"
+  },
+  "batch1-B-groundskeeper-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "path": "review/chapter-02-batch01-2026-11-15/previews/B-groundskeeper-4x.png",
+    "sha256": "781cb2fcc46641f992948e92a24a3ba4789259358dbb80a737d32ef39e99acca",
+    "role": "exact4x approved machinery/world style reference",
+    "status": "approved"
+  },
+  "batch1-D-service-entry.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "path": "review/chapter-02-batch01-2026-11-15/candidates/D-service-entry.png",
+    "sha256": "c25a49a72a96df1dc1379dad8ebd445af2f6c8b6adf75705cb52e8800195135c",
+    "role": "approved machinery/world native reference",
+    "status": "approved"
+  },
+  "batch1-D-service-entry-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "path": "review/chapter-02-batch01-2026-11-15/previews/D-service-entry-4x.png",
+    "sha256": "e488ffe635238f58512507c36aad2a3e3991fba121ce5697aa993cc110b2cb75",
+    "role": "exact4x approved machinery/world style reference",
+    "status": "approved"
+  },
+  "batch1-E-jungle-junction.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "path": "review/chapter-02-batch01-2026-11-15/signage-polish-v02/candidates/E-jungle-junction.png",
+    "sha256": "0161d0a7132bf1656a5037e6ec2812e62220c9853e4ed251176c161086fed003",
+    "role": "approved machinery/world native reference",
+    "status": "approved"
+  },
+  "batch1-E-jungle-junction-4x.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "path": "review/chapter-02-batch01-2026-11-15/signage-polish-v02/previews/E-jungle-junction-4x.png",
+    "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+    "role": "exact4x approved machinery/world style reference",
+    "status": "approved"
+  },
+  "batch1-G-groundskeeper-foreground.png": {
+    "repo": "InterstellarHarvest/CYOA",
+    "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "path": "review/chapter-02-batch01-2026-11-15/candidates/G-groundskeeper-foreground.png",
+    "sha256": "afc7055ffe4b60f3efc4cb3747bc21fee61275f937cdefa1c1794f4b02adb402",
+    "role": "approved machinery/world native reference",
+    "status": "approved"
+  }
+}

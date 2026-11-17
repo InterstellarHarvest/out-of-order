@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "sceneCards": 7,
+  "comparisons": 6,
+  "imagesLoaded": 17,
+  "nativeDimensions": [
+    314,
+    206
+  ],
+  "previewDimensions": [
+    1256,
+    824
+  ],
+  "scaleControlsVerified": true,
+  "pixelRenderingVerified": true,
+  "nativeRestored": true,
+  "browser": "Chrome headless 150",
+  "localLinksVerified": true,
+  "processNote": "DOM check completed successfully; macOS Chrome did not exit before timeout, so captured DOM was used."
+}

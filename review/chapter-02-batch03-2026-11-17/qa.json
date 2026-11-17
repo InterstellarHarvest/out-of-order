@@ -1,0 +1,408 @@
+{
+  "passed": true,
+  "candidateCount": 7,
+  "nativeDimensions": [
+    314,
+    206
+  ],
+  "nativeMode": "RGB",
+  "scenePreviewDimensions": [
+    1256,
+    824
+  ],
+  "sourceGenerationCount": 8,
+  "sharedPaletteColors": 64,
+  "dithering": "none",
+  "croppingOrPadding": "none",
+  "sourceAlphaHandling": "assert every pixel opaque; export RGB",
+  "originalTrackedFilesPreserved": 1064,
+  "preservationFailures": [],
+  "approvedReferenceHashesVerified": 21,
+  "densityNote": "Four-neighbor singleton and equal-edge metrics are descriptive; foliage, grating, paper holes and thin machine edges create legitimate small clusters. Visual approval is separate.",
+  "assets": [
+    {
+      "id": "A",
+      "registryKey": "scenes:biology_park/authorization_archive",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/A-authorization-archive.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "cf56a225b9341ac24c654562e002e4d45d5c56be36aa7f4d3f40f045bebc79ec",
+      "source": "generation-source/A-authorization-archive-v01.png",
+      "sourceSha256": "08bce622be5907e1eee618f4132c5c1b80483f8ed2c9b6e3a4fcc835830f5b24",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "Full-canvas NEAREST to314x206, no cropping/padding; existing64-paint palette, no dithering; D/E have recorded local signage polish",
+      "localNativeEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 6.545,
+      "isolatedFourNeighborPixels": 13191,
+      "isolatedFraction": 0.20393,
+      "equalNeighborEdgeFraction": 0.442552,
+      "sourceOpacityVerified": true,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch2-A-control-tower-4x.png",
+          "sha256": "ec024b48500b49ebda6d5e63d1c7e714ba525652345ff83e52d58ef144a4b9fc",
+          "role": "approved tower office and revised rendering"
+        },
+        {
+          "path": "references/batch2-G-sensor-gallery-4x.png",
+          "sha256": "8cb3e8b8c1de9923a6da1c428cce20dbedb5013ce288354a00e04d6b348cf47f",
+          "role": "approved sensing/paper equipment materials"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "registryKey": "scenes:biology_park/central_flower",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/B-central-flower.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "68698aea02b19bbc9fedca48b978be1c2329ca136c140084b2396dfafe4f8e58",
+      "source": "generation-source/B-central-flower-v01.png",
+      "sourceSha256": "b61fa444eb3243ec8b28e012ca6c54bbc67a2fda2eb9c0d0ee1deecc3f65088d",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "Full-canvas NEAREST to314x206, no cropping/padding; existing64-paint palette, no dithering; D/E have recorded local signage polish",
+      "localNativeEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 10.382,
+      "isolatedFourNeighborPixels": 21454,
+      "isolatedFraction": 0.331674,
+      "equalNeighborEdgeFraction": 0.326121,
+      "sourceOpacityVerified": true,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch2-G-sensor-gallery-4x.png",
+          "sha256": "8cb3e8b8c1de9923a6da1c428cce20dbedb5013ce288354a00e04d6b348cf47f",
+          "role": "approved physiological rack identity and style"
+        },
+        {
+          "path": "references/batch1-E-jungle-junction-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved greenhouse/sun/world"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "registryKey": "scenes:biology_park/translator_machine",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/C-translator-machine.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "ff5704d99d027ea8a86e78b228102826bcceec03b5ae1ba583200a99822e95a3",
+      "source": "generation-source/C-translator-machine-v02.png",
+      "sourceSha256": "31fc3c5a49363f47c5f96f996d80c0ed784ab2e98759f49871635a096e25d5f8",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "Full-canvas NEAREST to314x206, no cropping/padding; existing64-paint palette, no dithering; D/E have recorded local signage polish",
+      "localNativeEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 11.544,
+      "isolatedFourNeighborPixels": 16989,
+      "isolatedFraction": 0.262646,
+      "equalNeighborEdgeFraction": 0.377429,
+      "sourceOpacityVerified": true,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "generation-source/C-translator-machine-v01.png",
+          "sha256": "b7e039e6e5c50b2d8961f6ebe2a65091020b06e03bd1f218fd330336da8f923f",
+          "role": "new unselected initial translator candidate; edit target"
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "registryKey": "scenes:biology_park/planting_machine",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/D-planting-machine.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "047282bbf1e5189645e5784d9b30278cb5b641a708eeed50f43945017d9b78da",
+      "source": "generation-source/D-planting-machine-v01.png",
+      "sourceSha256": "529108930028627527d80f226589bfcb13a9a9a57f3ea9d8e1bdc976ed42f407",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "Full-canvas NEAREST to314x206, no cropping/padding; existing64-paint palette, no dithering; D/E have recorded local signage polish",
+      "localNativeEdit": {
+        "regions": [
+          [
+            [
+              53,
+              35
+            ],
+            [
+              104,
+              44
+            ],
+            [
+              104,
+              61
+            ],
+            [
+              53,
+              53
+            ]
+          ],
+          [
+            [
+              36,
+              97
+            ],
+            [
+              79,
+              97
+            ],
+            [
+              79,
+              115
+            ],
+            [
+              36,
+              115
+            ]
+          ]
+        ],
+        "method": "Replace unreadable generated microlettering with native opaque administrative bars; preserve sign pictograms and all outside pixels",
+        "changedPixels": 1131,
+        "outsideAllowedChanges": 0
+      },
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 8.479,
+      "isolatedFourNeighborPixels": 17235,
+      "isolatedFraction": 0.266449,
+      "equalNeighborEdgeFraction": 0.385462,
+      "sourceOpacityVerified": true,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch1-B-groundskeeper-4x.png",
+          "sha256": "781cb2fcc46641f992948e92a24a3ba4789259358dbb80a737d32ef39e99acca",
+          "role": "approved industrial landscaping appendage/material family"
+        },
+        {
+          "path": "references/batch2-G-sensor-gallery-4x.png",
+          "sha256": "8cb3e8b8c1de9923a6da1c428cce20dbedb5013ce288354a00e04d6b348cf47f",
+          "role": "approved sensing/console style"
+        },
+        {
+          "path": "generation-source/B-central-flower-v01.png",
+          "sha256": "b61fa444eb3243ec8b28e012ca6c54bbc67a2fda2eb9c0d0ee1deecc3f65088d",
+          "role": "new unselected central chamber architecture"
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "registryKey": "scenes:biology_park/sorting_conveyor",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/E-sorting-conveyor.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "fe26ce88586bc207a50c8a9ccc9bcb3ddf30dac1bfd1f9e2468abfdae0167e3b",
+      "source": "generation-source/E-sorting-conveyor-v01.png",
+      "sourceSha256": "508e2ce08405cbde7b880cd12970991e354688cf55090b872218dd77b38c03ef",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "Full-canvas NEAREST to314x206, no cropping/padding; existing64-paint palette, no dithering; D/E have recorded local signage polish",
+      "localNativeEdit": {
+        "regions": [
+          [
+            [
+              67,
+              30
+            ],
+            [
+              120,
+              38
+            ],
+            [
+              120,
+              56
+            ],
+            [
+              67,
+              48
+            ]
+          ]
+        ],
+        "method": "Replace unreadable generated microlettering with native opaque administrative bars; preserve sign pictograms and all outside pixels",
+        "changedPixels": 496,
+        "outsideAllowedChanges": 0
+      },
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 8.363,
+      "isolatedFourNeighborPixels": 15439,
+      "isolatedFraction": 0.238683,
+      "equalNeighborEdgeFraction": 0.420053,
+      "sourceOpacityVerified": true,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch1-B-groundskeeper-4x.png",
+          "sha256": "781cb2fcc46641f992948e92a24a3ba4789259358dbb80a737d32ef39e99acca",
+          "role": "approved landscape machinery and feeder materials"
+        },
+        {
+          "path": "generation-source/D-planting-machine-v01.png",
+          "sha256": "529108930028627527d80f226589bfcb13a9a9a57f3ea9d8e1bdc976ed42f407",
+          "role": "new unselected planter mechanical construction family"
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "registryKey": "scenes:biology_park/planting_hopper",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/F-planting-hopper.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "5ab29aef160eb59a0d34465782d165c042b6ad8131ac04ad87215b03c33deb3b",
+      "source": "generation-source/F-planting-hopper-v01.png",
+      "sourceSha256": "ee9019320e869a7be5e528c63e1b532e5656eacefff2ede313220db7d7e1fddf",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "Full-canvas NEAREST to314x206, no cropping/padding; existing64-paint palette, no dithering; D/E have recorded local signage polish",
+      "localNativeEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 9.369,
+      "isolatedFourNeighborPixels": 16484,
+      "isolatedFraction": 0.254839,
+      "equalNeighborEdgeFraction": 0.394418,
+      "sourceOpacityVerified": true,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "references/batch1-B-groundskeeper-4x.png",
+          "sha256": "781cb2fcc46641f992948e92a24a3ba4789259358dbb80a737d32ef39e99acca",
+          "role": "approved Groundskeeper hopper identity"
+        },
+        {
+          "path": "generation-source/D-planting-machine-v01.png",
+          "sha256": "529108930028627527d80f226589bfcb13a9a9a57f3ea9d8e1bdc976ed42f407",
+          "role": "new unselected mechanical arm/material family"
+        },
+        {
+          "path": "references/batch1-E-jungle-junction-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved greenhouse structure"
+        }
+      ]
+    },
+    {
+      "id": "G",
+      "registryKey": "scenes:biology_park/waste_chute",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/G-waste-chute.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "fa2f9021a7c33f6ff188eff438ef4abec35d9ba0d1a77d805cd2ceb98bbaf498",
+      "source": "generation-source/G-waste-chute-v01.png",
+      "sourceSha256": "e5236a8ad5f87bf1e2cfa518ae3d981f1cf17322e570cbb4413903853a2b0e29",
+      "sourceSize": [
+        1548,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "normalization": "Full-canvas NEAREST to314x206, no cropping/padding; existing64-paint palette, no dithering; D/E have recorded local signage polish",
+      "localNativeEdit": null,
+      "aspectRatioCorrectionPercent": 0.04263,
+      "visibleColors": 62,
+      "rgbQuantizationRmse": 5.916,
+      "isolatedFourNeighborPixels": 11884,
+      "isolatedFraction": 0.183724,
+      "equalNeighborEdgeFraction": 0.503555,
+      "sourceOpacityVerified": true,
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "references": [
+        {
+          "path": "generation-source/D-planting-machine-v01.png",
+          "sha256": "529108930028627527d80f226589bfcb13a9a9a57f3ea9d8e1bdc976ed42f407",
+          "role": "new unselected planter disposal-hatch construction"
+        },
+        {
+          "path": "references/batch1-D-service-entry-4x.png",
+          "sha256": "e488ffe635238f58512507c36aad2a3e3991fba121ce5697aa993cc110b2cb75",
+          "role": "approved service passage utility fixtures"
+        },
+        {
+          "path": "references/batch2-G-sensor-gallery-4x.png",
+          "sha256": "8cb3e8b8c1de9923a6da1c428cce20dbedb5013ce288354a00e04d6b348cf47f",
+          "role": "approved fine modeled pixel/material treatment"
+        }
+      ]
+    }
+  ]
+}

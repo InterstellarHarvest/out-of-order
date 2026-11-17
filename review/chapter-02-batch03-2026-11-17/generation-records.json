@@ -1,0 +1,140 @@
+{
+  "status": "generated",
+  "canonicalSource": "7079ce60ac29ed0c109b2d1e1b97abcec25a5b05",
+  "artworkBaseline": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+  "batch2Status": "owner-approved without changes; registered separately",
+  "batch3Status": "generated and unselected",
+  "assets": {
+    "A": {
+      "key": "biology_park/authorization_archive",
+      "prompt": "prompts/A-v01.txt",
+      "source": "generation-source/A-authorization-archive-v01.png",
+      "references": [
+        "references/batch2-A-control-tower-4x.png",
+        "references/batch2-G-sensor-gallery-4x.png"
+      ],
+      "referenceRoles": [
+        "approved tower office and revised rendering",
+        "approved sensing/paper equipment materials"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-7e0cf1cb-f2a1-451e-97f7-4327de5d45a5.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "generated"
+    },
+    "B": {
+      "key": "biology_park/central_flower",
+      "prompt": "prompts/B-v01.txt",
+      "source": "generation-source/B-central-flower-v01.png",
+      "references": [
+        "references/batch2-G-sensor-gallery-4x.png",
+        "references/batch1-E-jungle-junction-4x.png"
+      ],
+      "referenceRoles": [
+        "approved physiological rack identity and style",
+        "approved greenhouse/sun/world"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-27ea6e96-43bc-4671-b804-301894f77e53.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "generated"
+    },
+    "C": {
+      "key": "biology_park/translator_machine",
+      "prompt": "prompts/C-v02-door-concealment.txt",
+      "source": "generation-source/C-translator-machine-v02.png",
+      "references": [
+        "generation-source/C-translator-machine-v01.png"
+      ],
+      "referenceRoles": [
+        "new unselected initial translator candidate; edit target"
+      ],
+      "designReferences": [
+        "references/batch2-G-sensor-gallery-4x.png",
+        "generation-source/B-central-flower-v01.png"
+      ],
+      "initialPrompt": "prompts/C-v01.txt",
+      "previousSource": "generation-source/C-translator-machine-v01.png",
+      "previousReason": "Prematurely visible service door; concealed to preserve authored pre-recoil state",
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-d73a75c1-3695-467c-827e-39570e1fe085.png",
+      "previousOriginalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-1e495b0f-e3f4-4984-afd6-e4b587251437.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "generated"
+    },
+    "D": {
+      "key": "biology_park/planting_machine",
+      "prompt": "prompts/D-v01.txt",
+      "source": "generation-source/D-planting-machine-v01.png",
+      "references": [
+        "references/batch1-B-groundskeeper-4x.png",
+        "references/batch2-G-sensor-gallery-4x.png",
+        "generation-source/B-central-flower-v01.png"
+      ],
+      "referenceRoles": [
+        "approved industrial landscaping appendage/material family",
+        "approved sensing/console style",
+        "new unselected central chamber architecture"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-cb0d0ad1-d8e4-4de8-98be-51791af38b40.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "generated"
+    },
+    "E": {
+      "key": "biology_park/sorting_conveyor",
+      "prompt": "prompts/E-v01.txt",
+      "source": "generation-source/E-sorting-conveyor-v01.png",
+      "references": [
+        "references/batch1-B-groundskeeper-4x.png",
+        "generation-source/D-planting-machine-v01.png"
+      ],
+      "referenceRoles": [
+        "approved landscape machinery and feeder materials",
+        "new unselected planter mechanical construction family"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-b395f5ed-7f79-4b2c-a1d8-2e26d4295358.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "generated"
+    },
+    "F": {
+      "key": "biology_park/planting_hopper",
+      "prompt": "prompts/F-v01.txt",
+      "source": "generation-source/F-planting-hopper-v01.png",
+      "references": [
+        "references/batch1-B-groundskeeper-4x.png",
+        "generation-source/D-planting-machine-v01.png",
+        "references/batch1-E-jungle-junction-4x.png"
+      ],
+      "referenceRoles": [
+        "approved Groundskeeper hopper identity",
+        "new unselected mechanical arm/material family",
+        "approved greenhouse structure"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-eeca3bd3-0b68-4c93-9091-641367eed676.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "generated"
+    },
+    "G": {
+      "key": "biology_park/waste_chute",
+      "prompt": "prompts/G-v01.txt",
+      "source": "generation-source/G-waste-chute-v01.png",
+      "references": [
+        "generation-source/D-planting-machine-v01.png",
+        "references/batch1-D-service-entry-4x.png",
+        "references/batch2-G-sensor-gallery-4x.png"
+      ],
+      "referenceRoles": [
+        "new unselected planter disposal-hatch construction",
+        "approved service passage utility fixtures",
+        "approved fine modeled pixel/material treatment"
+      ],
+      "originalPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-bd694d4b-60fc-4da6-baa1-b4ff20c42146.png",
+      "tool": "built-in image_gen",
+      "transparent_background": false,
+      "status": "generated"
+    }
+  }
+}

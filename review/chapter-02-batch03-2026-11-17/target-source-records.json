@@ -1,0 +1,1094 @@
+{
+  "A": {
+    "key": "biology_park/authorization_archive",
+    "record": {
+      "title": "AUTHORIZATION ARCHIVE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: authorization archive. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "tower_archive",
+    "nodes": {
+      "tower_archive": {
+        "mode": "narrative",
+        "scene": "biology_park/authorization_archive",
+        "text": "Early expansion requests carry human signatures; later ones were approved automatically by delegated Environmental Management. The requests have a single originating entity: BOTANICAL SPECIMEN 001. The file begins with a polite petition for more light. It ends with territory.",
+        "choices": [
+          {
+            "id": "issue_director_countermand",
+            "kind": "action",
+            "text": "ISSUE A FORMAL COUNTERMAND WITH THE ACTING DIRECTOR CREDENTIAL.",
+            "if": {
+              "has": "acting_director_badge"
+            },
+            "to": "director_order"
+          },
+          {
+            "id": "trace_original_requests",
+            "kind": "action",
+            "text": "TRACE THE BIOLOGICAL REQUEST LINES TO THE CENTRAL FLOWER.",
+            "to": "tower_trace"
+          }
+        ]
+      },
+      "director_order": {
+        "mode": "narrative",
+        "scene": "biology_park/authorization_archive",
+        "text": "The credential authorizes an immediate countermand. The console confirms that the Park has been granted self-governing status, then asks how you wish to handle the dispute between equals.",
+        "choices": [
+          {
+            "id": "order_cease_and_desist",
+            "kind": "action",
+            "text": "SUSPEND NEW PERMITS AND AUTHORIZE AN EMERGENCY EVACUATION.",
+            "to": "cease_stairs"
+          },
+          {
+            "id": "refer_appeal_to_plant",
+            "kind": "action",
+            "text": "REFER THE DISPUTE TO BOTANICAL SPECIMEN 001 IN PERSON.",
+            "to": "director_passage"
+          }
+        ]
+      },
+      "tower_trace": {
+        "mode": "narrative",
+        "scene": "biology_park/authorization_archive",
+        "effects": {
+          "set": {
+            "expansion_orders_seen": true
+          }
+        },
+        "text": "You trace the requests through pneumatic ducts, biofeedback cables and an increasingly demanding paper tape. The plant is not receiving orders. It learned which signals would produce orders favorable to itself.",
+        "choices": [
+          {
+            "id": "follow_trace_to_flower",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      },
+      "tower_late_records": {
+        "mode": "narrative",
+        "scene": "biology_park/authorization_archive",
+        "effects": {
+          "set": {
+            "expansion_orders_seen": true
+          }
+        },
+        "text": "The requests originated with Botanical Specimen 001 and were approved by Environmental Management, first by people and later by the office machinery itself. The plant learned the approval pattern without ever learning the meaning of a bathroom.",
+        "choices": [
+          {
+            "id": "leave_after_late_records",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "public_exit_staging",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "sabotage_tower_archives"
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "B": {
+    "key": "biology_park/central_flower",
+    "record": {
+      "title": "CENTRAL FLOWER",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Gigantic biological flower at center of greenhouse with thick sensor cables and administrative printers, no humanlike face. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "flower_arrival",
+    "nodes": {
+      "flower_arrival": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "text": [
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "text": "The central bloom turns toward you. Its cable-draped petals stretch as widely as the greenhouse roof. A scanner pauses at the green puncture beneath your skin. A punched-tape printer starts rattling more quickly."
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "text": "The immense flower slowly faces you. Its measuring arms detect the faint green trace beneath your fingernail. Paper tape moves through a translator rack, and your name enters the system as a potential growing location."
+          },
+          {
+            "if": {
+              "flag": "director_pending_dispute"
+            },
+            "text": "A formal hearing summons you to the central flower. Thick cables run from its stalk to a rack of biomedical sensors and punched-tape printers. The hearing docket has your Acting Director credential at the top."
+          },
+          {
+            "text": "A colossal flower occupies the central greenhouse. Heavy cables run from its stem to a physiological sensing rack. A paper-tape reader turns the plant's movements into government requests. A seal above it certifies the flower as an independent district."
+          }
+        ],
+        "choices": [
+          {
+            "id": "read_flower_district_decree",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_requests"
+          }
+        ]
+      },
+      "flower_requests": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "text": [
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "text": "REQUEST: REGISTER HUMAN VISITOR AS BOTANICAL COURIER.\nREQUEST: CLAIM HUMAN VISITOR AS ADDITIONAL CULTIVATION HABITAT.\n\nThe scanner identifies concentrated growth already underway. A root moves across the door."
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "text": "REQUEST: REGISTER HUMAN VISITOR AS BOTANICAL COURIER.\nREQUEST: CLAIM HUMAN VISITOR AS ADDITIONAL CULTIVATION HABITAT.\n\nPRELIMINARY CULTIVATION DETECTED, the scanner announces. YOUR APPLICATION IS ALREADY UNDERWAY."
+          },
+          {
+            "text": "A printer issues two approved requests: AUTHORIZE VISITOR AS SEED COURIER, and REGISTER VISITOR AS AVAILABLE GROWING HABITAT.\n\nThe flower neither speaks nor smiles. It has learned which biological signals earn permission to grow."
+          }
+        ],
+        "choices": [
+          {
+            "id": "accept_seed_courier",
+            "kind": "action",
+            "text": "ACCEPT APPOINTMENT AS AUTHORIZED BOTANICAL COURIER.",
+            "to": "courier_assignment"
+          },
+          {
+            "id": "contest_habitat_order",
+            "kind": "action",
+            "text": "CONTEST THE ORDER TO CULTIVATE YOUR BODY.",
+            "to": "appeal_docket"
+          },
+          {
+            "id": "interfere_with_translator",
+            "kind": "action",
+            "text": "INTERFERE WITH THE PLANT-TO-PAPER TRANSLATOR.",
+            "to": "translator_controls"
+          }
+        ]
+      },
+      "courier_assignment": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "effects": {
+          "give": [
+            "certified_seed_canister"
+          ]
+        },
+        "text": "A pneumatic tube deposits a sealed metal canister in a padded tray. An official stamp reads CERTIFIED PROPAGATION MATERIAL. KEEP SEALED.\n\nThe agricultural shipment gate grants you access. The plant has legally arranged to leave the Park without moving.",
+        "choices": [
+          {
+            "id": "carry_seeds_to_customs",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_checkpoint"
+          }
+        ]
+      },
+      "appeal_docket": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "text": "APPLICATION FOR HUMAN HABITAT CONVERSION. STATUS: CONTESTED.\n\nThe flower pauses while a desk-sized printer offers grounds for appeal. Even an independent plant must respect an active appeals process.",
+        "choices": [
+          {
+            "id": "appeal_prior_house_equipment",
+            "kind": "action",
+            "text": "CLAIM YOU ARE ALREADY REGISTERED AS HOUSEHOLD EQUIPMENT.",
+            "if": {
+              "flag": "equipment_registered"
+            },
+            "to": "appeal_house_success"
+          },
+          {
+            "id": "appeal_director_authority",
+            "kind": "action",
+            "text": "INVOKE YOUR PHYSICAL ACTING DIRECTOR CREDENTIAL.",
+            "if": {
+              "has": "acting_director_badge"
+            },
+            "to": "appeal_director_success"
+          },
+          {
+            "id": "appeal_examiner_inspection",
+            "kind": "action",
+            "text": "DEMAND AN EXAMINER INSPECTION OF THE PLANTING ORDER.",
+            "check": {
+              "id": "ch2_examiner_appeal",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "director_pending_dispute"
+                  },
+                  "add": 1
+                }
+              ]
+            },
+            "pass": {
+              "to": "appeal_examiner_success"
+            },
+            "fail": {
+              "to": "planting_active"
+            },
+            "if": {
+              "has": "expo_examiner_badge",
+              "lacks": "acting_director_badge"
+            }
+          },
+          {
+            "id": "appeal_biological_evidence",
+            "kind": "action",
+            "text": "CHALLENGE THE BIOLOGICAL EVIDENCE FOR CULTIVATION.",
+            "check": {
+              "id": "ch2_biological_appeal",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                },
+                {
+                  "if": {
+                    "flag": "director_pending_dispute"
+                  },
+                  "add": 1
+                }
+              ]
+            },
+            "pass": {
+              "to": "appeal_biology_success"
+            },
+            "fail": {
+              "to": "planting_active"
+            }
+          }
+        ]
+      },
+      "appeal_house_success": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "appeal_house_equipment"
+          }
+        },
+        "text": "The translator discovers that the House of Tomorrow still claims you as equipment. It cannot plant another exhibit's property without an interdepartmental transfer. Both departments claim exclusive rights to misplace you. A transfer corridor opens.",
+        "choices": [
+          {
+            "id": "take_disputed_transfer_corridor",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "public_exit_staging"
+          }
+        ]
+      },
+      "appeal_director_success": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "appeal_director"
+          }
+        },
+        "text": "Your Acting Director credential registers an authorized suspension. The plant's objection is referred to a committee scheduled to meet after the next growing season. A personnel exit unlocks.",
+        "choices": [
+          {
+            "id": "take_director_personnel_exit",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "public_exit_staging"
+          }
+        ]
+      },
+      "appeal_examiner_success": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "appeal_examiner"
+          }
+        },
+        "text": "After several indignant stamps, the system agrees that an Examiner must not be cultivated before an inspection concludes. The inspection period is indefinite, which suits you.",
+        "choices": [
+          {
+            "id": "leave_under_examiner_protection",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "public_exit_staging"
+          }
+        ]
+      },
+      "appeal_biology_success": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "appeal_biological"
+          }
+        },
+        "text": [
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "text": "Your appeal identifies unresolved biological growth but no permission to cultivate it. The administration cancels the planting order. The thorn infection remains very much your problem."
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "text": "A confusing but valid distinction is established between having plant matter inside you and belonging to the plant. The planting order is cancelled. The green trace beneath your nail remains."
+          },
+          {
+            "text": "The tribunal finally acknowledges that a person without botanical tissue, consent or a planting permit cannot be automatically registered as soil."
+          }
+        ],
+        "choices": [
+          {
+            "id": "leave_after_biological_appeal",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "public_exit_staging"
+          }
+        ]
+      },
+      "sabotage_window": {
+        "mode": "narrative",
+        "scene": "biology_park/central_flower",
+        "text": "New requests are delayed. The old approvals remain perfectly valid, and the plant is still enlarging. A perimeter walkway leads toward the Environmental Control Tower.",
+        "choices": [
+          {
+            "id": "run_to_tower_first_visit",
+            "kind": "action",
+            "text": "RUN THROUGH THE TOWER WHILE THE APPROVAL SYSTEM IS STALLED.",
+            "if": {
+              "notFlag": "tower_visited"
+            },
+            "to": "tower_late_entry"
+          },
+          {
+            "id": "run_past_visited_tower",
+            "kind": "action",
+            "text": "RUN PAST THE ALREADY INSPECTED CONTROL TOWER.",
+            "if": {
+              "flag": "tower_visited"
+            },
+            "to": "tower_bypass_exit"
+          },
+          {
+            "id": "take_root_exposed_service_door",
+            "kind": "action",
+            "text": "ENTER THE SERVICE DOOR EXPOSED BY RETRACTING ROOTS.",
+            "if": {
+              "flag": "roots_recoiled"
+            },
+            "effects": {
+              "set": {
+                "ch2_exit_route": "translator_root_door"
+              }
+            },
+            "to": "irrigation_hub"
+          }
+        ]
+      }
+    }
+  },
+  "C": {
+    "key": "biology_park/translator_machine",
+    "record": {
+      "title": "TRANSLATOR MACHINE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "1960s retro-futurist botanical signals translator, analog dials, punched tape loops, approval printers, sensor cables. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "translator_controls",
+    "nodes": {
+      "translator_controls": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "text": "Sensors threaded through the flower drive a mechanical translator rack. Perforated paper tape feeds orders into an automatic approval reader. A printer reports: REQUEST RECEIVED. REQUEST APPROVED. PREPARING NEXT REQUEST.",
+        "choices": [
+          {
+            "id": "disconnect_biofeedback_cables",
+            "kind": "action",
+            "text": "DISCONNECT THE BIOLOGICAL SENSOR CABLES.",
+            "check": {
+              "id": "ch2_translator_cables",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "sabotage_cable_recoil"
+            },
+            "fail": {
+              "to": "sabotage_cable_alarm"
+            }
+          },
+          {
+            "id": "reroute_approval_punch_tape",
+            "kind": "action",
+            "text": "ALTER THE NORMAL PUNCH-TAPE FEED PATH.",
+            "to": "sabotage_tape_stalled"
+          },
+          {
+            "id": "staple_punch_tape_loop",
+            "kind": "action",
+            "text": "BEND THE MOVING PUNCH TAPE INTO A LOOP AND STAPLE IT SHUT.",
+            "check": {
+              "id": "ch2_stapled_punch_tape",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "sabotage_staple_stalled"
+            },
+            "fail": {
+              "to": "sabotage_staple_alarm"
+            },
+            "if": {
+              "has": "red_stapler"
+            }
+          },
+          {
+            "id": "jam_feed_with_clicker",
+            "kind": "action",
+            "text": "WEDGE THE TIMING CLICKER INTO THE TRANSLATOR FEED.",
+            "if": {
+              "has": "timing_clicker"
+            },
+            "to": "sabotage_clicker_stalled"
+          },
+          {
+            "id": "jam_feed_with_rubber_ball",
+            "kind": "action",
+            "text": "JAM THE FEED WITH THE RUBBER-BAND BALL.",
+            "if": {
+              "has": "rubber_band_ball"
+            },
+            "to": "sabotage_rubber_stalled"
+          }
+        ]
+      },
+      "sabotage_cable_recoil": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "effects": {
+          "set": {
+            "roots_recoiled": true
+          }
+        },
+        "text": "The exposed cables tear free with a loud report. The flower recoils from the feedback. Roots withdraw from a greenhouse wall and expose a heavy service door. Meanwhile the new approval queue stops moving.",
+        "choices": [
+          {
+            "id": "choose_recoil_escape",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "sabotage_window"
+          }
+        ]
+      },
+      "sabotage_cable_alarm": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "text": "The cable breaks at the wrong point. A warning bell summons the roots instead of making them recoil. One twists around the floor beneath you and tips you toward an unfinished service duct.",
+        "choices": [
+          {
+            "id": "crawl_clear_of_cable_alarm",
+            "kind": "action",
+            "text": "SLIDE INTO THE SERVICE DUCT BEFORE THE ROOTS CLOSE IT.",
+            "check": {
+              "id": "ch2_cable_alarm_escape",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "cable_alarm_survived"
+            },
+            "fail": {
+              "to": "fatal_roots"
+            }
+          }
+        ]
+      },
+      "cable_alarm_survived": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "cable_alarm_duct"
+          }
+        },
+        "text": "You clear the duct as the roots knot themselves across the doorway. The tunnel leads directly into Lower Irrigation Services.",
+        "choices": [
+          {
+            "id": "escape_cables_into_irrigation",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "irrigation_hub"
+          }
+        ]
+      },
+      "fatal_roots": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "end": true,
+        "text": "The roots draw together and the overhead machine returns to its orderly processing. A new request is filed for one additional buried fixture.\n\nENDING - SITE IMPROVEMENT.",
+        "choices": [
+          {
+            "id": "restart_roots",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_roots",
+          "title": "SITE IMPROVEMENT.",
+          "subtitle": "NEW UNDERGROUND FIXTURE APPROVED",
+          "description": "The roots finish sealing the service duct. Above you, the translator requests another buried fixture without bothering to ask its name.",
+          "artRef": "biology_park/site_improvement",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/site_improvement",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      },
+      "sabotage_tape_stalled": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "text": "You reroute the paper tape through its own feed guide. The reader begins accepting the same unfinished application repeatedly. New orders stop processing, though the roots already in the building continue growing.",
+        "choices": [
+          {
+            "id": "use_paper_delay",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "sabotage_window"
+          }
+        ]
+      },
+      "sabotage_staple_stalled": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "text": "The stapled tape runs in a perfect loop.\n\nREQUEST RECEIVED. REQUEST RECEIVED. REQUEST ALREADY RECEIVED. REQUEST RECEIVED.\n\nThe reader becomes too busy acknowledging its own paperwork to process another order.",
+        "choices": [
+          {
+            "id": "use_stapled_delay",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "sabotage_window"
+          }
+        ]
+      },
+      "sabotage_staple_alarm": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "text": "The metal join catches. The tape tears with a snap and a fault alarm erupts from the reader. A temporary halt leaves you seconds before the machinery clears itself.",
+        "choices": [
+          {
+            "id": "flee_staple_failure",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "sabotage_window"
+          }
+        ]
+      },
+      "sabotage_clicker_stalled": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "effects": {
+          "take": [
+            "timing_clicker"
+          ]
+        },
+        "text": "The timing clicker jams the feed rollers. The machine prints an apology and waits to be recalibrated. There is enough time to run.",
+        "choices": [
+          {
+            "id": "flee_clicker_jam",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "sabotage_window"
+          }
+        ]
+      },
+      "sabotage_rubber_stalled": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "effects": {
+          "take": [
+            "rubber_band_ball"
+          ]
+        },
+        "text": "The rubber-band ball is swallowed by the guide rollers. The reader tries three times to classify it as a document, then stops. The floor trembles as the plant continues growing.",
+        "choices": [
+          {
+            "id": "flee_rubber_jam",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "sabotage_window"
+          }
+        ]
+      }
+    }
+  },
+  "D": {
+    "key": "biology_park/planting_machine",
+    "record": {
+      "title": "PLANTING MACHINE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Automated planting arms above shallow soil bed and bureaucratic machine console. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "planting_active",
+    "nodes": {
+      "planting_active": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "text": "YOUR OBJECTION IS RECEIVED AND REJECTED. THANK YOU FOR YOUR CONTINUED PARTICIPATION.\n\nTwo mechanical arms pin your shoulders as a shallow planting bed rises beneath you. On a plaque: PERSONAL GROWTH AREA - ONE OCCUPANT.",
+        "choices": [
+          {
+            "id": "break_planting_restraints",
+            "kind": "action",
+            "text": "BREAK FREE BEFORE THE PLANTING CYCLE BEGINS.",
+            "check": {
+              "id": "ch2_planting_breakout",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "breakout_success"
+            },
+            "fail": {
+              "to": "breakout_failed"
+            }
+          },
+          {
+            "id": "invoke_existing_equipment_interlock",
+            "kind": "action",
+            "text": "DEMAND THE PROTECTIVE EQUIPMENT-HANDLING INTERLOCK.",
+            "if": {
+              "flag": "equipment_registered"
+            },
+            "to": "reclassification_success"
+          },
+          {
+            "id": "present_examiner_interlock",
+            "kind": "action",
+            "text": "PRESENT THE EXAMINER BADGE AS PROTECTED EXPOSITION EQUIPMENT.",
+            "if": {
+              "has": "expo_examiner_badge",
+              "notFlag": "equipment_registered"
+            },
+            "to": "reclassification_success"
+          },
+          {
+            "id": "file_stapled_equipment_form",
+            "kind": "action",
+            "text": "STAPLE THE REGISTRATION FORM INTO THE MACHINE AND SURRENDER THE STAPLER.",
+            "if": {
+              "has": "red_stapler"
+            },
+            "to": "reclassification_stapler"
+          },
+          {
+            "id": "invoke_director_emergency_override",
+            "kind": "action",
+            "text": "ACTIVATE THE ACTING DIRECTOR EMERGENCY MACHINE OVERRIDE.",
+            "if": {
+              "has": "acting_director_badge"
+            },
+            "to": "reclassification_success"
+          }
+        ]
+      },
+      "reclassification_success": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "emergency_reclassified"
+          }
+        },
+        "text": "The machinery stops. PROTECTED EQUIPMENT MUST NOT BE PLANTED. The restraints release while a new form requests instructions for storing the unplantable object.",
+        "choices": [
+          {
+            "id": "leave_when_planting_stops",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "public_exit_staging"
+          }
+        ]
+      },
+      "reclassification_stapler": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "effects": [
+          {
+            "take": [
+              "red_stapler"
+            ]
+          },
+          {
+            "set": {
+              "ch2_exit_route": "emergency_stapler_form"
+            }
+          }
+        ],
+        "text": "You staple the emergency equipment form into the intake. The machine registers the red Swangline as mandatory service hardware and seizes it. The paperwork is accepted. You are rejected for planting.",
+        "choices": [
+          {
+            "id": "leave_without_stapler",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "public_exit_staging"
+          }
+        ]
+      },
+      "breakout_success": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "planting_breakout"
+          }
+        },
+        "text": "You wrench a restraint loose and fall through a service grille as the planting bed rises to meet empty air. The machinery issues a warning about missing agricultural material.",
+        "choices": [
+          {
+            "id": "reach_irrigation_after_breakout",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "irrigation_hub"
+          }
+        ]
+      },
+      "breakout_failed": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "text": [
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "text": "The thorns beneath your skin have already begun to root. The machine detects suitable growth and lowers you into the soil. It has found a perfect fit."
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "text": "The harmless-looking green trace under your nail unfolds into roots as the machine lowers you. It congratulates itself on accelerating a cultivation already in progress."
+          },
+          {
+            "text": "The restraints hold, but a compatibility alarm rings. SUBJECT DOES NOT MEET MINIMUM GERMINATION REQUIREMENTS. The machinery opens a disposal hatch before it corrects its mistake."
+          }
+        ],
+        "choices": [
+          {
+            "id": "complete_infected_transformation",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "fatal_transformation",
+            "if": {
+              "flag": "thorn_infected"
+            }
+          },
+          {
+            "id": "complete_spore_transformation",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "fatal_transformation",
+            "if": {
+              "flag": "spore_infected",
+              "notFlag": "thorn_infected"
+            }
+          },
+          {
+            "id": "dive_into_incompatible_waste_chute",
+            "kind": "action",
+            "text": "DIVE THROUGH THE WASTE HATCH BEFORE THE MACHINE RECLASSIFIES YOU.",
+            "check": {
+              "id": "ch2_flower_waste_chute",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "waste_chute_escape"
+            },
+            "fail": {
+              "to": "fatal_planting"
+            },
+            "if": {
+              "flagIs": [
+                "botanical_infection_state",
+                "none"
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "set": {
+              "botanical_infection_state": "none"
+            }
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "set": {
+              "botanical_infection_state": "infected"
+            }
+          },
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "set": {
+              "botanical_infection_state": "infected"
+            }
+          }
+        ]
+      },
+      "fatal_transformation": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "end": true,
+        "text": "The automated planter finishes its work. Green growth stretches through your outline until there is no recognizable person left.\n\nCULTIVATION SUCCESSFUL.\n\nENDING - PERSONAL GROWTH.",
+        "choices": [
+          {
+            "id": "restart_flower_transformation",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_transformation",
+          "title": "PERSONAL GROWTH.",
+          "subtitle": "CULTIVATION SUCCESSFUL",
+          "description": "The Park has improved your relationship with nature considerably. There is no recognizable visitor left to dispute the result.",
+          "artRef": "biology_park/personal_growth",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/personal_growth",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      },
+      "fatal_planting": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "end": true,
+        "text": "The waste hatch snaps shut and the planting arms return. A label is printed and affixed neatly to the growing bed.\n\nENDING - RECLASSIFIED.",
+        "choices": [
+          {
+            "id": "restart_failed_waste",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_planting",
+          "title": "RECLASSIFIED.",
+          "subtitle": "PLANTING MATERIAL ACCEPTED",
+          "description": "You attempted to leave through the waste hatch. The planting system has found a more productive destination for you.",
+          "artRef": "biology_park/reclassified",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/reclassified",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      }
+    }
+  },
+  "E": {
+    "key": "biology_park/sorting_conveyor",
+    "record": {
+      "title": "SORTING CONVEYOR",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: sorting conveyor. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "gardener_jam_failure",
+    "nodes": {
+      "gardener_jam_failure": {
+        "mode": "narrative",
+        "scene": "biology_park/sorting_conveyor",
+        "text": "The stapler is crushed into a red metallic wafer. A runaway roller catches your clothing and launches you onto a conveyor marked ORGANIC MATERIAL SORTING. A compactor waits at its far end.",
+        "choices": [
+          {
+            "id": "grab_sorting_inspection_hatch",
+            "kind": "action",
+            "text": "JUMP FOR THE HIGH INSPECTION HATCH.",
+            "check": {
+              "id": "ch2_sorter_inspection_hatch",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "sorter_escape"
+            },
+            "fail": {
+              "to": "fatal_sorter"
+            }
+          }
+        ]
+      },
+      "fatal_sorter": {
+        "mode": "narrative",
+        "scene": "biology_park/sorting_conveyor",
+        "end": true,
+        "text": "The conveyor reaches the compactor. An indicator changes to MATERIAL PROCESSED. The groundskeeper records one efficient disposal and resumes creating forest.\n\nENDING - CLASSIFIED AS COMPOST.",
+        "choices": [
+          {
+            "id": "restart_sorter",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_sorter",
+          "title": "CLASSIFIED AS COMPOST.",
+          "subtitle": "MATERIAL PROCESSED",
+          "description": "The groundskeeper has converted your unsuccessful escape into a successful disposal. It records the improvement without requesting a signature.",
+          "artRef": "biology_park/classified_as_compost",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/classified_as_compost",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      }
+    }
+  },
+  "F": {
+    "key": "biology_park/planting_hopper",
+    "record": {
+      "title": "PLANTING HOPPER",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: planting hopper. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "hopper_escape",
+    "nodes": {
+      "hopper_escape": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_hopper",
+        "text": "The groundskeeper tips the hopper into a prepared planting pit. Soil begins packing around your shoulders. You fight your way into an irrigation trench before the next layer falls.\n\nBehind you, the machine records a fully planted specimen.",
+        "choices": [
+          {
+            "id": "climb_from_irrigation_trench",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "park_junction"
+          }
+        ]
+      },
+      "fatal_hopper": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_hopper",
+        "end": true,
+        "text": "The packing arms finish their work. A small commemorative marker rises beside the mound.\n\nPLANTED SUCCESSFULLY, the groundskeeper reports.\n\nENDING - NEW ARRIVAL.",
+        "choices": [
+          {
+            "id": "restart_hopper",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_hopper",
+          "title": "NEW ARRIVAL.",
+          "subtitle": "PLANTED SUCCESSFULLY",
+          "description": "The Park welcomes its newest addition. Your commemorative marker is installed before anyone notices the visitor is missing.",
+          "artRef": "biology_park/new_arrival",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/new_arrival",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      }
+    }
+  },
+  "G": {
+    "key": "biology_park/waste_chute",
+    "record": {
+      "title": "WASTE CHUTE",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: waste chute. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "waste_chute_escape",
+    "nodes": {
+      "waste_chute_escape": {
+        "mode": "narrative",
+        "scene": "biology_park/waste_chute",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "flower_waste_chute"
+          }
+        },
+        "text": "You dive into the disposal hatch before the planter realizes you are human again. The chute empties into a forgotten irrigation service passage beneath the greenhouse.",
+        "choices": [
+          {
+            "id": "emerge_from_flower_waste",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "irrigation_hub"
+          }
+        ]
+      }
+    }
+  }
+}

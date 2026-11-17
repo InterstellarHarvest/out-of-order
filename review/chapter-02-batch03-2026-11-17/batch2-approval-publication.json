@@ -1,0 +1,15 @@
+{
+  "approvedCommit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+  "canonicalPublicationCommit": "7079ce60ac29ed0c109b2d1e1b97abcec25a5b05",
+  "count": 7,
+  "allOwnerHashesMatchLivePublicCopies": true,
+  "status": "approved",
+  "productionPathsRemainNull": true,
+  "pages": {
+    "runId": 44122697968,
+    "url": "https://github.com/InterstellarHarvest/CYOA-storyboard/actions/runs/44122697968",
+    "conclusion": "success"
+  },
+  "newSelectedPreviewCount": 7,
+  "previousPreviewCountPreserved": 71
+}

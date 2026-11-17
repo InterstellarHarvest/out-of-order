@@ -1,0 +1,26 @@
+{
+  "passed": true,
+  "publicationBaseline": "19eaf8bb31a08c4e891f542a673fb5dd3b0c3d76",
+  "approvedCount": 7,
+  "originalSelectedPreviewsPreserved": 71,
+  "newSelectedPreviews": 7,
+  "allSevenOwnerHashesMatch": true,
+  "productionPathsRemainNull": true,
+  "notIntegrated": true,
+  "ledgerAppendOnly": true,
+  "staleQaSnapshotRefreshedFromUnmodifiedMain": true,
+  "checks": [
+    "check-canon",
+    "qa-smoke",
+    "death-export --check",
+    "prologue qa-static",
+    "qa-sync22guards"
+  ],
+  "allPreviousPngAndAuthoredChapterItemBytesPreserved": true,
+  "derivedArtifactsRefreshed": [
+    "tools/storyboard/qa-fixtures/legacy-render-snapshot.json",
+    "story/death-presentations.export.json"
+  ],
+  "derivedExportReason": "Existing canonical input19eaf8b had owner-approved Chapter3 popup changes not reflected in its generated export. Regenerated from current canonical inputs; no authored Chapter3, story or mechanics edits.",
+  "registrationCommit": "7079ce60ac29ed0c109b2d1e1b97abcec25a5b05"
+}
