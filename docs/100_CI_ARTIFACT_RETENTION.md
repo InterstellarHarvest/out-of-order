@@ -131,6 +131,13 @@ node tools/ci/prune-artifacts.js --class OWNER --ids <id>,<id> --apply
 - Deleted artifacts cannot be restored. Re-running QA on that commit makes a new one; under the old workflow, a re-run keeps it for 90 days again.
 - GitHub's usage page can take several hours to reflect deletions. Storage already accrued this month is not refunded.
 
+### Cleanup log
+
+- **2026-11-17: SAFE class deleted with owner authorisation.**
+  - Run: `prune-artifacts.js --class SAFE --apply`. 89 artifacts and 5.86 GB deleted; none skipped.
+  - Afterwards, every KEEP and OWNER artifact was confirmed still present.
+  - Live total afterwards: 52 artifacts, 4.18 GB. This includes this PR's validation artifacts; its 304 MB visual-review upload expires on 2026-11-18.
+
 ## 6. CYOA-storyboard (public, not billed)
 
 It was inspected, and no change was made: public-repository storage does not count against the allowance.
