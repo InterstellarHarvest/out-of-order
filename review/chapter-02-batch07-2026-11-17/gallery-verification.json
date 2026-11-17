@@ -137,5 +137,7 @@
   ],
   "chromeExitedAfterDomCapture": false,
   "screenshotExists": true,
-  "note": "Chrome may require timeout termination after producing complete successful DOM. Pixel assertions come from actual decoded image dimensions and exercised gallery controls."
+  "note": "Chrome may require timeout termination after producing complete successful DOM. Pixel assertions come from actual decoded image dimensions and exercised gallery controls.",
+  "finalLocalLinksVerified": true,
+  "finalMissingLinks": []
 }

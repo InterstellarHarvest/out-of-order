@@ -11,3 +11,9 @@ Source authority: canonical7c7a50a67d9fb48bad8e753cab90b706a3c1ddd7, art baselin
 Reproduce with Python3/Pillow: `python3 build_review.py`, then `python3 build_gallery.py` and `python3 verify_gallery.py`. Work only in this new review folder. Originals are immutable inputs; processing history preserves earlier normalization.
 
 Batch6 approval and exact seed-description correction are separately committed in canon. Batch7 candidates stay generated/unselected with null production paths. Only five Chapter2 death screens remain not-started. No gameplay integration or Batch8 generation.
+
+
+Owner confirmed the revised upright hypo direction: Yes, use this design across Batch 7. This confirms design direction; the nine final native candidates remain generated and await Art Director review.
+
+
+Immutable candidate commit: `7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e`. Canonical publication: `094d3b6eaf1525166bd3230fc1cdbf10af3c0443`. Final publication receipt verifies all100 selected public hashes and nine generated provenance records.

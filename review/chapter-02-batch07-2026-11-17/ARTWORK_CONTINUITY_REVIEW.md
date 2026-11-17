@@ -7,3 +7,6 @@ Three location group boards compare Focus, slot and independent detailed inspect
 Native review questions: folded tag marks and provenance colors are deliberately subtle at96px; slot variants can look nearly identical. The glass/metal and plunger silhouette carry identity. Inspectors retain more material modeling than slots. Minor pixel-level geometry differences across independent renders are visible in family comparisons. Fine residual surface speckling is still visible after64-color mapping, especially on the glass/liquid and some inspector backgrounds; this remains an explicit visual concern. These are visual-review considerations, not evidence of approval. Pixel QA proves contracts and preservation, not artistic acceptance.
 
 Targeted source edits reduced fine texture in early sources before the owner-driven silhouette revision. Current upright sources are normalized through the same64-paint no-dither pipeline. No original or approved image was repainted. A first C-v03 prompt produced an input-tool error and no image; the error and simpler sealed-prop prompt are preserved.
+
+
+Owner confirmed the revised upright hypo direction: Yes, use this design across Batch 7. This confirms design direction; the nine final native candidates remain generated and await Art Director review.

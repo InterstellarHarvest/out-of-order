@@ -29,7 +29,7 @@ const expected=['classified_as_compost','new_arrival','personal_growth','reclass
 assert.deepEqual(after.deathScreens,before.deathScreens);
 const previews=JSON.parse(fs.readFileSync(path.join(canon,'story/artwork-preview.json')));assert.equal(Object.keys(previews.images).length,100);
 for(const a of manifest.assets)assert(!previews.images[a.registryKey]);
-fs.writeFileSync(catalogFile,JSON.stringify(after,null,2)+'\n');
+fs.writeFileSync(catalogFile,JSON.stringify(after,null,2).replace(/[\u007f-\uffff]/g,c=>'\\u'+c.charCodeAt(0).toString(16).padStart(4,'0'))+'\n');
 fs.writeFileSync(path.join(ROOT,'remaining-queue.current.json'),JSON.stringify({chapter2NotStarted:remaining,batch7Generated:manifest.assets.map(a=>a.registryKey),batch8Started:false},null,2)+'\n');
 fs.mkdirSync(path.join(ROOT,'sources/publication'),{recursive:true});fs.copyFileSync(catalogFile,path.join(ROOT,'sources/publication/artwork.draft.json'));
 const changed=[];for(const[p,h]of Object.entries(baseline))if(sha(fs.readFileSync(path.join(canon,p)))!==h)changed.push(p);

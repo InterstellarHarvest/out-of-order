@@ -1,0 +1,25 @@
+{
+  "candidateSourceCommit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+  "canonicalPublicationBaseline": "066ea36c7c40c80e355770138546b22d0d9af2d1",
+  "changedCanonicalFiles": [
+    "story/artwork.draft.json"
+  ],
+  "allOtherTrackedCanonicalFilesPreserved": 221,
+  "selectedPreviewEntriesPreserved": 100,
+  "allCandidateProductionPathsNull": true,
+  "allCandidatesUnselected": true,
+  "allDeathScreenRecordsUnchanged": true,
+  "allChapterAndItemDescriptionBytesPreserved": true,
+  "allExistingFocusDimensionsPreserved": true,
+  "remainingChapter2NotStarted": [
+    "deathScreens:biology_park/classified_as_compost",
+    "deathScreens:biology_park/new_arrival",
+    "deathScreens:biology_park/personal_growth",
+    "deathScreens:biology_park/reclassified",
+    "deathScreens:biology_park/site_improvement"
+  ],
+  "noGameplayIntegration": true,
+  "canonicalPublicationCommit": "094d3b6eaf1525166bd3230fc1cdbf10af3c0443",
+  "concurrentChapter3UpdatePreserved": true,
+  "originalGenerationSourceCanonical": "7c7a50a67d9fb48bad8e753cab90b706a3c1ddd7"
+}
