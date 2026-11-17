@@ -423,9 +423,9 @@ function buildReport() {
     const canon = CONFIG.deathPresentations ? require(path.join(ROOT, CONFIG.deathPresentations.runtime)) : { entries: [] };
     if (!data || !Array.isArray(data.entries)) problems.push('game/content/end-presentations.review.js: no entries');
     else data.entries.forEach((r) => {
-      const c = canon.entries.find((x) => x.id === r.canonical);
-      if (!c) problems.push('end-presentations.review.js opts in ' + r.canonical + ', which the canonical death export does not have');
-      else if (c.art) add(c.art.path, 'death-screen', data.gate);
+      const list = r.canonical === '*' ? canon.entries : canon.entries.filter((x) => x.id === r.canonical);
+      if (!list.length) problems.push('end-presentations.review.js opts in ' + r.canonical + ', which the canonical death export does not have');
+      list.forEach((c) => { if (c.art) add(c.art.path, 'death-screen', data.activation === 'always' ? null : data.gate); });
     });
   }
   const seen = new Set();

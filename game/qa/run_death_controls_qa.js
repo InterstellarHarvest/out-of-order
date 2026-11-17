@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // RETRY / CHECKPOINT / EXIT in the real game (docs/96; owner rulings on PR #11), Chromium and
-// Firefox, 1920x1080, review gate on (?deathproof). Saves come from real tracked playthroughs
+// Firefox, 1920x1080, in ORDINARY play (docs/99: death popups appear when a death occurs;
+// ?nodeathpopups is the off switch used for the compatibility scenarios). Saves come from real tracked playthroughs
 // (game/qa/tracked_routes.js: the same Rules.trackPoints the gated game runs). Every expected
 // state is computed independently in Node with Rules, and compared with the game's own state, its
 // autosave and the screen.
@@ -30,6 +31,7 @@ const ROOT = path.resolve(__dirname, '../..');
 const Rules = require('../js/rules.js');
 const story = require('../content/story.generated.js').story;
 const T = require('./tracked_routes.js');
+const R2 = require('./ch02_routes.js');
 let pw;
 try { pw = createRequire(__filename)('playwright'); } catch (_) { console.error('Playwright required; set NODE_PATH to its installation directory'); process.exit(2); }
 const OUT = path.join(__dirname, 'death_controls_screenshots');
@@ -108,7 +110,7 @@ async function run(name, base) {
   {
     const t = T.tracked(story, null, 3).steps(T.CHAIR);
     const pre = t.state;
-    await scenario('retry', t.save(), '?deathproof', async (page, C) => {
+    await scenario('retry', t.save(), '', async (page, C) => {
       await take(page, 'accept_permanent_rest');
       let L = await live(page);
       C('voluntary death opens the presentation with RETRY and CHECKPOINT available, EXIT unavailable', L.open && L.controls.join() === 'RETRY:true,CHECKPOINT:true,EXIT:false', L.controls);
@@ -142,7 +144,7 @@ async function run(name, base) {
           : (L.node === 'chapter-01:' + want.node && !L.open), { node: L.node, want: want.node, open: L.open });
     });
     // Dying voluntarily again after a RETRY presents again (a new attempt is a new ending).
-    await scenario('retry_twice', t.save(), '?deathproof', async (page, C) => {
+    await scenario('retry_twice', t.save(), '', async (page, C) => {
       await take(page, 'accept_permanent_rest');
       await click(page, 0);
       await settle(page);
@@ -160,7 +162,7 @@ async function run(name, base) {
   {
     const t = T.tracked(story, 'red_stapler', 3).steps(T.STAPLER_CHAIR);
     const entry = t.points.checkpoint.state;
-    await scenario('checkpoint', t.save(), '?deathproof', async (page, C) => {
+    await scenario('checkpoint', t.save(), '', async (page, C) => {
       await take(page, 'accept_permanent_rest');
       await shot(page, '03_before_checkpoint');
       await click(page, 1);
@@ -200,7 +202,7 @@ async function run(name, base) {
     };
     const ts = failing('red_stapler', T.STAPLER_CHAIR, 'stapler_breakout', 'house_chair_stapler');
     const pre = ts.state;
-    await scenario('stapler_failed_retry', ts.save(), '?deathproof', async (page, C) => {
+    await scenario('stapler_failed_retry', ts.save(), '', async (page, C) => {
       await take(page, 'stapler_breakout');
       let L = await live(page);
       const cause = L.log.filter((x) => x.t === 'open')[0];
@@ -228,7 +230,7 @@ async function run(name, base) {
     });
     const tu = failing(null, T.CHAIR, 'physical_chair_breakout', 'house_chair_unarmed');
     const entry = tu.points.checkpoint.state;
-    await scenario('unarmed_failed_checkpoint', tu.save(), '?deathproof', async (page, C) => {
+    await scenario('unarmed_failed_checkpoint', tu.save(), '', async (page, C) => {
       await take(page, 'physical_chair_breakout');
       let L = await live(page);
       const cause = L.log.filter((x) => x.t === 'open')[0];
@@ -246,10 +248,37 @@ async function run(name, base) {
     });
   }
 
+  // 2c. Chapter 2 death in ordinary play: its popup opens with an EMPTY picture frame (art not selected
+  // yet, docs/99); CHECKPOINT returns to the Chapter 2 entry with the whole House state. ------------------
+  {
+    const route = R2.ROUTES.find((r) => r.name === 'hopper_fatal');
+    const f = R2.findSeed(story, route, 4000);
+    const pre = R2.stepAll(story, f.entry, route.steps.slice(0, -1));
+    // The save the game writes in ordinary play at this point: its chapter-entry point is the very
+    // Chapter 2 entry state (Rules.trackPoints records exactly { chapter, state, cursor }).
+    const points = { checkpoint: { chapter: 'chapter-02', state: f.entry, cursor: { presented: f.entry.presentFrom } }, retry: null };
+    await scenario('ch2_hopper_fatal', Rules.serialize(story, pre, { presented: pre.transcript.length, points }), '', async (page, C) => {
+      await take(page, route.steps[route.steps.length - 1]);
+      let L = await live(page);
+      const dom = await page.evaluate(() => ({ art: document.getElementById('endPresentation').dataset.art, img: !!document.getElementById('endArt'), entry: document.getElementById('endPresentation').dataset.entry,
+        title: document.getElementById('endTitle').dataset.text, overflow: document.getElementById('endPresentation').dataset.textOverflow }));
+      const canon = require('../content/death-presentations.generated.js').entries.find((e) => e.id === 'chapter-02:fatal_hopper');
+      C('Chapter 2 hopper death: its own canonical popup opens in ordinary play; picture frame empty (art pending, nothing drawn); text fits', L.open && L.node === 'chapter-02:fatal_hopper'
+        && dom.entry === canon.id && dom.title === canon.title && dom.art === 'pending' && !dom.img && dom.overflow === 'false', dom);
+      C('Chapter 2 death: RETRY and CHECKPOINT available, EXIT unavailable', L.controls.join() === 'RETRY:true,CHECKPOINT:true,EXIT:false', L.controls);
+      await shot(page, '08_ch2_hopper_popup');
+      await click(page, 1);
+      await settle(page);
+      L = await live(page);
+      C('CHECKPOINT: the exact Chapter 2 entry (House inventory, flags, checks and NOTES kept) in attempt 1', !L.open && L.node === 'chapter-02:' + f.entry.node
+        && J(strip(L.state)) === J(f.entry) && L.state.attempt === 1, L.node);
+    });
+  }
+
   // 3. EXIT ------------------------------------------------------------------------------------------------
   {
     const t = T.tracked(story, null, 4).steps(T.CHAIR);
-    await scenario('exit', t.save(), '?deathproof', async (page, C) => {
+    await scenario('exit', t.save(), '', async (page, C) => {
       await take(page, 'accept_permanent_rest');
       const before = await live(page);
       const ink = await page.evaluate(() => { const c = document.getElementById('endControlLabel2'); const d = c.getContext('2d').getImageData(0, 0, c.width, c.height).data; const set = new Set(); for (let i = 0; i < d.length; i += 4) if (d[i + 3]) set.add([d[i], d[i + 1], d[i + 2]].join()); return [...set]; });
@@ -259,7 +288,7 @@ async function run(name, base) {
       const after = await live(page);
       const msg = await page.evaluate(() => document.getElementById('endNotice').getAttribute('aria-label'));
       C('activating EXIT only explains it (no menu, no URL change, no restart, no save change)', /MAIN MENU, WHICH DOES NOT EXIST YET/.test(msg) && after.open && J(after.state) === J(before.state)
-        && after.save === before.save && page.url().endsWith('/game/index.html?deathproof'), msg);
+        && after.save === before.save && page.url().endsWith('/game/index.html'), msg);
       await shot(page, '05_exit_unavailable');
     });
   }
@@ -269,7 +298,7 @@ async function run(name, base) {
     // An old save (written before this change: no points, no attempt) at the chair.
     const s = T.tracked(story, null, 5).steps(T.CHAIR).state;
     const old = Rules.serialize(story, s, { presented: s.transcript.length });
-    await scenario('old_save_gate_on', old, '?deathproof', async (page, C) => {
+    await scenario('old_save_gate_on', old, '', async (page, C) => {
       let L = await live(page);
       C('an old save loads unchanged with the gate on', L.saveFlag === 'restored' && J(L.state) === J(s));
       await take(page, 'accept_permanent_rest');
@@ -286,7 +315,7 @@ async function run(name, base) {
     const t = T.tracked(story, null, 6).steps(T.CHAIR);
     t.step('accept_permanent_rest');
     t.restore('retry');
-    await scenario('tracked_save_gate_off', t.save(), '', async (page, C) => {
+    await scenario('tracked_save_popups_off', t.save(), '?nodeathpopups', async (page, C) => {
       let L = await live(page);
       C('a tracked save (points + attempt 1) loads with the gate off, unchanged', L.saveFlag === 'restored' && J(L.state) === J(t.state) && L.state.attempt === 1);
       await take(page, 'accept_permanent_rest');
@@ -301,12 +330,23 @@ async function run(name, base) {
   // 5. Gate off from a fresh game: no tracking, ordinary saves. -------------------------------------------
   {
     const s = T.tracked(story, null, 8).steps(T.CHAIR).state;
-    await scenario('gate_off_fresh', Rules.serialize(story, s, { presented: s.transcript.length }), '', async (page, C) => {
+    await scenario('popups_off_fresh', Rules.serialize(story, s, { presented: s.transcript.length }), '?nodeathpopups', async (page, C) => {
       await take(page, 'accept_permanent_rest');
       const L = await live(page);
       C('gate off: no tracking at all: the save has no points and no attempt', !/"points"/.test(L.save) && !/"attempt"/.test(L.save) && !L.open);
       const restored = await page.evaluate(() => window.CYOA_GAME.flow.restoreAvailable('retry') || window.CYOA_GAME.flow.restoreAvailable('checkpoint') || window.CYOA_GAME.flow.restore('retry'));
       C('gate off: restore is not available at all', restored === false);
+    });
+  }
+  // 6. Ordinary play from an old save: restore points are tracked without any URL switch. ---------------
+  {
+    const s = T.tracked(story, null, 9).steps(T.CHAIR).state;
+    await scenario('ordinary_tracking', Rules.serialize(story, s, { presented: s.transcript.length }), '', async (page, C) => {
+      await take(page, 'accept_permanent_rest');
+      const L = await live(page);
+      const env = JSON.parse(L.save);
+      C('ordinary URL: the death popup opens and the autosave now carries restore points (RETRY = the fatal decision)', L.open && env.points && env.points.retry
+        && env.points.retry.at === 'chapter-01:chair_locked' && L.controls.join() === 'RETRY:true,CHECKPOINT:false,EXIT:false', L.controls);
     });
   }
   await context.close();

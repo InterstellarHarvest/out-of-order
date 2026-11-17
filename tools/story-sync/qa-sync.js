@@ -174,8 +174,9 @@ try {
   const paths = new Set(rep.images.map((i) => i.path));
   assert.ok(build.art.every((a) => paths.has(a.path)), 'every build image is reported');
   assert.ok(rep.images.every((i) => /^[a-zA-Z]+:/.test(i.key) && /^[0-9a-f]{64}$/.test(i.sha256)));
-  assert.ok(rep.images.some((i) => i.gate === 'deathproof' && /^deathScreens:/.test(i.key)), 'review-gated death art is reported');
-  ok('integration report covers every build image + gated end-presentation art');
+  // docs/99: death popups run in ordinary play, so the death art is reported as used, with no gate tag.
+  assert.ok(rep.images.some((i) => i.key === 'deathScreens:house_of_tomorrow/rest_assured' && i.gate === undefined && /^[0-9a-f]{64}$/.test(i.sha256)), 'ordinary-play death art is reported, ungated');
+  ok('integration report covers every build image + the death art used in ordinary play');
 
   console.log(JSON.stringify({ result: 'PASS', checks: results.length, results }, null, 1));
 } finally {

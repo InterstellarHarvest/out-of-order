@@ -1,39 +1,45 @@
-// GAME-OWNED REVIEW CONFIGURATION for ending presentations (docs/94, docs/96, docs/98). Read by
+// GAME-OWNED CONFIGURATION for ending presentations (docs/94, docs/96, docs/98, docs/99). Read by
 // js/end-presentation.js, which is generic: it knows no chapter, node, choice, art path or prose.
 //
 // What the popup SAYS and SHOWS is not here. Title, subtitle, narrative, artwork and the ending it
 // belongs to come from the canonical storyboard: content/death-presentations.generated.js, compiled
 // by tools/story-sync/sync.js from the pinned public story/death-presentations.export.json (public
 // docs/104). This file only opts canonical entries into the review build and holds what the game
-// owns: the gate, the approved A1 geometry and palette, the RETRY / CHECKPOINT / EXIT controls,
-// the review notice, the frozen-backdrop effect and the typography fallbacks of the game's faces.
+// owns: activation, the approved A1 geometry and palette, the RETRY / CHECKPOINT / EXIT controls,
+// the frozen-backdrop effect and the typography fallbacks of the game's faces.
 //
-// An opted-in entry opens at its canonical ending whatever the cause (owner ruling, public docs/104:
-// the voluntary Rest Assured treatment, the failed stapler escape and the failed bare-handed escape
-// share ONE popup and ONE approved illustration). The real cause (Rules.endCause: choice, check,
-// outcome) is still what RETRY and CHECKPOINT restore from (docs/96). An entry whose canonical art
-// is not selected never opens (no unproduced art is ever displayed).
+// canonical: '*' opts in EVERY canonical death entry of the consumed chapters, so a death added to
+// the storyboard gets its popup with the next pull. An entry opens at its canonical ending whatever
+// the cause (owner ruling, public docs/104: the voluntary Rest Assured treatment, the failed stapler
+// escape and the failed bare-handed escape share ONE popup and ONE approved illustration). The real
+// cause (Rules.endCause: choice, check, outcome) is still what RETRY and CHECKPOINT restore from
+// (docs/96). Owner ruling 2026-11-17 (docs/99): an entry whose art is not selected yet (Chapter 2)
+// still opens, with its picture frame left EMPTY; no placeholder or unselected art is ever drawn,
+// and the selected image appears there once the storyboard records it.
 //
-// Owner status: the VISUAL DESIGN is locked (docs/93). The canonical copy is a DRAFT
-// (popupStatus approved-art-copy-draft, readyForGameplay false): the whole facility stays OFF unless
-// the page is opened with ?<gate> (here ?deathproof); ordinary play keeps the authored ending and its
-// BEGIN AGAIN card exactly as before. Control labels, positions and destinations are locked by the
-// owner rulings on PR #11 (2026-11-16).
+// Owner ruling 2026-11-17 (docs/99): death popups appear when a death occurs, in ordinary play
+// (activation: always). The canonical copy is still marked a draft in the storyboard and is shown as
+// it stands; wording changes are made in the storyboard and arrive with the next pull. ?<disableWith>
+// (here ?nodeathpopups) turns the facility off for QA comparison with the authored ending. The VISUAL
+// DESIGN is locked (docs/93); control labels, positions and destinations are locked by the owner
+// rulings on PR #11 (2026-11-16).
 (function (root) {
   'use strict';
   var DATA = {
-    schema: 'cyoa-end-presentations-review-v2',
-    gate: 'deathproof',
+    schema: 'cyoa-end-presentations-v3',
+    activation: 'always',
+    disableWith: 'nodeathpopups',
     entries: [{
-      // The canonical death-popup entry this presentation renders (its `when`, copy and art).
-      canonical: 'chapter-01:exit_chair_fatal',
+      // Which canonical death-popup entries this presentation renders ('*' = all of them).
+      canonical: '*',
       status: 'review-proof',
       controls: [
         { label: 'RETRY', action: 'retry', unavailable: 'RETRY UNAVAILABLE - NO SAVED STATE BEFORE THIS DECISION' },
         { label: 'CHECKPOINT', action: 'checkpoint', unavailable: 'CHECKPOINT UNAVAILABLE - NO CHAPTER-ENTRY SNAPSHOT' },
         { label: 'EXIT', action: null, unavailable: 'EXIT LEADS TO THE MAIN MENU, WHICH DOES NOT EXIST YET' }
       ],
-      notice: 'REVIEW BUILD - RETRY AND CHECKPOINT ARE LIVE - EXIT AWAITS THE MAIN MENU - ESC CLOSES',
+      // No standing banner in ordinary play: the notice plate appears only to explain an unavailable control.
+      notice: null,
       // The frozen backdrop: the real game frame in hard blocks, each RGB channel multiplied.
       backdrop: { block: 10, multiply: 0.35 },
       // The approved A1 composition at canonical 1920x1080 stage coordinates (the study's lab

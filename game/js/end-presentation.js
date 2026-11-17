@@ -44,17 +44,26 @@
   var CANON = window.CYOA_DEATH_PRESENTATIONS || { entries: [] };
   var FALLBACK = CONFIG.glyphFallback || {};
   var skipped = []; // opted-in entries that cannot be shown, and why (QA, review)
-  // Each opted-in review entry with its canonical copy and art. Nothing story-authored is kept here.
-  var DATA = { gate: CONFIG.gate, entries: (CONFIG.entries || []).map(function (r) {
-    var c = (CANON.entries || []).filter(function (x) { return x.id === r.canonical; })[0];
-    if (!c) { skipped.push({ id: r.canonical, why: 'no canonical entry' }); return null; }
-    if (!c.art) { skipped.push({ id: r.canonical, why: 'canonical art not selected (' + c.artStatus + ')' }); return null; }
-    return Object.assign({}, r, { id: c.id, when: c.when, title: c.title, subtitle: c.subtitle, body: c.body, art: c.art,
+  // Each opted-in config entry with its canonical copy and art (canonical '*' = every canonical
+  // entry). Nothing story-authored is kept here. art null = not selected yet: the popup still opens,
+  // its picture frame left empty (owner ruling 2026-11-17, docs/99); nothing else is ever drawn there.
+  var merge = function (r, c) {
+    return Object.assign({}, r, { id: c.id, when: c.when, title: c.title, subtitle: c.subtitle, body: c.body, art: c.art || null, artStatus: c.artStatus,
       copyStatus: c.popupStatus, readyForGameplay: c.readyForGameplay, revision: CANON.storyboard ? CANON.storyboard.revision : null });
-  }).filter(Boolean) };
+  };
+  var DATA = { entries: [] };
+  (CONFIG.entries || []).forEach(function (r) {
+    if (r.canonical === '*') { (CANON.entries || []).forEach(function (c) { DATA.entries.push(merge(r, c)); }); return; }
+    var c = (CANON.entries || []).filter(function (x) { return x.id === r.canonical; })[0];
+    if (!c) skipped.push({ id: r.canonical, why: 'no canonical entry' });
+    else DATA.entries.push(merge(r, c));
+  });
   var W = 1920;
   var H = 1080;
-  var enabled = !!DATA.gate && new RegExp('[?&]' + DATA.gate + '(=|&|$)').test(location.search);
+  // On in ordinary play when the config says so (owner ruling 2026-11-17, docs/99); ?<disableWith>
+  // turns it off (QA comparison with the authored ending). A config with only a `gate` stays opt-in.
+  var param = function (name) { return !!name && new RegExp('[?&]' + name + '(=|&|$)').test(location.search); };
+  var enabled = CONFIG.activation === 'always' ? !param(CONFIG.disableWith) : param(CONFIG.gate);
   var open = null; // { entry, root, buttons, before, key, keyHandler }
   var shownFor = {}; // state step key -> true: an ending opens its presentation once per page
   var log = []; // QA: what opened and closed, and why
@@ -74,7 +83,7 @@
   // Images to decode at boot when the gate is on (js/main.js): drawn the instant an ending opens.
   function bootImages() {
     if (!enabled) return [];
-    return DATA.entries.map(function (e) { return { name: artKey(e), url: G.url(e.art.path) }; });
+    return DATA.entries.filter(function (e) { return e.art; }).map(function (e) { return { name: artKey(e), url: G.url(e.art.path) }; });
   }
 
   // Drawing ---------------------------------------------------------------------------------------
@@ -223,18 +232,22 @@
       rect(ctx, bx + K.shadow, K.y + K.shadow, K.w, K.h, C.controlShadow); rect(ctx, bx, K.y, K.w, K.h, C.controlEdge);
       rect(ctx, bx + 4, K.y + 4, K.w - 8, K.h - 8, C.controlFace); rect(ctx, bx + 8, K.y + 8, K.w - 16, 4, C.controlHighlight);
     });
-    // The art: the decoded native image itself, at its exact integer scale.
-    var img = G.image(artKey(e));
-    if (!img || !img.complete || img.naturalWidth !== e.art.size[0] || img.naturalHeight !== e.art.size[1]) throw new Error('End art not decoded at its native size: ' + e.art.path);
-    var art = img.cloneNode(false);
-    art.id = 'endArt';
-    art.alt = '';
-    art.setAttribute('aria-hidden', 'true');
-    art.className = 'sprite-abs';
-    art.width = e.art.size[0] * e.art.scale;
-    art.height = e.art.size[1] * e.art.scale;
-    place(art, L.art[0], L.art[1], art.width, art.height);
-    root.appendChild(art);
+    // The art: the decoded native image itself, at its exact integer scale. Not selected yet: the
+    // frame and mat stay empty (no placeholder, no unselected art).
+    root.dataset.art = e.art ? 'selected' : 'pending';
+    if (e.art) {
+      var img = G.image(artKey(e));
+      if (!img || !img.complete || img.naturalWidth !== e.art.size[0] || img.naturalHeight !== e.art.size[1]) throw new Error('End art not decoded at its native size: ' + e.art.path);
+      var art = img.cloneNode(false);
+      art.id = 'endArt';
+      art.alt = '';
+      art.setAttribute('aria-hidden', 'true');
+      art.className = 'sprite-abs';
+      art.width = e.art.size[0] * e.art.scale;
+      art.height = e.art.size[1] * e.art.scale;
+      place(art, L.art[0], L.art[1], art.width, art.height);
+      root.appendChild(art);
+    }
     // Title and body: independent text canvases in the game's faces.
     var T = L.title;
     var tw = measure(e.title, T.role, T.scale);
@@ -279,16 +292,23 @@
       btn.addEventListener('click', function () { activate(i); });
       return btn;
     });
-    // The review notice, on the backdrop above the popup (never inside the approved composition).
+    // The notice plate, on the backdrop above the popup (never inside the approved composition). It
+    // shows a standing notice only when the config has one; otherwise it stays hidden until a control
+    // needs explaining (note()).
     var N = L.notice;
-    var nw = measure(e.notice, N.role, N.scale);
-    var lh = face(N.role).lineHeight * N.scale;
     var plate = el('div', { id: 'endNotice', role: 'status', 'aria-live': 'polite' }, root);
-    place(plate, N.x, N.y, nw + 20, lh + 16);
     plate.style.background = C.noticePlate;
-    var nt = textCanvas('endNoticeText', plate, 10, 8, nw, lh, [{ text: e.notice, x: 0, y: 0 }], N.role, N.scale, C.noticeInk);
-    nt.style.pointerEvents = 'none';
-    plate.setAttribute('aria-label', e.notice);
+    if (e.notice) {
+      var nw = measure(e.notice, N.role, N.scale);
+      var lh = face(N.role).lineHeight * N.scale;
+      place(plate, N.x, N.y, nw + 20, lh + 16);
+      textCanvas('endNoticeText', plate, 10, 8, nw, lh, [{ text: e.notice, x: 0, y: 0 }], N.role, N.scale, C.noticeInk).style.pointerEvents = 'none';
+      plate.setAttribute('aria-label', e.notice);
+    } else {
+      place(plate, N.x, N.y, 0, 0);
+      plate.hidden = true;
+      plate.setAttribute('aria-label', '');
+    }
     return buttons;
   }
 
@@ -312,6 +332,7 @@
     var nw = measure(msg, N.role, N.scale);
     var lh = face(N.role).lineHeight * N.scale;
     plate.textContent = '';
+    plate.hidden = false;
     place(plate, N.x, N.y, nw + 20, lh + 16);
     textCanvas('endNoticeText', plate, 10, 8, nw, lh, [{ text: msg, x: 0, y: 0 }], N.role, N.scale, open.entry.palette.noticeInk).style.pointerEvents = 'none';
     plate.setAttribute('aria-label', msg);

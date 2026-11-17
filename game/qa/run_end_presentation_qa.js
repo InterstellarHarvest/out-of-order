@@ -1,7 +1,9 @@
 #!/usr/bin/env node
-// Rest Assured death presentation: feature-gated review proof (docs/94; death brief docs/93 @
-// 8301daa), rendering the CANONICAL storyboard popup (docs/98; public docs/104: one shared popup and
-// illustration for all three causes). Real game, Chromium and Firefox, 1920x1080 at device scale 1.
+// Death popups (docs/94 design, docs/98 canonical data, docs/99 ordinary play): the CANONICAL
+// storyboard popup appears when a death occurs (owner ruling 2026-11-17; ?nodeathpopups turns it off
+// for comparison). Rest Assured: one shared popup and illustration for all three causes (public
+// docs/104); Chapter 2 deaths: their popups with an empty picture frame until their art is selected.
+// Real game, Chromium and Firefox, 1920x1080 at device scale 1.
 //
 // Every scenario starts from a real Prologue playthrough (game/qa/ch02_routes.js) saved at the
 // Rest Assured chair, then takes the real choice in the production UI. Measured from real
@@ -13,7 +15,7 @@
 //     it): every popup pixel identical except the title row, the control label faces and the text
 //     column, which now carries the canonical draft copy (subtitle + one-paragraph narrative): its
 //     difference is measured and reported for owner review;
-//   - backdrop: the real ending frame (the same state with the gate off) in 10x10 blocks, each block
+//   - backdrop: the real ending frame (the same state with ?nodeathpopups) in 10x10 blocks, each block
 //     uniform and equal to that frame's block-centre pixel x 0.35; the capture itself against the
 //     real screenshot;
 //   - freeze and isolation: frames stable, no input/focus/keyboard reaches the game, Tab stays on
@@ -24,7 +26,7 @@
 //   - cause selection: the voluntary choice, the failed stapler check and the failed unarmed check
 //     all open the SAME canonical popup (pixel-identical popup region) while the real cause (choice,
 //     check id, ok:false) is kept; a successful escape, other endings (incl. Chapter 2 fatal endings,
-//     whose art is unproduced) and the gate-off game (also for a failed cause) do not.
+//     opens their own art-pending popup) and the ?nodeathpopups game (also for a failed cause) do not.
 // Writes game/qa/end_presentation_results.json and game/qa/end_presentation_screenshots/ (not
 // committed; CI keeps them as an artifact).
 'use strict';
@@ -43,9 +45,9 @@ const DATA = require('../content/end-presentations.review.js');
 const CANON = require('../content/death-presentations.generated.js');
 const EXPORT = JSON.parse(fs.readFileSync(path.join(ROOT, 'story/death-presentations.export.json'), 'utf8'));
 // The opted-in entry as the runtime merges it (js/end-presentation.js): game-owned config + canonical copy and art.
-const merged = (r) => { const c = CANON.entries.find((x) => x.id === r.canonical); return c && c.art ? Object.assign({}, r, { id: c.id, when: c.when, title: c.title, subtitle: c.subtitle, body: c.body, art: c.art }) : null; };
-const ENTRIES = DATA.entries.map(merged).filter(Boolean);
-const ENTRY = ENTRIES[0];
+const mergeOne = (r, c) => Object.assign({}, r, { id: c.id, when: c.when, title: c.title, subtitle: c.subtitle, body: c.body, art: c.art || null });
+const ENTRIES = [].concat(...DATA.entries.map((r) => (r.canonical === '*' ? CANON.entries : CANON.entries.filter((c) => c.id === r.canonical)).map((c) => mergeOne(r, c))));
+const ENTRY = ENTRIES.find((e) => e.id === 'chapter-01:exit_chair_fatal');
 const DASH = (t) => t.replace(/[\u2014\u2013]/g, '-');
 const OUT = path.join(__dirname, 'end_presentation_screenshots');
 fs.mkdirSync(OUT, { recursive: true });
@@ -147,7 +149,7 @@ async function run(name, base) {
   await A.run(new Function(PIXEL_LIB));
   const M = (measures[name] = {});
 
-  async function game(id, save, gate, fn) {
+  async function game(id, save, on, fn) {
     const page = await context.newPage();
     const errors = [];
     page.on('pageerror', (e) => errors.push(String(e)));
@@ -157,7 +159,7 @@ async function run(name, base) {
     try {
       await page.goto(base + '/story/storyboard-manifest.json');
       await page.evaluate(([k, raw]) => localStorage.setItem(k, raw), [SAVE_KEY, save]);
-      await page.goto(base + '/game/index.html' + (gate ? '?deathproof' : ''));
+      await page.goto(base + '/game/index.html' + (on ? '' : '?nodeathpopups')); // ordinary URL = popups on
       await page.waitForFunction(() => document.body.dataset.ready === 'true', null, { timeout: 30000 });
       await settle(page);
       await fn(page, C);
@@ -176,15 +178,15 @@ async function run(name, base) {
     await take(page, 'accept_permanent_rest');
     const s = await page.evaluate(() => ({ node: document.body.dataset.node, cards: window.CYOA_GAME.ui.cards.map((c) => c.id + ':' + c.kind), open: !!document.body.dataset.endPresentation, el: !!document.getElementById('endPresentation'),
       enabled: window.CYOA_GAME.endPresentation.enabled, art: !!window.CYOA_GAME.image('end:chapter-01:exit_chair_fatal') }));
-    C('gate off (default): the authored fatal ending with only BEGIN AGAIN, no presentation, its art not even decoded',
+    C('?nodeathpopups: the authored fatal ending with only BEGIN AGAIN, no presentation, its art not even decoded',
       s.node === 'chapter-01:exit_chair_fatal' && s.cards.join() === 'restart_chair_death:system' && !s.open && !s.el && s.enabled === false && !s.art, s);
     endingFrame = await shot(page, '00_gate_off_ending');
     const st = await page.evaluate(() => JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
     const want = Rules.step(story, before, { choice: 'accept_permanent_rest' }).state;
-    C('gate off: state equals the pure rules step (flags, inventory, checks, seed)', JSON.stringify([st.flags, st.inventory, st.checks, st.seed, st.node]) === JSON.stringify([want.flags, want.inventory, want.checks, want.seed, want.node]));
+    C('?nodeathpopups: state equals the pure rules step (flags, inventory, checks, seed)', JSON.stringify([st.flags, st.inventory, st.checks, st.seed, st.node]) === JSON.stringify([want.flags, want.inventory, want.checks, want.seed, want.node]));
     await take(page, 'restart_chair_death');
     const r = await page.evaluate(() => ({ node: document.body.dataset.node, inv: window.CYOA_GAME.state.inventory }));
-    C('gate off: BEGIN AGAIN restarts at the Prologue start as before', /^prologue-00:/.test(r.node) && r.inv.length === 0, r);
+    C('?nodeathpopups: BEGIN AGAIN restarts at the Prologue start as before', /^prologue-00:/.test(r.node) && r.inv.length === 0, r);
   });
 
   // 2. Gate ON, voluntary: the proof. ---------------------------------------------------------------
@@ -209,7 +211,7 @@ async function run(name, base) {
         subtitle: q('endSubtitle').dataset.text, subtitleRendered: q('endSubtitle').dataset.rendered, subtitleBox: r('endSubtitle'), bodyBox: r('endBody'), titleRendered: q('endTitle').dataset.rendered,
         textBottom: +root.dataset.textBottom, textOverflow: root.dataset.textOverflow, copyStatus: root.dataset.copyStatus, revision: root.dataset.revision, entry: root.dataset.entry,
         titleTag: q('endTitle').tagName, bodyTag: q('endBody').tagName, controls: [0, 1, 2].map((i) => ({ r: r('endControl' + i), label: q('endControl' + i).dataset.label, aria: q('endControl' + i).getAttribute('aria-label'), disabled: q('endControl' + i).getAttribute('aria-disabled') })),
-        notice: q('endNotice').getAttribute('aria-label'), method: q('endBackdrop').dataset.method, capture: JSON.parse(q('endPresentation').dataset.capture),
+        notice: q('endNotice').getAttribute('aria-label'), noticeHidden: q('endNotice').hidden, method: q('endBackdrop').dataset.method, capture: JSON.parse(q('endPresentation').dataset.capture),
         rendering: getComputedStyle(art).imageRendering, top: document.getElementById('stage').lastElementChild.id,
         inert: Array.from(document.getElementById('stage').children).filter((n) => n.id !== 'endPresentation').every((n) => n.inert), focus: document.activeElement && document.activeElement.closest('#endPresentation') ? document.activeElement.id : 'outside' };
     });
@@ -227,7 +229,8 @@ async function run(name, base) {
       && dom.bodyBox[0] === 972 && dom.bodyBox[1] > dom.subtitleBox[1] + dom.subtitleBox[3] && dom.textOverflow === 'false' && dom.textBottom <= 615, [dom.subtitleBox, dom.bodyBox, dom.textBottom]);
     C('the owner-locked controls at the approved footprints: RETRY and CHECKPOINT available, EXIT unavailable (main menu pending)', dom.controls.map((c) => c.r.join()).join('|') === '570,669,240,62|840,669,240,62|1110,669,240,62'
       && dom.controls.map((c) => c.label + ':' + c.disabled).join() === 'RETRY:false,CHECKPOINT:false,EXIT:true' && /MAIN MENU, WHICH DOES NOT EXIST YET/.test(dom.controls[2].aria)
-      && /RETRY AND CHECKPOINT ARE LIVE - EXIT AWAITS THE MAIN MENU/.test(dom.notice), dom.controls);
+      && dom.notice === '' && dom.noticeHidden, dom.controls);
+    C('ordinary play: no review banner (the notice plate is hidden until a control needs explaining)', dom.notice === '' && dom.noticeHidden, dom);
     C('topmost layer of the stage; everything beneath inert; focus inside the dialog', dom.top === 'endPresentation' && dom.inert && dom.focus !== 'outside', dom);
     C('backdrop computed exactly from readable captured pixels (images, canvases, fills)', dom.method === 'exact' && dom.capture.images >= 15 && dom.capture.canvases >= 5, dom.capture);
 
@@ -453,7 +456,7 @@ async function run(name, base) {
   await game('stapler_failed_gate_off', stapler.save, false, async (page, C) => {
     await take(page, 'stapler_breakout');
     const s = await page.evaluate(() => ({ node: document.body.dataset.node, open: !!document.body.dataset.endPresentation, cards: window.CYOA_GAME.ui.cards.map((c) => c.id), log: window.CYOA_GAME.endPresentation.log() }));
-    C('gate off, failed stapler: the authored ending with only BEGIN AGAIN, no popup', s.node === 'chapter-01:exit_chair_fatal' && !s.open && !s.log.length && s.cards.join() === 'restart_chair_death', s);
+    C('?nodeathpopups, failed stapler: the authored ending with only BEGIN AGAIN, no popup', s.node === 'chapter-01:exit_chair_fatal' && !s.open && !s.log.length && s.cards.join() === 'restart_chair_death', s);
   });
   const escape = seedFor(null, 'physical_chair_breakout', 'house_chair_unarmed', true);
   await game('chair_escape', escape.save, true, async (page, C) => {
@@ -489,20 +492,23 @@ function engineCauses() {
     else if (match(sc).length) bad.push(sc);
   }
   check('node', g, 'unarmed and stapler failures (60 seeds each): cause carries the check id and ok:false; every failure matches the ONE shared entry; passes are not endings and never match', fails > 0 && passes > 0 && sfails > 0 && !bad.length, { fails, sfails, passes, bad: bad.slice(0, 3) });
-  // Every catalogued Chapter 2 route ending, and every House exit: no entry matches.
-  let ends = 0; const hits = [];
+  // Every catalogued Chapter 2 route ending: a fatal ending matches exactly its own entry, every other
+  // ending none; no House exit matches.
+  let ends = 0, fatalEnds = 0; const hits = [];
   for (const route of R.ROUTES) {
     const f = R.findSeed(story, route, 400);
     if (!f) continue;
     const c = Rules.endCause(story, f.end);
     if (c) ends++;
-    if (match(c).length) hits.push(route.name);
+    const want = route.fatal ? ['chapter-02:' + route.end] : [];
+    if (route.fatal) fatalEnds++;
+    if (match(c).join() !== want.join()) hits.push(route.name + ':' + match(c).join());
   }
   for (const k of ['plant', 'martin', 'showroom', 'clean', 'registered']) { let e = null; for (let s = 1; s <= 400 && !e; s++) e = R.houseExit(story, k, s); if (match(Rules.endCause(story, e)).length) hits.push(k); }
-  check('node', g, 'no Chapter 2 route ending (' + ends + ' reached) and no House exit selects the presentation', ends > 20 && !hits.length, hits);
+  check('node', g, 'Chapter 2: every fatal route ending (' + fatalEnds + ') selects exactly its own popup; no other ending (' + ends + ' reached) and no House exit does', ends > 20 && fatalEnds >= 5 && !hits.length, hits);
   // One opted-in entry, the shared canonical one; its art is the pinned approved file, byte-identical.
   const buf = fs.readFileSync(path.join(ROOT, ENTRY.art.path));
-  check('node', g, 'one opted-in entry, the shared canonical chapter-01:exit_chair_fatal; its art is the approved native PNG (sha256 7f469efa..., 314x206, 2x)', ENTRIES.length === 1 && ENTRY.id === 'chapter-01:exit_chair_fatal'
+  check('node', g, 'every canonical death entry is opted in (canonical *: 6); the shared chapter-01:exit_chair_fatal art is the approved native PNG (sha256 7f469efa..., 314x206, 2x)', ENTRIES.length === CANON.entries.length && ENTRIES.length === 6 && !!ENTRY
     && JSON.stringify(ENTRY.when) === JSON.stringify({ end: 'chapter-01:exit_chair_fatal' })
     && require('crypto').createHash('sha256').update(buf).digest('hex') === ENTRY.art.sha256 && ENTRY.art.sha256 === '7f469efa40548568af5dfe3c11602b9c6293282d9574caa5f36fc37113e72d9c'
     && buf.readUInt32BE(16) === 314 && buf.readUInt32BE(20) === 206 && ENTRY.art.scale === 2);
@@ -510,10 +516,11 @@ function engineCauses() {
   const ce = CANON.entries.map((e) => JSON.stringify([e.id, e.when, e.title, e.subtitle, e.body])).join(), ee = EXPORT.entries.map((e) => JSON.stringify([e.id, e.when, e.title, e.subtitle, e.body])).join();
   check('node', g, 'the runtime module carries exactly the projected canonical export (ids, when, title, subtitle, body) at the pinned revision', ce === ee
     && CANON.storyboard.revision === JSON.parse(fs.readFileSync(path.join(ROOT, 'story/canon.lock.json'), 'utf8')).revision);
-  check('node', g, 'Chapter 2 fatal entries are canonical but have no selected art, so none can open (no unproduced art shown); no Chapter 3 entry is consumed',
+  check('node', g, 'Chapter 2 fatal entries have no selected art yet (their popups open with an empty frame, no art drawn); no Chapter 3 entry is consumed',
     CANON.entries.filter((e) => /^chapter-02:/.test(e.id)).length === 5 && CANON.entries.filter((e) => /^chapter-02:/.test(e.id)).every((e) => e.art === null)
     && !CANON.entries.some((e) => /^chapter-03:/.test(e.id)) && CANON.entries.every((e) => e.readyForGameplay === false));
-  check('node', g, 'gate is explicit and off by default (?deathproof), backdrop 10px x 0.35', DATA.gate === 'deathproof' && ENTRY.backdrop.block === 10 && ENTRY.backdrop.multiply === 0.35);
+  check('node', g, 'ordinary play: activation always, ?nodeathpopups turns it off; no standing notice; backdrop 10px x 0.35', DATA.activation === 'always' && DATA.disableWith === 'nodeathpopups' && !('gate' in DATA)
+    && ENTRY.notice === null && ENTRY.backdrop.block === 10 && ENTRY.backdrop.multiply === 0.35);
   check('node', g, 'glyph fallback is explicit and narrow (only em/en dash -> "-")', JSON.stringify(DATA.glyphFallback) === JSON.stringify({ '\u2014': '-', '\u2013': '-' }));
   const code = ['game/js/end-presentation.js', 'game/js/stage-capture.js'].map((f) => fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n');
   check('node', g, 'the generic modules name no chapter, node, choice, art path or copy', !/chapter-0|exit_chair|accept_permanent|rest_assured|art\/deaths|PERMANENTLY|relaxation|TREATMENT/.test(code.replace(/\/\/.*$/gm, '')));
