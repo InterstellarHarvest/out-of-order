@@ -1,0 +1,55 @@
+{
+  "approvedCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+  "allMatch": true,
+  "assets": [
+    {
+      "registryKey": "scenes:biology_park/authorization_archive",
+      "candidatePath": "review/chapter-02-batch03-2026-11-17/candidates/A-authorization-archive.png",
+      "sha256": "cf56a225b9341ac24c654562e002e4d45d5c56be36aa7f4d3f40f045bebc79ec",
+      "matchesOwnerHash": true,
+      "matchesApprovedCommitBlob": true
+    },
+    {
+      "registryKey": "scenes:biology_park/central_flower",
+      "candidatePath": "review/chapter-02-batch03-2026-11-17/candidates/B-central-flower.png",
+      "sha256": "68698aea02b19bbc9fedca48b978be1c2329ca136c140084b2396dfafe4f8e58",
+      "matchesOwnerHash": true,
+      "matchesApprovedCommitBlob": true
+    },
+    {
+      "registryKey": "scenes:biology_park/translator_machine",
+      "candidatePath": "review/chapter-02-batch03-2026-11-17/candidates/C-translator-machine.png",
+      "sha256": "ff5704d99d027ea8a86e78b228102826bcceec03b5ae1ba583200a99822e95a3",
+      "matchesOwnerHash": true,
+      "matchesApprovedCommitBlob": true
+    },
+    {
+      "registryKey": "scenes:biology_park/planting_machine",
+      "candidatePath": "review/chapter-02-batch03-2026-11-17/candidates/D-planting-machine.png",
+      "sha256": "047282bbf1e5189645e5784d9b30278cb5b641a708eeed50f43945017d9b78da",
+      "matchesOwnerHash": true,
+      "matchesApprovedCommitBlob": true
+    },
+    {
+      "registryKey": "scenes:biology_park/sorting_conveyor",
+      "candidatePath": "review/chapter-02-batch03-2026-11-17/candidates/E-sorting-conveyor.png",
+      "sha256": "fe26ce88586bc207a50c8a9ccc9bcb3ddf30dac1bfd1f9e2468abfdae0167e3b",
+      "matchesOwnerHash": true,
+      "matchesApprovedCommitBlob": true
+    },
+    {
+      "registryKey": "scenes:biology_park/planting_hopper",
+      "candidatePath": "review/chapter-02-batch03-2026-11-17/candidates/F-planting-hopper.png",
+      "sha256": "5ab29aef160eb59a0d34465782d165c042b6ad8131ac04ad87215b03c33deb3b",
+      "matchesOwnerHash": true,
+      "matchesApprovedCommitBlob": true
+    },
+    {
+      "registryKey": "scenes:biology_park/waste_chute",
+      "candidatePath": "review/chapter-02-batch03-2026-11-17/candidates/G-waste-chute.png",
+      "sha256": "fa2f9021a7c33f6ff188eff438ef4abec35d9ba0d1a77d805cd2ceb98bbaf498",
+      "matchesOwnerHash": true,
+      "matchesApprovedCommitBlob": true
+    }
+  ]
+}

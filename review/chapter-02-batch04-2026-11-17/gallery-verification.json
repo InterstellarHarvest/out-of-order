@@ -1,0 +1,25 @@
+{
+  "passed": true,
+  "checks": [
+    "six candidate cards",
+    "correct native dimensions for scenes and portraits",
+    "six continuity comparisons",
+    "pixelated image rendering",
+    "exact4x dimensions for all six candidates",
+    "portrait stage4x geometry",
+    "background-only layer mode",
+    "conductor-only layer mode",
+    "dark alpha backdrop",
+    "light alpha backdrop",
+    "checker alpha backdrop",
+    "native stage restored",
+    "native candidate sizes restored",
+    "composite layers restored"
+  ],
+  "imagesLoaded": 23,
+  "cards": 6,
+  "comparisons": 6,
+  "browser": "Chrome headless",
+  "localLinksVerified": true,
+  "chromeExitTimedOutAfterSuccessfulDomCapture": true
+}

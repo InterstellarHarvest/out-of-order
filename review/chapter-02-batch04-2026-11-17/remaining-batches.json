@@ -1,0 +1,48 @@
+{
+  "count": 23,
+  "batches": [
+    {
+      "title": "Batch5 \u2014 irrigation and exits",
+      "keys": [
+        "scenes:biology_park/lower_irrigation",
+        "scenes:biology_park/public_exit",
+        "scenes:biology_park/maintenance_exit",
+        "scenes:biology_park/agricultural_customs",
+        "scenes:biology_park/exposition_concourse"
+      ]
+    },
+    {
+      "title": "Batch6 \u2014 credentials and courier cargo",
+      "keys": [
+        "items:acting_director_badge#slot",
+        "items:acting_director_badge#inspect",
+        "items:certified_seed_canister#slot",
+        "items:certified_seed_canister#inspect"
+      ]
+    },
+    {
+      "title": "Batch7 \u2014 treatment kits and their contents",
+      "keys": [
+        "focus:biology_park/public_exit/aid_box_open",
+        "items:botanical_antidote_public#slot",
+        "items:botanical_antidote_public#inspect",
+        "focus:biology_park/maintenance_exit/decontamination_kit_open",
+        "items:botanical_antidote_maintenance#slot",
+        "items:botanical_antidote_maintenance#inspect",
+        "focus:biology_park/agricultural_customs/exposure_dispenser_open",
+        "items:botanical_antidote_customs#slot",
+        "items:botanical_antidote_customs#inspect"
+      ]
+    },
+    {
+      "title": "Batch8 \u2014 fatal aftermath illustrations",
+      "keys": [
+        "deathScreens:biology_park/classified_as_compost",
+        "deathScreens:biology_park/new_arrival",
+        "deathScreens:biology_park/personal_growth",
+        "deathScreens:biology_park/reclassified",
+        "deathScreens:biology_park/site_improvement"
+      ]
+    }
+  ]
+}

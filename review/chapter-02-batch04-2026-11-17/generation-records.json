@@ -1,0 +1,127 @@
+{
+  "canonicalSource": "744399cf57d0de07a122ab2449b774cc4598d065",
+  "artworkBaseline": "009c5afea133f36a92f2af74887e00b351d9b914",
+  "tool": "built-in image_gen",
+  "assets": {
+    "A": {
+      "id": "A",
+      "key": "scenes:biology_park/reserve_siding",
+      "source": "generation-source/A-reserve-siding-v01.png",
+      "prompt": "prompts/A-v01.txt",
+      "references": [
+        "references/batch2-C-tour-tram-4x.png",
+        "references/batch1-E-jungle-junction-4x.png"
+      ],
+      "referenceRoles": [
+        "approved transit materials",
+        "approved greenhouse/guide rails"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-1fe90cbe-5148-4990-a621-6df0a1f2ef77.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyAuthored": false,
+      "transparentBackgroundRequested": false
+    },
+    "B": {
+      "id": "B",
+      "key": "scenes:biology_park/reserve_tram",
+      "source": "generation-source/B-reserve-tram-v01.png",
+      "prompt": "prompts/B-v01.txt",
+      "references": [
+        "generation-source/A-reserve-siding-v01.png",
+        "references/batch2-C-tour-tram-4x.png"
+      ],
+      "referenceRoles": [
+        "new unselected reserve car exterior",
+        "approved transit materials/style"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-de0ac0d6-778e-44c6-8ac4-afdf51b93077.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyAuthored": false,
+      "transparentBackgroundRequested": false
+    },
+    "C": {
+      "id": "C",
+      "key": "scenes:biology_park/concourse_crash",
+      "source": "generation-source/C-concourse-crash-v01.png",
+      "prompt": "prompts/C-v01.txt",
+      "references": [
+        "generation-source/A-reserve-siding-v01.png",
+        "generation-source/B-reserve-tram-v01.png",
+        "references/batch1-C-formal-entrance.png"
+      ],
+      "referenceRoles": [
+        "new unselected reserve exterior identity",
+        "new unselected inactive face and console",
+        "approved Exposition architectural world"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-c584cb8f-c42d-446d-b40f-744edc1cfb9c.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyAuthored": false,
+      "transparentBackgroundRequested": false
+    },
+    "D": {
+      "id": "D",
+      "key": "scenes:biology_park/concourse_crash#portraitBackground",
+      "source": "generation-source/D-concourse-portrait-background-v01.png",
+      "prompt": "prompts/D-v01.txt",
+      "references": [
+        "generation-source/B-reserve-tram-v01.png",
+        "generation-source/C-concourse-crash-v01.png"
+      ],
+      "referenceRoles": [
+        "new unselected cab construction",
+        "new unselected crash concourse setting"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-842443c2-f89a-4a4b-9767-1b6da457127a.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyAuthored": true,
+      "transparentBackgroundRequested": false
+    },
+    "E": {
+      "id": "E",
+      "key": "portraits:courtesy_conductor:talking",
+      "source": "generation-source/E-courtesy-conductor-talking-v01.png",
+      "prompt": "prompts/E-v01.txt",
+      "references": [
+        "generation-source/D-concourse-portrait-background-v01.png",
+        "generation-source/B-reserve-tram-v01.png",
+        "generation-source/C-concourse-crash-v01.png"
+      ],
+      "referenceRoles": [
+        "new independently authored background, lighting/placement only",
+        "new original character inactive design",
+        "new original character activated identity"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-6a3852d1-3815-472c-8a83-b42e857e7561.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyAuthored": false,
+      "transparentBackgroundRequested": true
+    },
+    "F": {
+      "id": "F",
+      "key": "scenes:biology_park/abandoned_station",
+      "source": "generation-source/F-abandoned-station-v01.png",
+      "prompt": "prompts/F-v01.txt",
+      "references": [
+        "references/batch2-C-tour-tram-4x.png",
+        "references/batch1-D-service-entry-4x.png",
+        "generation-source/B-reserve-tram-v01.png"
+      ],
+      "referenceRoles": [
+        "approved transit style/materials",
+        "approved service fixtures",
+        "new unselected reserve console family"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-0503e67b-2e7a-4e1e-8b8c-74f223d40bf8.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyAuthored": false,
+      "transparentBackgroundRequested": false
+    }
+  }
+}

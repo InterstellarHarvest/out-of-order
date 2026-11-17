@@ -1,0 +1,421 @@
+{
+  "A": {
+    "key": "scenes:biology_park/reserve_siding",
+    "record": {
+      "title": "RESERVE SIDING",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Abandoned overgrown rail siding with reserve tram and obsolete destination display. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "tour_rescue",
+    "nodes": {
+      "tour_rescue": {
+        "mode": "narrative",
+        "scene": "biology_park/reserve_siding",
+        "text": "A massive gardener arrives, thoughtfully removes the vegetation, and lifts the tram with it. You are deposited beside a reserve maintenance tram while the gardener transports its rescued greenery elsewhere.",
+        "choices": [
+          {
+            "id": "approach_reserve_tram",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "tram_siding"
+          }
+        ]
+      },
+      "tram_siding": {
+        "mode": "narrative",
+        "scene": "biology_park/reserve_siding",
+        "text": "An abandoned reserve tram rests beneath a canopy of roots. Its destination display cycles through stations that no longer exist. The driver console remains dark. A faded placard promises EMERGENCY EVACUATION SERVICE.",
+        "choices": [
+          {
+            "id": "inspect_abandoned_reserve",
+            "kind": "action",
+            "text": "BOARD THE ABANDONED RESERVE TRAM.",
+            "to": "reserve_tram"
+          },
+          {
+            "id": "follow_track_to_center",
+            "kind": "action",
+            "text": "LEAVE THE SIDING AND FOLLOW THE RAIL TRACK TOWARD THE CENTRAL FLOWER.",
+            "to": "tram_walk"
+          }
+        ]
+      },
+      "tram_walk": {
+        "mode": "narrative",
+        "scene": "biology_park/reserve_siding",
+        "text": "You follow the rusted guide rail on foot. Roots have been quietly shifting the rail switches to route visitors toward the giant bloom. At the final switch, the tracks simply disappear beneath its petals.",
+        "choices": [
+          {
+            "id": "reach_flower_on_foot",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      }
+    }
+  },
+  "B": {
+    "key": "scenes:biology_park/reserve_tram",
+    "record": {
+      "title": "RESERVE TRAM",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Abandoned reserve tram interior with inactive molded-plastic robot concierge recessed into driver console, no eyes lit. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "reserve_tram",
+    "nodes": {
+      "reserve_tram": {
+        "mode": "narrative",
+        "scene": "biology_park/reserve_tram",
+        "text": "The reserve tram smells of old floor polish. Its route display flickers between VISITOR LOOP, MAIN CONCOURSE and OUT OF SERVICE. A molded plastic face is recessed behind an unlit driver panel. It does not move.",
+        "choices": [
+          {
+            "id": "restore_tram_power",
+            "kind": "action",
+            "text": "RESTORE THE RESERVE TRAM POWER.",
+            "check": {
+              "id": "ch2_reserve_power",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "tram_power_success"
+            },
+            "fail": {
+              "to": "tram_power_failure"
+            }
+          },
+          {
+            "id": "walk_reserve_tram_tracks",
+            "kind": "action",
+            "text": "LEAVE THE TRAM AND FOLLOW ITS TRACKS ON FOOT.",
+            "to": "tram_walk"
+          },
+          {
+            "id": "activate_emergency_spur",
+            "kind": "action",
+            "text": "ACTIVATE THE EMERGENCY EVACUATION SPUR.",
+            "check": {
+              "id": "ch2_courtesy_driver",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "robot_concourse_crash"
+            },
+            "fail": {
+              "to": "silent_tram_descent"
+            }
+          }
+        ]
+      },
+      "tram_power_success": {
+        "mode": "narrative",
+        "scene": "biology_park/reserve_tram",
+        "text": "The traction motor catches. The old car trundles to a high platform overlooking the central flower. It stops precisely where the route map says it should, though the map is several decades out of date.",
+        "choices": [
+          {
+            "id": "step_from_powered_tram",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "flower_arrival"
+          }
+        ]
+      },
+      "tram_power_failure": {
+        "mode": "narrative",
+        "scene": "biology_park/reserve_tram",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "reserve_power_failure"
+          }
+        },
+        "text": "The power cable sparks. A support rail folds beneath the tram and the car drops onto an industrial service track. You tumble into Lower Irrigation Services, injured only in dignity.",
+        "choices": [
+          {
+            "id": "climb_from_power_failure",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "irrigation_hub"
+          }
+        ]
+      },
+      "silent_tram_descent": {
+        "mode": "narrative",
+        "scene": "biology_park/reserve_tram",
+        "text": "The driver panel blinks twice and dies. No voice answers. You pull the mechanical brake release and the unmanned tram coasts down a forgotten gravity spur toward an underground station.",
+        "choices": [
+          {
+            "id": "arrive_underground_station",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "station_ticket"
+          }
+        ]
+      }
+    }
+  },
+  "C": {
+    "key": "scenes:biology_park/concourse_crash",
+    "record": {
+      "title": "CONCOURSE CRASH",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Robot-driven tram broken through midcentury exposition advertising wall while visitors look on. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review.",
+      "portraitBackground": {
+        "title": "COURTESY CONDUCTOR CONCOURSE BACKDROP",
+        "kind": "portrait-background",
+        "status": "not-started",
+        "dimensions": "564x278",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Opaque tight view of robot driver console and concourse crash situation matching portrait foreground, 564x278."
+      }
+    },
+    "firstOccurrence": "robot_concourse_crash",
+    "nodes": {
+      "robot_concourse_crash": {
+        "mode": "dialogue",
+        "scene": "biology_park/concourse_crash",
+        "speaker": "courtesy_conductor",
+        "pose": "talking",
+        "effects": {
+          "set": {
+            "courtesy_driver_activated": true,
+            "tram_crash_liability": true
+          }
+        },
+        "text": [
+          {
+            "desc": "The Courtesy Conductor springs upright from its previously lifeless dashboard housing. The tram bursts through an advertising wall into the main Exposition concourse. Visitors applaud."
+          },
+          "Here we go! What a wonderful day for an emergency!",
+          "Thank you for choosing a safe and enjoyable evacuation. Your damage form is printing now."
+        ],
+        "choices": [
+          {
+            "id": "leave_crashed_tram",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "end_concourse_robot"
+          }
+        ]
+      },
+      "end_concourse_robot": {
+        "mode": "narrative",
+        "scene": "biology_park/concourse_crash",
+        "end": true,
+        "effects": {
+          "set": {
+            "ch2_exit_route": "tram_robot_crash",
+            "chapter3_entry_group": "public_concourse"
+          }
+        },
+        "text": "The driver thanks everyone for taking part in a safe emergency evacuation. Its steering column is embedded in a wall. Your name is on the damage claim.\n\nYou have escaped Biology Park. The public still believes this was an exhibit. Somewhere nearby, there must be a real bathroom.",
+        "choices": [
+          {
+            "id": "restart_concourse_crash",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  },
+  "D": {
+    "key": "scenes:biology_park/concourse_crash#portraitBackground",
+    "record": {
+      "title": "COURTESY CONDUCTOR CONCOURSE BACKDROP",
+      "kind": "portrait-background",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Opaque tight view of robot driver console and concourse crash situation matching portrait foreground, 564x278."
+    },
+    "parentRecord": {
+      "title": "CONCOURSE CRASH",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Robot-driven tram broken through midcentury exposition advertising wall while visitors look on. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review.",
+      "portraitBackground": {
+        "title": "COURTESY CONDUCTOR CONCOURSE BACKDROP",
+        "kind": "portrait-background",
+        "status": "not-started",
+        "dimensions": "564x278",
+        "assetPath": null,
+        "suggestedFilename": null,
+        "prompt": "Opaque tight view of robot driver console and concourse crash situation matching portrait foreground, 564x278."
+      }
+    },
+    "firstOccurrence": "robot_concourse_crash",
+    "nodes": {
+      "robot_concourse_crash": {
+        "mode": "dialogue",
+        "scene": "biology_park/concourse_crash",
+        "speaker": "courtesy_conductor",
+        "pose": "talking",
+        "effects": {
+          "set": {
+            "courtesy_driver_activated": true,
+            "tram_crash_liability": true
+          }
+        },
+        "text": [
+          {
+            "desc": "The Courtesy Conductor springs upright from its previously lifeless dashboard housing. The tram bursts through an advertising wall into the main Exposition concourse. Visitors applaud."
+          },
+          "Here we go! What a wonderful day for an emergency!",
+          "Thank you for choosing a safe and enjoyable evacuation. Your damage form is printing now."
+        ],
+        "choices": [
+          {
+            "id": "leave_crashed_tram",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "end_concourse_robot"
+          }
+        ]
+      },
+      "end_concourse_robot": {
+        "mode": "narrative",
+        "scene": "biology_park/concourse_crash",
+        "end": true,
+        "effects": {
+          "set": {
+            "ch2_exit_route": "tram_robot_crash",
+            "chapter3_entry_group": "public_concourse"
+          }
+        },
+        "text": "The driver thanks everyone for taking part in a safe emergency evacuation. Its steering column is embedded in a wall. Your name is on the damage claim.\n\nYou have escaped Biology Park. The public still believes this was an exhibit. Somewhere nearby, there must be a real bathroom.",
+        "choices": [
+          {
+            "id": "restart_concourse_crash",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  },
+  "E": {
+    "key": "portraits:courtesy_conductor:talking",
+    "record": {
+      "title": "COURTESY CONDUCTOR - TALKING",
+      "kind": "portrait",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Original midcentury molded-plastic friendly robot conductor in reserve tram console. Expressive simple mouth moving, separate transparent foreground pose; evokes absurdly upbeat vintage robotic chauffeur without copying any copyrighted character, no steampunk.",
+      "foregroundFormat": "transparent-rgba-png",
+      "portraitBackgroundScene": "biology_park/concourse_crash"
+    },
+    "firstOccurrence": "robot_concourse_crash",
+    "nodes": {
+      "robot_concourse_crash": {
+        "mode": "dialogue",
+        "scene": "biology_park/concourse_crash",
+        "speaker": "courtesy_conductor",
+        "pose": "talking",
+        "effects": {
+          "set": {
+            "courtesy_driver_activated": true,
+            "tram_crash_liability": true
+          }
+        },
+        "text": [
+          {
+            "desc": "The Courtesy Conductor springs upright from its previously lifeless dashboard housing. The tram bursts through an advertising wall into the main Exposition concourse. Visitors applaud."
+          },
+          "Here we go! What a wonderful day for an emergency!",
+          "Thank you for choosing a safe and enjoyable evacuation. Your damage form is printing now."
+        ],
+        "choices": [
+          {
+            "id": "leave_crashed_tram",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "end_concourse_robot"
+          }
+        ]
+      }
+    }
+  },
+  "F": {
+    "key": "scenes:biology_park/abandoned_station",
+    "record": {
+      "title": "ABANDONED STATION",
+      "kind": "scene",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Biology Park retro-futurist exposition scene: abandoned station. True 314x206 logical pixel art, silver/industrial grays with restrained biological greens, no brass/steampunk, clean pixel forms, no dithering noise.",
+      "notes": "Chapter 2 playable draft; artwork deferred until Chapters 1 and 2 narrative review."
+    },
+    "firstOccurrence": "station_ticket",
+    "nodes": {
+      "station_ticket": {
+        "mode": "narrative",
+        "scene": "biology_park/abandoned_station",
+        "text": "A ticket machine glows beside the abandoned turnstile.\n\nCURRENT FARE: COMPLIMENTARY. CURRENT SERVICE: DISCONTINUED.\n\nIt prints a free ticket and refuses to open the gate until you certify that you thoroughly enjoyed your journey.",
+        "choices": [
+          {
+            "id": "certify_enjoyable_journey",
+            "kind": "action",
+            "text": "CERTIFY THAT YOU ENJOYED THE JOURNEY.",
+            "to": "end_underground_station"
+          }
+        ]
+      },
+      "end_underground_station": {
+        "mode": "narrative",
+        "scene": "biology_park/abandoned_station",
+        "end": true,
+        "effects": {
+          "set": {
+            "ch2_exit_route": "tram_silent_station",
+            "chapter3_entry_group": "underground_transit",
+            "tram_satisfaction_certified": true
+          }
+        },
+        "text": "The turnstile finally opens. The free ticket disappears into its mechanism, but the satisfaction certification is permanently filed. You climb into a forgotten part of the Exposition.\n\nAt least the underground station had a sign for bathrooms. It was crossed out.",
+        "choices": [
+          {
+            "id": "restart_underground",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  }
+}

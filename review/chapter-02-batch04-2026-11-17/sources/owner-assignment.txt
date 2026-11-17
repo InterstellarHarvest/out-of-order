@@ -1,0 +1,145 @@
+# CODEX — CHAPTER 2 ARTWORK
+## Batch 3 Approval Registration + Batch 4 Production
+
+**Owner decision: November 17, 2026**
+
+All seven Chapter 2 Batch 3 images have been reviewed and **approved without changes**.
+
+These are final creative selections. Do not regenerate, alter or request further approval for them.
+
+### Task 1 — Register Batch 3 approvals
+
+**Repository:** `InterstellarHarvest/CYOA`
+
+**Branch:** `agent/ch02-art-batch03-biopark-machinery`
+
+**Approved commit:** `009c5afea133f36a92f2af74887e00b351d9b914`
+
+All files are relative to:
+
+`review/chapter-02-batch03-2026-11-17/`
+
+| Approved asset | Candidate file | SHA-256 |
+|---|---|---|
+| Authorization Archive | `candidates/A-authorization-archive.png` | `cf56a225b9341ac24c654562e002e4d45d5c56be36aa7f4d3f40f045bebc79ec` |
+| Central Flower | `candidates/B-central-flower.png` | `68698aea02b19bbc9fedca48b978be1c2329ca136c140084b2396dfafe4f8e58` |
+| Translator Machine | `candidates/C-translator-machine.png` | `ff5704d99d027ea8a86e78b228102826bcceec03b5ae1ba583200a99822e95a3` |
+| Planting Machine | `candidates/D-planting-machine.png` | `047282bbf1e5189645e5784d9b30278cb5b641a708eeed50f43945017d9b78da` |
+| Sorting Conveyor | `candidates/E-sorting-conveyor.png` | `fe26ce88586bc207a50c8a9ccc9bcb3ddf30dac1bfd1f9e2468abfdae0167e3b` |
+| Planting Hopper | `candidates/F-planting-hopper.png` | `5ab29aef160eb59a0d34465782d165c042b6ad8131ac04ad87215b03c33deb3b` |
+| Waste Chute | `candidates/G-waste-chute.png` | `fa2f9021a7c33f6ff188eff438ef4abec35d9ba0d1a77d805cd2ceb98bbaf498` |
+
+In `InterstellarHarvest/CYOA-storyboard`, follow `docs/105_CANONICAL_SYNC_PIPELINE.md` and use `tools/sync/register-art.mjs`.
+
+For all seven:
+
+1. Verify the candidate bytes and SHA-256.
+2. Promote their canonical records from `generated` to `approved`.
+3. Register exact selected images, paths and provenance.
+4. Publish selected-art previews.
+5. Preserve all approved Batch 1 and 2 artwork.
+6. Leave game production `assetPath` null until Gameplay PMO establishes the actual path.
+7. Run canonical QA and publish to storyboard `main`.
+8. Verify successful GitHub Pages deployment.
+
+Do not label these images `integrated` until Gameplay PMO verifies actual game usage.
+
+### Task 2 — Generate Batch 4
+
+**Chapter 2: Reserve Transit and Courtesy Conductor**
+
+Generate the following six assets:
+
+| ID | Artwork key | Dimensions |
+|---|---|---|
+| A | `scenes:biology_park/reserve_siding` | 314×206 |
+| B | `scenes:biology_park/reserve_tram` | 314×206 |
+| C | `scenes:biology_park/concourse_crash` | 314×206 |
+| D | `scenes:biology_park/concourse_crash#portraitBackground` | 564×278 |
+| E | `portraits:courtesy_conductor:talking` | 564×278 |
+| F | `scenes:biology_park/abandoned_station` | 314×206 |
+
+**Source authority:** Read current `CYOA-storyboard/main` and all six artwork records in `story/artwork.draft.json`. Cross-reference every scene with its actual narrative nodes in `story/chapters/chapter-02.draft.json`.
+
+Inspect existing artwork and branches before generating. Do not replace previously selected images or duplicate completed candidates.
+
+#### Visual continuity
+
+The approved Batch 2 Tour Tram and Overgrown Tram establish the transit system's basic materials, construction and technology.
+
+The reserve transit system must belong to that same world, but its vehicle and associated character are distinct.
+
+The Courtesy Conductor is specifically associated with the reserve tram. Its molded-plastic concierge face is an intentional character-design exception; do not give humanlike faces to unrelated machines.
+
+Maintain the established distinction between the Groundskeeper and Courtesy Conductor.
+
+The reserve siding, tram, crash concourse and abandoned station must reflect their exact story functions. Do not prematurely illustrate a crash, successful evacuation, fatal outcome or activated character in a neutral scene.
+
+#### Portrait layering
+
+Generate the Concourse Crash conversation background as an independently authored **opaque 564×278** image.
+
+Generate the Courtesy Conductor as a separate **transparent RGBA 564×278 foreground**.
+
+Match their viewpoint, lighting and scale.
+
+Do not enlarge or crop the 314×206 scene to create the portrait background.
+
+Preserve the foreground and background independently so the engine can animate or replace the character layer.
+
+Follow the actual canonical record for the conductor's activation and appearance. Do not invent additional expressions, talking poses or animation frames beyond this assignment.
+
+### Task 3 — Production and review
+
+Continue the approved revised Biology Park visual style established by Batch 2 and Batch 3.
+
+Use actual approved PNGs as references, not earlier rejected chunky graphic studies.
+
+Preserve the original generation sources and follow the existing deterministic normalization and palette workflow.
+
+Create:
+
+**Branch:** `agent/ch02-art-batch04-reserve-transit`
+
+**Review folder:** `review/chapter-02-batch04-2026-11-17/`
+
+Produce a complete review package with:
+
+- Six final candidate PNGs.
+- Original generation sources.
+- Exact prompts and reference provenance.
+- Native-resolution comparisons.
+- Exact 4× nearest-neighbor previews.
+- Layered portrait composite and alpha inspection.
+- Interactive browser gallery.
+- Manifest and SHA-256 hashes.
+- Reproducible processing scripts.
+- Technical and visual QA findings.
+- Remaining artwork queue.
+
+Check all previously approved art hashes and ensure no existing production files or canonical story content change.
+
+### Task 4 — Canonical status synchronization
+
+Batch 4 candidates are `generated`, not approved.
+
+Publish accurate new candidate-status metadata through the established canonical storyboard workflow. Do not register unselected candidates as approved art or add them to the public selected-art collection.
+
+Do not integrate assets into the game, modify engine behavior or change narrative content.
+
+### Task 5 — Final handoff
+
+Report:
+
+1. Batch 3 approval-registration commit and successful public preview verification.
+2. Batch 4 final review commit and branch.
+3. Gallery location.
+4. Exact six candidate paths and SHA-256 hashes.
+5. Pixel, palette, alpha and browser QA.
+6. Any continuity concerns or blocked assets.
+7. Updated remaining Chapter 2 queue.
+8. Confirmation that all approved artwork remains untouched.
+
+**Do the work now. Do not stop after planning.**
+
+Once Batch 4 is generated, stop for owner/Art Director visual selection. Gameplay integration remains a separate Claude Gameplay PMO responsibility.

@@ -1,0 +1,35 @@
+{
+  "method": "Original normalized native exports before local sign polish and E alpha threshold",
+  "assets": [
+    {
+      "id": "A",
+      "candidatePath": "processing-history/normalization-v01/candidates/A-reserve-siding.png",
+      "sha256": "7b6623de45922b32b85d5b4e7f9f13df485451fb5cd0def0fcc08e513c8c55a1"
+    },
+    {
+      "id": "B",
+      "candidatePath": "processing-history/normalization-v01/candidates/B-reserve-tram.png",
+      "sha256": "59bcceb640247b7900ab449ed79090f4122f5cac858e224ee012935ac5c0960d"
+    },
+    {
+      "id": "C",
+      "candidatePath": "processing-history/normalization-v01/candidates/C-concourse-crash.png",
+      "sha256": "50552704840db6220eff3d588bb4a974d51edcd32a816717803f73b6d97d11f8"
+    },
+    {
+      "id": "D",
+      "candidatePath": "processing-history/normalization-v01/candidates/D-concourse-portrait-background.png",
+      "sha256": "9f8f3d19d44a6433ef70391118a616d7dd6c8626f43eccda48d55af8fdd1cd80"
+    },
+    {
+      "id": "E",
+      "candidatePath": "processing-history/normalization-v01/candidates/E-courtesy-conductor-talking.png",
+      "sha256": "8a0e9cff0b7ac7c03a8b2a4d9a6fdcb45f2fff246ebbd404c5c7b100d48331a5"
+    },
+    {
+      "id": "F",
+      "candidatePath": "processing-history/normalization-v01/candidates/F-abandoned-station.png",
+      "sha256": "8af384cb8c5dff678d6d82c389df9121aeab4a413165dd7872d9c75ef3a432b3"
+    }
+  ]
+}

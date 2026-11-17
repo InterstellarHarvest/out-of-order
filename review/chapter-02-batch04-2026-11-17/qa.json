@@ -1,0 +1,455 @@
+{
+  "passed": true,
+  "candidateCount": 6,
+  "sceneCount": 4,
+  "opaquePortraitBackgroundCount": 1,
+  "transparentPortraitForegroundCount": 1,
+  "sourceGenerationCount": 6,
+  "alphaProcessing": "E: source alpha NEAREST to native, threshold128, hidden RGB zero; original soft alpha preserved in source and history",
+  "sharedPaletteColors": 64,
+  "dithering": "none",
+  "croppingOrPadding": "none",
+  "layerTranslationOrScalingBeyondCanvasNormalization": "none",
+  "portraitComposite": "D/E at identical native origin, no transform",
+  "originalTrackedFilesPreserved": 1198,
+  "preservationFailures": [],
+  "approvedReferenceHashesVerified": 36,
+  "allCandidatesUnselected": true,
+  "allProductionPathsNull": true,
+  "densityNote": "Descriptive singleton metrics do not establish visual approval. Fine foliage, paper holes and thin machinery edges can remain dense.",
+  "environment": {
+    "python": "3.13.15 (v3.13.15:4061bc4c35f, Aug  5 2026, 09:08:51) [Clang 21.0.0 (clang-2100.1.1.101)]",
+    "pillow": "12.3.0"
+  },
+  "assets": [
+    {
+      "id": "A",
+      "registryKey": "scenes:biology_park/reserve_siding",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/A-reserve-siding.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "c54cc60a878faaf91edc7e642fb9c854a963bb455a86d6d724d6f2f483e7ae2e",
+      "source": "generation-source/A-reserve-siding-v01.png",
+      "sourceSha256": "b8db6bac193c5e24fd782bccefd0f0a1a4fad44283c635eeb40da4609fb3bd45",
+      "sourceSize": [
+        1547,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "sourceAlphaNormalizedByEstablishedThreshold128": false,
+      "normalization": "Full-canvas NEAREST; exact existing64-paint palette without dithering; original alpha sampled with NEAREST then threshold128 for E; recorded local notice edits A/B/F",
+      "aspectRatioCorrectionPercent": 0.107202,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 10.929,
+      "isolatedFourNeighborPixels": 22343,
+      "isolatedFractionOfVisiblePixels": 0.345418,
+      "alpha": {
+        "extrema": [
+          255,
+          255
+        ],
+        "transparentPixels": 0,
+        "opaquePixels": 64684,
+        "partialPixels": 0,
+        "visibleBoundingBox": [
+          0,
+          0,
+          314,
+          206
+        ]
+      },
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "independentlyAuthored": false,
+      "localNativeEdit": {
+        "regions": [
+          [
+            13,
+            95,
+            38,
+            111
+          ]
+        ],
+        "changedPixels": 179,
+        "outsideAllowedChanges": 0,
+        "method": "Only native microlettering interiors replaced by deliberate administrative bars; pictograms and route dots retained"
+      },
+      "references": [
+        {
+          "path": "references/batch2-C-tour-tram-4x.png",
+          "sha256": "ac5f7a42b5a629b7f481639ff86c6cff9c67888d554fd8b6a8272ce6963f1fb6",
+          "role": "approved transit materials"
+        },
+        {
+          "path": "references/batch1-E-jungle-junction-4x.png",
+          "sha256": "831dbe743fed81baaa192e4ba0602d578318e85d1ee8764be7d69ccbdc0f2841",
+          "role": "approved greenhouse/guide rails"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "registryKey": "scenes:biology_park/reserve_tram",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/B-reserve-tram.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "e17c2d8fd7b569404248d86028b7a7ca4164a3856f36f261654bc941a13a7eaf",
+      "source": "generation-source/B-reserve-tram-v01.png",
+      "sourceSha256": "7db28e3d75a36044968f29cccc3470c6db869371d7dd6b8e16f56a2f5adaa336",
+      "sourceSize": [
+        1547,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "sourceAlphaNormalizedByEstablishedThreshold128": false,
+      "normalization": "Full-canvas NEAREST; exact existing64-paint palette without dithering; original alpha sampled with NEAREST then threshold128 for E; recorded local notice edits A/B/F",
+      "aspectRatioCorrectionPercent": 0.107202,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 8.225,
+      "isolatedFourNeighborPixels": 15497,
+      "isolatedFractionOfVisiblePixels": 0.23958,
+      "alpha": {
+        "extrema": [
+          255,
+          255
+        ],
+        "transparentPixels": 0,
+        "opaquePixels": 64684,
+        "partialPixels": 0,
+        "visibleBoundingBox": [
+          0,
+          0,
+          314,
+          206
+        ]
+      },
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "independentlyAuthored": false,
+      "localNativeEdit": {
+        "regions": [
+          [
+            151,
+            32,
+            180,
+            37
+          ],
+          [
+            151,
+            40,
+            180,
+            45
+          ],
+          [
+            151,
+            48,
+            180,
+            53
+          ]
+        ],
+        "changedPixels": 515,
+        "outsideAllowedChanges": 0,
+        "method": "Only native microlettering interiors replaced by deliberate administrative bars; pictograms and route dots retained"
+      },
+      "references": [
+        {
+          "path": "generation-source/A-reserve-siding-v01.png",
+          "sha256": "b8db6bac193c5e24fd782bccefd0f0a1a4fad44283c635eeb40da4609fb3bd45",
+          "role": "new unselected reserve car exterior"
+        },
+        {
+          "path": "references/batch2-C-tour-tram-4x.png",
+          "sha256": "ac5f7a42b5a629b7f481639ff86c6cff9c67888d554fd8b6a8272ce6963f1fb6",
+          "role": "approved transit materials/style"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "registryKey": "scenes:biology_park/concourse_crash",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/C-concourse-crash.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "50552704840db6220eff3d588bb4a974d51edcd32a816717803f73b6d97d11f8",
+      "source": "generation-source/C-concourse-crash-v01.png",
+      "sourceSha256": "641391b512db973427e95ace90061cbf5285614f4d0f0cff44a3601bd23290a8",
+      "sourceSize": [
+        1547,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "sourceAlphaNormalizedByEstablishedThreshold128": false,
+      "normalization": "Full-canvas NEAREST; exact existing64-paint palette without dithering; original alpha sampled with NEAREST then threshold128 for E; recorded local notice edits A/B/F",
+      "aspectRatioCorrectionPercent": 0.107202,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 11.549,
+      "isolatedFourNeighborPixels": 19818,
+      "isolatedFractionOfVisiblePixels": 0.306382,
+      "alpha": {
+        "extrema": [
+          255,
+          255
+        ],
+        "transparentPixels": 0,
+        "opaquePixels": 64684,
+        "partialPixels": 0,
+        "visibleBoundingBox": [
+          0,
+          0,
+          314,
+          206
+        ]
+      },
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "independentlyAuthored": false,
+      "localNativeEdit": null,
+      "references": [
+        {
+          "path": "generation-source/A-reserve-siding-v01.png",
+          "sha256": "b8db6bac193c5e24fd782bccefd0f0a1a4fad44283c635eeb40da4609fb3bd45",
+          "role": "new unselected reserve exterior identity"
+        },
+        {
+          "path": "generation-source/B-reserve-tram-v01.png",
+          "sha256": "7db28e3d75a36044968f29cccc3470c6db869371d7dd6b8e16f56a2f5adaa336",
+          "role": "new unselected inactive face and console"
+        },
+        {
+          "path": "references/batch1-C-formal-entrance.png",
+          "sha256": "d1a55f75863a7e2a3b854566638128064b998c5d6a83659399e4ad53ce66f2e9",
+          "role": "approved Exposition architectural world"
+        }
+      ]
+    },
+    {
+      "id": "D",
+      "registryKey": "scenes:biology_park/concourse_crash#portraitBackground",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/D-concourse-portrait-background.png",
+      "assetPath": null,
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGB",
+      "sha256": "9f8f3d19d44a6433ef70391118a616d7dd6c8626f43eccda48d55af8fdd1cd80",
+      "source": "generation-source/D-concourse-portrait-background-v01.png",
+      "sourceSha256": "863826ad75e0db45854e277022b03a4e08050eb647cb0c15f96d4b18476955a1",
+      "sourceSize": [
+        1784,
+        882
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "sourceAlphaNormalizedByEstablishedThreshold128": false,
+      "normalization": "Full-canvas NEAREST; exact existing64-paint palette without dithering; original alpha sampled with NEAREST then threshold128 for E; recorded local notice edits A/B/F",
+      "aspectRatioCorrectionPercent": 0.300735,
+      "visibleColors": 64,
+      "rgbQuantizationRmse": 11.131,
+      "isolatedFourNeighborPixels": 32124,
+      "isolatedFractionOfVisiblePixels": 0.204883,
+      "alpha": {
+        "extrema": [
+          255,
+          255
+        ],
+        "transparentPixels": 0,
+        "opaquePixels": 156792,
+        "partialPixels": 0,
+        "visibleBoundingBox": [
+          0,
+          0,
+          564,
+          278
+        ]
+      },
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "independentlyAuthored": true,
+      "localNativeEdit": null,
+      "references": [
+        {
+          "path": "generation-source/B-reserve-tram-v01.png",
+          "sha256": "7db28e3d75a36044968f29cccc3470c6db869371d7dd6b8e16f56a2f5adaa336",
+          "role": "new unselected cab construction"
+        },
+        {
+          "path": "generation-source/C-concourse-crash-v01.png",
+          "sha256": "641391b512db973427e95ace90061cbf5285614f4d0f0cff44a3601bd23290a8",
+          "role": "new unselected crash concourse setting"
+        }
+      ]
+    },
+    {
+      "id": "E",
+      "registryKey": "portraits:courtesy_conductor:talking",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/E-courtesy-conductor-talking.png",
+      "assetPath": null,
+      "dimensions": [
+        564,
+        278
+      ],
+      "mode": "RGBA",
+      "sha256": "8c6601db91d262f5a6b362609b878589025cb924c15c0753df268d4f84592e4d",
+      "source": "generation-source/E-courtesy-conductor-talking-v01.png",
+      "sourceSha256": "c9f267b6172d7e989d628a5457c9104dc8671704253971aecab94dd6e8dfef7c",
+      "sourceSize": [
+        1785,
+        881
+      ],
+      "sourceMode": "RGBA",
+      "sourceOpacityVerified": false,
+      "sourceAlphaNormalizedByEstablishedThreshold128": true,
+      "normalization": "Full-canvas NEAREST; exact existing64-paint palette without dithering; original alpha sampled with NEAREST then threshold128 for E; recorded local notice edits A/B/F",
+      "aspectRatioCorrectionPercent": 0.13162,
+      "visibleColors": 50,
+      "rgbQuantizationRmse": 11.481,
+      "isolatedFourNeighborPixels": 3987,
+      "isolatedFractionOfVisiblePixels": 0.170662,
+      "alpha": {
+        "extrema": [
+          0,
+          255
+        ],
+        "transparentPixels": 133430,
+        "opaquePixels": 23362,
+        "partialPixels": 0,
+        "visibleBoundingBox": [
+          196,
+          70,
+          368,
+          278
+        ]
+      },
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "independentlyAuthored": false,
+      "localNativeEdit": null,
+      "references": [
+        {
+          "path": "generation-source/D-concourse-portrait-background-v01.png",
+          "sha256": "863826ad75e0db45854e277022b03a4e08050eb647cb0c15f96d4b18476955a1",
+          "role": "new independently authored background, lighting/placement only"
+        },
+        {
+          "path": "generation-source/B-reserve-tram-v01.png",
+          "sha256": "7db28e3d75a36044968f29cccc3470c6db869371d7dd6b8e16f56a2f5adaa336",
+          "role": "new original character inactive design"
+        },
+        {
+          "path": "generation-source/C-concourse-crash-v01.png",
+          "sha256": "641391b512db973427e95ace90061cbf5285614f4d0f0cff44a3601bd23290a8",
+          "role": "new original character activated identity"
+        }
+      ]
+    },
+    {
+      "id": "F",
+      "registryKey": "scenes:biology_park/abandoned_station",
+      "status": "generated",
+      "selected": false,
+      "candidatePath": "candidates/F-abandoned-station.png",
+      "assetPath": null,
+      "dimensions": [
+        314,
+        206
+      ],
+      "mode": "RGB",
+      "sha256": "c9f78d96427d5fce0d1bde3651b90f09fd8d3380a65542378273c2fd1aa803f7",
+      "source": "generation-source/F-abandoned-station-v01.png",
+      "sourceSha256": "7731fc017f7f5bc91a43048102110340b2e95bf22842beced8b6a0198547cd15",
+      "sourceSize": [
+        1547,
+        1016
+      ],
+      "sourceMode": "RGB",
+      "sourceOpacityVerified": true,
+      "sourceAlphaNormalizedByEstablishedThreshold128": false,
+      "normalization": "Full-canvas NEAREST; exact existing64-paint palette without dithering; original alpha sampled with NEAREST then threshold128 for E; recorded local notice edits A/B/F",
+      "aspectRatioCorrectionPercent": 0.107202,
+      "visibleColors": 59,
+      "rgbQuantizationRmse": 7.346,
+      "isolatedFourNeighborPixels": 11278,
+      "isolatedFractionOfVisiblePixels": 0.174355,
+      "alpha": {
+        "extrema": [
+          255,
+          255
+        ],
+        "transparentPixels": 0,
+        "opaquePixels": 64684,
+        "partialPixels": 0,
+        "visibleBoundingBox": [
+          0,
+          0,
+          314,
+          206
+        ]
+      },
+      "paletteMembershipVerified": true,
+      "exact4xVerified": true,
+      "independentlyAuthored": false,
+      "localNativeEdit": {
+        "regions": [
+          [
+            258,
+            68,
+            285,
+            80
+          ],
+          [
+            258,
+            81,
+            295,
+            95
+          ]
+        ],
+        "changedPixels": 879,
+        "outsideAllowedChanges": 0,
+        "method": "Only native microlettering interiors replaced by deliberate administrative bars; pictograms and route dots retained"
+      },
+      "references": [
+        {
+          "path": "references/batch2-C-tour-tram-4x.png",
+          "sha256": "ac5f7a42b5a629b7f481639ff86c6cff9c67888d554fd8b6a8272ce6963f1fb6",
+          "role": "approved transit style/materials"
+        },
+        {
+          "path": "references/batch1-D-service-entry-4x.png",
+          "sha256": "e488ffe635238f58512507c36aad2a3e3991fba121ce5697aa993cc110b2cb75",
+          "role": "approved service fixtures"
+        },
+        {
+          "path": "generation-source/B-reserve-tram-v01.png",
+          "sha256": "7db28e3d75a36044968f29cccc3470c6db869371d7dd6b8e16f56a2f5adaa336",
+          "role": "new unselected reserve console family"
+        }
+      ]
+    }
+  ]
+}
