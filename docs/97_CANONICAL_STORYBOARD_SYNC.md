@@ -51,7 +51,9 @@ CI (`.github/workflows/qa.yml` content job) runs `verify`, `verify --online`, `s
 
 ## 4. This integration
 
-- **Pinned:** public `dc5ed47a44e0cdebf55ad66374dd131c5ef45fa3` (branch `agent/canonical-sync-pipeline-20261116`, merged into public `main`, so the pin stays reachable).
+- **Pinned:** public `d95c01ef5059036fb8718fafe282925fdeb85c1d` (branch `agent/canonical-sync-pipeline-20261116`, merged into public `main`, so the pin stays reachable).
+  - The first pin was `dc5ed47`. A second session then published fatal-ending data to public `main` (docs/104: one shared Rest Assured popup and image for all three causes; Chapter 2 death briefs). `d95c01e` merges it.
+  - Its `deathPopup` / `endingArt` / `notes` fields are storyboard-only, so they are stripped. Only `deathScreens` records reached the projection, and the importer ignores those.
 - **Content hash unchanged:** `407d8ec78f1c…`, the same as `0f42e50`. Gameplay text, routes, checks and items are identical.
 
 What changed in `story/`:
@@ -89,3 +91,7 @@ The seven accepted Biology Park Batch 1 images exist only under `review/chapter-
   - The viewer's QA now runs only in the public repository, where it covers all four chapters.
 - **Updated QA:** `game/qa/validate_ch01_art.js` now expects the 28 bound House images to be `integrated`, and the unbound chair state to be `approved`. This follows the owner ruling of 2026-11-16. It used to expect `generated`.
 - `welcome_home` still says "small black speaker grille", but the selected art is an ivory intercom. That is a Story Director wording decision, recorded in docs/93.
+
+- **Owner ruling, docs/104:** all three causes reaching `exit_chair_fatal` share one popup and one image (`deathScreens["house_of_tomorrow/rest_assured"]`). The review-gated presentation in `game/content/end-presentations.review.js` (PR #11/#13) still matches only the voluntary choice, so that is a pending gameplay change.
+  - It needs `when` widened (or a generated export consumed), and `run_end_presentation_qa`'s cause-selection checks updated.
+  - docs/104 also asks the game to consume `story/death-presentations.export.json`, rather than keep a hand-maintained copy of the popup text.

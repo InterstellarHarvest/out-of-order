@@ -12,8 +12,8 @@
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "ae8dba2cdb1bc3fb76c99ef89a3cf837f4ba8dee3796549b4771b6cb608a6402",
-        "gitBlob": "8637090d26ab7138f597c99a837f974efd9409b8"
+        "sha256": "fdb00594082eb55f3b0d6bf08ce67800c7c8856af1c7ad2baea6110a1be12f95",
+        "gitBlob": "a4d12e7a10ae54cd7e8cced487501f516149c937"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
