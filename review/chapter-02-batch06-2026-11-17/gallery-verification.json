@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "checks": [
+    "four item cards",
+    "six pair/continuity/version comparisons",
+    "native slots96x96 and inspectors565x451",
+    "pixelated rendering",
+    "two transparent inventory views",
+    "dark icon backdrop",
+    "light icon backdrop",
+    "checker icon backdrop",
+    "exact4x slots384x384 and inspectors2260x1804",
+    "4x button state",
+    "native view restored"
+  ],
+  "imagesLoaded": 15,
+  "itemCards": 4,
+  "comparisons": 6,
+  "browser": "Chrome headless",
+  "localLinksVerified": true,
+  "chromeExitTimedOutAfterSuccessfulDomCapture": true
+}

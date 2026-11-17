@@ -1,0 +1,138 @@
+{
+  "approved-expo_examiner_badge-slot.png": {
+    "registryKey": "items:expo_examiner_badge#slot",
+    "source": {
+      "repo": "InterstellarHarvest/CYOA",
+      "ref": "agent/canonical-storyboard-sync-20261116",
+      "commit": "20b52601c5733a633a385bbb1c60995174e530cc",
+      "path": "art/items/expo_examiner_badge_slot.png"
+    },
+    "sha256": "7347b7afd9b2509fa59270b9ef2db901429c50466a0a617c1ff324843721fa79",
+    "status": "approved",
+    "role": "Established inventory/inspector presentation and institutional materials"
+  },
+  "approved-expo_examiner_badge-inspect.png": {
+    "registryKey": "items:expo_examiner_badge#inspect",
+    "source": {
+      "repo": "InterstellarHarvest/CYOA",
+      "ref": "agent/canonical-storyboard-sync-20261116",
+      "commit": "20b52601c5733a633a385bbb1c60995174e530cc",
+      "path": "art/items/expo_examiner_badge_inspect.png"
+    },
+    "sha256": "bcbfbf9415eae2e9e1bcdc85eef0dc67a25524ededeb9bb2f3494c3f80b639ea",
+    "status": "approved",
+    "role": "Established inventory/inspector presentation and institutional materials"
+  },
+  "approved-red_stapler-slot.png": {
+    "registryKey": "items:red_stapler#slot",
+    "source": {
+      "repo": "InterstellarHarvest/CYOA",
+      "ref": "agent/canonical-storyboard-sync-20261116",
+      "commit": "20b52601c5733a633a385bbb1c60995174e530cc",
+      "path": "art/items/red_swangline_stapler_slot.png"
+    },
+    "sha256": "af9069cab87b4f6b795b1219e76c6b013e9d5b95e2d69bead19318e93e495c8a",
+    "status": "approved",
+    "role": "Established inventory/inspector presentation and institutional materials"
+  },
+  "approved-red_stapler-inspect.png": {
+    "registryKey": "items:red_stapler#inspect",
+    "source": {
+      "repo": "InterstellarHarvest/CYOA",
+      "ref": "agent/canonical-storyboard-sync-20261116",
+      "commit": "20b52601c5733a633a385bbb1c60995174e530cc",
+      "path": "art/items/red_swangline_stapler_inspect.png"
+    },
+    "sha256": "ed7301377c1a6a3f8ae66dbcc3f4c95a5b9666bd4d999aa62fd111bd29e05120",
+    "status": "approved",
+    "role": "Established inventory/inspector presentation and institutional materials"
+  },
+  "approved-family_portrait_photo-slot.png": {
+    "registryKey": "items:family_portrait_photo#slot",
+    "source": {
+      "repo": "InterstellarHarvest/CYOA",
+      "ref": "agent/canonical-storyboard-sync-20261116",
+      "commit": "20b52601c5733a633a385bbb1c60995174e530cc",
+      "path": "art/items/family_portrait_photo_slot.png"
+    },
+    "sha256": "7e1e0b42f5def951dcc17095df0f5951ddfee5b16b916080681442d97d50f50c",
+    "status": "approved",
+    "role": "Established inventory/inspector presentation and institutional materials"
+  },
+  "approved-family_portrait_photo-inspect.png": {
+    "registryKey": "items:family_portrait_photo#inspect",
+    "source": {
+      "repo": "InterstellarHarvest/CYOA",
+      "ref": "agent/canonical-storyboard-sync-20261116",
+      "commit": "20b52601c5733a633a385bbb1c60995174e530cc",
+      "path": "art/items/family_portrait_photo_inspect.png"
+    },
+    "sha256": "cf9cebc88a5e320d1f3cba3626477c8919c2e418f9c43923691cee5a05ba86d3",
+    "status": "approved",
+    "role": "Established inventory/inspector presentation and institutional materials"
+  },
+  "batch5-D-agricultural-customs.png": {
+    "sourceRepository": "InterstellarHarvest/CYOA",
+    "sourceCommit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+    "sourcePath": "review/chapter-02-batch05-2026-11-17/candidates/D-agricultural-customs.png",
+    "status": "approved",
+    "role": "Exact selected scene reference",
+    "sha256": "9bc80696f31efacdbba2babd95abfe460a9fb6158ad8b674299a91744403cdef"
+  },
+  "batch5-D-agricultural-customs-4x.png": {
+    "sourceRepository": "InterstellarHarvest/CYOA",
+    "sourceCommit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+    "sourcePath": "review/chapter-02-batch05-2026-11-17/previews/D-agricultural-customs-4x.png",
+    "status": "approved",
+    "role": "Exact selected scene reference",
+    "sha256": "667f947d96bcd22e75045fc234af47c0c3870ba8eb0d8459f64231fae6f1da35"
+  },
+  "batch3-A-authorization-archive.png": {
+    "sourceRepository": "InterstellarHarvest/CYOA",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/A-authorization-archive.png",
+    "status": "approved",
+    "role": "Exact selected scene reference",
+    "sha256": "cf56a225b9341ac24c654562e002e4d45d5c56be36aa7f4d3f40f045bebc79ec"
+  },
+  "batch3-A-authorization-archive-4x.png": {
+    "sourceRepository": "InterstellarHarvest/CYOA",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/A-authorization-archive-4x.png",
+    "status": "approved",
+    "role": "Exact selected scene reference",
+    "sha256": "2d49f009b45433ed2b590fef126883112e5d5b258cf649f2ea6669cbe06d4e85"
+  },
+  "batch3-B-central-flower.png": {
+    "sourceRepository": "InterstellarHarvest/CYOA",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/candidates/B-central-flower.png",
+    "status": "approved",
+    "role": "Exact selected scene reference",
+    "sha256": "68698aea02b19bbc9fedca48b978be1c2329ca136c140084b2396dfafe4f8e58"
+  },
+  "batch3-B-central-flower-4x.png": {
+    "sourceRepository": "InterstellarHarvest/CYOA",
+    "sourceCommit": "009c5afea133f36a92f2af74887e00b351d9b914",
+    "sourcePath": "review/chapter-02-batch03-2026-11-17/previews/B-central-flower-4x.png",
+    "status": "approved",
+    "role": "Exact selected scene reference",
+    "sha256": "dc8895bdef1479bbf05af18ef0eacefa53304b445768cb64bfc45ddfd482fd5c"
+  },
+  "batch1-B-groundskeeper.png": {
+    "sourceRepository": "InterstellarHarvest/CYOA",
+    "sourceCommit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "sourcePath": "review/chapter-02-batch01-2026-11-15/candidates/B-groundskeeper.png",
+    "status": "approved",
+    "role": "Exact selected scene reference",
+    "sha256": "5f3ff412dff5b710bfbbe7a33c6f4b4de0ee815208b7854c393b546212371e95"
+  },
+  "batch1-B-groundskeeper-4x.png": {
+    "sourceRepository": "InterstellarHarvest/CYOA",
+    "sourceCommit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+    "sourcePath": "review/chapter-02-batch01-2026-11-15/previews/B-groundskeeper-4x.png",
+    "status": "approved",
+    "role": "Exact selected scene reference",
+    "sha256": "781cb2fcc46641f992948e92a24a3ba4789259358dbb80a737d32ef39e99acca"
+  }
+}

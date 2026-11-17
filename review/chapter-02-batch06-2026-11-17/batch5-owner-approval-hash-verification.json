@@ -1,0 +1,47 @@
+{
+  "immutableCandidateCommit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+  "finalReviewCommit": "3112565df2fd6d2f2f7f72a1ae8d6d9998d14024",
+  "allMatch": true,
+  "assets": [
+    {
+      "registryKey": "scenes:biology_park/lower_irrigation",
+      "candidatePath": "review/chapter-02-batch05-2026-11-17/candidates/A-lower-irrigation.png",
+      "sha256": "8f0df4ad7cbdd73182e5266bb253a8f415c2fbb4536fe908eff544b2902182a8",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "scenes:biology_park/public_exit",
+      "candidatePath": "review/chapter-02-batch05-2026-11-17/candidates/B-public-exit.png",
+      "sha256": "e47576d21610f3d5f2d85027192e37197cf317ffdabdbe72977bd971ec9a97aa",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "scenes:biology_park/maintenance_exit",
+      "candidatePath": "review/chapter-02-batch05-2026-11-17/candidates/C-maintenance-exit.png",
+      "sha256": "1417e2700c2d6bf29ef937dc4924e11cfcbdcee65f6daf1ef3710ddd2caed7c7",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "scenes:biology_park/agricultural_customs",
+      "candidatePath": "review/chapter-02-batch05-2026-11-17/candidates/D-agricultural-customs.png",
+      "sha256": "9bc80696f31efacdbba2babd95abfe460a9fb6158ad8b674299a91744403cdef",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "scenes:biology_park/exposition_concourse",
+      "candidatePath": "review/chapter-02-batch05-2026-11-17/candidates/E-exposition-concourse.png",
+      "sha256": "8d7f81908f9d65d2c24c042ea928b3a2d3f7497580b217e9fec673591ba575e3",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    }
+  ]
+}

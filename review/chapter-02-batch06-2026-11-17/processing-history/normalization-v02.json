@@ -1,0 +1,78 @@
+{
+  "assets": [
+    {
+      "source": "generation-source/A-acting-director-badge-slot-v01.png",
+      "sourceSha256": "e0811ea0bbd521dcab6fff66a075075d1475987c61f685e50577afb364392531",
+      "candidate": "candidates/A-acting-director-badge-slot.png",
+      "sha256": "a09dae0d8201b6062c51e4f5cc99c1e49b77240b400e7dbf5107bb805bf56c44",
+      "method": "Source alpha threshold128; retain largest connected object; crop alpha padding; NEAREST fit within88x88; center on96x96; binary native alpha; hidden RGB zero; exact existing palette without dithering",
+      "alphaCropBox": [
+        179,
+        105,
+        1075,
+        1128
+      ],
+      "fittedObjectSize": [
+        77,
+        88
+      ],
+      "objectOffset": [
+        9,
+        4
+      ],
+      "alphaProcessing": {
+        "sourceComponents": 1,
+        "keptPixels": 744340,
+        "removedDetachedPixels": 0
+      }
+    },
+    {
+      "source": "generation-source/B-acting-director-badge-inspect-v02.png",
+      "sourceSha256": "2f5670071dace12036b38d57846ad27b36d0ecf380d9c5d2e601cf67f079038b",
+      "candidate": "candidates/B-acting-director-badge-inspect.png",
+      "sha256": "a6a21d330139af8013d46f80dec7ad278d800d0b1b01c217fb0abd29d9544f3d",
+      "method": "Whole-canvas NEAREST to565x451, no crop/pad; exact existing64-paint palette without dithering; no enlargement of inventory icon",
+      "alphaCropBox": null,
+      "fittedObjectSize": null,
+      "objectOffset": null,
+      "alphaProcessing": null
+    },
+    {
+      "source": "generation-source/C-certified-seed-canister-slot-v01.png",
+      "sourceSha256": "19075c31a82b18e86eddebd73be9b782f18da499ec84a2ab9b081027d46eb840",
+      "candidate": "candidates/C-certified-seed-canister-slot.png",
+      "sha256": "0256464ebb925f1b34fef0a4bc6df7af262289ab9eaa57cea0a7520ffea17998",
+      "method": "Source alpha threshold128; retain largest connected object; crop alpha padding; NEAREST fit within88x88; center on96x96; binary native alpha; hidden RGB zero; exact existing palette without dithering",
+      "alphaCropBox": [
+        110,
+        280,
+        1141,
+        998
+      ],
+      "fittedObjectSize": [
+        88,
+        61
+      ],
+      "objectOffset": [
+        4,
+        17
+      ],
+      "alphaProcessing": {
+        "sourceComponents": 1,
+        "keptPixels": 643135,
+        "removedDetachedPixels": 0
+      }
+    },
+    {
+      "source": "generation-source/D-certified-seed-canister-inspect-v01.png",
+      "sourceSha256": "8b65e189ec586c5a6c5ec87f64917e56607745b54e23d276886dfca90530d274",
+      "candidate": "candidates/D-certified-seed-canister-inspect.png",
+      "sha256": "958cdf2442ed5412efc14f8c9f9f65c90f64f702e3de452be80e3a8e172ed9f7",
+      "method": "Whole-canvas NEAREST to565x451, no crop/pad; exact existing64-paint palette without dithering; no enlargement of inventory icon",
+      "alphaCropBox": null,
+      "fittedObjectSize": null,
+      "objectOffset": null,
+      "alphaProcessing": null
+    }
+  ]
+}

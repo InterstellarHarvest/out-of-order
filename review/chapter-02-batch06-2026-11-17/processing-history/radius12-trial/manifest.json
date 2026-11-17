@@ -1,0 +1,6 @@
+{
+  "status": "not-used",
+  "method": "Established Chapter1 frequency-first existing-RGB substitution, radius12, before exact64-palette quantization",
+  "sourceScript": "../chapter-01-batch03-2026-11-15/build_review.py:merge_near_colors",
+  "reason": "Did not sufficiently remove card grain; final outputs do not use this step. B instead uses a preserved targeted built-in source edit."
+}

@@ -1,0 +1,151 @@
+# The Acceptable Error — Chapter 2 Art: Batch 5 Approval + Batch 6 Production
+
+## 1. FINAL OWNER APPROVAL — BATCH 5
+
+Nate has approved all five Batch 5 images without changes. Art Director verdict: PASS A–E.
+
+Do not regenerate or request another selection.
+
+**Approved source:**
+- Repository: `InterstellarHarvest/CYOA`
+- Branch: `agent/ch02-art-batch05-irrigation-exits`
+- Immutable candidate commit: `a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf`
+- Review commit: `3112565df2fd6d2f2f7f72a1ae8d6d9998d14024`
+- Candidate directory: `review/chapter-02-batch05-2026-11-17/candidates/`
+
+### Approved assets
+
+| ID | Filename | SHA-256 |
+|---|---|---|
+| A | `A-lower-irrigation.png` | `8f0df4ad7cbdd73182e5266bb253a8f415c2fbb4536fe908eff544b2902182a8` |
+| B | `B-public-exit.png` | `e47576d21610f3d5f2d85027192e37197cf317ffdabdbe72977bd971ec9a97aa` |
+| C | `C-maintenance-exit.png` | `1417e2700c2d6bf29ef937dc4924e11cfcbdcee65f6daf1ef3710ddd2caed7c7` |
+| D | `D-agricultural-customs.png` | `9bc80696f31efacdbba2babd95abfe460a9fb6158ad8b674299a91744403cdef` |
+| E | `E-exposition-concourse.png` | `8d7f81908f9d65d2c24c042ea928b3a2d3f7497580b217e9fec673591ba575e3` |
+
+### Approval registration
+
+Follow the established Batch 4 registration process in `BATCH4_APPROVAL.md` and `docs/105`.
+
+1. Verify all five source hashes.
+2. Promote the five canonical artwork records from `generated` to `approved`.
+3. Register their immutable source paths, hashes, and owner approval provenance.
+4. Publish their exact PNG bytes to the public selected-art catalog.
+5. Preserve all 91 previously approved PNGs byte-for-byte.
+6. Verify all **96 selected-art entries** against their source hashes.
+7. Run canonical sync, storyboard, art-lab, and registration QA.
+8. Preserve source generations, comparisons, prompts, and review history.
+
+Gameplay production `assetPath` values remain null until integration by the Gameplay PMO.
+
+Use the latest canonical storyboard main. Preserve concurrent authored Chapter 3 changes.
+
+If GitHub Actions storage or deployment limits block publication, report the failure. Do not delete workflow artifacts or history without authorization.
+
+## 2. IMMEDIATELY BEGIN BATCH 6
+
+After Batch 5 registration is committed, generate four artwork records.
+
+### Batch 6 — Credentials and Courier Cargo
+
+1. `items:acting_director_badge#slot`
+2. `items:acting_director_badge#inspect`
+3. `items:certified_seed_canister#slot`
+4. `items:certified_seed_canister#inspect`
+
+Read the complete canonical artwork records, associated item descriptions, relevant story nodes, and approved reference artwork before generating.
+
+### Dimensions
+
+| Variant | Native dimensions |
+|---|---|
+| Inventory slot | 96 × 96, transparent PNG |
+| Item inspector | 565 × 451, detailed artwork |
+
+Match established inventory presentation, transparency, palette, and source-processing conventions.
+
+### Critical art-direction requirement: Seed canister
+
+The approved Agricultural Customs scene from Batch 5 establishes the certified seed container's appearance.
+
+Use `D-agricultural-customs.png` as a primary visual reference.
+
+The certified seed canister should retain:
+
+- Compact, rounded-rectangular metal cargo-container silhouette.
+- Industrial silver/gray finish.
+- Teal institutional identification details.
+- The same general closure and sealed-cargo appearance.
+- Consistency between its 96×96 inventory icon and its 565×451 inspection illustration.
+
+Do not reinterpret it as an ordinary cylindrical canister.
+
+Preserve the story's distinction between a certified, sealed container and what may happen to its contents later. Do not imply the seeds have already escaped or germinated.
+
+### Acting Director badge
+
+Use the canonical story and previously approved badge/credential designs as references.
+
+The badge should convey temporary administrative authority in this absurd bureaucratic world.
+
+Keep it visually consistent between inventory and inspector views.
+
+Use clear institutional design, not ornamental brass, fantasy insignia, or modern corporate branding.
+
+Avoid invented readable wording that contradicts the narrative.
+
+### Quality requirements
+
+- Generate actual artwork for all four records.
+- Preserve original full-resolution generations.
+- Create native logical-resolution candidates.
+- Provide exact nearest-neighbor review enlargements.
+- Maintain the established industrial palette.
+- Avoid dithering noise and unstable microlettering.
+- Ensure each item is recognizable at inventory size.
+- Preserve all existing approved art.
+- Do not modify the Chapter 2 narrative or gameplay mechanics.
+
+## 3. REVIEW DELIVERABLES
+
+Prepare a Batch 6 gallery featuring:
+
+- Four native candidates.
+- Enlarged pixel-perfect previews.
+- Slot and inspector variants displayed together.
+- Continuity comparisons with approved artwork.
+- Transparency checks where applicable.
+- Original source images and generation prompts.
+- SHA-256 manifest and QA results.
+- Updated remaining artwork queue.
+
+Publish the four canonical statuses as `generated`, with no production paths assigned.
+
+Do not mark them approved before owner review.
+
+## 4. REMAINING WORK
+
+After Batch 6 generation, there should be **14 artwork records** remaining:
+
+- Batch 7: nine antidote/Focus A records.
+- Batch 8: five fatal-ending illustrations.
+
+Do not start Batch 7 in this task.
+
+The three Focus A artwork records currently declare 564×278, while their future Scene Pickup presentation references 565×451. Preserve that discrepancy for explicit resolution before Batch 7.
+
+Do not alter death-screen specifications.
+
+## 5. REPORT BACK
+
+Provide:
+
+1. Batch 5 registration commit.
+2. Confirmation that all 96 public selected-art hashes match.
+3. Batch 6 branch and immutable candidate commit.
+4. Review gallery location.
+5. Four candidate paths and SHA-256 values.
+6. QA results and visual concerns.
+7. Updated remaining queue.
+
+**Stop after generating and publishing Batch 6 candidates for Art Director review. Do not wait between Batch 5 registration and Batch 6 generation unless genuinely blocked.**

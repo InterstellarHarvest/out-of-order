@@ -1,0 +1,112 @@
+{
+  "canonicalSource": "7f4d086d209657f16a9ba71bcea1f0b6a52f89e0",
+  "artworkBaseline": "3112565df2fd6d2f2f7f72a1ae8d6d9998d14024",
+  "tool": "built-in image_gen",
+  "assets": {
+    "A": {
+      "id": "A",
+      "key": "items:acting_director_badge#slot",
+      "source": "generation-source/A-acting-director-badge-slot-v01.png",
+      "prompt": "prompts/A-v01.txt",
+      "references": [
+        "generation-source/B-acting-director-badge-inspect-v01.png",
+        "references/approved-expo_examiner_badge-slot.png"
+      ],
+      "referenceRoles": [
+        "new unselected matching item identity",
+        "approved slot presentation"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-55cc547c-4754-4c6b-97bb-7b8c73ec5fac.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyGenerated": true,
+      "transparentBackgroundRequested": true
+    },
+    "B": {
+      "id": "B",
+      "key": "items:acting_director_badge#inspect",
+      "source": "generation-source/B-acting-director-badge-inspect-v02.png",
+      "prompt": "prompts/B-v02-color-cleanup.txt",
+      "references": [
+        "generation-source/B-acting-director-badge-inspect-v01.png",
+        "references/approved-expo_examiner_badge-inspect.png"
+      ],
+      "referenceRoles": [
+        "New unselected independent inspector, edit target",
+        "Approved clean credential treatment"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-eb0396a8-069d-43d9-b3d5-1185aa3155b6.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyGenerated": true,
+      "transparentBackgroundRequested": false,
+      "previousVersions": [
+        {
+          "id": "B",
+          "key": "items:acting_director_badge#inspect",
+          "source": "generation-source/B-acting-director-badge-inspect-v01.png",
+          "prompt": "prompts/B-v01.txt",
+          "references": [
+            "references/approved-expo_examiner_badge-inspect.png",
+            "references/approved-red_stapler-inspect.png",
+            "references/batch3-A-authorization-archive-4x.png"
+          ],
+          "referenceRoles": [
+            "approved credential design and inspector presentation",
+            "approved controlled item rendering",
+            "approved Biology Park administrative palette"
+          ],
+          "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-2d7e2566-3893-45bd-8c21-1421a9cbf21e.png",
+          "status": "generated",
+          "selected": false,
+          "independentlyGenerated": true,
+          "transparentBackgroundRequested": false,
+          "reason": "Native fixed-palette export emphasized source grain in green paper; retained and superseded by targeted source-color cleanup."
+        }
+      ],
+      "currentSourceMode": "targeted source-color cleanup of independent inspector"
+    },
+    "C": {
+      "id": "C",
+      "key": "items:certified_seed_canister#slot",
+      "source": "generation-source/C-certified-seed-canister-slot-v01.png",
+      "prompt": "prompts/C-v01.txt",
+      "references": [
+        "generation-source/D-certified-seed-canister-inspect-v01.png",
+        "references/batch5-D-agricultural-customs-4x.png",
+        "references/approved-red_stapler-slot.png"
+      ],
+      "referenceRoles": [
+        "new unselected matching case identity",
+        "approved primary case silhouette and closure",
+        "approved slot presentation"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-400cf78d-2801-4465-ba23-5d388e420814.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyGenerated": true,
+      "transparentBackgroundRequested": true
+    },
+    "D": {
+      "id": "D",
+      "key": "items:certified_seed_canister#inspect",
+      "source": "generation-source/D-certified-seed-canister-inspect-v01.png",
+      "prompt": "prompts/D-v01.txt",
+      "references": [
+        "references/batch5-D-agricultural-customs-4x.png",
+        "references/approved-red_stapler-inspect.png",
+        "references/batch3-A-authorization-archive-4x.png"
+      ],
+      "referenceRoles": [
+        "approved primary rounded-rectangular cargo case authority",
+        "approved item inspector rendering",
+        "approved metal and teal materials"
+      ],
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-477b4d06-d828-4896-9079-c0e264a9fc57.png",
+      "status": "generated",
+      "selected": false,
+      "independentlyGenerated": true,
+      "transparentBackgroundRequested": false
+    }
+  }
+}

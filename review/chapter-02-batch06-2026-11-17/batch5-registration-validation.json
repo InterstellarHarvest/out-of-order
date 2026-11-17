@@ -1,0 +1,20 @@
+{
+  "allFiveOwnerHashesMatch": true,
+  "previousSelectedEntriesPreserved": 91,
+  "newSelectedEntries": 5,
+  "selectedEntryCount": 96,
+  "allPreviousSelectedPngBytesPreserved": true,
+  "allAuthoredChapterAndItemBytesPreserved": true,
+  "changedTrackedFiles": [
+    "docs/103_RETROACTIVE_ARTWORK_APPROVAL_LEDGER.md",
+    "story/artwork-preview.json",
+    "story/artwork.draft.json",
+    "tools/storyboard/qa-fixtures/legacy-render-snapshot.json"
+  ],
+  "preexistingQaDrift": {
+    "baselineCommit": "79d23affe6cd47b8f71073a221623ab4b62e7dbe",
+    "repair": "Refresh generated renderer snapshot after concurrent authored Chapter3 edits; no authored Chapter3 or QA implementation changes."
+  },
+  "allFiveChecksPassed": true,
+  "registrationCommit": "7f4d086d209657f16a9ba71bcea1f0b6a52f89e0"
+}
