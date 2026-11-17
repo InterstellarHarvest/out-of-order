@@ -87,8 +87,9 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
   // docs/92 adds the 28 bound Chapter 1 House images (the 29th, the default chair, is unbound).
   const houseArt = (a) => /house_of_tomorrow|portraits\/house\/|family_portrait_photo/.test(a.path);
-  check(g, 'every art file is recorded with its artwork status and sha256 (28 generated Prologue drafts + 28 generated House images, 5 reused approved)', b.ok
-    && b.meta.art.filter((a) => a.status === 'generated' && !houseArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'generated' && houseArt(a)).length === 28
+  // Owner ruling 2026-11-16 (public docs/102-103, docs/97): selected + used art is approved; in this build = integrated.
+  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 28 integrated House images, 5 reused approved)', b.ok
+    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 28
     && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
 })();
 
@@ -411,17 +412,19 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
 })();
 
 // 6b. Art status and the provisional overlay ---------------------------------------------------------
-// The 28 generated prologue images are development assets: their status stays 'generated' and their
-// bytes are pinned by the sha256 each build records, so neither can change without a visible diff.
+// The 28 Prologue and 28 House images are selected and used: by the owner ruling of 2026-11-16 their
+// status is 'integrated' (canonical public catalog, docs/97). Their bytes are pinned by the sha256 each
+// build records, so neither status nor pixels can change without a visible diff. Nothing the build uses
+// may read as unselected ('generated') or as selected-but-unused ('approved').
 (function artStatus() {
   const g = 'art-status';
   const b = build();
-  const gen = b.meta.art.filter((a) => a.status === 'generated');
+  const gen = b.meta.art.filter((a) => a.status === 'integrated');
   // The House images (docs/92) are pinned twice: by this sha256 and by art/house_of_tomorrow.provenance.json.
   const prov = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/house_of_tomorrow.provenance.json'), 'utf8')).images.filter((r) => r.id !== 'house_of_tomorrow/chair#default_unrestrained');
   const houseOk = prov.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256));
-  check(g, 'the build records every story image with its artwork status and sha256 (28 generated Prologue + 28 generated House images matching their provenance, none approved)', gen.length === 56 && houseOk
-    && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'approved'),
+  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 28 integrated House images matching their provenance, none generated or approved-only)', gen.length === 56 && houseOk
+    && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'approved' || a.status === 'generated'),
     b.meta.art.map((a) => a.status));
   const t = copySource(STORY).edit('artwork.draft.json', (j) => {
     const k = Object.keys(j.scenes)[0];
@@ -466,13 +469,13 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'its dead end is now one authored continue card whose destination is chapter: "chapter-01" (no to, no restart)', JSON.stringify(hall.choices)
     === JSON.stringify([{ id: 'continue_to_chapter_01', kind: 'continue', text: 'CONTINUE', chapter: 'chapter-01' }]), hall.choices);
   const c1 = st.chapters['chapter-01'];
-  // docs/92: the 14 House scenes now carry their own selected production art (generated, owner
-  // approval pending), each its own file under art/scenes/house_of_tomorrow/, never Prologue art.
+  // docs/92: the 14 House scenes now carry their own selected production art (integrated: owner ruling
+  // 2026-11-16), each its own file under art/scenes/house_of_tomorrow/, never Prologue art.
   check(g, 'House Chapter 1 uses its 14 independently declared scenes, each with its own House production file, not Prologue corridor art',
     c1.scene === 'house_of_tomorrow/arrival'
     && Object.keys(src('artwork.draft.json').scenes).filter((x) => x.startsWith('house_of_tomorrow/')).length === 14
     && Object.keys(st.assets.scenes).filter((x) => x.startsWith('house_of_tomorrow/')).every((x) => st.assets.scenes[x] === 'art/scenes/' + x + '.png'
-      && src('artwork.draft.json').scenes[x].status === 'generated')
+      && src('artwork.draft.json').scenes[x].status === 'integrated')
     && !src('artwork.draft.json').scenes['house_of_tomorrow/opening'], c1.scene);
 
   // Walk every distinct Prologue route to the hand-off (choices, SHOW/USE, and the item verbs that

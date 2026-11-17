@@ -6,7 +6,8 @@
 //                  its recorded sha256 / git blob (and to its pinned source blob when that commit is
 //                  in the local clone), has its recorded size and colour type
 //   2. registry    each is registered exactly where docs/92 says (artwork.draft.json), status
-//                  generated (never approved/integrated), no review/ path; the generated story uses
+//                  integrated (selected AND used; the unbound chair state: approved) under the owner
+//                  ruling of 2026-11-16 (public docs/102-103, docs/97), no review/ path; the generated story uses
 //                  all of them except the one documented unbound state, with matching sha256
 //   3. selection   Rules.view on real Prologue -> House routes (game/qa/ch02_routes.js): the storage
 //                  overlays, plant pedestal, album-removed gallery, album pages, RETURNS display,
@@ -88,10 +89,13 @@ const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
   (ART.focus['house_of_tomorrow/portrait_gallery/album'].pages || []).forEach((pg, i) => { at['focus-page house_of_tomorrow/portrait_gallery/album:page:' + (i + 1)] = pg; });
   at['item-slot family_portrait_photo'] = ART.items.family_portrait_photo.slot;
   at['item-inspect family_portrait_photo'] = ART.items.family_portrait_photo.inspect;
+  // Owner ruling 2026-11-16: selected + used art is approved; used in this build = integrated. The one
+  // selected-but-unbound state is approved, never displayed, so never integrated.
+  const want = (r) => (r.id === 'house_of_tomorrow/chair#default_unrestrained' ? 'approved' : 'integrated');
   PROV.images.forEach((r) => {
     const rec = at[r.kind + ' ' + r.id];
-    check(g, r.kind + ' ' + r.id + ' registered at ' + r.path + ' (status generated; owner art approval pending)',
-      rec && rec.assetPath === r.path && rec.status === 'generated', rec && { assetPath: rec.assetPath, status: rec.status });
+    check(g, r.kind + ' ' + r.id + ' registered at ' + r.path + ' (status ' + want(r) + ': selected, owner-approved by the 2026-11-16 ruling)',
+      rec && rec.assetPath === r.path && rec.status === want(r), rec && { assetPath: rec.assetPath, status: rec.status });
   });
   const houseRecords = Object.keys(at).length;
   check(g, 'every House art record in the registry is one of the 29 (none left as a placeholder)', houseRecords === 29, Object.keys(at).filter((k) => !PROV.images.some((r) => r.kind + ' ' + r.id === k)));
@@ -109,7 +113,7 @@ const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
         && !JSON.stringify(story.assets).includes(r.path) && ART.scenes['house_of_tomorrow/chair'].states[0].selection === null);
       return;
     }
-    check(g, 'generated story uses ' + r.path + ' with the provenance sha256', built[r.path] && built[r.path].sha256 === r.sha256 && built[r.path].status === 'generated', built[r.path]);
+    check(g, 'generated story uses ' + r.path + ' with the provenance sha256', built[r.path] && built[r.path].sha256 === r.sha256 && built[r.path].status === 'integrated', built[r.path]);
   });
   const hs = Object.keys(story.assets.scenes).filter((k) => k.startsWith('house_of_tomorrow/'));
   check(g, 'all 14 House scenes have production art (no DEV PLACEHOLDER left in Chapter 1)', hs.length === 14 && hs.every((k) => typeof story.assets.scenes[k] === 'string'));

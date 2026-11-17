@@ -34,8 +34,7 @@
           "text": "TRY THE UNMARKED DOOR.",
           "to": "badge_registration"
         }
-      ],
-      "notes": "The Examiner badge is an admission pretext. The protagonist is NOT registered as an absent family member."
+      ]
     },
     "badge_registration": {
       "mode": "narrative",
@@ -48,8 +47,7 @@
           "text": "CONTINUE",
           "to": "welcome_home"
         }
-      ],
-      "notes": "Use the complete opaque foyer intercom portrait for House dialogue here, not a separately layered House foreground. Nothing in the House contains visible living family members."
+      ]
     },
     "welcome_home": {
       "mode": "dialogue",
@@ -77,7 +75,6 @@
           "to": "orientation_refusal"
         }
       ],
-      "notes": "The speaker is an automated wall fixture. Four people once lived here, but no household role is assigned to the player.",
       "pose": "idle"
     },
     "orientation_storage": {
@@ -145,8 +142,7 @@
           "text": "ASK WHERE THE BATHROOM IS.",
           "to": "comfort_offer"
         }
-      ],
-      "notes": "The conditional effects remove at most one held item and record its exact ID. Other items remain carried."
+      ]
     },
     "orientation_refusal": {
       "mode": "narrative",
@@ -267,8 +263,7 @@
           },
           "to": "storage_cabinet"
         }
-      ],
-      "notes": "A refusal makes the house take one actually held item on this arrival; retrieving it later does not trigger a second theft."
+      ]
     },
     "storage_cabinet": {
       "mode": "narrative",
@@ -370,8 +365,7 @@
           "text": "LEAVE THE OBJECT WHERE IT IS.",
           "to": "refused_both"
         }
-      ],
-      "notes": "Item retrieval changes actual inventory. Retained-item gates must always check has(item), never a remembered prologue value."
+      ]
     },
     "storage_reclaimed": {
       "mode": "narrative",
@@ -403,8 +397,7 @@
           "text": "TRY THE FRONT DOOR INSTEAD.",
           "to": "foyer_attempt"
         }
-      ],
-      "notes": "This is not a rotten-food or endless-dinner hazard. The absent-family clue is visual and indirect."
+      ]
     },
     "refused_both": {
       "mode": "narrative",
@@ -499,8 +492,7 @@
           },
           "to": "portrait_intro"
         }
-      ],
-      "notes": "The front door has only one immediate success: the actually held, newly named plant. No outing or emergency evacuation option here. Dinner is visited only once; afterward proceed to portrait."
+      ]
     },
     "plant_adoption": {
       "mode": "narrative",
@@ -521,8 +513,7 @@
           },
           "to": "exit_named_plant"
         }
-      ],
-      "notes": "This is a real item handover. Do not acquire it from the stored-item tag or pretend confiscated plants are possessed."
+      ]
     },
     "exit_named_plant": {
       "mode": "narrative",
@@ -542,8 +533,7 @@
           "text": "CONTINUE",
           "chapter": "chapter-02"
         }
-      ],
-      "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
+      ]
     },
     "dinner_redirect": {
       "mode": "narrative",
@@ -586,8 +576,7 @@
           "text": "DECLARE DINNER FINISHED AND TRY TO LEAVE.",
           "to": "foyer_attempt"
         }
-      ],
-      "notes": "Dinner always concerns absent family, never spoiled food. Choice A instantly triggers bedtime; not a permanent identity assignment."
+      ]
     },
     "dinner_clue": {
       "mode": "narrative",
@@ -611,8 +600,7 @@
           "text": "LEAVE THE TABLE AND TRY THE FRONT DOOR.",
           "to": "foyer_attempt"
         }
-      ],
-      "notes": "Optional trace only; do not infer the family escaped or explain what killed them."
+      ]
     },
     "martin_bedtime": {
       "mode": "narrative",
@@ -649,8 +637,7 @@
           "text": "LEAVE THE BEDROOM AND TRY THE FRONT DOOR.",
           "to": "foyer_attempt"
         }
-      ],
-      "notes": "The clue is childlike, improvised and deliberate. No confirmation that Martin himself used the route."
+      ]
     },
     "wardrobe_passage": {
       "mode": "narrative",
@@ -688,8 +675,7 @@
           "text": "CONTINUE",
           "chapter": "chapter-02"
         }
-      ],
-      "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
+      ]
     },
     "chair_warning": {
       "mode": "narrative",
@@ -770,8 +756,7 @@
           "text": "STOP STRUGGLING AND ACCEPT THE FULL TREATMENT.",
           "to": "exit_chair_fatal"
         }
-      ],
-      "notes": "Odds provisional: stapler 3/6 success, unarmed 1/6. Stapler is NOT consumed; decision remains open and must be audited with Chapter 2 gardening encounter."
+      ]
     },
     "exit_chair_fatal": {
       "mode": "narrative",
@@ -785,8 +770,7 @@
           "restart": true
         }
       ],
-      "end": true,
-      "notes": "Fatal ending, no carried condition."
+      "end": true
     },
     "service_breach": {
       "mode": "narrative",
@@ -858,8 +842,7 @@
             "to": "exit_service_registered"
           }
         }
-      ],
-      "notes": "Important: the release always opens; the hidden roll decides extra comic/administrative harm, not exit success."
+      ]
     },
     "exit_service_clean": {
       "mode": "narrative",
@@ -879,8 +862,7 @@
           "text": "CONTINUE",
           "chapter": "chapter-02"
         }
-      ],
-      "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
+      ]
     },
     "exit_service_registered": {
       "mode": "narrative",
@@ -900,8 +882,7 @@
           "text": "CONTINUE",
           "chapter": "chapter-02"
         }
-      ],
-      "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
+      ]
     },
     "portrait_intro": {
       "mode": "narrative",
@@ -957,8 +938,7 @@
           "text": "REMIND THE HOUSE YOU NEED THE BATHROOM.",
           "to": "bathroom_arrival"
         }
-      ],
-      "notes": "Artwork: main gallery scene contains four vacant chairs. The separate photograph shows three complete empty chairs and a cropped fourth at right, with part of the seated protagonist's shirt, lap, legs and shoes visible; no head or face."
+      ]
     },
     "album_closeup": {
       "mode": "focus",
@@ -977,8 +957,7 @@
           "text": "CLOSE THE ALBUM.",
           "back": true
         }
-      ],
-      "notes": "Optional Focus A art only. Original human family and skeletons never appear in main-room scene art. Use several 2-4-photo pages."
+      ]
     },
     "portrait_before_album": {
       "mode": "dialogue",
@@ -999,7 +978,6 @@
           "to": "bathroom_arrival"
         }
       ],
-      "notes": "No defensive response or diagnostic. The house cannot comprehend death; no redundant confrontation flag.",
       "pose": "idle"
     },
     "bathroom_arrival": {
@@ -1013,8 +991,7 @@
           "text": "TRY THE TOILET AND PRESS ITS HANDLE.",
           "to": "bathroom_fake_flush"
         }
-      ],
-      "notes": "This is a model showroom bathroom, not a trap or automated sanitation chamber. The player can still escape earlier without discovering it."
+      ]
     },
     "bathroom_fake_flush": {
       "mode": "narrative",
@@ -1065,8 +1042,7 @@
           "text": "CONTINUE",
           "chapter": "chapter-02"
         }
-      ],
-      "notes": "TERMINAL CHAPTER 1 EXIT: preserve this state for the distinct Chapter 2 opening. The restart card is a draft-only bridge while chapter-02 is not registered; replace with a chapter transition during Chapter 2 integration."
+      ]
     }
   }
 }

@@ -41,6 +41,15 @@ jobs:
         run: node tools/story-import/import.js --check
       - name: Generated story is up to date with story/ (not stale, not hand-edited)
         run: node tools/story-import/import.js --verify
+      - name: story/ is the projection of its pinned canonical storyboard revision (no hand edits, no stray canon)
+        run: node tools/story-sync/sync.js verify
+      - name: Re-project the pinned revision from the public storyboard and compare byte for byte
+        run: node tools/story-sync/sync.js verify --online
+      - name: Drift report against public storyboard main (informational; consume with sync.js pull)
+        continue-on-error: true
+        run: node tools/story-sync/sync.js status
+      - name: Story sync self-test (projection, refusals, contract, integration report)
+        run: node tools/story-sync/qa-sync.js
       - name: Glyph ink table matches the font atlases
         run: node tools/glyph-ink/build.js --verify
       - name: Route validation (v1 engine)
@@ -59,8 +68,6 @@ jobs:
         run: node game/qa/validate_death_controls.js
       - name: Assets (static)
         run: node game/qa/validate_assets.js
-      - name: Storyboard viewer (chapters, independent layouts, shared art catalog)
-        run: node tools/storyboard/qa-smoke.mjs
       - name: Results
         if: always()
         uses: actions/upload-artifact@v4
@@ -117,9 +124,6 @@ jobs:
       - name: Biology Park full routes + Scene Pickup Inspector (House hand-offs, antidote kits, two browsers)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch02_routes_qa.js
-      - name: Storyboard viewer in the browser (chapter switching, layout export/import)
-        if: (success() || failure()) && steps.pw.outcome == 'success'
-        run: node tools/storyboard/qa-browser.js
       - name: M2 reception game (regression fixture, ?story=reception)
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_qa.js

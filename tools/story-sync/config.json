@@ -1,0 +1,8 @@
+{
+  "schema": "cyoa-story-sync-config-v1",
+  "about": "Which canonical storyboard chapters this game build consumes (docs/97). Chapter 3 is deliberately absent: add a chapter here only on explicit owner authorization to integrate it.",
+  "repo": "InterstellarHarvest/CYOA-storyboard",
+  "gameRepo": "InterstellarHarvest/CYOA",
+  "chapters": ["prologue-00", "chapter-01", "chapter-02"],
+  "gameOwned": ["story/runtime-settings.json"]
+}
