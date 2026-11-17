@@ -68,10 +68,15 @@ function gitBlob(file) {
   const data = fs.readFileSync(file);
   return crypto.createHash('sha1').update('blob ' + data.length + '\0').update(data).digest('hex');
 }
+// A suite that writes the same result as the committed copy leaves identical bytes, so content alone
+// cannot tell "rewritten" from "untouched". The checkout time can: the workflow file is written by the
+// checkout, before any suite runs, so a file modified more than a second later was written by the job.
+const CHECKOUT_MS = (() => { try { return fs.statSync(path.join(ROOT, '.github/workflows/qa.yml')).mtimeMs; } catch (_) { return 0; } })();
 function origin(rel, abs, committed) {
   const blob = committed.get(rel);
   if (!blob) return 'written-this-run';
-  return gitBlob(abs) === blob ? 'same-as-committed' : 'rewritten-this-run';
+  if (gitBlob(abs) !== blob) return 'rewritten-this-run';
+  return fs.statSync(abs).mtimeMs > CHECKOUT_MS + 1000 ? 'rewritten-identical' : 'untouched-committed-copy';
 }
 
 function main() {

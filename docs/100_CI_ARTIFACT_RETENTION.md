@@ -39,7 +39,7 @@ Every QA step still runs, on every run, with the same commands and conditions. O
 **The artifact index** (`tools/ci/qa-artifact-index.js`) runs on every run, so a passing run without screenshots still records exactly what was produced:
 - every screenshot, by folder, name, size and SHA-256;
 - every results file, with its pass/total;
-- whether each file was **rewritten by this run** or is the **committed copy left untouched**. Several results files and four screenshot folders are tracked in git, so an untouched file means its suite did not write it.
+- each file's origin: `written-this-run` (new), `rewritten-this-run` (changed), `rewritten-identical` (the suite wrote the same bytes as the committed copy, which is common for deterministic results), or `untouched-committed-copy`. Several results files and four screenshot folders are tracked in git, so an untouched file means its suite did not write it. Rewritten is told from untouched by the file's modified time against the checkout.
 
 The same table appears on the run's summary page.
 
