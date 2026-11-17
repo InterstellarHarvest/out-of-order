@@ -1,0 +1,141 @@
+{
+  "cardCount": 9,
+  "nativeImages": [
+    {
+      "src": "previews/A-public-aid-box-focus-native.png",
+      "w": 564,
+      "h": 278,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    },
+    {
+      "src": "previews/B-public-antidote-slot-native.png",
+      "w": 96,
+      "h": 96,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    },
+    {
+      "src": "previews/C-public-antidote-inspect-native.png",
+      "w": 565,
+      "h": 451,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    },
+    {
+      "src": "previews/D-maintenance-decontamination-focus-native.png",
+      "w": 564,
+      "h": 278,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    },
+    {
+      "src": "previews/E-maintenance-antidote-slot-native.png",
+      "w": 96,
+      "h": 96,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    },
+    {
+      "src": "previews/F-maintenance-antidote-inspect-native.png",
+      "w": 565,
+      "h": 451,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    },
+    {
+      "src": "previews/G-customs-exposure-dispenser-focus-native.png",
+      "w": 564,
+      "h": 278,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    },
+    {
+      "src": "previews/H-customs-antidote-slot-native.png",
+      "w": 96,
+      "h": 96,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    },
+    {
+      "src": "previews/I-customs-antidote-inspect-native.png",
+      "w": 565,
+      "h": 451,
+      "loaded": true,
+      "pixelated": "crisp-edges"
+    }
+  ],
+  "fourXImages": [
+    {
+      "src": "previews/A-public-aid-box-focus-4x.png",
+      "w": 2256,
+      "h": 1112,
+      "loaded": true
+    },
+    {
+      "src": "previews/B-public-antidote-slot-4x.png",
+      "w": 384,
+      "h": 384,
+      "loaded": true
+    },
+    {
+      "src": "previews/C-public-antidote-inspect-4x.png",
+      "w": 2260,
+      "h": 1804,
+      "loaded": true
+    },
+    {
+      "src": "previews/D-maintenance-decontamination-focus-4x.png",
+      "w": 2256,
+      "h": 1112,
+      "loaded": true
+    },
+    {
+      "src": "previews/E-maintenance-antidote-slot-4x.png",
+      "w": 384,
+      "h": 384,
+      "loaded": true
+    },
+    {
+      "src": "previews/F-maintenance-antidote-inspect-4x.png",
+      "w": 2260,
+      "h": 1804,
+      "loaded": true
+    },
+    {
+      "src": "previews/G-customs-exposure-dispenser-focus-4x.png",
+      "w": 2256,
+      "h": 1112,
+      "loaded": true
+    },
+    {
+      "src": "previews/H-customs-antidote-slot-4x.png",
+      "w": 384,
+      "h": 384,
+      "loaded": true
+    },
+    {
+      "src": "previews/I-customs-antidote-inspect-4x.png",
+      "w": 2260,
+      "h": 1804,
+      "loaded": true
+    }
+  ],
+  "fourXControlWorks": true,
+  "darkControlWorks": true,
+  "lightControlWorks": true,
+  "checkerControlWorks": true,
+  "brokenImages": [],
+  "documentOverflow": false,
+  "comparisonCount": 8,
+  "passed": true,
+  "browser": "Google Chrome headless",
+  "realBrowser": true,
+  "localLinksChecked": 77,
+  "missingLinksAtRun": [
+    "gallery-verification.json"
+  ],
+  "chromeExitedAfterDomCapture": false,
+  "screenshotExists": true,
+  "note": "Chrome may require timeout termination after producing complete successful DOM. Pixel assertions come from actual decoded image dimensions and exercised gallery controls."
+}

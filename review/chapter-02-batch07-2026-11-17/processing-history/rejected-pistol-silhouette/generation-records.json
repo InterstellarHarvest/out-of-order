@@ -1,0 +1,224 @@
+{
+  "tool": "built-in image_gen",
+  "canonicalSource": "7c7a50a67d9fb48bad8e753cab90b706a3c1ddd7",
+  "artworkBaseline": "4e1ab88a63cf830b829f88d51710eef25e729f95",
+  "independentAssetCount": 9,
+  "sourceRenderCount": 15,
+  "assets": {
+    "A": {
+      "key": "focus:biology_park/public_exit/aid_box_open",
+      "source": "generation-source/A-public-aid-box-focus-v02.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-2b897f52-7b60-4800-bdd0-6ebeb1233030.png",
+      "prompt": "prompts/A-v02.txt",
+      "references": [
+        "generation-source/A-public-aid-box-focus-v01.png"
+      ],
+      "referenceRoles": [
+        "edit target: surface colors only; shared medical-device identity preserved"
+      ],
+      "previousVersions": [
+        {
+          "key": "focus:biology_park/public_exit/aid_box_open",
+          "source": "generation-source/A-public-aid-box-focus-v01.png",
+          "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-edfcc1d8-da69-49dd-8d0f-9d38b0a444b3.png",
+          "prompt": "prompts/A-v01.txt",
+          "references": [
+            "references/batch5-B-public-exit-4x.png",
+            "generation-source/C-public-antidote-inspect-v01.png"
+          ],
+          "referenceRoles": [
+            "approved reference: palette, presentation and container identity",
+            "shared new medical-device identity / presentation reference"
+          ],
+          "reason": "Targeted built-in cleanup replaces fine source color variation with broad clusters; original preserved."
+        }
+      ]
+    },
+    "B": {
+      "key": "items:botanical_antidote_public#slot",
+      "source": "generation-source/B-public-antidote-slot-v01.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-b60140ca-f345-45ba-bcd9-bea3b69db416.png",
+      "prompt": "prompts/B-v01.txt",
+      "references": [
+        "generation-source/C-public-antidote-inspect-v01.png",
+        "references/approved-red_stapler-slot.png"
+      ],
+      "referenceRoles": [
+        "shared new medical-device identity / presentation reference",
+        "approved reference: palette, presentation and container identity"
+      ]
+    },
+    "C": {
+      "key": "items:botanical_antidote_public#inspect",
+      "source": "generation-source/C-public-antidote-inspect-v02.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-3ebba1f6-c281-4083-85c7-c405fb0f3287.png",
+      "prompt": "prompts/C-v02.txt",
+      "references": [
+        "generation-source/C-public-antidote-inspect-v01.png"
+      ],
+      "referenceRoles": [
+        "edit target: surface colors only; shared medical-device identity preserved"
+      ],
+      "previousVersions": [
+        {
+          "key": "items:botanical_antidote_public#inspect",
+          "source": "generation-source/C-public-antidote-inspect-v01.png",
+          "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-f9bebe07-25f6-47b5-ba74-62e6df3c05ca.png",
+          "prompt": "prompts/C-v01.txt",
+          "references": [
+            "references/batch6-D-certified-seed-canister-inspect.png",
+            "references/approved-red_stapler-inspect.png"
+          ],
+          "referenceRoles": [
+            "approved reference: palette, presentation and container identity",
+            "approved reference: palette, presentation and container identity"
+          ],
+          "reason": "Targeted built-in cleanup replaces fine source color variation with broad clusters; original preserved."
+        }
+      ]
+    },
+    "D": {
+      "key": "focus:biology_park/maintenance_exit/decontamination_kit_open",
+      "source": "generation-source/D-maintenance-decontamination-focus-v02.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-37259c03-3c3a-448e-8813-fd33d582fef6.png",
+      "prompt": "prompts/D-v02.txt",
+      "references": [
+        "generation-source/D-maintenance-decontamination-focus-v01.png",
+        "references/batch5-C-maintenance-exit-4x.png"
+      ],
+      "referenceRoles": [
+        "edit target; approved scene identity retained",
+        "approved reference: palette, presentation and container identity"
+      ],
+      "previousVersions": [
+        {
+          "source": "generation-source/D-maintenance-decontamination-focus-v01.png",
+          "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-347e6e2e-460e-43db-b951-ccd1d20fc4da.png",
+          "prompt": "prompts/D-v01.txt",
+          "references": [
+            "references/batch5-C-maintenance-exit-4x.png",
+            "generation-source/F-maintenance-antidote-inspect-v01.png"
+          ],
+          "reason": "Targeted built-in edit widened framing, simplified surface noise and restored red latch tag; original retained."
+        }
+      ]
+    },
+    "E": {
+      "key": "items:botanical_antidote_maintenance#slot",
+      "source": "generation-source/E-maintenance-antidote-slot-v01.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-63fa1562-495d-4824-9fa6-b1fe83f3bdab.png",
+      "prompt": "prompts/E-v01.txt",
+      "references": [
+        "generation-source/F-maintenance-antidote-inspect-v01.png",
+        "generation-source/B-public-antidote-slot-v01.png"
+      ],
+      "referenceRoles": [
+        "shared new medical-device identity / presentation reference",
+        "shared new medical-device identity / presentation reference"
+      ]
+    },
+    "F": {
+      "key": "items:botanical_antidote_maintenance#inspect",
+      "source": "generation-source/F-maintenance-antidote-inspect-v02.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-ed0cca93-ac6d-431a-9e64-1abde0597a10.png",
+      "prompt": "prompts/F-v02.txt",
+      "references": [
+        "generation-source/F-maintenance-antidote-inspect-v01.png"
+      ],
+      "referenceRoles": [
+        "edit target: surface colors only; shared medical-device identity preserved"
+      ],
+      "previousVersions": [
+        {
+          "key": "items:botanical_antidote_maintenance#inspect",
+          "source": "generation-source/F-maintenance-antidote-inspect-v01.png",
+          "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-d9ffdc73-bbdc-449d-bd76-284a0cec701d.png",
+          "prompt": "prompts/F-v01.txt",
+          "references": [
+            "generation-source/C-public-antidote-inspect-v01.png",
+            "references/batch5-C-maintenance-exit-4x.png"
+          ],
+          "referenceRoles": [
+            "shared new medical-device identity / presentation reference",
+            "approved reference: palette, presentation and container identity"
+          ],
+          "reason": "Targeted built-in cleanup replaces fine source color variation with broad clusters; original preserved."
+        }
+      ]
+    },
+    "G": {
+      "key": "focus:biology_park/agricultural_customs/exposure_dispenser_open",
+      "source": "generation-source/G-customs-exposure-dispenser-focus-v02.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-7f1430b9-375f-4f32-ad75-bb0a617aaabc.png",
+      "prompt": "prompts/G-v02.txt",
+      "references": [
+        "generation-source/G-customs-exposure-dispenser-focus-v01.png"
+      ],
+      "referenceRoles": [
+        "edit target: colors only; composition retained"
+      ],
+      "previousVersions": [
+        {
+          "key": "focus:biology_park/agricultural_customs/exposure_dispenser_open",
+          "source": "generation-source/G-customs-exposure-dispenser-focus-v01.png",
+          "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-17fb28e1-61ac-4cb7-9e38-10e4b9a7283d.png",
+          "prompt": "prompts/G-v01.txt",
+          "references": [
+            "references/batch5-D-agricultural-customs-4x.png",
+            "generation-source/I-customs-antidote-inspect-v01.png",
+            "generation-source/A-public-aid-box-focus-v01.png"
+          ],
+          "referenceRoles": [
+            "approved reference: palette, presentation and container identity",
+            "shared new medical-device identity / presentation reference",
+            "shared new medical-device identity / presentation reference"
+          ],
+          "reason": "Targeted built-in source color cleanup; first source preserved."
+        }
+      ]
+    },
+    "H": {
+      "key": "items:botanical_antidote_customs#slot",
+      "source": "generation-source/H-customs-antidote-slot-v01.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-a2d5a91d-49e7-4119-b4d6-543b8ede077e.png",
+      "prompt": "prompts/H-v01.txt",
+      "references": [
+        "generation-source/I-customs-antidote-inspect-v01.png",
+        "generation-source/B-public-antidote-slot-v01.png"
+      ],
+      "referenceRoles": [
+        "shared new medical-device identity / presentation reference",
+        "shared new medical-device identity / presentation reference"
+      ]
+    },
+    "I": {
+      "key": "items:botanical_antidote_customs#inspect",
+      "source": "generation-source/I-customs-antidote-inspect-v02.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-2e7273e9-20d4-42f5-91a6-9f41f6555d13.png",
+      "prompt": "prompts/I-v02.txt",
+      "references": [
+        "generation-source/I-customs-antidote-inspect-v01.png"
+      ],
+      "referenceRoles": [
+        "edit target: surface colors only; shared medical-device identity preserved"
+      ],
+      "previousVersions": [
+        {
+          "key": "items:botanical_antidote_customs#inspect",
+          "source": "generation-source/I-customs-antidote-inspect-v01.png",
+          "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-d231635a-d943-4fc2-a84d-fc55a7784637.png",
+          "prompt": "prompts/I-v01.txt",
+          "references": [
+            "generation-source/C-public-antidote-inspect-v01.png",
+            "references/batch5-D-agricultural-customs-4x.png"
+          ],
+          "referenceRoles": [
+            "shared new medical-device identity / presentation reference",
+            "approved reference: palette, presentation and container identity"
+          ],
+          "reason": "Targeted built-in cleanup replaces fine source color variation with broad clusters; original preserved."
+        }
+      ]
+    }
+  }
+}

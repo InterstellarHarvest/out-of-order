@@ -1,0 +1,11 @@
+[63059:3596705:1117/171836.660343:ERROR:net/cert/internal/trust_store_mac.cc:807] Error parsing certificate:
+ERROR: Failed parsing extensions
+
+[63065:3596747:1117/171836.929066:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[63065:3596747:1117/171836.929533:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[63065:3596747:1117/171836.929637:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[63065:3596747:1117/171836.929754:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[63065:3596747:1117/171837.507344:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+158571 bytes written to file /Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/browser-qa/native-desktop.png
+[63059:3596714:1117/171838.856364:ERROR:base/process/process_mac.cc:53] task_policy_set TASK_CATEGORY_POLICY: (os/kern) invalid argument (4)
+[63059:3596714:1117/171838.856409:ERROR:base/process/process_mac.cc:98] task_policy_set TASK_SUPPRESSION_POLICY: (os/kern) invalid argument (4)

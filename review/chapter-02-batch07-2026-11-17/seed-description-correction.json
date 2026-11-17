@@ -1,0 +1,17 @@
+{
+  "registrationCommit": "e62fb883f3643ad06f977478cb1f68db1df86c2a",
+  "file": "story/items.draft.json",
+  "itemId": "certified_seed_canister",
+  "before": "A dull metal cylinder with a sealed packet of viable seeds from Botanical Specimen 001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.",
+  "after": "A dull metal case with a sealed packet of viable seeds from Botanical Specimen 001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.",
+  "onlyChange": "cylinder -> case in physical-description prefix",
+  "existingSpecimenIdentifierPreserved": "Botanical Specimen 001",
+  "remainingTextPreservedExactly": true,
+  "otherAuthoredReferencesFound": [],
+  "gameplayCopiesForPmo": [
+    "story/items.draft.json",
+    "game/content/story.generated.js"
+  ],
+  "gameplayFilesModified": false,
+  "correctionCommit": "7c7a50a67d9fb48bad8e753cab90b706a3c1ddd7"
+}

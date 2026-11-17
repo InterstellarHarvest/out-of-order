@@ -1,0 +1,29 @@
+{
+  "verifiedGameCommit": "20b52601c5733a633a385bbb1c60995174e530cc",
+  "evidenceAuthority": "Canonical story/game-integration.json last verified preview build",
+  "focusDimensions": [
+    564,
+    278
+  ],
+  "focusScale": 1,
+  "slotDimensions": [
+    96,
+    96
+  ],
+  "inspectorDimensions": [
+    565,
+    451
+  ],
+  "contradictionFound": false,
+  "evidenceFiles": {
+    "game/js/stage.js": "b6d00a27303d9b5a608abf9ce233bbef5834e528df83dd4555cdb8372b7aab65",
+    "tools/story-import/import.js": "492eae68431d93bb17f5f17622643469cc496b327c7844c96753fe1578892e1b",
+    "game/qa/validate_assets.js": "b5163aa0a7364b57653c878f76f6f8311824a64505d130d1ff9a7ab31e18412a"
+  },
+  "playableDescriptionCopiesForPmo": [
+    "story/items.draft.json:250",
+    "game/content/story.generated.js:847"
+  ],
+  "actionForPmo": "Pull corrected canonical revision through story-sync and regenerate playable content;do not hand-edit generated projection.",
+  "gameplayFilesModified": false
+}

@@ -1,0 +1,39 @@
+{
+  "immutableCandidateCommit": "db91a0a1e49d308292fa68348bf5d06ee7548417",
+  "finalReviewCommit": "4e1ab88a63cf830b829f88d51710eef25e729f95",
+  "allMatch": true,
+  "assets": [
+    {
+      "registryKey": "items:acting_director_badge#slot",
+      "candidatePath": "review/chapter-02-batch06-2026-11-17/candidates/A-acting-director-badge-slot.png",
+      "sha256": "a09dae0d8201b6062c51e4f5cc99c1e49b77240b400e7dbf5107bb805bf56c44",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "items:acting_director_badge#inspect",
+      "candidatePath": "review/chapter-02-batch06-2026-11-17/candidates/B-acting-director-badge-inspect.png",
+      "sha256": "a6a21d330139af8013d46f80dec7ad278d800d0b1b01c217fb0abd29d9544f3d",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "items:certified_seed_canister#slot",
+      "candidatePath": "review/chapter-02-batch06-2026-11-17/candidates/C-certified-seed-canister-slot.png",
+      "sha256": "0256464ebb925f1b34fef0a4bc6df7af262289ab9eaa57cea0a7520ffea17998",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    },
+    {
+      "registryKey": "items:certified_seed_canister#inspect",
+      "candidatePath": "review/chapter-02-batch06-2026-11-17/candidates/D-certified-seed-canister-inspect.png",
+      "sha256": "958cdf2442ed5412efc14f8c9f9f65c90f64f702e3de452be80e3a8e172ed9f7",
+      "matchesOwnerHash": true,
+      "matchesImmutableCandidateCommit": true,
+      "matchesFinalReviewCommit": true
+    }
+  ]
+}

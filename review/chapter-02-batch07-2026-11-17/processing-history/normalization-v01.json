@@ -1,0 +1,148 @@
+{
+  "assets": [
+    {
+      "source": "generation-source/A-public-aid-box-focus-v01.png",
+      "sourceSha256": "964135c9366a256aec3102ba4db5e34084301fd4b823d12fba3471089b567fa3",
+      "candidate": "candidates/A-public-aid-box-focus.png",
+      "sha256": "50bd42c261a65a5fe55e7d7b89af42a0b154b996a55db59ae567faf63a9d53be",
+      "method": "Whole-canvas NEAREST to564x278, no crop/pad; exact existing64-paint palette without dithering; independently generated, not a scene crop or icon enlargement",
+      "alphaCropBox": null,
+      "fittedObjectSize": null,
+      "objectOffset": null,
+      "alphaProcessing": null
+    },
+    {
+      "source": "generation-source/B-public-antidote-slot-v01.png",
+      "sourceSha256": "f3ce0eb1ac9ca1b13da95ae4c86124e4d08341167bb943ef4efd5b953094c62b",
+      "candidate": "candidates/B-public-antidote-slot.png",
+      "sha256": "974360c0a1ff5f566aca1fd90e456099ad513558464f1c1b879efb8c178ea3f8",
+      "method": "Source alpha threshold128; retain largest connected object; crop alpha padding; NEAREST fit within88x88; center on96x96; binary native alpha; hidden RGB zero; exact existing palette without dithering",
+      "alphaCropBox": [
+        66,
+        284,
+        1191,
+        1012
+      ],
+      "fittedObjectSize": [
+        88,
+        57
+      ],
+      "objectOffset": [
+        4,
+        19
+      ],
+      "alphaProcessing": {
+        "sourceComponents": 1,
+        "keptPixels": 474808,
+        "removedDetachedPixels": 0
+      }
+    },
+    {
+      "source": "generation-source/C-public-antidote-inspect-v01.png",
+      "sourceSha256": "8b5621c4b223cb8cb7236a7e699d44f37bfd544ab091c9ec64f6064665efbd26",
+      "candidate": "candidates/C-public-antidote-inspect.png",
+      "sha256": "9b4acad438bbb28aa19f64faf4457374749105d4fb972db338d75b3b4ed2181b",
+      "method": "Whole-canvas NEAREST to565x451, no crop/pad; exact existing64-paint palette without dithering; independently generated, not a scene crop or icon enlargement",
+      "alphaCropBox": null,
+      "fittedObjectSize": null,
+      "objectOffset": null,
+      "alphaProcessing": null
+    },
+    {
+      "source": "generation-source/D-maintenance-decontamination-focus-v02.png",
+      "sourceSha256": "ef7eb45aca10693d4abab1b1854dcd14f984994540de61724c14c1e0b30752b6",
+      "candidate": "candidates/D-maintenance-decontamination-focus.png",
+      "sha256": "20cb423fa3f14fb33b6a9546b729c9d3b54d1ca752c3ddb46d994b527648d2b0",
+      "method": "Whole-canvas NEAREST to564x278, no crop/pad; exact existing64-paint palette without dithering; independently generated, not a scene crop or icon enlargement",
+      "alphaCropBox": null,
+      "fittedObjectSize": null,
+      "objectOffset": null,
+      "alphaProcessing": null
+    },
+    {
+      "source": "generation-source/E-maintenance-antidote-slot-v01.png",
+      "sourceSha256": "9ef10c3130d6c97594501380e52f3744d2c44b9df53cde063770f12d64645bbb",
+      "candidate": "candidates/E-maintenance-antidote-slot.png",
+      "sha256": "eba05409299dd76ad11a6d9ef980539b5d66eabd888f1394d9a989e2fe7b88d7",
+      "method": "Source alpha threshold128; retain largest connected object; crop alpha padding; NEAREST fit within88x88; center on96x96; binary native alpha; hidden RGB zero; exact existing palette without dithering",
+      "alphaCropBox": [
+        53,
+        261,
+        1204,
+        1024
+      ],
+      "fittedObjectSize": [
+        88,
+        58
+      ],
+      "objectOffset": [
+        4,
+        19
+      ],
+      "alphaProcessing": {
+        "sourceComponents": 1,
+        "keptPixels": 524498,
+        "removedDetachedPixels": 0
+      }
+    },
+    {
+      "source": "generation-source/F-maintenance-antidote-inspect-v01.png",
+      "sourceSha256": "7744d224e00b727197d678d4b71bb847c3319e3d9613e9e83783448f58e451e9",
+      "candidate": "candidates/F-maintenance-antidote-inspect.png",
+      "sha256": "36fbeb789baf2547656ba686feb493591a8ed07a8fd7e82bd3e1553afac0837d",
+      "method": "Whole-canvas NEAREST to565x451, no crop/pad; exact existing64-paint palette without dithering; independently generated, not a scene crop or icon enlargement",
+      "alphaCropBox": null,
+      "fittedObjectSize": null,
+      "objectOffset": null,
+      "alphaProcessing": null
+    },
+    {
+      "source": "generation-source/G-customs-exposure-dispenser-focus-v01.png",
+      "sourceSha256": "e78a4af27d855516a149b30c934df274e5cc451b6bf642a8ba2ba74e0b39ddbf",
+      "candidate": "candidates/G-customs-exposure-dispenser-focus.png",
+      "sha256": "97b082d478796aac48eff2e572cb0cc44184bc500156b17a772ae28d66df981f",
+      "method": "Whole-canvas NEAREST to564x278, no crop/pad; exact existing64-paint palette without dithering; independently generated, not a scene crop or icon enlargement",
+      "alphaCropBox": null,
+      "fittedObjectSize": null,
+      "objectOffset": null,
+      "alphaProcessing": null
+    },
+    {
+      "source": "generation-source/H-customs-antidote-slot-v01.png",
+      "sourceSha256": "6c30dd1887be5a4eedbeee96a370455e6a16838d211ade8e82937d07060c8e3e",
+      "candidate": "candidates/H-customs-antidote-slot.png",
+      "sha256": "9389bb8dda2fefad6839d1985882ea030f3546b72404e028dac81e645b20d8ed",
+      "method": "Source alpha threshold128; retain largest connected object; crop alpha padding; NEAREST fit within88x88; center on96x96; binary native alpha; hidden RGB zero; exact existing palette without dithering",
+      "alphaCropBox": [
+        49,
+        212,
+        1264,
+        1024
+      ],
+      "fittedObjectSize": [
+        88,
+        59
+      ],
+      "objectOffset": [
+        4,
+        18
+      ],
+      "alphaProcessing": {
+        "sourceComponents": 1,
+        "keptPixels": 586259,
+        "removedDetachedPixels": 0
+      }
+    },
+    {
+      "source": "generation-source/I-customs-antidote-inspect-v01.png",
+      "sourceSha256": "819a592777eb232ec2429637817297cfbb984e3d59b9c5acb11592d80ee950f8",
+      "candidate": "candidates/I-customs-antidote-inspect.png",
+      "sha256": "ad4d409bc55e7861ef914c27442e5af091885e2fbf0fcd5cd262a08367860f8f",
+      "method": "Whole-canvas NEAREST to565x451, no crop/pad; exact existing64-paint palette without dithering; independently generated, not a scene crop or icon enlargement",
+      "alphaCropBox": null,
+      "fittedObjectSize": null,
+      "objectOffset": null,
+      "alphaProcessing": null
+    }
+  ]
+}

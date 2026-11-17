@@ -1,0 +1,211 @@
+# The Acceptable Error — Chapter 2 Art: Batch 6 Approval + Batch 7 Production
+
+## 1. FINAL OWNER APPROVAL — BATCH 6
+
+Nate has approved all four Batch 6 images without changes.
+
+Art Director verdict: PASS A–D. No regeneration required.
+
+Source:
+- Repository: `InterstellarHarvest/CYOA`
+- Branch: `agent/ch02-art-batch06-credentials-cargo`
+- Immutable candidate commit: `db91a0a1e49d308292fa68348bf5d06ee7548417`
+- Final review commit: `4e1ab88a63cf830b829f88d51710eef25e729f95`
+- Directory: `review/chapter-02-batch06-2026-11-17/candidates/`
+
+### Approved images
+
+| Asset | Filename | SHA-256 |
+|---|---|---|
+| A | `A-acting-director-badge-slot.png` | `a09dae0d8201b6062c51e4f5cc99c1e49b77240b400e7dbf5107bb805bf56c44` |
+| B | `B-acting-director-badge-inspect.png` | `a6a21d330139af8013d46f80dec7ad278d800d0b1b01c217fb0abd29d9544f3d` |
+| C | `C-certified-seed-canister-slot.png` | `0256464ebb925f1b34fef0a4bc6df7af262289ab9eaa57cea0a7520ffea17998` |
+| D | `D-certified-seed-canister-inspect.png` | `958cdf2442ed5412efc14f8c9f9f65c90f64f702e3de452be80e3a8e172ed9f7` |
+
+Follow the established approval procedure in `docs/105`.
+
+1. Verify all four SHA-256 hashes.
+2. Promote the four canonical artwork records from `generated` to `approved`.
+3. Record immutable source provenance and Nate's final approval.
+4. Publish the exact native PNGs to the selected-art catalog.
+5. Preserve all 96 previously approved images.
+6. Verify all **100 approved public artwork hashes**.
+7. Run established canonical, storyboard, preview and registration QA.
+8. Preserve every original generation, prompt, comparison and processing history.
+
+Do not modify approved image pixels.
+
+Do not assign gameplay production paths or perform gameplay integration.
+
+## 2. APPROVED CANONICAL TEXT CORRECTION
+
+Nate separately approved correcting the certified seed canister's physical description.
+
+Current wording:
+
+> A dull metal cylinder with a sealed packet of viable seeds from Botanical Specimen001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.
+
+Replace the physical-description wording with:
+
+> A dull metal case with a sealed packet of viable seeds from Botanical Specimen001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.
+
+Preserve the remaining text exactly, including the existing specimen identifier.
+
+Locate the canonical authored item description and apply this minimal change. Check for other references that incorrectly describe the same container as cylindrical.
+
+Do not rewrite unrelated dialogue, choices, outcomes or item mechanics.
+
+The approved artwork's compact rounded-rectangular metal case is now the canonical visual design.
+
+If a separate playable-game copy requires updating, identify it for the Gameplay PMO. Do not alter the gameplay branch as part of this art task.
+
+## 3. RESOLVED ARTWORK DIMENSION CONTRACT
+
+The Story Director has resolved the existing Focus A / Scene Pickup discrepancy for this production batch.
+
+Use:
+
+| Artwork type | Native resolution | Presentation |
+|---|---|---|
+| Focus A | 564×278 | Current interactable close-up |
+| Inventory slot | 96×96 | Transparent inventory icon |
+| Item inspection | 565×451 | Detailed inventory inspector |
+
+The future 565×451 Scene Pickup presentation is separate from the current Focus A contract.
+
+Do not change the three existing Focus A records to 565×451.
+
+Do not stretch or crop their 564×278 artwork to fill a future inspector.
+
+Record this distinction in the relevant artwork production documentation so later agents understand the decision.
+
+If current runtime evidence contradicts the declared Focus A contract, report it before generating the affected Focus assets. Continue with unaffected item variants.
+
+## 4. BEGIN BATCH 7 — TREATMENT KITS AND ANTIDOTES
+
+Generate all nine remaining Batch 7 artwork records.
+
+### Public Exit — 3 assets
+
+1. `focus:biology_park/public_exit/aid_box_open`
+2. `items:botanical_antidote_public#slot`
+3. `items:botanical_antidote_public#inspect`
+
+### Maintenance Exit — 3 assets
+
+4. `focus:biology_park/maintenance_exit/decontamination_kit_open`
+5. `items:botanical_antidote_maintenance#slot`
+6. `items:botanical_antidote_maintenance#inspect`
+
+### Agricultural Customs — 3 assets
+
+7. `focus:biology_park/agricultural_customs/exposure_dispenser_open`
+8. `items:botanical_antidote_customs#slot`
+9. `items:botanical_antidote_customs#inspect`
+
+Read the complete canonical artwork records, associated Chapter 2 narrative, item descriptions and approved scene artwork before generation.
+
+### Visual direction
+
+All three treatment kits contain the same general type of botanical-exposure antidote:
+
+- Chunky, original retro-futuristic medical injector.
+- Glass vial secured within the kit.
+- Industrial institutional construction.
+- Restrained silver, teal, gray and cream palette.
+- Design consistent across Focus A, inventory and inspection views.
+
+A subtle vintage video-game medical-injector homage is acceptable, but the design must be original.
+
+The three locations must remain visually distinct:
+
+**Public Exit**
+- Small, hinged wall-mounted first-aid box.
+- Match the approved Public Exit scene.
+- Expiration year in narrative: 1977.
+
+**Maintenance Exit**
+- Larger industrial decontamination locker.
+- Match the approved Maintenance Exit scene.
+- Expiration year in narrative: 1969.
+
+**Agricultural Customs**
+- Compact exposure-treatment dispenser.
+- Match the approved Customs checkpoint.
+- Expiration year in narrative: 1981.
+
+Focus A images should depict the appropriate container OPEN, with the injector and vial visible.
+
+Inventory icons should depict the item itself, not the entire wall-mounted container.
+
+Item inspectors should show a closer, more detailed view of the acquired antidote.
+
+Maintain consistent injector construction across the three versions. Differences in provenance, condition and labeling should not make them look like unrelated medical technologies.
+
+Do not invent additional cures, treatment outcomes or gameplay effects.
+
+Do not depict treatment already administered.
+
+Keep narrative text in the game's text interface unless the artwork specifically calls for readable physical labels.
+
+## 5. GENERATION AND REVIEW REQUIREMENTS
+
+For every candidate:
+
+- Use genuine image generation.
+- Preserve its original source.
+- Produce the required native logical resolution.
+- Use the established approved palette.
+- Avoid dithering and unnecessary pixel noise.
+- Generate exact nearest-neighbor review previews.
+- Preserve transparency for inventory icons.
+- Verify alpha, dimensions, palette and image hashes.
+- Provide comparisons with the corresponding approved closed-container scenes.
+- Preserve all previously approved art byte-for-byte.
+
+Create a Batch 7 review gallery with:
+
+1. All nine candidates.
+2. Native and exact 4× views.
+3. Three grouped comparisons showing each location's Focus A, slot and inspector artwork.
+4. Transparency inspection for the slot icons.
+5. Original generations and prompts.
+6. SHA-256 manifest.
+7. Pixel and browser QA.
+8. Narrative and visual continuity findings.
+
+Publish Batch 7 records as `generated`, selected false, with null production paths.
+
+Do not mark them approved before Nate's review.
+
+## 6. REMAINING QUEUE
+
+After Batch 7 generation, only the five Chapter 2 death-screen illustrations should remain not-started:
+
+- `deathScreens:biology_park/classified_as_compost`
+- `deathScreens:biology_park/new_arrival`
+- `deathScreens:biology_park/personal_growth`
+- `deathScreens:biology_park/reclassified`
+- `deathScreens:biology_park/site_improvement`
+
+Do not begin Batch 8 yet.
+
+Preserve the already-approved death-screen titles, narrative and presentation specifications.
+
+## 7. REPORT BACK
+
+Provide:
+
+1. Batch 6 approval commit.
+2. The canonical item-description correction commit.
+3. Confirmation that all 100 approved artwork hashes match.
+4. Batch 7 branch and immutable candidate commit.
+5. Review gallery path.
+6. Nine candidate paths and SHA-256 hashes.
+7. Technical QA results.
+8. Any visual concerns.
+9. Updated remaining-artwork queue.
+
+**Proceed automatically from Batch 6 registration into Batch 7 generation. Stop after Batch 7 for Art Director review.**
+
+No gameplay integration, unrelated narrative changes, or premature death-art generation.

@@ -1,0 +1,3308 @@
+{
+  "A": {
+    "key": "focus:biology_park/public_exit/aid_box_open",
+    "record": {
+      "title": "AID BOX OPEN",
+      "kind": "focus",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Opened botanical first-aid or decontamination wall kit close-up: chunky syringe injector and glass vial inside; EVE-hypo-like general silhouette Easter egg, entirely original design, industrial 1960s futurism. Eventually must be represented in 565x451 Scene Pickup Inspector, not the current Focus A staging."
+    },
+    "item": {
+      "name": "PUBLIC BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_public",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the first-aid box. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1977. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_public",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "public_exit",
+    "expirationYear": 1977,
+    "nodes": {
+      "public_exit_staging": {
+        "mode": "narrative",
+        "scene": "biology_park/public_exit",
+        "text": "A personnel exit leads back toward the main Exposition. Beside the steel door hangs a closed first-aid box with a botanical exposure pictogram. The seal on its hinged lid looks old.",
+        "choices": [
+          {
+            "id": "open_public_wall_aid",
+            "kind": "action",
+            "text": "INSPECT THE CLOSED FIRST-AID BOX BESIDE THE EXIT.",
+            "if": {
+              "notFlag": "public_kit_handled"
+            },
+            "to": "public_kit_focus"
+          },
+          {
+            "id": "leave_through_public_door",
+            "kind": "action",
+            "text": "LEAVE BIOLOGY PARK THROUGH THE PUBLIC DOOR.",
+            "to": "end_public"
+          }
+        ],
+        "use": {
+          "botanical_antidote_public": {
+            "check": {
+              "id": "ch2_public_inventory_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_public"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "public_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/public_exit",
+        "focus": "biology_park/public_exit/aid_box_open",
+        "text": "The first-aid box swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_public_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "public_kit_read_focus"
+          },
+          {
+            "id": "use_public_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_public_kit_direct",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "public_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "public_kit_handled": true,
+                    "public_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "public_exit_staging",
+              "effects": {
+                "set": {
+                  "public_kit_handled": true,
+                  "public_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_public_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_public"
+              ],
+              "set": {
+                "public_kit_handled": true,
+                "public_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "public_antidote_box",
+          "title": "PUBLIC FIRST-AID BOX",
+          "item": "botanical_antidote_public",
+          "readChoice": "read_public_expiry",
+          "useChoice": "use_public_from_open_kit",
+          "closeChoice": "close_public_kit_and_take"
+        }
+      },
+      "public_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/public_exit",
+        "focus": "biology_park/public_exit/aid_box_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1977.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_public_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_public_kit_read_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "public_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "public_kit_handled": true,
+                    "public_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "public_exit_staging",
+              "effects": {
+                "set": {
+                  "public_kit_handled": true,
+                  "public_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_public_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_public"
+              ],
+              "set": {
+                "public_kit_handled": true,
+                "public_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "public_antidote_box",
+          "title": "PUBLIC FIRST-AID BOX",
+          "item": "botanical_antidote_public",
+          "readChoice": null,
+          "useChoice": "use_public_after_read",
+          "closeChoice": "close_public_read_kit_and_take"
+        }
+      }
+    }
+  },
+  "B": {
+    "key": "items:botanical_antidote_public#slot",
+    "record": {
+      "title": "BOTANICAL ANTIDOTE PUBLIC SLOT",
+      "kind": "item-slot",
+      "status": "not-started",
+      "dimensions": "96x96",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "True logical-grid 96x96 transparent item icon, clean controlled palette, botanical antidote public"
+    },
+    "item": {
+      "name": "PUBLIC BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_public",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the first-aid box. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1977. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_public",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "public_exit",
+    "expirationYear": 1977,
+    "nodes": {
+      "public_exit_staging": {
+        "mode": "narrative",
+        "scene": "biology_park/public_exit",
+        "text": "A personnel exit leads back toward the main Exposition. Beside the steel door hangs a closed first-aid box with a botanical exposure pictogram. The seal on its hinged lid looks old.",
+        "choices": [
+          {
+            "id": "open_public_wall_aid",
+            "kind": "action",
+            "text": "INSPECT THE CLOSED FIRST-AID BOX BESIDE THE EXIT.",
+            "if": {
+              "notFlag": "public_kit_handled"
+            },
+            "to": "public_kit_focus"
+          },
+          {
+            "id": "leave_through_public_door",
+            "kind": "action",
+            "text": "LEAVE BIOLOGY PARK THROUGH THE PUBLIC DOOR.",
+            "to": "end_public"
+          }
+        ],
+        "use": {
+          "botanical_antidote_public": {
+            "check": {
+              "id": "ch2_public_inventory_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_public"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "public_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/public_exit",
+        "focus": "biology_park/public_exit/aid_box_open",
+        "text": "The first-aid box swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_public_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "public_kit_read_focus"
+          },
+          {
+            "id": "use_public_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_public_kit_direct",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "public_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "public_kit_handled": true,
+                    "public_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "public_exit_staging",
+              "effects": {
+                "set": {
+                  "public_kit_handled": true,
+                  "public_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_public_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_public"
+              ],
+              "set": {
+                "public_kit_handled": true,
+                "public_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "public_antidote_box",
+          "title": "PUBLIC FIRST-AID BOX",
+          "item": "botanical_antidote_public",
+          "readChoice": "read_public_expiry",
+          "useChoice": "use_public_from_open_kit",
+          "closeChoice": "close_public_kit_and_take"
+        }
+      },
+      "public_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/public_exit",
+        "focus": "biology_park/public_exit/aid_box_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1977.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_public_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_public_kit_read_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "public_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "public_kit_handled": true,
+                    "public_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "public_exit_staging",
+              "effects": {
+                "set": {
+                  "public_kit_handled": true,
+                  "public_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_public_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_public"
+              ],
+              "set": {
+                "public_kit_handled": true,
+                "public_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "public_antidote_box",
+          "title": "PUBLIC FIRST-AID BOX",
+          "item": "botanical_antidote_public",
+          "readChoice": null,
+          "useChoice": "use_public_after_read",
+          "closeChoice": "close_public_read_kit_and_take"
+        }
+      }
+    }
+  },
+  "C": {
+    "key": "items:botanical_antidote_public#inspect",
+    "record": {
+      "title": "BOTANICAL ANTIDOTE PUBLIC INSPECT",
+      "kind": "item-inspect",
+      "status": "not-started",
+      "dimensions": "565x451",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Clean 565x451 detailed item inspector art for botanical antidote public, original midcentury industrial styling"
+    },
+    "item": {
+      "name": "PUBLIC BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_public",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the first-aid box. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1977. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_public",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "public_exit",
+    "expirationYear": 1977,
+    "nodes": {
+      "public_exit_staging": {
+        "mode": "narrative",
+        "scene": "biology_park/public_exit",
+        "text": "A personnel exit leads back toward the main Exposition. Beside the steel door hangs a closed first-aid box with a botanical exposure pictogram. The seal on its hinged lid looks old.",
+        "choices": [
+          {
+            "id": "open_public_wall_aid",
+            "kind": "action",
+            "text": "INSPECT THE CLOSED FIRST-AID BOX BESIDE THE EXIT.",
+            "if": {
+              "notFlag": "public_kit_handled"
+            },
+            "to": "public_kit_focus"
+          },
+          {
+            "id": "leave_through_public_door",
+            "kind": "action",
+            "text": "LEAVE BIOLOGY PARK THROUGH THE PUBLIC DOOR.",
+            "to": "end_public"
+          }
+        ],
+        "use": {
+          "botanical_antidote_public": {
+            "check": {
+              "id": "ch2_public_inventory_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_public"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "public_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/public_exit",
+        "focus": "biology_park/public_exit/aid_box_open",
+        "text": "The first-aid box swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_public_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "public_kit_read_focus"
+          },
+          {
+            "id": "use_public_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_public_kit_direct",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "public_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "public_kit_handled": true,
+                    "public_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "public_exit_staging",
+              "effects": {
+                "set": {
+                  "public_kit_handled": true,
+                  "public_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_public_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_public"
+              ],
+              "set": {
+                "public_kit_handled": true,
+                "public_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "public_antidote_box",
+          "title": "PUBLIC FIRST-AID BOX",
+          "item": "botanical_antidote_public",
+          "readChoice": "read_public_expiry",
+          "useChoice": "use_public_from_open_kit",
+          "closeChoice": "close_public_kit_and_take"
+        }
+      },
+      "public_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/public_exit",
+        "focus": "biology_park/public_exit/aid_box_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1977.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_public_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_public_kit_read_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "public_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "public_kit_handled": true,
+                    "public_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "public_exit_staging",
+              "effects": {
+                "set": {
+                  "public_kit_handled": true,
+                  "public_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_public_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_public"
+              ],
+              "set": {
+                "public_kit_handled": true,
+                "public_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "public_antidote_box",
+          "title": "PUBLIC FIRST-AID BOX",
+          "item": "botanical_antidote_public",
+          "readChoice": null,
+          "useChoice": "use_public_after_read",
+          "closeChoice": "close_public_read_kit_and_take"
+        }
+      }
+    }
+  },
+  "D": {
+    "key": "focus:biology_park/maintenance_exit/decontamination_kit_open",
+    "record": {
+      "title": "DECONTAMINATION KIT OPEN",
+      "kind": "focus",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Opened botanical first-aid or decontamination wall kit close-up: chunky syringe injector and glass vial inside; EVE-hypo-like general silhouette Easter egg, entirely original design, industrial 1960s futurism. Eventually must be represented in 565x451 Scene Pickup Inspector, not the current Focus A staging."
+    },
+    "item": {
+      "name": "MAINTENANCE BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_maintenance",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the industrial decontamination locker. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1969. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_maintenance",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "maintenance_exit",
+    "expirationYear": 1969,
+    "nodes": {
+      "maintenance_exit_staging": {
+        "mode": "narrative",
+        "scene": "biology_park/maintenance_exit",
+        "text": "The maintenance exit is an unadorned steel door. Next to it sits an industrial decontamination locker, long neglected but still sealed. It is not the public first-aid box.",
+        "choices": [
+          {
+            "id": "open_maintenance_aid",
+            "kind": "action",
+            "text": "INSPECT THE MAINTENANCE DECONTAMINATION LOCKER.",
+            "if": {
+              "notFlag": "maintenance_kit_handled"
+            },
+            "to": "maintenance_kit_focus"
+          },
+          {
+            "id": "leave_through_maintenance_door",
+            "kind": "action",
+            "text": "TAKE THE MAINTENANCE EXIT OUT OF BIOLOGY PARK.",
+            "to": "end_maintenance"
+          }
+        ],
+        "use": {
+          "botanical_antidote_maintenance": {
+            "check": {
+              "id": "ch2_maintenance_inventory_use",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_maintenance"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "maintenance_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/maintenance_exit",
+        "focus": "biology_park/maintenance_exit/decontamination_kit_open",
+        "text": "The industrial decontamination locker swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_maintenance_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "maintenance_kit_read_focus"
+          },
+          {
+            "id": "use_maintenance_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_maintenance_kit_direct",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "maintenance_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "maintenance_kit_handled": true,
+                    "maintenance_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "maintenance_exit_staging",
+              "effects": {
+                "set": {
+                  "maintenance_kit_handled": true,
+                  "maintenance_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_maintenance_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_maintenance"
+              ],
+              "set": {
+                "maintenance_kit_handled": true,
+                "maintenance_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "maintenance_antidote_box",
+          "title": "MAINTENANCE DECONTAMINATION LOCKER",
+          "item": "botanical_antidote_maintenance",
+          "readChoice": "read_maintenance_expiry",
+          "useChoice": "use_maintenance_from_open_kit",
+          "closeChoice": "close_maintenance_kit_and_take"
+        }
+      },
+      "maintenance_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/maintenance_exit",
+        "focus": "biology_park/maintenance_exit/decontamination_kit_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1969.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_maintenance_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_maintenance_kit_read_use",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "maintenance_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "maintenance_kit_handled": true,
+                    "maintenance_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "maintenance_exit_staging",
+              "effects": {
+                "set": {
+                  "maintenance_kit_handled": true,
+                  "maintenance_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_maintenance_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_maintenance"
+              ],
+              "set": {
+                "maintenance_kit_handled": true,
+                "maintenance_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "maintenance_antidote_box",
+          "title": "MAINTENANCE DECONTAMINATION LOCKER",
+          "item": "botanical_antidote_maintenance",
+          "readChoice": null,
+          "useChoice": "use_maintenance_after_read",
+          "closeChoice": "close_maintenance_read_kit_and_take"
+        }
+      },
+      "end_maintenance": {
+        "mode": "narrative",
+        "scene": "biology_park/maintenance_exit",
+        "end": true,
+        "effects": {
+          "set": {
+            "chapter3_entry_group": "service_infrastructure"
+          }
+        },
+        "text": [
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "director_cease"
+              ]
+            },
+            "text": "An official suspension sends you through a personnel stairwell into Lower Irrigation Services and out into the Exposition's service infrastructure. The forest remains technically authorized to grow behind you."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "translator_root_door"
+              ]
+            },
+            "text": "The flower's recoiling roots exposed a hidden service door. You pass through the old irrigation corridors and into the machinery beneath the Exposition. The plant will recover; the door may not remain exposed."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "reserve_power_failure"
+              ]
+            },
+            "text": "The failed reserve tram dumped you under Biology Park. You climb out via the maintenance passages with no robot to congratulate you and no public audience to applaud."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "planting_breakout"
+              ]
+            },
+            "text": "You escaped the compulsory planter by tearing free of its hardware. You emerge into the Exposition's service passages while the machine requests a replacement planting subject."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "flower_waste_chute"
+              ]
+            },
+            "text": "The flower's own waste chute deposited you in the abandoned irrigation system. You escape as unsuitable growing material, which is the best official classification you have had all day."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "cable_alarm_duct"
+              ]
+            },
+            "text": "You outrun the collapsing sensor cables through a low service duct and reach the maintenance wing. The approval system has already begun reporting the incident as normal plant growth."
+          },
+          {
+            "text": "You emerge through an old maintenance door beneath the Park. The giant greenhouse is behind you. The Exposition's service infrastructure stretches ahead, with no evidence of a working bathroom."
+          }
+        ],
+        "choices": [
+          {
+            "id": "restart_ch2_maintenance",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  },
+  "E": {
+    "key": "items:botanical_antidote_maintenance#slot",
+    "record": {
+      "title": "BOTANICAL ANTIDOTE MAINTENANCE SLOT",
+      "kind": "item-slot",
+      "status": "not-started",
+      "dimensions": "96x96",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "True logical-grid 96x96 transparent item icon, clean controlled palette, botanical antidote maintenance"
+    },
+    "item": {
+      "name": "MAINTENANCE BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_maintenance",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the industrial decontamination locker. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1969. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_maintenance",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "maintenance_exit",
+    "expirationYear": 1969,
+    "nodes": {
+      "maintenance_exit_staging": {
+        "mode": "narrative",
+        "scene": "biology_park/maintenance_exit",
+        "text": "The maintenance exit is an unadorned steel door. Next to it sits an industrial decontamination locker, long neglected but still sealed. It is not the public first-aid box.",
+        "choices": [
+          {
+            "id": "open_maintenance_aid",
+            "kind": "action",
+            "text": "INSPECT THE MAINTENANCE DECONTAMINATION LOCKER.",
+            "if": {
+              "notFlag": "maintenance_kit_handled"
+            },
+            "to": "maintenance_kit_focus"
+          },
+          {
+            "id": "leave_through_maintenance_door",
+            "kind": "action",
+            "text": "TAKE THE MAINTENANCE EXIT OUT OF BIOLOGY PARK.",
+            "to": "end_maintenance"
+          }
+        ],
+        "use": {
+          "botanical_antidote_maintenance": {
+            "check": {
+              "id": "ch2_maintenance_inventory_use",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_maintenance"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "maintenance_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/maintenance_exit",
+        "focus": "biology_park/maintenance_exit/decontamination_kit_open",
+        "text": "The industrial decontamination locker swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_maintenance_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "maintenance_kit_read_focus"
+          },
+          {
+            "id": "use_maintenance_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_maintenance_kit_direct",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "maintenance_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "maintenance_kit_handled": true,
+                    "maintenance_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "maintenance_exit_staging",
+              "effects": {
+                "set": {
+                  "maintenance_kit_handled": true,
+                  "maintenance_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_maintenance_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_maintenance"
+              ],
+              "set": {
+                "maintenance_kit_handled": true,
+                "maintenance_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "maintenance_antidote_box",
+          "title": "MAINTENANCE DECONTAMINATION LOCKER",
+          "item": "botanical_antidote_maintenance",
+          "readChoice": "read_maintenance_expiry",
+          "useChoice": "use_maintenance_from_open_kit",
+          "closeChoice": "close_maintenance_kit_and_take"
+        }
+      },
+      "maintenance_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/maintenance_exit",
+        "focus": "biology_park/maintenance_exit/decontamination_kit_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1969.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_maintenance_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_maintenance_kit_read_use",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "maintenance_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "maintenance_kit_handled": true,
+                    "maintenance_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "maintenance_exit_staging",
+              "effects": {
+                "set": {
+                  "maintenance_kit_handled": true,
+                  "maintenance_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_maintenance_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_maintenance"
+              ],
+              "set": {
+                "maintenance_kit_handled": true,
+                "maintenance_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "maintenance_antidote_box",
+          "title": "MAINTENANCE DECONTAMINATION LOCKER",
+          "item": "botanical_antidote_maintenance",
+          "readChoice": null,
+          "useChoice": "use_maintenance_after_read",
+          "closeChoice": "close_maintenance_read_kit_and_take"
+        }
+      },
+      "end_maintenance": {
+        "mode": "narrative",
+        "scene": "biology_park/maintenance_exit",
+        "end": true,
+        "effects": {
+          "set": {
+            "chapter3_entry_group": "service_infrastructure"
+          }
+        },
+        "text": [
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "director_cease"
+              ]
+            },
+            "text": "An official suspension sends you through a personnel stairwell into Lower Irrigation Services and out into the Exposition's service infrastructure. The forest remains technically authorized to grow behind you."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "translator_root_door"
+              ]
+            },
+            "text": "The flower's recoiling roots exposed a hidden service door. You pass through the old irrigation corridors and into the machinery beneath the Exposition. The plant will recover; the door may not remain exposed."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "reserve_power_failure"
+              ]
+            },
+            "text": "The failed reserve tram dumped you under Biology Park. You climb out via the maintenance passages with no robot to congratulate you and no public audience to applaud."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "planting_breakout"
+              ]
+            },
+            "text": "You escaped the compulsory planter by tearing free of its hardware. You emerge into the Exposition's service passages while the machine requests a replacement planting subject."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "flower_waste_chute"
+              ]
+            },
+            "text": "The flower's own waste chute deposited you in the abandoned irrigation system. You escape as unsuitable growing material, which is the best official classification you have had all day."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "cable_alarm_duct"
+              ]
+            },
+            "text": "You outrun the collapsing sensor cables through a low service duct and reach the maintenance wing. The approval system has already begun reporting the incident as normal plant growth."
+          },
+          {
+            "text": "You emerge through an old maintenance door beneath the Park. The giant greenhouse is behind you. The Exposition's service infrastructure stretches ahead, with no evidence of a working bathroom."
+          }
+        ],
+        "choices": [
+          {
+            "id": "restart_ch2_maintenance",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  },
+  "F": {
+    "key": "items:botanical_antidote_maintenance#inspect",
+    "record": {
+      "title": "BOTANICAL ANTIDOTE MAINTENANCE INSPECT",
+      "kind": "item-inspect",
+      "status": "not-started",
+      "dimensions": "565x451",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Clean 565x451 detailed item inspector art for botanical antidote maintenance, original midcentury industrial styling"
+    },
+    "item": {
+      "name": "MAINTENANCE BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_maintenance",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the industrial decontamination locker. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1969. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_maintenance",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "maintenance_exit",
+    "expirationYear": 1969,
+    "nodes": {
+      "maintenance_exit_staging": {
+        "mode": "narrative",
+        "scene": "biology_park/maintenance_exit",
+        "text": "The maintenance exit is an unadorned steel door. Next to it sits an industrial decontamination locker, long neglected but still sealed. It is not the public first-aid box.",
+        "choices": [
+          {
+            "id": "open_maintenance_aid",
+            "kind": "action",
+            "text": "INSPECT THE MAINTENANCE DECONTAMINATION LOCKER.",
+            "if": {
+              "notFlag": "maintenance_kit_handled"
+            },
+            "to": "maintenance_kit_focus"
+          },
+          {
+            "id": "leave_through_maintenance_door",
+            "kind": "action",
+            "text": "TAKE THE MAINTENANCE EXIT OUT OF BIOLOGY PARK.",
+            "to": "end_maintenance"
+          }
+        ],
+        "use": {
+          "botanical_antidote_maintenance": {
+            "check": {
+              "id": "ch2_maintenance_inventory_use",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_maintenance"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "maintenance_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/maintenance_exit",
+        "focus": "biology_park/maintenance_exit/decontamination_kit_open",
+        "text": "The industrial decontamination locker swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_maintenance_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "maintenance_kit_read_focus"
+          },
+          {
+            "id": "use_maintenance_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_maintenance_kit_direct",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "maintenance_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "maintenance_kit_handled": true,
+                    "maintenance_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "maintenance_exit_staging",
+              "effects": {
+                "set": {
+                  "maintenance_kit_handled": true,
+                  "maintenance_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_maintenance_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_maintenance"
+              ],
+              "set": {
+                "maintenance_kit_handled": true,
+                "maintenance_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "maintenance_antidote_box",
+          "title": "MAINTENANCE DECONTAMINATION LOCKER",
+          "item": "botanical_antidote_maintenance",
+          "readChoice": "read_maintenance_expiry",
+          "useChoice": "use_maintenance_from_open_kit",
+          "closeChoice": "close_maintenance_kit_and_take"
+        }
+      },
+      "maintenance_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/maintenance_exit",
+        "focus": "biology_park/maintenance_exit/decontamination_kit_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1969.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_maintenance_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_maintenance_kit_read_use",
+              "sides": 6,
+              "need": 4,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "maintenance_exit_staging",
+              "effects": [
+                {
+                  "set": {
+                    "maintenance_kit_handled": true,
+                    "maintenance_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "maintenance_exit_staging",
+              "effects": {
+                "set": {
+                  "maintenance_kit_handled": true,
+                  "maintenance_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_maintenance_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_maintenance"
+              ],
+              "set": {
+                "maintenance_kit_handled": true,
+                "maintenance_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "maintenance_antidote_box",
+          "title": "MAINTENANCE DECONTAMINATION LOCKER",
+          "item": "botanical_antidote_maintenance",
+          "readChoice": null,
+          "useChoice": "use_maintenance_after_read",
+          "closeChoice": "close_maintenance_read_kit_and_take"
+        }
+      },
+      "end_maintenance": {
+        "mode": "narrative",
+        "scene": "biology_park/maintenance_exit",
+        "end": true,
+        "effects": {
+          "set": {
+            "chapter3_entry_group": "service_infrastructure"
+          }
+        },
+        "text": [
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "director_cease"
+              ]
+            },
+            "text": "An official suspension sends you through a personnel stairwell into Lower Irrigation Services and out into the Exposition's service infrastructure. The forest remains technically authorized to grow behind you."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "translator_root_door"
+              ]
+            },
+            "text": "The flower's recoiling roots exposed a hidden service door. You pass through the old irrigation corridors and into the machinery beneath the Exposition. The plant will recover; the door may not remain exposed."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "reserve_power_failure"
+              ]
+            },
+            "text": "The failed reserve tram dumped you under Biology Park. You climb out via the maintenance passages with no robot to congratulate you and no public audience to applaud."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "planting_breakout"
+              ]
+            },
+            "text": "You escaped the compulsory planter by tearing free of its hardware. You emerge into the Exposition's service passages while the machine requests a replacement planting subject."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "flower_waste_chute"
+              ]
+            },
+            "text": "The flower's own waste chute deposited you in the abandoned irrigation system. You escape as unsuitable growing material, which is the best official classification you have had all day."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "cable_alarm_duct"
+              ]
+            },
+            "text": "You outrun the collapsing sensor cables through a low service duct and reach the maintenance wing. The approval system has already begun reporting the incident as normal plant growth."
+          },
+          {
+            "text": "You emerge through an old maintenance door beneath the Park. The giant greenhouse is behind you. The Exposition's service infrastructure stretches ahead, with no evidence of a working bathroom."
+          }
+        ],
+        "choices": [
+          {
+            "id": "restart_ch2_maintenance",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  },
+  "G": {
+    "key": "focus:biology_park/agricultural_customs/exposure_dispenser_open",
+    "record": {
+      "title": "EXPOSURE DISPENSER OPEN",
+      "kind": "focus",
+      "status": "not-started",
+      "dimensions": "564x278",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Opened botanical first-aid or decontamination wall kit close-up: chunky syringe injector and glass vial inside; EVE-hypo-like general silhouette Easter egg, entirely original design, industrial 1960s futurism. Eventually must be represented in 565x451 Scene Pickup Inspector, not the current Focus A staging."
+    },
+    "item": {
+      "name": "CUSTOMS BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_customs",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the agricultural exposure dispenser. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1981. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_customs",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "agricultural_customs",
+    "expirationYear": 1981,
+    "nodes": {
+      "customs_checkpoint": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "The agricultural scanner examines your certified canister. THANK YOU FOR HELPING NATURE REACH NEW PLACES. It offers three approved methods of handling your cargo.",
+        "choices": [
+          {
+            "id": "carry_sealed_seeds_out",
+            "kind": "action",
+            "text": "CARRY THE SEALED CANISTER OUT OF THE PARK.",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "courier_carried"
+              }
+            },
+            "to": "customs_exit"
+          },
+          {
+            "id": "transfer_seeds_to_network",
+            "kind": "action",
+            "text": "SURRENDER THE CANISTER TO OFFICIAL AGRICULTURAL DISTRIBUTION.",
+            "effects": [
+              {
+                "take": [
+                  "certified_seed_canister"
+                ]
+              },
+              {
+                "set": {
+                  "ch2_exit_route": "courier_surrendered",
+                  "seeds_entered_distribution": true
+                }
+              }
+            ],
+            "to": "customs_exit"
+          },
+          {
+            "id": "break_seed_canister",
+            "kind": "action",
+            "text": "TRY TO DESTROY THE SEEDS BEFORE THEY LEAVE.",
+            "check": {
+              "id": "ch2_seed_destruction",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "customs_seeds_destroyed"
+            },
+            "fail": {
+              "to": "customs_seed_rupture"
+            },
+            "effects": {
+              "take": [
+                "certified_seed_canister"
+              ]
+            }
+          }
+        ]
+      },
+      "customs_seeds_destroyed": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_destroyed",
+            "seeds_destroyed": true
+          }
+        },
+        "text": "The container crumples under the crushing mechanism and its sealed germination packet splits against a heated inspection plate. A green indicator confirms DESTROYED BEFORE EXPORT.",
+        "choices": [
+          {
+            "id": "leave_without_viable_seeds",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_seed_rupture": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "The seal bursts. A little cloud of pale seed dust spreads around your face. Customs sounds a cheerful warning: EXPOSURE ASSESSMENT RECOMMENDED.",
+        "choices": [
+          {
+            "id": "shield_against_seed_dust",
+            "kind": "action",
+            "text": "COVER YOUR FACE AND CLEAR THE LEAKING SEED DUST.",
+            "check": {
+              "id": "ch2_customs_seed_dust",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "customs_dust_avoided"
+            },
+            "fail": {
+              "to": "customs_dust_infected"
+            }
+          }
+        ]
+      },
+      "customs_dust_avoided": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_ruptured"
+          }
+        },
+        "text": "You push the open container under the extraction hood before the dust reaches your lungs. A technician-free cleanup system accepts the ruptured cargo.",
+        "choices": [
+          {
+            "id": "leave_ruptured_cargo",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_dust_infected": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_ruptured",
+            "spore_infected": true
+          }
+        },
+        "text": "Some of the dust gets into your throat before the extractor starts. A thin green trace appears at the edge of your thumbnail. The checkpoint labels the spill RESOLVED.",
+        "choices": [
+          {
+            "id": "leave_after_dust_exposure",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_exit": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "Agricultural Customs has cleared your departure. Beside the shipment gate stands an inspection alcove with a small botanical-exposure treatment dispenser. You are free to pass, but the dispenser is optional.",
+        "choices": [
+          {
+            "id": "open_customs_aid",
+            "kind": "action",
+            "text": "INSPECT THE CUSTOMS EXPOSURE DISPENSER.",
+            "if": {
+              "notFlag": "customs_kit_handled"
+            },
+            "to": "customs_kit_focus"
+          },
+          {
+            "id": "leave_cargo_checkpoint",
+            "kind": "action",
+            "text": "PASS THROUGH THE AGRICULTURAL SHIPMENT GATE.",
+            "to": "end_customs"
+          }
+        ],
+        "use": {
+          "botanical_antidote_customs": {
+            "check": {
+              "id": "ch2_customs_inventory_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_customs"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "customs_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/agricultural_customs",
+        "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
+        "text": "The agricultural exposure dispenser swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_customs_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "customs_kit_read_focus"
+          },
+          {
+            "id": "use_customs_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_customs_kit_direct",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "customs_exit",
+              "effects": [
+                {
+                  "set": {
+                    "customs_kit_handled": true,
+                    "customs_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "customs_exit",
+              "effects": {
+                "set": {
+                  "customs_kit_handled": true,
+                  "customs_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_customs_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_customs"
+              ],
+              "set": {
+                "customs_kit_handled": true,
+                "customs_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "customs_antidote_box",
+          "title": "AGRICULTURAL EXPOSURE DISPENSER",
+          "item": "botanical_antidote_customs",
+          "readChoice": "read_customs_expiry",
+          "useChoice": "use_customs_from_open_kit",
+          "closeChoice": "close_customs_kit_and_take"
+        }
+      },
+      "customs_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/agricultural_customs",
+        "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1981.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_customs_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_customs_kit_read_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "customs_exit",
+              "effects": [
+                {
+                  "set": {
+                    "customs_kit_handled": true,
+                    "customs_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "customs_exit",
+              "effects": {
+                "set": {
+                  "customs_kit_handled": true,
+                  "customs_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_customs_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_customs"
+              ],
+              "set": {
+                "customs_kit_handled": true,
+                "customs_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "customs_antidote_box",
+          "title": "AGRICULTURAL EXPOSURE DISPENSER",
+          "item": "botanical_antidote_customs",
+          "readChoice": null,
+          "useChoice": "use_customs_after_read",
+          "closeChoice": "close_customs_read_kit_and_take"
+        }
+      },
+      "end_customs": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "end": true,
+        "effects": {
+          "set": {
+            "chapter3_entry_group": "public_concourse"
+          }
+        },
+        "text": [
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_carried"
+              ]
+            },
+            "text": "The agricultural gate admits you to the main Exposition with a certified canister of viable seeds still in your possession. They have not spread, but you are now personally responsible for where they go."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_surrendered"
+              ]
+            },
+            "text": "You pass into the public concourse without the canister. The seeds have entered the Exposition's distribution network. The plant has found a new department to carry its ambitions."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_destroyed"
+              ]
+            },
+            "text": "You leave through Customs after destroying this shipment of viable seeds. The flower is still growing elsewhere. At least one approved expansion has been denied a ride."
+          },
+          {
+            "text": "Customs has classified the ruptured shipment as safely concluded. You reach the public concourse with whatever the leaking seed dust may have left inside you."
+          }
+        ],
+        "choices": [
+          {
+            "id": "restart_ch2_customs",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  },
+  "H": {
+    "key": "items:botanical_antidote_customs#slot",
+    "record": {
+      "title": "BOTANICAL ANTIDOTE CUSTOMS SLOT",
+      "kind": "item-slot",
+      "status": "not-started",
+      "dimensions": "96x96",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "True logical-grid 96x96 transparent item icon, clean controlled palette, botanical antidote customs"
+    },
+    "item": {
+      "name": "CUSTOMS BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_customs",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the agricultural exposure dispenser. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1981. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_customs",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "agricultural_customs",
+    "expirationYear": 1981,
+    "nodes": {
+      "customs_checkpoint": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "The agricultural scanner examines your certified canister. THANK YOU FOR HELPING NATURE REACH NEW PLACES. It offers three approved methods of handling your cargo.",
+        "choices": [
+          {
+            "id": "carry_sealed_seeds_out",
+            "kind": "action",
+            "text": "CARRY THE SEALED CANISTER OUT OF THE PARK.",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "courier_carried"
+              }
+            },
+            "to": "customs_exit"
+          },
+          {
+            "id": "transfer_seeds_to_network",
+            "kind": "action",
+            "text": "SURRENDER THE CANISTER TO OFFICIAL AGRICULTURAL DISTRIBUTION.",
+            "effects": [
+              {
+                "take": [
+                  "certified_seed_canister"
+                ]
+              },
+              {
+                "set": {
+                  "ch2_exit_route": "courier_surrendered",
+                  "seeds_entered_distribution": true
+                }
+              }
+            ],
+            "to": "customs_exit"
+          },
+          {
+            "id": "break_seed_canister",
+            "kind": "action",
+            "text": "TRY TO DESTROY THE SEEDS BEFORE THEY LEAVE.",
+            "check": {
+              "id": "ch2_seed_destruction",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "customs_seeds_destroyed"
+            },
+            "fail": {
+              "to": "customs_seed_rupture"
+            },
+            "effects": {
+              "take": [
+                "certified_seed_canister"
+              ]
+            }
+          }
+        ]
+      },
+      "customs_seeds_destroyed": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_destroyed",
+            "seeds_destroyed": true
+          }
+        },
+        "text": "The container crumples under the crushing mechanism and its sealed germination packet splits against a heated inspection plate. A green indicator confirms DESTROYED BEFORE EXPORT.",
+        "choices": [
+          {
+            "id": "leave_without_viable_seeds",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_seed_rupture": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "The seal bursts. A little cloud of pale seed dust spreads around your face. Customs sounds a cheerful warning: EXPOSURE ASSESSMENT RECOMMENDED.",
+        "choices": [
+          {
+            "id": "shield_against_seed_dust",
+            "kind": "action",
+            "text": "COVER YOUR FACE AND CLEAR THE LEAKING SEED DUST.",
+            "check": {
+              "id": "ch2_customs_seed_dust",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "customs_dust_avoided"
+            },
+            "fail": {
+              "to": "customs_dust_infected"
+            }
+          }
+        ]
+      },
+      "customs_dust_avoided": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_ruptured"
+          }
+        },
+        "text": "You push the open container under the extraction hood before the dust reaches your lungs. A technician-free cleanup system accepts the ruptured cargo.",
+        "choices": [
+          {
+            "id": "leave_ruptured_cargo",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_dust_infected": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_ruptured",
+            "spore_infected": true
+          }
+        },
+        "text": "Some of the dust gets into your throat before the extractor starts. A thin green trace appears at the edge of your thumbnail. The checkpoint labels the spill RESOLVED.",
+        "choices": [
+          {
+            "id": "leave_after_dust_exposure",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_exit": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "Agricultural Customs has cleared your departure. Beside the shipment gate stands an inspection alcove with a small botanical-exposure treatment dispenser. You are free to pass, but the dispenser is optional.",
+        "choices": [
+          {
+            "id": "open_customs_aid",
+            "kind": "action",
+            "text": "INSPECT THE CUSTOMS EXPOSURE DISPENSER.",
+            "if": {
+              "notFlag": "customs_kit_handled"
+            },
+            "to": "customs_kit_focus"
+          },
+          {
+            "id": "leave_cargo_checkpoint",
+            "kind": "action",
+            "text": "PASS THROUGH THE AGRICULTURAL SHIPMENT GATE.",
+            "to": "end_customs"
+          }
+        ],
+        "use": {
+          "botanical_antidote_customs": {
+            "check": {
+              "id": "ch2_customs_inventory_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_customs"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "customs_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/agricultural_customs",
+        "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
+        "text": "The agricultural exposure dispenser swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_customs_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "customs_kit_read_focus"
+          },
+          {
+            "id": "use_customs_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_customs_kit_direct",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "customs_exit",
+              "effects": [
+                {
+                  "set": {
+                    "customs_kit_handled": true,
+                    "customs_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "customs_exit",
+              "effects": {
+                "set": {
+                  "customs_kit_handled": true,
+                  "customs_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_customs_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_customs"
+              ],
+              "set": {
+                "customs_kit_handled": true,
+                "customs_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "customs_antidote_box",
+          "title": "AGRICULTURAL EXPOSURE DISPENSER",
+          "item": "botanical_antidote_customs",
+          "readChoice": "read_customs_expiry",
+          "useChoice": "use_customs_from_open_kit",
+          "closeChoice": "close_customs_kit_and_take"
+        }
+      },
+      "customs_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/agricultural_customs",
+        "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1981.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_customs_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_customs_kit_read_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "customs_exit",
+              "effects": [
+                {
+                  "set": {
+                    "customs_kit_handled": true,
+                    "customs_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "customs_exit",
+              "effects": {
+                "set": {
+                  "customs_kit_handled": true,
+                  "customs_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_customs_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_customs"
+              ],
+              "set": {
+                "customs_kit_handled": true,
+                "customs_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "customs_antidote_box",
+          "title": "AGRICULTURAL EXPOSURE DISPENSER",
+          "item": "botanical_antidote_customs",
+          "readChoice": null,
+          "useChoice": "use_customs_after_read",
+          "closeChoice": "close_customs_read_kit_and_take"
+        }
+      },
+      "end_customs": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "end": true,
+        "effects": {
+          "set": {
+            "chapter3_entry_group": "public_concourse"
+          }
+        },
+        "text": [
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_carried"
+              ]
+            },
+            "text": "The agricultural gate admits you to the main Exposition with a certified canister of viable seeds still in your possession. They have not spread, but you are now personally responsible for where they go."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_surrendered"
+              ]
+            },
+            "text": "You pass into the public concourse without the canister. The seeds have entered the Exposition's distribution network. The plant has found a new department to carry its ambitions."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_destroyed"
+              ]
+            },
+            "text": "You leave through Customs after destroying this shipment of viable seeds. The flower is still growing elsewhere. At least one approved expansion has been denied a ride."
+          },
+          {
+            "text": "Customs has classified the ruptured shipment as safely concluded. You reach the public concourse with whatever the leaking seed dust may have left inside you."
+          }
+        ],
+        "choices": [
+          {
+            "id": "restart_ch2_customs",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  },
+  "I": {
+    "key": "items:botanical_antidote_customs#inspect",
+    "record": {
+      "title": "BOTANICAL ANTIDOTE CUSTOMS INSPECT",
+      "kind": "item-inspect",
+      "status": "not-started",
+      "dimensions": "565x451",
+      "assetPath": null,
+      "suggestedFilename": null,
+      "prompt": "Clean 565x451 detailed item inspector art for botanical antidote customs, original midcentury industrial styling"
+    },
+    "item": {
+      "name": "CUSTOMS BOTANICAL ANTIDOTE",
+      "slotArt": null,
+      "inspectArt": null,
+      "description": [
+        {
+          "if": {
+            "itemNot": [
+              "botanical_antidote_customs",
+              "read"
+            ]
+          },
+          "text": "A chunky glass-vial botanical exposure injector from the agricultural exposure dispenser. The printed handling label is folded beneath a metal clip."
+        },
+        {
+          "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1981. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+        }
+      ],
+      "read": {
+        "effects": {
+          "mark": [
+            [
+              "botanical_antidote_customs",
+              "read"
+            ]
+          ]
+        }
+      }
+    },
+    "location": "agricultural_customs",
+    "expirationYear": 1981,
+    "nodes": {
+      "customs_checkpoint": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "The agricultural scanner examines your certified canister. THANK YOU FOR HELPING NATURE REACH NEW PLACES. It offers three approved methods of handling your cargo.",
+        "choices": [
+          {
+            "id": "carry_sealed_seeds_out",
+            "kind": "action",
+            "text": "CARRY THE SEALED CANISTER OUT OF THE PARK.",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "courier_carried"
+              }
+            },
+            "to": "customs_exit"
+          },
+          {
+            "id": "transfer_seeds_to_network",
+            "kind": "action",
+            "text": "SURRENDER THE CANISTER TO OFFICIAL AGRICULTURAL DISTRIBUTION.",
+            "effects": [
+              {
+                "take": [
+                  "certified_seed_canister"
+                ]
+              },
+              {
+                "set": {
+                  "ch2_exit_route": "courier_surrendered",
+                  "seeds_entered_distribution": true
+                }
+              }
+            ],
+            "to": "customs_exit"
+          },
+          {
+            "id": "break_seed_canister",
+            "kind": "action",
+            "text": "TRY TO DESTROY THE SEEDS BEFORE THEY LEAVE.",
+            "check": {
+              "id": "ch2_seed_destruction",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "customs_seeds_destroyed"
+            },
+            "fail": {
+              "to": "customs_seed_rupture"
+            },
+            "effects": {
+              "take": [
+                "certified_seed_canister"
+              ]
+            }
+          }
+        ]
+      },
+      "customs_seeds_destroyed": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_destroyed",
+            "seeds_destroyed": true
+          }
+        },
+        "text": "The container crumples under the crushing mechanism and its sealed germination packet splits against a heated inspection plate. A green indicator confirms DESTROYED BEFORE EXPORT.",
+        "choices": [
+          {
+            "id": "leave_without_viable_seeds",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_seed_rupture": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "The seal bursts. A little cloud of pale seed dust spreads around your face. Customs sounds a cheerful warning: EXPOSURE ASSESSMENT RECOMMENDED.",
+        "choices": [
+          {
+            "id": "shield_against_seed_dust",
+            "kind": "action",
+            "text": "COVER YOUR FACE AND CLEAR THE LEAKING SEED DUST.",
+            "check": {
+              "id": "ch2_customs_seed_dust",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "customs_dust_avoided"
+            },
+            "fail": {
+              "to": "customs_dust_infected"
+            }
+          }
+        ]
+      },
+      "customs_dust_avoided": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_ruptured"
+          }
+        },
+        "text": "You push the open container under the extraction hood before the dust reaches your lungs. A technician-free cleanup system accepts the ruptured cargo.",
+        "choices": [
+          {
+            "id": "leave_ruptured_cargo",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_dust_infected": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "effects": {
+          "set": {
+            "ch2_exit_route": "courier_ruptured",
+            "spore_infected": true
+          }
+        },
+        "text": "Some of the dust gets into your throat before the extractor starts. A thin green trace appears at the edge of your thumbnail. The checkpoint labels the spill RESOLVED.",
+        "choices": [
+          {
+            "id": "leave_after_dust_exposure",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "customs_exit"
+          }
+        ]
+      },
+      "customs_exit": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "text": "Agricultural Customs has cleared your departure. Beside the shipment gate stands an inspection alcove with a small botanical-exposure treatment dispenser. You are free to pass, but the dispenser is optional.",
+        "choices": [
+          {
+            "id": "open_customs_aid",
+            "kind": "action",
+            "text": "INSPECT THE CUSTOMS EXPOSURE DISPENSER.",
+            "if": {
+              "notFlag": "customs_kit_handled"
+            },
+            "to": "customs_kit_focus"
+          },
+          {
+            "id": "leave_cargo_checkpoint",
+            "kind": "action",
+            "text": "PASS THROUGH THE AGRICULTURAL SHIPMENT GATE.",
+            "to": "end_customs"
+          }
+        ],
+        "use": {
+          "botanical_antidote_customs": {
+            "check": {
+              "id": "ch2_customs_inventory_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "effects": {
+              "take": [
+                "botanical_antidote_customs"
+              ]
+            },
+            "pass": {
+              "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+              "effects": {
+                "set": {
+                  "spore_infected": false,
+                  "thorn_infected": false
+                }
+              }
+            },
+            "fail": {
+              "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+            }
+          }
+        }
+      },
+      "customs_kit_focus": {
+        "mode": "focus",
+        "scene": "biology_park/agricultural_customs",
+        "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
+        "text": "The agricultural exposure dispenser swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+        "choices": [
+          {
+            "id": "read_customs_expiry",
+            "kind": "action",
+            "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+            "to": "customs_kit_read_focus"
+          },
+          {
+            "id": "use_customs_from_open_kit",
+            "kind": "action",
+            "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+            "check": {
+              "id": "ch2_customs_kit_direct",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "customs_exit",
+              "effects": [
+                {
+                  "set": {
+                    "customs_kit_handled": true,
+                    "customs_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "customs_exit",
+              "effects": {
+                "set": {
+                  "customs_kit_handled": true,
+                  "customs_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_customs_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_customs"
+              ],
+              "set": {
+                "customs_kit_handled": true,
+                "customs_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "customs_antidote_box",
+          "title": "AGRICULTURAL EXPOSURE DISPENSER",
+          "item": "botanical_antidote_customs",
+          "readChoice": "read_customs_expiry",
+          "useChoice": "use_customs_from_open_kit",
+          "closeChoice": "close_customs_kit_and_take"
+        }
+      },
+      "customs_kit_read_focus": {
+        "mode": "focus",
+        "scene": "biology_park/agricultural_customs",
+        "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
+        "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1981.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+        "choices": [
+          {
+            "id": "use_customs_after_read",
+            "kind": "action",
+            "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+            "check": {
+              "id": "ch2_customs_kit_read_use",
+              "sides": 6,
+              "need": 3,
+              "mods": [
+                {
+                  "if": {
+                    "flag": "spore_infected",
+                    "notFlag": "thorn_infected"
+                  },
+                  "add": -1
+                },
+                {
+                  "if": {
+                    "flag": "thorn_infected"
+                  },
+                  "add": -2
+                }
+              ]
+            },
+            "pass": {
+              "to": "customs_exit",
+              "effects": [
+                {
+                  "set": {
+                    "customs_kit_handled": true,
+                    "customs_kit_spent": true
+                  }
+                },
+                {
+                  "set": {
+                    "spore_infected": false,
+                    "thorn_infected": false
+                  }
+                }
+              ]
+            },
+            "fail": {
+              "to": "customs_exit",
+              "effects": {
+                "set": {
+                  "customs_kit_handled": true,
+                  "customs_kit_spent": true
+                }
+              }
+            }
+          },
+          {
+            "id": "close_customs_read_kit_and_take",
+            "kind": "action",
+            "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+            "back": true,
+            "effects": {
+              "give": [
+                "botanical_antidote_customs"
+              ],
+              "set": {
+                "customs_kit_handled": true,
+                "customs_kit_taken": true
+              }
+            }
+          }
+        ],
+        "scenePickup": {
+          "id": "customs_antidote_box",
+          "title": "AGRICULTURAL EXPOSURE DISPENSER",
+          "item": "botanical_antidote_customs",
+          "readChoice": null,
+          "useChoice": "use_customs_after_read",
+          "closeChoice": "close_customs_read_kit_and_take"
+        }
+      },
+      "end_customs": {
+        "mode": "narrative",
+        "scene": "biology_park/agricultural_customs",
+        "end": true,
+        "effects": {
+          "set": {
+            "chapter3_entry_group": "public_concourse"
+          }
+        },
+        "text": [
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_carried"
+              ]
+            },
+            "text": "The agricultural gate admits you to the main Exposition with a certified canister of viable seeds still in your possession. They have not spread, but you are now personally responsible for where they go."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_surrendered"
+              ]
+            },
+            "text": "You pass into the public concourse without the canister. The seeds have entered the Exposition's distribution network. The plant has found a new department to carry its ambitions."
+          },
+          {
+            "if": {
+              "flagIs": [
+                "ch2_exit_route",
+                "courier_destroyed"
+              ]
+            },
+            "text": "You leave through Customs after destroying this shipment of viable seeds. The flower is still growing elsewhere. At least one approved expansion has been denied a ride."
+          },
+          {
+            "text": "Customs has classified the ruptured shipment as safely concluded. You reach the public concourse with whatever the leaking seed dust may have left inside you."
+          }
+        ],
+        "choices": [
+          {
+            "id": "restart_ch2_customs",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "storyboardNextChapter": "chapter-03",
+        "notes": "\nSTORYBOARD-ONLY handoff to Chapter 3. Existing end:true and restart behavior remain for gameplay until future integration."
+      }
+    }
+  }
+}

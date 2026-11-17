@@ -1,0 +1,16 @@
+{
+  "canonicalRepository": "InterstellarHarvest/CYOA-storyboard",
+  "sourceCommit": "7c7a50a67d9fb48bad8e753cab90b706a3c1ddd7",
+  "artworkBaseline": "4e1ab88a63cf830b829f88d51710eef25e729f95",
+  "files": {
+    "story/artwork.draft.json": "623984a7bdfeb8dc8073087d01cb1431e5fa9cb2f6d1bf0560b1cdc608ca5df0",
+    "story/chapters/chapter-02.draft.json": "fa382042cbea4fd240b342482371624563b390fc1588c0604e3f4a7afed3374f",
+    "story/items.draft.json": "c933ec462e3c4a32fcaa98191f629efcfe24356d48eaad333d2863e0aee76a76",
+    "story/storyboard-manifest.json": "a22d36eae0159edd7fee3c527c1d65c2962f8f80a3c2d2386a764f33f8339e89",
+    "story/game-integration.json": "ab83f7a3497d4e6c8b246c59aadad82b8f8b492ea68d900f31bc567114a9e4f1",
+    "docs/102_ARTWORK_APPROVAL_AND_STORYBOARD_SYNC_POLICY.md": "a90d988c393152effb3576d92214825ffd5aa20a0f6c11d6b193e9aaabcc73a3",
+    "docs/103_RETROACTIVE_ARTWORK_APPROVAL_LEDGER.md": "6b63d9e538c88feb1e8137e3d39e01c9f9e4fe14208440a69a0ac95b53e91a8c",
+    "docs/104_FATAL_ENDING_DATA_AND_ENGINE_EXPORT.md": "297576b5e92d4d845469fd7465898e8c9d555f1ef9c154b0dae519e4b8a9bf61",
+    "docs/105_CANONICAL_SYNC_PIPELINE.md": "7815245fd8373ac2a76d9a2de8031aa3738a710c67fcd685b18b393c2125cda3"
+  }
+}

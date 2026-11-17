@@ -1,0 +1,16 @@
+{
+  "allFourOwnerHashesMatch": true,
+  "previousSelectedEntriesPreserved": 96,
+  "newSelectedEntries": 4,
+  "selectedEntryCount": 100,
+  "allPreviousSelectedPngBytesPreserved": true,
+  "allAuthoredChapterAndItemBytesPreserved": true,
+  "allFiveChecksPassed": true,
+  "changedTrackedFiles": [
+    "docs/103_RETROACTIVE_ARTWORK_APPROVAL_LEDGER.md",
+    "docs/105_CANONICAL_SYNC_PIPELINE.md",
+    "story/artwork-preview.json",
+    "story/artwork.draft.json"
+  ],
+  "dimensionDecisionRecorded": "docs/105 append-only owner/Story Director resolution; no dimensions changed"
+}
