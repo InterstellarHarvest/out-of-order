@@ -20,10 +20,13 @@
 # (or: gh workflow run qa.yml --ref <branch> -f visual_review=true). Download within 24 hours.
 # Every test still runs on every run; only what is kept afterwards changed. Upload steps are
 # continue-on-error, so a refused upload can neither fail a passing run nor pass a failing one.
+# Draft PRs skip QA (Actions minutes are limited) unless it is run manually (Run workflow) or the
+# PR is marked ready for review; non-draft PRs, pushes to main and manual runs are unchanged.
 name: QA
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   push:
     branches: [main]
   workflow_dispatch:
@@ -42,6 +45,10 @@ permissions:
 
 jobs:
   content:
+    # Draft PRs do not run QA automatically (Actions minutes on this private repository are limited,
+    # docs/100 section 9): run it with Actions > QA > Run workflow on the branch, or mark the PR ready
+    # for review. Non-draft PRs, pushes to main and manual runs are unchanged. Locally it is free.
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-24.04
     # Full authored Chapter 1 turns the exhaustive acceptance mutations into a long CI job.
     # Do not mask or skip them: give the source validator enough wall time to finish.
@@ -104,6 +111,10 @@ jobs:
           if-no-files-found: ignore
 
   browsers:
+    # Draft PRs do not run QA automatically (Actions minutes on this private repository are limited,
+    # docs/100 section 9): run it with Actions > QA > Run workflow on the branch, or mark the PR ready
+    # for review. Non-draft PRs, pushes to main and manual runs are unchanged. Locally it is free.
+    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:

@@ -211,3 +211,27 @@ These need the account owner and the GitHub website; the CLI token has no billin
 docs/93, docs/94, docs/96 and docs/98 say CI keeps screenshots in the `qa-browsers` artifact. From this change on:
 - screenshots are in `qa-browsers-failure-screenshots` (failed run) or `qa-browsers-screenshots` (visual review), as described in section 3;
 - the JSON results are in `qa-browsers-summary`.
+
+## 9. Actions minutes: draft PRs skip QA
+
+**The owner's billing page, 2026-11-17** (GitHub Free; nothing billable; included limits reset in 14 days):
+- **Compute:** $9.02 of $12.00 included is used, about 1,500 of 2,000 minutes. Most of it is CYOA.
+- **Actions storage:** 0.5 of 0.5 GB used. This is the month's accumulated usage, so the artifact deletions stop it growing but do not lower it.
+
+**What uses minutes:** one full CYOA QA run takes about 51 minutes (content about 15, browsers about 36). The roughly 500 minutes left cover about 9 runs. Several agent sessions pushing to draft PRs ran it about 26 times a day.
+
+**The change, owner-approved 2026-11-17:**
+- Both QA jobs carry `if: github.event_name != 'pull_request' || !github.event.pull_request.draft`.
+- `pull_request` also triggers on `ready_for_review`.
+- Pushes to a **draft PR** no longer run QA. The jobs show as skipped and cost 0 minutes.
+
+QA still runs:
+- when started by hand: Actions → QA → **Run workflow** on the branch (`gh workflow run qa.yml --ref <branch>`), optionally with `visual_review`;
+- when a PR is **marked ready for review**, and on every push to a non-draft PR;
+- on every push to `main`.
+
+No test changed. Every suite still runs locally for free, as before. The policy check (104 checks) pins these triggers and the exact skip condition.
+
+**Not affected:**
+- Git pushes (commits, art, storyboard data): repository storage is separate from Actions.
+- The public repositories (CYOA-storyboard, Trans-plant), whose Actions minutes and storage are free. The storyboard's Pages upload succeeded at 21:09 UTC while CYOA's uploads were being refused.

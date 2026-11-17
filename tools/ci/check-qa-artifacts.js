@@ -113,6 +113,14 @@ check('every browser QA step is a known suite with an id', qaSteps.every(s => ID
 // --- The manual visual-review input and the index step. -------------------------------------------
 check('workflow_dispatch has a boolean visual_review input, default false',
   /workflow_dispatch:\n    inputs:\n      visual_review:\n(?:        .*\n)*?        type: boolean\n        default: false\n/.test(text));
+// --- Triggers (docs/100 section 9): drafts skip QA; manual, ready-for-review, non-draft PRs and main run it.
+check('pull_request runs on opened, synchronize, reopened and ready_for_review',
+  /\n  pull_request:\n    types: \[opened, synchronize, reopened, ready_for_review\]\n/.test(text));
+check('push to main and workflow_dispatch still trigger QA', /\n  push:\n    branches: \[main\]\n  workflow_dispatch:\n/.test(text));
+const SKIP_IF = "    if: github.event_name != 'pull_request' || !github.event.pull_request.draft";
+for (const j of ['content', 'browsers']) check(`${j} job skips only draft PRs (exact condition)`,
+  (J[j] || []).filter(l => /^    if:/.test(l)).length === 1 && (J[j] || []).includes(SKIP_IF), (J[j] || []).filter(l => /^    if:/.test(l)));
+
 const idxStep = browsers.find(s => s.run === 'node tools/ci/qa-artifact-index.js');
 check('artifact index runs on every run before the uploads, with job status, visual_review and step outcomes',
   idxStep && idxStep.if === 'always()' && browsers.indexOf(idxStep) < browsers.indexOf(qs) &&
