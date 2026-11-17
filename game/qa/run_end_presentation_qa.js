@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// Rest Assured voluntary-death presentation: feature-gated review proof (docs/94; death brief
-// docs/93 @ 8301daa). Real game, Chromium and Firefox, 1920x1080 at device scale 1.
+// Rest Assured death presentation: feature-gated review proof (docs/94; death brief docs/93 @
+// 8301daa), rendering the CANONICAL storyboard popup (docs/98; public docs/104: one shared popup and
+// illustration for all three causes). Real game, Chromium and Firefox, 1920x1080 at device scale 1.
 //
 // Every scenario starts from a real Prologue playthrough (game/qa/ch02_routes.js) saved at the
 // Rest Assured chair, then takes the real choice in the production UI. Measured from real
@@ -9,8 +10,9 @@
 //     equal to the native PNG at exact 2x, separator, three control footprints (+4px shadow) with
 //     24px clear above and below;
 //   - the composition against the approved A1 reference (pinned study commit, when this clone has
-//     it): every popup pixel identical except the title row (the brief's literal title ends with a
-//     period the mockup lacks);
+//     it): every popup pixel identical except the title row, the control label faces and the text
+//     column, which now carries the canonical draft copy (subtitle + one-paragraph narrative): its
+//     difference is measured and reported for owner review;
 //   - backdrop: the real ending frame (the same state with the gate off) in 10x10 blocks, each block
 //     uniform and equal to that frame's block-centre pixel x 0.35; the capture itself against the
 //     real screenshot;
@@ -19,8 +21,10 @@
 //     run_death_controls_qa.js's); no save, state, inventory, flag or dice change; Escape returns
 //     to the identical ending frame, whose BEGIN AGAIN still works;
 //   - resize (uniform scale, then restored exactly), reduced motion, reload;
-//   - cause selection: only accept_permanent_rest opens it; failed stapler and unarmed checks, a
-//     successful escape, other endings and the gate-off game do not.
+//   - cause selection: the voluntary choice, the failed stapler check and the failed unarmed check
+//     all open the SAME canonical popup (pixel-identical popup region) while the real cause (choice,
+//     check id, ok:false) is kept; a successful escape, other endings (incl. Chapter 2 fatal endings,
+//     whose art is unproduced) and the gate-off game (also for a failed cause) do not.
 // Writes game/qa/end_presentation_results.json and game/qa/end_presentation_screenshots/ (not
 // committed; CI keeps them as an artifact).
 'use strict';
@@ -36,7 +40,13 @@ const R = require('./ch02_routes.js');
 let pw;
 try { pw = createRequire(__filename)('playwright'); } catch (_) { console.error('Playwright required; set NODE_PATH to its installation directory'); process.exit(2); }
 const DATA = require('../content/end-presentations.review.js');
-const ENTRY = DATA.entries[0];
+const CANON = require('../content/death-presentations.generated.js');
+const EXPORT = JSON.parse(fs.readFileSync(path.join(ROOT, 'story/death-presentations.export.json'), 'utf8'));
+// The opted-in entry as the runtime merges it (js/end-presentation.js): game-owned config + canonical copy and art.
+const merged = (r) => { const c = CANON.entries.find((x) => x.id === r.canonical); return c && c.art ? Object.assign({}, r, { id: c.id, when: c.when, title: c.title, subtitle: c.subtitle, body: c.body, art: c.art }) : null; };
+const ENTRIES = DATA.entries.map(merged).filter(Boolean);
+const ENTRY = ENTRIES[0];
+const DASH = (t) => t.replace(/[\u2014\u2013]/g, '-');
 const OUT = path.join(__dirname, 'end_presentation_screenshots');
 fs.mkdirSync(OUT, { recursive: true });
 const SAVE_KEY = 'cyoa-save:' + story.id;
@@ -65,12 +75,15 @@ function chairSave(item) {
   if (t.state.node !== 'chair_locked') throw new Error('not at the chair');
   return t.save();
 }
-// A seed whose real roll gives `ok` for `check` when taking `choice` at the chair.
+// A seed whose real roll gives `ok` for `check` when taking `choice` at the chair. The save is the
+// one the gated game writes (tracked: state + restore points, docs/96), as for the voluntary case,
+// so every cause is presented with the same control availability.
 function seedFor(item, choice, checkId, ok) {
-  const path = item ? R.HOUSE.stapler_clean.path.slice(0, R.HOUSE.stapler_clean.path.indexOf('enter_rest_assured') + 1) : CHAIR;
+  const T = require('./tracked_routes.js');
   for (let seed = 1; seed < 500; seed++) {
-    const s = R.stepAll(story, R.stepAll(story, R.prologue(story, item, seed), path), [choice]);
-    if (s.checks[checkId] && s.checks[checkId].ok === ok) return { seed, save: Rules.serialize(story, R.stepAll(story, R.prologue(story, item, seed), path), { presented: 0 }) };
+    const t = T.tracked(story, item, seed).steps(item ? T.STAPLER_CHAIR : CHAIR);
+    const s = Rules.step(story, t.state, { choice }).state;
+    if (s.checks[checkId] && s.checks[checkId].ok === ok) return { seed, save: t.save() };
   }
   throw new Error('no seed for ' + choice + ' ' + ok);
 }
@@ -157,11 +170,12 @@ async function run(name, base) {
 
   // 1. Gate OFF: the authored ending exactly as before; also the reference ending frame. ------------
   let endingFrame = null;
+  let voluntaryShot = null;
   await game('gate_off_voluntary', chairSave(null), false, async (page, C) => {
     const before = await page.evaluate(() => JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
     await take(page, 'accept_permanent_rest');
     const s = await page.evaluate(() => ({ node: document.body.dataset.node, cards: window.CYOA_GAME.ui.cards.map((c) => c.id + ':' + c.kind), open: !!document.body.dataset.endPresentation, el: !!document.getElementById('endPresentation'),
-      enabled: window.CYOA_GAME.endPresentation.enabled, art: !!window.CYOA_GAME.image('end:rest_assured_voluntary') }));
+      enabled: window.CYOA_GAME.endPresentation.enabled, art: !!window.CYOA_GAME.image('end:chapter-01:exit_chair_fatal') }));
     C('gate off (default): the authored fatal ending with only BEGIN AGAIN, no presentation, its art not even decoded',
       s.node === 'chapter-01:exit_chair_fatal' && s.cards.join() === 'restart_chair_death:system' && !s.open && !s.el && s.enabled === false && !s.art, s);
     endingFrame = await shot(page, '00_gate_off_ending');
@@ -180,6 +194,7 @@ async function run(name, base) {
     await take(page, 'accept_permanent_rest').catch(() => {});
     await page.waitForFunction(() => !!document.body.dataset.endPresentation, null, { timeout: 15000 });
     const canonical = await shot(page, '01_voluntary_canonical_1920x1080');
+    voluntaryShot = canonical;
     const atOpen = await snapshot(page);
     const want = Rules.step(story, preState, { choice: 'accept_permanent_rest' }).state;
     const st = JSON.parse(atOpen.state);
@@ -189,7 +204,10 @@ async function run(name, base) {
       const q = (id) => document.getElementById(id);
       const r = (id) => { const b = q(id).getBoundingClientRect(); return [b.left, b.top, b.width, b.height]; };
       const art = q('endArt');
+      const root = q('endPresentation');
       return { art: r('endArt'), natural: [art.naturalWidth, art.naturalHeight], src: art.getAttribute('src'), title: q('endTitle').dataset.text, body: q('endBody').dataset.text,
+        subtitle: q('endSubtitle').dataset.text, subtitleRendered: q('endSubtitle').dataset.rendered, subtitleBox: r('endSubtitle'), bodyBox: r('endBody'), titleRendered: q('endTitle').dataset.rendered,
+        textBottom: +root.dataset.textBottom, textOverflow: root.dataset.textOverflow, copyStatus: root.dataset.copyStatus, revision: root.dataset.revision, entry: root.dataset.entry,
         titleTag: q('endTitle').tagName, bodyTag: q('endBody').tagName, controls: [0, 1, 2].map((i) => ({ r: r('endControl' + i), label: q('endControl' + i).dataset.label, aria: q('endControl' + i).getAttribute('aria-label'), disabled: q('endControl' + i).getAttribute('aria-disabled') })),
         notice: q('endNotice').getAttribute('aria-label'), method: q('endBackdrop').dataset.method, capture: JSON.parse(q('endPresentation').dataset.capture),
         rendering: getComputedStyle(art).imageRendering, top: document.getElementById('stage').lastElementChild.id,
@@ -197,9 +215,16 @@ async function run(name, base) {
     });
     C('art element: the native 314x206 image drawn at 312,205 as 628x412 (exact 2x), pixelated', JSON.stringify(dom.art) === '[312,205,628,412]' && dom.natural.join() === '314,206'
       && /art\/deaths\/rest_assured_voluntary\.png$/.test(dom.src) && /pixelated|crisp-edges/.test(dom.rendering), dom);
-    C('title and body are independent text canvases (never baked into the art), with the brief\'s exact words',
-      dom.title === 'PERMANENTLY SATISFIED.' && dom.titleTag === 'CANVAS' && dom.bodyTag === 'CANVAS'
-      && dom.body.replace(/\n/g, ' ') === 'You have achieved permanent relaxation. The House is delighted to report that its newest customer has stopped complaining.', dom);
+    const CE = EXPORT.entries.find((x) => x.id === 'chapter-01:exit_chair_fatal');
+    C('title, subtitle and body are independent text canvases (never baked into the art) carrying the CANONICAL storyboard copy exactly',
+      dom.entry === CE.id && dom.title === CE.title && dom.titleRendered === CE.title && dom.subtitle === CE.subtitle && dom.body.replace(/\n/g, ' ') === CE.body.join(' ')
+      && dom.titleTag === 'CANVAS' && dom.bodyTag === 'CANVAS', dom);
+    C('the canonical em dash, which no game face carries, is drawn as the listed fallback "-" only (data keeps the canonical text)',
+      /\u2014/.test(dom.subtitle) && dom.subtitleRendered === DASH(dom.subtitle) && dom.titleRendered === dom.title, [dom.subtitle, dom.subtitleRendered]);
+    C('copy provenance: the canonical draft status and the pinned storyboard revision travel with the popup', dom.copyStatus === CE.popupStatus && CE.readyForGameplay === false
+      && dom.revision === JSON.parse(fs.readFileSync(path.join(ROOT, 'story/canon.lock.json'), 'utf8')).revision, [dom.copyStatus, dom.revision]);
+    C('text column: subtitle at 972,257, the narrative below it, ending above the separator (no overflow, nothing cut)', dom.subtitleBox[0] === 972 && dom.subtitleBox[1] === 257
+      && dom.bodyBox[0] === 972 && dom.bodyBox[1] > dom.subtitleBox[1] + dom.subtitleBox[3] && dom.textOverflow === 'false' && dom.textBottom <= 615, [dom.subtitleBox, dom.bodyBox, dom.textBottom]);
     C('the owner-locked controls at the approved footprints: RETRY and CHECKPOINT available, EXIT unavailable (main menu pending)', dom.controls.map((c) => c.r.join()).join('|') === '570,669,240,62|840,669,240,62|1110,669,240,62'
       && dom.controls.map((c) => c.label + ':' + c.disabled).join() === 'RETRY:false,CHECKPOINT:false,EXIT:true' && /MAIN MENU, WHICH DOES NOT EXIST YET/.test(dom.controls[2].aria)
       && /RETRY AND CHECKPOINT ARE LIVE - EXIT AWAITS THE MAIN MENU/.test(dom.notice), dom.controls);
@@ -268,16 +293,18 @@ async function run(name, base) {
         // The control label faces (owner-locked labels RETRY / CHECKPOINT / EXIT replace the
         // mockup's; EXIT is drawn in the unavailable ink) are reported apart, like the title row.
         const label = (x, y) => [570, 840, 1110].some((bx) => x >= bx + 8 && x < bx + 232 && y >= 669 + 13 && y < 669 + 58);
-        let n = 0, diff = 0, titleDiff = 0, labelDiff = 0, diffOutsideTitle = [];
+        // The text column (canonical subtitle + narrative, docs/98): right of the art frame, above the separator.
+        const textCol = (x, y) => x >= 960 && x < 1620 && y >= 245 && y < 639;
+        let n = 0, diff = 0, titleDiff = 0, labelDiff = 0, textDiff = 0, diffOutsideTitle = [];
         for (let y = 135; y < 787; y++) for (let x = 280; x < 1652; x++) {
           const a = at(S, x, y), b = at(A1, x, y); n++;
           if (a[0] !== b[0] || a[1] !== b[1] || a[2] !== b[2]) {
-            if (y >= 160 && y < 190) titleDiff++; else if (label(x, y)) labelDiff++; else { diff++; if (diffOutsideTitle.length < 5) diffOutsideTitle.push([x, y]); }
+            if (y >= 160 && y < 190) titleDiff++; else if (label(x, y)) labelDiff++; else if (textCol(x, y)) textDiff++; else { diff++; if (diffOutsideTitle.length < 5) diffOutsideTitle.push([x, y]); }
           }
         }
         let bg = 0, bgDiff = 0;
         for (let y = 0; y < 1080; y += 2) for (let x = 0; x < 1920; x += 2) { if (inside(x, y)) continue; bg++; const a = at(S, x, y), b = at(A1, x, y); if (a[0] !== b[0] || a[1] !== b[1] || a[2] !== b[2]) bgDiff++; }
-        out.a1 = { popupPixels: n, diffOutsideTitle: diff, sample: diffOutsideTitle, titleRowDiff: titleDiff, controlLabelDiff: labelDiff, backdropSampled: bg, backdropDiffer: bgDiff };
+        out.a1 = { popupPixels: n, diffOutsideTitle: diff, sample: diffOutsideTitle, titleRowDiff: titleDiff, controlLabelDiff: labelDiff, textColumnDiff: textDiff, backdropSampled: bg, backdropDiffer: bgDiff };
       }
       return out;
     }, { downscaled, shot: b64(canonical), a1: A1 ? b64(A1) : null, art: b64(fs.readFileSync(path.join(ROOT, ENTRY.art.path))), frame: b64(endingFrame), popup: { notice: await page.evaluate(() => { const b = document.getElementById('endNotice').getBoundingClientRect(); return [b.left, b.top, b.width, b.height]; }) } });
@@ -294,7 +321,8 @@ async function run(name, base) {
       px.backdrop.inexactElsewhere === 0 && px.backdrop.lighter === 0 && px.backdrop.exact / px.backdrop.blocks >= 0.97, px.backdrop);
     C('backdrop darkened to 35% of the real frame (65% darker): luminance ratio 0.35 +- 0.01', Math.abs(px.darkRatio - 0.35) <= 0.01, px.darkRatio);
     if (px.a1) {
-      C('A1 parity: every popup pixel (frame, shadow, art, copy, separator, control boxes) identical to the approved A1 except the title row and the control label faces', px.a1.diffOutsideTitle === 0, px.a1);
+      C('A1 parity: every popup pixel (frame, shadow, art, separator, control boxes) identical to the approved A1 except the title row, the control label faces and the canonical text column', px.a1.diffOutsideTitle === 0, px.a1);
+      C('A1 parity: the text column differs (canonical draft subtitle + narrative replace the mockup copy; measured for owner review)', px.a1.textColumnDiff > 0, px.a1);
       C('A1 parity: the control label faces differ only because the owner-locked labels / EXIT\'s unavailable ink replace the mockup\'s', px.a1.controlLabelDiff > 0 && px.a1.controlLabelDiff < 12000, px.a1);
       C('A1 parity: the title row differs only because the brief\'s title adds a period (re-centred)', px.a1.titleRowDiff > 0 && px.a1.titleRowDiff < 4000, px.a1);
     }
@@ -391,22 +419,41 @@ async function run(name, base) {
     C('after closing, the authored BEGIN AGAIN restarts as before (no proof on the new playthrough)', /^prologue-00:/.test(rs.node) && !rs.open, rs);
   });
 
-  // 3. Cause selection: the other ways into the same ending, and a successful escape. ------------------
+  // 3. Cause selection: the other ways into the same ending share ONE popup; a successful escape never. -----
+  // The popup and its 12px shadow are opaque, so they must be pixel-identical to the voluntary popup.
+  // (The shadow is offset +12,+12: the corners it leaves uncovered show the cause-specific backdrop.)
+  const samePopup = (a, b) => A.run(async ({ a, b }) => { const P = await pixels(a), Q = await pixels(b); let d = 0, n = 0;
+    const covered = (x, y) => (x < 1640 && y < 775) || (x >= 292 && y >= 147);
+    for (let y = 135; y < 787; y++) for (let x = 280; x < 1652; x++) { if (!covered(x, y)) continue; n++; const u = at(P, x, y), v = at(Q, x, y); if (u[0] !== v[0] || u[1] !== v[1] || u[2] !== v[2]) d++; }
+    return n > 890000 ? d : -1; }, { a: b64(a), b: b64(b) });
+  const failedCause = async (scenario, item, choice, checkId, file) => {
+    const f = seedFor(item, choice, checkId, false);
+    await game(scenario, f.save, true, async (page, C) => {
+      await take(page, choice).catch(() => {});
+      await page.waitForFunction(() => !!document.body.dataset.endPresentation, null, { timeout: 15000 });
+      const s = await page.evaluate(() => ({ node: document.body.dataset.node, entry: document.getElementById('endPresentation').dataset.entry, src: document.getElementById('endArt').getAttribute('src'),
+        title: document.getElementById('endTitle').dataset.text, body: document.getElementById('endBody').dataset.text, log: window.CYOA_GAME.endPresentation.log(),
+        controls: Array.from(document.querySelectorAll('#endPresentation button')).map((b) => b.dataset.label + ':' + b.dataset.available),
+        cause: window.CYOA_RULES.endCause(window.CYOA_GAME.story, window.CYOA_GAME.state) }));
+      const opens = s.log.filter((x) => x.t === 'open');
+      C('failed ' + checkId + ': the same ending opens the SAME canonical popup (entry, art, title, copy), once', s.node === 'chapter-01:exit_chair_fatal' && opens.length === 1 && s.entry === ENTRY.id
+        && /art\/deaths\/rest_assured_voluntary\.png$/.test(s.src) && s.title === ENTRY.title && s.body.replace(/\n/g, ' ') === ENTRY.body.join(' '), s);
+      C('failed ' + checkId + ': the real cause is kept (choice, check id, ok:false), distinct from voluntary acceptance', s.cause.choice === choice && s.cause.check === checkId && s.cause.ok === false
+        && JSON.stringify(opens[0].cause) === JSON.stringify(s.cause), s.cause);
+      C('failed ' + checkId + ': RETRY (back before this checked decision) and CHECKPOINT available, EXIT unavailable', s.controls.join() === 'RETRY:true,CHECKPOINT:true,EXIT:false', s.controls);
+      const shotBuf = await shot(page, file);
+      const d = await samePopup(shotBuf, voluntaryShot);
+      M['popupDiff_' + checkId] = d;
+      C('failed ' + checkId + ': the popup region is pixel-identical to the voluntary popup (one shared presentation)', d === 0, d);
+    });
+  };
+  await failedCause('stapler_failed', 'red_stapler', 'stapler_breakout', 'house_chair_stapler', '06_stapler_failed');
+  await failedCause('unarmed_failed', null, 'physical_chair_breakout', 'house_chair_unarmed', '07_unarmed_failed');
   const stapler = seedFor('red_stapler', 'stapler_breakout', 'house_chair_stapler', false);
-  await game('stapler_failed', stapler.save, true, async (page, C) => {
+  await game('stapler_failed_gate_off', stapler.save, false, async (page, C) => {
     await take(page, 'stapler_breakout');
-    const s = await page.evaluate(() => ({ node: document.body.dataset.node, open: !!document.body.dataset.endPresentation, cards: window.CYOA_GAME.ui.cards.map((c) => c.id), log: window.CYOA_GAME.endPresentation.log(), cause: window.CYOA_RULES.endCause(window.CYOA_GAME.story, window.CYOA_GAME.state) }));
-    C('failed stapler check reaches the same ending but NOT the voluntary presentation; ordinary BEGIN AGAIN', s.node === 'chapter-01:exit_chair_fatal' && !s.open && !s.log.length
-      && s.cards.join() === 'restart_chair_death' && s.cause.choice === 'stapler_breakout' && s.cause.ok === false, s);
-    await shot(page, '06_stapler_failed');
-  });
-  const unarmed = seedFor(null, 'physical_chair_breakout', 'house_chair_unarmed', false);
-  await game('unarmed_failed', unarmed.save, true, async (page, C) => {
-    await take(page, 'physical_chair_breakout');
-    const s = await page.evaluate(() => ({ node: document.body.dataset.node, open: !!document.body.dataset.endPresentation, cards: window.CYOA_GAME.ui.cards.map((c) => c.id), log: window.CYOA_GAME.endPresentation.log(), cause: window.CYOA_RULES.endCause(window.CYOA_GAME.story, window.CYOA_GAME.state) }));
-    C('failed unarmed check: same ending, NOT the voluntary presentation; ordinary BEGIN AGAIN', s.node === 'chapter-01:exit_chair_fatal' && !s.open && !s.log.length
-      && s.cards.join() === 'restart_chair_death' && s.cause.choice === 'physical_chair_breakout' && s.cause.ok === false, s);
-    await shot(page, '07_unarmed_failed');
+    const s = await page.evaluate(() => ({ node: document.body.dataset.node, open: !!document.body.dataset.endPresentation, cards: window.CYOA_GAME.ui.cards.map((c) => c.id), log: window.CYOA_GAME.endPresentation.log() }));
+    C('gate off, failed stapler: the authored ending with only BEGIN AGAIN, no popup', s.node === 'chapter-01:exit_chair_fatal' && !s.open && !s.log.length && s.cards.join() === 'restart_chair_death', s);
   });
   const escape = seedFor(null, 'physical_chair_breakout', 'house_chair_unarmed', true);
   await game('chair_escape', escape.save, true, async (page, C) => {
@@ -424,23 +471,24 @@ async function run(name, base) {
 // Engine-level cause selection over every catalogued ending (no browser) -----------------------------
 function engineCauses() {
   const g = 'engine';
-  const match = (cause) => DATA.entries.filter((e) => cause && Object.keys(e.when).every((k) => cause[k] === e.when[k])).map((e) => e.id);
+  const match = (cause) => ENTRIES.filter((e) => cause && Object.keys(e.when).every((k) => cause[k] === e.when[k])).map((e) => e.id);
   const base = R.stepAll(story, R.prologue(story, null, 1), CHAIR);
   const vol = Rules.endCause(story, Rules.step(story, base, { choice: 'accept_permanent_rest' }).state);
-  check('node', g, 'voluntary: endCause names the choice and its origin, no check; matches only rest_assured_voluntary', JSON.stringify(vol) === JSON.stringify({ end: 'chapter-01:exit_chair_fatal', from: 'chapter-01:chair_locked', choice: 'accept_permanent_rest' })
-    && match(vol).join() === 'rest_assured_voluntary', vol);
-  let fails = 0, passes = 0, bad = [];
+  check('node', g, 'voluntary: endCause names the choice and its origin, no check; matches the shared canonical entry', JSON.stringify(vol) === JSON.stringify({ end: 'chapter-01:exit_chair_fatal', from: 'chapter-01:chair_locked', choice: 'accept_permanent_rest' })
+    && match(vol).join() === 'chapter-01:exit_chair_fatal', vol);
+  let fails = 0, passes = 0, sfails = 0, bad = [];
   for (let seed = 1; seed <= 60; seed++) {
     const b = R.stepAll(story, R.prologue(story, null, seed), CHAIR);
     const t = Rules.step(story, b, { choice: 'physical_chair_breakout' }).state;
     const c = Rules.endCause(story, t);
-    if (t.node === 'exit_chair_fatal') { fails++; if (match(c).length || c.ok !== false || c.check !== 'house_chair_unarmed') bad.push(c); } else { passes++; if (c !== null) bad.push(c); }
+    if (t.node === 'exit_chair_fatal') { fails++; if (match(c).join() !== 'chapter-01:exit_chair_fatal' || c.ok !== false || c.check !== 'house_chair_unarmed') bad.push(c); } else { passes++; if (c !== null) bad.push(c); }
     const sb = R.stepAll(story, R.prologue(story, 'red_stapler', seed), R.HOUSE.stapler_clean.path.slice(0, R.HOUSE.stapler_clean.path.indexOf('enter_rest_assured') + 1));
     const st = Rules.step(story, sb, { choice: 'stapler_breakout' }).state;
     const sc = Rules.endCause(story, st);
-    if (st.node === 'exit_chair_fatal' && (match(sc).length || sc.check !== 'house_chair_stapler')) bad.push(sc);
+    if (st.node === 'exit_chair_fatal') { sfails++; if (match(sc).join() !== 'chapter-01:exit_chair_fatal' || sc.check !== 'house_chair_stapler' || sc.ok !== false) bad.push(sc); }
+    else if (match(sc).length) bad.push(sc);
   }
-  check('node', g, 'unarmed and stapler failures (60 seeds each): cause carries the check id and ok:false; never matches; passes are not endings', fails > 0 && passes > 0 && !bad.length, { fails, passes, bad: bad.slice(0, 3) });
+  check('node', g, 'unarmed and stapler failures (60 seeds each): cause carries the check id and ok:false; every failure matches the ONE shared entry; passes are not endings and never match', fails > 0 && passes > 0 && sfails > 0 && !bad.length, { fails, sfails, passes, bad: bad.slice(0, 3) });
   // Every catalogued Chapter 2 route ending, and every House exit: no entry matches.
   let ends = 0; const hits = [];
   for (const route of R.ROUTES) {
@@ -452,14 +500,23 @@ function engineCauses() {
   }
   for (const k of ['plant', 'martin', 'showroom', 'clean', 'registered']) { let e = null; for (let s = 1; s <= 400 && !e; s++) e = R.houseExit(story, k, s); if (match(Rules.endCause(story, e)).length) hits.push(k); }
   check('node', g, 'no Chapter 2 route ending (' + ends + ' reached) and no House exit selects the presentation', ends > 20 && !hits.length, hits);
-  // Only the voluntary entry exists; its art is the pinned approved file.
+  // One opted-in entry, the shared canonical one; its art is the pinned approved file, byte-identical.
   const buf = fs.readFileSync(path.join(ROOT, ENTRY.art.path));
-  check('node', g, 'one entry, voluntary only; its art is the approved native PNG (sha256 7f469efa..., 314x206)', DATA.entries.length === 1 && ENTRY.id === 'rest_assured_voluntary'
+  check('node', g, 'one opted-in entry, the shared canonical chapter-01:exit_chair_fatal; its art is the approved native PNG (sha256 7f469efa..., 314x206, 2x)', ENTRIES.length === 1 && ENTRY.id === 'chapter-01:exit_chair_fatal'
+    && JSON.stringify(ENTRY.when) === JSON.stringify({ end: 'chapter-01:exit_chair_fatal' })
     && require('crypto').createHash('sha256').update(buf).digest('hex') === ENTRY.art.sha256 && ENTRY.art.sha256 === '7f469efa40548568af5dfe3c11602b9c6293282d9574caa5f36fc37113e72d9c'
     && buf.readUInt32BE(16) === 314 && buf.readUInt32BE(20) === 206 && ENTRY.art.scale === 2);
+  check('node', g, 'the game keeps NO story-authored popup field: no title, subtitle, body, art or when in end-presentations.review.js', DATA.entries.every((r) => ['title', 'subtitle', 'body', 'art', 'when'].every((k) => !(k in r))));
+  const ce = CANON.entries.map((e) => JSON.stringify([e.id, e.when, e.title, e.subtitle, e.body])).join(), ee = EXPORT.entries.map((e) => JSON.stringify([e.id, e.when, e.title, e.subtitle, e.body])).join();
+  check('node', g, 'the runtime module carries exactly the projected canonical export (ids, when, title, subtitle, body) at the pinned revision', ce === ee
+    && CANON.storyboard.revision === JSON.parse(fs.readFileSync(path.join(ROOT, 'story/canon.lock.json'), 'utf8')).revision);
+  check('node', g, 'Chapter 2 fatal entries are canonical but have no selected art, so none can open (no unproduced art shown); no Chapter 3 entry is consumed',
+    CANON.entries.filter((e) => /^chapter-02:/.test(e.id)).length === 5 && CANON.entries.filter((e) => /^chapter-02:/.test(e.id)).every((e) => e.art === null)
+    && !CANON.entries.some((e) => /^chapter-03:/.test(e.id)) && CANON.entries.every((e) => e.readyForGameplay === false));
   check('node', g, 'gate is explicit and off by default (?deathproof), backdrop 10px x 0.35', DATA.gate === 'deathproof' && ENTRY.backdrop.block === 10 && ENTRY.backdrop.multiply === 0.35);
+  check('node', g, 'glyph fallback is explicit and narrow (only em/en dash -> "-")', JSON.stringify(DATA.glyphFallback) === JSON.stringify({ '\u2014': '-', '\u2013': '-' }));
   const code = ['game/js/end-presentation.js', 'game/js/stage-capture.js'].map((f) => fs.readFileSync(path.join(ROOT, f), 'utf8')).join('\n');
-  check('node', g, 'the generic modules name no chapter, node, choice, art path or copy', !/chapter-0|exit_chair|accept_permanent|rest_assured|art\/deaths|PERMANENTLY|relaxation/.test(code.replace(/\/\/.*$/gm, '')));
+  check('node', g, 'the generic modules name no chapter, node, choice, art path or copy', !/chapter-0|exit_chair|accept_permanent|rest_assured|art\/deaths|PERMANENTLY|relaxation|TREATMENT/.test(code.replace(/\/\/.*$/gm, '')));
 }
 
 (async () => {

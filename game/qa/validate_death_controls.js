@@ -253,6 +253,43 @@ const { CHAIR, STAPLER_CHAIR } = T;
     && m.points.checkpoint.state.flags.house_stored_any !== undefined && m.points.retry.state.flags.house_stored_any !== undefined);
 }
 
+// 5b. One shared popup, three distinguishable causes (docs/98; public docs/104) --------------------------
+{
+  const g = 'shared-cause';
+  const CANON = require('../content/death-presentations.generated.js');
+  const REVIEW = require('../content/end-presentations.review.js');
+  const entry = CANON.entries.find((e) => e.id === REVIEW.entries[0].canonical);
+  const T = require('./tracked_routes.js');
+  const matches = (cause) => !!cause && Object.keys(entry.when).every((k) => cause[k] === entry.when[k]);
+  const kinds = {};
+  for (let seed = 1; seed <= 120 && Object.keys(kinds).length < 3; seed++) {
+    for (const [item, pathTo, choice] of [[null, T.CHAIR, 'accept_permanent_rest'], ['red_stapler', T.STAPLER_CHAIR, 'stapler_breakout'], [null, T.CHAIR, 'physical_chair_breakout']]) {
+      if (kinds[choice]) continue;
+      const t = T.tracked(story, item, seed).steps(pathTo);
+      const before = t.state;
+      t.step(choice);
+      if (t.state.node !== 'exit_chair_fatal') continue;
+      kinds[choice] = { cause: Rules.endCause(story, t.state), t, before };
+    }
+  }
+  check(g, 'all three causes reach exit_chair_fatal and match the ONE canonical entry (when = { end } only)', Object.keys(kinds).length === 3 && Object.values(kinds).every((k) => matches(k.cause))
+    && JSON.stringify(entry.when) === JSON.stringify({ end: 'chapter-01:exit_chair_fatal' }) && !!entry.art, Object.keys(kinds));
+  const c = (k) => kinds[k] && kinds[k].cause;
+  check(g, 'the causes stay distinguishable: voluntary has no check; stapler / unarmed carry their check id and ok:false', c('accept_permanent_rest') && c('accept_permanent_rest').check === undefined
+    && c('stapler_breakout').check === 'house_chair_stapler' && c('stapler_breakout').ok === false && c('physical_chair_breakout').check === 'house_chair_unarmed' && c('physical_chair_breakout').ok === false);
+  const all = Object.values(kinds).every((k) => Rules.canRestore(story, k.t.state, k.t.points, 'retry', k.cause) && Rules.canRestore(story, k.t.state, k.t.points, 'checkpoint', k.cause));
+  check(g, 'RETRY and CHECKPOINT are available for every cause (the retry point is that cause\'s own decision)', all);
+  const st = kinds.stapler_breakout;
+  if (st) {
+    st.t.restore('retry');
+    const again = Rules.step(story, st.t.state, { choice: 'stapler_breakout' }).state;
+    check(g, 'RETRY after a failed stapler check: the exact pre-check state in attempt 1; the re-attempt rolls in the attempt-1 namespace', JSON.stringify((() => { const x = JSON.parse(JSON.stringify(st.t.state)); delete x.attempt; return x; })()) === JSON.stringify(st.before)
+      && st.t.state.attempt === 1 && again.checks.house_chair_stapler.attempt === 1);
+  }
+  const ok = (() => { for (let seed = 1; seed <= 200; seed++) { const t = T.tracked(story, null, seed).steps(T.CHAIR); t.step('physical_chair_breakout'); if (t.state.node !== 'exit_chair_fatal') return { node: t.state.node, cause: Rules.endCause(story, t.state) }; } return null; })();
+  check(g, 'a successful escape never reaches the shared ending (no cause, never matches)', ok && ok.node !== 'exit_chair_fatal' && !matches(ok.cause), ok);
+}
+
 // 6. The validator and the walk are unaffected ------------------------------------------------------------
 {
   const g = 'engine';

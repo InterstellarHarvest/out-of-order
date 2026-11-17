@@ -12,7 +12,7 @@ const path = require('path');
 const { execFileSync } = require('child_process');
 
 const ROOT = path.resolve(__dirname, '../..');
-const { importerFields } = require('./sync.js');
+const { importerFields, deriveDeathExport } = require('./sync.js');
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'cyoa-story-sync-qa-'));
 const PUB = path.join(tmp, 'public'), GAME = path.join(tmp, 'game');
 const results = [];
@@ -35,7 +35,8 @@ try {
   const m = J(PUB, 'story/storyboard-manifest.json');
   m.chapters.push({ id: 'chapter-03', title: 'Chapter 3 — QA stub', file: 'chapters/chapter-03.draft.json', status: 'draft' });
   W(PUB, 'story/storyboard-manifest.json', m);
-  W(PUB, 'story/chapters/chapter-03.draft.json', { title: 'QA stub', start: 'a', scene: 'pavilion/x', nodes: { a: { mode: 'narrative', text: 'Uses qa_pavilion_item.', choices: [], notes: 'n', deathPopup: { title: 'X' } } } });
+  W(PUB, 'story/chapters/chapter-03.draft.json', { title: 'QA stub', start: 'a', scene: 'pavilion/x', nodes: { a: { mode: 'narrative', text: 'Uses qa_pavilion_item.', choices: [], end: true, notes: 'n',
+    deathPopup: { title: 'QA STUB.', subtitle: 'STUB', description: 'Stub death.', status: 'proposed', artRef: 'pavilion/a_model_citizen' }, endingArt: 'pavilion/a_model_citizen' } } });
   const items = J(PUB, 'story/items.draft.json');
   items.qa_pavilion_item = { name: 'QA PAVILION ITEM', description: 'Only Chapter 3 mentions it.', slotArt: null, inspectArt: null };
   W(PUB, 'story/items.draft.json', items);
@@ -44,6 +45,22 @@ try {
   ch2.nodes[endId].storyboardNextChapter = 'chapter-03';
   ch2.nodes[endId].notes = 'STORYBOARD-ONLY handoff';
   W(PUB, 'story/chapters/chapter-02.draft.json', ch2);
+  // Death popups (docs/98): put the storyboard-only deathPopup / endingArt back on the consumed
+  // fatal nodes (the game's projection stripped them), then export exactly as the public tool does.
+  const realExport = J(ROOT, 'story/death-presentations.export.json');
+  for (const e of realExport.entries) {
+    const [chap, nodeId] = e.id.split(':');
+    const f = 'story/chapters/' + chap + '.draft.json', c = J(PUB, f);
+    c.nodes[nodeId].deathPopup = { title: e.title, subtitle: e.subtitle, description: e.narrativeBeat, status: e.popupStatus, artRef: e.artwork.id };
+    c.nodes[nodeId].endingArt = e.artwork.id;
+    W(PUB, f, c);
+  }
+  const exportNow = () => {
+    const man = J(PUB, 'story/storyboard-manifest.json'), pub = {};
+    man.chapters.forEach((c) => { pub[c.id] = J(PUB, 'story/' + c.file); });
+    W(PUB, 'story/death-presentations.export.json', deriveDeathExport(man, pub, J(PUB, 'story/artwork.draft.json')));
+  };
+  exportNow();
   const fields = importerFields();
   const contract = { schema: 'cyoa-storyboard-sync-contract-v1', requiredChapters: m.chapters.map((c) => c.id), runtimeFields: fields,
     storyboardOnlyFields: { node: ['notes', 'comment', 'position', 'layout', 'storyboardNextChapter', 'deathPopup', 'endingArt'], choice: ['notes', 'displayGroup', 'missingReason'], entry: ['notes'] } };
@@ -51,7 +68,7 @@ try {
   const A = commit('A');
 
   // A minimal game checkout: the sync tool, the importer's field lists and the game-owned settings.
-  for (const p of ['tools/story-sync/sync.js', 'tools/story-sync/config.json', 'tools/story-import/convert.js', 'story/runtime-settings.json']) fs.cpSync(path.join(ROOT, p), path.join(GAME, p));
+  for (const p of ['tools/story-sync/sync.js', 'tools/story-sync/config.json', 'tools/story-import/convert.js', 'story/runtime-settings.json', 'art/deaths/rest_assured_voluntary.png']) fs.cpSync(path.join(ROOT, p), path.join(GAME, p));
 
   // 1. Pull a pinned revision.
   let r = sync('pull', '--rev', A, '--from-git', PUB);
@@ -73,6 +90,18 @@ try {
   // 2. Verify offline and against the source.
   r = sync('verify'); assert.equal(r.code, 0, r.out);
   r = sync('verify', '--from-git', PUB); assert.equal(r.code, 0, r.out); ok('verify offline + re-projected');
+
+  // 2b. Death popups: projected for consumed chapters, compiled for the runtime (docs/98).
+  assert.equal(fs.readFileSync(path.join(GAME, 'story/death-presentations.export.json'), 'utf8'), fs.readFileSync(path.join(ROOT, 'story/death-presentations.export.json'), 'utf8'));
+  assert.ok(lock.notConsumed.deathPresentations.includes('chapter-03:a'));
+  const rt = require(path.join(GAME, 'game/content/death-presentations.generated.js'));
+  assert.equal(rt.storyboard.revision, A);
+  assert.ok(!rt.entries.some((e) => /^chapter-03:/.test(e.id)) && rt.entries.filter((e) => e.art).map((e) => e.id).join() === 'chapter-01:exit_chair_fatal');
+  ok('death export: consumed chapters only (Chapter 3 excluded), byte-identical to the real projection; runtime module pinned to the revision; only selected art handed over');
+  const gfile = path.join(GAME, 'game/content/death-presentations.generated.js'), gorig = fs.readFileSync(gfile);
+  fs.writeFileSync(gfile, gorig.toString().replace('PERMANENTLY SATISFIED.', 'PERMANENTLY SATISFIED!'));
+  r = sync('verify'); assert.equal(r.code, 1); assert.match(r.out, /death-presentations\.generated\.js was edited by hand or is stale/); ok('verify catches a hand-edited runtime popup module');
+  fs.writeFileSync(gfile, gorig);
 
   // 3. Hand edits are detected and block a pull; --force overrides.
   const f1 = path.join(GAME, 'story/chapters/chapter-01.draft.json'), orig = fs.readFileSync(f1);
@@ -105,6 +134,22 @@ try {
   W(PUB, 'story/game-integration.json', { schema: 'cyoa-game-integration-v1' });
   const C = commit('C');
   r = sync('status', '--rev', C, '--from-git', PUB); assert.match(r.out, /in sync/); ok('storyboard-only files are not drift');
+
+  // 7b. Death export drift and provenance refuse the pull.
+  const goodExport = fs.readFileSync(path.join(PUB, 'story/death-presentations.export.json'), 'utf8');
+  fs.writeFileSync(path.join(PUB, 'story/death-presentations.export.json'), goodExport.replace('PERMANENTLY SATISFIED.', 'PERMANENTLY SATISFIED!'));
+  const X1 = commit('X1 hand-edited export');
+  r = sync('pull', '--rev', X1, '--from-git', PUB); assert.equal(r.code, 1); assert.match(r.out, /death-presentations\.export\.json is stale or hand-edited/); ok('a stale or hand-edited death export refuses the pull');
+  const artGood = fs.readFileSync(path.join(PUB, 'story/artwork.draft.json'), 'utf8');
+  const artBad = JSON.parse(artGood); artBad.deathScreens['house_of_tomorrow/rest_assured'].selectedSource.sha256 = '0'.repeat(64);
+  W(PUB, 'story/artwork.draft.json', artBad); exportNow();
+  const X2 = commit('X2 wrong provenance');
+  r = sync('pull', '--rev', X2, '--from-git', PUB); assert.equal(r.code, 1); assert.match(r.out, /sha256 .* differs from the selected source/); ok('death art provenance must match the game file byte for byte');
+  fs.writeFileSync(path.join(PUB, 'story/artwork.draft.json'), artGood); fs.rmSync(path.join(PUB, 'story/death-presentations.export.json'));
+  const X3 = commit('X3 export missing');
+  r = sync('pull', '--rev', X3, '--from-git', PUB); assert.equal(r.code, 1); assert.match(r.out, /death-presentations\.export\.json is not published/); ok('a missing death export refuses the pull');
+  fs.writeFileSync(path.join(PUB, 'story/death-presentations.export.json'), goodExport);
+  commit('X4 restored');
 
   // 8. An undeclared field refuses the pull (never silently dropped or imported).
   const c2 = J(PUB, 'story/chapters/chapter-02.draft.json'); c2.nodes[c2.start].directorComment = 'x'; W(PUB, 'story/chapters/chapter-02.draft.json', c2);

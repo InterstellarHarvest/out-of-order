@@ -95,3 +95,7 @@ The seven accepted Biology Park Batch 1 images exist only under `review/chapter-
 - **Owner ruling, docs/104:** all three causes reaching `exit_chair_fatal` share one popup and one image (`deathScreens["house_of_tomorrow/rest_assured"]`). The review-gated presentation in `game/content/end-presentations.review.js` (PR #11/#13) still matches only the voluntary choice, so that is a pending gameplay change.
   - It needs `when` widened (or a generated export consumed), and `run_end_presentation_qa`'s cause-selection checks updated.
   - docs/104 also asks the game to consume `story/death-presentations.export.json`, rather than keep a hand-maintained copy of the popup text.
+
+**Update, docs/98:**
+- The shared Rest Assured popup and the consumption of `story/death-presentations.export.json` are implemented, review-gated, on `agent/canonical-death-popups-20261117`.
+- `sync.js pull` now projects the death export and generates `game/content/death-presentations.generated.js`.

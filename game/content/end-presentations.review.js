@@ -1,35 +1,33 @@
-// REVIEW PROOF DATA, NOT PRODUCTION CONTENT (death brief docs/93 on
-// agent/design-deaths-transitions-ch01-art-audit-20261115 @ 8301daa; record: docs/94).
+// GAME-OWNED REVIEW CONFIGURATION for ending presentations (docs/94, docs/96, docs/98). Read by
+// js/end-presentation.js, which is generic: it knows no chapter, node, choice, art path or prose.
 //
-// Cause-specific ending presentations, read by js/end-presentation.js. That module is generic: it
-// knows no chapter, node, choice or prose. Every story-specific fact lives here. The whole facility
-// is OFF unless the page is opened with ?<gate> (here ?deathproof): ordinary play keeps the authored
-// ending and its BEGIN AGAIN card exactly as before.
+// What the popup SAYS and SHOWS is not here. Title, subtitle, narrative, artwork and the ending it
+// belongs to come from the canonical storyboard: content/death-presentations.generated.js, compiled
+// by tools/story-sync/sync.js from the pinned public story/death-presentations.export.json (public
+// docs/104). This file only opts canonical entries into the review build and holds what the game
+// owns: the gate, the approved A1 geometry and palette, the RETRY / CHECKPOINT / EXIT controls,
+// the review notice, the frozen-backdrop effect and the typography fallbacks of the game's faces.
 //
-// An entry applies when the game reaches an authored ending and every field of `when` equals the
-// cause Rules.endCause reports (the ending node, the node it was reached from, the choice taken
-// there and, for a checked choice, the check id and outcome). The ending node alone is never
-// enough: three choices share this ending, and only the voluntary one has approved art.
+// An opted-in entry opens at its canonical ending whatever the cause (owner ruling, public docs/104:
+// the voluntary Rest Assured treatment, the failed stapler escape and the failed bare-handed escape
+// share ONE popup and ONE approved illustration). The real cause (Rules.endCause: choice, check,
+// outcome) is still what RETRY and CHECKPOINT restore from (docs/96). An entry whose canonical art
+// is not selected never opens (no unproduced art is ever displayed).
 //
-// Owner status: the VISUAL DESIGN is locked (docs/93); the body copy is provisional. The three
-// control LABELS, positions and destinations are locked by the owner rulings on PR #11
-// (2026-11-16): RETRY (the state just before the fatal decision), CHECKPOINT (the chapter-entry
-// state), EXIT (the main menu, which does not exist yet: shown unavailable). Retried and
-// checkpointed checks roll fresh (docs/96). Still review-gated: not activated in ordinary play.
+// Owner status: the VISUAL DESIGN is locked (docs/93). The canonical copy is a DRAFT
+// (popupStatus approved-art-copy-draft, readyForGameplay false): the whole facility stays OFF unless
+// the page is opened with ?<gate> (here ?deathproof); ordinary play keeps the authored ending and its
+// BEGIN AGAIN card exactly as before. Control labels, positions and destinations are locked by the
+// owner rulings on PR #11 (2026-11-16).
 (function (root) {
   'use strict';
   var DATA = {
-    schema: 'cyoa-end-presentations-review-v1',
+    schema: 'cyoa-end-presentations-review-v2',
     gate: 'deathproof',
     entries: [{
-      id: 'rest_assured_voluntary',
+      // The canonical death-popup entry this presentation renders (its `when`, copy and art).
+      canonical: 'chapter-01:exit_chair_fatal',
       status: 'review-proof',
-      when: { end: 'chapter-01:exit_chair_fatal', from: 'chapter-01:chair_locked', choice: 'accept_permanent_rest' },
-      // Byte-identical copy of the approved native export (death study @ 000f096,
-      // review/death-screen-layout-study-2026-11-15/approved-default/native-314x206.png).
-      art: { path: 'art/deaths/rest_assured_voluntary.png', sha256: '7f469efa40548568af5dfe3c11602b9c6293282d9574caa5f36fc37113e72d9c', size: [314, 206], scale: 2 },
-      title: 'PERMANENTLY SATISFIED.',
-      body: ['You have achieved permanent relaxation.', 'The House is delighted to report that its newest customer has stopped complaining.'],
       controls: [
         { label: 'RETRY', action: 'retry', unavailable: 'RETRY UNAVAILABLE - NO SAVED STATE BEFORE THIS DECISION' },
         { label: 'CHECKPOINT', action: 'checkpoint', unavailable: 'CHECKPOINT UNAVAILABLE - NO CHAPTER-ENTRY SNAPSHOT' },
@@ -40,11 +38,13 @@
       backdrop: { block: 10, multiply: 0.35 },
       // The approved A1 composition at canonical 1920x1080 stage coordinates (the study's lab
       // geometry with its approved -85px offset applied: popup 280,135 1360x640, centre y=455).
+      // The canonical subtitle opens the text column, above the narrative (docs/98 section 3).
       layout: {
         popup: [280, 135, 1360, 640], shadow: 12,
         title: { y: 167, role: 'labels', scale: 1 },
         artFrame: [304, 197, 644, 428], artMat: [308, 201, 636, 420], art: [312, 205],
-        body: { x: 972, y: 257, width: 604, lineStep: 44, paragraphGap: 18, role: 'dialogue', scale: 2 },
+        subtitle: { role: 'labels', scale: 1, lineStep: 30, gap: 22 },
+        body: { x: 972, y: 257, width: 604, lineStep: 44, paragraphGap: 18, role: 'dialogue', scale: 2, bottom: 615 },
         separator: [328, 639, 1264],
         controls: { x: 570, y: 669, w: 240, h: 62, step: 270, shadow: 4, labelY: 22, role: 'labels', scale: 1 },
         notice: { x: 280, y: 86, role: 'labels', scale: 1 }
@@ -55,7 +55,11 @@
         controlShadow: '#9d927d', controlEdge: '#244348', controlFace: '#bacdc0', controlHighlight: '#f4efda',
         ink: '#233a3b', inkUnavailable: '#7d9189', noticePlate: '#0e1b20', noticeInk: '#f1d898'
       }
-    }]
+    }],
+    // Typography: characters the game's bitmap faces do not carry, drawn as the listed fallback.
+    // Only these; any other missing glyph is still an error. The canonical text is kept unchanged in
+    // the data (data-text); what was drawn is recorded beside it (data-rendered).
+    glyphFallback: { '—': '-', '–': '-' }
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = DATA;
   else root.CYOA_END_PRESENTATIONS = DATA;

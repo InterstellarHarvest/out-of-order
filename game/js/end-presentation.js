@@ -1,10 +1,17 @@
 // Cause-specific ending presentation: a FEATURE-GATED REVIEW PROOF (docs/94; death brief docs/93).
 //
-// Generic: this file knows no chapter, node, choice, art path or prose. What to show, and for which
-// cause, comes from window.CYOA_END_PRESENTATIONS (game/content/end-presentations.review.js). It is
+// Generic: this file knows no chapter, node, choice, art path or prose. Two data sources (docs/98):
+//   window.CYOA_DEATH_PRESENTATIONS (content/death-presentations.generated.js): the CANONICAL popup
+//     data compiled from the pinned public storyboard export: when (the ending), title, subtitle,
+//     body, popup status and the selected art (null while unproduced);
+//   window.CYOA_END_PRESENTATIONS (content/end-presentations.review.js): the GAME-OWNED review
+//     configuration: gate, which canonical entries are opted in, A1 geometry, palette, controls,
+//     notice, backdrop and glyph fallbacks.
+// An opted-in entry is usable only when its canonical entry exists and its art is selected. It is
 // OFF unless the page is opened with ?<gate>; then, when the game reaches an authored ending,
 // js/story-flow.js hands it Rules.endCause, and an entry whose `when` matches every field of that
-// cause opens once:
+// cause opens once (the canonical `when` names only the ending, so every cause of it does; the
+// cause itself is logged and drives RETRY):
 //
 //   1. the real rendered frame is captured (G.captureStage, js/stage-capture.js) and frozen;
 //   2. the frozen frame becomes the backdrop: hard blocks sampled at each block's centre
@@ -33,7 +40,18 @@
   'use strict';
 
   var G = window.CYOA_GAME;
-  var DATA = window.CYOA_END_PRESENTATIONS || { entries: [] };
+  var CONFIG = window.CYOA_END_PRESENTATIONS || { entries: [] };
+  var CANON = window.CYOA_DEATH_PRESENTATIONS || { entries: [] };
+  var FALLBACK = CONFIG.glyphFallback || {};
+  var skipped = []; // opted-in entries that cannot be shown, and why (QA, review)
+  // Each opted-in review entry with its canonical copy and art. Nothing story-authored is kept here.
+  var DATA = { gate: CONFIG.gate, entries: (CONFIG.entries || []).map(function (r) {
+    var c = (CANON.entries || []).filter(function (x) { return x.id === r.canonical; })[0];
+    if (!c) { skipped.push({ id: r.canonical, why: 'no canonical entry' }); return null; }
+    if (!c.art) { skipped.push({ id: r.canonical, why: 'canonical art not selected (' + c.artStatus + ')' }); return null; }
+    return Object.assign({}, r, { id: c.id, when: c.when, title: c.title, subtitle: c.subtitle, body: c.body, art: c.art,
+      copyStatus: c.popupStatus, readyForGameplay: c.readyForGameplay, revision: CANON.storyboard ? CANON.storyboard.revision : null });
+  }).filter(Boolean) };
   var W = 1920;
   var H = 1080;
   var enabled = !!DATA.gate && new RegExp('[?&]' + DATA.gate + '(=|&|$)').test(location.search);
@@ -85,10 +103,17 @@
   // Bitmap text in one of the game's own faces (the role's face, js/pixeltext.js), at an integer
   // scale, in one ink: glyphs placed at whole pixels with smoothing off, then tinted.
   function face(role) { return G.text.face(role); }
+  // The text actually drawn: a character the face lacks becomes its listed fallback (only those).
+  function drawn(text, f) {
+    var out = '';
+    for (var i = 0; i < text.length; i++) out += !f.mapping[text[i]] && FALLBACK[text[i]] && f.mapping[FALLBACK[text[i]]] ? FALLBACK[text[i]] : text[i];
+    return out;
+  }
   function measure(text, role, scale) {
     var f = face(role);
+    var t = drawn(text, f);
     var n = 0;
-    for (var i = 0; i < text.length; i++) n += ((f.mapping[text[i]] || f.mapping['?']).advance || 0) * scale;
+    for (var i = 0; i < t.length; i++) n += ((f.mapping[t[i]] || f.mapping['?']).advance || 0) * scale;
     return n;
   }
   function wrap(text, width, role, scale) {
@@ -112,9 +137,10 @@
     if (!atlas) throw new Error('Font not decoded: ' + f.id);
     lines.forEach(function (l) {
       var cx = l.x;
-      for (var i = 0; i < l.text.length; i++) {
-        var g = f.mapping[l.text[i]];
-        if (!g) throw new Error('No glyph for ' + JSON.stringify(l.text[i]) + ' in ' + f.id);
+      var t = drawn(l.text, f);
+      for (var i = 0; i < t.length; i++) {
+        var g = f.mapping[t[i]];
+        if (!g) throw new Error('No glyph for ' + JSON.stringify(t[i]) + ' in ' + f.id);
         if (g.w) ctx.drawImage(atlas, g.x, g.y, g.w, g.h, cx + (g.bearingX || 0) * scale, l.y + g.bearingY * scale, g.w * scale, g.h * scale);
         cx += g.advance * scale;
       }
@@ -123,6 +149,7 @@
     ctx.fillStyle = ink;
     ctx.fillRect(0, 0, w, h);
     c.dataset.text = lines.map(function (l) { return l.text; }).join('\n');
+    c.dataset.rendered = lines.map(function (l) { return drawn(l.text, f); }).join('\n');
     return c;
   }
 
@@ -213,14 +240,25 @@
     var tw = measure(e.title, T.role, T.scale);
     var title = textCanvas('endTitle', root, Math.round(W / 2 - tw / 2), T.y, tw, face(T.role).lineHeight * T.scale, [{ text: e.title, x: 0, y: 0 }], T.role, T.scale, C.ink);
     title.setAttribute('role', 'heading');
+    // The text column: the canonical subtitle first (when the layout has a slot for it), then the
+    // canonical narrative. Its bottom is recorded; past the layout's limit it is flagged, never cut.
     var B = L.body;
+    var S = L.subtitle;
+    var top = 0;
+    if (e.subtitle && S) {
+      var sl = wrap(e.subtitle, B.width, S.role, S.scale).map(function (t, i) { return { text: t, x: 0, y: i * S.lineStep }; });
+      textCanvas('endSubtitle', root, B.x, B.y, B.width + 32, sl.length * S.lineStep, sl, S.role, S.scale, C.ink);
+      top = sl.length * S.lineStep + S.gap;
+    }
     var lines = [];
     var by = 0;
     e.body.forEach(function (para) {
       wrap(para, B.width, B.role, B.scale).forEach(function (t) { lines.push({ text: t, x: 0, y: by }); by += B.lineStep; });
       by += B.paragraphGap;
     });
-    textCanvas('endBody', root, B.x, B.y, B.width + 32, by, lines, B.role, B.scale, C.ink);
+    textCanvas('endBody', root, B.x, B.y + top, B.width + 32, by, lines, B.role, B.scale, C.ink);
+    root.dataset.textBottom = String(B.y + top + by - B.paragraphGap);
+    root.dataset.textOverflow = B.bottom && B.y + top + by - B.paragraphGap > B.bottom ? 'true' : 'false';
     // Controls: real buttons. An available one restores its point; an unavailable one is drawn
     // in the muted ink and only explains why (never a silent no-op, never a fake action).
     var buttons = e.controls.map(function (c, i) {
@@ -280,12 +318,14 @@
   }
 
   // Open / close ---------------------------------------------------------------------------------
-  function openFor(entry, key) {
+  function openFor(entry, key, cause) {
     var stage = document.getElementById('stage');
     var frame = G.captureStage();
     var root = el('div', { id: 'endPresentation', role: 'dialog', 'aria-modal': 'true', 'aria-labelledby': 'endTitle', tabindex: '-1' });
     place(root, 0, 0, W, H);
     root.dataset.entry = entry.id;
+    root.dataset.copyStatus = entry.copyStatus || '';
+    root.dataset.revision = entry.revision || '';
     root.dataset.capture = frame.dataset.capture;
     backdrop(frame, entry.backdrop, root);
     var buttons = compose(entry, root);
@@ -322,7 +362,7 @@
     open = { entry: entry, root: root, buttons: buttons, before: before, key: key, keyHandler: onKey, inerted: siblings };
     document.body.dataset.endPresentation = entry.id;
     root.focus({ preventScroll: true });
-    log.push({ t: 'open', id: entry.id, key: key });
+    log.push({ t: 'open', id: entry.id, key: key, cause: cause });
   }
   function close(why) {
     if (!open) return;
@@ -348,13 +388,14 @@
       var entry = find(cause);
       if (!entry || shownFor[stepKey]) return null;
       shownFor[stepKey] = true;
-      openFor(entry, stepKey);
+      openFor(entry, stepKey, JSON.parse(JSON.stringify(cause)));
       return entry.id;
     },
     // Dismissal (Escape does the same, review only): back to the authored ending, unchanged. The
     // flow also closes it, with the action's name, just before a RETRY / CHECKPOINT restore.
     close: function (why) { close(why || 'api'); },
     log: function () { return log.slice(); },
-    entries: function () { return DATA.entries.slice(); }
+    entries: function () { return DATA.entries.slice(); },
+    skipped: function () { return skipped.slice(); }
   };
 })();

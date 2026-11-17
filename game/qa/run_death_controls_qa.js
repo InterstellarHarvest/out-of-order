@@ -11,6 +11,11 @@
 //   - CHECKPOINT: the exact Chapter 1 entry (Prologue inventory incl. the kept stapler once,
 //     flags, NOTES), the arrival narration presented again, retry point dropped, attempt advanced;
 //     replayed checks use the new attempt; reload reproduces.
+//   - Shared popup, failed causes (docs/98; public docs/104): a failed stapler check and a failed
+//     unarmed check open the same popup; the real cause (check id, ok:false) is kept; reload at
+//     the death presents it again with the same cause; RETRY returns to the state before that
+//     checked decision and the re-attempt rolls fresh (attempt 1) exactly as Rules predicts;
+//     CHECKPOINT returns to the chapter entry, keeping the Prologue's state and results.
 //   - EXIT: visibly unavailable (muted ink), explains the pending main menu, changes nothing.
 //   - Compatibility: an old save (no points, no attempt) loads with the gate on: RETRY becomes
 //     available from the fatal decision, CHECKPOINT shows unavailable; a tracked save loads with the
@@ -130,8 +135,11 @@ async function run(name, base) {
       L = await live(page);
       C('the retried attempt rolls in its own namespace, exactly as Rules predicts (attempt 1)', J(L.state.checks.house_chair_unarmed) === J(want.checks.house_chair_unarmed)
         && L.state.checks.house_chair_unarmed.attempt === 1, L.state.checks);
-      C('ordinary consequences follow the fresh roll (failed: the ordinary ending, no voluntary art; passed: the escape)',
-        want.node === 'exit_chair_fatal' ? (L.node === 'chapter-01:exit_chair_fatal' && !L.open) : L.node === 'chapter-01:' + want.node, { node: L.node, want: want.node, open: L.open });
+      // docs/98: a failed check now reaches the SAME shared popup (public docs/104), its cause kept.
+      const lastOpen = L.log.filter((x) => x.t === 'open').pop();
+      C('consequences follow the fresh roll (failed: the shared popup with the failed-check cause; passed: the escape, no popup)',
+        want.node === 'exit_chair_fatal' ? (L.node === 'chapter-01:exit_chair_fatal' && L.open && lastOpen.cause.check === 'house_chair_unarmed' && lastOpen.cause.ok === false)
+          : (L.node === 'chapter-01:' + want.node && !L.open), { node: L.node, want: want.node, open: L.open });
     });
     // Dying voluntarily again after a RETRY presents again (a new attempt is a new ending).
     await scenario('retry_twice', t.save(), '?deathproof', async (page, C) => {
@@ -177,6 +185,64 @@ async function run(name, base) {
       await reload(page);
       const R2 = await live(page);
       C('reload after the replayed check: identical state and roll (no reroll)', J(R2.state.checks) === J(L.state.checks) && R2.state.attempt === 1 && R2.node === L.node);
+    });
+  }
+
+  // 2b. Failed checked causes share the popup; RETRY / CHECKPOINT keep the real cause (docs/98) -------------
+  {
+    const failing = (item, chairPath, choice, checkId) => {
+      for (let seed = 1; seed < 400; seed++) {
+        const t = T.tracked(story, item, seed).steps(chairPath);
+        const r = Rules.step(story, t.state, { choice });
+        if (r.state.node === 'exit_chair_fatal' && r.state.checks[checkId] && r.state.checks[checkId].ok === false) return t;
+      }
+      throw new Error('no failing seed for ' + checkId);
+    };
+    const ts = failing('red_stapler', T.STAPLER_CHAIR, 'stapler_breakout', 'house_chair_stapler');
+    const pre = ts.state;
+    await scenario('stapler_failed_retry', ts.save(), '?deathproof', async (page, C) => {
+      await take(page, 'stapler_breakout');
+      let L = await live(page);
+      const cause = L.log.filter((x) => x.t === 'open')[0];
+      C('failed stapler check: the shared popup opens with RETRY and CHECKPOINT available, EXIT unavailable', L.open && L.node === 'chapter-01:exit_chair_fatal' && L.controls.join() === 'RETRY:true,CHECKPOINT:true,EXIT:false', L.controls);
+      C('the popup keeps the real cause: stapler_breakout, check house_chair_stapler, ok:false (not the voluntary choice)', cause && cause.cause.choice === 'stapler_breakout'
+        && cause.cause.check === 'house_chair_stapler' && cause.cause.ok === false && L.state.checks.house_chair_stapler.ok === false, cause);
+      await shot(page, '06_stapler_failed_popup');
+      await reload(page);
+      L = await live(page);
+      const again = L.log.filter((x) => x.t === 'open');
+      C('save/reload at the death: the same state, the shared popup once again, the same failed-check cause', L.saveFlag === 'restored' && L.open && again.length === 1
+        && J(again[0].cause) === J(cause.cause) && L.state.checks.house_chair_stapler.ok === false, again);
+      await click(page, 0);
+      await settle(page);
+      L = await live(page);
+      C('RETRY: exactly the state before the failed checked decision (stapler held once, no stapler check recorded), attempt 1', !L.open && L.node === 'chapter-01:chair_locked'
+        && J(strip(L.state)) === J(pre) && L.state.attempt === 1 && !L.state.checks.house_chair_stapler && L.state.inventory.filter((x) => x === 'red_stapler').length === 1, L.node);
+      const want = Rules.step(story, L.state, { choice: 'stapler_breakout' }).state;
+      await take(page, 'stapler_breakout');
+      L = await live(page);
+      C('the re-attempted stapler check rolls fresh in attempt 1, exactly as Rules predicts, and its consequence follows', J(L.state.checks.house_chair_stapler) === J(want.checks.house_chair_stapler)
+        && L.state.checks.house_chair_stapler.attempt === 1 && L.node === 'chapter-01:' + want.node && L.open === (want.node === 'exit_chair_fatal'), [L.state.checks.house_chair_stapler, want.node]);
+      const R2 = await (async () => { await reload(page); return live(page); })();
+      C('reload after the re-attempt: identical state and roll (no reroll, no new attempt)', J(R2.state.checks) === J(L.state.checks) && R2.state.attempt === 1 && R2.node === L.node);
+    });
+    const tu = failing(null, T.CHAIR, 'physical_chair_breakout', 'house_chair_unarmed');
+    const entry = tu.points.checkpoint.state;
+    await scenario('unarmed_failed_checkpoint', tu.save(), '?deathproof', async (page, C) => {
+      await take(page, 'physical_chair_breakout');
+      let L = await live(page);
+      const cause = L.log.filter((x) => x.t === 'open')[0];
+      C('failed unarmed check: the shared popup, cause physical_chair_breakout / house_chair_unarmed / ok:false', L.open && cause && cause.cause.choice === 'physical_chair_breakout'
+        && cause.cause.check === 'house_chair_unarmed' && cause.cause.ok === false && L.controls.join() === 'RETRY:true,CHECKPOINT:true,EXIT:false', cause);
+      await shot(page, '07_unarmed_failed_popup');
+      await click(page, 1);
+      await settle(page);
+      L = await live(page);
+      C('CHECKPOINT: the exact Chapter 1 entry in attempt 1; the Prologue\'s inventory, flags and check results kept; the chair check gone', !L.open && L.node === 'chapter-01:house_arrival'
+        && J(strip(L.state)) === J(entry) && L.state.attempt === 1 && !L.state.checks.house_chair_unarmed, L.node);
+      await reload(page);
+      const R2 = await live(page);
+      C('reload after CHECKPOINT: identical state, no new attempt', J(R2.state) === J(L.state) && R2.state.attempt === 1);
     });
   }
 
