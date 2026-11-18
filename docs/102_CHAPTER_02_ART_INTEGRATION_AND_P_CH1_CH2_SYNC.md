@@ -79,6 +79,8 @@ All six records are byte-identical in title, subtitle, body, `popupStatus` and `
 
 ## 5. Open items (what prevents 100% visible agreement)
 
+**Resolved by docs/103 (2026-11-18):** item 1 (Focus A now visible in the Scene Pickup window) and item 2 (Story Director approval of all six popup texts, storyboard `468f82e`). Items 3 and 4 remain deferred by ruling.
+
 1. **The Focus A close-ups are covered while a kit is open.** The three approved 564×278 kit close-ups are bound, and decoded as the Focus A layer. But on a `scenePickup` node, the 565×451 Scene Pickup inspector (docs/87) opens over the portrait aperture and shows its labelled DEV PLACEHOLDER ("… OPEN WALL KIT - ART NOT YET APPROVED"). No approved art exists for that window; public docs/108 item 5 calls it a separate contract. The player therefore does not see these three images. This is an owner decision:
    - either the inspector shows the approved Focus A image;
    - or new 565×451 pickup art is commissioned.

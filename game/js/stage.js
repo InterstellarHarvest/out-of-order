@@ -1344,10 +1344,40 @@
 
   // Shows the item's inspect art 1:1 at the art area's origin, or the placeholder when it has none.
   function showInspectArt(id) {
+    delete els.inspectArt.dataset.art;
     if (ui.inspector && ui.inspector.scenePickup) {
-      // Production 565x451 inspector window, not the 564x278 Focus A portrait.
-      // Source art is still not-started: render a labelled scene-owned placeholder
-      // until the joint Chapters 1-2 approved artwork pass.
+      // The scene pickup's own 565x451 window covers the portrait aperture. PMO ruling 2026-11-18
+      // (docs/103): it shows the node's owner-approved Focus A close-up, the same native 564x278
+      // image at 1:1 (never scaled), at the window's origin where the Focus A layer stands, over a
+      // flat fill in the palette's dark plate. Title, text, cards and pickup behaviour are unchanged.
+      var fk = G.flow.view().focus;
+      var focusPath = fk && G.story && G.story.assets && G.story.assets.focus ? G.story.assets.focus[fk] : null;
+      var focusImg = typeof focusPath === 'string' ? G.image(artKey.focus(fk)) : null;
+      if (focusImg && focusImg.complete && focusImg.naturalWidth > 0) {
+        var fill = els.inspectPickupFill || (els.inspectPickupFill = document.createElement('canvas'));
+        fill.width = INSPECT_RECT[2];
+        fill.height = INSPECT_RECT[3];
+        var fc = fill.getContext('2d');
+        fc.fillStyle = '#0e1b20';
+        fc.fillRect(0, 0, fill.width, fill.height);
+        fill.className = 'sprite-abs';
+        fill.setAttribute('aria-hidden', 'true');
+        place(fill, 0, 0, INSPECT_RECT[2], INSPECT_RECT[3]);
+        var shown = focusImg.cloneNode(false);
+        shown.id = 'inspectImage';
+        shown.className = 'sprite-abs';
+        shown.alt = '';
+        shown.draggable = false;
+        shown.setAttribute('aria-hidden', 'true');
+        shown.width = focusImg.naturalWidth;
+        shown.height = focusImg.naturalHeight;
+        place(shown, 0, 0, focusImg.naturalWidth, focusImg.naturalHeight);
+        els.inspectArt.replaceChildren(fill, shown);
+        els.inspectArt.dataset.kind = 'scene-pickup-art';
+        els.inspectArt.dataset.art = artKey.focus(fk);
+        return;
+      }
+      // No approved Focus A for this pickup: the labelled scene-owned placeholder, as before.
       P.inspectArt(els.inspectPlaceholder, INSPECT_RECT[2], INSPECT_RECT[3], null,
         ui.inspector.scenePickup.title + ' - OPEN WALL KIT - ART NOT YET APPROVED',
         ['CLOSE-UP OF THE OPENED KIT. NOT IN YOUR INVENTORY UNTIL YOU CLOSE IT.']);

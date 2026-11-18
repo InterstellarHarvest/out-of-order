@@ -186,10 +186,12 @@ async function kit(b, page, base, x) {
   await take(page, k.open);
   await waitPickup(page, k.focus);
   snap = await snapshot(page);
-  const geo = await page.evaluate(() => { const a = document.querySelector('[data-kind="scene-pickup-placeholder"]'); const c = a && a.querySelector('canvas'); return c ? [c.width, c.height] : null; });
+  // docs/103: the pickup window shows the approved Focus A close-up (native 564x278, 1:1) over its 565x451 fill.
+  const geo = await page.evaluate(() => { const a = document.querySelector('#inspectArt[data-kind="scene-pickup-art"]'); const c = a && a.querySelector('canvas'); const i = a && a.querySelector('img');
+    return c && i && !document.querySelector('[data-kind="scene-pickup-placeholder"]') ? [c.width, c.height, i.naturalWidth, i.naturalHeight, i.width, i.height] : null; });
   check(b, x.route, 'INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted', snap.pickup === k.focus.replace('_focus', '').replace('public_kit', 'public_antidote_box')
     || (snap.pickup && /antidote|kit|dispenser|locker|box/.test(snap.pickup)), snap.pickup);
-  check(b, x.route, 'inspector art area is the 565x451 inspect canvas', same(geo, [565, 451]), geo);
+  check(b, x.route, 'inspector art area is the 565x451 window holding the approved Focus A close-up at native 564x278 (no placeholder)', same(geo, [565, 451, 564, 278, 564, 278]), geo);
   check(b, x.route, 'opening the kit added nothing to the inventory', !snap.s.inventory.includes(k.item) && !snap.log.includes(k.item));
   const util = await page.evaluate(() => [0, 1, 2].map((i) => document.getElementById('util-' + i).dataset.action + ':' + document.getElementById('util-' + i).getAttribute('aria-disabled')));
   check(b, x.route, 'the three utility buttons are READ LABEL / USE ANTIDOTE / blank', same(util, ['pickup-read:false', 'pickup-use:false', 'none:true']), util);

@@ -223,7 +223,7 @@ async function run(name, base) {
       && dom.titleTag === 'CANVAS' && dom.bodyTag === 'CANVAS', dom);
     C('the canonical em dash, which no game face carries, is drawn as the listed fallback "-" only (data keeps the canonical text)',
       /\u2014/.test(dom.subtitle) && dom.subtitleRendered === DASH(dom.subtitle) && dom.titleRendered === dom.title, [dom.subtitle, dom.subtitleRendered]);
-    C('copy provenance: the canonical draft status and the pinned storyboard revision travel with the popup', dom.copyStatus === CE.popupStatus && CE.readyForGameplay === false
+    C('copy provenance: the canonical approval status (owner-approved, ready for gameplay; docs/103) and the pinned storyboard revision travel with the popup', dom.copyStatus === CE.popupStatus && CE.popupStatus === 'owner-approved' && CE.readyForGameplay === true
       && dom.revision === JSON.parse(fs.readFileSync(path.join(ROOT, 'story/canon.lock.json'), 'utf8')).revision, [dom.copyStatus, dom.revision]);
     C('text column: subtitle at 972,257, the narrative below it, ending above the separator (no overflow, nothing cut)', dom.subtitleBox[0] === 972 && dom.subtitleBox[1] === 257
       && dom.bodyBox[0] === 972 && dom.bodyBox[1] > dom.subtitleBox[1] + dom.subtitleBox[3] && dom.textOverflow === 'false' && dom.textBottom <= 615, [dom.subtitleBox, dom.bodyBox, dom.textBottom]);
@@ -519,11 +519,11 @@ function engineCauses() {
   // docs/102 (public docs/108): the five approved Chapter 2 death images are integrated; the owner-accepted empty
   // frame (docs/99) applied only until then. Each entry now hands the popup its own selected file and hash.
   const ch2Deaths = CANON.entries.filter((e) => /^chapter-02:/.test(e.id));
-  check('node', g, 'Chapter 2 fatal entries carry their own selected art (native 314x206 at 2x, file sha256 = recorded); no Chapter 3 entry is consumed',
+  check('node', g, 'Chapter 2 fatal entries carry their own selected art (native 314x206 at 2x, file sha256 = recorded); all six copies approved and ready; no Chapter 3 entry is consumed',
     ch2Deaths.length === 5 && new Set(ch2Deaths.map((e) => e.art && e.art.path)).size === 5 && ch2Deaths.every((e) => e.art && /^art\/deaths\/[a-z_]+\.png$/.test(e.art.path)
       && JSON.stringify(e.art.size) === '[314,206]' && e.art.scale === 2 && fs.existsSync(path.join(ROOT, e.art.path))
       && require('crypto').createHash('sha256').update(fs.readFileSync(path.join(ROOT, e.art.path))).digest('hex') === e.art.sha256)
-    && !CANON.entries.some((e) => /^chapter-03:/.test(e.id)) && CANON.entries.every((e) => e.readyForGameplay === false));
+    && !CANON.entries.some((e) => /^chapter-03:/.test(e.id)) && CANON.entries.every((e) => e.popupStatus === 'owner-approved' && e.readyForGameplay === true));
   check('node', g, 'ordinary play: activation always, ?nodeathpopups turns it off; no standing notice; backdrop 10px x 0.35', DATA.activation === 'always' && DATA.disableWith === 'nodeathpopups' && !('gate' in DATA)
     && ENTRY.notice === null && ENTRY.backdrop.block === 10 && ENTRY.backdrop.multiply === 0.35);
   check('node', g, 'glyph fallback is explicit and narrow (only em/en dash -> "-")', JSON.stringify(DATA.glyphFallback) === JSON.stringify({ '\u2014': '-', '\u2013': '-' }));

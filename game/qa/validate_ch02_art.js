@@ -129,7 +129,8 @@ check('bindings', 'every Chapter 2 item has slot and inspect art (' + handedOut.
 const notPinned = [...keys].map((k) => pathOf[k]).filter((p) => p && /biology_park|courtesy_conductor|groundskeeper/.test(p) && !byPath.has(p));
 check('bindings', 'every Biology Park file the story uses is pinned in the provenance record', notPinned.length === 0, notPinned);
 check('bindings', 'all five Chapter 2 deaths carry selected art in the runtime (no empty frame left)', deathCh2.length === 5 && deathCh2.every((e) => e.art && e.artStatus !== 'not-started'), deathCh2.map((e) => [e.id, !!e.art]));
-check('bindings', 'death popup copy is the canonical copy, unchanged by integration (popupStatus, readyForGameplay)', deathCh2.every((e) => e.popupStatus === 'existing-ending-popup-copy-draft' && e.readyForGameplay === false), deathCh2.map((e) => e.popupStatus));
+// docs/103: the Story Director approved the exact copy of all six popups (public docs/104), and their art is integrated.
+check('bindings', 'death popup copy is Story Director-approved and ready for gameplay (popupStatus owner-approved, readyForGameplay)', deathCh2.every((e) => e.popupStatus === 'owner-approved' && e.readyForGameplay === true), deathCh2.map((e) => [e.popupStatus, e.readyForGameplay]));
 
 // 4. Real routes -------------------------------------------------------------------------------------
 const shown = new Set();

@@ -9,7 +9,8 @@
 //          the source PNG (scene 4x NEAREST; conversation background + pose 1:1 at the portrait
 //          offset); each fatal ending opens its death popup with its own image, native 314x206 drawn
 //          at exactly 2x, pixel-compared, with RETRY / CHECKPOINT available.
-//   kits   each antidote kit's Focus A close-up (564x278) when the kit is opened.
+//   kits   each antidote kit's Focus A close-up (564x278) when the kit is opened: bound in the portrait layer
+//          and shown, visible and unscaled, in the 565x451 Scene Pickup window (docs/103).
 //   items  each Chapter 2 item's 96x96 inventory slot and 565x451 inspect art, from real saves.
 //   NODE_PATH=<playwright install> node game/qa/run_ch02_art_qa.js
 // Writes game/qa/ch02_art_qa_results.json and game/qa/ch02_art_screenshots/ (not committed).
@@ -154,11 +155,11 @@ async function art(page) {
 const same = (a) => ['scene', 'overlay', 'view', 'background', 'pose', 'focus', 'portraitShown'].every((x) => a.dom[x] === a.want[x]) && a.sized && a.overlays <= 1 && !a.placeholders;
 // Pixels on screen vs the source PNGs composited at their display scale (as run_ch01_art_qa): masked by
 // the shell frame's own alpha and the development draft stamp. region is an element id.
-async function pixels(page, region, layers) {
+async function pixels(page, region, layers, exclude) {
   await page.waitForFunction(() => { const n = document.getElementById('itemNotice'); return !n || getComputedStyle(n).display === 'none'; }, null, { timeout: 20000 });
   const box = await page.evaluate((id) => { const r = document.getElementById(id).getBoundingClientRect(); return { x: r.x, y: r.y, w: r.width, h: r.height }; }, region);
   const shot = await page.screenshot({ clip: { x: box.x, y: box.y, width: box.w, height: box.h } });
-  return page.evaluate(async ({ b64, layers, box, maskShell }) => {
+  return page.evaluate(async ({ b64, layers, box, maskShell, exclude }) => {
     const load = (src) => new Promise((ok, no) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => no(new Error('load ' + src.slice(0, 60))); i.src = src; });
     const s = await load('data:image/png;base64,' + b64);
     const W = s.naturalWidth, H = s.naturalHeight;
@@ -167,19 +168,22 @@ async function pixels(page, region, layers) {
     for (const l of layers) { const im = await load(l.url + '?px'); ec.drawImage(im, l.x, l.y, im.naturalWidth * l.scale, im.naturalHeight * l.scale); }
     const st = document.getElementById('draftStamp');
     const sr = st && st.style.display !== 'none' ? st.getBoundingClientRect() : null;
+    // Controls drawn over the art by design (e.g. the inspector's close button), by their own box.
+    const xr = (exclude || []).map((id) => document.getElementById(id)).filter((n) => n && n.getClientRects().length).map((n) => n.getBoundingClientRect());
     const m = document.createElement('canvas'); m.width = W; m.height = H; const mc = m.getContext('2d');
     if (maskShell) { const shell = document.getElementById('shell'); const shr = shell.getBoundingClientRect(); mc.drawImage(await load(shell.currentSrc || shell.src), shr.x - box.x, shr.y - box.y, shr.width, shr.height); }
     const M = mc.getImageData(0, 0, W, H).data, P = ac.getImageData(0, 0, W, H).data, E = ec.getImageData(0, 0, W, H).data;
     let n = 0, bad = 0;
     for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
       if (sr && box.x + x >= sr.left - 1 && box.x + x < sr.right + 1 && box.y + y >= sr.top - 1 && box.y + y < sr.bottom + 1) continue;
+      if (xr.some((r) => box.x + x >= r.left - 1 && box.x + x < r.right + 1 && box.y + y >= r.top - 1 && box.y + y < r.bottom + 1)) continue;
       const i = (y * W + x) * 4;
       if (M[i + 3] !== 0) continue;
       n++;
       if (Math.abs(P[i] - E[i]) > 3 || Math.abs(P[i + 1] - E[i + 1]) > 3 || Math.abs(P[i + 2] - E[i + 2]) > 3) bad++;
     }
     return { n, bad, W, H };
-  }, { b64: shot.toString('base64'), layers, box, maskShell: region !== 'endArt' });
+  }, { b64: shot.toString('base64'), layers, box, maskShell: region !== 'endArt', exclude });
 }
 const url = (p) => '/' + p;
 
@@ -261,14 +265,17 @@ async function run(b, base) {
       const a = await art(page);
       const img = await page.evaluate(() => { const n = document.getElementById('focusArt'); return n ? { src: n.getAttribute('src'), nw: n.naturalWidth, nh: n.naturalHeight, w: n.width, h: n.height, complete: n.complete } : null; });
       C(k.src + ' kit: the approved Focus A close-up ' + k.focus + ' is the bound portrait layer, decoded native 564x278 at 1:1', a.dom.focus === a.want.focus && img && (img.src || '').endsWith(k.focus) && img.complete && img.nw === 564 && img.nh === 278 && img.w === 564 && img.h === 278 && !a.placeholders, { a: a.dom, want: a.want, img });
-      // KNOWN OPEN ITEM (docs/102 section 5): on a scenePickup node the 565x451 Scene Pickup inspector opens over the
-      // portrait aperture and, having no approved pickup art (a separate contract, public docs/108 item 5), shows its
-      // labelled placeholder, so the Focus A close-up above is covered while the kit is open. Asserted as it stands, so
-      // any change to this presentation fails here and must be reviewed deliberately.
-      const pk = await page.evaluate(() => { const G = window.CYOA_GAME, a = document.getElementById('inspectArt'), ins = document.getElementById('inspector'), p = document.getElementById('portrait');
-        const r = ins && ins.getBoundingClientRect(), q = p.getBoundingClientRect();
-        return { pickup: !!(G.ui.inspector && G.ui.inspector.scenePickup), kind: a && a.dataset.kind, covers: !!r && r.left <= q.left + 1 && r.top <= q.top + 1 && r.right >= q.right - 1 && r.bottom >= q.bottom - 1 }; });
-      C(k.src + ' kit: the Scene Pickup inspector covers it with its labelled placeholder (open item: no approved 565x451 pickup art)', pk.pickup && pk.kind === 'scene-pickup-placeholder', pk);
+      // docs/103 (PMO ruling 2026-11-18): the 565x451 Scene Pickup window shows this approved Focus A close-up,
+      // actually visible to the player: no placeholder anywhere, the native image unscaled, and its pixels on
+      // screen equal to the source 1:1 over (nearly) its whole area.
+      const pk = await page.evaluate(() => { const G = window.CYOA_GAME, a = document.getElementById('inspectArt'), i = document.getElementById('inspectImage');
+        return { pickup: !!(G.ui.inspector && G.ui.inspector.scenePickup), kind: a && a.dataset.kind, art: a && a.dataset.art, src: i && i.getAttribute('src'), nw: i && i.naturalWidth, nh: i && i.naturalHeight, w: i && i.width, h: i && i.height,
+          placeholders: document.querySelectorAll('[data-kind="scene-pickup-placeholder"], #inspector canvas[data-placeholder]').length }; });
+      C(k.src + ' kit: the Scene Pickup window shows the approved Focus A close-up (native 564x278, unscaled), no placeholder', pk.pickup && pk.kind === 'scene-pickup-art' && pk.art === a.want.focus
+        && (pk.src || '').endsWith(k.focus) && pk.nw === 564 && pk.nh === 278 && pk.w === 564 && pk.h === 278 && pk.placeholders === 0, pk);
+      // Only the inspector's close button (drawn over every inspector's art by design) is excluded, by its own box.
+      const vis = await pixels(page, 'inspectImage', [{ url: url(k.focus), scale: 1, x: 0, y: 0 }], ['inspectClose']);
+      C(k.src + ' kit: visible on screen: pixels equal the source 1:1 over at least 90% of the image (' + vis.n + ' px compared)', vis.W === 564 && vis.H === 278 && vis.n >= 0.9 * 564 * 278 && vis.bad === 0, vis);
       await shot('focus');
     });
   }
