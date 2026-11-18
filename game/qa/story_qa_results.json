@@ -1,8 +1,8 @@
 {
   "suite": "story-browser",
-  "passed": 108,
-  "total": 108,
-  "content": "d88ca197a0a5c405648346de8e1c0c4264b9e40d4197daad86f5a6fd67d2ec5e",
+  "passed": 124,
+  "total": 124,
+  "content": "b95b98f24e844d5aa4eeb377dc599a39a71b9b9bd882d2e5e14b32f09479b053",
   "results": [
     {
       "browser": "chromium",
@@ -166,7 +166,47 @@
     },
     {
       "browser": "chromium",
-      "name": "DRAFT STOP: the unfinished hand-off ends with one labelled system card",
+      "name": "HAND-OFF: the Prologue's last node keeps its narration and now offers one CONTINUE card into Chapter 1 (no dead end)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: the game enters House of Tomorrow authored arrival with its production arrival art",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: inventory, flags, item marks, resolved checks and seed are unchanged; House sets its own objective",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: NOTES history continues (every Prologue entry kept, the Chapter 1 entry appended)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: the existing draft stamp now names Chapter 1 as a draft",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF: a reload restores the one autosave in Chapter 1 with the Prologue's inventory, flags and NOTES (no separate Chapter 1 save)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Chapter 1 playthrough reaches a distinct showroom-reset exit with photo inventory and one CONTINUE into Chapter 2",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "HAND-OFF 2: the showroom exit enters the Chapter 2 Bureau with its own arrival narration and the photo still held",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "name": "Chapter 2 ending: Agricultural Customs with the sealed canister, public concourse entry group, BEGIN AGAIN only",
       "ok": true
     },
     {
@@ -436,7 +476,47 @@
     },
     {
       "browser": "firefox",
-      "name": "DRAFT STOP: the unfinished hand-off ends with one labelled system card",
+      "name": "HAND-OFF: the Prologue's last node keeps its narration and now offers one CONTINUE card into Chapter 1 (no dead end)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: the game enters House of Tomorrow authored arrival with its production arrival art",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: inventory, flags, item marks, resolved checks and seed are unchanged; House sets its own objective",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: NOTES history continues (every Prologue entry kept, the Chapter 1 entry appended)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: the existing draft stamp now names Chapter 1 as a draft",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF: a reload restores the one autosave in Chapter 1 with the Prologue's inventory, flags and NOTES (no separate Chapter 1 save)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Chapter 1 playthrough reaches a distinct showroom-reset exit with photo inventory and one CONTINUE into Chapter 2",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "HAND-OFF 2: the showroom exit enters the Chapter 2 Bureau with its own arrival narration and the photo still held",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "name": "Chapter 2 ending: Agricultural Customs with the sealed canister, public concourse entry group, BEGIN AGAIN only",
       "ok": true
     },
     {

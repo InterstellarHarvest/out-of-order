@@ -1,0 +1,990 @@
+{
+ "passed": 164,
+ "total": 164,
+ "results": [
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "arrival: single-door arrival scene, Narrative B (no portrait)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: arrival scene 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "badge registration: closed single-door foyer",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "welcome_home: House complete foyer view; no background or pose layer",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: House foyer conversation view 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "portrait_print: gallery with album on cabinet; photo held once",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "photo slot art in the inventory (96x96)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "photo inspect art in the inspector (565x451)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "inspector closed: gallery unchanged",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: album page 1 close-up 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: album-removed gallery 4x (page 1) (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: album page 2 close-up 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: album-removed gallery 4x (page 2) (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: album page 3 close-up 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: album-removed gallery 4x (page 3) (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "album pages appear in order 1, 2, 3 and never go back",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "each picture is paired with its own text (Page one / two / three)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "album removed from the gallery on every page",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "album never enters inventory",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "close: identical gallery with the album restored immediately",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: gallery restored 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "repeat visit: album removed again, page 1 first",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "reload mid-album: still album-removed, picture matches the restored text page",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "after the reload, close still restores the album",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "reload after closing: no stale album-less gallery",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "gallery conversation: House complete gallery view over the normal gallery",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "pixels: House gallery conversation view 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "showroom reset exit: public exit, photo carried",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (34 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "album",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_desk_plant",
+   "name": "storage: exactly the desk_plant drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_desk_plant",
+   "name": "pixels: storage + desk_plant overlay 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_desk_plant",
+   "name": "reload: the same drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_desk_plant",
+   "name": "retrieved: drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_desk_plant",
+   "name": "reload after retrieval: still empty",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_desk_plant",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (11 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_desk_plant",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_red_stapler",
+   "name": "storage: exactly the red_stapler drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_red_stapler",
+   "name": "pixels: storage + red_stapler overlay 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_red_stapler",
+   "name": "reload: the same drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_red_stapler",
+   "name": "leave it: next room has no overlay and the item is not held",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_red_stapler",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (10 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_red_stapler",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_rubber_band_ball",
+   "name": "storage: exactly the rubber_band_ball drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_rubber_band_ball",
+   "name": "pixels: storage + rubber_band_ball overlay 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_rubber_band_ball",
+   "name": "reload: the same drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_rubber_band_ball",
+   "name": "retrieved: drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_rubber_band_ball",
+   "name": "reload after retrieval: still empty",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_rubber_band_ball",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (11 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_rubber_band_ball",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_timing_clicker",
+   "name": "storage: exactly the timing_clicker drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_timing_clicker",
+   "name": "pixels: storage + timing_clicker overlay 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_timing_clicker",
+   "name": "reload: the same drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_timing_clicker",
+   "name": "retrieved: drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_timing_clicker",
+   "name": "reload after retrieval: still empty",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_timing_clicker",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (11 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "storage_timing_clicker",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "named_plant",
+   "name": "plant_adoption: rug-hatch pedestal v02 over the closed foyer while the plant is held",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "named_plant",
+   "name": "pixels: foyer + pedestal 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "named_plant",
+   "name": "reload: pedestal again",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "named_plant",
+   "name": "handover: plant gone once, resident registered, public exit with no pedestal",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "named_plant",
+   "name": "pixels: public exit (single door open) 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "named_plant",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (15 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "named_plant",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_registered",
+   "name": "chair_locked: in-use Rest Assured scene",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_registered",
+   "name": "pixels: chair in use 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_registered",
+   "name": "registered exit: RETURNS display over the equipment corridor",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_registered",
+   "name": "pixels: utility exit + RETURNS 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_registered",
+   "name": "reload: RETURNS again",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_registered",
+   "name": "no wristband item",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_registered",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (13 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_registered",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_clean",
+   "name": "clean exit: neutral display, no RETURNS",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_clean",
+   "name": "pixels: utility exit neutral 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_clean",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (11 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "exit_clean",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "chair_fatal",
+   "name": "fatal chair: in-use chair, ending stays fatal",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "chair_fatal",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (9 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "chair_fatal",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "martin",
+   "name": "Martin route shows dining, bedroom, passage and service hatch art",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "martin",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (25 steps)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "martin",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "arrival: single-door arrival scene, Narrative B (no portrait)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: arrival scene 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "badge registration: closed single-door foyer",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "welcome_home: House complete foyer view; no background or pose layer",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: House foyer conversation view 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "portrait_print: gallery with album on cabinet; photo held once",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "photo slot art in the inventory (96x96)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "photo inspect art in the inspector (565x451)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "inspector closed: gallery unchanged",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: album page 1 close-up 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: album-removed gallery 4x (page 1) (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: album page 2 close-up 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: album-removed gallery 4x (page 2) (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: album page 3 close-up 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: album-removed gallery 4x (page 3) (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "album pages appear in order 1, 2, 3 and never go back",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "each picture is paired with its own text (Page one / two / three)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "album removed from the gallery on every page",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "album never enters inventory",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "close: identical gallery with the album restored immediately",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: gallery restored 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "repeat visit: album removed again, page 1 first",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "reload mid-album: still album-removed, picture matches the restored text page",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "after the reload, close still restores the album",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "reload after closing: no stale album-less gallery",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "gallery conversation: House complete gallery view over the normal gallery",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "pixels: House gallery conversation view 1:1 (148790 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "showroom reset exit: public exit, photo carried",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (34 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "album",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_desk_plant",
+   "name": "storage: exactly the desk_plant drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_desk_plant",
+   "name": "pixels: storage + desk_plant overlay 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_desk_plant",
+   "name": "reload: the same drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_desk_plant",
+   "name": "retrieved: drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_desk_plant",
+   "name": "reload after retrieval: still empty",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_desk_plant",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (11 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_desk_plant",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_red_stapler",
+   "name": "storage: exactly the red_stapler drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_red_stapler",
+   "name": "pixels: storage + red_stapler overlay 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_red_stapler",
+   "name": "reload: the same drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_red_stapler",
+   "name": "leave it: next room has no overlay and the item is not held",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_red_stapler",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (10 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_red_stapler",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_rubber_band_ball",
+   "name": "storage: exactly the rubber_band_ball drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_rubber_band_ball",
+   "name": "pixels: storage + rubber_band_ball overlay 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_rubber_band_ball",
+   "name": "reload: the same drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_rubber_band_ball",
+   "name": "retrieved: drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_rubber_band_ball",
+   "name": "reload after retrieval: still empty",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_rubber_band_ball",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (11 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_rubber_band_ball",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_timing_clicker",
+   "name": "storage: exactly the timing_clicker drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_timing_clicker",
+   "name": "pixels: storage + timing_clicker overlay 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_timing_clicker",
+   "name": "reload: the same drawer overlay",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_timing_clicker",
+   "name": "retrieved: drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_timing_clicker",
+   "name": "reload after retrieval: still empty",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_timing_clicker",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (11 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "storage_timing_clicker",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "named_plant",
+   "name": "plant_adoption: rug-hatch pedestal v02 over the closed foyer while the plant is held",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "named_plant",
+   "name": "pixels: foyer + pedestal 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "named_plant",
+   "name": "reload: pedestal again",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "named_plant",
+   "name": "handover: plant gone once, resident registered, public exit with no pedestal",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "named_plant",
+   "name": "pixels: public exit (single door open) 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "named_plant",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (15 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "named_plant",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_registered",
+   "name": "chair_locked: in-use Rest Assured scene",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_registered",
+   "name": "pixels: chair in use 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_registered",
+   "name": "registered exit: RETURNS display over the equipment corridor",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_registered",
+   "name": "pixels: utility exit + RETURNS 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_registered",
+   "name": "reload: RETURNS again",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_registered",
+   "name": "no wristband item",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_registered",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (13 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_registered",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_clean",
+   "name": "clean exit: neutral display, no RETURNS",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_clean",
+   "name": "pixels: utility exit neutral 4x (937362 px compared)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_clean",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (11 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "exit_clean",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "chair_fatal",
+   "name": "fatal chair: in-use chair, ending stays fatal",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "chair_fatal",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (9 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "chair_fatal",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "martin",
+   "name": "Martin route shows dining, bedroom, passage and service hatch art",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "martin",
+   "name": "every settled step: scene, overlay and portrait layers are exactly the engine's selection (25 steps)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "martin",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  }
+ ]
+}

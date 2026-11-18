@@ -1,0 +1,908 @@
+{
+  "schema": "cyoa-art-provenance-v1",
+  "handoff": "public CYOA-storyboard docs/108 (Chapter 2 artwork completion, owner/Art Director approval 2026-11-17; approval commit 1ce7e79) and docs/105 step 2; production paths assigned at storyboard 0e9dc25",
+  "sourceRepo": "InterstellarHarvest/CYOA",
+  "copied": "byte-for-byte from the git blob of each registered selection (git show <commit>:<path>); no decode, re-encode, resize or metadata change. Each equals the canonical artwork-preview sha256 and the public preview copy.",
+  "images": [
+    {
+      "kind": "death-screen",
+      "key": "deathScreens:biology_park/classified_as_compost",
+      "path": "art/deaths/classified_as_compost.png",
+      "sha256": "45ca9322666cd9fc4fc1238f7a3e771f96ea10d3ec49cc35a627090475647a86",
+      "gitBlob": "8748832b862eabe54a9e6dc867ada89649be3915",
+      "bytes": 63026,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch08-death-aftermaths",
+        "commit": "29cf835db830b527021040b4960a64ab83e3699d",
+        "path": "review/chapter-02-batch08-2026-11-17/candidates/A-classified-as-compost.png",
+        "gitBlob": "8748832b862eabe54a9e6dc867ada89649be3915"
+      }
+    },
+    {
+      "kind": "death-screen",
+      "key": "deathScreens:biology_park/new_arrival",
+      "path": "art/deaths/new_arrival.png",
+      "sha256": "eeef7d902608343eb4b1c2136cc978d14b3dc27f2d924cc085e9e756900e26b5",
+      "gitBlob": "502fffee5b7780534184a6a06f7ca68af42d250f",
+      "bytes": 76409,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch08-death-aftermaths",
+        "commit": "29cf835db830b527021040b4960a64ab83e3699d",
+        "path": "review/chapter-02-batch08-2026-11-17/candidates/B-new-arrival.png",
+        "gitBlob": "502fffee5b7780534184a6a06f7ca68af42d250f"
+      }
+    },
+    {
+      "kind": "death-screen",
+      "key": "deathScreens:biology_park/personal_growth",
+      "path": "art/deaths/personal_growth.png",
+      "sha256": "8952f6cdaaaf5c9f775516c16fb1d32d848a60b43a4ae25f104ba4075b3a7411",
+      "gitBlob": "6f28465fc81bbeb5d3dcee527f741c8b581f8461",
+      "bytes": 81163,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch08-death-aftermaths",
+        "commit": "29cf835db830b527021040b4960a64ab83e3699d",
+        "path": "review/chapter-02-batch08-2026-11-17/candidates/C-personal-growth.png",
+        "gitBlob": "6f28465fc81bbeb5d3dcee527f741c8b581f8461"
+      }
+    },
+    {
+      "kind": "death-screen",
+      "key": "deathScreens:biology_park/reclassified",
+      "path": "art/deaths/reclassified.png",
+      "sha256": "a4c635847abd0d4d11376fd3aa7574728c0dda67709cba7e11be6c1adb5c6ebc",
+      "gitBlob": "188eaf771accf256e44aa3b7447070b48eeffcf5",
+      "bytes": 56437,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch08-death-aftermaths",
+        "commit": "29cf835db830b527021040b4960a64ab83e3699d",
+        "path": "review/chapter-02-batch08-2026-11-17/candidates/D-reclassified.png",
+        "gitBlob": "188eaf771accf256e44aa3b7447070b48eeffcf5"
+      }
+    },
+    {
+      "kind": "death-screen",
+      "key": "deathScreens:biology_park/site_improvement",
+      "path": "art/deaths/site_improvement.png",
+      "sha256": "45212c1a10f88686354a0ae27817c81c6699cf65d3f242e2ef824de0ae7f28ff",
+      "gitBlob": "392fc783fc9a42129116d343f7554ef15df26291",
+      "bytes": 64523,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch08-death-aftermaths",
+        "commit": "29cf835db830b527021040b4960a64ab83e3699d",
+        "path": "review/chapter-02-batch08-2026-11-17/candidates/E-site-improvement.png",
+        "gitBlob": "392fc783fc9a42129116d343f7554ef15df26291"
+      }
+    },
+    {
+      "kind": "focus",
+      "key": "focus:biology_park/public_exit/aid_box_open",
+      "path": "art/focus/biology_park/aid_box_open.png",
+      "sha256": "706686f3d0186b0c5e71fad428bb99e8715ec5a6faa5b4af4e629cc1e067b229",
+      "gitBlob": "c1823d1a1b06c980c24ff61375eb281e72cccb14",
+      "bytes": 44358,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/A-public-aid-box-focus.png",
+        "gitBlob": "c1823d1a1b06c980c24ff61375eb281e72cccb14"
+      }
+    },
+    {
+      "kind": "focus",
+      "key": "focus:biology_park/maintenance_exit/decontamination_kit_open",
+      "path": "art/focus/biology_park/decontamination_kit_open.png",
+      "sha256": "d14ff669e3fb5f03e8c755a232a80f7064c6d7064a471255174b019a1ff42de8",
+      "gitBlob": "fd49e719d418c96922fbf51fb8b3883ff2729505",
+      "bytes": 57792,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/D-maintenance-decontamination-focus.png",
+        "gitBlob": "fd49e719d418c96922fbf51fb8b3883ff2729505"
+      }
+    },
+    {
+      "kind": "focus",
+      "key": "focus:biology_park/agricultural_customs/exposure_dispenser_open",
+      "path": "art/focus/biology_park/exposure_dispenser_open.png",
+      "sha256": "c57ec1054693cd9e379a91d68cd315d3c0be05b3ab50d098a864dc957615ba4b",
+      "gitBlob": "d285747de280a9afbf6ec4ec4784103d829749e6",
+      "bytes": 60294,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/G-customs-exposure-dispenser-focus.png",
+        "gitBlob": "d285747de280a9afbf6ec4ec4784103d829749e6"
+      }
+    },
+    {
+      "kind": "item-inspect",
+      "key": "items:acting_director_badge#inspect",
+      "path": "art/items/acting_director_badge_inspect.png",
+      "sha256": "a6a21d330139af8013d46f80dec7ad278d800d0b1b01c217fb0abd29d9544f3d",
+      "gitBlob": "bae634d7f71dbfe2157d4d0795c4e9485a9c0310",
+      "bytes": 40021,
+      "width": 565,
+      "height": 451,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch06-credentials-cargo",
+        "commit": "db91a0a1e49d308292fa68348bf5d06ee7548417",
+        "path": "review/chapter-02-batch06-2026-11-17/candidates/B-acting-director-badge-inspect.png",
+        "gitBlob": "bae634d7f71dbfe2157d4d0795c4e9485a9c0310"
+      }
+    },
+    {
+      "kind": "item-slot",
+      "key": "items:acting_director_badge#slot",
+      "path": "art/items/acting_director_badge_slot.png",
+      "sha256": "a09dae0d8201b6062c51e4f5cc99c1e49b77240b400e7dbf5107bb805bf56c44",
+      "gitBlob": "92faec497d3b6795ff81c5e9a1f846e4633ba670",
+      "bytes": 3680,
+      "width": 96,
+      "height": 96,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch06-credentials-cargo",
+        "commit": "db91a0a1e49d308292fa68348bf5d06ee7548417",
+        "path": "review/chapter-02-batch06-2026-11-17/candidates/A-acting-director-badge-slot.png",
+        "gitBlob": "92faec497d3b6795ff81c5e9a1f846e4633ba670"
+      }
+    },
+    {
+      "kind": "item-inspect",
+      "key": "items:botanical_antidote_customs#inspect",
+      "path": "art/items/botanical_antidote_customs_inspect.png",
+      "sha256": "35da940d24401a6964243179ec7c5d336ad3677fd31dce0ef368de63cecc42cc",
+      "gitBlob": "5365ef25ce27bf1d3465f40ffa7189edd30f898a",
+      "bytes": 33184,
+      "width": 565,
+      "height": 451,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "2711cb1784aa368e790dcdf6992cd23f93eaf1d8",
+        "path": "review/chapter-02-batch07-polish-2026-11-17/candidates/I-customs-antidote-inspect-background-polish-v01.png",
+        "gitBlob": "5365ef25ce27bf1d3465f40ffa7189edd30f898a"
+      }
+    },
+    {
+      "kind": "item-slot",
+      "key": "items:botanical_antidote_customs#slot",
+      "path": "art/items/botanical_antidote_customs_slot.png",
+      "sha256": "da857214a1bf850dbae043d32afa63db2423e57eafe3462186d0d685b9610e19",
+      "gitBlob": "d4d57a2270d1a8080715e28267312032fbbc4fff",
+      "bytes": 3196,
+      "width": 96,
+      "height": 96,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/H-customs-antidote-slot.png",
+        "gitBlob": "d4d57a2270d1a8080715e28267312032fbbc4fff"
+      }
+    },
+    {
+      "kind": "item-inspect",
+      "key": "items:botanical_antidote_maintenance#inspect",
+      "path": "art/items/botanical_antidote_maintenance_inspect.png",
+      "sha256": "f59a324d74a3a7bd772858a858f9bad95809fbdf83fa16f876563f1a20493c88",
+      "gitBlob": "1ffca9dbce3b8a9fda1e23442b7c3d97f8ec6023",
+      "bytes": 35593,
+      "width": 565,
+      "height": 451,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/F-maintenance-antidote-inspect.png",
+        "gitBlob": "1ffca9dbce3b8a9fda1e23442b7c3d97f8ec6023"
+      }
+    },
+    {
+      "kind": "item-slot",
+      "key": "items:botanical_antidote_maintenance#slot",
+      "path": "art/items/botanical_antidote_maintenance_slot.png",
+      "sha256": "ca1b9ea48ab96d0e2e98171d551a2af50ca95f345c4c9659a483783fb2e213b1",
+      "gitBlob": "d6207dd9b4c0f13e922186ea713e92cae8f36570",
+      "bytes": 3305,
+      "width": 96,
+      "height": 96,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/E-maintenance-antidote-slot.png",
+        "gitBlob": "d6207dd9b4c0f13e922186ea713e92cae8f36570"
+      }
+    },
+    {
+      "kind": "item-inspect",
+      "key": "items:botanical_antidote_public#inspect",
+      "path": "art/items/botanical_antidote_public_inspect.png",
+      "sha256": "4e9b94d727195d532f8dfaf2b85b07abc43c5170a11a34604317ce4453b4a0e9",
+      "gitBlob": "f55340918df2f19eaf283d6a9d2ac3d2af62f18d",
+      "bytes": 35043,
+      "width": 565,
+      "height": 451,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/C-public-antidote-inspect.png",
+        "gitBlob": "f55340918df2f19eaf283d6a9d2ac3d2af62f18d"
+      }
+    },
+    {
+      "kind": "item-slot",
+      "key": "items:botanical_antidote_public#slot",
+      "path": "art/items/botanical_antidote_public_slot.png",
+      "sha256": "d9b51dc71af033bb01e24fc7fa27bea611144312c5ac10a594e532e10aac4961",
+      "gitBlob": "5bd7d9effc6e9ec0003a62088cab39546cc5d962",
+      "bytes": 2986,
+      "width": 96,
+      "height": 96,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/B-public-antidote-slot.png",
+        "gitBlob": "5bd7d9effc6e9ec0003a62088cab39546cc5d962"
+      }
+    },
+    {
+      "kind": "item-inspect",
+      "key": "items:certified_seed_canister#inspect",
+      "path": "art/items/certified_seed_canister_inspect.png",
+      "sha256": "958cdf2442ed5412efc14f8c9f9f65c90f64f702e3de452be80e3a8e172ed9f7",
+      "gitBlob": "ab2905b4615c1ba395a050618deac7336543ce9f",
+      "bytes": 73228,
+      "width": 565,
+      "height": 451,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch06-credentials-cargo",
+        "commit": "db91a0a1e49d308292fa68348bf5d06ee7548417",
+        "path": "review/chapter-02-batch06-2026-11-17/candidates/D-certified-seed-canister-inspect.png",
+        "gitBlob": "ab2905b4615c1ba395a050618deac7336543ce9f"
+      }
+    },
+    {
+      "kind": "item-slot",
+      "key": "items:certified_seed_canister#slot",
+      "path": "art/items/certified_seed_canister_slot.png",
+      "sha256": "0256464ebb925f1b34fef0a4bc6df7af262289ab9eaa57cea0a7520ffea17998",
+      "gitBlob": "3b056f30b0c62a7e8913429a9a3ae00dd402d96f",
+      "bytes": 4898,
+      "width": 96,
+      "height": 96,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch06-credentials-cargo",
+        "commit": "db91a0a1e49d308292fa68348bf5d06ee7548417",
+        "path": "review/chapter-02-batch06-2026-11-17/candidates/C-certified-seed-canister-slot.png",
+        "gitBlob": "3b056f30b0c62a7e8913429a9a3ae00dd402d96f"
+      }
+    },
+    {
+      "kind": "portrait-background",
+      "key": "scenes:biology_park/concourse_crash#portraitBackground",
+      "path": "art/portraits/courtesy_conductor/concourse_crash_background.png",
+      "sha256": "9f8f3d19d44a6433ef70391118a616d7dd6c8626f43eccda48d55af8fdd1cd80",
+      "gitBlob": "6deaf5fb510b3279c1bb71f388963b1d6c5e85d1",
+      "bytes": 174872,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch04-reserve-transit",
+        "commit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+        "path": "review/chapter-02-batch04-2026-11-17/candidates/D-concourse-portrait-background.png",
+        "gitBlob": "6deaf5fb510b3279c1bb71f388963b1d6c5e85d1"
+      }
+    },
+    {
+      "kind": "portrait",
+      "key": "portraits:courtesy_conductor:talking",
+      "path": "art/portraits/courtesy_conductor/courtesy_conductor_talking.png",
+      "sha256": "8c6601db91d262f5a6b362609b878589025cb924c15c0753df268d4f84592e4d",
+      "gitBlob": "7d25fcfe901792b2c1b06792d66497bff48edbae",
+      "bytes": 25119,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch04-reserve-transit",
+        "commit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+        "path": "review/chapter-02-batch04-2026-11-17/candidates/E-courtesy-conductor-talking.png",
+        "gitBlob": "7d25fcfe901792b2c1b06792d66497bff48edbae"
+      }
+    },
+    {
+      "kind": "portrait-background",
+      "key": "scenes:biology_park/groundskeeper#portraitBackground",
+      "path": "art/portraits/groundskeeper/groundskeeper_background.png",
+      "sha256": "c96f40c20412bff3ea42238d190c85558959b37a9120eec9858182c980f11f68",
+      "gitBlob": "0c6ab114f53a753dc2bd86e75ed61b3a2b13dee1",
+      "bytes": 87580,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch01-biopark-foundation",
+        "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+        "path": "review/chapter-02-batch01-2026-11-15/candidates/F-groundskeeper-background.png",
+        "gitBlob": "0c6ab114f53a753dc2bd86e75ed61b3a2b13dee1"
+      }
+    },
+    {
+      "kind": "portrait",
+      "key": "portraits:groundskeeper:idle",
+      "path": "art/portraits/groundskeeper/groundskeeper_idle.png",
+      "sha256": "afc7055ffe4b60f3efc4cb3747bc21fee61275f937cdefa1c1794f4b02adb402",
+      "gitBlob": "ab4e2746298bb77e85ed2b39cd1a1f22b306681c",
+      "bytes": 52050,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch01-biopark-foundation",
+        "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+        "path": "review/chapter-02-batch01-2026-11-15/candidates/G-groundskeeper-foreground.png",
+        "gitBlob": "ab4e2746298bb77e85ed2b39cd1a1f22b306681c"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/abandoned_station",
+      "path": "art/scenes/biology_park/abandoned_station.png",
+      "sha256": "c9f78d96427d5fce0d1bde3651b90f09fd8d3380a65542378273c2fd1aa803f7",
+      "gitBlob": "8fdcadb076d738d1c2d6dd90738b462ec1acbc42",
+      "bytes": 64143,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch04-reserve-transit",
+        "commit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+        "path": "review/chapter-02-batch04-2026-11-17/candidates/F-abandoned-station.png",
+        "gitBlob": "8fdcadb076d738d1c2d6dd90738b462ec1acbc42"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/agricultural_customs",
+      "path": "art/scenes/biology_park/agricultural_customs.png",
+      "sha256": "9bc80696f31efacdbba2babd95abfe460a9fb6158ad8b674299a91744403cdef",
+      "gitBlob": "49fca7cfc1661cb4b87c4bff61b727822bb26ac9",
+      "bytes": 56427,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch05-irrigation-exits",
+        "commit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+        "path": "review/chapter-02-batch05-2026-11-17/candidates/D-agricultural-customs.png",
+        "gitBlob": "49fca7cfc1661cb4b87c4bff61b727822bb26ac9"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/authorization_archive",
+      "path": "art/scenes/biology_park/authorization_archive.png",
+      "sha256": "cf56a225b9341ac24c654562e002e4d45d5c56be36aa7f4d3f40f045bebc79ec",
+      "gitBlob": "3e88a0c3ef49df7f63d841d71d3e4265a02517b8",
+      "bytes": 71855,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch03-biopark-machinery",
+        "commit": "009c5afea133f36a92f2af74887e00b351d9b914",
+        "path": "review/chapter-02-batch03-2026-11-17/candidates/A-authorization-archive.png",
+        "gitBlob": "3e88a0c3ef49df7f63d841d71d3e4265a02517b8"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/central_flower",
+      "path": "art/scenes/biology_park/central_flower.png",
+      "sha256": "68698aea02b19bbc9fedca48b978be1c2329ca136c140084b2396dfafe4f8e58",
+      "gitBlob": "f254ffe45e1582f49c895178565aba54d68379a4",
+      "bytes": 101784,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch03-biopark-machinery",
+        "commit": "009c5afea133f36a92f2af74887e00b351d9b914",
+        "path": "review/chapter-02-batch03-2026-11-17/candidates/B-central-flower.png",
+        "gitBlob": "f254ffe45e1582f49c895178565aba54d68379a4"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/concourse_crash",
+      "path": "art/scenes/biology_park/concourse_crash.png",
+      "sha256": "50552704840db6220eff3d588bb4a974d51edcd32a816717803f73b6d97d11f8",
+      "gitBlob": "e37207cee86008a7c6c2baea6ba6c11ab6691b01",
+      "bytes": 98952,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch04-reserve-transit",
+        "commit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+        "path": "review/chapter-02-batch04-2026-11-17/candidates/C-concourse-crash.png",
+        "gitBlob": "e37207cee86008a7c6c2baea6ba6c11ab6691b01"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/control_tower",
+      "path": "art/scenes/biology_park/control_tower.png",
+      "sha256": "fde023d3741641aa0f376ad1ac65508de3aeef84a05a8be0defecb3f4603daca",
+      "gitBlob": "66255aaf1a25fdcb79842d1acedbe0ff8538dd6b",
+      "bytes": 71341,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch02-biopark-routes",
+        "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+        "path": "review/chapter-02-batch02-2026-11-17/candidates/A-control-tower.png",
+        "gitBlob": "66255aaf1a25fdcb79842d1acedbe0ff8538dd6b"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/conveniences_bureau",
+      "path": "art/scenes/biology_park/conveniences_bureau.png",
+      "sha256": "90e2e936ca828ff429da78d86c5e694b083d7ea5909d56ab26a107ef0a1c9676",
+      "gitBlob": "6c68af4b0c7e8cb90c3d56ca35483fbcb6f24e53",
+      "bytes": 44740,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch01-biopark-foundation",
+        "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+        "path": "review/chapter-02-batch01-2026-11-15/signage-polish-v02/candidates/A-conveniences-bureau.png",
+        "gitBlob": "6c68af4b0c7e8cb90c3d56ca35483fbcb6f24e53"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/damaged_walkway",
+      "path": "art/scenes/biology_park/damaged_walkway.png",
+      "sha256": "8ca919bedda4f414a7bfac7bfc1f0003f8531e7fcee36ce8f2873db0985af642",
+      "gitBlob": "f9347af5c32128d5418ec80c58adf2268e3577a4",
+      "bytes": 105782,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch02-biopark-routes",
+        "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+        "path": "review/chapter-02-batch02-2026-11-17/candidates/D-damaged-walkway.png",
+        "gitBlob": "f9347af5c32128d5418ec80c58adf2268e3577a4"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/exposition_concourse",
+      "path": "art/scenes/biology_park/exposition_concourse.png",
+      "sha256": "8d7f81908f9d65d2c24c042ea928b3a2d3f7497580b217e9fec673591ba575e3",
+      "gitBlob": "94efaba962c6713856bb4fdee1514d696c7fcd34",
+      "bytes": 83878,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch05-irrigation-exits",
+        "commit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+        "path": "review/chapter-02-batch05-2026-11-17/candidates/E-exposition-concourse.png",
+        "gitBlob": "94efaba962c6713856bb4fdee1514d696c7fcd34"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/formal_entrance",
+      "path": "art/scenes/biology_park/formal_entrance.png",
+      "sha256": "d1a55f75863a7e2a3b854566638128064b998c5d6a83659399e4ad53ce66f2e9",
+      "gitBlob": "85dfaac81ab7b6b0cbd6d0e2b6fa4f56f527c357",
+      "bytes": 63685,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch01-biopark-foundation",
+        "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+        "path": "review/chapter-02-batch01-2026-11-15/signage-polish-v02/candidates/C-formal-entrance.png",
+        "gitBlob": "85dfaac81ab7b6b0cbd6d0e2b6fa4f56f527c357"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/groundskeeper",
+      "path": "art/scenes/biology_park/groundskeeper.png",
+      "sha256": "5f3ff412dff5b710bfbbe7a33c6f4b4de0ee815208b7854c393b546212371e95",
+      "gitBlob": "175c2c3f6701daeee3750982c311187b670ebdad",
+      "bytes": 64429,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch01-biopark-foundation",
+        "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+        "path": "review/chapter-02-batch01-2026-11-15/candidates/B-groundskeeper.png",
+        "gitBlob": "175c2c3f6701daeee3750982c311187b670ebdad"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/jungle_junction",
+      "path": "art/scenes/biology_park/jungle_junction.png",
+      "sha256": "0161d0a7132bf1656a5037e6ec2812e62220c9853e4ed251176c161086fed003",
+      "gitBlob": "72a68f834ba8b7ad3ee529c5293c45bf332c3212",
+      "bytes": 73126,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch01-biopark-foundation",
+        "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+        "path": "review/chapter-02-batch01-2026-11-15/signage-polish-v02/candidates/E-jungle-junction.png",
+        "gitBlob": "72a68f834ba8b7ad3ee529c5293c45bf332c3212"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/lower_irrigation",
+      "path": "art/scenes/biology_park/lower_irrigation.png",
+      "sha256": "8f0df4ad7cbdd73182e5266bb253a8f415c2fbb4536fe908eff544b2902182a8",
+      "gitBlob": "b16135b8a6fbe51ed49bbc316e2cd6287eee49e9",
+      "bytes": 70494,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch05-irrigation-exits",
+        "commit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+        "path": "review/chapter-02-batch05-2026-11-17/candidates/A-lower-irrigation.png",
+        "gitBlob": "b16135b8a6fbe51ed49bbc316e2cd6287eee49e9"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/maintenance_exit",
+      "path": "art/scenes/biology_park/maintenance_exit.png",
+      "sha256": "1417e2700c2d6bf29ef937dc4924e11cfcbdcee65f6daf1ef3710ddd2caed7c7",
+      "gitBlob": "d4e5868c0f34f6922590852d2a668415a42f9e69",
+      "bytes": 60586,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch05-irrigation-exits",
+        "commit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+        "path": "review/chapter-02-batch05-2026-11-17/candidates/C-maintenance-exit.png",
+        "gitBlob": "d4e5868c0f34f6922590852d2a668415a42f9e69"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/moving_forest",
+      "path": "art/scenes/biology_park/moving_forest.png",
+      "sha256": "5a1f61ab9c8a1c7fac129683df09da9bae48a0f22adb9012d98183e0d10f5c81",
+      "gitBlob": "1637ab2a8b2d191426c949567a1ddbb14ad0df81",
+      "bytes": 94299,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch02-biopark-routes",
+        "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+        "path": "review/chapter-02-batch02-2026-11-17/candidates/E-moving-forest.png",
+        "gitBlob": "1637ab2a8b2d191426c949567a1ddbb14ad0df81"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/overgrown_tram",
+      "path": "art/scenes/biology_park/overgrown_tram.png",
+      "sha256": "d4c381642d2d54e6341fd82121ddcf5caef11029fa37c16d221edd5173d470c7",
+      "gitBlob": "aa6e0514b6cacc519aa3c51ee701090e184c0ebb",
+      "bytes": 99195,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch02-biopark-routes",
+        "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+        "path": "review/chapter-02-batch02-2026-11-17/candidates/F-overgrown-tram.png",
+        "gitBlob": "aa6e0514b6cacc519aa3c51ee701090e184c0ebb"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/planting_hopper",
+      "path": "art/scenes/biology_park/planting_hopper.png",
+      "sha256": "5ab29aef160eb59a0d34465782d165c042b6ad8131ac04ad87215b03c33deb3b",
+      "gitBlob": "640ade3a991813a4c4de2370356d69809b766a2a",
+      "bytes": 90192,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch03-biopark-machinery",
+        "commit": "009c5afea133f36a92f2af74887e00b351d9b914",
+        "path": "review/chapter-02-batch03-2026-11-17/candidates/F-planting-hopper.png",
+        "gitBlob": "640ade3a991813a4c4de2370356d69809b766a2a"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/planting_machine",
+      "path": "art/scenes/biology_park/planting_machine.png",
+      "sha256": "047282bbf1e5189645e5784d9b30278cb5b641a708eeed50f43945017d9b78da",
+      "gitBlob": "c40ddad65e06417d2884424d18300080af102574",
+      "bytes": 87278,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch03-biopark-machinery",
+        "commit": "009c5afea133f36a92f2af74887e00b351d9b914",
+        "path": "review/chapter-02-batch03-2026-11-17/candidates/D-planting-machine.png",
+        "gitBlob": "c40ddad65e06417d2884424d18300080af102574"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/public_exit",
+      "path": "art/scenes/biology_park/public_exit.png",
+      "sha256": "e47576d21610f3d5f2d85027192e37197cf317ffdabdbe72977bd971ec9a97aa",
+      "gitBlob": "e5e5e09feaf7b4ebf32c673220e4712caf0af803",
+      "bytes": 47988,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch05-irrigation-exits",
+        "commit": "a9b3817d0c72d2ed5ba398f1f374b0c3b7befeaf",
+        "path": "review/chapter-02-batch05-2026-11-17/candidates/B-public-exit.png",
+        "gitBlob": "e5e5e09feaf7b4ebf32c673220e4712caf0af803"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/reserve_siding",
+      "path": "art/scenes/biology_park/reserve_siding.png",
+      "sha256": "c54cc60a878faaf91edc7e642fb9c854a963bb455a86d6d724d6f2f483e7ae2e",
+      "gitBlob": "58096cc1d5fe34744d94b9dec4cafe1cf331d18c",
+      "bytes": 113446,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch04-reserve-transit",
+        "commit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+        "path": "review/chapter-02-batch04-2026-11-17/candidates/A-reserve-siding.png",
+        "gitBlob": "58096cc1d5fe34744d94b9dec4cafe1cf331d18c"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/reserve_tram",
+      "path": "art/scenes/biology_park/reserve_tram.png",
+      "sha256": "e17c2d8fd7b569404248d86028b7a7ca4164a3856f36f261654bc941a13a7eaf",
+      "gitBlob": "90ef1d980359f66cc87d139384eb9c064620eb6c",
+      "bytes": 83857,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch04-reserve-transit",
+        "commit": "9b0d3a325c947e7c27e2b73b949c6ad70a8ee29a",
+        "path": "review/chapter-02-batch04-2026-11-17/candidates/B-reserve-tram.png",
+        "gitBlob": "90ef1d980359f66cc87d139384eb9c064620eb6c"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/sensor_gallery",
+      "path": "art/scenes/biology_park/sensor_gallery.png",
+      "sha256": "b2f23c8d015c1f45af200733ba28201627c6d10102dcd9e34b92230c32683a7c",
+      "gitBlob": "cde545cfb3dab32fc055aff427e8c25c85a3456d",
+      "bytes": 94534,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch02-biopark-routes",
+        "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+        "path": "review/chapter-02-batch02-2026-11-17/candidates/G-sensor-gallery.png",
+        "gitBlob": "cde545cfb3dab32fc055aff427e8c25c85a3456d"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/service_entry",
+      "path": "art/scenes/biology_park/service_entry.png",
+      "sha256": "c25a49a72a96df1dc1379dad8ebd445af2f6c8b6adf75705cb52e8800195135c",
+      "gitBlob": "49fdcc0a1ce4c26b7302192fc3078728815c9894",
+      "bytes": 70457,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch01-biopark-foundation",
+        "commit": "24434cb96d48fcb2cebe1f9814fcb35dd9ab1271",
+        "path": "review/chapter-02-batch01-2026-11-15/candidates/D-service-entry.png",
+        "gitBlob": "49fdcc0a1ce4c26b7302192fc3078728815c9894"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/sorting_conveyor",
+      "path": "art/scenes/biology_park/sorting_conveyor.png",
+      "sha256": "fe26ce88586bc207a50c8a9ccc9bcb3ddf30dac1bfd1f9e2468abfdae0167e3b",
+      "gitBlob": "25860c85abcd499182ce75a1cf293a34990d0515",
+      "bytes": 82628,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch03-biopark-machinery",
+        "commit": "009c5afea133f36a92f2af74887e00b351d9b914",
+        "path": "review/chapter-02-batch03-2026-11-17/candidates/E-sorting-conveyor.png",
+        "gitBlob": "25860c85abcd499182ce75a1cf293a34990d0515"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/spore_garden",
+      "path": "art/scenes/biology_park/spore_garden.png",
+      "sha256": "aded321d36cf2ea9c50d3d696230fe2a1606f181ff8fc0d1f2f7bffb92af4ed3",
+      "gitBlob": "5c50daa55691413296f33e927ba245b1c21eb966",
+      "bytes": 93273,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch02-biopark-routes",
+        "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+        "path": "review/chapter-02-batch02-2026-11-17/candidates/B-spore-garden.png",
+        "gitBlob": "5c50daa55691413296f33e927ba245b1c21eb966"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/tour_tram",
+      "path": "art/scenes/biology_park/tour_tram.png",
+      "sha256": "fd2b01dbff9db37a79b5a1519b0adc5be3ce8e60c425d7bfb039a5a2194f6d57",
+      "gitBlob": "d22bf09e252bff3c8dc1c84503bb11b32b5ab594",
+      "bytes": 75872,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch02-biopark-routes",
+        "commit": "ed098eee6999b25d44a6b4db2ad7605e430d88c6",
+        "path": "review/chapter-02-batch02-2026-11-17/candidates/C-tour-tram.png",
+        "gitBlob": "d22bf09e252bff3c8dc1c84503bb11b32b5ab594"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/translator_machine",
+      "path": "art/scenes/biology_park/translator_machine.png",
+      "sha256": "ff5704d99d027ea8a86e78b228102826bcceec03b5ae1ba583200a99822e95a3",
+      "gitBlob": "807043cb59865c9db04ff987e0c563bd780847c3",
+      "bytes": 90700,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch03-biopark-machinery",
+        "commit": "009c5afea133f36a92f2af74887e00b351d9b914",
+        "path": "review/chapter-02-batch03-2026-11-17/candidates/C-translator-machine.png",
+        "gitBlob": "807043cb59865c9db04ff987e0c563bd780847c3"
+      }
+    },
+    {
+      "kind": "scene",
+      "key": "scenes:biology_park/waste_chute",
+      "path": "art/scenes/biology_park/waste_chute.png",
+      "sha256": "fa2f9021a7c33f6ff188eff438ef4abec35d9ba0d1a77d805cd2ceb98bbaf498",
+      "gitBlob": "ea3a89ffd43e0b5b1ecd0934dafd9af85189b06a",
+      "bytes": 65960,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch03-biopark-machinery",
+        "commit": "009c5afea133f36a92f2af74887e00b351d9b914",
+        "path": "review/chapter-02-batch03-2026-11-17/candidates/G-waste-chute.png",
+        "gitBlob": "ea3a89ffd43e0b5b1ecd0934dafd9af85189b06a"
+      }
+    }
+  ]
+}

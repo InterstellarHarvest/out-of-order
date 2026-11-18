@@ -1,0 +1,131 @@
+class	artifact_id	name	MB	created_utc	expires	branch	sha	run_id	reason
+KEEP	14139151659	qa-content	0.0	2026-11-15 00:32	2027-02-13	main	2cb743a	43658643368	main head (PR #1 merge)
+KEEP	14140215004	qa-browsers	119.6	2026-11-15 00:48	2027-02-13	main	2cb743a	43658643368	earlier re-run attempt at the main head (main-head artifacts are never pruned)
+KEEP	14140450685	qa-browsers	119.8	2026-11-15 01:02	2027-02-13	main	2cb743a	43658643368	main head (PR #1 merge)
+KEEP	14335619929	qa-content	0.0	2026-11-17 14:23	2027-02-15	agent/death-popups-ordinary-play-20261117	7592eff	44100637072	PR #16 head evidence (latest verified implementation)
+KEEP	14337793160	qa-browsers	302.2	2026-11-17 14:45	2027-02-15	agent/death-popups-ordinary-play-20261117	7592eff	44100637072	PR #16 head evidence (latest verified implementation)
+OWNER	13065321664	m1-sprite-intake-assembly	5.1	2026-11-01 01:27	2026-12-01	review/m1-ui-shell-v2	ba15f40	41261147588	latest art-review evidence of this branch (not produced by qa.yml)
+OWNER	13065184135	m1-unapproved-candidate-controls	2.6	2026-11-01 01:31	2026-12-01	review/m1-ui-shell-v2	13d1439	41261420797	latest art-review evidence of this branch (not produced by qa.yml)
+OWNER	13067635453	m1-v2-control-sprites-and-proofs	7.2	2026-11-01 02:45	2026-12-01	review/m1-ui-shell-v2	6b4b6d6	41266430632	latest art-review evidence of this branch (not produced by qa.yml)
+OWNER	13068186175	m1-v3-approved-screenshot-reference-candidates	7.3	2026-11-01 02:56	2026-12-01	agent/m1-v3-reference-controls	cdbe3b0	41267132701	latest art-review evidence of this branch (not produced by qa.yml)
+OWNER	13068143139	cyoa-m1-v4-sprite-pngs-and-shell-proofs	8.4	2026-11-01 03:24	2026-12-01	agent/m1-v4-direct-copy	f1f8a75	41269032487	latest art-review evidence of this branch (not produced by qa.yml)
+OWNER	13068169801	m1-v4-direct-original-screenshot-control-candidates	8.4	2026-11-01 03:25	2026-12-01	agent/m1-v4-original-screenshot-pixels	b241c09	41269096569	latest art-review evidence of this branch (not produced by qa.yml)
+OWNER	14046100479	prologue-art-lab-browser-evidence	28.7	2026-11-13 14:21	2027-02-11	agent/prologue-art-review-lab-20261113	86eae57	43439811339	latest art-review evidence of this branch (not produced by qa.yml)
+OWNER	14045739360	prologue-art-lab-quick-evidence	45.2	2026-11-13 14:25	2027-02-11	agent/prologue-art-review-lab-20261113	f960936	43442448412	latest art-review evidence of this branch (not produced by qa.yml)
+OWNER	14146008596	qa-content	0.0	2026-11-15 04:15	2027-02-13	agent/chapter-navigation-ch01	93c3797	43675845309	head of open draft PR #2 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14146519084	qa-browsers	125.3	2026-11-15 04:28	2027-02-13	agent/chapter-navigation-ch01	93c3797	43675845309	head of open draft PR #2 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14147142987	qa-content	0.0	2026-11-15 05:03	2027-02-13	agent/ch01-story-director-handoff-20261115	196297a	43679389742	head of open draft PR #3 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14148896801	qa-browsers	125.4	2026-11-15 05:48	2027-02-13	agent/ch01-story-director-handoff-20261115	196297a	43679389742	head of open draft PR #3 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14166253391	qa-content	0.0	2026-11-15 14:49	2027-02-13	agent/ch01-playable-import-20261115	84be05f	43724876515	head of open draft PR #4 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14166582416	qa-browsers	153.0	2026-11-15 14:53	2027-02-13	agent/ch01-playable-import-20261115	84be05f	43724876515	head of open draft PR #4 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14167257526	qa-content	0.0	2026-11-15 15:11	2027-02-13	agent/validator-linear-qa-20261115	6749021	43728424714	head of open draft PR #5 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14166819833	qa-browsers	119.8	2026-11-15 15:23	2027-02-13	agent/validator-linear-qa-20261115	6749021	43728424714	head of open draft PR #5 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14172899701	qa-content	0.0	2026-11-15 18:09	2027-02-13	agent/scene-pickup-inspector-20261115	e98602f	43743886366	head of open draft PR #6 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14174526221	qa-browsers	228.6	2026-11-15 18:20	2027-02-13	agent/scene-pickup-inspector-20261115	e98602f	43743886366	head of open draft PR #6 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14188818011	qa-content	0.0	2026-11-16 00:47	2027-02-14	agent/ch01-photo-prose-correction-20261115	ae27fc1	43782285118	head of open draft PR #7 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14189433015	qa-browsers	228.5	2026-11-16 01:14	2027-02-14	agent/ch01-photo-prose-correction-20261115	ae27fc1	43782285118	head of open draft PR #7 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14193090994	qa-content	0.0	2026-11-16 02:21	2027-02-14	agent/ch01-art-integration-handoff-20261115	a871e1c	43790268385	head of open draft PR #9 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14193306495	qa-browsers	228.5	2026-11-16 02:35	2027-02-14	agent/ch01-art-integration-handoff-20261115	a871e1c	43790268385	head of open draft PR #9 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14195630250	qa-content	0.0	2026-11-16 03:23	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	8301daa	43796569249	head of open draft PR #8 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14196245563	qa-browsers	228.5	2026-11-16 03:36	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	8301daa	43796569249	head of open draft PR #8 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14195917953	qa-content	0.0	2026-11-16 03:45	2027-02-14	agent/ch01-production-art-integration	83f6d05	43798640634	head of open draft PR #10 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14196412986	qa-browsers	297.5	2026-11-16 03:59	2027-02-14	agent/ch01-production-art-integration	83f6d05	43798640634	head of open draft PR #10 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14221900437	qa-content	0.0	2026-11-16 11:22	2027-02-14	agent/rest-assured-death-visual-proof	57cd9a2	43856070403	head of open draft PR #11 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14222429288	qa-browsers	311.0	2026-11-16 11:45	2027-02-14	agent/rest-assured-death-visual-proof	57cd9a2	43856070403	head of open draft PR #11 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14280181460	qa-content	0.0	2026-11-16 22:46	2027-02-14	agent/ch03-story-route-audit-20261116	cfdeb8e	43973044729	head of open draft PR #12 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14280778056	qa-browsers	223.0	2026-11-16 23:07	2027-02-14	agent/ch03-story-route-audit-20261116	cfdeb8e	43973044729	head of open draft PR #12 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14282128044	qa-content	0.0	2026-11-16 23:36	2027-02-14	agent/rest-assured-death-retry-checkpoint	0f42e50	43979097109	head of open draft PR #13 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14283743153	qa-browsers	318.0	2026-11-16 23:59	2027-02-14	agent/rest-assured-death-retry-checkpoint	0f42e50	43979097109	head of open draft PR #13 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14292459686	qa-content	0.0	2026-11-17 02:36	2027-02-15	agent/canonical-storyboard-sync-20261116	20b5260	44002856798	head of open draft PR #14 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14294009902	qa-browsers	318.1	2026-11-17 03:00	2027-02-15	agent/canonical-storyboard-sync-20261116	20b5260	44002856798	head of open draft PR #14 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14298337780	qa-content	0.0	2026-11-17 04:11	2027-02-15	agent/canonical-death-popups-20261117	76dc7dc	44014125837	head of open draft PR #15 (review evidence; regenerable by re-running QA on that branch)
+OWNER	14299562872	qa-browsers	314.4	2026-11-17 04:33	2027-02-15	agent/canonical-death-popups-20261117	76dc7dc	44014125837	head of open draft PR #15 (review evidence; regenerable by re-running QA on that branch)
+SAFE	13065335609	m1-sprite-intake-assembly	0.0	2026-11-01 01:20	2026-12-01	review/m1-ui-shell-v2	a8059b6	41260643146	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	13065003190	m1-sprite-intake-assembly	2.6	2026-11-01 01:20	2026-12-01	review/m1-ui-shell-v2	c902ca7	41260692868	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	13065340773	m1-sprite-intake-assembly	5.1	2026-11-01 01:21	2026-12-01	review/m1-ui-shell-v2	ec62169	41260703240	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	13064909525	m1-unapproved-candidate-controls	2.5	2026-11-01 01:28	2026-12-01	review/m1-ui-shell-v2	6ca1fb0	41261237151	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	13065850043	m1-unapproved-candidate-controls	2.6	2026-11-01 01:30	2026-12-01	review/m1-ui-shell-v2	3e23841	41261318711	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	13067823742	m1-v4-direct-original-screenshot-control-candidates	0.5	2026-11-01 03:24	2026-12-01	agent/m1-v4-original-screenshot-pixels	d67b04a	41269039177	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	14045555765	prologue-art-lab-browser-evidence	0.1	2026-11-13 14:02	2027-02-11	agent/prologue-art-review-lab-20261113	34b84db	43439003028	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	14045766562	prologue-art-lab-quick-evidence	27.3	2026-11-13 14:08	2027-02-11	agent/prologue-art-review-lab-20261113	86eae57	43439811558	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	14045108095	prologue-art-lab-quick-evidence	16.4	2026-11-13 14:12	2027-02-11	agent/prologue-art-review-lab-20261113	2888b39	43440363905	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	14045932385	prologue-art-lab-quick-evidence	33.4	2026-11-13 14:14	2027-02-11	agent/prologue-art-review-lab-20261113	183b541	43440720306	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	14045548086	prologue-art-lab-quick-evidence	45.2	2026-11-13 14:16	2027-02-11	agent/prologue-art-review-lab-20261113	5ea4fe9	43441011097	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	14044859186	prologue-art-lab-browser-evidence	28.7	2026-11-13 14:16	2027-02-11	agent/prologue-art-review-lab-20261113	3f2cc89	43439104904	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	14045978829	prologue-art-lab-quick-evidence	45.2	2026-11-13 14:23	2027-02-11	agent/prologue-art-review-lab-20261113	85221ec	43442155706	earlier run of the same art-review artifact on the same branch (superseded)
+SAFE	14138115179	qa-content	0.0	2026-11-14 23:52	2027-02-12	agent/story-import-integration	e21e241	43655335205	intermediate push, superseded by a later commit on the same branch
+SAFE	14137238406	qa-browsers	119.8	2026-11-14 23:52	2027-02-12	agent/story-import-integration	e21e241	43655335205	intermediate push, superseded by a later commit on the same branch
+SAFE	14139016224	qa-content	0.0	2026-11-15 00:15	2027-02-13	agent/story-import-integration	774c20b	43657225045	intermediate push, superseded by a later commit on the same branch
+SAFE	14138684153	qa-browsers	119.8	2026-11-15 00:27	2027-02-13	agent/story-import-integration	774c20b	43657225045	intermediate push, superseded by a later commit on the same branch
+SAFE	14146565193	qa-content	0.0	2026-11-15 04:05	2027-02-13	agent/chapter-navigation-ch01	adf0485	43675147857	intermediate push, superseded by a later commit on the same branch
+SAFE	14146735378	qa-browsers	125.1	2026-11-15 04:14	2027-02-13	agent/chapter-navigation-ch01	adf0485	43675147857	intermediate push, superseded by a later commit on the same branch
+SAFE	14148476183	qa-content	0.0	2026-11-15 05:18	2027-02-13	agent/ch01-playable-import-20261115	514c9f9	43680402313	intermediate push, superseded by a later commit on the same branch
+SAFE	14147339322	qa-browsers	125.4	2026-11-15 05:18	2027-02-13	agent/ch01-playable-import-20261115	514c9f9	43680402313	intermediate push, superseded by a later commit on the same branch
+SAFE	14148046664	qa-content	0.0	2026-11-15 05:19	2027-02-13	agent/ch01-playable-import-20261115	aca4afb	43680560661	intermediate push, superseded by a later commit on the same branch
+SAFE	14148311941	qa-browsers	125.4	2026-11-15 05:20	2027-02-13	agent/ch01-playable-import-20261115	dcc7526	43680594885	intermediate push, superseded by a later commit on the same branch
+SAFE	14148242114	qa-content	0.0	2026-11-15 05:20	2027-02-13	agent/ch01-playable-import-20261115	dcc7526	43680594885	intermediate push, superseded by a later commit on the same branch
+SAFE	14148426846	qa-content	0.0	2026-11-15 05:22	2027-02-13	agent/ch01-playable-import-20261115	d5db198	43680647762	intermediate push, superseded by a later commit on the same branch
+SAFE	14147993525	qa-browsers	125.4	2026-11-15 05:22	2027-02-13	agent/ch01-playable-import-20261115	d5db198	43680647762	intermediate push, superseded by a later commit on the same branch
+SAFE	14148099962	qa-content	0.0	2026-11-15 05:37	2027-02-13	agent/ch01-playable-import-20261115	a1d94be	43680783081	intermediate push, superseded by a later commit on the same branch
+SAFE	14149010728	qa-browsers	127.9	2026-11-15 05:40	2027-02-13	agent/ch01-playable-import-20261115	a1d94be	43680783081	intermediate push, superseded by a later commit on the same branch
+SAFE	14148901256	qa-browsers	125.4	2026-11-15 05:44	2027-02-13	agent/ch01-playable-import-20261115	efc32c7	43682307118	intermediate push, superseded by a later commit on the same branch
+SAFE	14148409793	qa-content	0.0	2026-11-15 05:44	2027-02-13	agent/ch01-playable-import-20261115	efc32c7	43682307118	intermediate push, superseded by a later commit on the same branch
+SAFE	14149575177	qa-content	0.0	2026-11-15 05:46	2027-02-13	agent/validator-linear-qa-20261115	0eae268	43682480694	intermediate push, superseded by a later commit on the same branch
+SAFE	14149326156	qa-content	0.0	2026-11-15 05:49	2027-02-13	agent/ch01-playable-import-20261115	ec67378	43682341431	intermediate push, superseded by a later commit on the same branch
+SAFE	14148703724	qa-browsers	126.5	2026-11-15 05:49	2027-02-13	agent/ch01-playable-import-20261115	ec67378	43682341431	intermediate push, superseded by a later commit on the same branch
+SAFE	14149411137	qa-browsers	125.4	2026-11-15 05:51	2027-02-13	agent/ch01-playable-import-20261115	7525ba8	43682731865	intermediate push, superseded by a later commit on the same branch
+SAFE	14149316443	qa-content	0.0	2026-11-15 05:51	2027-02-13	agent/ch01-playable-import-20261115	7525ba8	43682731865	intermediate push, superseded by a later commit on the same branch
+SAFE	14149490744	qa-browsers	126.5	2026-11-15 05:54	2027-02-13	agent/ch01-playable-import-20261115	4b4f0eb	43682837960	intermediate push, superseded by a later commit on the same branch
+SAFE	14149391657	qa-content	0.0	2026-11-15 05:54	2027-02-13	agent/ch01-playable-import-20261115	4b4f0eb	43682837960	intermediate push, superseded by a later commit on the same branch
+SAFE	14149148136	qa-browsers	119.7	2026-11-15 06:00	2027-02-13	agent/validator-linear-qa-20261115	0eae268	43682480694	intermediate push, superseded by a later commit on the same branch
+SAFE	14149409729	qa-browsers	152.9	2026-11-15 06:16	2027-02-13	agent/ch01-playable-import-20261115	6e2eaa3	43683075195	intermediate push, superseded by a later commit on the same branch
+SAFE	14149049124	qa-content	0.0	2026-11-15 06:16	2027-02-13	agent/ch01-playable-import-20261115	6e2eaa3	43683075195	intermediate push, superseded by a later commit on the same branch
+SAFE	14167651547	qa-content	0.0	2026-11-15 15:15	2027-02-13	agent/scene-pickup-inspector-20261115	36bb578	43728553868	intermediate push, superseded by a later commit on the same branch
+SAFE	14168366032	qa-browsers	150.2	2026-11-15 15:34	2027-02-13	agent/scene-pickup-inspector-20261115	36bb578	43728553868	intermediate push, superseded by a later commit on the same branch
+SAFE	14183997488	qa-content	0.0	2026-11-15 22:45	2027-02-13	agent/ch01-photo-prose-correction-20261115	52e2a7b	43770856339	intermediate push, superseded by a later commit on the same branch
+SAFE	14184557977	qa-browsers	228.5	2026-11-15 23:07	2027-02-13	agent/ch01-photo-prose-correction-20261115	52e2a7b	43770856339	intermediate push, superseded by a later commit on the same branch
+SAFE	14190000697	qa-browsers	138.0	2026-11-16 01:03	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	8da168a	43783338806	intermediate push, superseded by a later commit on the same branch
+SAFE	14189391750	qa-content	0.0	2026-11-16 01:03	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	8da168a	43783338806	intermediate push, superseded by a later commit on the same branch
+SAFE	14189263326	qa-content	0.0	2026-11-16 01:13	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	bab93fc	43783922230	intermediate push, superseded by a later commit on the same branch
+SAFE	14190801011	qa-browsers	228.5	2026-11-16 01:32	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	bab93fc	43783922230	intermediate push, superseded by a later commit on the same branch
+SAFE	14191402328	qa-content	0.0	2026-11-16 01:50	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	0bdaef3	43787826802	intermediate push, superseded by a later commit on the same branch
+SAFE	14191007887	qa-browsers	151.1	2026-11-16 01:50	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	0bdaef3	43787826802	intermediate push, superseded by a later commit on the same branch
+SAFE	14191632589	qa-content	0.0	2026-11-16 01:57	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	7cc2d92	43788585642	intermediate push, superseded by a later commit on the same branch
+SAFE	14191577731	qa-browsers	140.4	2026-11-16 01:57	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	7cc2d92	43788585642	intermediate push, superseded by a later commit on the same branch
+SAFE	14191418635	qa-content	0.0	2026-11-16 01:58	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	24b0ddf	43789238562	intermediate push, superseded by a later commit on the same branch
+SAFE	14191862704	qa-browsers	127.7	2026-11-16 02:02	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	965378a	43789320306	intermediate push, superseded by a later commit on the same branch
+SAFE	14191064082	qa-content	0.0	2026-11-16 02:02	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	965378a	43789320306	intermediate push, superseded by a later commit on the same branch
+SAFE	14192481788	qa-content	0.0	2026-11-16 02:15	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	5d4556d	43789699542	intermediate push, superseded by a later commit on the same branch
+SAFE	14193156488	qa-browsers	228.6	2026-11-16 02:26	2027-02-14	agent/design-deaths-transitions-ch01-art-audit-20261115	5d4556d	43789699542	intermediate push, superseded by a later commit on the same branch
+SAFE	14259323946	qa-content	0.0	2026-11-16 19:02	2027-02-14	agent/ch03-story-route-audit-20261116	2b400f3	43932937918	intermediate push, superseded by a later commit on the same branch
+SAFE	14261450536	qa-browsers	228.6	2026-11-16 19:12	2027-02-14	agent/ch03-story-route-audit-20261116	2b400f3	43932937918	intermediate push, superseded by a later commit on the same branch
+SAFE	14264035774	qa-content	0.0	2026-11-16 19:47	2027-02-14	agent/ch03-story-route-audit-20261116	da6451a	43940659059	intermediate push, superseded by a later commit on the same branch
+SAFE	14263189773	qa-browsers	228.4	2026-11-16 19:54	2027-02-14	agent/ch03-story-route-audit-20261116	da6451a	43940659059	intermediate push, superseded by a later commit on the same branch
+SAFE	14263848050	qa-content	0.0	2026-11-16 20:01	2027-02-14	agent/ch03-story-route-audit-20261116	74fe048	43944207452	intermediate push, superseded by a later commit on the same branch
+SAFE	14265291769	qa-browsers	141.6	2026-11-16 20:02	2027-02-14	agent/ch03-story-route-audit-20261116	74fe048	43944207452	intermediate push, superseded by a later commit on the same branch
+SAFE	14265257374	qa-content	0.0	2026-11-16 20:04	2027-02-14	agent/ch03-story-route-audit-20261116	c309fda	43945464948	intermediate push, superseded by a later commit on the same branch
+SAFE	14265237297	qa-browsers	125.4	2026-11-16 20:04	2027-02-14	agent/ch03-story-route-audit-20261116	c309fda	43945464948	intermediate push, superseded by a later commit on the same branch
+SAFE	14267105076	qa-content	0.0	2026-11-16 20:17	2027-02-14	agent/ch03-story-route-audit-20261116	2455790	43945878898	intermediate push, superseded by a later commit on the same branch
+SAFE	14267337082	qa-browsers	228.5	2026-11-16 20:32	2027-02-14	agent/ch03-story-route-audit-20261116	2455790	43945878898	intermediate push, superseded by a later commit on the same branch
+SAFE	14272086976	qa-browsers	125.4	2026-11-16 21:02	2027-02-14	agent/ch03-story-route-audit-20261116	640a0ad	43955775002	intermediate push, superseded by a later commit on the same branch
+SAFE	14271707498	qa-content	0.0	2026-11-16 21:02	2027-02-14	agent/ch03-story-route-audit-20261116	640a0ad	43955775002	intermediate push, superseded by a later commit on the same branch
+SAFE	14273091790	qa-content	0.0	2026-11-16 21:16	2027-02-14	agent/ch03-story-route-audit-20261116	77be5b7	43955934211	intermediate push, superseded by a later commit on the same branch
+SAFE	14274045602	qa-browsers	228.6	2026-11-16 21:26	2027-02-14	agent/ch03-story-route-audit-20261116	77be5b7	43955934211	intermediate push, superseded by a later commit on the same branch
+SAFE	14277069418	qa-content	0.0	2026-11-16 22:29	2027-02-14	agent/ch03-story-route-audit-20261116	65e10ee	43970502833	intermediate push, superseded by a later commit on the same branch
+SAFE	14278347501	qa-browsers	140.8	2026-11-16 22:32	2027-02-14	agent/ch03-story-route-audit-20261116	65e10ee	43970502833	intermediate push, superseded by a later commit on the same branch
+SAFE	14279480010	qa-content	0.0	2026-11-16 22:33	2027-02-14	agent/ch03-story-route-audit-20261116	1d71b4d	43971033427	intermediate push, superseded by a later commit on the same branch
+SAFE	14279620438	qa-content	0.0	2026-11-16 22:36	2027-02-14	agent/ch03-story-route-audit-20261116	06b24f8	43971584505	intermediate push, superseded by a later commit on the same branch
+SAFE	14278946275	qa-browsers	136.0	2026-11-16 22:36	2027-02-14	agent/ch03-story-route-audit-20261116	1d71b4d	43971033427	intermediate push, superseded by a later commit on the same branch
+SAFE	14278522782	qa-browsers	126.5	2026-11-16 22:37	2027-02-14	agent/ch03-story-route-audit-20261116	06b24f8	43971584505	intermediate push, superseded by a later commit on the same branch
+SAFE	14278263768	qa-content	0.0	2026-11-16 22:38	2027-02-14	agent/ch03-story-route-audit-20261116	a6ef860	43971872878	intermediate push, superseded by a later commit on the same branch
+SAFE	14279355996	qa-browsers	127.7	2026-11-16 22:40	2027-02-14	agent/ch03-story-route-audit-20261116	a6ef860	43971872878	intermediate push, superseded by a later commit on the same branch
+SAFE	14279021869	qa-content	0.0	2026-11-16 22:40	2027-02-14	agent/ch03-story-route-audit-20261116	44bfea6	43972186622	intermediate push, superseded by a later commit on the same branch
+SAFE	14279066428	qa-browsers	126.5	2026-11-16 22:42	2027-02-14	agent/ch03-story-route-audit-20261116	44bfea6	43972186622	intermediate push, superseded by a later commit on the same branch
+SAFE	14278902437	qa-content	0.0	2026-11-16 22:42	2027-02-14	agent/ch03-story-route-audit-20261116	2d0f3b7	43972512974	intermediate push, superseded by a later commit on the same branch
+SAFE	14280051199	qa-browsers	127.7	2026-11-16 22:43	2027-02-14	agent/ch03-story-route-audit-20261116	2d0f3b7	43972512974	intermediate push, superseded by a later commit on the same branch
+SAFE	14280191343	qa-content	0.0	2026-11-16 22:44	2027-02-14	agent/ch03-story-route-audit-20261116	d01bdbb	43972792550	intermediate push, superseded by a later commit on the same branch
+SAFE	14279361725	qa-browsers	125.4	2026-11-16 22:45	2027-02-14	agent/ch03-story-route-audit-20261116	d01bdbb	43972792550	intermediate push, superseded by a later commit on the same branch
+SAFE	14292515509	qa-content	0.0	2026-11-17 02:08	2027-02-15	agent/canonical-storyboard-sync-20261116	bffdce8	44000651353	intermediate push, superseded by a later commit on the same branch
+SAFE	14292201837	qa-browsers	125.4	2026-11-17 02:08	2027-02-15	agent/canonical-storyboard-sync-20261116	bffdce8	44000651353	intermediate push, superseded by a later commit on the same branch
+SAFE	14292482715	qa-content	0.0	2026-11-17 02:22	2027-02-15	agent/canonical-storyboard-sync-20261116	ba4a0ef	44000713501	intermediate push, superseded by a later commit on the same branch
+SAFE	14293690132	qa-browsers	270.8	2026-11-17 02:25	2027-02-15	agent/canonical-storyboard-sync-20261116	ba4a0ef	44000713501	intermediate push, superseded by a later commit on the same branch

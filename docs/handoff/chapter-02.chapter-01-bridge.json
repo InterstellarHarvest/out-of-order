@@ -1,0 +1,19 @@
+{
+  "chapter": "chapter-02",
+  "replace_draft_restarts_on_surviving_chapter_01_nodes": [
+    "exit_named_plant",
+    "exit_martin",
+    "exit_service_clean",
+    "exit_service_registered",
+    "exit_showroom_reset"
+  ],
+  "replacement_choice": {
+    "kind": "continue",
+    "text": "CONTINUE",
+    "chapter": "chapter-02"
+  },
+  "preserve": "original Prologue and all Chapter 1 narration, end-state inventory, flags, notes, checks and seed",
+  "exclude": [
+    "exit_chair_fatal"
+  ]
+}

@@ -1,0 +1,954 @@
+{
+ "passed": 126,
+ "total": 126,
+ "measures": {
+  "chromium": {
+   "downscaledBoxes": 5,
+   "canonical": {
+    "corners": [
+     "#19393e",
+     "#19393e",
+     "#19393e",
+     "#19393e"
+    ],
+    "outside": [
+     "#212121",
+     "#4f493d"
+    ],
+    "shadow": [
+     "#101e22",
+     "#101e22",
+     true
+    ],
+    "centreY": 455,
+    "artBad": 0,
+    "separator": [
+     "#b4aa92",
+     "#b4aa92",
+     "#f9f0d9",
+     "#f9f0d9",
+     "#e8dfc6"
+    ],
+    "controls": {
+     "top": 669,
+     "shadowBottom": 734,
+     "separatorEnd": 645,
+     "lowerBorder": 759,
+     "gapAbove": 24,
+     "gapBelow": 24
+    },
+    "controlColours": [
+     [
+      "#244348",
+      "#9d927d",
+      "#bacdc0"
+     ],
+     [
+      "#244348",
+      "#9d927d",
+      "#bacdc0"
+     ],
+     [
+      "#244348",
+      "#9d927d",
+      "#bacdc0"
+     ]
+    ],
+    "backdrop": {
+     "blocks": 11628,
+     "uniform": 11628,
+     "exact": 11628,
+     "within1": 11628,
+     "maxDev": 0,
+     "lighter": 0,
+     "downscaledSpriteBlocks": 510,
+     "inexactInDownscaledSprites": 0,
+     "inexactElsewhere": 0
+    },
+    "darkRatio": 0.3498,
+    "a1": {
+     "popupPixels": 894544,
+     "diffOutsideTitle": 0,
+     "sample": [],
+     "titleRowDiff": 2280,
+     "controlLabelDiff": 1596,
+     "textColumnDiff": 48704,
+     "backdropSampled": 294764,
+     "backdropDiffer": 18925
+    }
+   },
+   "capture": {
+    "pixels": 2073600,
+    "identical": 2073596,
+    "within2": 2073596,
+    "identicalPct": 99.9998,
+    "outsideDownscaled": {
+     "pixels": 2021220,
+     "identical": 2021216,
+     "pct": 99.9998
+    },
+    "downscaledSprites": {
+     "pixels": 52380,
+     "identical": 52380,
+     "pct": 100
+    }
+   },
+   "afterEscapeDiffPixels": 0,
+   "popupDiff_house_chair_stapler": 0,
+   "popupDiff_house_chair_unarmed": 0
+  },
+  "firefox": {
+   "downscaledBoxes": 5,
+   "canonical": {
+    "corners": [
+     "#19393e",
+     "#19393e",
+     "#19393e",
+     "#19393e"
+    ],
+    "outside": [
+     "#212121",
+     "#4f493d"
+    ],
+    "shadow": [
+     "#101e22",
+     "#101e22",
+     true
+    ],
+    "centreY": 455,
+    "artBad": 0,
+    "separator": [
+     "#b4aa92",
+     "#b4aa92",
+     "#f9f0d9",
+     "#f9f0d9",
+     "#e8dfc6"
+    ],
+    "controls": {
+     "top": 669,
+     "shadowBottom": 734,
+     "separatorEnd": 645,
+     "lowerBorder": 759,
+     "gapAbove": 24,
+     "gapBelow": 24
+    },
+    "controlColours": [
+     [
+      "#244348",
+      "#9d927d",
+      "#bacdc0"
+     ],
+     [
+      "#244348",
+      "#9d927d",
+      "#bacdc0"
+     ],
+     [
+      "#244348",
+      "#9d927d",
+      "#bacdc0"
+     ]
+    ],
+    "backdrop": {
+     "blocks": 11628,
+     "uniform": 11628,
+     "exact": 11384,
+     "within1": 11529,
+     "maxDev": 13,
+     "lighter": 0,
+     "downscaledSpriteBlocks": 510,
+     "inexactInDownscaledSprites": 244,
+     "inexactElsewhere": 0
+    },
+    "darkRatio": 0.3496,
+    "a1": {
+     "popupPixels": 894544,
+     "diffOutsideTitle": 0,
+     "sample": [],
+     "titleRowDiff": 2280,
+     "controlLabelDiff": 1596,
+     "textColumnDiff": 48704,
+     "backdropSampled": 294764,
+     "backdropDiffer": 25975
+    }
+   },
+   "capture": {
+    "pixels": 2073600,
+    "identical": 2042575,
+    "within2": 2065548,
+    "identicalPct": 98.5038,
+    "outsideDownscaled": {
+     "pixels": 2021220,
+     "identical": 2021216,
+     "pct": 99.9998
+    },
+    "downscaledSprites": {
+     "pixels": 52380,
+     "identical": 21359,
+     "pct": 40.78
+    }
+   },
+   "afterEscapeDiffPixels": 0,
+   "popupDiff_house_chair_stapler": 0,
+   "popupDiff_house_chair_unarmed": 0
+  }
+ },
+ "results": [
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "voluntary: endCause names the choice and its origin, no check; matches the shared canonical entry",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "unarmed and stapler failures (60 seeds each): cause carries the check id and ok:false; every failure matches the ONE shared entry; passes are not endings and never match",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "Chapter 2: every fatal route ending (6) selects exactly its own popup; no other ending (33 reached) and no House exit does",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "every canonical death entry is opted in (canonical *: 6); the shared chapter-01:exit_chair_fatal art is the approved native PNG (sha256 7f469efa..., 314x206, 2x)",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "the game keeps NO story-authored popup field: no title, subtitle, body, art or when in end-presentations.review.js",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "the runtime module carries exactly the projected canonical export (ids, when, title, subtitle, body) at the pinned revision",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "Chapter 2 fatal entries have no selected art yet (their popups open with an empty frame, no art drawn); no Chapter 3 entry is consumed",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "ordinary play: activation always, ?nodeathpopups turns it off; no standing notice; backdrop 10px x 0.35",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "glyph fallback is explicit and narrow (only em/en dash -> \"-\")",
+   "ok": true
+  },
+  {
+   "browser": "node",
+   "scenario": "engine",
+   "name": "the generic modules name no chapter, node, choice, art path or copy",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "gate_off_voluntary",
+   "name": "?nodeathpopups: the authored fatal ending with only BEGIN AGAIN, no presentation, its art not even decoded",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "gate_off_voluntary",
+   "name": "?nodeathpopups: state equals the pure rules step (flags, inventory, checks, seed)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "gate_off_voluntary",
+   "name": "?nodeathpopups: BEGIN AGAIN restarts at the Prologue start as before",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "gate_off_voluntary",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "opens on accept_permanent_rest, at the authored ending, once",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "no extra item, flag, check or seed change: the state is the pure rules step",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "art element: the native 314x206 image drawn at 312,205 as 628x412 (exact 2x), pixelated",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "title, subtitle and body are independent text canvases (never baked into the art) carrying the CANONICAL storyboard copy exactly",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "the canonical em dash, which no game face carries, is drawn as the listed fallback \"-\" only (data keeps the canonical text)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "copy provenance: the canonical draft status and the pinned storyboard revision travel with the popup",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "text column: subtitle at 972,257, the narrative below it, ending above the separator (no overflow, nothing cut)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "the owner-locked controls at the approved footprints: RETRY and CHECKPOINT available, EXIT unavailable (main menu pending)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "ordinary play: no review banner (the notice plate is hidden until a control needs explaining)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "topmost layer of the stage; everything beneath inert; focus inside the dialog",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "backdrop computed exactly from readable captured pixels (images, canvases, fills)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "popup frame edge at 280,135 .. 1639,774 (1360x640), nothing of it outside; centre y=455",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "12px popup shadow to 1651,786",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "art on screen equals the native PNG at exact 2x nearest neighbour (0 of 258,736 pixels differ): sharp, undimmed",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "separator rows 639-644, panel face below",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "controls: top y=669, shadow to y=734, 24px clear above (separator ends 645) and below (lower border 759)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "each control: edge, shadow and face colours at its footprint (undimmed)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "backdrop: every 10x10 block outside the popup is one colour (hard blocks, no smoothing)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "backdrop: every block = the real ending frame's block-centre pixel x 0.35, exactly, outside the browser-downscaled sprite boxes (never lighter)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "backdrop darkened to 35% of the real frame (65% darker): luminance ratio 0.35 +- 0.01",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "A1 parity: every popup pixel (frame, shadow, art, separator, control boxes) identical to the approved A1 except the title row, the control label faces and the canonical text column",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "A1 parity: the text column differs (canonical draft subtitle + narrative replace the mockup copy; measured for owner review)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "A1 parity: the control label faces differ only because the owner-locked labels / EXIT's unavailable ink replace the mockup's",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "A1 parity: the title row differs only because the brief's title adds a period (re-centred)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "the frozen capture is the real game frame: >=99.99% of pixels identical to the browser's own screenshot, outside the 5 browser-downscaled sprite boxes",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "frozen: the frame is unchanged 0.7s later (no typing, motion or card transition shows)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "no click, wheel, key or flow call reaches the game: state and save unchanged, no NOTES/inspector, still the one proof",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "the unavailable EXIT does nothing but say so (Enter/Space on it only updates the review notice)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "Tab / Shift+Tab cycle only the three controls (focus never leaves the dialog)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "clicking EXIT explains the pending main menu and performs no game action (no fake quit, no save change)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "1280x720: the whole composition scales uniformly with the stage (no re-centring on the window)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "1280x720: still the pixelated, darkened backdrop and the popup shadow (no stale live frame)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "back at 1920x1080: the identical frame as before the resize",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "reduced motion: same static pixelated, darkened proof",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "Escape closes it: no dialog, nothing inert, the ending and its BEGIN AGAIN card as authored",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "after Escape the screen is the real ending frame again (identical to the gate-off game)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "opening and closing never saved or changed state",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "reload at the ending: restored save, the proof once again over the real frame",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "after closing, the authored BEGIN AGAIN restarts as before (no proof on the new playthrough)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "voluntary",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "stapler_failed",
+   "name": "failed house_chair_stapler: the same ending opens the SAME canonical popup (entry, art, title, copy), once",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "stapler_failed",
+   "name": "failed house_chair_stapler: the real cause is kept (choice, check id, ok:false), distinct from voluntary acceptance",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "stapler_failed",
+   "name": "failed house_chair_stapler: RETRY (back before this checked decision) and CHECKPOINT available, EXIT unavailable",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "stapler_failed",
+   "name": "failed house_chair_stapler: the popup region is pixel-identical to the voluntary popup (one shared presentation)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "stapler_failed",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "unarmed_failed",
+   "name": "failed house_chair_unarmed: the same ending opens the SAME canonical popup (entry, art, title, copy), once",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "unarmed_failed",
+   "name": "failed house_chair_unarmed: the real cause is kept (choice, check id, ok:false), distinct from voluntary acceptance",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "unarmed_failed",
+   "name": "failed house_chair_unarmed: RETRY (back before this checked decision) and CHECKPOINT available, EXIT unavailable",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "unarmed_failed",
+   "name": "failed house_chair_unarmed: the popup region is pixel-identical to the voluntary popup (one shared presentation)",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "unarmed_failed",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "stapler_failed_gate_off",
+   "name": "?nodeathpopups, failed stapler: the authored ending with only BEGIN AGAIN, no popup",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "stapler_failed_gate_off",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "chair_escape",
+   "name": "successful chair escape: service exit, never the presentation",
+   "ok": true
+  },
+  {
+   "browser": "chromium",
+   "scenario": "chair_escape",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "gate_off_voluntary",
+   "name": "?nodeathpopups: the authored fatal ending with only BEGIN AGAIN, no presentation, its art not even decoded",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "gate_off_voluntary",
+   "name": "?nodeathpopups: state equals the pure rules step (flags, inventory, checks, seed)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "gate_off_voluntary",
+   "name": "?nodeathpopups: BEGIN AGAIN restarts at the Prologue start as before",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "gate_off_voluntary",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "opens on accept_permanent_rest, at the authored ending, once",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "no extra item, flag, check or seed change: the state is the pure rules step",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "art element: the native 314x206 image drawn at 312,205 as 628x412 (exact 2x), pixelated",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "title, subtitle and body are independent text canvases (never baked into the art) carrying the CANONICAL storyboard copy exactly",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "the canonical em dash, which no game face carries, is drawn as the listed fallback \"-\" only (data keeps the canonical text)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "copy provenance: the canonical draft status and the pinned storyboard revision travel with the popup",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "text column: subtitle at 972,257, the narrative below it, ending above the separator (no overflow, nothing cut)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "the owner-locked controls at the approved footprints: RETRY and CHECKPOINT available, EXIT unavailable (main menu pending)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "ordinary play: no review banner (the notice plate is hidden until a control needs explaining)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "topmost layer of the stage; everything beneath inert; focus inside the dialog",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "backdrop computed exactly from readable captured pixels (images, canvases, fills)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "popup frame edge at 280,135 .. 1639,774 (1360x640), nothing of it outside; centre y=455",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "12px popup shadow to 1651,786",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "art on screen equals the native PNG at exact 2x nearest neighbour (0 of 258,736 pixels differ): sharp, undimmed",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "separator rows 639-644, panel face below",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "controls: top y=669, shadow to y=734, 24px clear above (separator ends 645) and below (lower border 759)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "each control: edge, shadow and face colours at its footprint (undimmed)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "backdrop: every 10x10 block outside the popup is one colour (hard blocks, no smoothing)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "backdrop: every block = the real ending frame's block-centre pixel x 0.35, exactly, outside the browser-downscaled sprite boxes (never lighter)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "backdrop darkened to 35% of the real frame (65% darker): luminance ratio 0.35 +- 0.01",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "A1 parity: every popup pixel (frame, shadow, art, separator, control boxes) identical to the approved A1 except the title row, the control label faces and the canonical text column",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "A1 parity: the text column differs (canonical draft subtitle + narrative replace the mockup copy; measured for owner review)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "A1 parity: the control label faces differ only because the owner-locked labels / EXIT's unavailable ink replace the mockup's",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "A1 parity: the title row differs only because the brief's title adds a period (re-centred)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "the frozen capture is the real game frame: >=99.99% of pixels identical to the browser's own screenshot, outside the 5 browser-downscaled sprite boxes",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "frozen: the frame is unchanged 0.7s later (no typing, motion or card transition shows)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "no click, wheel, key or flow call reaches the game: state and save unchanged, no NOTES/inspector, still the one proof",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "the unavailable EXIT does nothing but say so (Enter/Space on it only updates the review notice)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "Tab / Shift+Tab cycle only the three controls (focus never leaves the dialog)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "clicking EXIT explains the pending main menu and performs no game action (no fake quit, no save change)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "1280x720: the whole composition scales uniformly with the stage (no re-centring on the window)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "1280x720: still the pixelated, darkened backdrop and the popup shadow (no stale live frame)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "back at 1920x1080: the identical frame as before the resize",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "reduced motion: same static pixelated, darkened proof",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "Escape closes it: no dialog, nothing inert, the ending and its BEGIN AGAIN card as authored",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "after Escape the screen is the real ending frame again (identical to the gate-off game)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "opening and closing never saved or changed state",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "reload at the ending: restored save, the proof once again over the real frame",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "after closing, the authored BEGIN AGAIN restarts as before (no proof on the new playthrough)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "voluntary",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "stapler_failed",
+   "name": "failed house_chair_stapler: the same ending opens the SAME canonical popup (entry, art, title, copy), once",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "stapler_failed",
+   "name": "failed house_chair_stapler: the real cause is kept (choice, check id, ok:false), distinct from voluntary acceptance",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "stapler_failed",
+   "name": "failed house_chair_stapler: RETRY (back before this checked decision) and CHECKPOINT available, EXIT unavailable",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "stapler_failed",
+   "name": "failed house_chair_stapler: the popup region is pixel-identical to the voluntary popup (one shared presentation)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "stapler_failed",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "unarmed_failed",
+   "name": "failed house_chair_unarmed: the same ending opens the SAME canonical popup (entry, art, title, copy), once",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "unarmed_failed",
+   "name": "failed house_chair_unarmed: the real cause is kept (choice, check id, ok:false), distinct from voluntary acceptance",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "unarmed_failed",
+   "name": "failed house_chair_unarmed: RETRY (back before this checked decision) and CHECKPOINT available, EXIT unavailable",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "unarmed_failed",
+   "name": "failed house_chair_unarmed: the popup region is pixel-identical to the voluntary popup (one shared presentation)",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "unarmed_failed",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "stapler_failed_gate_off",
+   "name": "?nodeathpopups, failed stapler: the authored ending with only BEGIN AGAIN, no popup",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "stapler_failed_gate_off",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "chair_escape",
+   "name": "successful chair escape: service exit, never the presentation",
+   "ok": true
+  },
+  {
+   "browser": "firefox",
+   "scenario": "chair_escape",
+   "name": "no browser or console errors, no failed requests",
+   "ok": true
+  }
+ ]
+}

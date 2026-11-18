@@ -70,13 +70,25 @@ async function suite(name, base) {
   page.on('pageerror', (e) => errors.push(String(e)));
   page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
   page.on('response', async (r) => { if (/\.png$/.test(r.url())) { try { bodies[new URL(r.url()).pathname.slice(1)] = sha256(await r.body()); } catch (e) { /* ignore */ } } });
+  // A labReady frame can still have its 1.2MB shell PNG decoding. Reloading then
+  // aborts the image request and Firefox reports a truncated image as a console
+  // error. Wait for both real frame shells to decode; never swallow image errors.
+  const waitShells = () => page.waitForFunction(() =>
+    ['frameProduction', 'frameLab'].every((id) => {
+      const frame = document.getElementById(id);
+      const img = frame && frame.contentDocument && frame.contentDocument.getElementById('shell');
+      return img && img.complete && img.naturalWidth === 1920 && img.naturalHeight === 1080;
+    }), null, { timeout: 60000 });
   const openLab = async () => {
     await page.goto(`${base}/${LAB}`);
     await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
+    await waitShells();
   };
   const lab = (fn, arg) => page.evaluate(fn, arg);
   const ready = () => lab(() => window.POLISH_LAB.ready());
-  await page.goto(`${base}/${LAB}`);
+  // Reset same-origin lab storage from a lightweight JSON page, not a second
+  // in-flight art-heavy lab navigation.
+  await page.goto(`${base}/story/storyboard-manifest.json`);
   await lab((ks) => ks.forEach((k) => localStorage.removeItem(k)), [STORE, STORE_UI]);
   await openLab();
   c('the lab opens and both stage frames load', (await lab(() => document.body.dataset.labReady)) === 'true', await lab(() => document.getElementById('status').textContent));
@@ -250,8 +262,10 @@ async function suite(name, base) {
   c('SHOW X HITBOX outlines the inspector X\'s 44x44 button', xBox);
   await lab(() => { ['tg-hideShell', 'tg-boundsScene', 'tg-boundsUtility', 'tg-boundsClose'].forEach((id) => document.getElementById(id).click()); document.getElementById('freeze').click(); });
   // Persistence.
+  await waitShells();
   await page.reload();
   await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
+  await waitShells();
   c('lab values persist in localStorage across a reload', JSON.stringify(await lab(() => window.POLISH_LAB.changes())) === JSON.stringify(ex.changes));
   // The production game ignores the lab's storage.
   const g2 = await context.newPage();
@@ -422,8 +436,10 @@ async function suite(name, base) {
   const exUi = await lab(() => window.POLISH_LAB.exportChanges());
   c('lab UI state is never in COPY CHANGES (or COPY ALL)', !/folded|scrolls|toggles|"view"|"state"|"fit"/.test(exUi + (await lab(() => window.POLISH_LAB.exportAll()))));
   c('lab UI state is kept apart from the tunable values', await lab((k) => { const v = JSON.parse(localStorage.getItem(k[0])); const u = JSON.parse(localStorage.getItem(k[1])); return Object.keys(v).sort().join() === 'changes,schema' && !!u.folded && !!u.scrolls; }, [STORE, STORE_UI]));
+  await waitShells();
   await page.reload();
   await page.waitForFunction(() => document.body.dataset.labReady, null, { timeout: 60000 });
+  await waitShells();
   await page.waitForTimeout(200);
   const ui1 = await lab(() => ({ s: window.POLISH_LAB.uiState(), scroll: document.getElementById('side').scrollTop, folded: document.querySelector('[data-fold="sec-portrait"]').classList.contains('folded'),
     sel: document.getElementById('stateSelect').value, overlay: document.getElementById('frameLab').contentWindow.CYOA_GAME.ui.overlay, view: document.getElementById('stageWrap').dataset.view,

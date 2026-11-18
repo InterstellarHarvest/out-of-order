@@ -32,6 +32,10 @@
   var after = null; // what the current typing / motion leads to
   var storageKey = null;
   var saving = true;
+  // Restore points for the review-gated death controls (docs/96): tracked ONLY when the ending
+  // presentation's gate is on. Off (the default), nothing is tracked and saves are exactly as before.
+  var tracking = false;
+  var points = null;
 
   // The port js/stage.js reads the story through (story-v2) -------------------------------------
   function view() { return Rules.view(story, G.state); }
@@ -112,7 +116,8 @@
     if (!saving || !story.save) return;
     var ls = storage();
     if (!ls) return;
-    try { ls.setItem(storageKey, Rules.serialize(story, G.state, { presented: shown })); } catch (e) { /* storage full or blocked */ }
+    // One write: the state, its cursor and (when tracked) its restore points, atomically together.
+    try { ls.setItem(storageKey, Rules.serialize(story, G.state, { presented: shown, points: tracking ? points : undefined })); } catch (e) { /* storage full or blocked */ }
   }
   // { state, cursor, how } from the autosave, or null for a fresh start. A save that does not fit
   // this content is never loaded: it is kept aside under a separate key and the reason reported.
@@ -145,18 +150,44 @@
   // with everything already presented (transcript entries before `shown`).
   // The apertures alone, for the node as it stands: a node in the same scene and mode can still
   // change the portrait (another pose or backdrop) or the close-up.
+  // Everything here comes from the view (js/rules.js): the scene or the opaque alternate its state
+  // selects, at most one overlay (docs/92 section 3), the portrait as layers or as one complete
+  // view (section 1), and a paged close-up's picture for the semantic page on show (section 2).
+  // It is called again whenever what is presented can change (a node's text, a Focus A page, an
+  // item or context step in place, a transition, a restore), and re-derives everything each time:
+  // nothing art-related is remembered, so no layer can go stale.
   function applyArt(v) {
-    G.setSceneArt(G.artKey.scene(v.scene), sceneLabel(v.scene));
+    var sa = v.sceneArt || {};
+    G.setSceneArt(sa.replace ? G.artKey.sceneState(v.scene, sa.replace) : G.artKey.scene(v.scene), sceneLabel(v.scene),
+      sa.overlay ? G.artKey.sceneState(v.scene, sa.overlay) : null);
     if (v.mode === 'dialogue') {
-      G.setPortraitArt({ background: G.artKey.background(v.portrait.id, v.portrait.background), pose: G.artKey.pose(v.portrait.id, v.portrait.pose), label: story.cast[v.speaker].name });
+      var label = story.cast[v.speaker].name;
+      if (v.portrait.view) G.setPortraitArt({ view: G.artKey.view(v.portrait.id, v.portrait.view), label: label });
+      else G.setPortraitArt({ background: G.artKey.background(v.portrait.id, v.portrait.background), pose: G.artKey.pose(v.portrait.id, v.portrait.pose), label: label });
     } else if (v.mode === 'focus') {
-      G.setPortraitArt({ focus: G.artKey.focus(v.focus), label: v.focus });
+      var pages = focusPages(v.focus);
+      var key = pages ? G.artKey.focusPage(v.focus, Math.min(G.surfaces.segmentA(), pages.length - 1) + 1) : G.artKey.focus(v.focus);
+      G.setPortraitArt({ focus: key, label: v.focus });
     } else {
       G.setPortraitArt(null);
     }
   }
+  function focusPages(id) {
+    var f = story.assets.focus[id];
+    return f && typeof f === 'object' ? f.pages : null;
+  }
+  // Where each semantic page of a paged close-up starts, in the visit's paragraphs.
+  function focusBreaks(id) {
+    var pages = focusPages(id);
+    if (!pages) return null;
+    var at = 0;
+    return pages.map(function (pg) { var b = at; at += pg.paragraphs; return b; });
+  }
+  function refreshArt() { applyArt(view()); }
   function applyView(v) {
-    applyArt(v);
+    // Scene pickups open only once their authored description has finished
+    // typing. Transitions never preserve an overlay from the previous node.
+    if (G.ui.inspector && G.ui.inspector.scenePickup) G.ui.inspector = null;
     var t = G.state.transcript;
     var idx = v.history[v.mode].filter(function (i) { return i < shown; });
     if (v.mode === 'dialogue') {
@@ -169,9 +200,11 @@
       G.surfaces.setB(idx.map(function (i) { return G.narrationText(t[i].runs); }));
       G.surfaces.show('narrative');
     } else {
-      G.surfaces.setA(idx.map(function (i) { return G.narrationText(t[i].runs); }));
+      G.surfaces.setA(idx.map(function (i) { return G.narrationText(t[i].runs); }), focusBreaks(v.focus));
       G.surfaces.show('focus');
     }
+    // After the surfaces: a paged close-up's picture follows the page Focus A now shows.
+    applyArt(v);
     document.body.dataset.node = v.chapter + ':' + v.node;
     document.body.dataset.scene = v.scene;
     G.surfaces.draftStamp(v.chapter);
@@ -278,6 +311,7 @@
     shown += ev.paras.length;
     if (surface === 'focus') {
       G.surfaces.appendA(texts);
+      refreshArt();
       after = afterFocusPage;
       return setPhase('typing');
     }
@@ -312,6 +346,7 @@
       after = afterGroup;
     } else {
       G.surfaces.nextPageA();
+      refreshArt();
       after = afterFocusPage;
     }
     setPhase('typing');
@@ -322,8 +357,10 @@
     after = null;
     if (fn) fn();
   }
+  // While an ending presentation is open nothing underneath takes input (js/end-presentation.js).
+  function modal() { return !!(G.endPresentation && G.endPresentation.isOpen()); }
   F.skip = function () {
-    if (F.phase !== 'typing') return;
+    if (F.phase !== 'typing' || modal()) return;
     if (G.surfaces.mode()) G.surfaces.finish();
     else G.finishTyping();
     typingDone();
@@ -336,6 +373,9 @@
   }
   function presentCards() {
     document.body.dataset.node = G.state.chapter + ':' + G.state.node;
+    // A scene pickup's own cards (READ / USE / CLOSE AND TAKE) are driven only through its
+    // inspector: they never slide in as ordinary choice cards first.
+    if (view().scenePickup) { G.setChoices([]); ready(); return; }
     var cards = view().cards.map(function (c) { return { id: c.id, kind: c.kind, text: c.text }; });
     G.setChoices(cards, { kind: 'in', start: performance.now() });
     setPhase('arriving');
@@ -343,6 +383,25 @@
   function ready() {
     G.ui.thumbOn = true;
     setPhase('choosing');
+    var v = view();
+    // A settled authored ending: a cause-specific presentation may open over it (feature-gated
+    // review proof, js/end-presentation.js; off by default). It never steps the rules or saves.
+    if (v.end && G.endPresentation) {
+      G.renderChoices(performance.now());
+      // The key names the attempt too: dying again after a RETRY is a new ending to present.
+      if (G.endPresentation.reached(Rules.endCause(story, G.state), (G.state.attempt || 0) + ':' + G.state.steps + '@' + v.chapter + ':' + v.node)) return;
+    }
+    if (v.scenePickup) {
+      var n = story.chapters[v.chapter].nodes[v.node];
+      var pickup = Object.assign({}, v.scenePickup);
+      pickup.description = typeof n.text === 'string' ? n.text : pickup.title;
+      G.ui.inspector = { id: pickup.item, scenePickup: pickup, scroll: 0, height: 0 };
+      G.hideTooltip();
+      G.renderAll();
+      var first = G.utilityActions()[0].enabled ? 'util-0' : 'util-1';
+      document.getElementById(first).focus({ preventScroll: true });
+      return;
+    }
     G.renderChoices(performance.now());
     G.focusCard(0);
   }
@@ -350,7 +409,7 @@
   // Taking a card ---------------------------------------------------------------------------------
   var pendingEvents = null;
   F.choose = function (index) {
-    if (F.phase !== 'choosing' || G.ui.inspector) return;
+    if (F.phase !== 'choosing' || G.ui.inspector || modal()) return;
     var card = G.ui.cards[index];
     if (!card) return;
     G.ui.thumbOn = false;
@@ -367,8 +426,10 @@
   // One committed rules step: the new state replaces the old at once and is saved; its events are
   // presented once the cards have gone.
   function commit(input) {
+    var before = G.state;
     var r = Rules.step(story, G.state, input);
     G.state = r.state;
+    if (tracking) points = Rules.trackPoints(story, points, before, input, r);
     pendingEvents = r.events;
     save();
     return r;
@@ -383,7 +444,7 @@
 
   // Items -----------------------------------------------------------------------------------------
   F.toggleInspect = function (id) {
-    if (F.phase !== 'choosing') return;
+    if (F.phase !== 'choosing' || (G.ui.inspector && G.ui.inspector.scenePickup) || modal()) return;
     if (G.ui.inspector && G.ui.inspector.id === id) F.closeInspector();
     else openInspector(id);
   };
@@ -399,6 +460,7 @@
         if (ev.lost.indexOf(id) !== -1) G.ui.inspector = null;
       }
     });
+    refreshArt(); // an item step in place can change what the scene's state selects
     G.renderAll();
     if (!G.ui.inspector) return refreshCards();
     var first = G.utilityActions()[0].enabled ? 'util-0' : 'inspectClose';
@@ -417,13 +479,29 @@
     }
   }
   F.closeInspector = function () {
-    if (!G.ui.inspector) return;
+    if (!G.ui.inspector || modal()) return;
+    if (G.ui.inspector.scenePickup) {
+      if (F.phase !== 'choosing') return;
+      // Exactly one close action: the author's existing back/return choice
+      // awards the source-specific injector atomically, then the normal
+      // item-gained event triggers the standard item-received slip.
+      var choice = G.ui.inspector.scenePickup.closeChoice;
+      if (!view().cards.some(function (c) { return c.id === choice; })) return;
+      G.ui.inspector = null;
+      commit({ choice: choice });
+      G.ui.thumbOn = false;
+      G.ui.motion = { kind: 'clear', start: performance.now() };
+      setPhase('sending');
+      G.renderAll();
+      return;
+    }
     G.ui.inspector = null;
     G.renderAll();
     refreshCards();
   };
 
   F.utility = function (action) {
+    if (modal()) return;
     if (action === 'notes' || action === 'files') {
       G.ui.overlay = G.ui.overlay === action ? null : action;
       G.ui.overlayScroll = action === 'notes' ? 1e9 : 0;
@@ -442,16 +520,33 @@
           shown += ev.paras.length;
         }
       });
+      refreshArt();
       G.renderUtility();
       G.renderOverlay();
       return;
     }
     if (!G.ui.inspector) return;
+    if (G.ui.inspector.scenePickup) {
+      // READ and USE are driven by real Focus A choice IDs, not a duplicate
+      // UI dice implementation. The open box never enters inventory.
+      var pickup = G.ui.inspector.scenePickup;
+      var choice = action === 'pickup-read' ? pickup.readChoice
+        : action === 'pickup-use' ? pickup.useChoice : null;
+      if (!choice || !view().cards.some(function (c) { return c.id === choice; })) return;
+      G.ui.inspector = null;
+      commit({ choice: choice });
+      G.ui.thumbOn = false;
+      G.ui.motion = { kind: 'clear', start: performance.now() };
+      setPhase('sending');
+      G.renderAll();
+      return;
+    }
     var id = G.ui.inspector.id;
     if (action === 'read') {
       var rr = commit({ item: id, verb: 'read' });
       pendingEvents = null;
       rr.events.forEach(function (ev) { if (ev.t === 'items') ev.gained.forEach(function (x) { G.notifyItem(x); }); });
+      refreshArt();
       G.renderAll();
       return;
     }
@@ -499,16 +594,20 @@
     story = G.story;
     G.port = PORT;
     storageKey = 'cyoa-save:' + story.id;
+    tracking = !!(G.endPresentation && G.endPresentation.enabled);
     var loaded = loadSave();
     var events;
     if (loaded) {
       G.state = loaded.state;
+      points = tracking ? loaded.points || null : null;
+      if (loaded.pointsDropped) console.info('Restore points not kept: ' + loaded.pointsDropped.join('; '));
       var res = Rules.resume(story, G.state, loaded.cursor);
       shown = res.from;
       events = res.events;
     } else {
       var b = Rules.begin(story, { seed: freshSeed() });
       G.state = b.state;
+      if (tracking) points = Rules.trackPoints(story, null, null, null, b);
       shown = 0;
       // The opening's chapter / scene / mode are set up directly, without a fade.
       events = b.events.filter(function (e) { return ['chapter', 'scene', 'mode'].indexOf(e.t) === -1; });
@@ -534,11 +633,54 @@
     }
   }
 
+  // RETRY / CHECKPOINT (docs/96; owner rulings on PR #11), review-gated. kind: 'retry' | 'checkpoint'.
+  // Available only for the ending the state stands on (Rules.canRestore). The restore is one atomic
+  // swap to the point's genuine state in a new attempt (Rules.restoreFrom), saved at once with its
+  // points, then presented as a load is: the chapter's art decoded, the view rebuilt, and the
+  // point's not-yet-presented text (a chapter entry's arrival narration) typed again.
+  F.restoreAvailable = function (kind) {
+    return tracking && !!view().end && Rules.canRestore(story, G.state, points, kind, Rules.endCause(story, G.state));
+  };
+  F.restore = function (kind) {
+    if (!F.restoreAvailable(kind)) return false;
+    var r = Rules.restoreFrom(story, G.state, points, kind);
+    if (!r.ok) return false;
+    if (G.endPresentation && G.endPresentation.isOpen()) G.endPresentation.close(kind);
+    queue = [];
+    timer = null;
+    after = null;
+    group = null;
+    pendingEvents = null;
+    G.ui.motion = null;
+    G.ui.inspector = null;
+    G.ui.overlay = null;
+    G.ui.inv.start = 0;
+    G.clearNotices();
+    G.setChoices([]);
+    G.state = r.state;
+    points = r.points;
+    var res = Rules.resume(story, G.state, r.cursor);
+    shown = res.from;
+    save();
+    setPhase('transition');
+    var ms = G.TUNING.story.transitionMs;
+    G.preloadChapter(G.state.chapter).then(function () {
+      fade(1, 0, ms / 2, function () {
+        applyView(view());
+        G.renderAll();
+        fade(0, 1, ms / 2, function () { run(res.events); });
+      });
+    }, failed);
+    return true;
+  };
+  // QA only: the restore points (read-only copies).
+  F.points = function () { return points ? JSON.parse(JSON.stringify(points)) : null; };
+
   // QA only: the rules state and the view, read-only.
   F.view = view;
 
   document.addEventListener('keydown', function (e) {
-    if (G.flow !== F) return;
+    if (G.flow !== F || modal()) return;
     if (e.key === 'Escape') {
       if (G.ui.inspector) F.closeInspector();
       else if (G.ui.overlay) F.utility(G.ui.overlay);

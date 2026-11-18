@@ -1,0 +1,121 @@
+{
+  "acting_director_badge": {
+    "name": "ACTING DIRECTOR OF VEGETATION CREDENTIAL",
+    "slotArt": null,
+    "inspectArt": null,
+    "description": "An emergency appointment card naming you ACTING DIRECTOR OF VEGETATION. Its issuing office is a gardening machine. That makes it no less valid.",
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "acting_director_badge",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "certified_seed_canister": {
+    "name": "CERTIFIED BOTANICAL SEED CANISTER",
+    "slotArt": null,
+    "inspectArt": null,
+    "description": "A dull metal cylinder with a sealed packet of viable seeds from Botanical Specimen 001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.",
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "certified_seed_canister",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "botanical_antidote_public": {
+    "name": "PUBLIC BOTANICAL ANTIDOTE",
+    "slotArt": null,
+    "inspectArt": null,
+    "description": [
+      {
+        "if": {
+          "itemNot": [
+            "botanical_antidote_public",
+            "read"
+          ]
+        },
+        "text": "A chunky glass-vial botanical exposure injector from the first-aid box. The printed handling label is folded beneath a metal clip."
+      },
+      {
+        "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1977. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+      }
+    ],
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "botanical_antidote_public",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "botanical_antidote_maintenance": {
+    "name": "MAINTENANCE BOTANICAL ANTIDOTE",
+    "slotArt": null,
+    "inspectArt": null,
+    "description": [
+      {
+        "if": {
+          "itemNot": [
+            "botanical_antidote_maintenance",
+            "read"
+          ]
+        },
+        "text": "A chunky glass-vial botanical exposure injector from the industrial decontamination locker. The printed handling label is folded beneath a metal clip."
+      },
+      {
+        "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1969. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+      }
+    ],
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "botanical_antidote_maintenance",
+            "read"
+          ]
+        ]
+      }
+    }
+  },
+  "botanical_antidote_customs": {
+    "name": "CUSTOMS BOTANICAL ANTIDOTE",
+    "slotArt": null,
+    "inspectArt": null,
+    "description": [
+      {
+        "if": {
+          "itemNot": [
+            "botanical_antidote_customs",
+            "read"
+          ]
+        },
+        "text": "A chunky glass-vial botanical exposure injector from the agricultural exposure dispenser. The printed handling label is folded beneath a metal clip."
+      },
+      {
+        "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1981. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+      }
+    ],
+    "read": {
+      "effects": {
+        "mark": [
+          [
+            "botanical_antidote_customs",
+            "read"
+          ]
+        ]
+      }
+    }
+  }
+}

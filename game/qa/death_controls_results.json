@@ -1,0 +1,231 @@
+{
+ "passed": 45,
+ "total": 45,
+ "results": [
+  {
+   "group": "points",
+   "name": "chapter entry: checkpoint is exactly the state on entering Chapter 1 (Prologue inventory, flags, NOTES), its arrival text not yet presented",
+   "ok": true
+  },
+  {
+   "group": "points",
+   "name": "voluntary death: the retry point is the very state before accept_permanent_rest, fully presented, and names that decision",
+   "ok": true
+  },
+  {
+   "group": "points",
+   "name": "both points usable for the voluntary death; checkpoint still the Chapter 1 entry",
+   "ok": true
+  },
+  {
+   "group": "points",
+   "name": "inspecting an item is not a decision: the retry point does not move",
+   "ok": true
+  },
+  {
+   "group": "points",
+   "name": "BEGIN AGAIN (restart): a new playthrough starts with only its own start as checkpoint, no retry",
+   "ok": true
+  },
+  {
+   "group": "points",
+   "name": "canRestore refuses a retry point that is not the cause's decision (no point after a non-fatal state)",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "RETRY: exactly the pre-decision state (inventory, flags, item marks, checks, NOTES, steps, presentFrom), now attempt 1",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "RETRY: the fatal step is gone: no extra transcript, decision or item; no phantom inventory",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "RETRY keeps the checkpoint; the retry point stays the same decision",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "dying again after RETRY: same ending, attempt carried, a new retry point from the attempt-1 state",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "a second RETRY: attempt 2 (live + 1), never the point's own attempt",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "CHECKPOINT: exactly the Chapter 1 entry state (Prologue items, flags, NOTES), attempt 3, arrival narration replayed",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "CHECKPOINT drops the retry point (it belonged to the abandoned course of play)",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "no point: refused, nothing changed",
+   "ok": true
+  },
+  {
+   "group": "restore",
+   "name": "a point of another playthrough (seed) is refused",
+   "ok": true
+  },
+  {
+   "group": "dice",
+   "name": "ordinary (no-retry) play: every roll is the original seed + check id formula; no attempt anywhere (200 seeds)",
+   "ok": true
+  },
+  {
+   "group": "dice",
+   "name": "RETRY of a failed check: the retried state no longer holds that check; it resolves again in attempt 1",
+   "ok": true
+  },
+  {
+   "group": "dice",
+   "name": "fresh rolls are uniform over d6 (chi-square 4.82 < 20.5, p > 0.001; n=498)",
+   "ok": true
+  },
+  {
+   "group": "dice",
+   "name": "fresh rolls are independent of the failed roll: same face 81/498 (expected 1/6 = 83; may legitimately repeat)",
+   "ok": true
+  },
+  {
+   "group": "dice",
+   "name": "a fresh attempt CAN repeat the same face (fresh is not \"guaranteed different\")",
+   "ok": true
+  },
+  {
+   "group": "dice",
+   "name": "reload inside an attempt reproduces the same roll and keeps the same attempt (no free reroll)",
+   "ok": true
+  },
+  {
+   "group": "dice",
+   "name": "six alternating RETRY / CHECKPOINT cycles: attempts 1..6, strictly increasing, never reused",
+   "ok": true
+  },
+  {
+   "group": "chapters",
+   "name": "the Chapter 2 checkpoint is the entry state, holding the House checks as resolved",
+   "ok": true
+  },
+  {
+   "group": "chapters",
+   "name": "CHECKPOINT in Chapter 2: every House check, item, flag and NOTES entry exactly as inherited; Chapter 2 checks gone",
+   "ok": true
+  },
+  {
+   "group": "chapters",
+   "name": "replayed Chapter 2 checks resolve in the new attempt namespace; House checks still untouched",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "one envelope: state, cursor and points written together (one save write)",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "a tracked save restores with its points intact (state, cursor and both points equal)",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "an untracked (gate-off) save has no points and no attempt: the pre-existing format exactly",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "a pre-existing save (no points, no attempt) is byte-identical to today's ordinary serialize and loads",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "a re-attempted roll stripped of its attempt (claiming the original namespace) is refused whenever the rolls differ",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "a check claiming an attempt the state has not reached is refused",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "a changed roll in an attempt namespace is refused",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "an invalid point (another seed) is dropped, the save itself still loads",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "a point from a later attempt than the live state is dropped",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "a checkpoint that is not a chapter entry is dropped",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "attempt 0 written explicitly is refused (absent means 0)",
+   "ok": true
+  },
+  {
+   "group": "saves",
+   "name": "content migration migrates the points too (a newly declared flag added to each)",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "ordinary play opts in every canonical death entry (canonical *), activation always",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "all three causes reach exit_chair_fatal and match the ONE canonical entry (when = { end } only)",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "the causes stay distinguishable: voluntary has no check; stapler / unarmed carry their check id and ok:false",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "RETRY and CHECKPOINT are available for every cause (the retry point is that cause's own decision)",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "RETRY after a failed stapler check: the exact pre-check state in attempt 1; the re-attempt rolls in the attempt-1 namespace",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "a successful escape never reaches the shared ending (no cause, never matches)",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "generated story unchanged (content b95b98f24e84); the validator never sees attempt or points",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "step() reads attempt only for the roll namespace; nothing in step() writes it",
+   "ok": true
+  }
+ ]
+}

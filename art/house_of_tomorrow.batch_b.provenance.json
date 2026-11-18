@@ -1,0 +1,34 @@
+{
+  "schema": "cyoa-art-provenance-v1",
+  "handoff": "public CYOA-storyboard docs/107 section 9 (presentation Batch B); owner approval 2026-11-18",
+  "sourceRepo": "InterstellarHarvest/CYOA-storyboard",
+  "sourceBranch": "agent/ch01-house-conversation-art-20261117",
+  "sourceCommit": "3866952909a87cb4aee8ec6f2342b940e5270e40",
+  "copied": "byte-for-byte from the git blob (git show); no decode, re-encode, resize or metadata change",
+  "images": [
+    {
+      "kind": "portrait-view",
+      "id": "house@house_of_tomorrow/lounge",
+      "source": "tools/prologue-art-lab/assets/review/chapter-01-house-conversation-2026-11-17/candidates/A-lounge-conversation-v02.png",
+      "sourceGitBlob": "ec20a4577c08982d7ba87b34ebfa609b5816036c",
+      "path": "art/portraits/house/lounge_conversation.png",
+      "sha256": "a3d55c565d98fa92a8829100e3f0d255b72ff2963b30dd505be687df3a358bbb",
+      "bytes": 194798,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGB"
+    },
+    {
+      "kind": "portrait-view",
+      "id": "house@house_of_tomorrow/dining",
+      "source": "tools/prologue-art-lab/assets/review/chapter-01-house-conversation-2026-11-17/candidates/B-dining-conversation-v02.png",
+      "sourceGitBlob": "3d657c52c73dcaa7d01d5ab41412bbae300a4a74",
+      "path": "art/portraits/house/dining_conversation.png",
+      "sha256": "33d7ed46c679bfbf9708edf84608cdf256a1eb22a213b55dd57825b9b6ec1f7a",
+      "bytes": 202869,
+      "width": 564,
+      "height": 278,
+      "colorType": "RGB"
+    }
+  ]
+}

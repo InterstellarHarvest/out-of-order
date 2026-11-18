@@ -1,0 +1,1311 @@
+{
+ "passed": 261,
+ "total": 261,
+ "results": [
+  {
+   "group": "intake",
+   "name": "exactly the 29 docs/92 images: 14 scenes, 2 House views, 3 album pages, 2 photo views, 8 scene states (7 bound + default chair)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "pinned to the docs/92 art commit",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "29 distinct files and 29 distinct images",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "the superseded first-pass plant overlay is not used",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/arrival.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/arrival.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/arrival.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/arrival.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/foyer.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/foyer.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/foyer.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/foyer.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/lounge.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/lounge.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/lounge.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/lounge.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/storage.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/storage.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/storage.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/storage.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/dining.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/dining.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/dining.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/dining.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/public_exit.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/public_exit.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/public_exit.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/public_exit.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/bedroom.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/bedroom.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/bedroom.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/bedroom.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/passage.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/passage.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/passage.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/passage.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/service_hatch.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/service_hatch.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/service_hatch.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/service_hatch.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/chair.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/chair.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/chair.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/chair.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/maintenance.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/maintenance.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/maintenance.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/maintenance.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/utility_exit.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/utility_exit.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/utility_exit.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/utility_exit.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/portrait_gallery.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/portrait_gallery.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/portrait_gallery.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/portrait_gallery.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/bathroom.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/bathroom.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/bathroom.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/bathroom.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/foyer_conversation.png: sha256, git blob, 564x278 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/foyer_conversation.png: native size of its class (564x278)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/foyer_conversation.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/foyer_conversation.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/portrait_gallery_conversation.png: sha256, git blob, 564x278 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/portrait_gallery_conversation.png: native size of its class (564x278)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/portrait_gallery_conversation.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/portrait_gallery_conversation.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_1.png: sha256, git blob, 564x278 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_1.png: native size of its class (564x278)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_1.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_1.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_2.png: sha256, git blob, 564x278 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_2.png: native size of its class (564x278)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_2.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_2.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_3.png: sha256, git blob, 564x278 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_3.png: native size of its class (564x278)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_3.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/focus/house_of_tomorrow/album_page_3.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/items/family_portrait_photo_slot.png: sha256, git blob, 96x96 RGBA as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/items/family_portrait_photo_slot.png: native size of its class (96x96)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/items/family_portrait_photo_slot.png: RGBA (transparent layer)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/items/family_portrait_photo_slot.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/items/family_portrait_photo_inspect.png: sha256, git blob, 565x451 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/items/family_portrait_photo_inspect.png: native size of its class (565x451)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/items/family_portrait_photo_inspect.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/items/family_portrait_photo_inspect.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/chair_default_unrestrained.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/chair_default_unrestrained.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/chair_default_unrestrained.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/chair_default_unrestrained.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png: sha256, git blob, 314x206 RGB as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png: RGB (opaque)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png: sha256, git blob, 314x206 RGBA as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png: RGBA (transparent layer)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png: sha256, git blob, 314x206 RGBA as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png: RGBA (transparent layer)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png: sha256, git blob, 314x206 RGBA as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png: RGBA (transparent layer)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png: sha256, git blob, 314x206 RGBA as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png: RGBA (transparent layer)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png: sha256, git blob, 314x206 RGBA as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png: RGBA (transparent layer)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png: sha256, git blob, 314x206 RGBA as recorded",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png: native size of its class (314x206)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png: RGBA (transparent layer)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png: production path (no review/, source/, originals/)",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "Batch B: exactly the two owner-approved House views (lounge, dining v02) from the pinned storyboard review commit",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/lounge_conversation.png: owner-approved sha256, git blob, 564x278 opaque RGB, production path",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/dining_conversation.png: owner-approved sha256, git blob, 564x278 opaque RGB, production path",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "every production file is byte-identical to its pinned source blob at cf575552",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/arrival registered at art/scenes/house_of_tomorrow/arrival.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/foyer registered at art/scenes/house_of_tomorrow/foyer.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/lounge registered at art/scenes/house_of_tomorrow/lounge.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/storage registered at art/scenes/house_of_tomorrow/storage.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/dining registered at art/scenes/house_of_tomorrow/dining.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/public_exit registered at art/scenes/house_of_tomorrow/public_exit.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/bedroom registered at art/scenes/house_of_tomorrow/bedroom.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/passage registered at art/scenes/house_of_tomorrow/passage.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/service_hatch registered at art/scenes/house_of_tomorrow/service_hatch.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/chair registered at art/scenes/house_of_tomorrow/chair.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/maintenance registered at art/scenes/house_of_tomorrow/maintenance.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/utility_exit registered at art/scenes/house_of_tomorrow/utility_exit.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/portrait_gallery registered at art/scenes/house_of_tomorrow/portrait_gallery.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene house_of_tomorrow/bathroom registered at art/scenes/house_of_tomorrow/bathroom.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "portrait-view house@house_of_tomorrow/foyer registered at art/portraits/house/foyer_conversation.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "portrait-view house@house_of_tomorrow/portrait_gallery registered at art/portraits/house/portrait_gallery_conversation.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:1 registered at art/focus/house_of_tomorrow/album_page_1.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:2 registered at art/focus/house_of_tomorrow/album_page_2.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:3 registered at art/focus/house_of_tomorrow/album_page_3.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "item-slot family_portrait_photo registered at art/items/family_portrait_photo_slot.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "item-inspect family_portrait_photo registered at art/items/family_portrait_photo_inspect.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene-state house_of_tomorrow/chair#default_unrestrained registered at art/scenes/house_of_tomorrow/states/chair_default_unrestrained.png (status approved: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene-state house_of_tomorrow/portrait_gallery#album_removed registered at art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene-state house_of_tomorrow/foyer#named_plant_pedestal registered at art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene-state house_of_tomorrow/storage#stored_desk_plant registered at art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene-state house_of_tomorrow/storage#stored_red_stapler registered at art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene-state house_of_tomorrow/storage#stored_rubber_band_ball registered at art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene-state house_of_tomorrow/storage#stored_timing_clicker registered at art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene-state house_of_tomorrow/utility_exit#returns_display registered at art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "portrait-view house@house_of_tomorrow/lounge registered at art/portraits/house/lounge_conversation.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "portrait-view house@house_of_tomorrow/dining registered at art/portraits/house/dining_conversation.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "registered House view briefs are not used by any imported House conversation",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "every House art record in the registry is one of the 29 docs/92 images or the 2 Batch B views (none left as a placeholder; unused briefs excepted)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "House intercom is the opaque-complete exception; layered NPC records unchanged",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "no layered portrait background is registered for the two House talking rooms",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/arrival.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/foyer.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/lounge.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/storage.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/dining.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/public_exit.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/bedroom.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/passage.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/service_hatch.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/chair.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/maintenance.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/utility_exit.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/portrait_gallery.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/bathroom.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/portraits/house/foyer_conversation.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/portraits/house/portrait_gallery_conversation.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/focus/house_of_tomorrow/album_page_1.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/focus/house_of_tomorrow/album_page_2.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/focus/house_of_tomorrow/album_page_3.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/items/family_portrait_photo_slot.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/items/family_portrait_photo_inspect.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "the default chair state is installed but deliberately unbound (docs/92 section 4: no authored view needs it)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/portraits/house/lounge_conversation.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/portraits/house/dining_conversation.png with the provenance sha256",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "all 14 House scenes have production art (no DEV PLACEHOLDER left in Chapter 1)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "House portrait is { views, view } with one complete view per talking room; no poses or backgrounds",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "album close-up is three semantic pages pairing 1 + 1 + 2 paragraphs",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "scene states: album_removed (replace), pedestal, 4 storage items, RETURNS (overlays)",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "no Chapter 2 or Prologue art changed by this integration",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "desk_plant: the House took the real held item (not a Prologue memory)",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "desk_plant: exactly its own drawer overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "desk_plant: overlay survives save/restore",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "desk_plant: retrieved -> drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "desk_plant: left in storage -> scene moves on with no phantom item",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "desk_plant: negative control - recorded as stored but actually held -> no overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "desk_plant: negative control - already recovered -> no overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "red_stapler: the House took the real held item (not a Prologue memory)",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "red_stapler: exactly its own drawer overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "red_stapler: overlay survives save/restore",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "red_stapler: retrieved -> drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "red_stapler: left in storage -> scene moves on with no phantom item",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "red_stapler: negative control - recorded as stored but actually held -> no overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "red_stapler: negative control - already recovered -> no overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "rubber_band_ball: the House took the real held item (not a Prologue memory)",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "rubber_band_ball: exactly its own drawer overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "rubber_band_ball: overlay survives save/restore",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "rubber_band_ball: retrieved -> drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "rubber_band_ball: left in storage -> scene moves on with no phantom item",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "rubber_band_ball: negative control - recorded as stored but actually held -> no overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "rubber_band_ball: negative control - already recovered -> no overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "timing_clicker: the House took the real held item (not a Prologue memory)",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "timing_clicker: exactly its own drawer overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "timing_clicker: overlay survives save/restore",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "timing_clicker: retrieved -> drawer empty, item held once",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "timing_clicker: left in storage -> scene moves on with no phantom item",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "timing_clicker: negative control - recorded as stored but actually held -> no overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "timing_clicker: negative control - already recovered -> no overlay",
+   "ok": true
+  },
+  {
+   "group": "storage",
+   "name": "negative control - deposited everything in the Prologue: nothing stored, no storage visit offered",
+   "ok": true
+  },
+  {
+   "group": "plant",
+   "name": "plant_adoption with the real held plant -> foyer + rug-hatch pedestal v02",
+   "ok": true
+  },
+  {
+   "group": "plant",
+   "name": "pedestal survives save/restore",
+   "ok": true
+  },
+  {
+   "group": "plant",
+   "name": "negative control - same node without the plant -> no pedestal",
+   "ok": true
+  },
+  {
+   "group": "plant",
+   "name": "handover consumes the plant once, registers the resident, next scene has no pedestal",
+   "ok": true
+  },
+  {
+   "group": "plant",
+   "name": "negative control - holding the plant in the foyer elsewhere (welcome) -> no pedestal",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "portrait_print: gallery with album on the cabinet; photo item added once",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "album open (Focus A) -> album-removed gallery, close-up in the portrait aperture",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "album-removed survives save/restore",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "album is never an inventory item",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "pages pair: 1 \"Page one\", 2 \"Page two\", 3 \"Page three\" + the closing paragraph",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "close -> the identical gallery with album restored, though family_album_inspected is now set",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "repeat visit -> album removed again; close restores again",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "House speaks in the gallery through its complete gallery view (no layers)",
+   "ok": true
+  },
+  {
+   "group": "album",
+   "name": "confrontation is unlocked only after the album was actually opened",
+   "ok": true
+  },
+  {
+   "group": "portraits",
+   "name": "welcome_home: House complete foyer view",
+   "ok": true
+  },
+  {
+   "group": "portraits",
+   "name": "House view survives save/restore",
+   "ok": true
+  },
+  {
+   "group": "portraits",
+   "name": "arrival and badge registration are Narrative B (no portrait)",
+   "ok": true
+  },
+  {
+   "group": "portraits",
+   "name": "receptionist stays layered (background + pose)",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "clean maintenance exit: neutral display (no RETURNS), not registered",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "registered exit: RETURNS display over the equipment corridor",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "both share the mechanical route flag: the overlay follows equipment_registered, not the route",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "RETURNS survives save/restore",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "no wristband inventory item",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "equipment_registered carries into Chapter 2",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "fatal chair: in-use chair scene, end node, BEGIN AGAIN only",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "plant: surviving exit hands off to Chapter 2 with flags, inventory and checks intact",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "martin: surviving exit hands off to Chapter 2 with flags, inventory and checks intact",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "showroom: surviving exit hands off to Chapter 2 with flags, inventory and checks intact",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "clean: surviving exit hands off to Chapter 2 with flags, inventory and checks intact",
+   "ok": true
+  },
+  {
+   "group": "exits",
+   "name": "registered: surviving exit hands off to Chapter 2 with flags, inventory and checks intact",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "mutant: two storage overlays that can show together are refused",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "mutant: a state that never shows is refused",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "mutant: album pages that do not cover the text are refused",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "mutant: a pose on an opaque-complete speaker is refused",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "mutant: an unregistered complete view is refused",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "mutant: an at selector outside its scene is refused",
+   "ok": true
+  },
+  {
+   "group": "engine",
+   "name": "mutant: an unknown flag in a selection is refused",
+   "ok": true
+  }
+ ]
+}

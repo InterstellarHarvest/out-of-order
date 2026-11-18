@@ -206,6 +206,8 @@ changes. The steps are in the file's header.
 - reception on the approved M2 layers, with SHOW of the notice;
 - the key-tag question, which needs the tag READ;
 - the explicit DRAFT STOP at `reception_hallway`, the unfinished hand-off.
+  (Since docs/85, `reception_hallway` continues into `chapter-01`, whose development placeholder
+  is now the only DRAFT STOP.)
 
 It is a test of the architecture, not canon. Its 28 art files are `generated` drafts (not
 approved). The 5 reception and key files are `reused` approved M2 art.
@@ -370,7 +372,7 @@ All 10 are preserved twice, additively:
   - reception migration to the v2 flow (S9).
 - **Content findings from the importer** (left as authored):
   - `termination_notice`'s unconditional fallback description can never show;
-  - `reception_hallway` is the unfinished hand-off.
+  - `reception_hallway` is the unfinished hand-off (resolved in docs/85: it continues to `chapter-01`).
 - **Within a dialogue paragraph,** runs of different style start new lines rather than changing
   ink mid-line.
 

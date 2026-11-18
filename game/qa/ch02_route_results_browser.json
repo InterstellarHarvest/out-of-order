@@ -1,0 +1,2112 @@
+{
+  "schema": "cyoa-ch02-browser-v1",
+  "total": 346,
+  "passed": 346,
+  "browsers": {
+    "chromium": {
+      "total": 173,
+      "passed": 173
+    },
+    "firefox": {
+      "total": 173,
+      "passed": 173
+    }
+  },
+  "seeds": {
+    "review_tower_trace_courier_carry": 1,
+    "reserve_spur_silent_station": 3,
+    "reserve_spur_robot_concourse": 1,
+    "tram_brake_forest_thorn_infected_appeal_pass": 43,
+    "equipment_interlock_registered": 29,
+    "stapler_jam_fail_sorter_escape": 74,
+    "stapler_jam_fail_sorter_fatal": 2,
+    "hopper_fatal": 7,
+    "director_badge_tower_cease_maintenance": 1,
+    "staple_loop_fail_late_tower_contaminated_archive": 19,
+    "clicker_jam": 1,
+    "kit_public_take_spore_cured": 6,
+    "kit_maintenance_take_thorn_not_cured": 5,
+    "kit_customs_take_spore_not_cured": 4,
+    "kit_public_direct_spore_not_cured": 6,
+    "kit_maintenance_direct_spore_cured": 16,
+    "kit_customs_read_spore_cured": 4
+  },
+  "checks": [
+    {
+      "browser": "chromium",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "save loads on the House exit exit_named_plant with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (plant)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "production UI reaches end_customs",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "save loads on the House exit exit_martin with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (martin)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "production UI reaches end_underground_station",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "Courtesy Conductor stays dark: no dialogue, underground station",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_silent_station",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "save loads on the House exit exit_showroom_reset with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (showroom_reset)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "production UI reaches end_concourse_robot",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "Courtesy Conductor speaks in dialogue mode after the successful roll",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "save loads on the House exit exit_service_clean with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "equipment_interlock_registered",
+      "name": "save loads on the House exit exit_service_registered with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "equipment_interlock_registered",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "equipment_interlock_registered",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "equipment_interlock_registered",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "equipment_interlock_registered",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "equipment_interlock_registered",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "equipment_interlock_registered",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "equipment_interlock_registered",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "save loads on the House exit exit_service_registered with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "red_stapler held on entry and never back after its sacrifice",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "save loads on the House exit exit_service_clean with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "production UI reaches fatal_sorter",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "red_stapler held on entry and never back after its sacrifice",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "hopper_fatal",
+      "name": "save loads on the House exit exit_martin with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "hopper_fatal",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (martin)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "hopper_fatal",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "hopper_fatal",
+      "name": "production UI reaches fatal_hopper",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "hopper_fatal",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "hopper_fatal",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "hopper_fatal",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "hopper_fatal",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "save loads on the House exit exit_martin with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (martin)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "production UI reaches end_maintenance",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "the physical acting_director_badge arrived with an item slip",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "save loads on the House exit exit_service_registered with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "save loads on the House exit exit_martin with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (martin)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "timing_clicker held on entry and never back after its sacrifice",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "clicker_jam",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "stands at public_exit_staging, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "READ LABEL reveals the expiry 1977 in the same inspector; READ is then spent",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "closing (x) returns to the exit with exactly one botanical_antidote_public and one item slip",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "after reload: still exactly one injector, the kit cannot be opened again",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "USE from the inventory inspector consumes the dose and resolves its own check",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "success clears both infection flags",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "stands at maintenance_exit_staging, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "closing (escape) returns to the exit with exactly one botanical_antidote_maintenance and one item slip",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "after reload: still exactly one injector, the kit cannot be opened again",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "USE from the inventory inspector consumes the dose and resolves its own check",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "failure leaves the infection unchanged",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "stands at customs_exit, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "READ LABEL reveals the expiry 1981 in the same inspector; READ is then spent",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "closing (escape) returns to the exit with exactly one botanical_antidote_customs and one item slip",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "after reload: still exactly one injector, the kit cannot be opened again",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "USE from the inventory inspector consumes the dose and resolves its own check",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "failure leaves the infection unchanged",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "stands at public_exit_staging, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "USE ANTIDOTE resolves the authored check without any pickup",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "failure leaves the infection unchanged",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "stands at maintenance_exit_staging, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "USE ANTIDOTE resolves the authored check without any pickup",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "success clears both infection flags",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "stands at customs_exit, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "READ LABEL reveals the expiry 1981 in the same inspector; READ is then spent",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "USE ANTIDOTE resolves the authored check without any pickup",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "success clears both infection flags",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reload_inside_kit",
+      "name": "a save inside the open kit reopens the scene inspector, no injector granted",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reload_inside_kit",
+      "name": "closing after the reload still gives exactly one injector",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reload_inside_kit",
+      "name": "a second reload neither duplicates nor removes it",
+      "ok": true
+    },
+    {
+      "browser": "chromium",
+      "scenario": "reload_inside_kit",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "save loads on the House exit exit_named_plant with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (plant)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "production UI reaches end_customs",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "review_tower_trace_courier_carry",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "save loads on the House exit exit_martin with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (martin)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "production UI reaches end_underground_station",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "Courtesy Conductor stays dark: no dialogue, underground station",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_silent_station",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "save loads on the House exit exit_showroom_reset with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (showroom_reset)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "production UI reaches end_concourse_robot",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "Courtesy Conductor speaks in dialogue mode after the successful roll",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reserve_spur_robot_concourse",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "save loads on the House exit exit_service_clean with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "tram_brake_forest_thorn_infected_appeal_pass",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "equipment_interlock_registered",
+      "name": "save loads on the House exit exit_service_registered with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "equipment_interlock_registered",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "equipment_interlock_registered",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "equipment_interlock_registered",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "equipment_interlock_registered",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "equipment_interlock_registered",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "equipment_interlock_registered",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "equipment_interlock_registered",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "save loads on the House exit exit_service_registered with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "red_stapler held on entry and never back after its sacrifice",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_escape",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "save loads on the House exit exit_service_clean with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "production UI reaches fatal_sorter",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "red_stapler held on entry and never back after its sacrifice",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "stapler_jam_fail_sorter_fatal",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "hopper_fatal",
+      "name": "save loads on the House exit exit_martin with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "hopper_fatal",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (martin)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "hopper_fatal",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "hopper_fatal",
+      "name": "production UI reaches fatal_hopper",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "hopper_fatal",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "hopper_fatal",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "hopper_fatal",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "hopper_fatal",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "save loads on the House exit exit_martin with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (martin)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "production UI reaches end_maintenance",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "the physical acting_director_badge arrived with an item slip",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "director_badge_tower_cease_maintenance",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "save loads on the House exit exit_service_registered with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (mechanical)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "staple_loop_fail_late_tower_contaminated_archive",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "save loads on the House exit exit_martin with one CONTINUE card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "House exit -> Chapter 2 Bureau with the route-dependent arrival (martin)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "inventory, flags, checks and NOTES carried through the transition",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "production UI reaches end_public",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "inventory, flags and check outcomes equal the independent rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "NOTES from Prologue and House retained to the end",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "ending shows only BEGIN AGAIN (Chapter 3 not authored)",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "timing_clicker held on entry and never back after its sacrifice",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "clicker_jam",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "stands at public_exit_staging, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "READ LABEL reveals the expiry 1977 in the same inspector; READ is then spent",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "closing (x) returns to the exit with exactly one botanical_antidote_public and one item slip",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "after reload: still exactly one injector, the kit cannot be opened again",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "USE from the inventory inspector consumes the dose and resolves its own check",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "success clears both infection flags",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_take_spore_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "stands at maintenance_exit_staging, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "closing (escape) returns to the exit with exactly one botanical_antidote_maintenance and one item slip",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "after reload: still exactly one injector, the kit cannot be opened again",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "USE from the inventory inspector consumes the dose and resolves its own check",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "failure leaves the infection unchanged",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_take_thorn_not_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "stands at customs_exit, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "READ LABEL reveals the expiry 1981 in the same inspector; READ is then spent",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "closing (escape) returns to the exit with exactly one botanical_antidote_customs and one item slip",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "after reload: still exactly one injector, the kit cannot be opened again",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "USE from the inventory inspector consumes the dose and resolves its own check",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "failure leaves the infection unchanged",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_take_spore_not_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "stands at public_exit_staging, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "USE ANTIDOTE resolves the authored check without any pickup",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "failure leaves the infection unchanged",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_public_direct_spore_not_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "stands at maintenance_exit_staging, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "USE ANTIDOTE resolves the authored check without any pickup",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "success clears both infection flags",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_maintenance_direct_spore_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "stands at customs_exit, infected, with the closed kit offered as an environmental INSPECT card",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "INSPECT opens the 565x451 scene-pickup inspector over the open kit, no item granted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "inspector art area is the 565x451 inspect canvas",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "opening the kit added nothing to the inventory",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "the three utility buttons are READ LABEL / USE ANTIDOTE / blank",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "READ LABEL reveals the expiry 1981 in the same inspector; READ is then spent",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "USE ANTIDOTE resolves the authored check without any pickup",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "success clears both infection flags",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "the kit is spent: no INSPECT card on return",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "the whole kit route ends exactly like the rules walk",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "no Focus A proxy card was ever drawn",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "kit_customs_read_spore_cured",
+      "name": "no page or console errors",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reload_inside_kit",
+      "name": "a save inside the open kit reopens the scene inspector, no injector granted",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reload_inside_kit",
+      "name": "closing after the reload still gives exactly one injector",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reload_inside_kit",
+      "name": "a second reload neither duplicates nor removes it",
+      "ok": true
+    },
+    {
+      "browser": "firefox",
+      "scenario": "reload_inside_kit",
+      "name": "no page or console errors",
+      "ok": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema": "cyoa-art-provenance-v1",
+  "brief": "docs/93_REST_ASSURED_APPROVED_DEATH_PRESENTATION_IMPLEMENTATION_BRIEF.md @ 8301daa2804a2f064a06c7c6334b0e7021f1e22d (agent/design-deaths-transitions-ch01-art-audit-20261115)",
+  "sourceBranch": "agent/rest-assured-death-study-20261115",
+  "sourceCommit": "000f096d7699b8205affd783332a8d2aa446bf93",
+  "copied": "byte-for-byte from the git blob (git show); no decode, re-encode, resize or metadata change",
+  "status": "owner-approved visual (voluntary Rest Assured death only); review proof, feature-gated; not activated in ordinary play",
+  "images": [
+    {
+      "kind": "end-presentation-art",
+      "id": "rest_assured_voluntary",
+      "source": "review/death-screen-layout-study-2026-11-15/approved-default/native-314x206.png",
+      "sourceGitBlob": "fe223d11d2b579777507762a2ddf885d6851d6c9",
+      "path": "art/deaths/rest_assured_voluntary.png",
+      "sha256": "7f469efa40548568af5dfe3c11602b9c6293282d9574caa5f36fc37113e72d9c",
+      "bytes": 105486,
+      "width": 314,
+      "height": 206,
+      "colorType": "RGB",
+      "display": "exact 2x nearest neighbour = 628x412"
+    }
+  ],
+  "references": {
+    "A1-1920x1080.png": "f38c8031b896d365bab060c2d3e073ff70f4bc5c4029b71a654b639e11d5b07d (geometry reference only, kept in the study branch; not runtime art)",
+    "original.png": "163a9a4174dfb3608e49fce99624db051e38b43c1a47370ec95ba96adef80b67 (1548x1016, archived in the study branch; unchanged)"
+  }
+}

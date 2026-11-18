@@ -1,7 +1,7 @@
 {
   "schema": "cyoa-engine-story-validation-v1",
-  "total": 176,
-  "passed": 176,
+  "total": 178,
+  "passed": 178,
   "failed": 0,
   "groups": {
     "reception": {
@@ -39,6 +39,10 @@
     "endings": {
       "total": 10,
       "passed": 10
+    },
+    "validator": {
+      "total": 2,
+      "passed": 2
     }
   },
   "checks": [
@@ -1334,6 +1338,21 @@
       "detail": [
         "node ie_street:street_end choice restart: restart is only allowed on an end node"
       ]
+    },
+    {
+      "group": "validator",
+      "name": "liveKeys: every validated story (reception, fixtures, every mutant; with and without routeMarks) gives the same verdict, errors and observations as the full-key walk",
+      "ok": true,
+      "detail": {
+        "compared": 136,
+        "diffs": []
+      }
+    },
+    {
+      "group": "validator",
+      "name": "copyJson gives exactly what the JSON round trip gives (played states, and undefined / function members)",
+      "ok": true,
+      "detail": 46
     }
   ]
 }

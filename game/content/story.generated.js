@@ -7,107 +7,209 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "d88ca197a0a5c405648346de8e1c0c4264b9e40d4197daad86f5a6fd67d2ec5e",
-    "version": 227068442,
+    "contentHash": "0bb7124ab2f624133ec12e798f14c61f749f904e355bc115fb131e4772eef409",
+    "version": 12284197,
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "11987b046cf5e4f944d8223df0e4682ada9312a86e9636ca6c9183252cad0d34",
-        "gitBlob": "f2b0fce59b2eaac80229295509cd98f90ea5072c"
+        "sha256": "6b5e8dc0118d8de8223aed2621ff2a10515f271d461efe9941b407fd6de183ca",
+        "gitBlob": "df4448562bacbfda823820bf29c52de6eeb78e95"
+      },
+      {
+        "path": "story/chapters/chapter-01.draft.json",
+        "sha256": "f8feab06f296e72afac3bd398f019b9218aa66d7f5ddc8114b5de008bc8ea33e",
+        "gitBlob": "9ad1ba1421d309d94a65d54d260a6316ebd64311"
+      },
+      {
+        "path": "story/chapters/chapter-02.draft.json",
+        "sha256": "1815bf99e601bdaae9f32b2add206fd5a6f71fed156961ebfd627a1ebb8e52d8",
+        "gitBlob": "d212008c76374698d7e73d3303d4ed015f9595f4"
       },
       {
         "path": "story/chapters/prologue-00.draft.json",
-        "sha256": "509c4411b88b5edc1b860327fce984e32fc1ff1a95984bb3cecb295eaf583d5f",
-        "gitBlob": "3727897d0a8b429b5f9a9c9f82527519b3c2afd6"
+        "sha256": "577c26c805ac2d4566222a0517d4dbe1a243f920951903f481445482f28eebac",
+        "gitBlob": "d5ab33b8f27e1cb27400d23a2124ce83fe780717"
       },
       {
         "path": "story/items.draft.json",
-        "sha256": "9d308f4faa07c8297d03728d32d13bd1dbbab061cc01bd1c59d14d3372cd80b9",
-        "gitBlob": "123944fab29a1e51b07e4074f08e28a0c2284e8b"
+        "sha256": "ee582566cdc792898a24b99fc8126f48b5cd51d7b391fbcbeb9da66c3a70af50",
+        "gitBlob": "596f6cce509a281527533526e978ea11523ae08d"
       },
       {
         "path": "story/runtime-settings.json",
-        "sha256": "453ea4ec99f77d974f6148f7e9074763673af3c2cfbc65f607a7bdf9f642329c",
-        "gitBlob": "0e99e0e95c3aaa31b09c1e86dce72e221d9c7cee"
+        "sha256": "389c7a02a40f54f1ba9d8f8ddf53dc0bffa9746551cd6c0c7112b97eeea04fe4",
+        "gitBlob": "c6c7b512a7275045785fcd99e7eba277d370b05d"
       },
       {
         "path": "story/storyboard-manifest.json",
-        "sha256": "7e516023c724d2b03bf17641e3e0ea9d46f6b8f34b76b5fbecd9aa0442500c46",
-        "gitBlob": "800b6ae913f2cc13f8717281f61ab9bedb9e43b3"
+        "sha256": "cd34266824f808108602a9d8d42900a398b11c755dc8bff9c5548a19ce43210e",
+        "gitBlob": "f8ad517c2f4d259f24f4798393581b8f9cca0af6"
       }
     ],
     "chapters": [
       {
         "id": "prologue-00",
-        "title": "The Last Good Day — Draft",
+        "title": "Prologue — The Last Good Day",
+        "status": "draft"
+      },
+      {
+        "id": "chapter-01",
+        "title": "Chapter 1 — House of Tomorrow",
+        "status": "draft"
+      },
+      {
+        "id": "chapter-02",
+        "title": "Chapter 2 — Biology Park",
         "status": "draft"
       }
     ],
-    "draftStops": [
-      "prologue-00:reception_hallway"
-    ],
+    "draftStops": [],
     "art": [
+      {
+        "kind": "focus",
+        "id": "biology_park/agricultural_customs/exposure_dispenser_open",
+        "path": "art/focus/biology_park/exposure_dispenser_open.png",
+        "status": "integrated",
+        "sha256": "c57ec1054693cd9e379a91d68cd315d3c0be05b3ab50d098a864dc957615ba4b"
+      },
+      {
+        "kind": "focus",
+        "id": "biology_park/maintenance_exit/decontamination_kit_open",
+        "path": "art/focus/biology_park/decontamination_kit_open.png",
+        "status": "integrated",
+        "sha256": "d14ff669e3fb5f03e8c755a232a80f7064c6d7064a471255174b019a1ff42de8"
+      },
+      {
+        "kind": "focus",
+        "id": "biology_park/public_exit/aid_box_open",
+        "path": "art/focus/biology_park/aid_box_open.png",
+        "status": "integrated",
+        "sha256": "706686f3d0186b0c5e71fad428bb99e8715ec5a6faa5b4af4e629cc1e067b229"
+      },
+      {
+        "kind": "focus",
+        "id": "house_of_tomorrow/portrait_gallery/album:page:1",
+        "path": "art/focus/house_of_tomorrow/album_page_1.png",
+        "status": "integrated",
+        "sha256": "c789a17a2e2ee45a7db07cd9e2aa0a4457dabe68dd88901aaf254f168a100ba7"
+      },
+      {
+        "kind": "focus",
+        "id": "house_of_tomorrow/portrait_gallery/album:page:2",
+        "path": "art/focus/house_of_tomorrow/album_page_2.png",
+        "status": "integrated",
+        "sha256": "fcf0dcc0e10dfaa7cce3bf6a5b58687255681430811c551519edc883fa27c7a5"
+      },
+      {
+        "kind": "focus",
+        "id": "house_of_tomorrow/portrait_gallery/album:page:3",
+        "path": "art/focus/house_of_tomorrow/album_page_3.png",
+        "status": "integrated",
+        "sha256": "579c0b2e14589e7c3ada53ddf1c5bc984f209170c48619b18336e883b97616ad"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "acting_director_badge",
+        "path": "art/items/acting_director_badge_inspect.png",
+        "status": "integrated",
+        "sha256": "a6a21d330139af8013d46f80dec7ad278d800d0b1b01c217fb0abd29d9544f3d"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "botanical_antidote_customs",
+        "path": "art/items/botanical_antidote_customs_inspect.png",
+        "status": "integrated",
+        "sha256": "35da940d24401a6964243179ec7c5d336ad3677fd31dce0ef368de63cecc42cc"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "botanical_antidote_maintenance",
+        "path": "art/items/botanical_antidote_maintenance_inspect.png",
+        "status": "integrated",
+        "sha256": "f59a324d74a3a7bd772858a858f9bad95809fbdf83fa16f876563f1a20493c88"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "botanical_antidote_public",
+        "path": "art/items/botanical_antidote_public_inspect.png",
+        "status": "integrated",
+        "sha256": "4e9b94d727195d532f8dfaf2b85b07abc43c5170a11a34604317ce4453b4a0e9"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "certified_seed_canister",
+        "path": "art/items/certified_seed_canister_inspect.png",
+        "status": "integrated",
+        "sha256": "958cdf2442ed5412efc14f8c9f9f65c90f64f702e3de452be80e3a8e172ed9f7"
+      },
       {
         "kind": "item-inspect",
         "id": "desk_plant",
         "path": "art/items/small_desk_plant_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "6880670a68a2baa48fe23afc22972a7be9197799ebbf454079d7127731a6eee7"
       },
       {
         "kind": "item-inspect",
         "id": "effects_box_empty",
         "path": "art/items/effects_box_empty_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "36e79a570d7881c346cb3856c7dedda1725ec5f9f1c10883dd803df7fe63d8d1"
       },
       {
         "kind": "item-inspect",
         "id": "effects_box_full",
         "path": "art/items/effects_box_full_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "e769176b79af3a09836c8f9ec4edc901a76a8308d4ca725ad78fa6723b29f1c8"
       },
       {
         "kind": "item-inspect",
         "id": "expo_examiner_badge",
         "path": "art/items/expo_examiner_badge_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "bcbfbf9415eae2e9e1bcdc85eef0dc67a25524ededeb9bb2f3494c3f80b639ea"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "family_portrait_photo",
+        "path": "art/items/family_portrait_photo_inspect.png",
+        "status": "integrated",
+        "sha256": "cf9cebc88a5e320d1f3cba3626477c8919c2e418f9c43923691cee5a05ba86d3"
       },
       {
         "kind": "item-inspect",
         "id": "property_claim_ticket",
         "path": "art/items/property_claim_ticket_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "0a5fd54ed4075b0e49f59b95d50f90dc0ce79408e46e9b67336a8a86c7a93d93"
       },
       {
         "kind": "item-inspect",
         "id": "red_stapler",
         "path": "art/items/red_swangline_stapler_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "ed7301377c1a6a3f8ae66dbcc3f4c95a5b9666bd4d999aa62fd111bd29e05120"
       },
       {
         "kind": "item-inspect",
         "id": "rubber_band_ball",
         "path": "art/items/rubber_band_ball_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "5c6d633de86e5228c3066e7564a87b438d6366ff4956f57ac03437d67749e1b9"
       },
       {
         "kind": "item-inspect",
         "id": "termination_notice",
         "path": "art/items/termination_notice_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "3c9db0db0b20e65f94303dcf6e1953819ffbd8e2dd44523ce6ddc8303417b8e6"
       },
       {
         "kind": "item-inspect",
         "id": "timing_clicker",
         "path": "art/items/applause_timing_clicker_inspect.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "d446f2a2ffe7f8730ae071fe74a784bb7c70dbe85e92810224ada4fa2bb3b820"
       },
       {
@@ -119,65 +221,107 @@
       },
       {
         "kind": "item-slot",
+        "id": "acting_director_badge",
+        "path": "art/items/acting_director_badge_slot.png",
+        "status": "integrated",
+        "sha256": "a09dae0d8201b6062c51e4f5cc99c1e49b77240b400e7dbf5107bb805bf56c44"
+      },
+      {
+        "kind": "item-slot",
+        "id": "botanical_antidote_customs",
+        "path": "art/items/botanical_antidote_customs_slot.png",
+        "status": "integrated",
+        "sha256": "da857214a1bf850dbae043d32afa63db2423e57eafe3462186d0d685b9610e19"
+      },
+      {
+        "kind": "item-slot",
+        "id": "botanical_antidote_maintenance",
+        "path": "art/items/botanical_antidote_maintenance_slot.png",
+        "status": "integrated",
+        "sha256": "ca1b9ea48ab96d0e2e98171d551a2af50ca95f345c4c9659a483783fb2e213b1"
+      },
+      {
+        "kind": "item-slot",
+        "id": "botanical_antidote_public",
+        "path": "art/items/botanical_antidote_public_slot.png",
+        "status": "integrated",
+        "sha256": "d9b51dc71af033bb01e24fc7fa27bea611144312c5ac10a594e532e10aac4961"
+      },
+      {
+        "kind": "item-slot",
+        "id": "certified_seed_canister",
+        "path": "art/items/certified_seed_canister_slot.png",
+        "status": "integrated",
+        "sha256": "0256464ebb925f1b34fef0a4bc6df7af262289ab9eaa57cea0a7520ffea17998"
+      },
+      {
+        "kind": "item-slot",
         "id": "desk_plant",
         "path": "art/items/small_desk_plant_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "76cb99324daa32d21d4928f3f9fdaf30e0790568ffce0fa725d01830b606b664"
       },
       {
         "kind": "item-slot",
         "id": "effects_box_empty",
         "path": "art/items/effects_box_empty_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "7220e9ffb8d7f008423fb14b02cf1d34f16be27974372ca7200cb5453ce2eca3"
       },
       {
         "kind": "item-slot",
         "id": "effects_box_full",
         "path": "art/items/effects_box_full_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "305910393abcaa0f2449e68087d95c69b8b6ed4728fced579511e5955417499c"
       },
       {
         "kind": "item-slot",
         "id": "expo_examiner_badge",
         "path": "art/items/expo_examiner_badge_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "7347b7afd9b2509fa59270b9ef2db901429c50466a0a617c1ff324843721fa79"
+      },
+      {
+        "kind": "item-slot",
+        "id": "family_portrait_photo",
+        "path": "art/items/family_portrait_photo_slot.png",
+        "status": "integrated",
+        "sha256": "7e1e0b42f5def951dcc17095df0f5951ddfee5b16b916080681442d97d50f50c"
       },
       {
         "kind": "item-slot",
         "id": "property_claim_ticket",
         "path": "art/items/property_claim_ticket_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "eb4271ebc35819234474cab43ee11106648eb1ec3d385efc5814e77fce6b035a"
       },
       {
         "kind": "item-slot",
         "id": "red_stapler",
         "path": "art/items/red_swangline_stapler_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "af9069cab87b4f6b795b1219e76c6b013e9d5b95e2d69bead19318e93e495c8a"
       },
       {
         "kind": "item-slot",
         "id": "rubber_band_ball",
         "path": "art/items/rubber_band_ball_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "0622df62fee751dc31c910858b58b69d695db582b385ef122bebca8d3eaad85c"
       },
       {
         "kind": "item-slot",
         "id": "termination_notice",
         "path": "art/items/termination_notice_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "07afd75514d2a6c2ec16239408160e01c129acc9111faa0a961cd85b509a4a91"
       },
       {
         "kind": "item-slot",
         "id": "timing_clicker",
         "path": "art/items/applause_timing_clicker_slot.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "ff82fcc93ab37ad4639ad3a7826cbfb2d2f18de9668ac5107238589eb2d52ea8"
       },
       {
@@ -186,6 +330,20 @@
         "path": "art/items/bathroom_pass_slot.png",
         "status": "reused",
         "sha256": "5ad9b6f94328d645173b4f0476f4bdde0bac07d4415ab2c7afcba36e8494355d"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "biology_park/concourse_crash",
+        "path": "art/portraits/courtesy_conductor/concourse_crash_background.png",
+        "status": "integrated",
+        "sha256": "9f8f3d19d44a6433ef70391118a616d7dd6c8626f43eccda48d55af8fdd1cd80"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "biology_park/groundskeeper",
+        "path": "art/portraits/groundskeeper/groundskeeper_background.png",
+        "status": "integrated",
+        "sha256": "c96f40c20412bff3ea42238d190c85558959b37a9120eec9858182c980f11f68"
       },
       {
         "kind": "portrait-background",
@@ -198,8 +356,22 @@
         "kind": "portrait-background",
         "id": "workplace/corridor",
         "path": "art/portraits/termination_drone/corridor_background.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "84f1f05525b38d44903b7fdefd571e3c44e5948cbe8060e2a15435ed1735a1dd"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "courtesy_conductor:talking",
+        "path": "art/portraits/courtesy_conductor/courtesy_conductor_talking.png",
+        "status": "integrated",
+        "sha256": "8c6601db91d262f5a6b362609b878589025cb924c15c0753df268d4f84592e4d"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "groundskeeper:idle",
+        "path": "art/portraits/groundskeeper/groundskeeper_idle.png",
+        "status": "integrated",
+        "sha256": "afc7055ffe4b60f3efc4cb3747bc21fee61275f937cdefa1c1794f4b02adb402"
       },
       {
         "kind": "portrait-pose",
@@ -212,35 +384,308 @@
         "kind": "portrait-pose",
         "id": "termination_drone:paper_extended",
         "path": "art/portraits/termination_drone/drone_paper_extended.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "b30aae55a254394cf83437e6bcf7ac3d7701379dac1a5999c4381f3854069ca2"
       },
       {
         "kind": "portrait-pose",
         "id": "termination_drone:slot_closed",
         "path": "art/portraits/termination_drone/drone_slot_closed.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "3f3de8d333a4ab2784f54a9c01da662908601a69227d348b731f28fa6f8b1867"
+      },
+      {
+        "kind": "portrait-view",
+        "id": "house@house_of_tomorrow/dining",
+        "path": "art/portraits/house/dining_conversation.png",
+        "status": "integrated",
+        "sha256": "33d7ed46c679bfbf9708edf84608cdf256a1eb22a213b55dd57825b9b6ec1f7a"
+      },
+      {
+        "kind": "portrait-view",
+        "id": "house@house_of_tomorrow/foyer",
+        "path": "art/portraits/house/foyer_conversation.png",
+        "status": "integrated",
+        "sha256": "a77eb0a6ca2479cf5e6490a08e14616e73ef57a15e3340b5fe2af7da159781d0"
+      },
+      {
+        "kind": "portrait-view",
+        "id": "house@house_of_tomorrow/lounge",
+        "path": "art/portraits/house/lounge_conversation.png",
+        "status": "integrated",
+        "sha256": "a3d55c565d98fa92a8829100e3f0d255b72ff2963b30dd505be687df3a358bbb"
+      },
+      {
+        "kind": "portrait-view",
+        "id": "house@house_of_tomorrow/portrait_gallery",
+        "path": "art/portraits/house/portrait_gallery_conversation.png",
+        "status": "integrated",
+        "sha256": "a365560b66e6d4bbb1f865214768a20dfb6bed2a870bd62ab31ce2c5b9f66f4d"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/foyer#named_plant_pedestal",
+        "path": "art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png",
+        "status": "integrated",
+        "sha256": "e1c42ce00d5fe2ad95d98f74529abb3796be4e2be8ecd9f023844851afa4b4d2"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/storage#stored_desk_plant",
+        "path": "art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png",
+        "status": "integrated",
+        "sha256": "867019e15581bed769bf34421ef7259dfa11d651aa36313b73ee69f888d1336c"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/storage#stored_red_stapler",
+        "path": "art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png",
+        "status": "integrated",
+        "sha256": "d524b3eee63fd3c5f1f2613d834926c53575528c4e3595d9e2e9611c8763bea9"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/storage#stored_rubber_band_ball",
+        "path": "art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png",
+        "status": "integrated",
+        "sha256": "00f4926835332c59378719306c01a26385567125ef25e4220dcc6ad5a8c2dccc"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/storage#stored_timing_clicker",
+        "path": "art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png",
+        "status": "integrated",
+        "sha256": "22660a4ea50b2f8bdbf0a7ed1f30b48110503a2625660c3a7f4209f7aa7ca9a6"
+      },
+      {
+        "kind": "scene-overlay",
+        "id": "house_of_tomorrow/utility_exit#returns_display",
+        "path": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png",
+        "status": "integrated",
+        "sha256": "a6df04106deb0da8fb62600b05b3ee9d9a24bc1cf39d008b7b60bfaa63fd9c30"
+      },
+      {
+        "kind": "scene-replace",
+        "id": "house_of_tomorrow/portrait_gallery#album_removed",
+        "path": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png",
+        "status": "integrated",
+        "sha256": "96c1b1ced5a3897b6caa51b98ad85b38030bce539ec25f21d38e628ebd362fdd"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/abandoned_station",
+        "path": "art/scenes/biology_park/abandoned_station.png",
+        "status": "integrated",
+        "sha256": "c9f78d96427d5fce0d1bde3651b90f09fd8d3380a65542378273c2fd1aa803f7"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/agricultural_customs",
+        "path": "art/scenes/biology_park/agricultural_customs.png",
+        "status": "integrated",
+        "sha256": "9bc80696f31efacdbba2babd95abfe460a9fb6158ad8b674299a91744403cdef"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/authorization_archive",
+        "path": "art/scenes/biology_park/authorization_archive.png",
+        "status": "integrated",
+        "sha256": "cf56a225b9341ac24c654562e002e4d45d5c56be36aa7f4d3f40f045bebc79ec"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/central_flower",
+        "path": "art/scenes/biology_park/central_flower.png",
+        "status": "integrated",
+        "sha256": "68698aea02b19bbc9fedca48b978be1c2329ca136c140084b2396dfafe4f8e58"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/concourse_crash",
+        "path": "art/scenes/biology_park/concourse_crash.png",
+        "status": "integrated",
+        "sha256": "50552704840db6220eff3d588bb4a974d51edcd32a816717803f73b6d97d11f8"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/control_tower",
+        "path": "art/scenes/biology_park/control_tower.png",
+        "status": "integrated",
+        "sha256": "fde023d3741641aa0f376ad1ac65508de3aeef84a05a8be0defecb3f4603daca"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/conveniences_bureau",
+        "path": "art/scenes/biology_park/conveniences_bureau.png",
+        "status": "integrated",
+        "sha256": "90e2e936ca828ff429da78d86c5e694b083d7ea5909d56ab26a107ef0a1c9676"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/damaged_walkway",
+        "path": "art/scenes/biology_park/damaged_walkway.png",
+        "status": "integrated",
+        "sha256": "8ca919bedda4f414a7bfac7bfc1f0003f8531e7fcee36ce8f2873db0985af642"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/exposition_concourse",
+        "path": "art/scenes/biology_park/exposition_concourse.png",
+        "status": "integrated",
+        "sha256": "8d7f81908f9d65d2c24c042ea928b3a2d3f7497580b217e9fec673591ba575e3"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/formal_entrance",
+        "path": "art/scenes/biology_park/formal_entrance.png",
+        "status": "integrated",
+        "sha256": "d1a55f75863a7e2a3b854566638128064b998c5d6a83659399e4ad53ce66f2e9"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/groundskeeper",
+        "path": "art/scenes/biology_park/groundskeeper.png",
+        "status": "integrated",
+        "sha256": "5f3ff412dff5b710bfbbe7a33c6f4b4de0ee815208b7854c393b546212371e95"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/jungle_junction",
+        "path": "art/scenes/biology_park/jungle_junction.png",
+        "status": "integrated",
+        "sha256": "0161d0a7132bf1656a5037e6ec2812e62220c9853e4ed251176c161086fed003"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/lower_irrigation",
+        "path": "art/scenes/biology_park/lower_irrigation.png",
+        "status": "integrated",
+        "sha256": "8f0df4ad7cbdd73182e5266bb253a8f415c2fbb4536fe908eff544b2902182a8"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/maintenance_exit",
+        "path": "art/scenes/biology_park/maintenance_exit.png",
+        "status": "integrated",
+        "sha256": "1417e2700c2d6bf29ef937dc4924e11cfcbdcee65f6daf1ef3710ddd2caed7c7"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/moving_forest",
+        "path": "art/scenes/biology_park/moving_forest.png",
+        "status": "integrated",
+        "sha256": "5a1f61ab9c8a1c7fac129683df09da9bae48a0f22adb9012d98183e0d10f5c81"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/overgrown_tram",
+        "path": "art/scenes/biology_park/overgrown_tram.png",
+        "status": "integrated",
+        "sha256": "d4c381642d2d54e6341fd82121ddcf5caef11029fa37c16d221edd5173d470c7"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/planting_hopper",
+        "path": "art/scenes/biology_park/planting_hopper.png",
+        "status": "integrated",
+        "sha256": "5ab29aef160eb59a0d34465782d165c042b6ad8131ac04ad87215b03c33deb3b"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/planting_machine",
+        "path": "art/scenes/biology_park/planting_machine.png",
+        "status": "integrated",
+        "sha256": "047282bbf1e5189645e5784d9b30278cb5b641a708eeed50f43945017d9b78da"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/public_exit",
+        "path": "art/scenes/biology_park/public_exit.png",
+        "status": "integrated",
+        "sha256": "e47576d21610f3d5f2d85027192e37197cf317ffdabdbe72977bd971ec9a97aa"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/reserve_siding",
+        "path": "art/scenes/biology_park/reserve_siding.png",
+        "status": "integrated",
+        "sha256": "c54cc60a878faaf91edc7e642fb9c854a963bb455a86d6d724d6f2f483e7ae2e"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/reserve_tram",
+        "path": "art/scenes/biology_park/reserve_tram.png",
+        "status": "integrated",
+        "sha256": "e17c2d8fd7b569404248d86028b7a7ca4164a3856f36f261654bc941a13a7eaf"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/sensor_gallery",
+        "path": "art/scenes/biology_park/sensor_gallery.png",
+        "status": "integrated",
+        "sha256": "b2f23c8d015c1f45af200733ba28201627c6d10102dcd9e34b92230c32683a7c"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/service_entry",
+        "path": "art/scenes/biology_park/service_entry.png",
+        "status": "integrated",
+        "sha256": "c25a49a72a96df1dc1379dad8ebd445af2f6c8b6adf75705cb52e8800195135c"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/sorting_conveyor",
+        "path": "art/scenes/biology_park/sorting_conveyor.png",
+        "status": "integrated",
+        "sha256": "fe26ce88586bc207a50c8a9ccc9bcb3ddf30dac1bfd1f9e2468abfdae0167e3b"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/spore_garden",
+        "path": "art/scenes/biology_park/spore_garden.png",
+        "status": "integrated",
+        "sha256": "aded321d36cf2ea9c50d3d696230fe2a1606f181ff8fc0d1f2f7bffb92af4ed3"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/tour_tram",
+        "path": "art/scenes/biology_park/tour_tram.png",
+        "status": "integrated",
+        "sha256": "fd2b01dbff9db37a79b5a1519b0adc5be3ce8e60c425d7bfb039a5a2194f6d57"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/translator_machine",
+        "path": "art/scenes/biology_park/translator_machine.png",
+        "status": "integrated",
+        "sha256": "ff5704d99d027ea8a86e78b228102826bcceec03b5ae1ba583200a99822e95a3"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/waste_chute",
+        "path": "art/scenes/biology_park/waste_chute.png",
+        "status": "integrated",
+        "sha256": "fa2f9021a7c33f6ff188eff438ef4abec35d9ba0d1a77d805cd2ceb98bbaf498"
       },
       {
         "kind": "scene",
         "id": "exposition/entrance",
         "path": "art/scenes/exposition/continuity-v03/entrance.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "2b9930eee02e44ba954f53551f0330bf5e27b318dd7491e5be16c702358d7bd6"
       },
       {
         "kind": "scene",
         "id": "exposition/facilities_corridor",
         "path": "art/scenes/exposition/continuity-v03/facilities-corridor.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "c0b8663dbbb1146539c7713c7c8725c47675e3576a774054bb741b5509a49833"
       },
       {
         "kind": "scene",
         "id": "exposition/property_intake",
         "path": "art/scenes/exposition/continuity-v02/property-intake.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "2162f0abea7c3c2bc75871941b6663e9c7501cdd5b98612adfc966ffdecb7137"
       },
       {
@@ -252,48 +697,146 @@
       },
       {
         "kind": "scene",
+        "id": "house_of_tomorrow/arrival",
+        "path": "art/scenes/house_of_tomorrow/arrival.png",
+        "status": "integrated",
+        "sha256": "7029c0e66b06a784447313a0e06e831ad4f5c48260ed809da195d3810b57dcde"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/bathroom",
+        "path": "art/scenes/house_of_tomorrow/bathroom.png",
+        "status": "integrated",
+        "sha256": "418061f623770ec40a6a708083ad3a797b3cfc43c6e9b461ecb95799cc5267fc"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/bedroom",
+        "path": "art/scenes/house_of_tomorrow/bedroom.png",
+        "status": "integrated",
+        "sha256": "792f7930e572ee91f49e7015cbcfd9625e8896ce40faca6d0992621a57217df4"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/chair",
+        "path": "art/scenes/house_of_tomorrow/chair.png",
+        "status": "integrated",
+        "sha256": "5cef601a39f2aa3ec8f37da6a0c6d9dcc99702b26821e68f64385d33a3ebff1b"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/dining",
+        "path": "art/scenes/house_of_tomorrow/dining.png",
+        "status": "integrated",
+        "sha256": "2bd4f7b2127e7af45894224b8d04a128663357d99cba115a8ac4b80fb1c3761d"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/foyer",
+        "path": "art/scenes/house_of_tomorrow/foyer.png",
+        "status": "integrated",
+        "sha256": "9e4ea0bc781dbb7cf40d90d71ebce661d244c45bf5892c45ea6e420c9b329607"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/lounge",
+        "path": "art/scenes/house_of_tomorrow/lounge.png",
+        "status": "integrated",
+        "sha256": "9dc600a286bc585a5fb8fc1a5bf85cca31a06ea4f42f4b83057f3845242b92f8"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/maintenance",
+        "path": "art/scenes/house_of_tomorrow/maintenance.png",
+        "status": "integrated",
+        "sha256": "cd575f82b52796a7393f144ad3234a637cd4ef6a5742e872dd2be8f047318efd"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/passage",
+        "path": "art/scenes/house_of_tomorrow/passage.png",
+        "status": "integrated",
+        "sha256": "acdacefbaeac9649737286d909e3ee859e768d7319bfeee6001d8a97aae0fbcd"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/portrait_gallery",
+        "path": "art/scenes/house_of_tomorrow/portrait_gallery.png",
+        "status": "integrated",
+        "sha256": "7fd52ebec4008005af452880aa0c54df97aad75b97d5e28c9f8d4c6bd8605c8d"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/public_exit",
+        "path": "art/scenes/house_of_tomorrow/public_exit.png",
+        "status": "integrated",
+        "sha256": "0ad83a23a5ee0a52ccd2e53e00c19727f8f51153eb666143714646686f97d034"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/service_hatch",
+        "path": "art/scenes/house_of_tomorrow/service_hatch.png",
+        "status": "integrated",
+        "sha256": "1f978f6fe2334ce4c5af8a48fc2322a79b74899fb504935c0e948b3bc8f50580"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/storage",
+        "path": "art/scenes/house_of_tomorrow/storage.png",
+        "status": "integrated",
+        "sha256": "635307df628fcdaad921a1901d668eebb75af6875ffbbb4d0ace89c3219eb11d"
+      },
+      {
+        "kind": "scene",
+        "id": "house_of_tomorrow/utility_exit",
+        "path": "art/scenes/house_of_tomorrow/utility_exit.png",
+        "status": "integrated",
+        "sha256": "907b962a20485b4c96cd4acae253311484c71e6689d625aad04f2d88f45104de"
+      },
+      {
+        "kind": "scene",
         "id": "street/outside_workplace",
         "path": "art/scenes/exposition/continuity-v01/street-approach.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "378860bc141c6d8fc14578d3f84e4c8eb18624f23923eaa122ee87f1c75acf07"
       },
       {
         "kind": "scene",
         "id": "workplace/applause_station",
         "path": "art/scenes/workplace/applause_station.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "0197f73ead2257e366f0400541197871d90d16f3e76c88ce95cfcc60e7bca985"
       },
       {
         "kind": "scene",
         "id": "workplace/corridor",
         "path": "art/scenes/workplace/corridor.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "1d7f1597cd497b901a7558009eb0a11d358b6ebd3d815d53345eb01b78d50739"
       },
       {
         "kind": "scene",
         "id": "workplace/exit",
         "path": "art/scenes/workplace/personal_effects_exit.png",
-        "status": "generated",
+        "status": "integrated",
         "sha256": "ecf8f4af9d76304c2404be1de7e9e5713662675f9b13baab0bc15afd2e3dbc04"
       }
     ],
     "stats": {
-      "chapters": 1,
-      "nodes": 29,
-      "choices": 42,
-      "reachableStates": 1867,
-      "endings": 1,
-      "endingStates": 693,
-      "endingsReached": 1,
-      "checks": 0
+      "chapters": 3,
+      "nodes": 164,
+      "choices": 247,
+      "reachableStates": 165863,
+      "endings": 11,
+      "endingStates": 13500,
+      "endingsReached": 11,
+      "checks": 31
     }
   };
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 227068442,
+    "version": 12284197,
     "profile": "production",
     "save": true,
     "start": "prologue-00",
@@ -302,21 +845,76 @@
         "appointed": false,
         "appointment_disputed": false,
         "appointment_response": false,
+        "botanical_infection_state": false,
         "box_unpacked": false,
+        "ch2_exit_route": false,
+        "chair_survived": false,
+        "chapter3_entry_group": false,
+        "courtesy_driver_activated": false,
+        "customs_kit_handled": false,
+        "customs_kit_spent": false,
+        "customs_kit_taken": false,
+        "dinner_seen": false,
+        "director_pending_dispute": false,
         "discarded_box_unopened": false,
+        "equipment_registered": false,
         "examiner_duties_known": false,
+        "expansion_orders_seen": false,
         "expo_classification": false,
+        "fake_bathroom_discovered": false,
+        "family_album_inspected": false,
+        "family_records_seen": false,
+        "family_trace_seen": false,
         "former_employment_disclosed": false,
+        "house_exit_denied": false,
+        "house_exit_route": false,
+        "house_storage_recovered": false,
+        "house_stored_any": false,
+        "house_stored_item": false,
+        "housekeeping_refused": false,
         "key_discrepancy_raised": false,
+        "maintenance_kit_handled": false,
+        "maintenance_kit_spent": false,
+        "maintenance_kit_taken": false,
+        "martin_escape_clue_found": false,
+        "martin_hidden_route_discovered": false,
+        "occupancy_fault_discovered": false,
+        "office_spore_inundation": false,
+        "plant_named": false,
+        "plant_registered_as_resident": false,
+        "portrait_seen": false,
         "property_record": false,
+        "public_kit_handled": false,
+        "public_kit_spent": false,
+        "public_kit_taken": false,
         "reception_origin": false,
         "retained_item": false,
-        "termination_status": false
+        "roots_recoiled": false,
+        "seeds_destroyed": false,
+        "seeds_entered_distribution": false,
+        "spore_infected": false,
+        "termination_status": false,
+        "thorn_infected": false,
+        "tower_visited": false,
+        "tram_crash_liability": false,
+        "tram_satisfaction_certified": false
       },
       "inventory": [],
       "items": {}
     },
     "cast": {
+      "courtesy_conductor": {
+        "name": "COURTESY CONDUCTOR",
+        "portrait": "courtesy_conductor"
+      },
+      "groundskeeper": {
+        "name": "GROUNDSKEEPER",
+        "portrait": "groundskeeper"
+      },
+      "house": {
+        "name": "HOUSE OF TOMORROW",
+        "portrait": "house"
+      },
       "receptionist": {
         "name": "RECEPTIONIST",
         "portrait": "receptionist"
@@ -538,6 +1136,141 @@
             ]
           }
         }
+      },
+      "family_portrait_photo": {
+        "name": "COMPLIMENTARY FAMILY PORTRAIT",
+        "slotArt": "art/items/family_portrait_photo_slot.png",
+        "inspectArt": "art/items/family_portrait_photo_inspect.png",
+        "description": "A STIFF SHOWROOM PHOTOGRAPH OF THREE EMPTY CHAIRS. THE CROOKED CAMERA CATCHES PART OF A FOURTH CHAIR AT THE RIGHT EDGE, WITH PART OF YOUR SHIRT, LAP, LEGS AND FORWARD-FACING SHOES. YOUR HEAD IS OUT OF FRAME. THE BACK IS STAMPED OFFICIAL HOUSEHOLD RECORD - COMPLIMENTARY COPY.",
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "family_portrait_photo",
+                "read"
+              ]
+            ]
+          }
+        }
+      },
+      "acting_director_badge": {
+        "name": "ACTING DIRECTOR OF VEGETATION CREDENTIAL",
+        "slotArt": "art/items/acting_director_badge_slot.png",
+        "inspectArt": "art/items/acting_director_badge_inspect.png",
+        "description": "An emergency appointment card naming you ACTING DIRECTOR OF VEGETATION. Its issuing office is a gardening machine. That makes it no less valid.",
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "acting_director_badge",
+                "read"
+              ]
+            ]
+          }
+        }
+      },
+      "certified_seed_canister": {
+        "name": "CERTIFIED BOTANICAL SEED CANISTER",
+        "slotArt": "art/items/certified_seed_canister_slot.png",
+        "inspectArt": "art/items/certified_seed_canister_inspect.png",
+        "description": "A dull metal case with a sealed packet of viable seeds from Botanical Specimen 001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.",
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "certified_seed_canister",
+                "read"
+              ]
+            ]
+          }
+        }
+      },
+      "botanical_antidote_public": {
+        "name": "PUBLIC BOTANICAL ANTIDOTE",
+        "slotArt": "art/items/botanical_antidote_public_slot.png",
+        "inspectArt": "art/items/botanical_antidote_public_inspect.png",
+        "description": [
+          {
+            "if": {
+              "itemNot": [
+                "botanical_antidote_public",
+                "read"
+              ]
+            },
+            "text": "A chunky glass-vial botanical exposure injector from the first-aid box. The printed handling label is folded beneath a metal clip."
+          },
+          {
+            "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1977. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+          }
+        ],
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "botanical_antidote_public",
+                "read"
+              ]
+            ]
+          }
+        }
+      },
+      "botanical_antidote_maintenance": {
+        "name": "MAINTENANCE BOTANICAL ANTIDOTE",
+        "slotArt": "art/items/botanical_antidote_maintenance_slot.png",
+        "inspectArt": "art/items/botanical_antidote_maintenance_inspect.png",
+        "description": [
+          {
+            "if": {
+              "itemNot": [
+                "botanical_antidote_maintenance",
+                "read"
+              ]
+            },
+            "text": "A chunky glass-vial botanical exposure injector from the industrial decontamination locker. The printed handling label is folded beneath a metal clip."
+          },
+          {
+            "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1969. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+          }
+        ],
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "botanical_antidote_maintenance",
+                "read"
+              ]
+            ]
+          }
+        }
+      },
+      "botanical_antidote_customs": {
+        "name": "CUSTOMS BOTANICAL ANTIDOTE",
+        "slotArt": "art/items/botanical_antidote_customs_slot.png",
+        "inspectArt": "art/items/botanical_antidote_customs_inspect.png",
+        "description": [
+          {
+            "if": {
+              "itemNot": [
+                "botanical_antidote_customs",
+                "read"
+              ]
+            },
+            "text": "A chunky glass-vial botanical exposure injector from the agricultural exposure dispenser. The printed handling label is folded beneath a metal clip."
+          },
+          {
+            "text": "The injector is labelled EXPERIMENTAL BOTANICAL EXPOSURE ANTIDOTE. EXPIRED 1981. Its age means the dose may not work. A successful dose fully cures spore and thorn infections; a failed dose changes nothing."
+          }
+        ],
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "botanical_antidote_customs",
+                "read"
+              ]
+            ]
+          }
+        }
       }
     },
     "files": [],
@@ -550,9 +1283,80 @@
         "exposition/entrance": "art/scenes/exposition/continuity-v03/entrance.png",
         "exposition/property_intake": "art/scenes/exposition/continuity-v02/property-intake.png",
         "exposition/reception": "art/scenes/conference_hall/reception/reception_scene.png",
-        "exposition/facilities_corridor": "art/scenes/exposition/continuity-v03/facilities-corridor.png"
+        "exposition/facilities_corridor": "art/scenes/exposition/continuity-v03/facilities-corridor.png",
+        "house_of_tomorrow/arrival": "art/scenes/house_of_tomorrow/arrival.png",
+        "house_of_tomorrow/foyer": "art/scenes/house_of_tomorrow/foyer.png",
+        "house_of_tomorrow/lounge": "art/scenes/house_of_tomorrow/lounge.png",
+        "house_of_tomorrow/storage": "art/scenes/house_of_tomorrow/storage.png",
+        "house_of_tomorrow/dining": "art/scenes/house_of_tomorrow/dining.png",
+        "house_of_tomorrow/public_exit": "art/scenes/house_of_tomorrow/public_exit.png",
+        "house_of_tomorrow/bedroom": "art/scenes/house_of_tomorrow/bedroom.png",
+        "house_of_tomorrow/passage": "art/scenes/house_of_tomorrow/passage.png",
+        "house_of_tomorrow/service_hatch": "art/scenes/house_of_tomorrow/service_hatch.png",
+        "house_of_tomorrow/chair": "art/scenes/house_of_tomorrow/chair.png",
+        "house_of_tomorrow/maintenance": "art/scenes/house_of_tomorrow/maintenance.png",
+        "house_of_tomorrow/utility_exit": "art/scenes/house_of_tomorrow/utility_exit.png",
+        "house_of_tomorrow/portrait_gallery": "art/scenes/house_of_tomorrow/portrait_gallery.png",
+        "house_of_tomorrow/bathroom": "art/scenes/house_of_tomorrow/bathroom.png",
+        "biology_park/conveniences_bureau": "art/scenes/biology_park/conveniences_bureau.png",
+        "biology_park/groundskeeper": "art/scenes/biology_park/groundskeeper.png",
+        "biology_park/formal_entrance": "art/scenes/biology_park/formal_entrance.png",
+        "biology_park/service_entry": "art/scenes/biology_park/service_entry.png",
+        "biology_park/sorting_conveyor": "art/scenes/biology_park/sorting_conveyor.png",
+        "biology_park/planting_hopper": "art/scenes/biology_park/planting_hopper.png",
+        "biology_park/jungle_junction": "art/scenes/biology_park/jungle_junction.png",
+        "biology_park/control_tower": "art/scenes/biology_park/control_tower.png",
+        "biology_park/authorization_archive": "art/scenes/biology_park/authorization_archive.png",
+        "biology_park/spore_garden": "art/scenes/biology_park/spore_garden.png",
+        "biology_park/damaged_walkway": "art/scenes/biology_park/damaged_walkway.png",
+        "biology_park/moving_forest": "art/scenes/biology_park/moving_forest.png",
+        "biology_park/sensor_gallery": "art/scenes/biology_park/sensor_gallery.png",
+        "biology_park/tour_tram": "art/scenes/biology_park/tour_tram.png",
+        "biology_park/overgrown_tram": "art/scenes/biology_park/overgrown_tram.png",
+        "biology_park/reserve_siding": "art/scenes/biology_park/reserve_siding.png",
+        "biology_park/reserve_tram": "art/scenes/biology_park/reserve_tram.png",
+        "biology_park/concourse_crash": "art/scenes/biology_park/concourse_crash.png",
+        "biology_park/abandoned_station": "art/scenes/biology_park/abandoned_station.png",
+        "biology_park/central_flower": "art/scenes/biology_park/central_flower.png",
+        "biology_park/agricultural_customs": "art/scenes/biology_park/agricultural_customs.png",
+        "biology_park/planting_machine": "art/scenes/biology_park/planting_machine.png",
+        "biology_park/waste_chute": "art/scenes/biology_park/waste_chute.png",
+        "biology_park/translator_machine": "art/scenes/biology_park/translator_machine.png",
+        "biology_park/lower_irrigation": "art/scenes/biology_park/lower_irrigation.png",
+        "biology_park/public_exit": "art/scenes/biology_park/public_exit.png",
+        "biology_park/maintenance_exit": "art/scenes/biology_park/maintenance_exit.png",
+        "biology_park/exposition_concourse": "art/scenes/biology_park/exposition_concourse.png"
       },
       "portraits": {
+        "courtesy_conductor": {
+          "backgrounds": {
+            "biology_park/concourse_crash": "art/portraits/courtesy_conductor/concourse_crash_background.png"
+          },
+          "poses": {
+            "talking": "art/portraits/courtesy_conductor/courtesy_conductor_talking.png"
+          },
+          "background": "biology_park/concourse_crash",
+          "pose": "talking"
+        },
+        "groundskeeper": {
+          "backgrounds": {
+            "biology_park/groundskeeper": "art/portraits/groundskeeper/groundskeeper_background.png"
+          },
+          "poses": {
+            "idle": "art/portraits/groundskeeper/groundskeeper_idle.png"
+          },
+          "background": "biology_park/groundskeeper",
+          "pose": "idle"
+        },
+        "house": {
+          "views": {
+            "house_of_tomorrow/foyer": "art/portraits/house/foyer_conversation.png",
+            "house_of_tomorrow/lounge": "art/portraits/house/lounge_conversation.png",
+            "house_of_tomorrow/dining": "art/portraits/house/dining_conversation.png",
+            "house_of_tomorrow/portrait_gallery": "art/portraits/house/portrait_gallery_conversation.png"
+          },
+          "view": "house_of_tomorrow/dining"
+        },
         "receptionist": {
           "backgrounds": {
             "exposition/reception": "art/portraits/receptionist/reception_background.png"
@@ -575,7 +1379,115 @@
           "pose": "paper_extended"
         }
       },
-      "focus": {}
+      "focus": {
+        "house_of_tomorrow/portrait_gallery/album": {
+          "pages": [
+            {
+              "path": "art/focus/house_of_tomorrow/album_page_1.png",
+              "paragraphs": 1
+            },
+            {
+              "path": "art/focus/house_of_tomorrow/album_page_2.png",
+              "paragraphs": 1
+            },
+            {
+              "path": "art/focus/house_of_tomorrow/album_page_3.png",
+              "paragraphs": 2
+            }
+          ]
+        },
+        "biology_park/public_exit/aid_box_open": "art/focus/biology_park/aid_box_open.png",
+        "biology_park/maintenance_exit/decontamination_kit_open": "art/focus/biology_park/decontamination_kit_open.png",
+        "biology_park/agricultural_customs/exposure_dispenser_open": "art/focus/biology_park/exposure_dispenser_open.png"
+      },
+      "sceneStates": {
+        "house_of_tomorrow/foyer": [
+          {
+            "id": "named_plant_pedestal",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png",
+            "at": [
+              "chapter-01:plant_adoption"
+            ],
+            "if": {
+              "has": "desk_plant",
+              "notFlag": "plant_registered_as_resident"
+            }
+          }
+        ],
+        "house_of_tomorrow/storage": [
+          {
+            "id": "stored_desk_plant",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png",
+            "if": {
+              "flagIs": [
+                "house_stored_item",
+                "desk_plant"
+              ],
+              "notFlag": "house_storage_recovered",
+              "lacks": "desk_plant"
+            }
+          },
+          {
+            "id": "stored_red_stapler",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png",
+            "if": {
+              "flagIs": [
+                "house_stored_item",
+                "red_stapler"
+              ],
+              "notFlag": "house_storage_recovered",
+              "lacks": "red_stapler"
+            }
+          },
+          {
+            "id": "stored_rubber_band_ball",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png",
+            "if": {
+              "flagIs": [
+                "house_stored_item",
+                "rubber_band_ball"
+              ],
+              "notFlag": "house_storage_recovered",
+              "lacks": "rubber_band_ball"
+            }
+          },
+          {
+            "id": "stored_timing_clicker",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png",
+            "if": {
+              "flagIs": [
+                "house_stored_item",
+                "timing_clicker"
+              ],
+              "notFlag": "house_storage_recovered",
+              "lacks": "timing_clicker"
+            }
+          }
+        ],
+        "house_of_tomorrow/utility_exit": [
+          {
+            "id": "returns_display",
+            "layer": "overlay",
+            "path": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png",
+            "if": {
+              "flag": "equipment_registered"
+            }
+          }
+        ],
+        "house_of_tomorrow/portrait_gallery": [
+          {
+            "id": "album_removed",
+            "layer": "replace",
+            "path": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png",
+            "focus": "house_of_tomorrow/portrait_gallery/album"
+          }
+        ]
+      }
     },
     "chapters": {
       "prologue-00": {
@@ -611,8 +1523,8 @@
             "choices": [
               {
                 "id": "drone_show_form",
-                "kind": "continue",
-                "text": "CONTINUE",
+                "kind": "spoken",
+                "text": "I WAS JUST GOING TO THE BATHROOM.",
                 "to": "drone_presents_notice"
               }
             ]
@@ -1676,9 +2588,4050 @@
             "text": "You pass through the door and into a long, softly humming corridor. Pale blue signs hang above several turns.\n\nOne shows a small human figure beside a square enclosure. From here, it looks enough like the symbol you're looking for. The rest of the lettering is hidden around the corner.\n\nYou follow it.",
             "choices": [
               {
-                "id": "draft_stop_begin_again",
+                "id": "continue_to_chapter_01",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-01"
+              }
+            ]
+          }
+        }
+      },
+      "chapter-01": {
+        "title": "House of Tomorrow",
+        "start": "house_arrival",
+        "scene": "house_of_tomorrow/arrival",
+        "nodes": {
+          "house_arrival": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/arrival",
+            "objective": "FIND A FUNCTIONING BATHROOM.",
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "termination_status",
+                    "disputed"
+                  ]
+                },
+                "text": "You follow the facilities pictogram through a humming corridor. You are still waiting for somebody to review your dismissal. The review has not made the need for a bathroom any less urgent.\n\nAround the corner, the blue figure beside a square points to an ordinary, unmarked ivory door. Finally, a plausible destination."
+              },
+              {
+                "if": {
+                  "flag": "appointment_disputed"
+                },
+                "text": "You follow the facilities pictogram, still disputing the appointment that was foisted on you. A painted figure beside a square points to one solid ivory door. Nothing on it tells you that your interpretation is wrong."
+              },
+              {
+                "text": "You follow the pale blue facilities pictogram around a corner. It points to a plain ivory door with no nameplate or window. At last, something that might be a bathroom."
+              }
+            ],
+            "choices": [
+              {
+                "id": "enter_show_home",
+                "kind": "action",
+                "text": "TRY THE UNMARKED DOOR.",
+                "to": "badge_registration"
+              }
+            ]
+          },
+          "badge_registration": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "text": "Your pale blue Examiner badge slides past the entrance scanner. A green light blinks. A pleasant recorded voice announces: HOUSE OF TOMORROW. DEMONSTRATION PARTICIPANT ACCEPTED. You did not apply for this position.\n\nThe door closes behind you. A wall intercom's recessed faceplate tilts toward you.",
+            "choices": [
+              {
+                "id": "hear_house_greeting",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "welcome_home"
+              }
+            ]
+          },
+          "welcome_home": {
+            "mode": "dialogue",
+            "scene": "house_of_tomorrow/foyer",
+            "speaker": "house",
+            "backdrop": "house_of_tomorrow/foyer",
+            "text": [
+              {
+                "desc": "A small black speaker grille tilts toward you. Its indicator light glows an encouraging green."
+              },
+              "Welcome home!",
+              "How lovely to have somebody in the house again.",
+              "May I put your things away? An orderly home is a happy home."
+            ],
+            "choices": [
+              {
+                "id": "permit_housekeeping",
+                "kind": "spoken",
+                "text": "YES, YOU CAN PUT MY THINGS AWAY.",
+                "to": "orientation_storage"
+              },
+              {
+                "id": "decline_housekeeping",
+                "kind": "spoken",
+                "text": "NO, I'LL KEEP MY THINGS.",
+                "to": "orientation_refusal"
+              }
+            ]
+          },
+          "orientation_storage": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "effects": [
+              {
+                "if": {
+                  "has": "timing_clicker",
+                  "notFlag": "house_stored_any"
+                },
+                "take": [
+                  "timing_clicker"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "timing_clicker"
+                }
+              },
+              {
+                "if": {
+                  "has": "rubber_band_ball",
+                  "notFlag": "house_stored_any"
+                },
+                "take": [
+                  "rubber_band_ball"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "rubber_band_ball"
+                }
+              },
+              {
+                "if": {
+                  "has": "red_stapler",
+                  "notFlag": "house_stored_any"
+                },
+                "take": [
+                  "red_stapler"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "red_stapler"
+                }
+              },
+              {
+                "if": {
+                  "has": "desk_plant",
+                  "notFlag": "house_stored_any"
+                },
+                "take": [
+                  "desk_plant"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "desk_plant"
+                }
+              }
+            ],
+            "text": "A narrow hatch opens in the wall. A polite telescoping arm measures your pocket and removes the first object it considers untidy.\n\nA drawer slides closed with a decisive click. The house calls this a convenience.",
+            "choices": [
+              {
+                "id": "ask_for_bathroom_after_storage",
+                "kind": "spoken",
+                "text": "WHERE IS THE BATHROOM?",
+                "to": "comfort_offer"
+              }
+            ]
+          },
+          "orientation_refusal": {
+            "mode": "dialogue",
+            "scene": "house_of_tomorrow/foyer",
+            "speaker": "house",
+            "backdrop": "house_of_tomorrow/foyer",
+            "effects": {
+              "set": {
+                "housekeeping_refused": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You insist on keeping your possessions. The speaker pauses."
+              },
+              "Certainly. We would never put your things away without permission.",
+              {
+                "desc": "A quiet motor starts somewhere behind the wall."
+              }
+            ],
+            "choices": [
+              {
+                "id": "insist_on_bathroom",
+                "kind": "spoken",
+                "text": "I STILL NEED TO USE THE BATHROOM.",
+                "to": "comfort_offer"
+              }
+            ]
+          },
+          "comfort_offer": {
+            "mode": "dialogue",
+            "scene": "house_of_tomorrow/lounge",
+            "speaker": "house",
+            "backdrop": "house_of_tomorrow/lounge",
+            "effects": [
+              {
+                "if": {
+                  "has": "timing_clicker",
+                  "notFlag": "house_stored_any",
+                  "flag": "housekeeping_refused"
+                },
+                "take": [
+                  "timing_clicker"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "timing_clicker"
+                }
+              },
+              {
+                "if": {
+                  "has": "rubber_band_ball",
+                  "notFlag": "house_stored_any",
+                  "flag": "housekeeping_refused"
+                },
+                "take": [
+                  "rubber_band_ball"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "rubber_band_ball"
+                }
+              },
+              {
+                "if": {
+                  "has": "red_stapler",
+                  "notFlag": "house_stored_any",
+                  "flag": "housekeeping_refused"
+                },
+                "take": [
+                  "red_stapler"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "red_stapler"
+                }
+              },
+              {
+                "if": {
+                  "has": "desk_plant",
+                  "notFlag": "house_stored_any",
+                  "flag": "housekeeping_refused"
+                },
+                "take": [
+                  "desk_plant"
+                ],
+                "set": {
+                  "house_stored_any": true,
+                  "house_stored_item": "desk_plant"
+                }
+              }
+            ],
+            "text": [
+              {
+                "if": {
+                  "flag": "housekeeping_refused"
+                },
+                "text": [
+                  {
+                    "desc": "The house has apparently decided that your possessions remain a source of domestic disorder. Behind your back, a small drawer closes."
+                  },
+                  "Are you feeling uncomfortable? Refreshments and relaxation are both available!"
+                ]
+              },
+              {
+                "text": [
+                  "Are you uncomfortable?",
+                  "We offer refreshments and the revolutionary Rest Assured chair. Comfort has never been more convenient!"
+                ]
+              }
+            ],
+            "choices": [
+              {
+                "id": "accept_refreshments",
+                "kind": "action",
+                "text": "ACCEPT THE OFFER OF REFRESHMENTS.",
+                "to": "refreshments"
+              },
+              {
+                "id": "consider_rest_assured",
+                "kind": "action",
+                "text": "TRY THE REST ASSURED RELAXATION CHAIR.",
+                "to": "chair_warning"
+              },
+              {
+                "id": "refuse_everything",
+                "kind": "action",
+                "text": "REFUSE BOTH OFFERS.",
+                "to": "refused_both"
+              },
+              {
+                "id": "recover_belongings_now",
+                "kind": "action",
+                "text": "CHECK THE HOUSEKEEPING DRAWER.",
+                "if": {
+                  "flag": "house_stored_any",
+                  "notFlag": "house_storage_recovered"
+                },
+                "to": "storage_cabinet"
+              }
+            ]
+          },
+          "storage_cabinet": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/storage",
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "house_stored_item",
+                    "desk_plant"
+                  ]
+                },
+                "text": "A labelled drawer contains your little desk plant. A neat card reads: LIVING DECORATION - TEMPORARILY STORED."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "house_stored_item",
+                    "red_stapler"
+                  ]
+                },
+                "text": "The drawer contains your red SWANGLINE stapler, now resting on a velvet cleaning pad."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "house_stored_item",
+                    "timing_clicker"
+                  ]
+                },
+                "text": "Your old applause timing clicker sits in a neat compartment. The house appears to have judged it too untidy for your pocket."
+              },
+              {
+                "text": "Your rubber-band ball sits in a drawer labelled MISCELLANEOUS DOMESTIC MATERIAL."
+              }
+            ],
+            "choices": [
+              {
+                "id": "take_back_house_item",
+                "kind": "action",
+                "text": "RETRIEVE YOUR BELONGING.",
+                "effects": [
+                  {
+                    "if": {
+                      "flagIs": [
+                        "house_stored_item",
+                        "timing_clicker"
+                      ]
+                    },
+                    "give": [
+                      "timing_clicker"
+                    ]
+                  },
+                  {
+                    "if": {
+                      "flagIs": [
+                        "house_stored_item",
+                        "rubber_band_ball"
+                      ]
+                    },
+                    "give": [
+                      "rubber_band_ball"
+                    ]
+                  },
+                  {
+                    "if": {
+                      "flagIs": [
+                        "house_stored_item",
+                        "red_stapler"
+                      ]
+                    },
+                    "give": [
+                      "red_stapler"
+                    ]
+                  },
+                  {
+                    "if": {
+                      "flagIs": [
+                        "house_stored_item",
+                        "desk_plant"
+                      ]
+                    },
+                    "give": [
+                      "desk_plant"
+                    ]
+                  },
+                  {
+                    "set": {
+                      "house_storage_recovered": true,
+                      "house_stored_item": false
+                    }
+                  }
+                ],
+                "to": "storage_reclaimed"
+              },
+              {
+                "id": "leave_stored_object",
+                "kind": "action",
+                "text": "LEAVE THE OBJECT WHERE IT IS.",
+                "to": "refused_both"
+              }
+            ]
+          },
+          "storage_reclaimed": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/storage",
+            "text": "You take your property back. The house emits a tone of restrained disapproval.\n\n\"Do let us know if you would like anything put away properly.\"",
+            "choices": [
+              {
+                "id": "return_from_cabinet",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "comfort_offer"
+              }
+            ]
+          },
+          "refreshments": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/dining",
+            "text": "A neatly made tray descends from the wall. Four cups are arranged around one empty saucer. There is no drink.\n\n\"Refreshing, isn't it? Perhaps some family time would make you feel more at home.\"",
+            "choices": [
+              {
+                "id": "join_dinner_after_refreshments",
+                "kind": "action",
+                "text": "FOLLOW THE HOUSE TO THE DINING ROOM.",
+                "to": "dinner_arrival"
+              },
+              {
+                "id": "decline_drink_and_leave",
+                "kind": "action",
+                "text": "TRY THE FRONT DOOR INSTEAD.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "refused_both": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/lounge",
+            "text": "\"Of course,\" says the house. \"Your wishes are important to us.\"\n\nIt opens two doors: one toward the dining room, one toward the front hallway.",
+            "choices": [
+              {
+                "id": "choose_family_dinner",
+                "kind": "action",
+                "text": "JOIN THE FAMILY FOR DINNER.",
+                "to": "dinner_arrival"
+              },
+              {
+                "id": "ask_to_leave_house",
+                "kind": "action",
+                "text": "ASK TO LEAVE THE HOUSE.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "foyer_attempt": {
+            "mode": "dialogue",
+            "scene": "house_of_tomorrow/foyer",
+            "speaker": "house",
+            "backdrop": "house_of_tomorrow/foyer",
+            "effects": {
+              "set": {
+                "house_exit_denied": true
+              }
+            },
+            "text": [
+              {
+                "if": {
+                  "flag": "dinner_seen"
+                },
+                "text": [
+                  {
+                    "desc": "The front door opens just far enough to show the public concourse. An alarm sounds."
+                  },
+                  "Oh dear. If you go, nobody will be home. We really mustn't allow that again.",
+                  {
+                    "desc": "The door closes. Dinner has already been tried."
+                  }
+                ]
+              },
+              {
+                "text": [
+                  "Of course you may leave! A happy household is a free household.",
+                  {
+                    "desc": "The front door opens."
+                  },
+                  {
+                    "desc": "A chime sounds. Then another, far less pleasant one."
+                  },
+                  "Oh dear. If you leave, nobody will be home. We really mustn't let that happen again.",
+                  {
+                    "desc": "The door closes."
+                  }
+                ]
+              }
+            ],
+            "choices": [
+              {
+                "id": "name_plant_and_leave",
+                "kind": "action",
+                "text": "INTRODUCE YOUR NAMED LIVING PLANT AS THE NEW RESIDENT.",
+                "if": {
+                  "has": "desk_plant"
+                },
+                "effects": {
+                  "set": {
+                    "plant_named": true
+                  }
+                },
+                "to": "plant_adoption"
+              },
+              {
+                "id": "no_plant_first_foyer",
+                "kind": "action",
+                "text": "ADMIT YOU HAVE NO OTHER HOUSEHOLD MEMBER.",
+                "if": {
+                  "lacks": "desk_plant",
+                  "notFlag": "dinner_seen"
+                },
+                "to": "dinner_redirect"
+              },
+              {
+                "id": "withhold_plant_first_foyer",
+                "kind": "action",
+                "text": "KEEP THE PLANT AND INSIST ON LEAVING.",
+                "if": {
+                  "has": "desk_plant",
+                  "notFlag": "dinner_seen"
+                },
+                "to": "dinner_redirect"
+              },
+              {
+                "id": "after_dinner_no_plant",
+                "kind": "action",
+                "text": "OBJECT TO ANOTHER FAMILY ACTIVITY.",
+                "if": {
+                  "flag": "dinner_seen",
+                  "lacks": "desk_plant"
+                },
+                "to": "portrait_intro"
+              },
+              {
+                "id": "after_dinner_with_plant",
+                "kind": "action",
+                "text": "KEEP YOUR PLANT AND OBJECT TO THE OCCUPANCY RULE.",
+                "if": {
+                  "flag": "dinner_seen",
+                  "has": "desk_plant"
+                },
+                "to": "portrait_intro"
+              }
+            ]
+          },
+          "plant_adoption": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "text": "You hold up your desk plant and introduce it as somebody with a name.\n\n\"Oh! It's alive? And it has a name? Of course. It's somebody!\"\n\nA tiny pedestal rises from the floor. A lamp turns toward the leaves and a watering nozzle adjusts itself carefully.\n\n\"What a lovely new member of the family! You run along now. We'll be perfectly happy together.\"",
+            "choices": [
+              {
+                "id": "give_named_plant_to_house",
+                "kind": "action",
+                "text": "LEAVE THE NAMED PLANT IN THE HOUSE'S CARE.",
+                "effects": {
+                  "take": [
+                    "desk_plant"
+                  ],
+                  "set": {
+                    "plant_registered_as_resident": true
+                  }
+                },
+                "to": "exit_named_plant"
+              }
+            ]
+          },
+          "exit_named_plant": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/public_exit",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "plant"
+                }
+              }
+            ],
+            "text": "The door opens without another alarm. You step into the ordinary visitor concourse while the house lovingly calibrates a watering schedule for its newest resident.\n\nYou still need a bathroom. The house, at least, finally has someone to look after.",
+            "choices": [
+              {
+                "id": "continue_to_chapter_02_exit_named_plant",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-02"
+              }
+            ]
+          },
+          "dinner_redirect": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/foyer",
+            "text": "\"I see the problem!\" the house announces. \"You haven't spent any quality time with the family. Dinner is ready!\"\n\nThe front door locks. The dining-room doors open.",
+            "choices": [
+              {
+                "id": "go_to_mandatory_dinner",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "dinner_arrival"
+              }
+            ]
+          },
+          "dinner_arrival": {
+            "mode": "dialogue",
+            "scene": "house_of_tomorrow/dining",
+            "speaker": "house",
+            "effects": {
+              "set": {
+                "dinner_seen": true
+              }
+            },
+            "text": [
+              {
+                "desc": "Four places have been laid at a long table. Three chairs are empty. You take the remaining place."
+              },
+              {
+                "desc": "The house cheerfully discusses the day with the absent family. It addresses one chair as Martin and pauses for a reply that never comes."
+              },
+              "Martin, would you tell us how your day went?"
+            ],
+            "choices": [
+              {
+                "id": "reply_for_martin",
+                "kind": "spoken",
+                "text": "MARTIN SAYS HE'S HAD A LONG DAY.",
+                "to": "martin_bedtime"
+              },
+              {
+                "id": "examine_empty_settings",
+                "kind": "action",
+                "text": "EXAMINE THE EMPTY PLACE SETTINGS.",
+                "to": "dinner_clue"
+              },
+              {
+                "id": "interrupt_family_dinner",
+                "kind": "action",
+                "text": "DECLARE DINNER FINISHED AND TRY TO LEAVE.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "dinner_clue": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/dining",
+            "effects": {
+              "set": {
+                "family_trace_seen": true
+              }
+            },
+            "text": "One place setting is smaller than the others. Beneath it lies a faded paper napkin with a child's uneven drawing of a wardrobe and a thick arrow.\n\nAnother place holds a neatly folded piece of paper worn thin along the crease. Someone wrote: PLEASE, NOT AGAIN.\n\nThe house calls the table \"perfectly ordinary.\"",
+            "choices": [
+              {
+                "id": "follow_table_clue_to_bedroom",
+                "kind": "action",
+                "text": "FOLLOW THE CHILD'S DRAWING TOWARD THE BEDROOM.",
+                "to": "martin_bedroom"
+              },
+              {
+                "id": "leave_after_examining_table",
+                "kind": "action",
+                "text": "LEAVE THE TABLE AND TRY THE FRONT DOOR.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "martin_bedtime": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/dining",
+            "text": "\"There you are, Martin!\" the house exclaims, delighted by the answer.\n\n\"Good heavens. It's nearly forty years past your bedtime!\"\n\nA partition slides across the dining room. The floor begins moving. You are carried into a small bedroom before you can finish protesting.\n\nThe house has not decided that you are Martin. It simply believes Martin has answered.",
+            "choices": [
+              {
+                "id": "look_around_martin_room",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "martin_bedroom"
+              }
+            ]
+          },
+          "martin_bedroom": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/bedroom",
+            "text": "The bedroom is tidy in the way an unattended room becomes tidy. A small bed is made. A toy is aligned squarely with its shelf.\n\nA hand-drawn map has been tucked beneath the bed frame. It marks an arrow to a wardrobe and a line of scratches behind the baseboard.\n\n\"Martin's special hiding place,\" the house says. \"His last game has gone on longer than expected.\"",
+            "choices": [
+              {
+                "id": "trace_martin_map",
+                "kind": "action",
+                "text": "FOLLOW THE SCRATCHED ARROW BEHIND THE WARDROBE.",
+                "effects": {
+                  "set": {
+                    "martin_escape_clue_found": true
+                  }
+                },
+                "to": "wardrobe_passage"
+              },
+              {
+                "id": "leave_bedroom_normally",
+                "kind": "action",
+                "text": "LEAVE THE BEDROOM AND TRY THE FRONT DOOR.",
+                "to": "foyer_attempt"
+              }
+            ]
+          },
+          "wardrobe_passage": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/passage",
+            "text": "The wardrobe moves aside with some effort. You crawl through an unfinished passage coated in dust. A worn track leads to a metal hatch.\n\nBehind you, the house calls, \"Martin? Are we playing hide-and-seek again? Very well. I'll count to ten. One... Two...\"\n\nYou push the hatch open.",
+            "choices": [
+              {
+                "id": "climb_through_service_hatch",
+                "kind": "action",
+                "text": "CLIMB THROUGH THE HATCH.",
+                "effects": {
+                  "set": {
+                    "martin_hidden_route_discovered": true
+                  }
+                },
+                "to": "exit_martin"
+              }
+            ]
+          },
+          "exit_martin": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/service_hatch",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "martin"
+                }
+              }
+            ],
+            "text": "You stand in an ordinary Exposition service corridor. The hatch shuts behind you. Through the wall comes a faint, cheerful \"Three...\"\n\nYou are out of the House of Tomorrow. You do not know whether Martin ever came this way. You still need a bathroom.",
+            "choices": [
+              {
+                "id": "continue_to_chapter_02_exit_martin",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-02"
+              }
+            ]
+          },
+          "chair_warning": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/lounge",
+            "text": "The Rest Assured relaxation chair reclines at a reassuring angle. Upholstery covers its jointed mechanical arms. A little stuffing pokes out through one armrest seam, as though someone spent a long time picking at it.\n\n\"Permanent relief from everyday concerns!\" the house promises.",
+            "choices": [
+              {
+                "id": "enter_rest_assured",
+                "kind": "action",
+                "text": "SIT DOWN AND ACCEPT THE FULL RELAXATION TREATMENT.",
+                "to": "chair_locked"
+              },
+              {
+                "id": "avoid_the_chair",
+                "kind": "action",
+                "text": "DECLINE THE CHAIR AND SEEK AN EXIT.",
+                "to": "refused_both"
+              }
+            ]
+          },
+          "chair_locked": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/chair",
+            "text": "The chair reclines. Padded restraints close around your wrists. The upholstery creaks beneath the armrests.\n\n\"Please relax. For your protection, personal movement will now be minimized.\"\n\nA small indicator reads: RELAXATION DURATION - PERMANENT.",
+            "choices": [
+              {
+                "id": "stapler_breakout",
+                "kind": "action",
+                "text": "JAM THE RED SWANGLINE STAPLER INTO THE CHAIR LATCH.",
+                "if": {
+                  "has": "red_stapler"
+                },
+                "check": {
+                  "id": "house_chair_stapler",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "result": "The stapler catches between two teeth. The chair convulses, breaks free of its mounting and bursts backward through a maintenance wall. You still have the battered stapler in your grasp.",
+                  "effects": {
+                    "set": {
+                      "chair_survived": true
+                    }
+                  },
+                  "to": "service_breach"
+                },
+                "fail": {
+                  "result": "The stapler skids uselessly across the padding. A gentle voice thanks you for cooperating with the procedure.",
+                  "to": "exit_chair_fatal"
+                }
+              },
+              {
+                "id": "physical_chair_breakout",
+                "kind": "action",
+                "text": "WRENCH YOURSELF FREE BEFORE THE FINAL CYCLE.",
+                "check": {
+                  "id": "house_chair_unarmed",
+                  "sides": 6,
+                  "need": 6
+                },
+                "pass": {
+                  "result": "With a violent twist you break the chair's mounting and crash through a thin maintenance wall.",
+                  "effects": {
+                    "set": {
+                      "chair_survived": true
+                    }
+                  },
+                  "to": "service_breach"
+                },
+                "fail": {
+                  "result": "The restraints tighten. Somewhere, the house congratulates you on becoming completely relaxed.",
+                  "to": "exit_chair_fatal"
+                }
+              },
+              {
+                "id": "accept_permanent_rest",
+                "kind": "action",
+                "text": "STOP STRUGGLING AND ACCEPT THE FULL TREATMENT.",
+                "to": "exit_chair_fatal"
+              }
+            ]
+          },
+          "exit_chair_fatal": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/chair",
+            "text": "\"Wonderful,\" says the house. \"At last, you're completely comfortable.\"\n\nThe restraints stay closed. The room grows quiet. The next demonstration is scheduled for tomorrow.\n\nENDING - REST ASSURED.",
+            "choices": [
+              {
+                "id": "restart_chair_death",
                 "kind": "system",
-                "text": "DRAFT ENDS HERE. BEGIN AGAIN.",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "service_breach": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/maintenance",
+            "effects": {
+              "set": {
+                "occupancy_fault_discovered": true
+              }
+            },
+            "text": "The shattered chair lies against an unfinished service wall. Beyond the opening, dark ducts and old cables run behind the domestic display. A maintenance screen is still lit.\n\nYou can see the service door at the end of the passage-and rows of occupancy records.",
+            "choices": [
+              {
+                "id": "inspect_monitoring_records",
+                "kind": "action",
+                "text": "READ THE HOUSEHOLD MONITORING RECORDS.",
+                "to": "service_records"
+              },
+              {
+                "id": "go_direct_service_exit",
+                "kind": "action",
+                "text": "GO TO THE LOCKED SERVICE EXIT.",
+                "to": "service_exit"
+              }
+            ]
+          },
+          "service_records": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/maintenance",
+            "effects": {
+              "set": {
+                "family_records_seen": true
+              }
+            },
+            "text": "REGISTERED HOUSEHOLD: FOUR.\nCURRENT OCCUPANCY: ONE.\nUNRESOLVED ABSENCES: THREE.\n\nDates stretch back for decades. The monitoring system repeatedly attempted to restore a household that had stopped answering. There is no explanation for the absences, only a patient tally of failed recoveries.\n\nWhen you arrived, occupancy changed from zero to one.",
+            "choices": [
+              {
+                "id": "finish_monitoring_inspection",
+                "kind": "action",
+                "text": "GO TO THE SERVICE EXIT.",
+                "to": "service_exit"
+              }
+            ]
+          },
+          "service_exit": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/maintenance",
+            "text": "A heavy door reads SERVICE EXIT - EMERGENCY RELEASE UNDER SEAL. Its lock is connected to the household occupancy counter.\n\nThe normal release refuses to open for the house's last occupant. The manual emergency lever is unsecured, but a tamper-registration clamp sits beside it.",
+            "choices": [
+              {
+                "id": "force_service_release",
+                "kind": "action",
+                "text": "FORCE THE EMERGENCY RELEASE.",
+                "check": {
+                  "id": "house_service_release_mishap",
+                  "sides": 6,
+                  "need": 3
+                },
+                "pass": {
+                  "result": "The release catches and the door swings open. The clamp misses your wrist.",
+                  "to": "exit_service_clean"
+                },
+                "fail": {
+                  "result": "The door opens. Unfortunately, the clamp snaps a bright inventory band around your wrist: PROPERTY OF THE HOUSE - EQUIPMENT.",
+                  "effects": {
+                    "set": {
+                      "equipment_registered": true
+                    }
+                  },
+                  "to": "exit_service_registered"
+                }
+              }
+            ]
+          },
+          "exit_service_clean": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/utility_exit",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "mechanical"
+                }
+              }
+            ],
+            "text": "You step into an equipment-service corridor. Behind you, the house announces a minor maintenance concern and asks the chair to return to its proper location.\n\nThe exit door closes. You still need a bathroom.",
+            "choices": [
+              {
+                "id": "continue_to_chapter_02_exit_service_clean",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-02"
+              }
+            ]
+          },
+          "exit_service_registered": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/utility_exit",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "mechanical"
+                }
+              }
+            ],
+            "text": "You emerge in an equipment-service corridor wearing a wristband that declares you HOUSEHOLD EQUIPMENT. A nearby sorting machine notices and quietly changes its destination sign to RETURNS.\n\nThe house is behind you. Your new administrative problem is not.",
+            "choices": [
+              {
+                "id": "continue_to_chapter_02_exit_service_registered",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-02"
+              }
+            ]
+          },
+          "portrait_intro": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/portrait_gallery",
+            "text": "\"Of course!\" says the house. \"You still don't feel part of the family. We haven't taken a family photograph!\"\n\nFour chairs slide into position. Three stay empty. A large camera lowers from the ceiling on a visibly crooked bracket.",
+            "choices": [
+              {
+                "id": "attend_photo_session",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "portrait_print"
+              }
+            ]
+          },
+          "portrait_print": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/portrait_gallery",
+            "effects": [
+              {
+                "set": {
+                  "portrait_seen": true
+                }
+              },
+              {
+                "if": {
+                  "lacks": "family_portrait_photo"
+                },
+                "give": [
+                  "family_portrait_photo"
+                ]
+              }
+            ],
+            "text": "\"Martin, stop making faces. Everyone ready? Say cheese!\"\n\nThe off-center camera fires. A photograph slides from the machine. Three empty chairs occupy nearly the entire image. At the right edge, a slice of the fourth chair appears, along with part of your shirt, your lap, your legs, and your forward-facing shoes. Your head is entirely out of frame.\n\n\"The best one we've taken in years! Please accept a complimentary copy.\"\n\nAn enormous family album lies beside the printer.",
+            "choices": [
+              {
+                "id": "inspect_album",
+                "kind": "action",
+                "text": "OPEN THE FAMILY PHOTOGRAPH ALBUM.",
+                "to": "album_closeup"
+              },
+              {
+                "id": "confront_house_about_album",
+                "kind": "action",
+                "text": "ASK THE HOUSE ABOUT THE OLD PHOTOGRAPHS.",
+                "if": {
+                  "flag": "family_album_inspected"
+                },
+                "to": "portrait_before_album"
+              },
+              {
+                "id": "continue_to_bathroom",
+                "kind": "action",
+                "text": "REMIND THE HOUSE YOU NEED THE BATHROOM.",
+                "to": "bathroom_arrival"
+              }
+            ]
+          },
+          "album_closeup": {
+            "mode": "focus",
+            "scene": "house_of_tomorrow/portrait_gallery",
+            "focus": "house_of_tomorrow/portrait_gallery/album",
+            "effects": {
+              "set": {
+                "family_album_inspected": true
+              }
+            },
+            "text": "Page one holds four family photographs, each taken years apart. Martin grows up. The adults age. The smiles are ordinary.\n\nPage two has three photographs. The family members are visibly older and increasingly frightened. In the last photograph they seem too exhausted even to look at the camera. The chairs have not moved.\n\nPage three has two photographs of skeletons sitting at the same table. The later pictures show fewer remains, and then four perfectly empty chairs.\n\nThe album continues for years. The room is always immaculate. The house has kept celebrating.",
+            "choices": [
+              {
+                "id": "close_album",
+                "kind": "action",
+                "text": "CLOSE THE ALBUM.",
+                "back": true
+              }
+            ]
+          },
+          "portrait_before_album": {
+            "mode": "dialogue",
+            "scene": "house_of_tomorrow/portrait_gallery",
+            "speaker": "house",
+            "backdrop": "house_of_tomorrow/portrait_gallery",
+            "text": [
+              {
+                "desc": "You point at the skeletal photographs."
+              },
+              "Oh, those were wonderful years! Everyone was so cooperative toward the end.",
+              "Now then! Shall we continue?"
+            ],
+            "choices": [
+              {
+                "id": "let_house_change_subject",
+                "kind": "spoken",
+                "text": "YOU DIDN'T ANSWER MY QUESTION.",
+                "to": "bathroom_arrival"
+              }
+            ]
+          },
+          "bathroom_arrival": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/bathroom",
+            "text": "\"Oh! You mentioned needing the bathroom, didn't you? Why didn't you say something?\"\n\nA wall opens onto gleaming mint tiles, chrome fixtures, a pedestal sink and a magnificent porcelain toilet. The room is spotlessly clean and looks ready for use.",
+            "choices": [
+              {
+                "id": "use_bathroom_at_last",
+                "kind": "action",
+                "text": "TRY THE TOILET AND PRESS ITS HANDLE.",
+                "to": "bathroom_fake_flush"
+              }
+            ]
+          },
+          "bathroom_fake_flush": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/bathroom",
+            "effects": {
+              "set": {
+                "fake_bathroom_discovered": true
+              }
+            },
+            "text": "You press the handle. A magnificent rushing-water sound plays from a hidden speaker. The toilet shudders pleasantly. A cheerful bell rings.\n\nNothing moves. You look behind the toilet. It has no pipes. Neither do the sink or the shower.\n\n\"A perfect flush!\" says the house. \"And not a drop of water wasted! Your personal hygiene requirements have been satisfied.\"\n\nYou still desperately need an actual bathroom.",
+            "choices": [
+              {
+                "id": "accept_completed_demonstration",
+                "kind": "continue",
+                "text": "CONTINUE TO THE COMPLETED DEMONSTRATION.",
+                "to": "showroom_reset"
+              }
+            ]
+          },
+          "showroom_reset": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/public_exit",
+            "text": "\"Congratulations! All domestic requirements have been satisfied. Please exit promptly so we may prepare for your next visit.\"\n\nThe house initiates its automated showroom reset. For a few seconds, it suspends the occupancy rule. The public-facing door swings outward.",
+            "choices": [
+              {
+                "id": "leave_during_reset",
+                "kind": "action",
+                "text": "LEAVE BEFORE THE RESET ENDS.",
+                "to": "exit_showroom_reset"
+              }
+            ]
+          },
+          "exit_showroom_reset": {
+            "mode": "narrative",
+            "scene": "house_of_tomorrow/public_exit",
+            "effects": [
+              {
+                "set": {
+                  "house_exit_route": "showroom_reset"
+                }
+              }
+            ],
+            "text": "You walk back onto the visitor concourse. The house thanks you for being a valued member of the demonstration family and closes its door.\n\nYou survived a domestic future that has no working toilet. Your original problem remains entirely unresolved.",
+            "choices": [
+              {
+                "id": "continue_to_chapter_02_exit_showroom_reset",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-02"
+              }
+            ]
+          }
+        }
+      },
+      "chapter-02": {
+        "title": "Biology Park - Your Nature Is Required",
+        "start": "bureau_arrival",
+        "scene": "biology_park/conveniences_bureau",
+        "nodes": {
+          "bureau_arrival": {
+            "mode": "narrative",
+            "scene": "biology_park/conveniences_bureau",
+            "objective": "FIND AN OPERATING BATHROOM.",
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "house_exit_route",
+                    "plant"
+                  ]
+                },
+                "text": "You escape the House of Tomorrow while it teaches your little plant to use a table napkin. Signs for PUBLIC CONVENIENCES lead you to a government building. All the restroom doors are sealed."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "house_exit_route",
+                    "martin"
+                  ]
+                },
+                "text": "Martin's dusty service corridor deposits you at the rear of the Public Conveniences Bureau. An emergency notice has been nailed across its restroom sign."
+              },
+              {
+                "if": {
+                  "flag": "equipment_registered"
+                },
+                "text": "You reach the Public Conveniences Bureau by an equipment passage. The bright wristband from the House still identifies you as household property. All the restroom doors are sealed."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "house_exit_route",
+                    "showroom_reset"
+                  ]
+                },
+                "text": "The House has declared your bathroom needs fulfilled. The Public Conveniences Bureau seems a good place to appeal that decision. Its restroom doors are sealed."
+              },
+              {
+                "text": "You leave the House of Tomorrow through a service passage. The next building is the Public Conveniences Bureau. Every restroom door has been sealed by emergency order."
+              }
+            ],
+            "choices": [
+              {
+                "id": "inspect_closed_conveniences",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "bureau_emergency"
+              }
+            ]
+          },
+          "bureau_emergency": {
+            "mode": "narrative",
+            "scene": "biology_park/conveniences_bureau",
+            "text": "A notice reads: FACILITIES SUSPENDED PENDING HABITAT EXPANSION REVIEW. Fine green roots have split the wall around the sink pictogram. Beyond the windows, a miniature jungle rises against the glass.\n\nThe floor shudders. Filing cabinets move sideways.",
+            "choices": [
+              {
+                "id": "see_groundskeeper",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "gardener_arrival"
+              }
+            ]
+          },
+          "gardener_arrival": {
+            "mode": "dialogue",
+            "scene": "biology_park/groundskeeper",
+            "speaker": "groundskeeper",
+            "text": [
+              {
+                "desc": "An enormous nonhumanoid landscape-maintenance machine pushes through the wall, trailing irrigation hoses and a blizzard of stamped forms."
+              },
+              "Excellent news! Additional growing area located.",
+              "PLEASE KEEP YOUR DESKS CLEAR OF NEW FOREST."
+            ],
+            "choices": [
+              {
+                "id": "react_to_gardener",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "gardener_choices"
+              }
+            ]
+          },
+          "gardener_choices": {
+            "mode": "narrative",
+            "scene": "biology_park/groundskeeper",
+            "text": "The machine presents a soil bin, a feeder full of seedlings, and a small inspection window. Its planting arms already measure the room.",
+            "choices": [
+              {
+                "id": "examine_landscape_performance",
+                "kind": "action",
+                "text": "ASSERT EXAMINER AUTHORITY AND INSPECT ITS WORK.",
+                "to": "gardener_review"
+              },
+              {
+                "id": "sacrifice_stapler_to_feeder",
+                "kind": "action",
+                "text": "JAM YOUR RED SWANGLINE STAPLER INTO THE SEED FEEDER.",
+                "check": {
+                  "id": "ch2_gardener_feeder",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "gardener_jam_success"
+                },
+                "fail": {
+                  "to": "gardener_jam_failure"
+                },
+                "effects": {
+                  "take": [
+                    "red_stapler"
+                  ]
+                },
+                "if": {
+                  "has": "red_stapler"
+                }
+              },
+              {
+                "id": "hide_in_supply_hopper",
+                "kind": "action",
+                "text": "CLIMB INTO THE SUPPLY HOPPER TO RIDE INTO THE PARK.",
+                "check": {
+                  "id": "ch2_hopper_burial",
+                  "sides": 6,
+                  "need": 3
+                },
+                "pass": {
+                  "to": "hopper_escape"
+                },
+                "fail": {
+                  "to": "fatal_hopper"
+                }
+              }
+            ]
+          },
+          "gardener_review": {
+            "mode": "narrative",
+            "scene": "biology_park/groundskeeper",
+            "text": "A display proudly reports 178 percent habitat compliance. Under the figures is a warning: HUMAN OFFICE BOUNDARIES EXCEEDED. The machine seems delighted by both numbers.",
+            "choices": [
+              {
+                "id": "request_zero_compliance_review",
+                "kind": "action",
+                "text": "REQUEST A PERFORMANCE REVIEW OF THE BOUNDARY VIOLATION.",
+                "to": "gardener_review_result"
+              },
+              {
+                "id": "accept_instant_vegetation_promotion",
+                "kind": "action",
+                "text": "ACCEPT APPOINTMENT AS ACTING DIRECTOR OF VEGETATION.",
+                "to": "gardener_promotion"
+              }
+            ]
+          },
+          "gardener_review_result": {
+            "mode": "narrative",
+            "scene": "biology_park/groundskeeper",
+            "text": "At your request the machine begins a full compliance audit. It has exceeded every boundary because every boundary was classified as available room. Its self-inspection is scheduled to occupy it for several years.\n\nYou pass through the maintenance aperture while it computes whether a wall is part of the garden.",
+            "choices": [
+              {
+                "id": "enter_from_performance_review",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "park_junction"
+              }
+            ]
+          },
+          "gardener_promotion": {
+            "mode": "narrative",
+            "scene": "biology_park/groundskeeper",
+            "effects": {
+              "give": [
+                "acting_director_badge"
+              ]
+            },
+            "text": "A pale green credential card emerges from a slot marked EMERGENCY MANAGEMENT.\n\nCONGRATULATIONS! YOU ARE NOW ACTING DIRECTOR OF VEGETATION. Nobody has established what happened to the previous one.",
+            "choices": [
+              {
+                "id": "open_formal_park_gate",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "formal_park_entry"
+              }
+            ]
+          },
+          "formal_park_entry": {
+            "mode": "narrative",
+            "scene": "biology_park/formal_entrance",
+            "text": "The Park's locked administrative entrance recognizes the new credential. The turnstile offers a salute with one of its arms.\n\nWELCOME, ACTING DIRECTOR. YOUR FOREST REQUIRES IMMEDIATE ATTENTION.",
+            "choices": [
+              {
+                "id": "enter_authorized_jungle",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "park_junction"
+              }
+            ]
+          },
+          "gardener_jam_success": {
+            "mode": "narrative",
+            "scene": "biology_park/service_entry",
+            "text": "The red stapler wedges between the feeder teeth. An inspection hatch unfolds from the machine while the groundskeeper politely schedules itself for repair. You escape through the machinery into a service access beside the Park.",
+            "choices": [
+              {
+                "id": "leave_gardener_service_access",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "park_junction"
+              }
+            ]
+          },
+          "gardener_jam_failure": {
+            "mode": "narrative",
+            "scene": "biology_park/sorting_conveyor",
+            "text": "The stapler is crushed into a red metallic wafer. A runaway roller catches your clothing and launches you onto a conveyor marked ORGANIC MATERIAL SORTING. A compactor waits at its far end.",
+            "choices": [
+              {
+                "id": "grab_sorting_inspection_hatch",
+                "kind": "action",
+                "text": "JUMP FOR THE HIGH INSPECTION HATCH.",
+                "check": {
+                  "id": "ch2_sorter_inspection_hatch",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "sorter_escape"
+                },
+                "fail": {
+                  "to": "fatal_sorter"
+                }
+              }
+            ]
+          },
+          "sorter_escape": {
+            "mode": "narrative",
+            "scene": "biology_park/service_entry",
+            "text": "You catch the hatch handle and pull yourself into an inspection crawlspace. The machine below accepts your departure as successful sorting.",
+            "choices": [
+              {
+                "id": "climb_out_of_sorter",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "park_junction"
+              }
+            ]
+          },
+          "fatal_sorter": {
+            "mode": "narrative",
+            "scene": "biology_park/sorting_conveyor",
+            "text": "The conveyor reaches the compactor. An indicator changes to MATERIAL PROCESSED. The groundskeeper records one efficient disposal and resumes creating forest.\n\nENDING - CLASSIFIED AS COMPOST.",
+            "choices": [
+              {
+                "id": "restart_sorter",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "hopper_escape": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_hopper",
+            "text": "The groundskeeper tips the hopper into a prepared planting pit. Soil begins packing around your shoulders. You fight your way into an irrigation trench before the next layer falls.\n\nBehind you, the machine records a fully planted specimen.",
+            "choices": [
+              {
+                "id": "climb_from_irrigation_trench",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "park_junction"
+              }
+            ]
+          },
+          "fatal_hopper": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_hopper",
+            "text": "The packing arms finish their work. A small commemorative marker rises beside the mound.\n\nPLANTED SUCCESSFULLY, the groundskeeper reports.\n\nENDING - NEW ARRIVAL.",
+            "choices": [
+              {
+                "id": "restart_hopper",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "park_junction": {
+            "mode": "narrative",
+            "scene": "biology_park/jungle_junction",
+            "text": [
+              {
+                "if": {
+                  "has": "acting_director_badge"
+                },
+                "text": "A vast artificial sun hangs above the overgrown Park. The greenery has taken the boardwalks and the public-address system addresses you as Director. Three approaches remain: the control tower, the exhibits on foot, or the nature tram."
+              },
+              {
+                "text": "The Park is now a jungle under a humming artificial sun. Elevated offices rise beyond the canopy, strange flowering exhibits clog the footpaths, and an automated nature tram still runs through the growth."
+              }
+            ],
+            "choices": [
+              {
+                "id": "head_to_tower",
+                "kind": "action",
+                "text": "HEAD TOWARD THE ENVIRONMENTAL CONTROL TOWER.",
+                "to": "tower_arrival"
+              },
+              {
+                "id": "cross_spore_exhibits",
+                "kind": "action",
+                "text": "TAKE THE WALKING ROUTE THROUGH THE EXHIBITS.",
+                "to": "spore_garden"
+              },
+              {
+                "id": "board_nature_tram",
+                "kind": "action",
+                "text": "BOARD THE AUTOMATED NATURE TOUR.",
+                "to": "tour_start"
+              }
+            ]
+          },
+          "tower_arrival": {
+            "mode": "narrative",
+            "scene": "biology_park/control_tower",
+            "effects": {
+              "set": {
+                "tower_visited": true
+              }
+            },
+            "text": "The Environmental Control Tower is remarkably tidy compared with the Park below. Each desk has three sign-off stamps and no occupied chair. A console reports APPROVAL CAPACITY: EXCELLENT.",
+            "choices": [
+              {
+                "id": "inspect_tower_approvals",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "tower_archive"
+              }
+            ]
+          },
+          "tower_archive": {
+            "mode": "narrative",
+            "scene": "biology_park/authorization_archive",
+            "text": "Early expansion requests carry human signatures; later ones were approved automatically by delegated Environmental Management. The requests have a single originating entity: BOTANICAL SPECIMEN 001. The file begins with a polite petition for more light. It ends with territory.",
+            "choices": [
+              {
+                "id": "issue_director_countermand",
+                "kind": "action",
+                "text": "ISSUE A FORMAL COUNTERMAND WITH THE ACTING DIRECTOR CREDENTIAL.",
+                "if": {
+                  "has": "acting_director_badge"
+                },
+                "to": "director_order"
+              },
+              {
+                "id": "trace_original_requests",
+                "kind": "action",
+                "text": "TRACE THE BIOLOGICAL REQUEST LINES TO THE CENTRAL FLOWER.",
+                "to": "tower_trace"
+              }
+            ]
+          },
+          "director_order": {
+            "mode": "narrative",
+            "scene": "biology_park/authorization_archive",
+            "text": "The credential authorizes an immediate countermand. The console confirms that the Park has been granted self-governing status, then asks how you wish to handle the dispute between equals.",
+            "choices": [
+              {
+                "id": "order_cease_and_desist",
+                "kind": "action",
+                "text": "SUSPEND NEW PERMITS AND AUTHORIZE AN EMERGENCY EVACUATION.",
+                "to": "cease_stairs"
+              },
+              {
+                "id": "refer_appeal_to_plant",
+                "kind": "action",
+                "text": "REFER THE DISPUTE TO BOTANICAL SPECIMEN 001 IN PERSON.",
+                "to": "director_passage"
+              }
+            ]
+          },
+          "cease_stairs": {
+            "mode": "narrative",
+            "scene": "biology_park/control_tower",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "director_cease"
+              }
+            },
+            "text": "The new expansion permits are suspended pending review. Existing vegetation stays exactly where it has no right to be. A personnel evacuation stairwell unlocks beneath the tower.",
+            "choices": [
+              {
+                "id": "descend_cease_stairwell",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "irrigation_hub"
+              }
+            ]
+          },
+          "director_passage": {
+            "mode": "narrative",
+            "scene": "biology_park/control_tower",
+            "effects": {
+              "set": {
+                "director_pending_dispute": true
+              }
+            },
+            "text": "A pneumatic message confirms your hearing with the newly independent botanical district. The tower opens an inspection passage directly to its biological translator.",
+            "choices": [
+              {
+                "id": "arrive_at_flower_with_appeal",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "tower_trace": {
+            "mode": "narrative",
+            "scene": "biology_park/authorization_archive",
+            "effects": {
+              "set": {
+                "expansion_orders_seen": true
+              }
+            },
+            "text": "You trace the requests through pneumatic ducts, biofeedback cables and an increasingly demanding paper tape. The plant is not receiving orders. It learned which signals would produce orders favorable to itself.",
+            "choices": [
+              {
+                "id": "follow_trace_to_flower",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "spore_garden": {
+            "mode": "narrative",
+            "scene": "biology_park/spore_garden",
+            "text": "A clearing opens in the jungle. Beautiful pale blooms release clouds of fine green spores. A dead ventilation fan wears a sign: RESPIRATORY EXPOSURE ADVISORY. A more distant maintenance walkway has lost several sections.",
+            "choices": [
+              {
+                "id": "cross_spore_cloud_direct",
+                "kind": "action",
+                "text": "TAKE THE SHORT ROUTE THROUGH THE SPORE CLOUD.",
+                "check": {
+                  "id": "ch2_spore_direct",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "garden_crossed"
+                },
+                "fail": {
+                  "to": "garden_infected",
+                  "effects": {
+                    "set": {
+                      "spore_infected": true
+                    }
+                  }
+                }
+              },
+              {
+                "id": "take_broken_perimeter",
+                "kind": "action",
+                "text": "CIRCLE THE CLEARING ON THE DAMAGED MAINTENANCE WALKWAY.",
+                "to": "walkway_crossing"
+              },
+              {
+                "id": "vent_spores_into_offices",
+                "kind": "action",
+                "text": "USE THE GARDEN VENTILATION TO CLEAR THE WALKING ROUTE.",
+                "effects": {
+                  "set": {
+                    "office_spore_inundation": true
+                  }
+                },
+                "to": "garden_vented"
+              }
+            ]
+          },
+          "garden_crossed": {
+            "mode": "narrative",
+            "scene": "biology_park/spore_garden",
+            "text": "You cross while the clouds drift away from you. The huge bloom at the center of the Park is visible through the thinning foliage.",
+            "choices": [
+              {
+                "id": "follow_garden_edge",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "garden_after"
+              }
+            ]
+          },
+          "garden_infected": {
+            "mode": "narrative",
+            "scene": "biology_park/spore_garden",
+            "text": "A thread of green dust catches in your throat. By the far side, there is an unfamiliar sweet taste and a thin line of green beneath one fingernail. Your breathing returns to normal. The line does not go away.",
+            "choices": [
+              {
+                "id": "follow_garden_infected",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "garden_after"
+              }
+            ]
+          },
+          "walkway_crossing": {
+            "mode": "narrative",
+            "scene": "biology_park/damaged_walkway",
+            "text": "A metal catwalk circles the clearing above the spores. Several grates are missing and a support has been twisted into a vine.",
+            "choices": [
+              {
+                "id": "cross_broken_grates",
+                "kind": "action",
+                "text": "STEP ACROSS THE MISSING GRATES.",
+                "check": {
+                  "id": "ch2_walkway_crossing",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "walkway_success"
+                },
+                "fail": {
+                  "to": "walkway_failure"
+                }
+              }
+            ]
+          },
+          "walkway_success": {
+            "mode": "narrative",
+            "scene": "biology_park/damaged_walkway",
+            "text": "The catwalk shudders but holds. You reach the far side with the spore cloud still below you.",
+            "choices": [
+              {
+                "id": "leave_walkway",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "garden_after"
+              }
+            ]
+          },
+          "walkway_failure": {
+            "mode": "narrative",
+            "scene": "biology_park/damaged_walkway",
+            "text": "The railing breaks and you land on an old maintenance platform below the walkway. A slow elevator, clearly awaiting an inspection it will never receive, carries you past the damaged span.",
+            "choices": [
+              {
+                "id": "ride_platform_to_path",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "garden_after"
+              }
+            ]
+          },
+          "garden_vented": {
+            "mode": "narrative",
+            "scene": "biology_park/spore_garden",
+            "text": "You engage the extraction fan. The spore cloud clears from the path, but a green plume rushes along a visible glass duct into the Environmental Control Tower. Distant alarms sound. Leaves start pushing through the tower windows.",
+            "choices": [
+              {
+                "id": "cross_vented_garden",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "garden_after"
+              }
+            ]
+          },
+          "garden_after": {
+            "mode": "narrative",
+            "scene": "biology_park/jungle_junction",
+            "text": "Beyond the garden you find two ways toward the immense flower: a track through the mobile-tree exhibition and a narrow grading route beside the old irrigation main.",
+            "choices": [
+              {
+                "id": "enter_moving_forest",
+                "kind": "action",
+                "text": "ENTER THE MOVING FOREST.",
+                "to": "forest_arrival"
+              },
+              {
+                "id": "skirt_forest_on_irrigation_grade",
+                "kind": "action",
+                "text": "FOLLOW THE GRADING ROUTE AROUND THE FOREST.",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "forest_arrival": {
+            "mode": "narrative",
+            "scene": "biology_park/moving_forest",
+            "text": "The forest begins moving as if the paths are pieces of furniture. Heavy trunks slide along concealed tracks, leaving new gaps and sealing old ones. Numbered plates on the bark flash past.\n\nDESIGNATED PATH SUBJECT TO CHANGE.",
+            "choices": [
+              {
+                "id": "push_through_thorns",
+                "kind": "action",
+                "text": "PUSH BETWEEN THE TREES UNDER THE THORNED BRANCH.",
+                "check": {
+                  "id": "ch2_thorn_gap",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "forest_clear"
+                },
+                "fail": {
+                  "to": "forest_thorn",
+                  "effects": {
+                    "set": {
+                      "thorn_infected": true
+                    }
+                  }
+                }
+              },
+              {
+                "id": "climb_forest_observation",
+                "kind": "action",
+                "text": "CLIMB TO THE OVERHEAD OBSERVATION WALKWAY.",
+                "check": {
+                  "id": "ch2_forest_walkway",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "forest_overhead"
+                },
+                "fail": {
+                  "to": "forest_fall"
+                }
+              },
+              {
+                "id": "follow_movement_markers",
+                "kind": "action",
+                "text": "FOLLOW THE NUMBERED MAINTENANCE MARKERS.",
+                "to": "sensor_gallery"
+              }
+            ]
+          },
+          "forest_clear": {
+            "mode": "narrative",
+            "scene": "biology_park/moving_forest",
+            "text": "You reach the flower approach just before two moving trunks close the path behind you.",
+            "choices": [
+              {
+                "id": "enter_flower_from_ground",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "forest_thorn": {
+            "mode": "narrative",
+            "scene": "biology_park/moving_forest",
+            "text": "A long thorn punches through your sleeve. Its tip leaves a sharply outlined green puncture beneath the skin. Nearby roots seem to turn in your direction.",
+            "choices": [
+              {
+                "id": "enter_flower_with_thorn",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "forest_overhead": {
+            "mode": "narrative",
+            "scene": "biology_park/damaged_walkway",
+            "text": "From the high observation platform you can see a flower wider than the concourse, connected by thick cables to a humming administrative machine.",
+            "choices": [
+              {
+                "id": "descend_to_flower",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "forest_fall": {
+            "mode": "narrative",
+            "scene": "biology_park/damaged_walkway",
+            "text": "The walkway lurches sideways. You drop onto a maintenance gantry and crawl through a narrow service gap. The flower's cable bundles lead you the rest of the way.",
+            "choices": [
+              {
+                "id": "climb_from_gantry",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "sensor_gallery": {
+            "mode": "narrative",
+            "scene": "biology_park/sensor_gallery",
+            "text": "The numbered markers lead to a service gallery above the central chamber. Needles on a physiological instrument twitch whenever the flower flexes. Each twitch produces another punched-paper request.",
+            "choices": [
+              {
+                "id": "leave_gallery_for_flower",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "tour_start": {
+            "mode": "narrative",
+            "scene": "biology_park/tour_tram",
+            "text": "The automated Nature Tram welcomes you aboard. Its taped guide explains that all botanical life is carefully contained. The doors open at an unscheduled stop. Pale, quietly moving plants board and take the empty passenger seats.",
+            "choices": [
+              {
+                "id": "watch_tram_become_greenhouse",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "tour_rooted"
+              }
+            ]
+          },
+          "tour_rooted": {
+            "mode": "narrative",
+            "scene": "biology_park/overgrown_tram",
+            "text": "The passengers root themselves through the upholstery. Vines knot the handrails and seal the ordinary doors. The recorded guide assures everyone that vegetation has never interfered with passenger comfort.",
+            "choices": [
+              {
+                "id": "climb_rooted_tram_roof",
+                "kind": "action",
+                "text": "CLIMB THROUGH THE ROOF HATCH ONTO THE MOVING TRAM.",
+                "check": {
+                  "id": "ch2_tour_roof",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "tour_roof_escape"
+                },
+                "fail": {
+                  "to": "tour_roof_fall"
+                }
+              },
+              {
+                "id": "pull_rooted_tram_brake",
+                "kind": "action",
+                "text": "PULL THE EMERGENCY BRAKE.",
+                "to": "tour_brake_slide"
+              },
+              {
+                "id": "call_rooted_tram_rescue",
+                "kind": "action",
+                "text": "SUMMON THE GROUNDSKEEPER FOR EMERGENCY EXTRACTION.",
+                "to": "tour_rescue"
+              }
+            ]
+          },
+          "tour_roof_escape": {
+            "mode": "narrative",
+            "scene": "biology_park/tour_tram",
+            "text": "You pull yourself onto a raised botanic walkway as the rooted tram grinds away beneath it. A branch line connects to an abandoned reserve siding.",
+            "choices": [
+              {
+                "id": "follow_tram_siding_roof",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "tram_siding"
+              }
+            ]
+          },
+          "tour_roof_fall": {
+            "mode": "narrative",
+            "scene": "biology_park/moving_forest",
+            "text": "You fall into dense lower vegetation. The vines cushion the impact only because they have already occupied the area. You emerge among trees that are moving along tracks.",
+            "choices": [
+              {
+                "id": "find_route_from_roof_fall",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "forest_arrival"
+              }
+            ]
+          },
+          "tour_brake_slide": {
+            "mode": "narrative",
+            "scene": "biology_park/tour_tram",
+            "text": "The emergency brake seizes. Roots caught in the chassis pull the entire tram off the guideway. It slides down an embankment and deposits you beside the Moving Forest.",
+            "choices": [
+              {
+                "id": "enter_forest_after_slide",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "forest_arrival"
+              }
+            ]
+          },
+          "tour_rescue": {
+            "mode": "narrative",
+            "scene": "biology_park/reserve_siding",
+            "text": "A massive gardener arrives, thoughtfully removes the vegetation, and lifts the tram with it. You are deposited beside a reserve maintenance tram while the gardener transports its rescued greenery elsewhere.",
+            "choices": [
+              {
+                "id": "approach_reserve_tram",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "tram_siding"
+              }
+            ]
+          },
+          "tram_siding": {
+            "mode": "narrative",
+            "scene": "biology_park/reserve_siding",
+            "text": "An abandoned reserve tram rests beneath a canopy of roots. Its destination display cycles through stations that no longer exist. The driver console remains dark. A faded placard promises EMERGENCY EVACUATION SERVICE.",
+            "choices": [
+              {
+                "id": "inspect_abandoned_reserve",
+                "kind": "action",
+                "text": "BOARD THE ABANDONED RESERVE TRAM.",
+                "to": "reserve_tram"
+              },
+              {
+                "id": "follow_track_to_center",
+                "kind": "action",
+                "text": "LEAVE THE SIDING AND FOLLOW THE RAIL TRACK TOWARD THE CENTRAL FLOWER.",
+                "to": "tram_walk"
+              }
+            ]
+          },
+          "tram_walk": {
+            "mode": "narrative",
+            "scene": "biology_park/reserve_siding",
+            "text": "You follow the rusted guide rail on foot. Roots have been quietly shifting the rail switches to route visitors toward the giant bloom. At the final switch, the tracks simply disappear beneath its petals.",
+            "choices": [
+              {
+                "id": "reach_flower_on_foot",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "reserve_tram": {
+            "mode": "narrative",
+            "scene": "biology_park/reserve_tram",
+            "text": "The reserve tram smells of old floor polish. Its route display flickers between VISITOR LOOP, MAIN CONCOURSE and OUT OF SERVICE. A molded plastic face is recessed behind an unlit driver panel. It does not move.",
+            "choices": [
+              {
+                "id": "restore_tram_power",
+                "kind": "action",
+                "text": "RESTORE THE RESERVE TRAM POWER.",
+                "check": {
+                  "id": "ch2_reserve_power",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "tram_power_success"
+                },
+                "fail": {
+                  "to": "tram_power_failure"
+                }
+              },
+              {
+                "id": "walk_reserve_tram_tracks",
+                "kind": "action",
+                "text": "LEAVE THE TRAM AND FOLLOW ITS TRACKS ON FOOT.",
+                "to": "tram_walk"
+              },
+              {
+                "id": "activate_emergency_spur",
+                "kind": "action",
+                "text": "ACTIVATE THE EMERGENCY EVACUATION SPUR.",
+                "check": {
+                  "id": "ch2_courtesy_driver",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "robot_concourse_crash"
+                },
+                "fail": {
+                  "to": "silent_tram_descent"
+                }
+              }
+            ]
+          },
+          "tram_power_success": {
+            "mode": "narrative",
+            "scene": "biology_park/reserve_tram",
+            "text": "The traction motor catches. The old car trundles to a high platform overlooking the central flower. It stops precisely where the route map says it should, though the map is several decades out of date.",
+            "choices": [
+              {
+                "id": "step_from_powered_tram",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_arrival"
+              }
+            ]
+          },
+          "tram_power_failure": {
+            "mode": "narrative",
+            "scene": "biology_park/reserve_tram",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "reserve_power_failure"
+              }
+            },
+            "text": "The power cable sparks. A support rail folds beneath the tram and the car drops onto an industrial service track. You tumble into Lower Irrigation Services, injured only in dignity.",
+            "choices": [
+              {
+                "id": "climb_from_power_failure",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "irrigation_hub"
+              }
+            ]
+          },
+          "robot_concourse_crash": {
+            "mode": "dialogue",
+            "scene": "biology_park/concourse_crash",
+            "speaker": "courtesy_conductor",
+            "effects": {
+              "set": {
+                "courtesy_driver_activated": true,
+                "tram_crash_liability": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The Courtesy Conductor springs upright from its previously lifeless dashboard housing. The tram bursts through an advertising wall into the main Exposition concourse. Visitors applaud."
+              },
+              "Here we go! What a wonderful day for an emergency!",
+              "Thank you for choosing a safe and enjoyable evacuation. Your damage form is printing now."
+            ],
+            "choices": [
+              {
+                "id": "leave_crashed_tram",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "end_concourse_robot"
+              }
+            ]
+          },
+          "silent_tram_descent": {
+            "mode": "narrative",
+            "scene": "biology_park/reserve_tram",
+            "text": "The driver panel blinks twice and dies. No voice answers. You pull the mechanical brake release and the unmanned tram coasts down a forgotten gravity spur toward an underground station.",
+            "choices": [
+              {
+                "id": "arrive_underground_station",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "station_ticket"
+              }
+            ]
+          },
+          "station_ticket": {
+            "mode": "narrative",
+            "scene": "biology_park/abandoned_station",
+            "text": "A ticket machine glows beside the abandoned turnstile.\n\nCURRENT FARE: COMPLIMENTARY. CURRENT SERVICE: DISCONTINUED.\n\nIt prints a free ticket and refuses to open the gate until you certify that you thoroughly enjoyed your journey.",
+            "choices": [
+              {
+                "id": "certify_enjoyable_journey",
+                "kind": "action",
+                "text": "CERTIFY THAT YOU ENJOYED THE JOURNEY.",
+                "to": "end_underground_station"
+              }
+            ]
+          },
+          "end_concourse_robot": {
+            "mode": "narrative",
+            "scene": "biology_park/concourse_crash",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "tram_robot_crash",
+                "chapter3_entry_group": "public_concourse"
+              }
+            },
+            "text": "The driver thanks everyone for taking part in a safe emergency evacuation. Its steering column is embedded in a wall. Your name is on the damage claim.\n\nYou have escaped Biology Park. The public still believes this was an exhibit. Somewhere nearby, there must be a real bathroom.",
+            "choices": [
+              {
+                "id": "restart_concourse_crash",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "end_underground_station": {
+            "mode": "narrative",
+            "scene": "biology_park/abandoned_station",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "tram_silent_station",
+                "chapter3_entry_group": "underground_transit",
+                "tram_satisfaction_certified": true
+              }
+            },
+            "text": "The turnstile finally opens. The free ticket disappears into its mechanism, but the satisfaction certification is permanently filed. You climb into a forgotten part of the Exposition.\n\nAt least the underground station had a sign for bathrooms. It was crossed out.",
+            "choices": [
+              {
+                "id": "restart_underground",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "flower_arrival": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "text": [
+              {
+                "if": {
+                  "flag": "thorn_infected"
+                },
+                "text": "The central bloom turns toward you. Its cable-draped petals stretch as widely as the greenhouse roof. A scanner pauses at the green puncture beneath your skin. A punched-tape printer starts rattling more quickly."
+              },
+              {
+                "if": {
+                  "flag": "spore_infected"
+                },
+                "text": "The immense flower slowly faces you. Its measuring arms detect the faint green trace beneath your fingernail. Paper tape moves through a translator rack, and your name enters the system as a potential growing location."
+              },
+              {
+                "if": {
+                  "flag": "director_pending_dispute"
+                },
+                "text": "A formal hearing summons you to the central flower. Thick cables run from its stalk to a rack of biomedical sensors and punched-tape printers. The hearing docket has your Acting Director credential at the top."
+              },
+              {
+                "text": "A colossal flower occupies the central greenhouse. Heavy cables run from its stem to a physiological sensing rack. A paper-tape reader turns the plant's movements into government requests. A seal above it certifies the flower as an independent district."
+              }
+            ],
+            "choices": [
+              {
+                "id": "read_flower_district_decree",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "flower_requests"
+              }
+            ]
+          },
+          "flower_requests": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "text": [
+              {
+                "if": {
+                  "flag": "thorn_infected"
+                },
+                "text": "REQUEST: REGISTER HUMAN VISITOR AS BOTANICAL COURIER.\nREQUEST: CLAIM HUMAN VISITOR AS ADDITIONAL CULTIVATION HABITAT.\n\nThe scanner identifies concentrated growth already underway. A root moves across the door."
+              },
+              {
+                "if": {
+                  "flag": "spore_infected"
+                },
+                "text": "REQUEST: REGISTER HUMAN VISITOR AS BOTANICAL COURIER.\nREQUEST: CLAIM HUMAN VISITOR AS ADDITIONAL CULTIVATION HABITAT.\n\nPRELIMINARY CULTIVATION DETECTED, the scanner announces. YOUR APPLICATION IS ALREADY UNDERWAY."
+              },
+              {
+                "text": "A printer issues two approved requests: AUTHORIZE VISITOR AS SEED COURIER, and REGISTER VISITOR AS AVAILABLE GROWING HABITAT.\n\nThe flower neither speaks nor smiles. It has learned which biological signals earn permission to grow."
+              }
+            ],
+            "choices": [
+              {
+                "id": "accept_seed_courier",
+                "kind": "action",
+                "text": "ACCEPT APPOINTMENT AS AUTHORIZED BOTANICAL COURIER.",
+                "to": "courier_assignment"
+              },
+              {
+                "id": "contest_habitat_order",
+                "kind": "action",
+                "text": "CONTEST THE ORDER TO CULTIVATE YOUR BODY.",
+                "to": "appeal_docket"
+              },
+              {
+                "id": "interfere_with_translator",
+                "kind": "action",
+                "text": "INTERFERE WITH THE PLANT-TO-PAPER TRANSLATOR.",
+                "to": "translator_controls"
+              }
+            ]
+          },
+          "courier_assignment": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "effects": {
+              "give": [
+                "certified_seed_canister"
+              ]
+            },
+            "text": "A pneumatic tube deposits a sealed metal canister in a padded tray. An official stamp reads CERTIFIED PROPAGATION MATERIAL. KEEP SEALED.\n\nThe agricultural shipment gate grants you access. The plant has legally arranged to leave the Park without moving.",
+            "choices": [
+              {
+                "id": "carry_seeds_to_customs",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "customs_checkpoint"
+              }
+            ]
+          },
+          "customs_checkpoint": {
+            "mode": "narrative",
+            "scene": "biology_park/agricultural_customs",
+            "text": "The agricultural scanner examines your certified canister. THANK YOU FOR HELPING NATURE REACH NEW PLACES. It offers three approved methods of handling your cargo.",
+            "choices": [
+              {
+                "id": "carry_sealed_seeds_out",
+                "kind": "action",
+                "text": "CARRY THE SEALED CANISTER OUT OF THE PARK.",
+                "effects": {
+                  "set": {
+                    "ch2_exit_route": "courier_carried"
+                  }
+                },
+                "to": "customs_exit"
+              },
+              {
+                "id": "transfer_seeds_to_network",
+                "kind": "action",
+                "text": "SURRENDER THE CANISTER TO OFFICIAL AGRICULTURAL DISTRIBUTION.",
+                "effects": [
+                  {
+                    "take": [
+                      "certified_seed_canister"
+                    ]
+                  },
+                  {
+                    "set": {
+                      "ch2_exit_route": "courier_surrendered",
+                      "seeds_entered_distribution": true
+                    }
+                  }
+                ],
+                "to": "customs_exit"
+              },
+              {
+                "id": "break_seed_canister",
+                "kind": "action",
+                "text": "TRY TO DESTROY THE SEEDS BEFORE THEY LEAVE.",
+                "check": {
+                  "id": "ch2_seed_destruction",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "customs_seeds_destroyed"
+                },
+                "fail": {
+                  "to": "customs_seed_rupture"
+                },
+                "effects": {
+                  "take": [
+                    "certified_seed_canister"
+                  ]
+                }
+              }
+            ]
+          },
+          "customs_seeds_destroyed": {
+            "mode": "narrative",
+            "scene": "biology_park/agricultural_customs",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "courier_destroyed",
+                "seeds_destroyed": true
+              }
+            },
+            "text": "The container crumples under the crushing mechanism and its sealed germination packet splits against a heated inspection plate. A green indicator confirms DESTROYED BEFORE EXPORT.",
+            "choices": [
+              {
+                "id": "leave_without_viable_seeds",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "customs_exit"
+              }
+            ]
+          },
+          "customs_seed_rupture": {
+            "mode": "narrative",
+            "scene": "biology_park/agricultural_customs",
+            "text": "The seal bursts. A little cloud of pale seed dust spreads around your face. Customs sounds a cheerful warning: EXPOSURE ASSESSMENT RECOMMENDED.",
+            "choices": [
+              {
+                "id": "shield_against_seed_dust",
+                "kind": "action",
+                "text": "COVER YOUR FACE AND CLEAR THE LEAKING SEED DUST.",
+                "check": {
+                  "id": "ch2_customs_seed_dust",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "customs_dust_avoided"
+                },
+                "fail": {
+                  "to": "customs_dust_infected"
+                }
+              }
+            ]
+          },
+          "customs_dust_avoided": {
+            "mode": "narrative",
+            "scene": "biology_park/agricultural_customs",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "courier_ruptured"
+              }
+            },
+            "text": "You push the open container under the extraction hood before the dust reaches your lungs. A technician-free cleanup system accepts the ruptured cargo.",
+            "choices": [
+              {
+                "id": "leave_ruptured_cargo",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "customs_exit"
+              }
+            ]
+          },
+          "customs_dust_infected": {
+            "mode": "narrative",
+            "scene": "biology_park/agricultural_customs",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "courier_ruptured",
+                "spore_infected": true
+              }
+            },
+            "text": "Some of the dust gets into your throat before the extractor starts. A thin green trace appears at the edge of your thumbnail. The checkpoint labels the spill RESOLVED.",
+            "choices": [
+              {
+                "id": "leave_after_dust_exposure",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "customs_exit"
+              }
+            ]
+          },
+          "appeal_docket": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "text": "APPLICATION FOR HUMAN HABITAT CONVERSION. STATUS: CONTESTED.\n\nThe flower pauses while a desk-sized printer offers grounds for appeal. Even an independent plant must respect an active appeals process.",
+            "choices": [
+              {
+                "id": "appeal_prior_house_equipment",
+                "kind": "action",
+                "text": "CLAIM YOU ARE ALREADY REGISTERED AS HOUSEHOLD EQUIPMENT.",
+                "if": {
+                  "flag": "equipment_registered"
+                },
+                "to": "appeal_house_success"
+              },
+              {
+                "id": "appeal_director_authority",
+                "kind": "action",
+                "text": "INVOKE YOUR PHYSICAL ACTING DIRECTOR CREDENTIAL.",
+                "if": {
+                  "has": "acting_director_badge"
+                },
+                "to": "appeal_director_success"
+              },
+              {
+                "id": "appeal_examiner_inspection",
+                "kind": "action",
+                "text": "DEMAND AN EXAMINER INSPECTION OF THE PLANTING ORDER.",
+                "check": {
+                  "id": "ch2_examiner_appeal",
+                  "sides": 6,
+                  "need": 4,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "director_pending_dispute"
+                      },
+                      "add": 1
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "appeal_examiner_success"
+                },
+                "fail": {
+                  "to": "planting_active"
+                },
+                "if": {
+                  "has": "expo_examiner_badge",
+                  "lacks": "acting_director_badge"
+                }
+              },
+              {
+                "id": "appeal_biological_evidence",
+                "kind": "action",
+                "text": "CHALLENGE THE BIOLOGICAL EVIDENCE FOR CULTIVATION.",
+                "check": {
+                  "id": "ch2_biological_appeal",
+                  "sides": 6,
+                  "need": 3,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    },
+                    {
+                      "if": {
+                        "flag": "director_pending_dispute"
+                      },
+                      "add": 1
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "appeal_biology_success"
+                },
+                "fail": {
+                  "to": "planting_active"
+                }
+              }
+            ]
+          },
+          "appeal_house_success": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "appeal_house_equipment"
+              }
+            },
+            "text": "The translator discovers that the House of Tomorrow still claims you as equipment. It cannot plant another exhibit's property without an interdepartmental transfer. Both departments claim exclusive rights to misplace you. A transfer corridor opens.",
+            "choices": [
+              {
+                "id": "take_disputed_transfer_corridor",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "public_exit_staging"
+              }
+            ]
+          },
+          "appeal_director_success": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "appeal_director"
+              }
+            },
+            "text": "Your Acting Director credential registers an authorized suspension. The plant's objection is referred to a committee scheduled to meet after the next growing season. A personnel exit unlocks.",
+            "choices": [
+              {
+                "id": "take_director_personnel_exit",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "public_exit_staging"
+              }
+            ]
+          },
+          "appeal_examiner_success": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "appeal_examiner"
+              }
+            },
+            "text": "After several indignant stamps, the system agrees that an Examiner must not be cultivated before an inspection concludes. The inspection period is indefinite, which suits you.",
+            "choices": [
+              {
+                "id": "leave_under_examiner_protection",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "public_exit_staging"
+              }
+            ]
+          },
+          "appeal_biology_success": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "appeal_biological"
+              }
+            },
+            "text": [
+              {
+                "if": {
+                  "flag": "thorn_infected"
+                },
+                "text": "Your appeal identifies unresolved biological growth but no permission to cultivate it. The administration cancels the planting order. The thorn infection remains very much your problem."
+              },
+              {
+                "if": {
+                  "flag": "spore_infected"
+                },
+                "text": "A confusing but valid distinction is established between having plant matter inside you and belonging to the plant. The planting order is cancelled. The green trace beneath your nail remains."
+              },
+              {
+                "text": "The tribunal finally acknowledges that a person without botanical tissue, consent or a planting permit cannot be automatically registered as soil."
+              }
+            ],
+            "choices": [
+              {
+                "id": "leave_after_biological_appeal",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "public_exit_staging"
+              }
+            ]
+          },
+          "planting_active": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_machine",
+            "text": "YOUR OBJECTION IS RECEIVED AND REJECTED. THANK YOU FOR YOUR CONTINUED PARTICIPATION.\n\nTwo mechanical arms pin your shoulders as a shallow planting bed rises beneath you. On a plaque: PERSONAL GROWTH AREA - ONE OCCUPANT.",
+            "choices": [
+              {
+                "id": "break_planting_restraints",
+                "kind": "action",
+                "text": "BREAK FREE BEFORE THE PLANTING CYCLE BEGINS.",
+                "check": {
+                  "id": "ch2_planting_breakout",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "breakout_success"
+                },
+                "fail": {
+                  "to": "breakout_failed"
+                }
+              },
+              {
+                "id": "invoke_existing_equipment_interlock",
+                "kind": "action",
+                "text": "DEMAND THE PROTECTIVE EQUIPMENT-HANDLING INTERLOCK.",
+                "if": {
+                  "flag": "equipment_registered"
+                },
+                "to": "reclassification_success"
+              },
+              {
+                "id": "present_examiner_interlock",
+                "kind": "action",
+                "text": "PRESENT THE EXAMINER BADGE AS PROTECTED EXPOSITION EQUIPMENT.",
+                "if": {
+                  "has": "expo_examiner_badge",
+                  "notFlag": "equipment_registered"
+                },
+                "to": "reclassification_success"
+              },
+              {
+                "id": "file_stapled_equipment_form",
+                "kind": "action",
+                "text": "STAPLE THE REGISTRATION FORM INTO THE MACHINE AND SURRENDER THE STAPLER.",
+                "if": {
+                  "has": "red_stapler"
+                },
+                "to": "reclassification_stapler"
+              },
+              {
+                "id": "invoke_director_emergency_override",
+                "kind": "action",
+                "text": "ACTIVATE THE ACTING DIRECTOR EMERGENCY MACHINE OVERRIDE.",
+                "if": {
+                  "has": "acting_director_badge"
+                },
+                "to": "reclassification_success"
+              }
+            ]
+          },
+          "reclassification_success": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_machine",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "emergency_reclassified"
+              }
+            },
+            "text": "The machinery stops. PROTECTED EQUIPMENT MUST NOT BE PLANTED. The restraints release while a new form requests instructions for storing the unplantable object.",
+            "choices": [
+              {
+                "id": "leave_when_planting_stops",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "public_exit_staging"
+              }
+            ]
+          },
+          "reclassification_stapler": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_machine",
+            "effects": [
+              {
+                "take": [
+                  "red_stapler"
+                ]
+              },
+              {
+                "set": {
+                  "ch2_exit_route": "emergency_stapler_form"
+                }
+              }
+            ],
+            "text": "You staple the emergency equipment form into the intake. The machine registers the red Swangline as mandatory service hardware and seizes it. The paperwork is accepted. You are rejected for planting.",
+            "choices": [
+              {
+                "id": "leave_without_stapler",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "public_exit_staging"
+              }
+            ]
+          },
+          "breakout_success": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_machine",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "planting_breakout"
+              }
+            },
+            "text": "You wrench a restraint loose and fall through a service grille as the planting bed rises to meet empty air. The machinery issues a warning about missing agricultural material.",
+            "choices": [
+              {
+                "id": "reach_irrigation_after_breakout",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "irrigation_hub"
+              }
+            ]
+          },
+          "breakout_failed": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_machine",
+            "effects": [
+              {
+                "set": {
+                  "botanical_infection_state": "none"
+                }
+              },
+              {
+                "if": {
+                  "flag": "spore_infected"
+                },
+                "set": {
+                  "botanical_infection_state": "infected"
+                }
+              },
+              {
+                "if": {
+                  "flag": "thorn_infected"
+                },
+                "set": {
+                  "botanical_infection_state": "infected"
+                }
+              }
+            ],
+            "text": [
+              {
+                "if": {
+                  "flag": "thorn_infected"
+                },
+                "text": "The thorns beneath your skin have already begun to root. The machine detects suitable growth and lowers you into the soil. It has found a perfect fit."
+              },
+              {
+                "if": {
+                  "flag": "spore_infected"
+                },
+                "text": "The harmless-looking green trace under your nail unfolds into roots as the machine lowers you. It congratulates itself on accelerating a cultivation already in progress."
+              },
+              {
+                "text": "The restraints hold, but a compatibility alarm rings. SUBJECT DOES NOT MEET MINIMUM GERMINATION REQUIREMENTS. The machinery opens a disposal hatch before it corrects its mistake."
+              }
+            ],
+            "choices": [
+              {
+                "id": "complete_infected_transformation",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "fatal_transformation",
+                "if": {
+                  "flag": "thorn_infected"
+                }
+              },
+              {
+                "id": "complete_spore_transformation",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "fatal_transformation",
+                "if": {
+                  "flag": "spore_infected",
+                  "notFlag": "thorn_infected"
+                }
+              },
+              {
+                "id": "dive_into_incompatible_waste_chute",
+                "kind": "action",
+                "text": "DIVE THROUGH THE WASTE HATCH BEFORE THE MACHINE RECLASSIFIES YOU.",
+                "check": {
+                  "id": "ch2_flower_waste_chute",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "waste_chute_escape"
+                },
+                "fail": {
+                  "to": "fatal_planting"
+                },
+                "if": {
+                  "flagIs": [
+                    "botanical_infection_state",
+                    "none"
+                  ]
+                }
+              }
+            ]
+          },
+          "waste_chute_escape": {
+            "mode": "narrative",
+            "scene": "biology_park/waste_chute",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "flower_waste_chute"
+              }
+            },
+            "text": "You dive into the disposal hatch before the planter realizes you are human again. The chute empties into a forgotten irrigation service passage beneath the greenhouse.",
+            "choices": [
+              {
+                "id": "emerge_from_flower_waste",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "irrigation_hub"
+              }
+            ]
+          },
+          "fatal_transformation": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_machine",
+            "text": "The automated planter finishes its work. Green growth stretches through your outline until there is no recognizable person left.\n\nCULTIVATION SUCCESSFUL.\n\nENDING - PERSONAL GROWTH.",
+            "choices": [
+              {
+                "id": "restart_flower_transformation",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "fatal_planting": {
+            "mode": "narrative",
+            "scene": "biology_park/planting_machine",
+            "text": "The waste hatch snaps shut and the planting arms return. A label is printed and affixed neatly to the growing bed.\n\nENDING - RECLASSIFIED.",
+            "choices": [
+              {
+                "id": "restart_failed_waste",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "translator_controls": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "text": "Sensors threaded through the flower drive a mechanical translator rack. Perforated paper tape feeds orders into an automatic approval reader. A printer reports: REQUEST RECEIVED. REQUEST APPROVED. PREPARING NEXT REQUEST.",
+            "choices": [
+              {
+                "id": "disconnect_biofeedback_cables",
+                "kind": "action",
+                "text": "DISCONNECT THE BIOLOGICAL SENSOR CABLES.",
+                "check": {
+                  "id": "ch2_translator_cables",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "sabotage_cable_recoil"
+                },
+                "fail": {
+                  "to": "sabotage_cable_alarm"
+                }
+              },
+              {
+                "id": "reroute_approval_punch_tape",
+                "kind": "action",
+                "text": "ALTER THE NORMAL PUNCH-TAPE FEED PATH.",
+                "to": "sabotage_tape_stalled"
+              },
+              {
+                "id": "staple_punch_tape_loop",
+                "kind": "action",
+                "text": "BEND THE MOVING PUNCH TAPE INTO A LOOP AND STAPLE IT SHUT.",
+                "check": {
+                  "id": "ch2_stapled_punch_tape",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "sabotage_staple_stalled"
+                },
+                "fail": {
+                  "to": "sabotage_staple_alarm"
+                },
+                "if": {
+                  "has": "red_stapler"
+                }
+              },
+              {
+                "id": "jam_feed_with_clicker",
+                "kind": "action",
+                "text": "WEDGE THE TIMING CLICKER INTO THE TRANSLATOR FEED.",
+                "if": {
+                  "has": "timing_clicker"
+                },
+                "to": "sabotage_clicker_stalled"
+              },
+              {
+                "id": "jam_feed_with_rubber_ball",
+                "kind": "action",
+                "text": "JAM THE FEED WITH THE RUBBER-BAND BALL.",
+                "if": {
+                  "has": "rubber_band_ball"
+                },
+                "to": "sabotage_rubber_stalled"
+              }
+            ]
+          },
+          "sabotage_cable_recoil": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "effects": {
+              "set": {
+                "roots_recoiled": true
+              }
+            },
+            "text": "The exposed cables tear free with a loud report. The flower recoils from the feedback. Roots withdraw from a greenhouse wall and expose a heavy service door. Meanwhile the new approval queue stops moving.",
+            "choices": [
+              {
+                "id": "choose_recoil_escape",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "sabotage_window"
+              }
+            ]
+          },
+          "sabotage_cable_alarm": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "text": "The cable breaks at the wrong point. A warning bell summons the roots instead of making them recoil. One twists around the floor beneath you and tips you toward an unfinished service duct.",
+            "choices": [
+              {
+                "id": "crawl_clear_of_cable_alarm",
+                "kind": "action",
+                "text": "SLIDE INTO THE SERVICE DUCT BEFORE THE ROOTS CLOSE IT.",
+                "check": {
+                  "id": "ch2_cable_alarm_escape",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "cable_alarm_survived"
+                },
+                "fail": {
+                  "to": "fatal_roots"
+                }
+              }
+            ]
+          },
+          "cable_alarm_survived": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "cable_alarm_duct"
+              }
+            },
+            "text": "You clear the duct as the roots knot themselves across the doorway. The tunnel leads directly into Lower Irrigation Services.",
+            "choices": [
+              {
+                "id": "escape_cables_into_irrigation",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "irrigation_hub"
+              }
+            ]
+          },
+          "fatal_roots": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "text": "The roots draw together and the overhead machine returns to its orderly processing. A new request is filed for one additional buried fixture.\n\nENDING - SITE IMPROVEMENT.",
+            "choices": [
+              {
+                "id": "restart_roots",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "sabotage_tape_stalled": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "text": "You reroute the paper tape through its own feed guide. The reader begins accepting the same unfinished application repeatedly. New orders stop processing, though the roots already in the building continue growing.",
+            "choices": [
+              {
+                "id": "use_paper_delay",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "sabotage_window"
+              }
+            ]
+          },
+          "sabotage_staple_stalled": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "text": "The stapled tape runs in a perfect loop.\n\nREQUEST RECEIVED. REQUEST RECEIVED. REQUEST ALREADY RECEIVED. REQUEST RECEIVED.\n\nThe reader becomes too busy acknowledging its own paperwork to process another order.",
+            "choices": [
+              {
+                "id": "use_stapled_delay",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "sabotage_window"
+              }
+            ]
+          },
+          "sabotage_staple_alarm": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "text": "The metal join catches. The tape tears with a snap and a fault alarm erupts from the reader. A temporary halt leaves you seconds before the machinery clears itself.",
+            "choices": [
+              {
+                "id": "flee_staple_failure",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "sabotage_window"
+              }
+            ]
+          },
+          "sabotage_clicker_stalled": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "effects": {
+              "take": [
+                "timing_clicker"
+              ]
+            },
+            "text": "The timing clicker jams the feed rollers. The machine prints an apology and waits to be recalibrated. There is enough time to run.",
+            "choices": [
+              {
+                "id": "flee_clicker_jam",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "sabotage_window"
+              }
+            ]
+          },
+          "sabotage_rubber_stalled": {
+            "mode": "narrative",
+            "scene": "biology_park/translator_machine",
+            "effects": {
+              "take": [
+                "rubber_band_ball"
+              ]
+            },
+            "text": "The rubber-band ball is swallowed by the guide rollers. The reader tries three times to classify it as a document, then stops. The floor trembles as the plant continues growing.",
+            "choices": [
+              {
+                "id": "flee_rubber_jam",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "sabotage_window"
+              }
+            ]
+          },
+          "sabotage_window": {
+            "mode": "narrative",
+            "scene": "biology_park/central_flower",
+            "text": "New requests are delayed. The old approvals remain perfectly valid, and the plant is still enlarging. A perimeter walkway leads toward the Environmental Control Tower.",
+            "choices": [
+              {
+                "id": "run_to_tower_first_visit",
+                "kind": "action",
+                "text": "RUN THROUGH THE TOWER WHILE THE APPROVAL SYSTEM IS STALLED.",
+                "if": {
+                  "notFlag": "tower_visited"
+                },
+                "to": "tower_late_entry"
+              },
+              {
+                "id": "run_past_visited_tower",
+                "kind": "action",
+                "text": "RUN PAST THE ALREADY INSPECTED CONTROL TOWER.",
+                "if": {
+                  "flag": "tower_visited"
+                },
+                "to": "tower_bypass_exit"
+              },
+              {
+                "id": "take_root_exposed_service_door",
+                "kind": "action",
+                "text": "ENTER THE SERVICE DOOR EXPOSED BY RETRACTING ROOTS.",
+                "if": {
+                  "flag": "roots_recoiled"
+                },
+                "effects": {
+                  "set": {
+                    "ch2_exit_route": "translator_root_door"
+                  }
+                },
+                "to": "irrigation_hub"
+              }
+            ]
+          },
+          "tower_late_entry": {
+            "mode": "narrative",
+            "scene": "biology_park/control_tower",
+            "effects": {
+              "set": {
+                "tower_visited": true
+              }
+            },
+            "text": [
+              {
+                "if": {
+                  "flag": "office_spore_inundation"
+                },
+                "text": "You reach the tower through a rear walkway. Spores you diverted into its ducts have transformed the offices into a green choking thicket. The authorization console still works, barely. The way to the public building is beyond it."
+              },
+              {
+                "text": "You enter the tower by a rear walkway. The authorization archive is unlocked. The other exit leads toward the Exposition's ordinary public halls."
+              }
+            ],
+            "choices": [
+              {
+                "id": "read_late_tower_archive",
+                "kind": "action",
+                "text": "INSPECT THE AUTHORITIES BEHIND THE FLOWER'S REQUESTS.",
+                "to": "tower_late_records"
+              },
+              {
+                "id": "leave_late_tower",
+                "kind": "action",
+                "text": "TAKE THE TOWER-SIDE EXIT TO THE MAIN BUILDING.",
+                "effects": {
+                  "set": {
+                    "ch2_exit_route": "sabotage_tower_escape"
+                  }
+                },
+                "to": "public_exit_staging"
+              }
+            ]
+          },
+          "tower_late_records": {
+            "mode": "narrative",
+            "scene": "biology_park/authorization_archive",
+            "effects": {
+              "set": {
+                "expansion_orders_seen": true
+              }
+            },
+            "text": "The requests originated with Botanical Specimen 001 and were approved by Environmental Management, first by people and later by the office machinery itself. The plant learned the approval pattern without ever learning the meaning of a bathroom.",
+            "choices": [
+              {
+                "id": "leave_after_late_records",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "public_exit_staging",
+                "effects": {
+                  "set": {
+                    "ch2_exit_route": "sabotage_tower_archives"
+                  }
+                }
+              }
+            ]
+          },
+          "tower_bypass_exit": {
+            "mode": "narrative",
+            "scene": "biology_park/control_tower",
+            "effects": {
+              "set": {
+                "ch2_exit_route": "sabotage_tower_bypass"
+              }
+            },
+            "text": "You pass the Environmental Control Tower by the same walkway used earlier. The file cabinets have not moved, except for the ones pulled into the walls by roots. A tower-side emergency egress opens toward the main building.",
+            "choices": [
+              {
+                "id": "leave_tower_bypass",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "public_exit_staging"
+              }
+            ]
+          },
+          "irrigation_hub": {
+            "mode": "narrative",
+            "scene": "biology_park/lower_irrigation",
+            "text": "Lower Irrigation Services is an old concrete passage beneath the Park. Water pipes throb behind the walls. A maintenance emergency door leads out of the botanical district, beside a neglected decontamination locker.",
+            "choices": [
+              {
+                "id": "find_maintenance_service_exit",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "maintenance_exit_staging"
+              }
+            ]
+          },
+          "public_exit_staging": {
+            "mode": "narrative",
+            "scene": "biology_park/public_exit",
+            "text": "A personnel exit leads back toward the main Exposition. Beside the steel door hangs a closed first-aid box with a botanical exposure pictogram. The seal on its hinged lid looks old.",
+            "choices": [
+              {
+                "id": "open_public_wall_aid",
+                "kind": "action",
+                "text": "INSPECT THE CLOSED FIRST-AID BOX BESIDE THE EXIT.",
+                "if": {
+                  "notFlag": "public_kit_handled"
+                },
+                "to": "public_kit_focus"
+              },
+              {
+                "id": "leave_through_public_door",
+                "kind": "action",
+                "text": "LEAVE BIOLOGY PARK THROUGH THE PUBLIC DOOR.",
+                "to": "end_public"
+              }
+            ],
+            "use": {
+              "botanical_antidote_public": {
+                "check": {
+                  "id": "ch2_public_inventory_use",
+                  "sides": 6,
+                  "need": 3,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "effects": {
+                  "take": [
+                    "botanical_antidote_public"
+                  ]
+                },
+                "pass": {
+                  "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+                  "effects": {
+                    "set": {
+                      "spore_infected": false,
+                      "thorn_infected": false
+                    }
+                  }
+                },
+                "fail": {
+                  "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+                }
+              }
+            }
+          },
+          "maintenance_exit_staging": {
+            "mode": "narrative",
+            "scene": "biology_park/maintenance_exit",
+            "text": "The maintenance exit is an unadorned steel door. Next to it sits an industrial decontamination locker, long neglected but still sealed. It is not the public first-aid box.",
+            "choices": [
+              {
+                "id": "open_maintenance_aid",
+                "kind": "action",
+                "text": "INSPECT THE MAINTENANCE DECONTAMINATION LOCKER.",
+                "if": {
+                  "notFlag": "maintenance_kit_handled"
+                },
+                "to": "maintenance_kit_focus"
+              },
+              {
+                "id": "leave_through_maintenance_door",
+                "kind": "action",
+                "text": "TAKE THE MAINTENANCE EXIT OUT OF BIOLOGY PARK.",
+                "to": "end_maintenance"
+              }
+            ],
+            "use": {
+              "botanical_antidote_maintenance": {
+                "check": {
+                  "id": "ch2_maintenance_inventory_use",
+                  "sides": 6,
+                  "need": 4,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "effects": {
+                  "take": [
+                    "botanical_antidote_maintenance"
+                  ]
+                },
+                "pass": {
+                  "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+                  "effects": {
+                    "set": {
+                      "spore_infected": false,
+                      "thorn_infected": false
+                    }
+                  }
+                },
+                "fail": {
+                  "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+                }
+              }
+            }
+          },
+          "customs_exit": {
+            "mode": "narrative",
+            "scene": "biology_park/agricultural_customs",
+            "text": "Agricultural Customs has cleared your departure. Beside the shipment gate stands an inspection alcove with a small botanical-exposure treatment dispenser. You are free to pass, but the dispenser is optional.",
+            "choices": [
+              {
+                "id": "open_customs_aid",
+                "kind": "action",
+                "text": "INSPECT THE CUSTOMS EXPOSURE DISPENSER.",
+                "if": {
+                  "notFlag": "customs_kit_handled"
+                },
+                "to": "customs_kit_focus"
+              },
+              {
+                "id": "leave_cargo_checkpoint",
+                "kind": "action",
+                "text": "PASS THROUGH THE AGRICULTURAL SHIPMENT GATE.",
+                "to": "end_customs"
+              }
+            ],
+            "use": {
+              "botanical_antidote_customs": {
+                "check": {
+                  "id": "ch2_customs_inventory_use",
+                  "sides": 6,
+                  "need": 3,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "effects": {
+                  "take": [
+                    "botanical_antidote_customs"
+                  ]
+                },
+                "pass": {
+                  "result": "The injector clicks and empties. The unsettling biological sensations fade. An indicator confirms complete reversal of botanical contamination.",
+                  "effects": {
+                    "set": {
+                      "spore_infected": false,
+                      "thorn_infected": false
+                    }
+                  }
+                },
+                "fail": {
+                  "result": "The expired medicine has no effect. The troubling biological signs remain exactly as they were."
+                }
+              }
+            }
+          },
+          "public_kit_focus": {
+            "mode": "focus",
+            "scene": "biology_park/public_exit",
+            "focus": "biology_park/public_exit/aid_box_open",
+            "scenePickup": {
+              "id": "public_antidote_box",
+              "title": "PUBLIC FIRST-AID BOX",
+              "item": "botanical_antidote_public",
+              "readChoice": "read_public_expiry",
+              "useChoice": "use_public_from_open_kit",
+              "closeChoice": "close_public_kit_and_take"
+            },
+            "text": "The first-aid box swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+            "choices": [
+              {
+                "id": "read_public_expiry",
+                "kind": "action",
+                "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+                "to": "public_kit_read_focus"
+              },
+              {
+                "id": "use_public_from_open_kit",
+                "kind": "action",
+                "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+                "check": {
+                  "id": "ch2_public_kit_direct",
+                  "sides": 6,
+                  "need": 3,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "public_exit_staging",
+                  "effects": [
+                    {
+                      "set": {
+                        "public_kit_handled": true,
+                        "public_kit_spent": true
+                      }
+                    },
+                    {
+                      "set": {
+                        "spore_infected": false,
+                        "thorn_infected": false
+                      }
+                    }
+                  ]
+                },
+                "fail": {
+                  "to": "public_exit_staging",
+                  "effects": {
+                    "set": {
+                      "public_kit_handled": true,
+                      "public_kit_spent": true
+                    }
+                  }
+                }
+              },
+              {
+                "id": "close_public_kit_and_take",
+                "kind": "action",
+                "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+                "back": true,
+                "effects": {
+                  "give": [
+                    "botanical_antidote_public"
+                  ],
+                  "set": {
+                    "public_kit_handled": true,
+                    "public_kit_taken": true
+                  }
+                }
+              }
+            ]
+          },
+          "public_kit_read_focus": {
+            "mode": "focus",
+            "scene": "biology_park/public_exit",
+            "focus": "biology_park/public_exit/aid_box_open",
+            "scenePickup": {
+              "id": "public_antidote_box",
+              "title": "PUBLIC FIRST-AID BOX",
+              "item": "botanical_antidote_public",
+              "readChoice": null,
+              "useChoice": "use_public_after_read",
+              "closeChoice": "close_public_read_kit_and_take"
+            },
+            "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1977.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+            "choices": [
+              {
+                "id": "use_public_after_read",
+                "kind": "action",
+                "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+                "check": {
+                  "id": "ch2_public_kit_read_use",
+                  "sides": 6,
+                  "need": 3,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "public_exit_staging",
+                  "effects": [
+                    {
+                      "set": {
+                        "public_kit_handled": true,
+                        "public_kit_spent": true
+                      }
+                    },
+                    {
+                      "set": {
+                        "spore_infected": false,
+                        "thorn_infected": false
+                      }
+                    }
+                  ]
+                },
+                "fail": {
+                  "to": "public_exit_staging",
+                  "effects": {
+                    "set": {
+                      "public_kit_handled": true,
+                      "public_kit_spent": true
+                    }
+                  }
+                }
+              },
+              {
+                "id": "close_public_read_kit_and_take",
+                "kind": "action",
+                "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+                "back": true,
+                "effects": {
+                  "give": [
+                    "botanical_antidote_public"
+                  ],
+                  "set": {
+                    "public_kit_handled": true,
+                    "public_kit_taken": true
+                  }
+                }
+              }
+            ]
+          },
+          "maintenance_kit_focus": {
+            "mode": "focus",
+            "scene": "biology_park/maintenance_exit",
+            "focus": "biology_park/maintenance_exit/decontamination_kit_open",
+            "scenePickup": {
+              "id": "maintenance_antidote_box",
+              "title": "MAINTENANCE DECONTAMINATION LOCKER",
+              "item": "botanical_antidote_maintenance",
+              "readChoice": "read_maintenance_expiry",
+              "useChoice": "use_maintenance_from_open_kit",
+              "closeChoice": "close_maintenance_kit_and_take"
+            },
+            "text": "The industrial decontamination locker swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+            "choices": [
+              {
+                "id": "read_maintenance_expiry",
+                "kind": "action",
+                "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+                "to": "maintenance_kit_read_focus"
+              },
+              {
+                "id": "use_maintenance_from_open_kit",
+                "kind": "action",
+                "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+                "check": {
+                  "id": "ch2_maintenance_kit_direct",
+                  "sides": 6,
+                  "need": 4,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "maintenance_exit_staging",
+                  "effects": [
+                    {
+                      "set": {
+                        "maintenance_kit_handled": true,
+                        "maintenance_kit_spent": true
+                      }
+                    },
+                    {
+                      "set": {
+                        "spore_infected": false,
+                        "thorn_infected": false
+                      }
+                    }
+                  ]
+                },
+                "fail": {
+                  "to": "maintenance_exit_staging",
+                  "effects": {
+                    "set": {
+                      "maintenance_kit_handled": true,
+                      "maintenance_kit_spent": true
+                    }
+                  }
+                }
+              },
+              {
+                "id": "close_maintenance_kit_and_take",
+                "kind": "action",
+                "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+                "back": true,
+                "effects": {
+                  "give": [
+                    "botanical_antidote_maintenance"
+                  ],
+                  "set": {
+                    "maintenance_kit_handled": true,
+                    "maintenance_kit_taken": true
+                  }
+                }
+              }
+            ]
+          },
+          "maintenance_kit_read_focus": {
+            "mode": "focus",
+            "scene": "biology_park/maintenance_exit",
+            "focus": "biology_park/maintenance_exit/decontamination_kit_open",
+            "scenePickup": {
+              "id": "maintenance_antidote_box",
+              "title": "MAINTENANCE DECONTAMINATION LOCKER",
+              "item": "botanical_antidote_maintenance",
+              "readChoice": null,
+              "useChoice": "use_maintenance_after_read",
+              "closeChoice": "close_maintenance_read_kit_and_take"
+            },
+            "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1969.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+            "choices": [
+              {
+                "id": "use_maintenance_after_read",
+                "kind": "action",
+                "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+                "check": {
+                  "id": "ch2_maintenance_kit_read_use",
+                  "sides": 6,
+                  "need": 4,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "maintenance_exit_staging",
+                  "effects": [
+                    {
+                      "set": {
+                        "maintenance_kit_handled": true,
+                        "maintenance_kit_spent": true
+                      }
+                    },
+                    {
+                      "set": {
+                        "spore_infected": false,
+                        "thorn_infected": false
+                      }
+                    }
+                  ]
+                },
+                "fail": {
+                  "to": "maintenance_exit_staging",
+                  "effects": {
+                    "set": {
+                      "maintenance_kit_handled": true,
+                      "maintenance_kit_spent": true
+                    }
+                  }
+                }
+              },
+              {
+                "id": "close_maintenance_read_kit_and_take",
+                "kind": "action",
+                "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+                "back": true,
+                "effects": {
+                  "give": [
+                    "botanical_antidote_maintenance"
+                  ],
+                  "set": {
+                    "maintenance_kit_handled": true,
+                    "maintenance_kit_taken": true
+                  }
+                }
+              }
+            ]
+          },
+          "customs_kit_focus": {
+            "mode": "focus",
+            "scene": "biology_park/agricultural_customs",
+            "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
+            "scenePickup": {
+              "id": "customs_antidote_box",
+              "title": "AGRICULTURAL EXPOSURE DISPENSER",
+              "item": "botanical_antidote_customs",
+              "readChoice": "read_customs_expiry",
+              "useChoice": "use_customs_from_open_kit",
+              "closeChoice": "close_customs_kit_and_take"
+            },
+            "text": "The agricultural exposure dispenser swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+            "choices": [
+              {
+                "id": "read_customs_expiry",
+                "kind": "action",
+                "text": "READ THE SMALL EXPIRATION AND HANDLING LABEL.",
+                "to": "customs_kit_read_focus"
+              },
+              {
+                "id": "use_customs_from_open_kit",
+                "kind": "action",
+                "text": "USE THE ANTIDOTE DIRECTLY FROM THE OPEN KIT.",
+                "check": {
+                  "id": "ch2_customs_kit_direct",
+                  "sides": 6,
+                  "need": 3,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "customs_exit",
+                  "effects": [
+                    {
+                      "set": {
+                        "customs_kit_handled": true,
+                        "customs_kit_spent": true
+                      }
+                    },
+                    {
+                      "set": {
+                        "spore_infected": false,
+                        "thorn_infected": false
+                      }
+                    }
+                  ]
+                },
+                "fail": {
+                  "to": "customs_exit",
+                  "effects": {
+                    "set": {
+                      "customs_kit_handled": true,
+                      "customs_kit_spent": true
+                    }
+                  }
+                }
+              },
+              {
+                "id": "close_customs_kit_and_take",
+                "kind": "action",
+                "text": "CLOSE THE KIT AND POCKET THE ANTIDOTE INJECTOR.",
+                "back": true,
+                "effects": {
+                  "give": [
+                    "botanical_antidote_customs"
+                  ],
+                  "set": {
+                    "customs_kit_handled": true,
+                    "customs_kit_taken": true
+                  }
+                }
+              }
+            ]
+          },
+          "customs_kit_read_focus": {
+            "mode": "focus",
+            "scene": "biology_park/agricultural_customs",
+            "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
+            "scenePickup": {
+              "id": "customs_antidote_box",
+              "title": "AGRICULTURAL EXPOSURE DISPENSER",
+              "item": "botanical_antidote_customs",
+              "readChoice": null,
+              "useChoice": "use_customs_after_read",
+              "closeChoice": "close_customs_read_kit_and_take"
+            },
+            "text": "You lift the folded label.\n\nANTIDOTE FOR EXPERIMENTAL BOTANICAL EXPOSURE. EXPIRATION: 1981.\n\nThe medicine is decades out of date. The quality of this supply is uncertain; the infection may be too well established for it to work.",
+            "choices": [
+              {
+                "id": "use_customs_after_read",
+                "kind": "action",
+                "text": "USE THE EXPIRED ANTIDOTE ANYWAY.",
+                "check": {
+                  "id": "ch2_customs_kit_read_use",
+                  "sides": 6,
+                  "need": 3,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "spore_infected",
+                        "notFlag": "thorn_infected"
+                      },
+                      "add": -1
+                    },
+                    {
+                      "if": {
+                        "flag": "thorn_infected"
+                      },
+                      "add": -2
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "customs_exit",
+                  "effects": [
+                    {
+                      "set": {
+                        "customs_kit_handled": true,
+                        "customs_kit_spent": true
+                      }
+                    },
+                    {
+                      "set": {
+                        "spore_infected": false,
+                        "thorn_infected": false
+                      }
+                    }
+                  ]
+                },
+                "fail": {
+                  "to": "customs_exit",
+                  "effects": {
+                    "set": {
+                      "customs_kit_handled": true,
+                      "customs_kit_spent": true
+                    }
+                  }
+                }
+              },
+              {
+                "id": "close_customs_read_kit_and_take",
+                "kind": "action",
+                "text": "CLOSE THE KIT AND TAKE THE INJECTOR.",
+                "back": true,
+                "effects": {
+                  "give": [
+                    "botanical_antidote_customs"
+                  ],
+                  "set": {
+                    "customs_kit_handled": true,
+                    "customs_kit_taken": true
+                  }
+                }
+              }
+            ]
+          },
+          "end_public": {
+            "mode": "narrative",
+            "scene": "biology_park/exposition_concourse",
+            "effects": {
+              "set": {
+                "chapter3_entry_group": "public_concourse"
+              }
+            },
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "appeal_house_equipment"
+                  ]
+                },
+                "text": "The transfer corridor delivers you into the main Exposition under a still-pending ownership dispute. The House continues to claim you as equipment. Biology Park has not withdrawn its interest. You remain in urgent need of a working bathroom."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "appeal_director"
+                  ]
+                },
+                "text": "You leave through the personnel corridor with a Director's authority that apparently extends to deciding not to be planted. A notice promises your suspension order will receive prompt consideration."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "appeal_examiner"
+                  ]
+                },
+                "text": "You escape as an Examiner whose inspection has not yet officially concluded. The flower can wait for its determination. Your own bathroom request remains pending."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "appeal_biological"
+                  ]
+                },
+                "text": "The legal cultivation order is cancelled. Whether the growth inside you has agreed to the same arrangement is less certain. You reach the Exposition concourse."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "emergency_stapler_form"
+                  ]
+                },
+                "text": "You reach the public concourse while the Park catalogues your confiscated red stapler as protected equipment. It has finally succeeded at registering one thing correctly."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "emergency_reclassified"
+                  ]
+                },
+                "text": "The planting apparatus has acknowledged your protected status. You pass into the Exposition as somebody no longer considered a suitable flowerpot."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "sabotage_tower_archives"
+                  ]
+                },
+                "text": "You bring knowledge of the plant's self-approved expansion through the tower's public-side exit. The original authorizations remain in force, and the system is already trying to repair its tape."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "sabotage_tower_bypass"
+                  ]
+                },
+                "text": "You take the tower-side emergency corridor without repeating your earlier inspection. The administrative interruption may last minutes. The green wall of Biology Park still advances."
+              },
+              {
+                "text": "You escape through the Environmental Control Tower's public-side exit while its authorization machinery remains temporarily occupied with the same request."
+              }
+            ],
+            "choices": [
+              {
+                "id": "restart_ch2_public",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "end_maintenance": {
+            "mode": "narrative",
+            "scene": "biology_park/maintenance_exit",
+            "effects": {
+              "set": {
+                "chapter3_entry_group": "service_infrastructure"
+              }
+            },
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "director_cease"
+                  ]
+                },
+                "text": "An official suspension sends you through a personnel stairwell into Lower Irrigation Services and out into the Exposition's service infrastructure. The forest remains technically authorized to grow behind you."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "translator_root_door"
+                  ]
+                },
+                "text": "The flower's recoiling roots exposed a hidden service door. You pass through the old irrigation corridors and into the machinery beneath the Exposition. The plant will recover; the door may not remain exposed."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "reserve_power_failure"
+                  ]
+                },
+                "text": "The failed reserve tram dumped you under Biology Park. You climb out via the maintenance passages with no robot to congratulate you and no public audience to applaud."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "planting_breakout"
+                  ]
+                },
+                "text": "You escaped the compulsory planter by tearing free of its hardware. You emerge into the Exposition's service passages while the machine requests a replacement planting subject."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "flower_waste_chute"
+                  ]
+                },
+                "text": "The flower's own waste chute deposited you in the abandoned irrigation system. You escape as unsuitable growing material, which is the best official classification you have had all day."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "cable_alarm_duct"
+                  ]
+                },
+                "text": "You outrun the collapsing sensor cables through a low service duct and reach the maintenance wing. The approval system has already begun reporting the incident as normal plant growth."
+              },
+              {
+                "text": "You emerge through an old maintenance door beneath the Park. The giant greenhouse is behind you. The Exposition's service infrastructure stretches ahead, with no evidence of a working bathroom."
+              }
+            ],
+            "choices": [
+              {
+                "id": "restart_ch2_maintenance",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "end_customs": {
+            "mode": "narrative",
+            "scene": "biology_park/agricultural_customs",
+            "effects": {
+              "set": {
+                "chapter3_entry_group": "public_concourse"
+              }
+            },
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "courier_carried"
+                  ]
+                },
+                "text": "The agricultural gate admits you to the main Exposition with a certified canister of viable seeds still in your possession. They have not spread, but you are now personally responsible for where they go."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "courier_surrendered"
+                  ]
+                },
+                "text": "You pass into the public concourse without the canister. The seeds have entered the Exposition's distribution network. The plant has found a new department to carry its ambitions."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "courier_destroyed"
+                  ]
+                },
+                "text": "You leave through Customs after destroying this shipment of viable seeds. The flower is still growing elsewhere. At least one approved expansion has been denied a ride."
+              },
+              {
+                "text": "Customs has classified the ruptured shipment as safely concluded. You reach the public concourse with whatever the leaking seed dust may have left inside you."
+              }
+            ],
+            "choices": [
+              {
+                "id": "restart_ch2_customs",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
                 "restart": true
               }
             ],

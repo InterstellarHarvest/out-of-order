@@ -45,6 +45,7 @@ function copySource(from) {
   };
 }
 const PROLOGUE = 'chapters/prologue-00.draft.json';
+const CHAPTER1 = 'chapters/chapter-01.draft.json';
 const node = (j, id) => j.nodes[id];
 const choice = (j, nid, cid) => j.nodes[nid].choices.filter((c) => c.id === cid)[0];
 const has = (list, re) => list.some((e) => re.test(e));
@@ -65,9 +66,11 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
 (function real() {
   const g = 'baseline';
   const b = build();
-  check(g, 'story/ (prologue-00 draft) builds as a preview with no errors', b.ok, b.report.errors);
-  check(g, 'the prologue has 29 nodes and one explicit DRAFT STOP at its unfinished hand-off', b.ok && b.report.stats.nodes === 29
-    && JSON.stringify(b.report.draftStops) === '["prologue-00:reception_hallway"]', b.ok && [b.report.stats, b.report.draftStops]);
+  check(g, 'story/ (prologue-00 + chapter-01 drafts) builds as a preview with no errors', b.ok, b.report.errors);
+  check(g, 'three chapters: 29 Prologue, 36 House and 99 Biology Park nodes, with no unfinished draft-stop nodes', b.ok
+    && b.report.stats.chapters === 3 && b.report.stats.nodes === 164 && Object.keys(b.story.chapters['prologue-00'].nodes).length === 29
+    && Object.keys(b.story.chapters['chapter-01'].nodes).length === 36 && Object.keys(b.story.chapters['chapter-02'].nodes).length === 99
+    && b.report.draftStops.length === 0, b.ok && [b.report.stats, b.report.draftStops]);
   const v = verify();
   check(g, 'game/content/story.generated.js is up to date with story/ (no stale output)', v.ok, v.why);
   check(g, 'reimporting identical JSON produces byte-identical runtime content', b.ok && build().text === b.text);
@@ -80,10 +83,19 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'authoring key order does not change the content hash or the runtime content', b2.ok && b2.meta.contentHash === b.meta.contentHash && b2.text.split('\n').slice(3).join() !== undefined
     && JSON.stringify(b2.story.chapters['prologue-00'].nodes.work_complete.choices) !== undefined, b2.ok && [b2.meta.contentHash, b.meta.contentHash]);
   check(g, 'the build records content hash, version, schema and every source file hash', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
-    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 5 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
+    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 7 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
-  check(g, 'every art file is recorded with its artwork status and sha256 (28 generated drafts, 5 reused approved)', b.ok
-    && b.meta.art.filter((a) => a.status === 'generated').length === 28 && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
+  // docs/92 adds the 28 bound Chapter 1 House images (the 29th, the default chair, is unbound).
+  const houseArt = (a) => /house_of_tomorrow|portraits\/house\/|family_portrait_photo/.test(a.path);
+  // docs/102 (public docs/108): + the 45 Biology Park story images (28 scenes, 2 conversation backgrounds, 2 poses,
+  // 3 Focus A, 5 item slots + 5 inspects; the 5 death images reach the popup through the death runtime, not here).
+  const parkArt = (a) => /biology_park|portraits\/(groundskeeper|courtesy_conductor)\/|items\/(botanical_antidote_|certified_seed_canister_|acting_director_badge_)/.test(a.path);
+  // Owner ruling 2026-11-16 (public docs/102-103, docs/97): selected + used art is approved; in this build = integrated.
+  // + 2 Batch B House views (lounge, dining; public docs/107 section 9) = 30 House images.
+  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images, 5 reused approved)', b.ok
+    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
+    && b.meta.art.filter((a) => a.status === 'integrated' && parkArt(a)).length === 45
+    && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
 })();
 
 // 2. Content changes reach the game without engine edits ----------------------------------------
@@ -160,7 +172,7 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   bad('art from review/ or source/ is refused', 'artwork.draft.json', (j) => { j.scenes['workplace/corridor'].assetPath = 'art/source/corridor.png'; }, /may not use source\/, originals\/ or review\//);
   bad('an item art path that disagrees with the artwork registry is reported', 'items.draft.json', (j) => { j.wc_key.slotArt = 'art/items/other.png'; }, /disagrees with the artwork registry/);
   bad('missing required artwork is an error in an approved build', 'artwork.draft.json', (j) => { j.scenes['workplace/corridor'].assetPath = null; }, /no assetPath yet \(missing required artwork/, 'approved');
-  bad('an unfinished node (DRAFT STOP) is an error in an approved build', PROLOGUE, (j) => j, /has no choices and is not an ending/, 'approved');
+  bad('an unfinished node (DRAFT STOP) is an error in an approved build', CHAPTER1, (j) => { j.nodes.house_arrival.choices = []; }, /has no choices and is not an ending/, 'approved');
   // In a preview, missing art is a labelled placeholder (fixture profile), reported as a warning.
   const t = copySource(STORY).edit('artwork.draft.json', (j) => { j.scenes['workplace/corridor'].assetPath = null; });
   const b = build({ from: t.dir });
@@ -173,23 +185,52 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'a rejected export writes nothing (build returns no text)', bb.text === null);
 })();
 
-// 4. Draft stops and channels -----------------------------------------------------------------------
+// 4. Authored Chapter 1 endings and draft channels ------------------------------------------------
 (function drafts() {
   const g = 'draft-stop';
   const b = build();
-  const n = b.story.chapters['prologue-00'].nodes.reception_hallway;
-  check(g, 'a preview ends an unfinished hand-off explicitly: end node, one system card DRAFT ENDS HERE. BEGIN AGAIN.', n.end === true && n.choices.length === 1
-    && n.choices[0].kind === 'system' && n.choices[0].restart === true && /DRAFT ENDS HERE/.test(n.choices[0].text));
-  check(g, 'its narration is the authored text, unchanged (no invented ending)', /You follow it\.$/.test(n.text));
-  const t = copySource(STORY).edit(PROLOGUE, (j) => { node(j, 'reception_hallway').choices = [{ id: 'restart_here', kind: 'system', text: 'BEGIN AGAIN.', restart: true }]; node(j, 'reception_hallway').end = true; });
+  const chapter = b.story.chapters['chapter-01'];
+  const surviving = ['exit_named_plant', 'exit_martin', 'exit_service_clean', 'exit_service_registered', 'exit_showroom_reset'];
+  const fatal = chapter.nodes.exit_chair_fatal;
+  check(g, 'Chapter 1: the fatal chair stays an end node with only BEGIN AGAIN; no development placeholder',
+    b.report.draftStops.length === 0 && !chapter.nodes.dev_placeholder && fatal && fatal.end === true && fatal.choices.length === 1 && fatal.choices[0].restart === true,
+    [b.report.draftStops, fatal]);
+  check(g, 'Chapter 1: each of the five surviving exits hands off with one CONTINUE card into chapter-02 (no restart, no to)',
+    surviving.every((id) => {
+      const n = chapter.nodes[id];
+      return n && !n.end && n.choices.length === 1 && n.choices[0].kind === 'continue' && n.choices[0].chapter === 'chapter-02' && !n.choices[0].restart && !n.choices[0].to;
+    }), surviving.map((id) => chapter.nodes[id] && chapter.nodes[id].choices));
+  check(g, 'the imported House begins with authored narration, not development-placeholder prose',
+    chapter.start === 'house_arrival' && !/DEVELOPMENT PLACEHOLDER/.test(JSON.stringify(chapter.nodes.house_arrival.text)));
+  const t = copySource(STORY);
   const still = build({ from: t.dir, mode: 'approved' });
-  check(g, 'an approved build refuses a chapter the manifest still marks draft (creative sign-off stays in the storyboard)', !still.ok
-    && has(still.report.errors, /prologue-00 is marked "draft"/), still.report.errors);
+  check(g, 'the approved channel refuses both creatively draft chapters', !still.ok
+    && has(still.report.errors, /prologue-00 is marked "draft"/) && has(still.report.errors, /chapter-01 is marked "draft"/), still.report.errors);
   t.edit('storyboard-manifest.json', (j) => { j.chapters[0].status = 'approved'; });
-  const a = build({ from: t.dir, mode: 'approved' });
-  check(g, 'once the author ends the chapter and marks it approved, an approved build is possible (draft art is reported, not blocking)', a.ok && a.meta.channel === 'approved' && a.report.artPending.length === 28, a.report.errors);
-  check(g, 'the build records each chapter\'s manifest title and status (the draft stamp reads them)', b.meta.chapters.length === 1 && b.meta.chapters[0].id === 'prologue-00'
-    && b.meta.chapters[0].status === 'draft' && a.meta.chapters[0].status === 'approved');
+  const half = build({ from: t.dir, mode: 'approved' });
+  check(g, 'marking only Prologue approved cannot promote Chapter 1', !half.ok
+    && has(half.report.errors, /chapter-01 is marked "draft"/) && !has(half.report.errors, /prologue-00 is marked/), half.report.errors);
+  t.edit('storyboard-manifest.json', (j) => { j.chapters[1].status = 'approved'; });
+  const two = build({ from: t.dir, mode: 'approved' });
+  check(g, 'marking Prologue and Chapter 1 approved cannot promote Chapter 2', !two.ok
+    && has(two.report.errors, /chapter-02 is marked "draft"/) && !has(two.report.errors, /chapter-01 is marked/), two.report.errors);
+  t.edit('storyboard-manifest.json', (j) => { j.chapters[2].status = 'approved'; });
+  const noArt = build({ from: t.dir, mode: 'approved' });
+  // docs/102: every House and Biology Park image the story uses is now produced, so with all three chapters marked
+  // approved no artwork is missing and the draft statuses no longer block. The guard itself is proved on a copy
+  // with one Chapter 2 scene's production path removed: the approved channel must refuse it as missing art.
+  check(g, 'with all three chapters marked approved, no required artwork is missing and no draft status blocks',
+    !has(noArt.report.errors, /missing required artwork/) && !has(noArt.report.errors, /is marked "draft"/), noArt.report.errors);
+  t.edit('artwork.draft.json', (j) => { j.scenes['biology_park/formal_entrance'].assetPath = null; });
+  const gap = build({ from: t.dir, mode: 'approved' });
+  check(g, 'an unproduced Biology Park scene still prevents an approved build (guard control)',
+    !gap.ok && has(gap.report.errors, /biology_park\/formal_entrance.*missing required artwork/), gap.report.errors);
+  check(g, 'the build records each chapter manifest title/status and stays a preview',
+    JSON.stringify(b.meta.chapters) === JSON.stringify([
+      { id: 'prologue-00', title: 'Prologue — The Last Good Day', status: 'draft' },
+      { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', status: 'draft' },
+      { id: 'chapter-02', title: 'Chapter 2 — Biology Park', status: 'draft' }
+    ]) && b.meta.channel === 'preview', b.meta.chapters);
 })();
 
 // 5. Chapters, Focus A, independence ---------------------------------------------------------------
@@ -383,14 +424,24 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
 })();
 
 // 6b. Art status and the provisional overlay ---------------------------------------------------------
-// The 28 generated prologue images are development assets: their status stays 'generated' and their
-// bytes are pinned by the sha256 each build records, so neither can change without a visible diff.
+// The 28 Prologue and 28 House images are selected and used: by the owner ruling of 2026-11-16 their
+// status is 'integrated' (canonical public catalog, docs/97). Their bytes are pinned by the sha256 each
+// build records, so neither status nor pixels can change without a visible diff. Nothing the build uses
+// may read as unselected ('generated') or as selected-but-unused ('approved').
 (function artStatus() {
   const g = 'art-status';
   const b = build();
-  const gen = b.meta.art.filter((a) => a.status === 'generated');
-  check(g, 'the build records every story image with its artwork status and sha256 (28 generated prologue images, none approved)', gen.length === 28
-    && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'approved'),
+  const gen = b.meta.art.filter((a) => a.status === 'integrated');
+  // The House images (docs/92) are pinned twice: by this sha256 and by art/house_of_tomorrow.provenance.json.
+  const prov = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/house_of_tomorrow.provenance.json'), 'utf8')).images.filter((r) => r.id !== 'house_of_tomorrow/chair#default_unrestrained')
+    .concat(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/house_of_tomorrow.batch_b.provenance.json'), 'utf8')).images); // + Batch B lounge/dining views
+  const houseOk = prov.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256));
+  // docs/102: + the 45 Biology Park story images, pinned by art/biology_park.provenance.json (the 5 death images
+  // reach the popup through the death runtime and are checked by validate_ch02_art.js).
+  const park = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/biology_park.provenance.json'), 'utf8')).images.filter((r) => r.kind !== 'death-screen');
+  const parkOk = park.length === 45 && park.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256));
+  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images matching their provenance, none generated or approved-only)', gen.length === 103 && prov.length === 30 && houseOk && parkOk
+    && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'approved' || a.status === 'generated'),
     b.meta.art.map((a) => a.status));
   const t = copySource(STORY).edit('artwork.draft.json', (j) => {
     const k = Object.keys(j.scenes)[0];
@@ -408,6 +459,134 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'the Narrative B overlay manifest matches its image (sha256 and size) and records its status (' + ov.status + ')', sha === ov.sha256
     && png.readUInt32BE(16) === ov.width && png.readUInt32BE(20) === ov.height && typeof ov.status === 'string'
     && ['x', 'y', 'width', 'lineHeight', 'safeBottom'].every((k) => typeof ov.textBox[k] === 'number'), [sha, ov]);
+})();
+
+// 6b. Prologue -> Chapter 1 hand-off: separate chapter files, and the player's whole state crosses ---
+(function handoff() {
+  const g = 'handoff';
+  const b = build();
+  if (!b.ok) return check(g, 'story/ builds', false, b.report.errors);
+  const st = b.story;
+  const src = (rel) => JSON.parse(fs.readFileSync(path.join(STORY, rel), 'utf8'));
+  const manifest = src('storyboard-manifest.json');
+  check(g, 'the manifest lists exactly Prologue, Chapter 1, Chapter 2, all draft, each in its own chapter file', JSON.stringify(manifest.chapters) === JSON.stringify([
+    { id: 'prologue-00', title: 'Prologue — The Last Good Day', file: 'chapters/prologue-00.draft.json', status: 'draft' },
+    { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', file: 'chapters/chapter-01.draft.json', status: 'draft' },
+    { id: 'chapter-02', title: 'Chapter 2 — Biology Park', file: 'chapters/chapter-02.draft.json', status: 'draft' }]), manifest.chapters);
+  const pro = src(PROLOGUE);
+  const ch1 = src(CHAPTER1);
+  check(g, 'no Chapter 1 node lives in the Prologue JSON (and none of the Prologue\'s in Chapter 1)', Object.keys(ch1.nodes).every((id) => !pro.nodes[id])
+    && Object.keys(ch1.nodes).length === 36 && ch1.start === 'house_arrival' && !ch1.nodes.dev_placeholder
+    && Object.keys(pro.nodes).length === 29);
+  const hall = st.chapters['prologue-00'].nodes.reception_hallway;
+  check(g, 'reception_hallway keeps its authored narration, scene and objective (sha256 of the text pinned)', hall.scene === 'exposition/facilities_corridor'
+    && hall.objective === 'FIND THE PUBLIC BATHROOM.' && !hall.end
+    && require('crypto').createHash('sha256').update(hall.text).digest('hex') === '54b1047e11b1fe8a98d8f92c6495b9a4d1b9af890d7bb6b476c6ed0ee2e5ff3c'
+    && /^You pass through the door and into a long, softly humming corridor\./.test(hall.text) && /You follow it\.$/.test(hall.text), hall);
+  check(g, 'its dead end is now one authored continue card whose destination is chapter: "chapter-01" (no to, no restart)', JSON.stringify(hall.choices)
+    === JSON.stringify([{ id: 'continue_to_chapter_01', kind: 'continue', text: 'CONTINUE', chapter: 'chapter-01' }]), hall.choices);
+  const c1 = st.chapters['chapter-01'];
+  // docs/92: the 14 House scenes now carry their own selected production art (integrated: owner ruling
+  // 2026-11-16), each its own file under art/scenes/house_of_tomorrow/, never Prologue art.
+  check(g, 'House Chapter 1 uses its 14 independently declared scenes, each with its own House production file, not Prologue corridor art',
+    c1.scene === 'house_of_tomorrow/arrival'
+    && Object.keys(src('artwork.draft.json').scenes).filter((x) => x.startsWith('house_of_tomorrow/')).length === 14
+    && Object.keys(st.assets.scenes).filter((x) => x.startsWith('house_of_tomorrow/')).every((x) => st.assets.scenes[x] === 'art/scenes/' + x + '.png'
+      && src('artwork.draft.json').scenes[x].status === 'integrated')
+    && !src('artwork.draft.json').scenes['house_of_tomorrow/opening'], c1.scene);
+
+  // Walk every distinct Prologue route to the hand-off (choices, SHOW/USE, and the item verbs that
+  // can change the route), then take the hand-off from each and compare the state either side.
+  const tested = {};
+  (function scan(v) {
+    if (Array.isArray(v)) return v.forEach(scan);
+    if (!v || typeof v !== 'object') return;
+    ['item', 'itemNot'].forEach((k) => { if (Array.isArray(v[k]) && typeof v[k][0] === 'string') tested[v[k][0] + ':' + v[k][1]] = true; });
+    Object.keys(v).forEach((k) => scan(v[k]));
+  })([st.chapters, st.items]);
+  const verbsFor = (id) => ['inspect', 'read'].filter((verb) => (verb === 'inspect' ? !!st.items[id].inspect || tested[id + ':inspected'] : !!st.items[id].read && tested[id + ':read']));
+  const marksKey = (s) => Object.keys(s.items).sort().map((k) => [k, s.items[k].filter((m) => tested[k + ':' + m]).sort()]).filter((e) => e[1].length);
+  const keyOf = (s, v) => JSON.stringify([s.chapter, s.node, s.returnTo, s.flags, s.inventory.slice().sort(), marksKey(s), s.checks, v.cards.map((c) => c.id), v.items]);
+  const first = Rules.begin(st, { seed: 'qa-handoff' }).state;
+  const seen = {};
+  const queue = [first];
+  const atHall = [];
+  let walked = 0;
+  while (queue.length && walked < 50000) {
+    const s = queue.shift();
+    walked++;
+    const v = Rules.view(st, s);
+    const k = keyOf(s, v);
+    if (seen[k]) continue;
+    seen[k] = true;
+    if (s.chapter !== 'prologue-00') continue;
+    if (s.node === 'reception_hallway') { atHall.push(s); continue; }
+    const inputs = v.cards.filter((c) => c.kind !== 'system').map((c) => ({ choice: c.id }));
+    v.items.forEach((it) => {
+      if (it.show) inputs.push({ item: it.id, verb: 'show' });
+      if (it.use) inputs.push({ item: it.id, verb: 'use' });
+      verbsFor(it.id).forEach((verb) => { if ((s.items[it.id] || []).indexOf(verb === 'inspect' ? 'inspected' : 'read') === -1) inputs.push({ item: it.id, verb }); });
+    });
+    inputs.forEach((input) => queue.push(Rules.step(st, s, input).state));
+  }
+  check(g, 'the walk reached the hand-off by many distinct routes (and finished)', !queue.length && atHall.length >= 20, [walked, atHall.length, queue.length]);
+  const same = (a, x) => JSON.stringify(a) === JSON.stringify(x);
+  const broken = [];
+  const outcomes = {};
+  atHall.forEach((s) => {
+    const r = Rules.step(st, s, { choice: 'continue_to_chapter_01' });
+    const a = r.state;
+    const why = [];
+    if (a.chapter !== 'chapter-01' || a.node !== 'house_arrival') why.push('arrived at ' + a.chapter + ':' + a.node);
+    if (!same(a.flags, s.flags)) why.push('flags');
+    if (!same(a.inventory, s.inventory)) why.push('inventory');
+    if (!same(a.items, s.items)) why.push('item marks');
+    if (!same(a.checks, s.checks)) why.push('resolved checks');
+    if (a.seed !== s.seed) why.push('seed');
+    if (a.objective !== 'FIND A FUNCTIONING BATHROOM.') why.push('authored Chapter 1 objective');
+    if (!same(a.transcript.slice(0, s.transcript.length), s.transcript) || a.transcript.length <= s.transcript.length) why.push('NOTES history');
+    if (!same(a.taken.slice(0, s.taken.length), s.taken) || a.taken.length !== s.taken.length + 1) why.push('taken log');
+    if (r.events.some((e) => e.t === 'restart')) why.push('restart event');
+    if (!r.events.some((e) => e.t === 'chapter' && e.id === 'chapter-01')) why.push('no chapter event');
+    if (why.length) broken.push(why);
+    outcomes[JSON.stringify([a.flags, a.inventory.slice().sort(), marksKey(a)])] = a;
+  });
+  check(g, 'every route preserves flags, inventory, marks, checks, seed and NOTES; Chapter 1 sets its authored objective', atHall.length && !broken.length, broken.slice(0, 5));
+  const arrivals = Object.values(outcomes);
+  const values = (f) => Array.from(new Set(arrivals.map((a) => JSON.stringify(a.flags[f])))).sort();
+  check(g, 'different Prologue paths arrive in Chapter 1 with different outcomes (termination status, property record, retained item, inventory)', arrivals.length >= 10
+    && values('termination_status').length >= 3 && values('property_record').length >= 3 && values('retained_item').length >= 2
+    && new Set(arrivals.map((a) => JSON.stringify(a.inventory.slice().sort()))).size >= 4,
+  { arrivals: arrivals.length, termination_status: values('termination_status'), property_record: values('property_record'), retained_item: values('retained_item') });
+
+  // Those outcomes are usable as Chapter 1 conditions. A QA-only copy (never committed) adds
+  // real forward choices at House arrival (restarting from a non-ending node is invalid).
+  const probes = [];
+  ['termination_status', 'property_record', 'retained_item', 'appointment_response'].forEach((f) => values(f).forEach((v) => probes.push({ if: { flagIs: [f, JSON.parse(v)] } })));
+  Array.from(new Set(arrivals.reduce((l, a) => l.concat(a.inventory), []))).sort().forEach((id) => { probes.push({ if: { has: id } }); probes.push({ if: { lacks: id } }); });
+  Object.keys(tested).forEach((k) => { const [id, m] = k.split(':'); probes.push({ if: { item: [id, m] } }); probes.push({ if: { itemNot: [id, m] } }); });
+  // The validator refuses a card no route can ever see, so keep the probes some arrival satisfies.
+  probes.splice(0, probes.length, ...probes.filter((p) => arrivals.some((a) => Rules.holds(p.if, a))));
+  const t = copySource(STORY).edit(CHAPTER1, (j) => {
+    j.nodes.house_arrival.choices = j.nodes.house_arrival.choices.concat(probes.map((p, i) => ({
+      id: 'qa_probe_' + i, kind: 'action', text: 'QA PROBE ' + i, if: p.if, to: 'badge_registration'
+    })));
+  });
+  const pb = build({ from: t.dir });
+  const misses = [];
+  if (pb.ok) {
+    atHall.forEach((s) => {
+      const a = Rules.step(pb.story, s, { choice: 'continue_to_chapter_01' }).state;
+      const offered = Rules.view(pb.story, a).cards.map((c) => c.id);
+      probes.forEach((p, i) => { if ((offered.indexOf('qa_probe_' + i) !== -1) !== Rules.holds(p.if, a)) misses.push([i, p.if]); });
+    });
+  }
+  const distinctOffers = !pb.ok ? new Set() : new Set(atHall.map((s) => JSON.stringify(Rules.view(pb.story, Rules.step(pb.story, s, { choice: 'continue_to_chapter_01' }).state).cards.map((c) => c.id))));
+  console.log('handoff walk: ' + walked + ' states walked, ' + atHall.length + ' distinct hand-off states, ' + arrivals.length + ' distinct Chapter 1 arrival outcomes, '
+    + probes.length + ' condition probes, ' + distinctOffers.size + ' distinct probe sets offered; termination_status ' + values('termination_status').join('/')
+    + ', property_record ' + values('property_record').join('/') + ', retained_item ' + values('retained_item').join('/'));
+  check(g, 'Chapter 1 conditions see the Prologue outcome: each probe card is offered exactly when its condition holds, and routes differ', pb.ok && !misses.length && distinctOffers.size >= 10,
+    pb.ok ? { misses: misses.slice(0, 5), distinctOffers: distinctOffers.size, probes: probes.length } : pb.report.errors);
 })();
 
 // 7. Staleness --------------------------------------------------------------------------------------
