@@ -25,5 +25,17 @@
   "allChoicesConsequencesAndMechanicsUnchanged": true,
   "allExpirationYearsUnchanged": true,
   "concurrentChapter3Preserved": true,
-  "gameplayFilesModified": false
+  "gameplayFilesModified": false,
+  "commit": "45b0488af8c0e4539105810b21d0651c1b7f49fa",
+  "playableSourceCommit": "20b52601c5733a633a385bbb1c60995174e530cc",
+  "playableSourceLocations": [
+    "story/chapters/chapter-02.draft.json:2216",
+    "story/chapters/chapter-02.draft.json:2386",
+    "story/chapters/chapter-02.draft.json:2556"
+  ],
+  "playableGeneratedLocations": [
+    "game/content/story.generated.js:5537",
+    "game/content/story.generated.js:5707",
+    "game/content/story.generated.js:5877"
+  ]
 }

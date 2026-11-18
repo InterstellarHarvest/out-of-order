@@ -1,0 +1,20 @@
+{
+  "changedExistingCanonicalFiles": [
+    "docs/103_RETROACTIVE_ARTWORK_APPROVAL_LEDGER.md",
+    "story/artwork-preview.json",
+    "story/artwork.draft.json",
+    "story/chapters/chapter-02.draft.json"
+  ],
+  "otherExistingCanonicalFilesPreserved": 218,
+  "all100PreviousSelectedPngBytesPreserved": true,
+  "all108LocalSelectedHashesMatch": true,
+  "allOriginal1931TrackedArtFilesPreserved": true,
+  "chapter3PreservedByteExact": true,
+  "deathArtworkRecordsUnchanged": true,
+  "onlyThreeApprovedNarrativePhraseReplacements": true,
+  "gameplayFilesModified": false,
+  "IStatus": "generated",
+  "ISelected": false,
+  "IProductionPath": null,
+  "publicReviewFiles": 37
+}

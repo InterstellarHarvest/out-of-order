@@ -13,3 +13,6 @@ A separate narrative commit45b0488af8c0e4539105810b21d0651c1b7f49fa replaces exa
 The public review gallery is a standalone review-only copy under tools/prologue-art-lab/assets/review/chapter-02-batch07-polish-2026-11-17 in CYOA-storyboard, deployed by the existing static-assets workflow. Revised I remains absent from story/artwork-preview.json and assets/selected. Original raw generation, exact prompt and provenance are preserved under sources and in the immutable original art review.
 
 Stop for Art Director review of revised I. A–H require no further approval. The five Chapter2 death-screen records remain not-started; no Batch8 generation.
+
+
+Publication completed: canonical04a67670745cb125201a9cb2f21b07dd845743cc; immutable revised-I5174b3cc5414f18b3971af8bcbb9f7d499eaf90f. All108 selected public PNG hashes and37 public-review files verified live. See PUBLICATION.md and publication-receipt.json.
