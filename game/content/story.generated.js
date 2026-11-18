@@ -12,8 +12,8 @@
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "21a4fb743030e512eeece52f91d8864358eac0ffd3b280e0d96cd9634f0af59e",
-        "gitBlob": "283b18ca3f0b59a4761bffea388b145e7fd81600"
+        "sha256": "015f329a14f67c3442051a87ab8be9910c5e4ec6210f8c68e9740ffedc48bac8",
+        "gitBlob": "83a9c2973006b5c155fb21a742cfbf5824ddc8a1"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
@@ -279,7 +279,7 @@
         "kind": "portrait-view",
         "id": "house@house_of_tomorrow/dining",
         "path": "art/portraits/house/dining_conversation.png",
-        "status": "approved",
+        "status": "integrated",
         "sha256": "33d7ed46c679bfbf9708edf84608cdf256a1eb22a213b55dd57825b9b6ec1f7a"
       },
       {
@@ -293,7 +293,7 @@
         "kind": "portrait-view",
         "id": "house@house_of_tomorrow/lounge",
         "path": "art/portraits/house/lounge_conversation.png",
-        "status": "approved",
+        "status": "integrated",
         "sha256": "a3d55c565d98fa92a8829100e3f0d255b72ff2963b30dd505be687df3a358bbb"
       },
       {

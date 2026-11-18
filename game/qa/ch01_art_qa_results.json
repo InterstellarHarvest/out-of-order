@@ -11,7 +11,7 @@
   {
    "browser": "chromium",
    "scenario": "album",
-   "name": "pixels: arrival scene 4x (937572 px compared)",
+   "name": "pixels: arrival scene 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -65,7 +65,7 @@
   {
    "browser": "chromium",
    "scenario": "album",
-   "name": "pixels: album-removed gallery 4x (page 1) (937572 px compared)",
+   "name": "pixels: album-removed gallery 4x (page 1) (937362 px compared)",
    "ok": true
   },
   {
@@ -77,7 +77,7 @@
   {
    "browser": "chromium",
    "scenario": "album",
-   "name": "pixels: album-removed gallery 4x (page 2) (937572 px compared)",
+   "name": "pixels: album-removed gallery 4x (page 2) (937362 px compared)",
    "ok": true
   },
   {
@@ -89,7 +89,7 @@
   {
    "browser": "chromium",
    "scenario": "album",
-   "name": "pixels: album-removed gallery 4x (page 3) (937572 px compared)",
+   "name": "pixels: album-removed gallery 4x (page 3) (937362 px compared)",
    "ok": true
   },
   {
@@ -125,7 +125,7 @@
   {
    "browser": "chromium",
    "scenario": "album",
-   "name": "pixels: gallery restored 4x (937572 px compared)",
+   "name": "pixels: gallery restored 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -191,7 +191,7 @@
   {
    "browser": "chromium",
    "scenario": "storage_desk_plant",
-   "name": "pixels: storage + desk_plant overlay 4x (937572 px compared)",
+   "name": "pixels: storage + desk_plant overlay 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -233,7 +233,7 @@
   {
    "browser": "chromium",
    "scenario": "storage_red_stapler",
-   "name": "pixels: storage + red_stapler overlay 4x (937572 px compared)",
+   "name": "pixels: storage + red_stapler overlay 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -269,7 +269,7 @@
   {
    "browser": "chromium",
    "scenario": "storage_rubber_band_ball",
-   "name": "pixels: storage + rubber_band_ball overlay 4x (937572 px compared)",
+   "name": "pixels: storage + rubber_band_ball overlay 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -311,7 +311,7 @@
   {
    "browser": "chromium",
    "scenario": "storage_timing_clicker",
-   "name": "pixels: storage + timing_clicker overlay 4x (937572 px compared)",
+   "name": "pixels: storage + timing_clicker overlay 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -353,7 +353,7 @@
   {
    "browser": "chromium",
    "scenario": "named_plant",
-   "name": "pixels: foyer + pedestal 4x (937572 px compared)",
+   "name": "pixels: foyer + pedestal 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -371,7 +371,7 @@
   {
    "browser": "chromium",
    "scenario": "named_plant",
-   "name": "pixels: public exit (single door open) 4x (937572 px compared)",
+   "name": "pixels: public exit (single door open) 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -395,7 +395,7 @@
   {
    "browser": "chromium",
    "scenario": "exit_registered",
-   "name": "pixels: chair in use 4x (937572 px compared)",
+   "name": "pixels: chair in use 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -407,7 +407,7 @@
   {
    "browser": "chromium",
    "scenario": "exit_registered",
-   "name": "pixels: utility exit + RETURNS 4x (937572 px compared)",
+   "name": "pixels: utility exit + RETURNS 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -443,7 +443,7 @@
   {
    "browser": "chromium",
    "scenario": "exit_clean",
-   "name": "pixels: utility exit neutral 4x (937572 px compared)",
+   "name": "pixels: utility exit neutral 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -503,7 +503,7 @@
   {
    "browser": "firefox",
    "scenario": "album",
-   "name": "pixels: arrival scene 4x (937572 px compared)",
+   "name": "pixels: arrival scene 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -557,7 +557,7 @@
   {
    "browser": "firefox",
    "scenario": "album",
-   "name": "pixels: album-removed gallery 4x (page 1) (937572 px compared)",
+   "name": "pixels: album-removed gallery 4x (page 1) (937362 px compared)",
    "ok": true
   },
   {
@@ -569,7 +569,7 @@
   {
    "browser": "firefox",
    "scenario": "album",
-   "name": "pixels: album-removed gallery 4x (page 2) (937572 px compared)",
+   "name": "pixels: album-removed gallery 4x (page 2) (937362 px compared)",
    "ok": true
   },
   {
@@ -581,7 +581,7 @@
   {
    "browser": "firefox",
    "scenario": "album",
-   "name": "pixels: album-removed gallery 4x (page 3) (937572 px compared)",
+   "name": "pixels: album-removed gallery 4x (page 3) (937362 px compared)",
    "ok": true
   },
   {
@@ -617,7 +617,7 @@
   {
    "browser": "firefox",
    "scenario": "album",
-   "name": "pixels: gallery restored 4x (937572 px compared)",
+   "name": "pixels: gallery restored 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -683,7 +683,7 @@
   {
    "browser": "firefox",
    "scenario": "storage_desk_plant",
-   "name": "pixels: storage + desk_plant overlay 4x (937572 px compared)",
+   "name": "pixels: storage + desk_plant overlay 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -725,7 +725,7 @@
   {
    "browser": "firefox",
    "scenario": "storage_red_stapler",
-   "name": "pixels: storage + red_stapler overlay 4x (937572 px compared)",
+   "name": "pixels: storage + red_stapler overlay 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -761,7 +761,7 @@
   {
    "browser": "firefox",
    "scenario": "storage_rubber_band_ball",
-   "name": "pixels: storage + rubber_band_ball overlay 4x (937572 px compared)",
+   "name": "pixels: storage + rubber_band_ball overlay 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -803,7 +803,7 @@
   {
    "browser": "firefox",
    "scenario": "storage_timing_clicker",
-   "name": "pixels: storage + timing_clicker overlay 4x (937572 px compared)",
+   "name": "pixels: storage + timing_clicker overlay 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -845,7 +845,7 @@
   {
    "browser": "firefox",
    "scenario": "named_plant",
-   "name": "pixels: foyer + pedestal 4x (937572 px compared)",
+   "name": "pixels: foyer + pedestal 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -863,7 +863,7 @@
   {
    "browser": "firefox",
    "scenario": "named_plant",
-   "name": "pixels: public exit (single door open) 4x (937572 px compared)",
+   "name": "pixels: public exit (single door open) 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -887,7 +887,7 @@
   {
    "browser": "firefox",
    "scenario": "exit_registered",
-   "name": "pixels: chair in use 4x (937572 px compared)",
+   "name": "pixels: chair in use 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -899,7 +899,7 @@
   {
    "browser": "firefox",
    "scenario": "exit_registered",
-   "name": "pixels: utility exit + RETURNS 4x (937572 px compared)",
+   "name": "pixels: utility exit + RETURNS 4x (937362 px compared)",
    "ok": true
   },
   {
@@ -935,7 +935,7 @@
   {
    "browser": "firefox",
    "scenario": "exit_clean",
-   "name": "pixels: utility exit neutral 4x (937572 px compared)",
+   "name": "pixels: utility exit neutral 4x (937362 px compared)",
    "ok": true
   },
   {
