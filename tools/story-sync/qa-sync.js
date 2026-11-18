@@ -151,6 +151,23 @@ try {
   fs.writeFileSync(path.join(PUB, 'story/death-presentations.export.json'), goodExport);
   commit('X4 restored');
 
+  // 7c. Approved death art with no production path yet = pending integration: pulled with no art (empty
+  // frame); an INTEGRATED record without a path is still refused.
+  const artPending = JSON.parse(artGood), pend = artPending.deathScreens['biology_park/new_arrival'];
+  pend.status = 'approved'; pend.assetPath = null; pend.selectedSource = { sha256: 'a'.repeat(64) };
+  W(PUB, 'story/artwork.draft.json', artPending); exportNow();
+  const X5 = commit('X5 approved, pending integration');
+  r = sync('pull', '--rev', X5, '--from-git', PUB, '--force'); assert.equal(r.code, 0, r.out);
+  const rtFile = path.join(GAME, 'game/content/death-presentations.generated.js'); delete require.cache[require.resolve(rtFile)];
+  const rt5 = require(rtFile), e5 = rt5.entries.find((e) => e.artId === 'biology_park/new_arrival');
+  assert.ok(e5 && e5.artStatus === 'approved' && e5.art === null, JSON.stringify(e5));
+  ok('approved death art with no production path is pending integration: pulled, no art handed to the runtime');
+  pend.status = 'integrated'; W(PUB, 'story/artwork.draft.json', artPending); exportNow();
+  const X6 = commit('X6 integrated without a path');
+  r = sync('pull', '--rev', X6, '--from-git', PUB); assert.equal(r.code, 1); assert.match(r.out, /selected art needs a production path/); ok('integrated death art without a production path is still refused');
+  fs.writeFileSync(path.join(PUB, 'story/artwork.draft.json'), artGood); fs.writeFileSync(path.join(PUB, 'story/death-presentations.export.json'), goodExport);
+  commit('X7 restored');
+
   // 8. An undeclared field refuses the pull (never silently dropped or imported).
   const c2 = J(PUB, 'story/chapters/chapter-02.draft.json'); c2.nodes[c2.start].directorComment = 'x'; W(PUB, 'story/chapters/chapter-02.draft.json', c2);
   const D = commit('D');

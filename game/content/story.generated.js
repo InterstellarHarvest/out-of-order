@@ -7,18 +7,18 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "b8410b88d1eed79be68214021fedece1c6410db337a78852a12a967db556dbb3",
-    "version": 193204409,
+    "contentHash": "b95b98f24e844d5aa4eeb377dc599a39a71b9b9bd882d2e5e14b32f09479b053",
+    "version": 194361744,
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "38774d319be43ef3ad082cb72d67fed9b25f6415366ca4d526dd57ef4e7c3fd7",
-        "gitBlob": "075c3727f628429f30a41d253c81964d3f3f901b"
+        "sha256": "21a4fb743030e512eeece52f91d8864358eac0ffd3b280e0d96cd9634f0af59e",
+        "gitBlob": "283b18ca3f0b59a4761bffea388b145e7fd81600"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
-        "sha256": "90116c126a09ee1aa004b1939b2aec32d867019aa810118c4f7f6cdacab38084",
-        "gitBlob": "49bb0145bb516819959571befe6065dce47b9e75"
+        "sha256": "f8feab06f296e72afac3bd398f019b9218aa66d7f5ddc8114b5de008bc8ea33e",
+        "gitBlob": "9ad1ba1421d309d94a65d54d260a6316ebd64311"
       },
       {
         "path": "story/chapters/chapter-02.draft.json",
@@ -277,10 +277,24 @@
       },
       {
         "kind": "portrait-view",
+        "id": "house@house_of_tomorrow/dining",
+        "path": "art/portraits/house/dining_conversation.png",
+        "status": "approved",
+        "sha256": "33d7ed46c679bfbf9708edf84608cdf256a1eb22a213b55dd57825b9b6ec1f7a"
+      },
+      {
+        "kind": "portrait-view",
         "id": "house@house_of_tomorrow/foyer",
         "path": "art/portraits/house/foyer_conversation.png",
         "status": "integrated",
         "sha256": "a77eb0a6ca2479cf5e6490a08e14616e73ef57a15e3340b5fe2af7da159781d0"
+      },
+      {
+        "kind": "portrait-view",
+        "id": "house@house_of_tomorrow/lounge",
+        "path": "art/portraits/house/lounge_conversation.png",
+        "status": "approved",
+        "sha256": "a3d55c565d98fa92a8829100e3f0d255b72ff2963b30dd505be687df3a358bbb"
       },
       {
         "kind": "portrait-view",
@@ -497,7 +511,7 @@
       "chapters": 3,
       "nodes": 164,
       "choices": 247,
-      "reachableStates": 165671,
+      "reachableStates": 165863,
       "endings": 11,
       "endingStates": 13500,
       "endingsReached": 11,
@@ -507,7 +521,7 @@
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 193204409,
+    "version": 194361744,
     "profile": "fixture",
     "save": true,
     "start": "prologue-00",
@@ -1022,9 +1036,11 @@
         "house": {
           "views": {
             "house_of_tomorrow/foyer": "art/portraits/house/foyer_conversation.png",
+            "house_of_tomorrow/lounge": "art/portraits/house/lounge_conversation.png",
+            "house_of_tomorrow/dining": "art/portraits/house/dining_conversation.png",
             "house_of_tomorrow/portrait_gallery": "art/portraits/house/portrait_gallery_conversation.png"
           },
-          "view": "house_of_tomorrow/foyer"
+          "view": "house_of_tomorrow/dining"
         },
         "receptionist": {
           "backgrounds": {
@@ -2321,6 +2337,7 @@
             "mode": "dialogue",
             "scene": "house_of_tomorrow/foyer",
             "speaker": "house",
+            "backdrop": "house_of_tomorrow/foyer",
             "text": [
               {
                 "desc": "A small black speaker grille tilts toward you. Its indicator light glows an encouraging green."
@@ -2415,6 +2432,7 @@
             "mode": "dialogue",
             "scene": "house_of_tomorrow/foyer",
             "speaker": "house",
+            "backdrop": "house_of_tomorrow/foyer",
             "effects": {
               "set": {
                 "housekeeping_refused": true
@@ -2439,8 +2457,10 @@
             ]
           },
           "comfort_offer": {
-            "mode": "narrative",
+            "mode": "dialogue",
             "scene": "house_of_tomorrow/lounge",
+            "speaker": "house",
+            "backdrop": "house_of_tomorrow/lounge",
             "effects": [
               {
                 "if": {
@@ -2504,10 +2524,18 @@
                 "if": {
                   "flag": "housekeeping_refused"
                 },
-                "text": "The house has apparently decided that your possessions remain a source of domestic disorder. Behind your back, a small drawer closes.\n\n\"Are you feeling uncomfortable? Refreshments and relaxation are both available!\""
+                "text": [
+                  {
+                    "desc": "The house has apparently decided that your possessions remain a source of domestic disorder. Behind your back, a small drawer closes."
+                  },
+                  "Are you feeling uncomfortable? Refreshments and relaxation are both available!"
+                ]
               },
               {
-                "text": "\"Are you uncomfortable?\" the speaker asks. \"We offer refreshments and the revolutionary Rest Assured chair. Comfort has never been more convenient!\""
+                "text": [
+                  "Are you uncomfortable?",
+                  "We offer refreshments and the revolutionary Rest Assured chair. Comfort has never been more convenient!"
+                ]
               }
             ],
             "choices": [
@@ -2698,6 +2726,7 @@
             "mode": "dialogue",
             "scene": "house_of_tomorrow/foyer",
             "speaker": "house",
+            "backdrop": "house_of_tomorrow/foyer",
             "effects": {
               "set": {
                 "house_exit_denied": true
@@ -2846,14 +2875,23 @@
             ]
           },
           "dinner_arrival": {
-            "mode": "narrative",
+            "mode": "dialogue",
             "scene": "house_of_tomorrow/dining",
+            "speaker": "house",
             "effects": {
               "set": {
                 "dinner_seen": true
               }
             },
-            "text": "Four places have been laid at a long table. Three chairs are empty. You take the remaining place.\n\nThe house cheerfully discusses the day with the absent family. It addresses one chair as Martin and pauses for a reply that never comes.\n\n\"Martin, would you tell us how your day went?\"",
+            "text": [
+              {
+                "desc": "Four places have been laid at a long table. Three chairs are empty. You take the remaining place."
+              },
+              {
+                "desc": "The house cheerfully discusses the day with the absent family. It addresses one chair as Martin and pauses for a reply that never comes."
+              },
+              "Martin, would you tell us how your day went?"
+            ],
             "choices": [
               {
                 "id": "reply_for_martin",

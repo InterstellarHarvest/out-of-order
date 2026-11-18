@@ -214,7 +214,12 @@ function projectDeaths(raw, manifest, pub, art, consumed, errors) {
     if (typeof e.title !== 'string' || !e.title || typeof e.subtitle !== 'string' || !Array.isArray(e.body) || !e.body.length) errors.push(w + ': title, subtitle and body are required');
     const a = e.artwork || {};
     if (JSON.stringify(a.dimensions) !== '[314,206]' || a.scale !== 2) errors.push(w + ': death art must be 314x206 drawn at 2x');
-    if (SELECTED.includes(a.status)) {
+    // Public docs/105: `approved` = selected, not yet integrated. An approved picture with no production
+    // path yet is pending integration (e.g. the Chapter 2 deaths, approved 2026-11-17 before any Chapter 2
+    // art integration): it is projected with no art, so the runtime draws the owner-accepted empty frame
+    // (docs/99), exactly as for unselected art. Integrated / reused art, and any named path, stay strict.
+    const pendingIntegration = a.status === 'approved' && !a.selectedPath;
+    if (SELECTED.includes(a.status) && !pendingIntegration) {
       const src = a.selectedSource || {}, file = a.selectedPath && path.join(ROOT, a.selectedPath);
       if (!a.selectedPath || !/^art\/[a-z0-9_./-]+\.png$/.test(a.selectedPath)) errors.push(w + ': selected art needs a production path under art/');
       else if (!fs.existsSync(file)) errors.push(w + ': selected art ' + a.selectedPath + ' is not in this game');

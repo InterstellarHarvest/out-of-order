@@ -1,6 +1,6 @@
 {
- "passed": 254,
- "total": 254,
+ "passed": 257,
+ "total": 261,
  "results": [
   {
    "group": "intake",
@@ -604,6 +604,21 @@
   },
   {
    "group": "intake",
+   "name": "Batch B: exactly the two owner-approved House views (lounge, dining v02) from the pinned storyboard review commit",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/lounge_conversation.png: owner-approved sha256, git blob, 564x278 opaque RGB, production path",
+   "ok": true
+  },
+  {
+   "group": "intake",
+   "name": "art/portraits/house/dining_conversation.png: owner-approved sha256, git blob, 564x278 opaque RGB, production path",
+   "ok": true
+  },
+  {
+   "group": "intake",
    "name": "every production file is byte-identical to its pinned source blob at cf575552",
    "ok": true
   },
@@ -754,12 +769,22 @@
   },
   {
    "group": "registry",
+   "name": "portrait-view house@house_of_tomorrow/lounge registered at art/portraits/house/lounge_conversation.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": false
+  },
+  {
+   "group": "registry",
+   "name": "portrait-view house@house_of_tomorrow/dining registered at art/portraits/house/dining_conversation.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
+   "ok": false
+  },
+  {
+   "group": "registry",
    "name": "registered House view briefs are not used by any imported House conversation",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "every House art record in the registry is one of the 29 (none left as a placeholder; unused briefs excepted)",
+   "name": "every House art record in the registry is one of the 29 docs/92 images or the 2 Batch B views (none left as a placeholder; unused briefs excepted)",
    "ok": true
   },
   {
@@ -916,6 +941,16 @@
    "group": "registry",
    "name": "generated story uses art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png with the provenance sha256",
    "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/portraits/house/lounge_conversation.png with the provenance sha256",
+   "ok": false
+  },
+  {
+   "group": "registry",
+   "name": "generated story uses art/portraits/house/dining_conversation.png with the provenance sha256",
+   "ok": false
   },
   {
    "group": "registry",

@@ -35,6 +35,12 @@ const gitBlob = (b) => crypto.createHash('sha1').update('blob ' + b.length + '\0
 const PROV = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/house_of_tomorrow.provenance.json'), 'utf8'));
 const ART = JSON.parse(fs.readFileSync(path.join(ROOT, 'story/artwork.draft.json'), 'utf8'));
 const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
+// Presentation Batch B (public docs/107 section 9): the lounge + dining House views, owner-approved v02
+// selections from the public storyboard review package. Separate file so the docs/92 record stays exact.
+const PROV_B = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/house_of_tomorrow.batch_b.provenance.json'), 'utf8'));
+const APPROVED_B = { 'house@house_of_tomorrow/lounge': 'a3d55c565d98fa92a8829100e3f0d255b72ff2963b30dd505be687df3a358bbb',
+  'house@house_of_tomorrow/dining': '33d7ed46c679bfbf9708edf84608cdf256a1eb22a213b55dd57825b9b6ec1f7a' };
+const HOUSE_ALL = PROV.images.concat(PROV_B.images);
 
 // 1. Intake ------------------------------------------------------------------------------------
 {
@@ -64,6 +70,19 @@ const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
     check(g, r.path + ': ' + (wantAlpha ? 'RGBA (transparent layer)' : 'RGB (opaque)'), (ct === 'RGBA') === wantAlpha, ct);
     check(g, r.path + ': production path (no review/, source/, originals/)', /^art\/[a-z0-9_./-]+\.png$/.test(r.path) && !/(^|\/)(review|source|originals)\//.test(r.path));
   });
+  // Batch B: exactly the two owner-approved files, byte-exact from the pinned public review commit.
+  check(g, 'Batch B: exactly the two owner-approved House views (lounge, dining v02) from the pinned storyboard review commit',
+    PROV_B.images.length === 2 && PROV_B.sourceRepo === 'InterstellarHarvest/CYOA-storyboard' && /^[0-9a-f]{40}$/.test(PROV_B.sourceCommit) && PROV_B.sourceBranch === 'agent/ch01-house-conversation-art-20261117'
+    && PROV_B.images.every((r) => r.kind === 'portrait-view' && APPROVED_B[r.id] === r.sha256), PROV_B.images.map((r) => r.id));
+  PROV_B.images.forEach((r) => {
+    const file = path.join(ROOT, r.path);
+    if (!fs.existsSync(file)) return check(g, r.path + ' exists', false);
+    const b = fs.readFileSync(file);
+    const w = b.readUInt32BE(16), h = b.readUInt32BE(20), ct = { 2: 'RGB', 6: 'RGBA' }[b[25]];
+    check(g, r.path + ': owner-approved sha256, git blob, 564x278 opaque RGB, production path',
+      sha256(b) === APPROVED_B[r.id] && sha256(b) === r.sha256 && gitBlob(b) === r.sourceGitBlob && b.length === r.bytes && w === 564 && h === 278 && ct === 'RGB'
+      && /^art\/portraits\/house\/(lounge|dining)_conversation\.png$/.test(r.path), { sha: sha256(b), w, h, ct });
+  });
   // The pinned source itself, when this clone has the art commit (local review; CI may not).
   let have = false;
   try { execFileSync('git', ['cat-file', '-e', SOURCE + '^{commit}'], { cwd: ROOT, stdio: 'ignore' }); have = true; } catch (e) { have = false; }
@@ -92,7 +111,7 @@ const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
   // Owner ruling 2026-11-16: selected + used art is approved; used in this build = integrated. The one
   // selected-but-unbound state is approved, never displayed, so never integrated.
   const want = (r) => (r.id === 'house_of_tomorrow/chair#default_unrestrained' ? 'approved' : 'integrated');
-  PROV.images.forEach((r) => {
+  HOUSE_ALL.forEach((r) => {
     const rec = at[r.kind + ' ' + r.id];
     check(g, r.kind + ' ' + r.id + ' registered at ' + r.path + ' (status ' + want(r) + ': selected, owner-approved by the 2026-11-16 ruling)',
       rec && rec.assetPath === r.path && rec.status === want(r), rec && { assetPath: rec.assetPath, status: rec.status });
@@ -100,12 +119,12 @@ const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
   // A registered BRIEF (status not-started, no assetPath) is an art requirement, not a placeholder in
   // this build - provided no imported conversation uses it. 2026-11-17: the lounge / dining House views
   // (public docs/107, presentation Batch B) are briefs until generated, reviewed and owner-approved.
-  const extra = Object.keys(at).filter((k) => !PROV.images.some((r) => r.kind + ' ' + r.id === k));
+  const extra = Object.keys(at).filter((k) => !HOUSE_ALL.some((r) => r.kind + ' ' + r.id === k));
   const briefs = extra.filter((k) => at[k].status === 'not-started' && at[k].assetPath === null);
   const houseTalkScenes = new Set(Object.values(story.chapters['chapter-01'].nodes).filter((n) => n.mode === 'dialogue' && n.speaker === 'house').map((n) => n.backdrop || n.scene || story.chapters['chapter-01'].scene));
   check(g, 'registered House view briefs are not used by any imported House conversation', briefs.every((k) => !houseTalkScenes.has(k.replace('portrait-view house@', ''))), { briefs, houseTalkScenes: [...houseTalkScenes] });
   const houseRecords = Object.keys(at).length - briefs.length;
-  check(g, 'every House art record in the registry is one of the 29 (none left as a placeholder; unused briefs excepted)', houseRecords === 29, extra.filter((k) => !briefs.includes(k)));
+  check(g, 'every House art record in the registry is one of the 29 docs/92 images or the 2 Batch B views (none left as a placeholder; unused briefs excepted)', houseRecords === 29 + PROV_B.images.length, extra.filter((k) => !briefs.includes(k)));
   check(g, 'House intercom is the opaque-complete exception; layered NPC records unchanged',
     hv.format === 'opaque-complete' && !hv.layers && !hv.foregroundFormat && !hv.portraitBackgroundScene
     && ART.portraits['receptionist:default'].foregroundFormat === 'transparent-rgba-png' && Array.isArray(ART.portraits['receptionist:default'].layers));
@@ -114,7 +133,7 @@ const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
   // The generated story uses each (BUILD.art carries the hash it was built from).
   const built = {};
   gen.build.art.forEach((a) => { built[a.path] = a; });
-  PROV.images.forEach((r) => {
+  HOUSE_ALL.forEach((r) => {
     if (r.id === 'house_of_tomorrow/chair#default_unrestrained') {
       check(g, 'the default chair state is installed but deliberately unbound (docs/92 section 4: no authored view needs it)', !built[r.path]
         && !JSON.stringify(story.assets).includes(r.path) && ART.scenes['house_of_tomorrow/chair'].states[0].selection === null);
@@ -126,7 +145,7 @@ const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
   check(g, 'all 14 House scenes have production art (no DEV PLACEHOLDER left in Chapter 1)', hs.length === 14 && hs.every((k) => typeof story.assets.scenes[k] === 'string'));
   check(g, 'House portrait is { views, view } with one complete view per talking room; no poses or backgrounds',
     JSON.stringify(Object.keys(story.assets.portraits.house).sort()) === '["view","views"]'
-    && Object.keys(story.assets.portraits.house.views).sort().join() === 'house_of_tomorrow/foyer,house_of_tomorrow/portrait_gallery');
+    && Object.keys(story.assets.portraits.house.views).sort().join() === 'house_of_tomorrow/dining,house_of_tomorrow/foyer,house_of_tomorrow/lounge,house_of_tomorrow/portrait_gallery'); // + Batch B lounge/dining
   check(g, 'album close-up is three semantic pages pairing 1 + 1 + 2 paragraphs',
     JSON.stringify(story.assets.focus['house_of_tomorrow/portrait_gallery/album'].pages.map((p) => p.paragraphs)) === '[1,1,2]');
   check(g, 'scene states: album_removed (replace), pedestal, 4 storage items, RETURNS (overlays)',
@@ -266,7 +285,7 @@ const restoreSame = (s) => {
   check(g, 'mutant: a state that never shows is refused', has(mut((s) => { s.assets.sceneStates['house_of_tomorrow/utility_exit'][0].if = { flag: 'equipment_registered', notFlag: 'equipment_registered' }; }), /scene state never shown: house_of_tomorrow\/utility_exit#returns_display/));
   check(g, 'mutant: album pages that do not cover the text are refused', has(mut((s) => { s.assets.focus['house_of_tomorrow/portrait_gallery/album'].pages[2].paragraphs = 1; }), /text has 4 paragraphs; the pages .* pair 3/));
   check(g, 'mutant: a pose on an opaque-complete speaker is refused', has(mut((s) => { s.chapters['chapter-01'].nodes.welcome_home.pose = 'idle'; }), /opaque-complete portrait has no poses/));
-  check(g, 'mutant: an unregistered complete view is refused', has(mut((s) => { s.chapters['chapter-01'].nodes.welcome_home.backdrop = 'house_of_tomorrow/dining'; }), /unregistered complete view/));
+  check(g, 'mutant: an unregistered complete view is refused', has(mut((s) => { s.chapters['chapter-01'].nodes.welcome_home.backdrop = 'house_of_tomorrow/bathroom'; }), /unregistered complete view/)); // dining is registered since Batch B
   check(g, 'mutant: an at selector outside its scene is refused', has(mut((s) => { s.assets.sceneStates['house_of_tomorrow/foyer'][0].at = ['chapter-01:storage_cabinet']; }), /is not in scene house_of_tomorrow\/foyer/));
   check(g, 'mutant: an unknown flag in a selection is refused', has(mut((s) => { s.assets.sceneStates['house_of_tomorrow/utility_exit'][0].if = { flag: 'equipment_registred' }; }), /unknown flag equipment_registred/));
 }
