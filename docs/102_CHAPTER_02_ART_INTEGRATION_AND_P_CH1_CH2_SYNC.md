@@ -108,11 +108,46 @@ All six records are byte-identical in title, subtitle, body, `popupStatus` and `
   - each item's slot and inspect art is checked.
 - **Updated:**
   - `validate_story_import.js`: art counts, plus an approved-build guard with a Biology Park control;
-  - `validate_death_controls.js`: the content hash re-pinned to this build;
+  - `validate_death_controls.js`: the content hash re-pinned to this build (`0bb7124ab2f6`);
+  - `run_end_presentation_qa.js` and `run_death_controls_qa.js`: each Chapter 2 death must now draw its own image, replacing the interim empty frame of docs/99;
+  - `tools/story-sync/qa-sync.js`: its fixture game holds every shipped death image, and all six consumed deaths carry art (28 checks);
   - the M2 static art guard admits `art/biology_park.provenance.json`;
   - the CI artifact index and policy (now 112 checks).
 - **Storyboard (public):** `check-canon`, `qa-sync` 22, `qa-smoke`, `qa-browser` 24, `qa-timeline` 112, `qa-artwork-preview` 48 and the export check pass. Tests that pinned "approved means no production path" now accept exactly the path assigned at integration, or `integrated`.
 
 ## 7. Pins and evidence
 
-Completed after publishing; see the PR #2 comment for the final SHAs, the CI run and the acceptance matrix.
+| | SHA |
+|---|---|
+| Storyboard production-path commit (consumed by the tested build) | `0e9dc254d179a97aedee8360c643453987f814cd` |
+| Tested game build published (`sync.js publish`) | `2b9883bcbbeefee2e871214388b78a57a388ee94` |
+| Public storyboard `main` after publishing (Pages run 44321830189 OK; 115 images in `story/game-integration.json`) | `35e3dfff86690964695d39b5eda014bc263573fe` |
+| Game pin after re-pull (`story/canon.lock.json`) | `35e3dff` |
+| Game content hash | `0bb7124ab2f6` (unchanged by the re-pull: only artwork statuses moved from approved to integrated) |
+
+The integration report names game `2b9883b`, which consumed storyboard `0e9dc25`. The game then pins `35e3dff`, which contains that report. The order is one-directional, so the metadata is not circular. `sync.js verify --online` re-projects `35e3dff` byte for byte.
+
+**Local run of every `qa.yml` step** at the final state, 2026-11-18. All pass, except:
+- the CI-only Playwright install;
+- the 7 long-standing local-only M2 Firefox choice-scroll checks. These fail on this Mac even on the untouched base and pass in CI (docs/101).
+
+| Suite | Result |
+|---|---|
+| Story import | 93/93 |
+| Chapter 2 routes, engine | 157/157 |
+| Chapter 1 art | 253 |
+| Chapter 2 art, static | 326/326 |
+| Death controls, static | 45 |
+| Assets | 59 + 97 |
+| Imported story | 124/124 |
+| Chapter 1 routes | 154/154 |
+| Chapter 1 art, browser | 164/164 |
+| Death popups | 126/126 |
+| Death controls, browser | 102/102 |
+| Chapter 2 art, browser | 218/218 |
+| Chapter 2 routes, browser | 346/346 |
+| Polish lab | 143/143 |
+| Layout lab | 8 known failures only |
+| CI policy | 112/112 |
+| Story sync self-test | 28/28 |
+

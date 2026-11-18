@@ -68,7 +68,10 @@ try {
   const A = commit('A');
 
   // A minimal game checkout: the sync tool, the importer's field lists and the game-owned settings.
-  for (const p of ['tools/story-sync/sync.js', 'tools/story-sync/config.json', 'tools/story-import/convert.js', 'story/runtime-settings.json', 'art/deaths/rest_assured_voluntary.png']) fs.cpSync(path.join(ROOT, p), path.join(GAME, p));
+  // Every death image the game ships (Rest Assured; since docs/102 the five Chapter 2 deaths): the projection checks each
+  // selected death file's provenance against the game copy, so the fixture game must hold them all.
+  const deathArt = fs.readdirSync(path.join(ROOT, 'art/deaths')).filter((f) => f.endsWith('.png')).map((f) => 'art/deaths/' + f);
+  for (const p of ['tools/story-sync/sync.js', 'tools/story-sync/config.json', 'tools/story-import/convert.js', 'story/runtime-settings.json'].concat(deathArt)) fs.cpSync(path.join(ROOT, p), path.join(GAME, p));
 
   // 1. Pull a pinned revision.
   let r = sync('pull', '--rev', A, '--from-git', PUB);
@@ -96,7 +99,8 @@ try {
   assert.ok(lock.notConsumed.deathPresentations.includes('chapter-03:a'));
   const rt = require(path.join(GAME, 'game/content/death-presentations.generated.js'));
   assert.equal(rt.storyboard.revision, A);
-  assert.ok(!rt.entries.some((e) => /^chapter-03:/.test(e.id)) && rt.entries.filter((e) => e.art).map((e) => e.id).join() === 'chapter-01:exit_chair_fatal');
+  // Since docs/102 all six consumed deaths have integrated art (Rest Assured + the five Chapter 2 deaths).
+  assert.ok(!rt.entries.some((e) => /^chapter-03:/.test(e.id)) && rt.entries.filter((e) => e.art).map((e) => e.id).join() === 'chapter-01:exit_chair_fatal,chapter-02:fatal_sorter,chapter-02:fatal_hopper,chapter-02:fatal_transformation,chapter-02:fatal_planting,chapter-02:fatal_roots');
   ok('death export: consumed chapters only (Chapter 3 excluded), byte-identical to the real projection; runtime module pinned to the revision; only selected art handed over');
   const gfile = path.join(GAME, 'game/content/death-presentations.generated.js'), gorig = fs.readFileSync(gfile);
   fs.writeFileSync(gfile, gorig.toString().replace('PERMANENTLY SATISFIED.', 'PERMANENTLY SATISFIED!'));
