@@ -1,0 +1,865 @@
+{
+  "A": {
+    "key": "deathScreens:biology_park/classified_as_compost",
+    "record": {
+      "title": "CLASSIFIED AS COMPOST.",
+      "kind": "death-screen",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": "art/deaths/classified_as_compost.png",
+      "prompt": "EXACT 314\u00d7206 logical-grid pixel-art AFTERMATH vignette for approved A1 death popup, drawn natively and displayed at exact 2\u00d7 nearest-neighbor (628\u00d7412). Title, body, separator and controls are separate editable UI, NOT part of image. Crisp simplified 1960s institutional retrofuturist design (Brazil-like offness), readable purposeful clusters, restrained gray/teal/ivory colors; no face, gore, steampunk brass, blur or gratuitous dithering. The 1920\u00d71080 screen behind the popup is frozen, block-pixelated 10\u00d710 and darkened 65%. Distinctly depict what the world does after the death; wry bureaucratic humor, not violence in progress. Automated Biology Park sorting bay after compactor finishes: neat sealed green organic waste bale or collection bin, green MATERIAL PROCESSED status lamp, little paper disposal receipt from printer, silent conveyor. No person or remains shown; bureaucratic success."
+    },
+    "fatalNodes": {
+      "fatal_sorter": {
+        "mode": "narrative",
+        "scene": "biology_park/sorting_conveyor",
+        "end": true,
+        "text": "The conveyor reaches the compactor. An indicator changes to MATERIAL PROCESSED. The groundskeeper records one efficient disposal and resumes creating forest.\n\nENDING - CLASSIFIED AS COMPOST.",
+        "choices": [
+          {
+            "id": "restart_sorter",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_sorter",
+          "title": "CLASSIFIED AS COMPOST.",
+          "subtitle": "MATERIAL PROCESSED",
+          "description": "The groundskeeper has converted your unsuccessful escape into a successful disposal. It records the improvement without requesting a signature.",
+          "artRef": "biology_park/classified_as_compost",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/classified_as_compost",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      }
+    },
+    "associatedRouteNodes": {
+      "fatal_sorter": {
+        "mode": "narrative",
+        "scene": "biology_park/sorting_conveyor",
+        "end": true,
+        "text": "The conveyor reaches the compactor. An indicator changes to MATERIAL PROCESSED. The groundskeeper records one efficient disposal and resumes creating forest.\n\nENDING - CLASSIFIED AS COMPOST.",
+        "choices": [
+          {
+            "id": "restart_sorter",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_sorter",
+          "title": "CLASSIFIED AS COMPOST.",
+          "subtitle": "MATERIAL PROCESSED",
+          "description": "The groundskeeper has converted your unsuccessful escape into a successful disposal. It records the improvement without requesting a signature.",
+          "artRef": "biology_park/classified_as_compost",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/classified_as_compost",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      },
+      "gardener_jam_failure": {
+        "mode": "narrative",
+        "scene": "biology_park/sorting_conveyor",
+        "text": "The stapler is crushed into a red metallic wafer. A runaway roller catches your clothing and launches you onto a conveyor marked ORGANIC MATERIAL SORTING. A compactor waits at its far end.",
+        "choices": [
+          {
+            "id": "grab_sorting_inspection_hatch",
+            "kind": "action",
+            "text": "JUMP FOR THE HIGH INSPECTION HATCH.",
+            "check": {
+              "id": "ch2_sorter_inspection_hatch",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "sorter_escape"
+            },
+            "fail": {
+              "to": "fatal_sorter"
+            }
+          }
+        ]
+      },
+      "gardener_choices": {
+        "mode": "narrative",
+        "scene": "biology_park/groundskeeper",
+        "text": "The machine presents a soil bin, a feeder full of seedlings, and a small inspection window. Its planting arms already measure the room.",
+        "choices": [
+          {
+            "id": "examine_landscape_performance",
+            "kind": "action",
+            "text": "ASSERT EXAMINER AUTHORITY AND INSPECT ITS WORK.",
+            "to": "gardener_review"
+          },
+          {
+            "id": "sacrifice_stapler_to_feeder",
+            "kind": "action",
+            "text": "JAM YOUR RED SWANGLINE STAPLER INTO THE SEED FEEDER.",
+            "check": {
+              "id": "ch2_gardener_feeder",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "gardener_jam_success"
+            },
+            "fail": {
+              "to": "gardener_jam_failure"
+            },
+            "effects": {
+              "take": [
+                "red_stapler"
+              ]
+            },
+            "if": {
+              "has": "red_stapler"
+            }
+          },
+          {
+            "id": "hide_in_supply_hopper",
+            "kind": "action",
+            "text": "CLIMB INTO THE SUPPLY HOPPER TO RIDE INTO THE PARK.",
+            "check": {
+              "id": "ch2_hopper_burial",
+              "sides": 6,
+              "need": 3
+            },
+            "pass": {
+              "to": "hopper_escape"
+            },
+            "fail": {
+              "to": "fatal_hopper"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "B": {
+    "key": "deathScreens:biology_park/new_arrival",
+    "record": {
+      "title": "NEW ARRIVAL.",
+      "kind": "death-screen",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": "art/deaths/new_arrival.png",
+      "prompt": "EXACT 314\u00d7206 logical-grid pixel-art AFTERMATH vignette for approved A1 death popup, drawn natively and displayed at exact 2\u00d7 nearest-neighbor (628\u00d7412). Title, body, separator and controls are separate editable UI, NOT part of image. Crisp simplified 1960s institutional retrofuturist design (Brazil-like offness), readable purposeful clusters, restrained gray/teal/ivory colors; no face, gore, steampunk brass, blur or gratuitous dithering. The 1920\u00d71080 screen behind the popup is frozen, block-pixelated 10\u00d710 and darkened 65%. Distinctly depict what the world does after the death; wry bureaucratic humor, not violence in progress. Nursery packing hopper and planting arms at rest behind a fresh orderly mound of soil; small upbeat welcoming botanical marker beside it, harsh artificial sunlight and greenhouse ribs. No body; machine planted human visitor thinking it was transport."
+    },
+    "fatalNodes": {
+      "fatal_hopper": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_hopper",
+        "end": true,
+        "text": "The packing arms finish their work. A small commemorative marker rises beside the mound.\n\nPLANTED SUCCESSFULLY, the groundskeeper reports.\n\nENDING - NEW ARRIVAL.",
+        "choices": [
+          {
+            "id": "restart_hopper",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_hopper",
+          "title": "NEW ARRIVAL.",
+          "subtitle": "PLANTED SUCCESSFULLY",
+          "description": "The Park welcomes its newest addition. Your commemorative marker is installed before anyone notices the visitor is missing.",
+          "artRef": "biology_park/new_arrival",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/new_arrival",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      }
+    },
+    "associatedRouteNodes": {
+      "fatal_hopper": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_hopper",
+        "end": true,
+        "text": "The packing arms finish their work. A small commemorative marker rises beside the mound.\n\nPLANTED SUCCESSFULLY, the groundskeeper reports.\n\nENDING - NEW ARRIVAL.",
+        "choices": [
+          {
+            "id": "restart_hopper",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_hopper",
+          "title": "NEW ARRIVAL.",
+          "subtitle": "PLANTED SUCCESSFULLY",
+          "description": "The Park welcomes its newest addition. Your commemorative marker is installed before anyone notices the visitor is missing.",
+          "artRef": "biology_park/new_arrival",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/new_arrival",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      },
+      "gardener_choices": {
+        "mode": "narrative",
+        "scene": "biology_park/groundskeeper",
+        "text": "The machine presents a soil bin, a feeder full of seedlings, and a small inspection window. Its planting arms already measure the room.",
+        "choices": [
+          {
+            "id": "examine_landscape_performance",
+            "kind": "action",
+            "text": "ASSERT EXAMINER AUTHORITY AND INSPECT ITS WORK.",
+            "to": "gardener_review"
+          },
+          {
+            "id": "sacrifice_stapler_to_feeder",
+            "kind": "action",
+            "text": "JAM YOUR RED SWANGLINE STAPLER INTO THE SEED FEEDER.",
+            "check": {
+              "id": "ch2_gardener_feeder",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "gardener_jam_success"
+            },
+            "fail": {
+              "to": "gardener_jam_failure"
+            },
+            "effects": {
+              "take": [
+                "red_stapler"
+              ]
+            },
+            "if": {
+              "has": "red_stapler"
+            }
+          },
+          {
+            "id": "hide_in_supply_hopper",
+            "kind": "action",
+            "text": "CLIMB INTO THE SUPPLY HOPPER TO RIDE INTO THE PARK.",
+            "check": {
+              "id": "ch2_hopper_burial",
+              "sides": 6,
+              "need": 3
+            },
+            "pass": {
+              "to": "hopper_escape"
+            },
+            "fail": {
+              "to": "fatal_hopper"
+            }
+          }
+        ]
+      },
+      "gardener_arrival": {
+        "mode": "dialogue",
+        "scene": "biology_park/groundskeeper",
+        "speaker": "groundskeeper",
+        "pose": "idle",
+        "text": [
+          {
+            "desc": "An enormous nonhumanoid landscape-maintenance machine pushes through the wall, trailing irrigation hoses and a blizzard of stamped forms."
+          },
+          "Excellent news! Additional growing area located.",
+          "PLEASE KEEP YOUR DESKS CLEAR OF NEW FOREST."
+        ],
+        "choices": [
+          {
+            "id": "react_to_gardener",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "gardener_choices"
+          }
+        ]
+      }
+    }
+  },
+  "C": {
+    "key": "deathScreens:biology_park/personal_growth",
+    "record": {
+      "title": "PERSONAL GROWTH.",
+      "kind": "death-screen",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": "art/deaths/personal_growth.png",
+      "prompt": "EXACT 314\u00d7206 logical-grid pixel-art AFTERMATH vignette for approved A1 death popup, drawn natively and displayed at exact 2\u00d7 nearest-neighbor (628\u00d7412). Title, body, separator and controls are separate editable UI, NOT part of image. Crisp simplified 1960s institutional retrofuturist design (Brazil-like offness), readable purposeful clusters, restrained gray/teal/ivory colors; no face, gore, steampunk brass, blur or gratuitous dithering. The 1920\u00d71080 screen behind the popup is frozen, block-pixelated 10\u00d710 and darkened 65%. Distinctly depict what the world does after the death; wry bureaucratic humor, not violence in progress. Curated greenhouse, overgrown former visitor now ONLY a mass of foliage, roots and flowers in anonymous human-size shape, no recognizable person or face. Simple cheerful CULTIVATION SUCCESSFUL lamp; it is a completed botanical transformation, not a living conscious person. Applicable to shared thorn-or-spore ending."
+    },
+    "fatalNodes": {
+      "fatal_transformation": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "end": true,
+        "text": "The automated planter finishes its work. Green growth stretches through your outline until there is no recognizable person left.\n\nCULTIVATION SUCCESSFUL.\n\nENDING - PERSONAL GROWTH.",
+        "choices": [
+          {
+            "id": "restart_flower_transformation",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_transformation",
+          "title": "PERSONAL GROWTH.",
+          "subtitle": "CULTIVATION SUCCESSFUL",
+          "description": "The Park has improved your relationship with nature considerably. There is no recognizable visitor left to dispute the result.",
+          "artRef": "biology_park/personal_growth",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/personal_growth",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      }
+    },
+    "associatedRouteNodes": {
+      "fatal_transformation": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "end": true,
+        "text": "The automated planter finishes its work. Green growth stretches through your outline until there is no recognizable person left.\n\nCULTIVATION SUCCESSFUL.\n\nENDING - PERSONAL GROWTH.",
+        "choices": [
+          {
+            "id": "restart_flower_transformation",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_transformation",
+          "title": "PERSONAL GROWTH.",
+          "subtitle": "CULTIVATION SUCCESSFUL",
+          "description": "The Park has improved your relationship with nature considerably. There is no recognizable visitor left to dispute the result.",
+          "artRef": "biology_park/personal_growth",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/personal_growth",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      },
+      "breakout_failed": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "text": [
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "text": "The thorns beneath your skin have already begun to root. The machine detects suitable growth and lowers you into the soil. It has found a perfect fit."
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "text": "The harmless-looking green trace under your nail unfolds into roots as the machine lowers you. It congratulates itself on accelerating a cultivation already in progress."
+          },
+          {
+            "text": "The restraints hold, but a compatibility alarm rings. SUBJECT DOES NOT MEET MINIMUM GERMINATION REQUIREMENTS. The machinery opens a disposal hatch before it corrects its mistake."
+          }
+        ],
+        "choices": [
+          {
+            "id": "complete_infected_transformation",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "fatal_transformation",
+            "if": {
+              "flag": "thorn_infected"
+            }
+          },
+          {
+            "id": "complete_spore_transformation",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "fatal_transformation",
+            "if": {
+              "flag": "spore_infected",
+              "notFlag": "thorn_infected"
+            }
+          },
+          {
+            "id": "dive_into_incompatible_waste_chute",
+            "kind": "action",
+            "text": "DIVE THROUGH THE WASTE HATCH BEFORE THE MACHINE RECLASSIFIES YOU.",
+            "check": {
+              "id": "ch2_flower_waste_chute",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "waste_chute_escape"
+            },
+            "fail": {
+              "to": "fatal_planting"
+            },
+            "if": {
+              "flagIs": [
+                "botanical_infection_state",
+                "none"
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "set": {
+              "botanical_infection_state": "none"
+            }
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "set": {
+              "botanical_infection_state": "infected"
+            }
+          },
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "set": {
+              "botanical_infection_state": "infected"
+            }
+          }
+        ]
+      },
+      "planting_active": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "text": "YOUR OBJECTION IS RECEIVED AND REJECTED. THANK YOU FOR YOUR CONTINUED PARTICIPATION.\n\nTwo mechanical arms pin your shoulders as a shallow planting bed rises beneath you. On a plaque: PERSONAL GROWTH AREA - ONE OCCUPANT.",
+        "choices": [
+          {
+            "id": "break_planting_restraints",
+            "kind": "action",
+            "text": "BREAK FREE BEFORE THE PLANTING CYCLE BEGINS.",
+            "check": {
+              "id": "ch2_planting_breakout",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "breakout_success"
+            },
+            "fail": {
+              "to": "breakout_failed"
+            }
+          },
+          {
+            "id": "invoke_existing_equipment_interlock",
+            "kind": "action",
+            "text": "DEMAND THE PROTECTIVE EQUIPMENT-HANDLING INTERLOCK.",
+            "if": {
+              "flag": "equipment_registered"
+            },
+            "to": "reclassification_success"
+          },
+          {
+            "id": "present_examiner_interlock",
+            "kind": "action",
+            "text": "PRESENT THE EXAMINER BADGE AS PROTECTED EXPOSITION EQUIPMENT.",
+            "if": {
+              "has": "expo_examiner_badge",
+              "notFlag": "equipment_registered"
+            },
+            "to": "reclassification_success"
+          },
+          {
+            "id": "file_stapled_equipment_form",
+            "kind": "action",
+            "text": "STAPLE THE REGISTRATION FORM INTO THE MACHINE AND SURRENDER THE STAPLER.",
+            "if": {
+              "has": "red_stapler"
+            },
+            "to": "reclassification_stapler"
+          },
+          {
+            "id": "invoke_director_emergency_override",
+            "kind": "action",
+            "text": "ACTIVATE THE ACTING DIRECTOR EMERGENCY MACHINE OVERRIDE.",
+            "if": {
+              "has": "acting_director_badge"
+            },
+            "to": "reclassification_success"
+          }
+        ]
+      }
+    }
+  },
+  "D": {
+    "key": "deathScreens:biology_park/reclassified",
+    "record": {
+      "title": "RECLASSIFIED.",
+      "kind": "death-screen",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": "art/deaths/reclassified.png",
+      "prompt": "EXACT 314\u00d7206 logical-grid pixel-art AFTERMATH vignette for approved A1 death popup, drawn natively and displayed at exact 2\u00d7 nearest-neighbor (628\u00d7412). Title, body, separator and controls are separate editable UI, NOT part of image. Crisp simplified 1960s institutional retrofuturist design (Brazil-like offness), readable purposeful clusters, restrained gray/teal/ivory colors; no face, gore, steampunk brass, blur or gratuitous dithering. The 1920\u00d71080 screen behind the popup is frozen, block-pixelated 10\u00d710 and darkened 65%. Distinctly depict what the world does after the death; wry bureaucratic humor, not violence in progress. Waste hatch and industrial planting-machine hopper returned to standby, a newly filled shallow growing tray with formal plant processing label and big checkmark. Neat automated handling arms and quiet stainless gray/green machinery. Distinct from nursery welcome marker in NEW ARRIVAL; no body shown."
+    },
+    "fatalNodes": {
+      "fatal_planting": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "end": true,
+        "text": "The waste hatch snaps shut and the planting arms return. A label is printed and affixed neatly to the growing bed.\n\nENDING - RECLASSIFIED.",
+        "choices": [
+          {
+            "id": "restart_failed_waste",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_planting",
+          "title": "RECLASSIFIED.",
+          "subtitle": "PLANTING MATERIAL ACCEPTED",
+          "description": "You attempted to leave through the waste hatch. The planting system has found a more productive destination for you.",
+          "artRef": "biology_park/reclassified",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/reclassified",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      }
+    },
+    "associatedRouteNodes": {
+      "fatal_planting": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "end": true,
+        "text": "The waste hatch snaps shut and the planting arms return. A label is printed and affixed neatly to the growing bed.\n\nENDING - RECLASSIFIED.",
+        "choices": [
+          {
+            "id": "restart_failed_waste",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_planting",
+          "title": "RECLASSIFIED.",
+          "subtitle": "PLANTING MATERIAL ACCEPTED",
+          "description": "You attempted to leave through the waste hatch. The planting system has found a more productive destination for you.",
+          "artRef": "biology_park/reclassified",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/reclassified",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      },
+      "breakout_failed": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "text": [
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "text": "The thorns beneath your skin have already begun to root. The machine detects suitable growth and lowers you into the soil. It has found a perfect fit."
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "text": "The harmless-looking green trace under your nail unfolds into roots as the machine lowers you. It congratulates itself on accelerating a cultivation already in progress."
+          },
+          {
+            "text": "The restraints hold, but a compatibility alarm rings. SUBJECT DOES NOT MEET MINIMUM GERMINATION REQUIREMENTS. The machinery opens a disposal hatch before it corrects its mistake."
+          }
+        ],
+        "choices": [
+          {
+            "id": "complete_infected_transformation",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "fatal_transformation",
+            "if": {
+              "flag": "thorn_infected"
+            }
+          },
+          {
+            "id": "complete_spore_transformation",
+            "kind": "continue",
+            "text": "CONTINUE",
+            "to": "fatal_transformation",
+            "if": {
+              "flag": "spore_infected",
+              "notFlag": "thorn_infected"
+            }
+          },
+          {
+            "id": "dive_into_incompatible_waste_chute",
+            "kind": "action",
+            "text": "DIVE THROUGH THE WASTE HATCH BEFORE THE MACHINE RECLASSIFIES YOU.",
+            "check": {
+              "id": "ch2_flower_waste_chute",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "waste_chute_escape"
+            },
+            "fail": {
+              "to": "fatal_planting"
+            },
+            "if": {
+              "flagIs": [
+                "botanical_infection_state",
+                "none"
+              ]
+            }
+          }
+        ],
+        "effects": [
+          {
+            "set": {
+              "botanical_infection_state": "none"
+            }
+          },
+          {
+            "if": {
+              "flag": "spore_infected"
+            },
+            "set": {
+              "botanical_infection_state": "infected"
+            }
+          },
+          {
+            "if": {
+              "flag": "thorn_infected"
+            },
+            "set": {
+              "botanical_infection_state": "infected"
+            }
+          }
+        ]
+      },
+      "planting_active": {
+        "mode": "narrative",
+        "scene": "biology_park/planting_machine",
+        "text": "YOUR OBJECTION IS RECEIVED AND REJECTED. THANK YOU FOR YOUR CONTINUED PARTICIPATION.\n\nTwo mechanical arms pin your shoulders as a shallow planting bed rises beneath you. On a plaque: PERSONAL GROWTH AREA - ONE OCCUPANT.",
+        "choices": [
+          {
+            "id": "break_planting_restraints",
+            "kind": "action",
+            "text": "BREAK FREE BEFORE THE PLANTING CYCLE BEGINS.",
+            "check": {
+              "id": "ch2_planting_breakout",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "breakout_success"
+            },
+            "fail": {
+              "to": "breakout_failed"
+            }
+          },
+          {
+            "id": "invoke_existing_equipment_interlock",
+            "kind": "action",
+            "text": "DEMAND THE PROTECTIVE EQUIPMENT-HANDLING INTERLOCK.",
+            "if": {
+              "flag": "equipment_registered"
+            },
+            "to": "reclassification_success"
+          },
+          {
+            "id": "present_examiner_interlock",
+            "kind": "action",
+            "text": "PRESENT THE EXAMINER BADGE AS PROTECTED EXPOSITION EQUIPMENT.",
+            "if": {
+              "has": "expo_examiner_badge",
+              "notFlag": "equipment_registered"
+            },
+            "to": "reclassification_success"
+          },
+          {
+            "id": "file_stapled_equipment_form",
+            "kind": "action",
+            "text": "STAPLE THE REGISTRATION FORM INTO THE MACHINE AND SURRENDER THE STAPLER.",
+            "if": {
+              "has": "red_stapler"
+            },
+            "to": "reclassification_stapler"
+          },
+          {
+            "id": "invoke_director_emergency_override",
+            "kind": "action",
+            "text": "ACTIVATE THE ACTING DIRECTOR EMERGENCY MACHINE OVERRIDE.",
+            "if": {
+              "has": "acting_director_badge"
+            },
+            "to": "reclassification_success"
+          }
+        ]
+      }
+    }
+  },
+  "E": {
+    "key": "deathScreens:biology_park/site_improvement",
+    "record": {
+      "title": "SITE IMPROVEMENT.",
+      "kind": "death-screen",
+      "status": "not-started",
+      "dimensions": "314x206",
+      "assetPath": null,
+      "suggestedFilename": "art/deaths/site_improvement.png",
+      "prompt": "EXACT 314\u00d7206 logical-grid pixel-art AFTERMATH vignette for approved A1 death popup, drawn natively and displayed at exact 2\u00d7 nearest-neighbor (628\u00d7412). Title, body, separator and controls are separate editable UI, NOT part of image. Crisp simplified 1960s institutional retrofuturist design (Brazil-like offness), readable purposeful clusters, restrained gray/teal/ivory colors; no face, gore, steampunk brass, blur or gratuitous dithering. The 1920\u00d71080 screen behind the popup is frozen, block-pixelated 10\u00d710 and darkened 65%. Distinctly depict what the world does after the death; wry bureaucratic humor, not violence in progress. Low-angle aftermath under botanical translator: dense thick roots seal entire narrow service duct, overhead translator prints a requisition for another buried fixture. Maybe one anonymous shoe sole behind roots, no face or injury; the absurdity is a civic request while the buried person is no longer visible."
+    },
+    "fatalNodes": {
+      "fatal_roots": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "end": true,
+        "text": "The roots draw together and the overhead machine returns to its orderly processing. A new request is filed for one additional buried fixture.\n\nENDING - SITE IMPROVEMENT.",
+        "choices": [
+          {
+            "id": "restart_roots",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_roots",
+          "title": "SITE IMPROVEMENT.",
+          "subtitle": "NEW UNDERGROUND FIXTURE APPROVED",
+          "description": "The roots finish sealing the service duct. Above you, the translator requests another buried fixture without bothering to ask its name.",
+          "artRef": "biology_park/site_improvement",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/site_improvement",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      }
+    },
+    "associatedRouteNodes": {
+      "fatal_roots": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "end": true,
+        "text": "The roots draw together and the overhead machine returns to its orderly processing. A new request is filed for one additional buried fixture.\n\nENDING - SITE IMPROVEMENT.",
+        "choices": [
+          {
+            "id": "restart_roots",
+            "kind": "system",
+            "text": "BEGIN AGAIN",
+            "restart": true
+          }
+        ],
+        "deathPopup": {
+          "id": "fatal_roots",
+          "title": "SITE IMPROVEMENT.",
+          "subtitle": "NEW UNDERGROUND FIXTURE APPROVED",
+          "description": "The roots finish sealing the service duct. Above you, the translator requests another buried fixture without bothering to ask its name.",
+          "artRef": "biology_park/site_improvement",
+          "button": "BEGIN AGAIN",
+          "status": "existing-ending-popup-copy-draft"
+        },
+        "endingArt": "biology_park/site_improvement",
+        "notes": "\nNarrative unchanged. Single death-screen aftermath art brief and provisional popup copy added. No image yet created."
+      },
+      "sabotage_cable_alarm": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "text": "The cable breaks at the wrong point. A warning bell summons the roots instead of making them recoil. One twists around the floor beneath you and tips you toward an unfinished service duct.",
+        "choices": [
+          {
+            "id": "crawl_clear_of_cable_alarm",
+            "kind": "action",
+            "text": "SLIDE INTO THE SERVICE DUCT BEFORE THE ROOTS CLOSE IT.",
+            "check": {
+              "id": "ch2_cable_alarm_escape",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "cable_alarm_survived"
+            },
+            "fail": {
+              "to": "fatal_roots"
+            }
+          }
+        ]
+      },
+      "translator_controls": {
+        "mode": "narrative",
+        "scene": "biology_park/translator_machine",
+        "text": "Sensors threaded through the flower drive a mechanical translator rack. Perforated paper tape feeds orders into an automatic approval reader. A printer reports: REQUEST RECEIVED. REQUEST APPROVED. PREPARING NEXT REQUEST.",
+        "choices": [
+          {
+            "id": "disconnect_biofeedback_cables",
+            "kind": "action",
+            "text": "DISCONNECT THE BIOLOGICAL SENSOR CABLES.",
+            "check": {
+              "id": "ch2_translator_cables",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "sabotage_cable_recoil"
+            },
+            "fail": {
+              "to": "sabotage_cable_alarm"
+            }
+          },
+          {
+            "id": "reroute_approval_punch_tape",
+            "kind": "action",
+            "text": "ALTER THE NORMAL PUNCH-TAPE FEED PATH.",
+            "to": "sabotage_tape_stalled"
+          },
+          {
+            "id": "staple_punch_tape_loop",
+            "kind": "action",
+            "text": "BEND THE MOVING PUNCH TAPE INTO A LOOP AND STAPLE IT SHUT.",
+            "check": {
+              "id": "ch2_stapled_punch_tape",
+              "sides": 6,
+              "need": 4
+            },
+            "pass": {
+              "to": "sabotage_staple_stalled"
+            },
+            "fail": {
+              "to": "sabotage_staple_alarm"
+            },
+            "if": {
+              "has": "red_stapler"
+            }
+          },
+          {
+            "id": "jam_feed_with_clicker",
+            "kind": "action",
+            "text": "WEDGE THE TIMING CLICKER INTO THE TRANSLATOR FEED.",
+            "if": {
+              "has": "timing_clicker"
+            },
+            "to": "sabotage_clicker_stalled"
+          },
+          {
+            "id": "jam_feed_with_rubber_ball",
+            "kind": "action",
+            "text": "JAM THE FEED WITH THE RUBBER-BAND BALL.",
+            "if": {
+              "has": "rubber_band_ball"
+            },
+            "to": "sabotage_rubber_stalled"
+          }
+        ]
+      }
+    }
+  }
+}

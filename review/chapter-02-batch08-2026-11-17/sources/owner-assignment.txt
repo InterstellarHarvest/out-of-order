@@ -1,0 +1,246 @@
+# The Acceptable Error — Chapter 2 Art: Final Batch 7 Approval + Batch 8 Production
+
+## 1. FINAL OWNER APPROVAL — BATCH 7 COMPLETE
+
+Nate has approved the revised Customs antidote inspector without further changes.
+
+Art Director verdict: PASS.
+
+**Approved revised asset:**
+
+`I-customs-antidote-inspect-background-polish-v01.png`
+
+SHA-256:
+
+`35da940d24401a6964243179ec7c5d336ad3677fd31dce0ef368de63cecc42cc`
+
+Source information:
+
+- Original art branch: `agent/ch02-art-batch07-treatment-kits`
+- Final polish review commit: `2711cb1784aa368e790dcdf6992cd23f93eaf1d8`
+- [Published revised candidate](https://interstellarharvest.github.io/CYOA-storyboard/tools/prologue-art-lab/assets/review/chapter-02-batch07-polish-2026-11-17/candidates/I-customs-antidote-inspect-background-polish-v01.png)
+- [Public review gallery](https://interstellarharvest.github.io/CYOA-storyboard/tools/prologue-art-lab/assets/review/chapter-02-batch07-polish-2026-11-17/)
+
+### Register final approval
+
+Follow the established `docs/105` approval workflow.
+
+1. Verify the revised candidate's exact SHA-256.
+2. Promote `items:botanical_antidote_customs#inspect` from `generated` to `approved`.
+3. Record the owner approval, immutable source provenance, and exact selected image.
+4. Publish the approved PNG to the public selected-art catalog.
+5. Preserve all 108 previously approved PNGs byte-for-byte.
+6. Verify all **109 approved selected-art PNG hashes** against their registered sources.
+7. Run all established canonical, preview, sync, and QA checks.
+
+Batch 7 assets A–H were already approved and registered at commit:
+
+`32971f8743851b1ed6997f629ad1c91076d9962c`
+
+The three approved injector/vial narrative corrections were already published at:
+
+`45b0488af8c0e4539105810b21d0651c1b7f49fa`
+
+Do not repeat these changes.
+
+No gameplay integration. Production paths remain null.
+
+## 2. IMMEDIATELY BEGIN BATCH 8
+
+This is the final planned Chapter 2 artwork generation batch.
+
+Generate five death-screen illustrations:
+
+1. `deathScreens:biology_park/classified_as_compost`
+2. `deathScreens:biology_park/new_arrival`
+3. `deathScreens:biology_park/personal_growth`
+4. `deathScreens:biology_park/reclassified`
+5. `deathScreens:biology_park/site_improvement`
+
+Use the latest canonical storyboard as the source of truth.
+
+Read each complete death-screen artwork record, its approved title/subtitle/narrative, and the associated fatal gameplay routes before generating.
+
+The death-screen records already contain the approved creative briefs. Follow those briefs precisely.
+
+### Death-screen art contract
+
+- Native artwork: **314×206 logical pixels**.
+- Popup display: exact **2× nearest-neighbor**, 628×412.
+- Opaque image, unless the canonical record explicitly specifies otherwise.
+- Existing restrained gray/teal/ivory industrial palette.
+- Crisp, purposeful pixel clusters.
+- No blur, unnecessary dithering, brass, or steampunk.
+- No gore or graphic injuries.
+- No recognizable dead protagonist.
+- Each illustration depicts the aftermath of the fatal event.
+
+**Important:** Titles, subtitles, narrative text, separators, and controls are rendered separately by the death-popup UI. Do not bake these elements into the artwork.
+
+The frozen, darkened, pixelated gameplay scene behind the popup is also handled by the interface, not by these images.
+
+## 3. ART DIRECTION FOR THE FIVE DEATHS
+
+### A — CLASSIFIED AS COMPOST
+
+An automated Biology Park sorting bay after processing has finished.
+
+Visual elements:
+- Sealed organic-waste bale or collection bin.
+- Quiet conveyor.
+- Green completed-processing indicator.
+- Small disposal receipt emerging from a printer.
+
+The machinery regards the operation as entirely successful.
+
+No person or recognizable remains.
+
+### B — NEW ARRIVAL
+
+A botanical nursery after the planting machinery has completed its task.
+
+Visual elements:
+- Planting hopper and mechanical arms at rest.
+- Fresh, orderly mound of soil.
+- Cheerful welcoming botanical marker.
+- Artificial greenhouse lighting.
+
+The disturbing implication is that the machinery classified a person as something to plant.
+
+Avoid depicting an active planting operation or a visible body.
+
+### C — PERSONAL GROWTH
+
+A completed botanical transformation in a curated greenhouse.
+
+Visual elements:
+- Dense roots, leaves and flowers.
+- An anonymous human-sized mass of vegetation.
+- Cheerful successful-cultivation indicator.
+- Controlled institutional greenhouse setting.
+
+There must be no recognizable human face or person.
+
+The transformation is complete, not ongoing.
+
+This is the shared fatal outcome for its associated routes; do not invent separate illustrations for each cause.
+
+### D — RECLASSIFIED
+
+An industrial planting-machine processing station after completion.
+
+Visual elements:
+- Waste hatch.
+- Planting hopper returned to standby.
+- Neatly filled growing tray.
+- Formal botanical processing marker or checkmark.
+- Quiet automated handling arms.
+
+**Distinguish this from NEW ARRIVAL.**
+
+NEW ARRIVAL is a nursery welcome/planting aftermath.
+
+RECLASSIFIED is an industrial sorting and reclassification aftermath.
+
+The bureaucracy considers the item successfully reassigned.
+
+No person or remains.
+
+### E — SITE IMPROVEMENT
+
+The underground service duct beneath the botanical translator, after roots have sealed it.
+
+Visual elements:
+- Dense roots completely occupying a narrow maintenance passage.
+- Translator machinery overhead.
+- A printer issuing another maintenance requisition.
+- Possibly one small, anonymous shoe sole obscured behind roots, if visually appropriate.
+
+No visible injury or identifiable body.
+
+The humor comes from the machinery treating a fatal obstruction as routine infrastructure work.
+
+## 4. VISUAL CONTINUITY
+
+Use approved Chapter 2 artwork as the visual reference for:
+
+- Sorting conveyor and waste chute.
+- Planting machinery.
+- Nursery and greenhouse architecture.
+- Botanical translator.
+- Service infrastructure.
+- Administrative machinery and signage.
+
+The five death illustrations should feel like different locations within the same institutional world.
+
+Do not create five variations of the same generic death scene.
+
+Each must communicate its particular bureaucratic consequence, even before the player reads the death-popup text.
+
+Avoid overcomplicating the compositions. At 314×206, a strong main silhouette and two or three secondary environmental details are preferable to a crowded scene.
+
+## 5. GENERATION AND REVIEW DELIVERABLES
+
+For each of the five images:
+
+- Use genuine image generation.
+- Preserve original full-resolution generations.
+- Preserve exact generation prompts.
+- Export native logical-resolution artwork.
+- Apply the approved palette without dithering.
+- Produce exact nearest-neighbor review previews.
+- Record source and candidate SHA-256 hashes.
+- Verify dimensions, opacity, palette, and pixel scaling.
+- Compare against approved related Chapter 2 scenes.
+
+Create a Batch 8 review gallery with:
+
+1. Five native artwork candidates.
+2. Exact 2× popup-size previews.
+3. Optional exact 4× inspection views.
+4. A death-popup composition preview using the existing UI where practical.
+5. Relevant approved-art comparisons.
+6. Technical QA.
+7. Visual continuity findings.
+8. Candidate paths and SHA-256 manifest.
+
+Do not modify existing death-popup titles, subtitles, narrative, buttons, retry behavior, checkpoint behavior, or gameplay logic.
+
+The game already has death-popup infrastructure. This task supplies the missing artwork, not new death mechanics.
+
+## 6. CANONICAL STATUS AND BOUNDARIES
+
+Publish the five new artwork records as:
+
+- `status: generated`
+- `selected: false`
+- Production `assetPath: null`
+
+Do not mark them approved before owner review.
+
+Preserve:
+
+- All 109 previously approved artworks.
+- Prologue, Chapter 1, and Chapter 2 narrative changes being handled by the separate story-audit workflow.
+- Chapter 3, which is still in active writing and planning.
+- Existing game engine, items, inventory, and UI.
+- All previous source generations and rejected studies.
+
+Do not audit or modify Chapter 3 as part of this art task.
+
+Do not perform gameplay integration.
+
+## 7. REPORT BACK
+
+Provide:
+
+1. Final Batch 7 approval-registration commit.
+2. Confirmation that all 109 selected public PNG hashes match.
+3. Batch 8 branch and immutable candidate commit.
+4. Review gallery location.
+5. Five candidate filenames and SHA-256 hashes.
+6. Native/popup-size QA results.
+7. Visual review concerns.
+8. Confirmation that no Chapter 2 artwork records remain `not-started`.
+
+**Proceed automatically from final Batch 7 registration into Batch 8 generation. Stop after generating all five death illustrations for Art Director review.**

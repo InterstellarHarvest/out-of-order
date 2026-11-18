@@ -1,0 +1,78 @@
+{
+  "tool": "built-in image_gen",
+  "canonicalSourceCommit": "69abc4d9859dda46f220f0da51b75fdf73be3f95",
+  "artworkBaseline": "2711cb1784aa368e790dcdf6992cd23f93eaf1d8",
+  "independentGenerationCount": 5,
+  "assets": {
+    "A": {
+      "key": "deathScreens:biology_park/classified_as_compost",
+      "source": "generation-source/A-classified-as-compost-v01.png",
+      "prompt": "prompts/A-v01.txt",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-0785bdc2-7338-4b69-94b3-aceba509e1fc.png",
+      "references": [
+        "references/sorting_conveyor-4x.png",
+        "references/waste_chute-4x.png"
+      ],
+      "referenceRoles": [
+        "approved primary scene/machinery identity",
+        "approved secondary infrastructure/greenhouse context"
+      ]
+    },
+    "B": {
+      "key": "deathScreens:biology_park/new_arrival",
+      "source": "generation-source/B-new-arrival-v01.png",
+      "prompt": "prompts/B-v01.txt",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-a4752a8f-4a51-4603-926c-44fc08133f9b.png",
+      "references": [
+        "references/planting_hopper-4x.png",
+        "references/central_flower-4x.png"
+      ],
+      "referenceRoles": [
+        "approved primary scene/machinery identity",
+        "approved secondary infrastructure/greenhouse context"
+      ]
+    },
+    "C": {
+      "key": "deathScreens:biology_park/personal_growth",
+      "source": "generation-source/C-personal-growth-v01.png",
+      "prompt": "prompts/C-v01.txt",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-1c9b9990-6ae2-418f-970d-4e17ef55926e.png",
+      "references": [
+        "references/planting_machine-4x.png",
+        "references/central_flower-4x.png"
+      ],
+      "referenceRoles": [
+        "approved primary scene/machinery identity",
+        "approved secondary infrastructure/greenhouse context"
+      ]
+    },
+    "D": {
+      "key": "deathScreens:biology_park/reclassified",
+      "source": "generation-source/D-reclassified-v01.png",
+      "prompt": "prompts/D-v01.txt",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-2cf67f2e-63be-48a8-b9c5-047868cd1e05.png",
+      "references": [
+        "references/planting_machine-4x.png",
+        "references/waste_chute-4x.png"
+      ],
+      "referenceRoles": [
+        "approved primary scene/machinery identity",
+        "approved secondary infrastructure/greenhouse context"
+      ]
+    },
+    "E": {
+      "key": "deathScreens:biology_park/site_improvement",
+      "source": "generation-source/E-site-improvement-v01.png",
+      "prompt": "prompts/E-v01.txt",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-7f2dd392-5683-49cd-84fb-b5d13f56b0f2.png",
+      "references": [
+        "references/translator_machine-4x.png",
+        "references/lower_irrigation-4x.png"
+      ],
+      "referenceRoles": [
+        "approved primary scene/machinery identity",
+        "approved secondary infrastructure/greenhouse context"
+      ]
+    }
+  }
+}

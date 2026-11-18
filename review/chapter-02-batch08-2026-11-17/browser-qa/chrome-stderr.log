@@ -1,0 +1,9 @@
+[71056:3705151:1117/194930.752571:ERROR:net/cert/internal/trust_store_mac.cc:807] Error parsing certificate:
+ERROR: Failed parsing extensions
+
+[71062:3705194:1117/194931.053771:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[71062:3705194:1117/194931.054306:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[71062:3705194:1117/194931.054415:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[71062:3705194:1117/194931.054543:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[71062:3705194:1117/194931.638974:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+203914 bytes written to file /Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch08/review/chapter-02-batch08-2026-11-17/browser-qa/native-desktop.png

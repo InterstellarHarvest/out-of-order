@@ -1,0 +1,91 @@
+/* The reception slice. Everything on the stage is placed in whole 1920x1080 shell pixels; the
+   only transform is the fit-to-window scale on #stage. No element changes on hover: no border,
+   outline, glow, fill or brightness. Interaction is shown physically (sprites press, cards move). */
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+
+#stageFrame { position: relative; overflow: hidden; }
+#stage {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  overflow: clip;
+  background: #0e1b20;
+  transform-origin: 0 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+#stage img, #stage canvas { image-rendering: crisp-edges; image-rendering: pixelated; display: block; }
+#shell { left: 0; top: 0; pointer-events: none; }
+
+.aperture, .layer, .slot, .hit, .hit-area, .inv-window, .tooltip, .sprite-abs { position: absolute; }
+/* Scene and portrait art (js/stage.js): the aperture clips; the layers inside are placed in whole
+   pixels at an integer scale, nearest neighbour, with no filter, opacity, transform or transition. */
+.art-aperture { overflow: hidden; overflow: clip; }
+.art, .fx { pointer-events: none; }
+.layer { left: 0; top: 0; width: 0; height: 0; }
+.inv-window { overflow: hidden; overflow: clip; }
+.sprite { position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none; }
+.sprite-abs { pointer-events: none; }
+.glyph, .card-text, #inspectText { position: absolute; pointer-events: none; }
+
+/* Controls carry no browser chrome at all, in any state. */
+.hit, .hit-area, .overlay {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  outline: none;
+  box-shadow: none;
+  filter: none;
+  cursor: pointer;
+  touch-action: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.hit:focus, .hit-area:focus, .overlay:focus, .hit:focus-visible, .hit-area:focus-visible { outline: none; }
+.overlay { cursor: default; }
+#choiceViewport { overflow: hidden; overflow: clip; cursor: default; }
+#objectiveTitle, #objectiveBody { cursor: default; pointer-events: none; }
+.hit[aria-disabled=true] { cursor: default; }
+
+/* Choices show no focus or hover marker of any kind (docs/53). */
+
+/* Item-received slip (js/stage.js). PROVISIONAL, drawn in code until approved art exists. */
+.notice { position: absolute; cursor: pointer; }
+
+.speech-indicator {
+  position: absolute;
+  background: #25363a;
+  box-shadow: inset 0 0 0 1px #06191c;
+  clip-path: polygon(1px 0, calc(100% - 1px) 0, 100% 1px, 100% calc(100% - 1px), calc(100% - 1px) 100%, 1px 100%, 0 calc(100% - 1px), 0 1px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .15s linear, visibility .15s linear;
+}
+.speech-indicator.on { opacity: 1; visibility: visible; }
+
+/* Utility tooltip (docs/45 section 6, docs/61). The box is CSS, not pixel art: it sizes to its text.
+   Hard-edged only, related to the shell: dark desaturated teal body, a 1px dark outline, a 2px warm
+   metal edge, a 1px steel inner line, a heavier dark bottom edge for depth, and 2px chamfered
+   corners. No blur, glow, gradient, filter or transition. The text is the baked Labels face. */
+.tooltip {
+  --tooltip-body: #22363b;
+  --tooltip-outline: #0b1416;
+  --tooltip-edge: #b3a886;
+  --tooltip-steel: #4d6b68;
+  background: var(--tooltip-body);
+  border: 0;
+  box-shadow:
+    inset 0 -2px 0 0 var(--tooltip-outline),
+    inset 0 0 0 1px var(--tooltip-outline),
+    inset 0 0 0 3px var(--tooltip-edge),
+    inset 0 0 0 4px var(--tooltip-steel);
+  clip-path: polygon(2px 0, calc(100% - 2px) 0, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 0 calc(100% - 2px), 0 2px);
+  pointer-events: none;
+}
+.tooltip canvas { position: absolute; }

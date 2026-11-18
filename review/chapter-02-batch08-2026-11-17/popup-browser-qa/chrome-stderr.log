@@ -1,0 +1,48 @@
+[70876:3701224:1117/194635.723973:ERROR:net/cert/internal/trust_store_mac.cc:807] Error parsing certificate:
+ERROR: Failed parsing extensions
+
+[70882:3701271:1117/194636.015558:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[70882:3701271:1117/194636.016055:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[70882:3701271:1117/194636.016189:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[70882:3701271:1117/194636.016316:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+[70882:3701271:1117/194636.584963:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+Trying to load the allocator multiple times. This is *not* supported.
+[70882:3701271:1117/194638.326945:ERROR:ui/display/mac/cv_display_link_mac.mm:194] CVDisplayLinkCreateWithCGDisplay failed. CVReturn: -6670
+109135 bytes written to file /Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch08/review/chapter-02-batch08-2026-11-17/popup-browser-qa/actual-popup-browser.png
+[70876:3701234:1117/194638.378353:ERROR:base/process/process_mac.cc:53] task_policy_set TASK_CATEGORY_POLICY: (os/kern) invalid argument (4)
+[70876:3701234:1117/194638.378381:ERROR:base/process/process_mac.cc:98] task_policy_set TASK_SUPPRESSION_POLICY: (os/kern) invalid argument (4)
+[70876:3701211:1117/194638.534867:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[70912:3701796:1117/194654.654594:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/MrDashiki/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake-all --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[70912:3701796:1117/194654.654821:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 380505, parent pid: 70876
+[70912:3701796:1117/194654.657264:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/MrDashiki/Library/Application Support/Google/GoogleUpdater): 331369328640B (308.612GiB) / 1449000935424B (1.318TiB)
+[70912:3701796:1117/194654.657290:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/vf/8fb9xpsn4dx4jsw0rcm_g8vm0000gn/T/): 331369328640B (308.612GiB) / 1449000935424B (1.318TiB)
+[70912:3701796:1117/194654.657383:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[70914:3701800:1117/194654.665075:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/MrDashiki/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --crash-handler --database=/Users/MrDashiki/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/Crashpad --url=https://clients2.google.com/cr/report --annotation=prod=Update4 --annotation=ver=150.0.7863.0 --handshake-fd=6 --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[70914:3701800:1117/194654.665264:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 380505, parent pid: 1
+[70914:3701800:1117/194654.667534:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/MrDashiki/Library/Application Support/Google/GoogleUpdater): 331369328640B (308.612GiB) / 1449000935424B (1.318TiB)
+[70914:3701800:1117/194654.667561:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/vf/8fb9xpsn4dx4jsw0rcm_g8vm0000gn/T/): 331369328640B (308.612GiB) / 1449000935424B (1.318TiB)
+[70914:3701800:1117/194654.667664:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[70912:3701796:1117/194654.668155:VERBOSE1:chrome/updater/crash_reporter.cc:124] Crash handler launched and ready.
+[70912:3701796:1117/194654.669127:VERBOSE1:chrome/updater/crash_client.cc:108] Found 0 completed crash reports
+[70912:3701796:1117/194654.669211:VERBOSE1:chrome/updater/crash_client.cc:132] Found 0 pending crash reports
+[70912:3701796:1117/194654.669323:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/MrDashiki/Library/Application Support/Google/RLZ/Crashpad/settings.dat: No such file or directory (2)
+[70912:3701796:1117/194654.669362:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/MrDashiki/Library/Application Support/Google/Google Talk Plugin/Crashpad/settings.dat: No such file or directory (2)
+[70912:3701796:1117/194654.669407:VERBOSE1:chrome/updater/updater.cc:105] Crash reporting initialized.
+[70912:3701808:1117/194654.669784:VERBOSE1:chrome/updater/app/app_wakeall.cc:58] Launching `/Users/MrDashiki/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake`
+[70915:3701812:1117/194654.676941:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/MrDashiki/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --wake --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[70915:3701812:1117/194654.677136:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 380505, parent pid: 70912
+[70915:3701812:1117/194654.679425:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/MrDashiki/Library/Application Support/Google/GoogleUpdater): 331369328640B (308.612GiB) / 1449000935424B (1.318TiB)
+[70915:3701812:1117/194654.679449:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/vf/8fb9xpsn4dx4jsw0rcm_g8vm0000gn/T/): 331369328640B (308.612GiB) / 1449000935424B (1.318TiB)
+[70915:3701812:1117/194654.679539:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[70917:3701816:1117/194654.686944:VERBOSE1:chrome/updater/updater.cc:374] Version: 150.0.7863.0, opt, x86_64, command line: /Users/MrDashiki/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/GoogleUpdater.app/Contents/MacOS/GoogleUpdater --crash-handler --database=/Users/MrDashiki/Library/Application Support/Google/GoogleUpdater/150.0.7863.0/Crashpad --url=https://clients2.google.com/cr/report --annotation=prod=Update4 --annotation=ver=150.0.7863.0 --handshake-fd=6 --enable-logging --vmodule=*/components/update_client/*=2,*/chrome/enterprise_companion/*=2,*/chrome/updater/*=2
+[70917:3701816:1117/194654.687149:VERBOSE1:chrome/updater/updater.cc:377] OS version: 12.7.6, arch: x86_64, System uptime (seconds): 380505, parent pid: 1
+[70917:3701816:1117/194654.689605:VERBOSE1:chrome/updater/updater.cc:382] Available disk space in install directory (/Users/MrDashiki/Library/Application Support/Google/GoogleUpdater): 331369328640B (308.612GiB) / 1449000935424B (1.318TiB)
+[70917:3701816:1117/194654.689633:VERBOSE1:chrome/updater/updater.cc:386] Available disk space in temporary directory (/var/folders/vf/8fb9xpsn4dx4jsw0rcm_g8vm0000gn/T/): 331369328640B (308.612GiB) / 1449000935424B (1.318TiB)
+[70917:3701816:1117/194654.689739:VERBOSE2:chrome/updater/event_history.cc:265] Emitted a UPDATER_PROCESS START event to the history log
+[70915:3701812:1117/194654.690240:VERBOSE1:chrome/updater/crash_reporter.cc:124] Crash handler launched and ready.
+[70915:3701812:1117/194654.691135:VERBOSE1:chrome/updater/crash_client.cc:108] Found 0 completed crash reports
+[70915:3701812:1117/194654.691218:VERBOSE1:chrome/updater/crash_client.cc:132] Found 0 pending crash reports
+[70915:3701812:1117/194654.691328:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/MrDashiki/Library/Application Support/Google/RLZ/Crashpad/settings.dat: No such file or directory (2)
+[70915:3701812:1117/194654.691366:ERROR:third_party/crashpad/crashpad/util/file/file_io_posix.cc:145] open /Users/MrDashiki/Library/Application Support/Google/Google Talk Plugin/Crashpad/settings.dat: No such file or directory (2)
+[70915:3701812:1117/194654.691411:VERBOSE1:chrome/updater/updater.cc:105] Crash reporting initialized.
+[70915:3701812:1117/194654.691675:VERBOSE1:chrome/updater/ipc/update_service_internal_proxy_mojo.cc:61] Run
