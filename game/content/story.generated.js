@@ -7,33 +7,33 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "407d8ec78f1ceee950cb4330bc5e6460720bbbede0e04d0218b2a2514de1c00d",
-    "version": 67623149,
+    "contentHash": "b8410b88d1eed79be68214021fedece1c6410db337a78852a12a967db556dbb3",
+    "version": 193204409,
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "fdb00594082eb55f3b0d6bf08ce67800c7c8856af1c7ad2baea6110a1be12f95",
-        "gitBlob": "a4d12e7a10ae54cd7e8cced487501f516149c937"
+        "sha256": "38774d319be43ef3ad082cb72d67fed9b25f6415366ca4d526dd57ef4e7c3fd7",
+        "gitBlob": "075c3727f628429f30a41d253c81964d3f3f901b"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
-        "sha256": "9b6c54b892e02699d87118c7696f72d44bf5df9eeb263a30a1ef2ea6e290a26a",
-        "gitBlob": "a8dc40aed246e8edb6e9453491f3d872959fb895"
+        "sha256": "90116c126a09ee1aa004b1939b2aec32d867019aa810118c4f7f6cdacab38084",
+        "gitBlob": "49bb0145bb516819959571befe6065dce47b9e75"
       },
       {
         "path": "story/chapters/chapter-02.draft.json",
-        "sha256": "a415ae13537d6c8d13204100c803ab1850d249412bc8fa6fc6d2a2282a935923",
-        "gitBlob": "76b552a1480074b35f3663317d7bf28dabe629c6"
+        "sha256": "1815bf99e601bdaae9f32b2add206fd5a6f71fed156961ebfd627a1ebb8e52d8",
+        "gitBlob": "d212008c76374698d7e73d3303d4ed015f9595f4"
       },
       {
         "path": "story/chapters/prologue-00.draft.json",
-        "sha256": "e8699424cba127c9fd8b212b36bbcd81c83f1d138cf21ea54e69c735c2742d84",
-        "gitBlob": "6516b6af2407e7440c4d0dd50fa1387ba555e31b"
+        "sha256": "577c26c805ac2d4566222a0517d4dbe1a243f920951903f481445482f28eebac",
+        "gitBlob": "d5ab33b8f27e1cb27400d23a2124ce83fe780717"
       },
       {
         "path": "story/items.draft.json",
-        "sha256": "67c5bba99702a93c4440dce1841e1dfd67f504f96c9d94ef63b1fe4156081255",
-        "gitBlob": "84c0d807031bf1e09a9d447287eb8ac16c82cde1"
+        "sha256": "ee582566cdc792898a24b99fc8126f48b5cd51d7b391fbcbeb9da66c3a70af50",
+        "gitBlob": "596f6cce509a281527533526e978ea11523ae08d"
       },
       {
         "path": "story/runtime-settings.json",
@@ -497,7 +497,7 @@
       "chapters": 3,
       "nodes": 164,
       "choices": 247,
-      "reachableStates": 165527,
+      "reachableStates": 165671,
       "endings": 11,
       "endingStates": 13500,
       "endingsReached": 11,
@@ -507,7 +507,7 @@
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 67623149,
+    "version": 193204409,
     "profile": "fixture",
     "save": true,
     "start": "prologue-00",
@@ -844,7 +844,7 @@
         "name": "CERTIFIED BOTANICAL SEED CANISTER",
         "slotArt": null,
         "inspectArt": null,
-        "description": "A dull metal cylinder with a sealed packet of viable seeds from Botanical Specimen 001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.",
+        "description": "A dull metal case with a sealed packet of viable seeds from Botanical Specimen 001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.",
         "read": {
           "effects": {
             "mark": [
@@ -1192,8 +1192,8 @@
             "choices": [
               {
                 "id": "drone_show_form",
-                "kind": "continue",
-                "text": "CONTINUE",
+                "kind": "spoken",
+                "text": "I WAS JUST GOING TO THE BATHROOM.",
                 "to": "drone_presents_notice"
               }
             ]
@@ -2333,13 +2333,13 @@
               {
                 "id": "permit_housekeeping",
                 "kind": "spoken",
-                "text": "ALLOW THE HOUSE TO PUT YOUR THINGS AWAY.",
+                "text": "YES, YOU CAN PUT MY THINGS AWAY.",
                 "to": "orientation_storage"
               },
               {
                 "id": "decline_housekeeping",
                 "kind": "spoken",
-                "text": "KEEP YOUR BELONGINGS WITH YOU.",
+                "text": "NO, I'LL KEEP MY THINGS.",
                 "to": "orientation_refusal"
               }
             ]
@@ -2406,25 +2406,34 @@
               {
                 "id": "ask_for_bathroom_after_storage",
                 "kind": "spoken",
-                "text": "ASK WHERE THE BATHROOM IS.",
+                "text": "WHERE IS THE BATHROOM?",
                 "to": "comfort_offer"
               }
             ]
           },
           "orientation_refusal": {
-            "mode": "narrative",
+            "mode": "dialogue",
             "scene": "house_of_tomorrow/foyer",
+            "speaker": "house",
             "effects": {
               "set": {
                 "housekeeping_refused": true
               }
             },
-            "text": "You insist on keeping your possessions. The speaker pauses.\n\n\"Certainly. We would never put your things away without permission.\"\n\nA quiet motor starts somewhere behind the wall.",
+            "text": [
+              {
+                "desc": "You insist on keeping your possessions. The speaker pauses."
+              },
+              "Certainly. We would never put your things away without permission.",
+              {
+                "desc": "A quiet motor starts somewhere behind the wall."
+              }
+            ],
             "choices": [
               {
                 "id": "insist_on_bathroom",
                 "kind": "spoken",
-                "text": "ASK FOR THE BATHROOM AGAIN.",
+                "text": "I STILL NEED TO USE THE BATHROOM.",
                 "to": "comfort_offer"
               }
             ]
@@ -2686,8 +2695,9 @@
             ]
           },
           "foyer_attempt": {
-            "mode": "narrative",
+            "mode": "dialogue",
             "scene": "house_of_tomorrow/foyer",
+            "speaker": "house",
             "effects": {
               "set": {
                 "house_exit_denied": true
@@ -2698,10 +2708,30 @@
                 "if": {
                   "flag": "dinner_seen"
                 },
-                "text": "The front door opens just far enough to show the public concourse. An alarm sounds.\n\n\"Oh dear. If you go, nobody will be home. We really mustn't allow that again.\" The door closes. Dinner has already been tried."
+                "text": [
+                  {
+                    "desc": "The front door opens just far enough to show the public concourse. An alarm sounds."
+                  },
+                  "Oh dear. If you go, nobody will be home. We really mustn't allow that again.",
+                  {
+                    "desc": "The door closes. Dinner has already been tried."
+                  }
+                ]
               },
               {
-                "text": "\"Of course you may leave! A happy household is a free household.\" The front door opens.\n\nA chime sounds. Then another, far less pleasant one.\n\n\"Oh dear. If you leave, nobody will be home. We really mustn't let that happen again.\" The door closes."
+                "text": [
+                  "Of course you may leave! A happy household is a free household.",
+                  {
+                    "desc": "The front door opens."
+                  },
+                  {
+                    "desc": "A chime sounds. Then another, far less pleasant one."
+                  },
+                  "Oh dear. If you leave, nobody will be home. We really mustn't let that happen again.",
+                  {
+                    "desc": "The door closes."
+                  }
+                ]
               }
             ],
             "choices": [
@@ -2828,7 +2858,7 @@
               {
                 "id": "reply_for_martin",
                 "kind": "spoken",
-                "text": "ANSWER FOR MARTIN.",
+                "text": "MARTIN SAYS HE'S HAD A LONG DAY.",
                 "to": "martin_bedtime"
               },
               {
@@ -3241,8 +3271,8 @@
             "choices": [
               {
                 "id": "let_house_change_subject",
-                "kind": "continue",
-                "text": "CONTINUE",
+                "kind": "spoken",
+                "text": "YOU DIDN'T ANSWER MY QUESTION.",
                 "to": "bathroom_arrival"
               }
             ]
@@ -3495,7 +3525,7 @@
                 "acting_director_badge"
               ]
             },
-            "text": "A pale green credential card emerges from a slot marked EMERGENCY MANAGEMENT.\n\nCongratulations! You are now Acting Director of Vegetation. Nobody has established what happened to the previous one.",
+            "text": "A pale green credential card emerges from a slot marked EMERGENCY MANAGEMENT.\n\nCONGRATULATIONS! YOU ARE NOW ACTING DIRECTOR OF VEGETATION. Nobody has established what happened to the previous one.",
             "choices": [
               {
                 "id": "open_formal_park_gate",
@@ -5534,7 +5564,7 @@
               "useChoice": "use_public_from_open_kit",
               "closeChoice": "close_public_kit_and_take"
             },
-            "text": "The first-aid box swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+            "text": "The first-aid box swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
             "choices": [
               {
                 "id": "read_public_expiry",
@@ -5704,7 +5734,7 @@
               "useChoice": "use_maintenance_from_open_kit",
               "closeChoice": "close_maintenance_kit_and_take"
             },
-            "text": "The industrial decontamination locker swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+            "text": "The industrial decontamination locker swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
             "choices": [
               {
                 "id": "read_maintenance_expiry",
@@ -5874,7 +5904,7 @@
               "useChoice": "use_customs_from_open_kit",
               "closeChoice": "close_customs_kit_and_take"
             },
-            "text": "The agricultural exposure dispenser swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+            "text": "The agricultural exposure dispenser swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
             "choices": [
               {
                 "id": "read_customs_expiry",

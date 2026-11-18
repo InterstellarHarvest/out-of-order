@@ -97,8 +97,15 @@ const SOURCE = 'cf575552fc729b952d99d25bea56dbc81b40619d';
     check(g, r.kind + ' ' + r.id + ' registered at ' + r.path + ' (status ' + want(r) + ': selected, owner-approved by the 2026-11-16 ruling)',
       rec && rec.assetPath === r.path && rec.status === want(r), rec && { assetPath: rec.assetPath, status: rec.status });
   });
-  const houseRecords = Object.keys(at).length;
-  check(g, 'every House art record in the registry is one of the 29 (none left as a placeholder)', houseRecords === 29, Object.keys(at).filter((k) => !PROV.images.some((r) => r.kind + ' ' + r.id === k)));
+  // A registered BRIEF (status not-started, no assetPath) is an art requirement, not a placeholder in
+  // this build - provided no imported conversation uses it. 2026-11-17: the lounge / dining House views
+  // (public docs/107, presentation Batch B) are briefs until generated, reviewed and owner-approved.
+  const extra = Object.keys(at).filter((k) => !PROV.images.some((r) => r.kind + ' ' + r.id === k));
+  const briefs = extra.filter((k) => at[k].status === 'not-started' && at[k].assetPath === null);
+  const houseTalkScenes = new Set(Object.values(story.chapters['chapter-01'].nodes).filter((n) => n.mode === 'dialogue' && n.speaker === 'house').map((n) => n.backdrop || n.scene || story.chapters['chapter-01'].scene));
+  check(g, 'registered House view briefs are not used by any imported House conversation', briefs.every((k) => !houseTalkScenes.has(k.replace('portrait-view house@', ''))), { briefs, houseTalkScenes: [...houseTalkScenes] });
+  const houseRecords = Object.keys(at).length - briefs.length;
+  check(g, 'every House art record in the registry is one of the 29 (none left as a placeholder; unused briefs excepted)', houseRecords === 29, extra.filter((k) => !briefs.includes(k)));
   check(g, 'House intercom is the opaque-complete exception; layered NPC records unchanged',
     hv.format === 'opaque-complete' && !hv.layers && !hv.foregroundFormat && !hv.portraitBackgroundScene
     && ART.portraits['receptionist:default'].foregroundFormat === 'transparent-rgba-png' && Array.isArray(ART.portraits['receptionist:default'].layers));

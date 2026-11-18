@@ -181,7 +181,7 @@
           "acting_director_badge"
         ]
       },
-      "text": "A pale green credential card emerges from a slot marked EMERGENCY MANAGEMENT.\n\nCongratulations! You are now Acting Director of Vegetation. Nobody has established what happened to the previous one.",
+      "text": "A pale green credential card emerges from a slot marked EMERGENCY MANAGEMENT.\n\nCONGRATULATIONS! YOU ARE NOW ACTING DIRECTOR OF VEGETATION. Nobody has established what happened to the previous one.",
       "choices": [
         {
           "id": "open_formal_park_gate",
@@ -2213,7 +2213,7 @@
       "mode": "focus",
       "scene": "biology_park/public_exit",
       "focus": "biology_park/public_exit/aid_box_open",
-      "text": "The first-aid box swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+      "text": "The first-aid box swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
       "choices": [
         {
           "id": "read_public_expiry",
@@ -2383,7 +2383,7 @@
       "mode": "focus",
       "scene": "biology_park/maintenance_exit",
       "focus": "biology_park/maintenance_exit/decontamination_kit_open",
-      "text": "The industrial decontamination locker swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+      "text": "The industrial decontamination locker swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
       "choices": [
         {
           "id": "read_maintenance_expiry",
@@ -2553,7 +2553,7 @@
       "mode": "focus",
       "scene": "biology_park/agricultural_customs",
       "focus": "biology_park/agricultural_customs/exposure_dispenser_open",
-      "text": "The agricultural exposure dispenser swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+      "text": "The agricultural exposure dispenser swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
       "choices": [
         {
           "id": "read_customs_expiry",

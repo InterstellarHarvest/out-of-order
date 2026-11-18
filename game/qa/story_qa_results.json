@@ -2,7 +2,7 @@
   "suite": "story-browser",
   "passed": 124,
   "total": 124,
-  "content": "407d8ec78f1ceee950cb4330bc5e6460720bbbede0e04d0218b2a2514de1c00d",
+  "content": "b8410b88d1eed79be68214021fedece1c6410db337a78852a12a967db556dbb3",
   "results": [
     {
       "browser": "chromium",

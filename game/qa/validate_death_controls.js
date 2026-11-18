@@ -294,7 +294,9 @@ const { CHAIR, STAPLER_CHAIR } = T;
 // 6. The validator and the walk are unaffected ------------------------------------------------------------
 {
   const g = 'engine';
-  check(g, 'generated story unchanged (content 407d8ec78f1c); the validator never sees attempt or points', gen.build.contentHash.slice(0, 12) === '407d8ec78f1c');
+  // Content pin re-set on purpose 2026-11-17 (public storyboard 6a8b3da, presentation Batch A: public docs/107):
+  // 407d8ec78f1c -> b8410b88d1ee. Re-pin only for an intentional canon pull, never to silence an engine change.
+  check(g, 'generated story unchanged (content b8410b88d1ee); the validator never sees attempt or points', gen.build.contentHash.slice(0, 12) === 'b8410b88d1ee');
   const src = fs.readFileSync(path.join(__dirname, '../js/rules.js'), 'utf8');
   check(g, 'step() reads attempt only for the roll namespace; nothing in step() writes it', (src.match(/\.attempt = /g) || []).length === 3 && /s\.attempt = \(state\.attempt \|\| 0\) \+ 1/.test(src));
 }

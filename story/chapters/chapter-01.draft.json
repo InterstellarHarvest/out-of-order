@@ -65,13 +65,13 @@
         {
           "id": "permit_housekeeping",
           "kind": "spoken",
-          "text": "ALLOW THE HOUSE TO PUT YOUR THINGS AWAY.",
+          "text": "YES, YOU CAN PUT MY THINGS AWAY.",
           "to": "orientation_storage"
         },
         {
           "id": "decline_housekeeping",
           "kind": "spoken",
-          "text": "KEEP YOUR BELONGINGS WITH YOU.",
+          "text": "NO, I'LL KEEP MY THINGS.",
           "to": "orientation_refusal"
         }
       ],
@@ -139,28 +139,38 @@
         {
           "id": "ask_for_bathroom_after_storage",
           "kind": "spoken",
-          "text": "ASK WHERE THE BATHROOM IS.",
+          "text": "WHERE IS THE BATHROOM?",
           "to": "comfort_offer"
         }
       ]
     },
     "orientation_refusal": {
-      "mode": "narrative",
+      "mode": "dialogue",
       "scene": "house_of_tomorrow/foyer",
+      "speaker": "house",
       "effects": {
         "set": {
           "housekeeping_refused": true
         }
       },
-      "text": "You insist on keeping your possessions. The speaker pauses.\n\n\"Certainly. We would never put your things away without permission.\"\n\nA quiet motor starts somewhere behind the wall.",
+      "text": [
+        {
+          "desc": "You insist on keeping your possessions. The speaker pauses."
+        },
+        "Certainly. We would never put your things away without permission.",
+        {
+          "desc": "A quiet motor starts somewhere behind the wall."
+        }
+      ],
       "choices": [
         {
           "id": "insist_on_bathroom",
           "kind": "spoken",
-          "text": "ASK FOR THE BATHROOM AGAIN.",
+          "text": "I STILL NEED TO USE THE BATHROOM.",
           "to": "comfort_offer"
         }
-      ]
+      ],
+      "pose": "idle"
     },
     "comfort_offer": {
       "mode": "narrative",
@@ -419,8 +429,9 @@
       ]
     },
     "foyer_attempt": {
-      "mode": "narrative",
+      "mode": "dialogue",
       "scene": "house_of_tomorrow/foyer",
+      "speaker": "house",
       "effects": {
         "set": {
           "house_exit_denied": true
@@ -431,10 +442,30 @@
           "if": {
             "flag": "dinner_seen"
           },
-          "text": "The front door opens just far enough to show the public concourse. An alarm sounds.\n\n\"Oh dear. If you go, nobody will be home. We really mustn't allow that again.\" The door closes. Dinner has already been tried."
+          "text": [
+            {
+              "desc": "The front door opens just far enough to show the public concourse. An alarm sounds."
+            },
+            "Oh dear. If you go, nobody will be home. We really mustn't allow that again.",
+            {
+              "desc": "The door closes. Dinner has already been tried."
+            }
+          ]
         },
         {
-          "text": "\"Of course you may leave! A happy household is a free household.\" The front door opens.\n\nA chime sounds. Then another, far less pleasant one.\n\n\"Oh dear. If you leave, nobody will be home. We really mustn't let that happen again.\" The door closes."
+          "text": [
+            "Of course you may leave! A happy household is a free household.",
+            {
+              "desc": "The front door opens."
+            },
+            {
+              "desc": "A chime sounds. Then another, far less pleasant one."
+            },
+            "Oh dear. If you leave, nobody will be home. We really mustn't let that happen again.",
+            {
+              "desc": "The door closes."
+            }
+          ]
         }
       ],
       "choices": [
@@ -492,7 +523,8 @@
           },
           "to": "portrait_intro"
         }
-      ]
+      ],
+      "pose": "idle"
     },
     "plant_adoption": {
       "mode": "narrative",
@@ -561,7 +593,7 @@
         {
           "id": "reply_for_martin",
           "kind": "spoken",
-          "text": "ANSWER FOR MARTIN.",
+          "text": "MARTIN SAYS HE'S HAD A LONG DAY.",
           "to": "martin_bedtime"
         },
         {
@@ -973,8 +1005,8 @@
       "choices": [
         {
           "id": "let_house_change_subject",
-          "kind": "continue",
-          "text": "CONTINUE",
+          "kind": "spoken",
+          "text": "YOU DIDN'T ANSWER MY QUESTION.",
           "to": "bathroom_arrival"
         }
       ],

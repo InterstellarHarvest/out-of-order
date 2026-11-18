@@ -1,6 +1,6 @@
 {
- "passed": 253,
- "total": 253,
+ "passed": 254,
+ "total": 254,
  "results": [
   {
    "group": "intake",
@@ -609,152 +609,157 @@
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/arrival registered at art/scenes/house_of_tomorrow/arrival.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/arrival registered at art/scenes/house_of_tomorrow/arrival.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/foyer registered at art/scenes/house_of_tomorrow/foyer.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/foyer registered at art/scenes/house_of_tomorrow/foyer.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/lounge registered at art/scenes/house_of_tomorrow/lounge.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/lounge registered at art/scenes/house_of_tomorrow/lounge.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/storage registered at art/scenes/house_of_tomorrow/storage.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/storage registered at art/scenes/house_of_tomorrow/storage.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/dining registered at art/scenes/house_of_tomorrow/dining.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/dining registered at art/scenes/house_of_tomorrow/dining.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/public_exit registered at art/scenes/house_of_tomorrow/public_exit.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/public_exit registered at art/scenes/house_of_tomorrow/public_exit.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/bedroom registered at art/scenes/house_of_tomorrow/bedroom.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/bedroom registered at art/scenes/house_of_tomorrow/bedroom.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/passage registered at art/scenes/house_of_tomorrow/passage.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/passage registered at art/scenes/house_of_tomorrow/passage.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/service_hatch registered at art/scenes/house_of_tomorrow/service_hatch.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/service_hatch registered at art/scenes/house_of_tomorrow/service_hatch.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/chair registered at art/scenes/house_of_tomorrow/chair.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/chair registered at art/scenes/house_of_tomorrow/chair.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/maintenance registered at art/scenes/house_of_tomorrow/maintenance.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/maintenance registered at art/scenes/house_of_tomorrow/maintenance.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/utility_exit registered at art/scenes/house_of_tomorrow/utility_exit.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/utility_exit registered at art/scenes/house_of_tomorrow/utility_exit.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/portrait_gallery registered at art/scenes/house_of_tomorrow/portrait_gallery.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/portrait_gallery registered at art/scenes/house_of_tomorrow/portrait_gallery.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene house_of_tomorrow/bathroom registered at art/scenes/house_of_tomorrow/bathroom.png (status generated; owner art approval pending)",
+   "name": "scene house_of_tomorrow/bathroom registered at art/scenes/house_of_tomorrow/bathroom.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "portrait-view house@house_of_tomorrow/foyer registered at art/portraits/house/foyer_conversation.png (status generated; owner art approval pending)",
+   "name": "portrait-view house@house_of_tomorrow/foyer registered at art/portraits/house/foyer_conversation.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "portrait-view house@house_of_tomorrow/portrait_gallery registered at art/portraits/house/portrait_gallery_conversation.png (status generated; owner art approval pending)",
+   "name": "portrait-view house@house_of_tomorrow/portrait_gallery registered at art/portraits/house/portrait_gallery_conversation.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:1 registered at art/focus/house_of_tomorrow/album_page_1.png (status generated; owner art approval pending)",
+   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:1 registered at art/focus/house_of_tomorrow/album_page_1.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:2 registered at art/focus/house_of_tomorrow/album_page_2.png (status generated; owner art approval pending)",
+   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:2 registered at art/focus/house_of_tomorrow/album_page_2.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:3 registered at art/focus/house_of_tomorrow/album_page_3.png (status generated; owner art approval pending)",
+   "name": "focus-page house_of_tomorrow/portrait_gallery/album:page:3 registered at art/focus/house_of_tomorrow/album_page_3.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "item-slot family_portrait_photo registered at art/items/family_portrait_photo_slot.png (status generated; owner art approval pending)",
+   "name": "item-slot family_portrait_photo registered at art/items/family_portrait_photo_slot.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "item-inspect family_portrait_photo registered at art/items/family_portrait_photo_inspect.png (status generated; owner art approval pending)",
+   "name": "item-inspect family_portrait_photo registered at art/items/family_portrait_photo_inspect.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene-state house_of_tomorrow/chair#default_unrestrained registered at art/scenes/house_of_tomorrow/states/chair_default_unrestrained.png (status generated; owner art approval pending)",
+   "name": "scene-state house_of_tomorrow/chair#default_unrestrained registered at art/scenes/house_of_tomorrow/states/chair_default_unrestrained.png (status approved: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene-state house_of_tomorrow/portrait_gallery#album_removed registered at art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png (status generated; owner art approval pending)",
+   "name": "scene-state house_of_tomorrow/portrait_gallery#album_removed registered at art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene-state house_of_tomorrow/foyer#named_plant_pedestal registered at art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png (status generated; owner art approval pending)",
+   "name": "scene-state house_of_tomorrow/foyer#named_plant_pedestal registered at art/scenes/house_of_tomorrow/states/foyer_named_plant_pedestal.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene-state house_of_tomorrow/storage#stored_desk_plant registered at art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png (status generated; owner art approval pending)",
+   "name": "scene-state house_of_tomorrow/storage#stored_desk_plant registered at art/scenes/house_of_tomorrow/states/storage_stored_desk_plant.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene-state house_of_tomorrow/storage#stored_red_stapler registered at art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png (status generated; owner art approval pending)",
+   "name": "scene-state house_of_tomorrow/storage#stored_red_stapler registered at art/scenes/house_of_tomorrow/states/storage_stored_red_stapler.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene-state house_of_tomorrow/storage#stored_rubber_band_ball registered at art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png (status generated; owner art approval pending)",
+   "name": "scene-state house_of_tomorrow/storage#stored_rubber_band_ball registered at art/scenes/house_of_tomorrow/states/storage_stored_rubber_band_ball.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene-state house_of_tomorrow/storage#stored_timing_clicker registered at art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png (status generated; owner art approval pending)",
+   "name": "scene-state house_of_tomorrow/storage#stored_timing_clicker registered at art/scenes/house_of_tomorrow/states/storage_stored_timing_clicker.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "scene-state house_of_tomorrow/utility_exit#returns_display registered at art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png (status generated; owner art approval pending)",
+   "name": "scene-state house_of_tomorrow/utility_exit#returns_display registered at art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png (status integrated: selected, owner-approved by the 2026-11-16 ruling)",
    "ok": true
   },
   {
    "group": "registry",
-   "name": "every House art record in the registry is one of the 29 (none left as a placeholder)",
+   "name": "registered House view briefs are not used by any imported House conversation",
+   "ok": true
+  },
+  {
+   "group": "registry",
+   "name": "every House art record in the registry is one of the 29 (none left as a placeholder; unused briefs excepted)",
    "ok": true
   },
   {

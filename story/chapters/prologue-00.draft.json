@@ -31,8 +31,8 @@
       "choices": [
         {
           "id": "drone_show_form",
-          "kind": "continue",
-          "text": "CONTINUE",
+          "kind": "spoken",
+          "text": "I WAS JUST GOING TO THE BATHROOM.",
           "to": "drone_presents_notice"
         }
       ]

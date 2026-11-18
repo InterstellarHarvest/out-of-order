@@ -1,6 +1,6 @@
 {
- "passed": 39,
- "total": 39,
+ "passed": 45,
+ "total": 45,
  "results": [
   {
    "group": "points",
@@ -188,8 +188,38 @@
    "ok": true
   },
   {
+   "group": "shared-cause",
+   "name": "ordinary play opts in every canonical death entry (canonical *), activation always",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "all three causes reach exit_chair_fatal and match the ONE canonical entry (when = { end } only)",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "the causes stay distinguishable: voluntary has no check; stapler / unarmed carry their check id and ok:false",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "RETRY and CHECKPOINT are available for every cause (the retry point is that cause's own decision)",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "RETRY after a failed stapler check: the exact pre-check state in attempt 1; the re-attempt rolls in the attempt-1 namespace",
+   "ok": true
+  },
+  {
+   "group": "shared-cause",
+   "name": "a successful escape never reaches the shared ending (no cause, never matches)",
+   "ok": true
+  },
+  {
    "group": "engine",
-   "name": "generated story unchanged (content 407d8ec78f1c); the validator never sees attempt or points",
+   "name": "generated story unchanged (content b8410b88d1ee); the validator never sees attempt or points",
    "ok": true
   },
   {

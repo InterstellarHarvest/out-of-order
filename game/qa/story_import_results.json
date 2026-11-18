@@ -86,7 +86,7 @@
     },
     {
       "group": "baseline",
-      "name": "every art file is recorded with its artwork status and sha256 (28 generated Prologue drafts + 28 generated House images, 5 reused approved)",
+      "name": "every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 28 integrated House images, 5 reused approved)",
       "ok": true
     },
     {
@@ -381,7 +381,7 @@
     },
     {
       "group": "independence",
-      "name": "no id of the imported story (544 ids) and none of its prose (489 passages) appears in game code",
+      "name": "no id of the imported story (544 ids) and none of its prose (486 passages) appears in game code",
       "ok": true
     },
     {
@@ -436,7 +436,7 @@
     },
     {
       "group": "art-status",
-      "name": "the build records every story image with its artwork status and sha256 (28 generated Prologue + 28 generated House images matching their provenance, none approved)",
+      "name": "the build records every story image with its artwork status and sha256 (28 integrated Prologue + 28 integrated House images matching their provenance, none generated or approved-only)",
       "ok": true
     },
     {
