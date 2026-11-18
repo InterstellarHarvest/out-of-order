@@ -84,3 +84,28 @@ The first `run_ch02_routes_qa` run, under full-suite load, was 339/340: one Fire
 ### GitHub CI
 
 The push that integrates this stack starts the `QA` workflow on PR #2 (`pull_request` synchronize; PR #2 is not a draft) on the final tree. PR #18 was not marked ready for review, which would have run the same full workflow (about 51 min) a second time on an identical tree. All earlier PR #18 runs were **skipped** (draft PR). The CI result is reported on PR #2, not here.
+
+### CI run 1 on `4a424d6`: failed, then fixed
+
+Run 44234573350:
+
+| Job | Result |
+|---|---|
+| `content` | success |
+| `browsers` | **failure**, in exactly one check |
+
+**The failing check.** `M2 reception game (regression fixture)` static guard: "nothing was added to art/ … except … the hash-pinned House provenance art" flagged the new data file `art/house_of_tomorrow.batch_b.provenance.json`. Everything else passed: M2 527/528 (Chromium 242/242, Firefox 242/242), and every other browser suite.
+
+That suite (`game/qa/run_qa.js`) had not been run locally before the integration push.
+
+**Fix.** Admit the Batch B provenance file in `run_qa.js`'s exact-path `PROVENANCE` list, next to the docs/92 House record. Its images are pinned by path and sha256 the same way.
+
+**Re-verification.** Every CI step was re-run locally in CI order before pushing the fix:
+
+- content steps (including `import.js --check/--verify`, `sync.js verify`, `verify --online` and `status`, glyph ink, route v1/v2): all pass;
+- `validate_assets --browser` 97/97;
+- polish lab 143/143;
+- layout lab: only the 8 known failures;
+- M2: static 44/44, Chromium 242/242, Firefox 235/242 locally.
+
+The seven local Firefox M2 failures (choice-scroll / arriving-card checks) also occur on the untouched base `a15b240` on this machine (234/242). They are environmental to this Mac, and CI passed all 242 Firefox checks in run 1.
