@@ -87,6 +87,8 @@ jobs:
         run: node game/qa/validate_ch02_routes.js
       - name: Chapter 1 production art (29-image provenance, registry, state-dependent art on real routes)
         run: node game/qa/validate_ch01_art.js
+      - name: Chapter 2 production art (50-image provenance, registry, bindings, every real route, deaths; docs/102)
+        run: node game/qa/validate_ch02_art.js
       - name: Death controls (restore points, attempt-scoped dice, saves; RETRY / CHECKPOINT rules)
         run: node game/qa/validate_death_controls.js
       - name: Assets (static)
@@ -106,6 +108,7 @@ jobs:
             game/qa/story_import_results.json
             game/qa/ch02_route_results.json
             game/qa/ch01_art_results.json
+            game/qa/ch02_art_results.json
             game/qa/death_controls_results.json
             game/qa/asset_results.json
           if-no-files-found: ignore
@@ -158,6 +161,10 @@ jobs:
         id: death_controls
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_death_controls_qa.js
+      - name: Chapter 2 production art in the game (scenes, conversations, Focus A, items, death popups; pixels vs source; docs/102)
+        id: ch02_art
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_ch02_art_qa.js
       - name: Biology Park full routes + Scene Pickup Inspector (House hand-offs, antidote kits, two browsers)
         id: ch02_routes
         if: (success() || failure()) && steps.pw.outcome == 'success'
@@ -202,6 +209,7 @@ jobs:
             game/qa/ch01_art_qa_results.json
             game/qa/end_presentation_results.json
             game/qa/death_controls_qa_results.json
+            game/qa/ch02_art_qa_results.json
             game/qa/ch02_route_results_browser.json
             game/qa/qa_results.json
             tools/m2-reception-polish-lab/qa/qa_results.json
@@ -234,6 +242,7 @@ jobs:
             game/qa/ch01_art_screenshots/*.png
             game/qa/end_presentation_screenshots/*.png
             game/qa/death_controls_screenshots/*.png
+            game/qa/ch02_art_screenshots/*.png
             game/qa/ch02_route_screenshots/*.png
             tools/m2-reception-polish-lab/qa/screenshots/*.png
             tools/layout-lab/qa/screenshots/*.png

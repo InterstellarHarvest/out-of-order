@@ -87,10 +87,14 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
   // docs/92 adds the 28 bound Chapter 1 House images (the 29th, the default chair, is unbound).
   const houseArt = (a) => /house_of_tomorrow|portraits\/house\/|family_portrait_photo/.test(a.path);
+  // docs/102 (public docs/108): + the 45 Biology Park story images (28 scenes, 2 conversation backgrounds, 2 poses,
+  // 3 Focus A, 5 item slots + 5 inspects; the 5 death images reach the popup through the death runtime, not here).
+  const parkArt = (a) => /biology_park|portraits\/(groundskeeper|courtesy_conductor)\/|items\/(botanical_antidote_|certified_seed_canister_|acting_director_badge_)/.test(a.path);
   // Owner ruling 2026-11-16 (public docs/102-103, docs/97): selected + used art is approved; in this build = integrated.
   // + 2 Batch B House views (lounge, dining; public docs/107 section 9) = 30 House images.
-  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House images, 5 reused approved)', b.ok
-    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
+  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images, 5 reused approved)', b.ok
+    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
+    && b.meta.art.filter((a) => a.status === 'integrated' && parkArt(a)).length === 45
     && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
 })();
 
@@ -212,8 +216,15 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
     && has(two.report.errors, /chapter-02 is marked "draft"/) && !has(two.report.errors, /chapter-01 is marked/), two.report.errors);
   t.edit('storyboard-manifest.json', (j) => { j.chapters[2].status = 'approved'; });
   const noArt = build({ from: t.dir, mode: 'approved' });
-  check(g, 'unproduced House and Biology Park artwork prevents an approved build even after draft status changes',
-    !noArt.ok && has(noArt.report.errors, /missing required artwork/) && !has(noArt.report.errors, /is marked "draft"/), noArt.report.errors);
+  // docs/102: every House and Biology Park image the story uses is now produced, so with all three chapters marked
+  // approved no artwork is missing and the draft statuses no longer block. The guard itself is proved on a copy
+  // with one Chapter 2 scene's production path removed: the approved channel must refuse it as missing art.
+  check(g, 'with all three chapters marked approved, no required artwork is missing and no draft status blocks',
+    !has(noArt.report.errors, /missing required artwork/) && !has(noArt.report.errors, /is marked "draft"/), noArt.report.errors);
+  t.edit('artwork.draft.json', (j) => { j.scenes['biology_park/formal_entrance'].assetPath = null; });
+  const gap = build({ from: t.dir, mode: 'approved' });
+  check(g, 'an unproduced Biology Park scene still prevents an approved build (guard control)',
+    !gap.ok && has(gap.report.errors, /biology_park\/formal_entrance.*missing required artwork/), gap.report.errors);
   check(g, 'the build records each chapter manifest title/status and stays a preview',
     JSON.stringify(b.meta.chapters) === JSON.stringify([
       { id: 'prologue-00', title: 'Prologue — The Last Good Day', status: 'draft' },
@@ -425,7 +436,11 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const prov = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/house_of_tomorrow.provenance.json'), 'utf8')).images.filter((r) => r.id !== 'house_of_tomorrow/chair#default_unrestrained')
     .concat(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/house_of_tomorrow.batch_b.provenance.json'), 'utf8')).images); // + Batch B lounge/dining views
   const houseOk = prov.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256));
-  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House images matching their provenance, none generated or approved-only)', gen.length === 58 && prov.length === 30 && houseOk
+  // docs/102: + the 45 Biology Park story images, pinned by art/biology_park.provenance.json (the 5 death images
+  // reach the popup through the death runtime and are checked by validate_ch02_art.js).
+  const park = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/biology_park.provenance.json'), 'utf8')).images.filter((r) => r.kind !== 'death-screen');
+  const parkOk = park.length === 45 && park.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256));
+  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images matching their provenance, none generated or approved-only)', gen.length === 103 && prov.length === 30 && houseOk && parkOk
     && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'approved' || a.status === 'generated'),
     b.meta.art.map((a) => a.status));
   const t = copySource(STORY).edit('artwork.draft.json', (j) => {

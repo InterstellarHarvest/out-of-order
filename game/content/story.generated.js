@@ -7,13 +7,13 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "b95b98f24e844d5aa4eeb377dc599a39a71b9b9bd882d2e5e14b32f09479b053",
-    "version": 194361744,
+    "contentHash": "0bb7124ab2f624133ec12e798f14c61f749f904e355bc115fb131e4772eef409",
+    "version": 12284197,
     "sources": [
       {
         "path": "story/artwork.draft.json",
-        "sha256": "015f329a14f67c3442051a87ab8be9910c5e4ec6210f8c68e9740ffedc48bac8",
-        "gitBlob": "83a9c2973006b5c155fb21a742cfbf5824ddc8a1"
+        "sha256": "715705a710fe5c88746c52f2ed7a47b77a84a4f81b473218c894c565e845166c",
+        "gitBlob": "7d2ca72ea3967afed7458440687096002d636836"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
@@ -67,6 +67,27 @@
     "art": [
       {
         "kind": "focus",
+        "id": "biology_park/agricultural_customs/exposure_dispenser_open",
+        "path": "art/focus/biology_park/exposure_dispenser_open.png",
+        "status": "approved",
+        "sha256": "c57ec1054693cd9e379a91d68cd315d3c0be05b3ab50d098a864dc957615ba4b"
+      },
+      {
+        "kind": "focus",
+        "id": "biology_park/maintenance_exit/decontamination_kit_open",
+        "path": "art/focus/biology_park/decontamination_kit_open.png",
+        "status": "approved",
+        "sha256": "d14ff669e3fb5f03e8c755a232a80f7064c6d7064a471255174b019a1ff42de8"
+      },
+      {
+        "kind": "focus",
+        "id": "biology_park/public_exit/aid_box_open",
+        "path": "art/focus/biology_park/aid_box_open.png",
+        "status": "approved",
+        "sha256": "706686f3d0186b0c5e71fad428bb99e8715ec5a6faa5b4af4e629cc1e067b229"
+      },
+      {
+        "kind": "focus",
         "id": "house_of_tomorrow/portrait_gallery/album:page:1",
         "path": "art/focus/house_of_tomorrow/album_page_1.png",
         "status": "integrated",
@@ -85,6 +106,41 @@
         "path": "art/focus/house_of_tomorrow/album_page_3.png",
         "status": "integrated",
         "sha256": "579c0b2e14589e7c3ada53ddf1c5bc984f209170c48619b18336e883b97616ad"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "acting_director_badge",
+        "path": "art/items/acting_director_badge_inspect.png",
+        "status": "approved",
+        "sha256": "a6a21d330139af8013d46f80dec7ad278d800d0b1b01c217fb0abd29d9544f3d"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "botanical_antidote_customs",
+        "path": "art/items/botanical_antidote_customs_inspect.png",
+        "status": "approved",
+        "sha256": "35da940d24401a6964243179ec7c5d336ad3677fd31dce0ef368de63cecc42cc"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "botanical_antidote_maintenance",
+        "path": "art/items/botanical_antidote_maintenance_inspect.png",
+        "status": "approved",
+        "sha256": "f59a324d74a3a7bd772858a858f9bad95809fbdf83fa16f876563f1a20493c88"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "botanical_antidote_public",
+        "path": "art/items/botanical_antidote_public_inspect.png",
+        "status": "approved",
+        "sha256": "4e9b94d727195d532f8dfaf2b85b07abc43c5170a11a34604317ce4453b4a0e9"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "certified_seed_canister",
+        "path": "art/items/certified_seed_canister_inspect.png",
+        "status": "approved",
+        "sha256": "958cdf2442ed5412efc14f8c9f9f65c90f64f702e3de452be80e3a8e172ed9f7"
       },
       {
         "kind": "item-inspect",
@@ -165,6 +221,41 @@
       },
       {
         "kind": "item-slot",
+        "id": "acting_director_badge",
+        "path": "art/items/acting_director_badge_slot.png",
+        "status": "approved",
+        "sha256": "a09dae0d8201b6062c51e4f5cc99c1e49b77240b400e7dbf5107bb805bf56c44"
+      },
+      {
+        "kind": "item-slot",
+        "id": "botanical_antidote_customs",
+        "path": "art/items/botanical_antidote_customs_slot.png",
+        "status": "approved",
+        "sha256": "da857214a1bf850dbae043d32afa63db2423e57eafe3462186d0d685b9610e19"
+      },
+      {
+        "kind": "item-slot",
+        "id": "botanical_antidote_maintenance",
+        "path": "art/items/botanical_antidote_maintenance_slot.png",
+        "status": "approved",
+        "sha256": "ca1b9ea48ab96d0e2e98171d551a2af50ca95f345c4c9659a483783fb2e213b1"
+      },
+      {
+        "kind": "item-slot",
+        "id": "botanical_antidote_public",
+        "path": "art/items/botanical_antidote_public_slot.png",
+        "status": "approved",
+        "sha256": "d9b51dc71af033bb01e24fc7fa27bea611144312c5ac10a594e532e10aac4961"
+      },
+      {
+        "kind": "item-slot",
+        "id": "certified_seed_canister",
+        "path": "art/items/certified_seed_canister_slot.png",
+        "status": "approved",
+        "sha256": "0256464ebb925f1b34fef0a4bc6df7af262289ab9eaa57cea0a7520ffea17998"
+      },
+      {
+        "kind": "item-slot",
         "id": "desk_plant",
         "path": "art/items/small_desk_plant_slot.png",
         "status": "integrated",
@@ -242,6 +333,20 @@
       },
       {
         "kind": "portrait-background",
+        "id": "biology_park/concourse_crash",
+        "path": "art/portraits/courtesy_conductor/concourse_crash_background.png",
+        "status": "approved",
+        "sha256": "9f8f3d19d44a6433ef70391118a616d7dd6c8626f43eccda48d55af8fdd1cd80"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "biology_park/groundskeeper",
+        "path": "art/portraits/groundskeeper/groundskeeper_background.png",
+        "status": "approved",
+        "sha256": "c96f40c20412bff3ea42238d190c85558959b37a9120eec9858182c980f11f68"
+      },
+      {
+        "kind": "portrait-background",
         "id": "exposition/reception",
         "path": "art/portraits/receptionist/reception_background.png",
         "status": "reused",
@@ -253,6 +358,20 @@
         "path": "art/portraits/termination_drone/corridor_background.png",
         "status": "integrated",
         "sha256": "84f1f05525b38d44903b7fdefd571e3c44e5948cbe8060e2a15435ed1735a1dd"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "courtesy_conductor:talking",
+        "path": "art/portraits/courtesy_conductor/courtesy_conductor_talking.png",
+        "status": "approved",
+        "sha256": "8c6601db91d262f5a6b362609b878589025cb924c15c0753df268d4f84592e4d"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "groundskeeper:idle",
+        "path": "art/portraits/groundskeeper/groundskeeper_idle.png",
+        "status": "approved",
+        "sha256": "afc7055ffe4b60f3efc4cb3747bc21fee61275f937cdefa1c1794f4b02adb402"
       },
       {
         "kind": "portrait-pose",
@@ -351,6 +470,202 @@
         "path": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png",
         "status": "integrated",
         "sha256": "96c1b1ced5a3897b6caa51b98ad85b38030bce539ec25f21d38e628ebd362fdd"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/abandoned_station",
+        "path": "art/scenes/biology_park/abandoned_station.png",
+        "status": "approved",
+        "sha256": "c9f78d96427d5fce0d1bde3651b90f09fd8d3380a65542378273c2fd1aa803f7"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/agricultural_customs",
+        "path": "art/scenes/biology_park/agricultural_customs.png",
+        "status": "approved",
+        "sha256": "9bc80696f31efacdbba2babd95abfe460a9fb6158ad8b674299a91744403cdef"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/authorization_archive",
+        "path": "art/scenes/biology_park/authorization_archive.png",
+        "status": "approved",
+        "sha256": "cf56a225b9341ac24c654562e002e4d45d5c56be36aa7f4d3f40f045bebc79ec"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/central_flower",
+        "path": "art/scenes/biology_park/central_flower.png",
+        "status": "approved",
+        "sha256": "68698aea02b19bbc9fedca48b978be1c2329ca136c140084b2396dfafe4f8e58"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/concourse_crash",
+        "path": "art/scenes/biology_park/concourse_crash.png",
+        "status": "approved",
+        "sha256": "50552704840db6220eff3d588bb4a974d51edcd32a816717803f73b6d97d11f8"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/control_tower",
+        "path": "art/scenes/biology_park/control_tower.png",
+        "status": "approved",
+        "sha256": "fde023d3741641aa0f376ad1ac65508de3aeef84a05a8be0defecb3f4603daca"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/conveniences_bureau",
+        "path": "art/scenes/biology_park/conveniences_bureau.png",
+        "status": "approved",
+        "sha256": "90e2e936ca828ff429da78d86c5e694b083d7ea5909d56ab26a107ef0a1c9676"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/damaged_walkway",
+        "path": "art/scenes/biology_park/damaged_walkway.png",
+        "status": "approved",
+        "sha256": "8ca919bedda4f414a7bfac7bfc1f0003f8531e7fcee36ce8f2873db0985af642"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/exposition_concourse",
+        "path": "art/scenes/biology_park/exposition_concourse.png",
+        "status": "approved",
+        "sha256": "8d7f81908f9d65d2c24c042ea928b3a2d3f7497580b217e9fec673591ba575e3"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/formal_entrance",
+        "path": "art/scenes/biology_park/formal_entrance.png",
+        "status": "approved",
+        "sha256": "d1a55f75863a7e2a3b854566638128064b998c5d6a83659399e4ad53ce66f2e9"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/groundskeeper",
+        "path": "art/scenes/biology_park/groundskeeper.png",
+        "status": "approved",
+        "sha256": "5f3ff412dff5b710bfbbe7a33c6f4b4de0ee815208b7854c393b546212371e95"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/jungle_junction",
+        "path": "art/scenes/biology_park/jungle_junction.png",
+        "status": "approved",
+        "sha256": "0161d0a7132bf1656a5037e6ec2812e62220c9853e4ed251176c161086fed003"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/lower_irrigation",
+        "path": "art/scenes/biology_park/lower_irrigation.png",
+        "status": "approved",
+        "sha256": "8f0df4ad7cbdd73182e5266bb253a8f415c2fbb4536fe908eff544b2902182a8"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/maintenance_exit",
+        "path": "art/scenes/biology_park/maintenance_exit.png",
+        "status": "approved",
+        "sha256": "1417e2700c2d6bf29ef937dc4924e11cfcbdcee65f6daf1ef3710ddd2caed7c7"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/moving_forest",
+        "path": "art/scenes/biology_park/moving_forest.png",
+        "status": "approved",
+        "sha256": "5a1f61ab9c8a1c7fac129683df09da9bae48a0f22adb9012d98183e0d10f5c81"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/overgrown_tram",
+        "path": "art/scenes/biology_park/overgrown_tram.png",
+        "status": "approved",
+        "sha256": "d4c381642d2d54e6341fd82121ddcf5caef11029fa37c16d221edd5173d470c7"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/planting_hopper",
+        "path": "art/scenes/biology_park/planting_hopper.png",
+        "status": "approved",
+        "sha256": "5ab29aef160eb59a0d34465782d165c042b6ad8131ac04ad87215b03c33deb3b"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/planting_machine",
+        "path": "art/scenes/biology_park/planting_machine.png",
+        "status": "approved",
+        "sha256": "047282bbf1e5189645e5784d9b30278cb5b641a708eeed50f43945017d9b78da"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/public_exit",
+        "path": "art/scenes/biology_park/public_exit.png",
+        "status": "approved",
+        "sha256": "e47576d21610f3d5f2d85027192e37197cf317ffdabdbe72977bd971ec9a97aa"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/reserve_siding",
+        "path": "art/scenes/biology_park/reserve_siding.png",
+        "status": "approved",
+        "sha256": "c54cc60a878faaf91edc7e642fb9c854a963bb455a86d6d724d6f2f483e7ae2e"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/reserve_tram",
+        "path": "art/scenes/biology_park/reserve_tram.png",
+        "status": "approved",
+        "sha256": "e17c2d8fd7b569404248d86028b7a7ca4164a3856f36f261654bc941a13a7eaf"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/sensor_gallery",
+        "path": "art/scenes/biology_park/sensor_gallery.png",
+        "status": "approved",
+        "sha256": "b2f23c8d015c1f45af200733ba28201627c6d10102dcd9e34b92230c32683a7c"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/service_entry",
+        "path": "art/scenes/biology_park/service_entry.png",
+        "status": "approved",
+        "sha256": "c25a49a72a96df1dc1379dad8ebd445af2f6c8b6adf75705cb52e8800195135c"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/sorting_conveyor",
+        "path": "art/scenes/biology_park/sorting_conveyor.png",
+        "status": "approved",
+        "sha256": "fe26ce88586bc207a50c8a9ccc9bcb3ddf30dac1bfd1f9e2468abfdae0167e3b"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/spore_garden",
+        "path": "art/scenes/biology_park/spore_garden.png",
+        "status": "approved",
+        "sha256": "aded321d36cf2ea9c50d3d696230fe2a1606f181ff8fc0d1f2f7bffb92af4ed3"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/tour_tram",
+        "path": "art/scenes/biology_park/tour_tram.png",
+        "status": "approved",
+        "sha256": "fd2b01dbff9db37a79b5a1519b0adc5be3ce8e60c425d7bfb039a5a2194f6d57"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/translator_machine",
+        "path": "art/scenes/biology_park/translator_machine.png",
+        "status": "approved",
+        "sha256": "ff5704d99d027ea8a86e78b228102826bcceec03b5ae1ba583200a99822e95a3"
+      },
+      {
+        "kind": "scene",
+        "id": "biology_park/waste_chute",
+        "path": "art/scenes/biology_park/waste_chute.png",
+        "status": "approved",
+        "sha256": "fa2f9021a7c33f6ff188eff438ef4abec35d9ba0d1a77d805cd2ceb98bbaf498"
       },
       {
         "kind": "scene",
@@ -521,8 +836,8 @@
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 194361744,
-    "profile": "fixture",
+    "version": 12284197,
+    "profile": "production",
     "save": true,
     "start": "prologue-00",
     "initialState": {
@@ -840,8 +1155,8 @@
       },
       "acting_director_badge": {
         "name": "ACTING DIRECTOR OF VEGETATION CREDENTIAL",
-        "slotArt": null,
-        "inspectArt": null,
+        "slotArt": "art/items/acting_director_badge_slot.png",
+        "inspectArt": "art/items/acting_director_badge_inspect.png",
         "description": "An emergency appointment card naming you ACTING DIRECTOR OF VEGETATION. Its issuing office is a gardening machine. That makes it no less valid.",
         "read": {
           "effects": {
@@ -856,8 +1171,8 @@
       },
       "certified_seed_canister": {
         "name": "CERTIFIED BOTANICAL SEED CANISTER",
-        "slotArt": null,
-        "inspectArt": null,
+        "slotArt": "art/items/certified_seed_canister_slot.png",
+        "inspectArt": "art/items/certified_seed_canister_inspect.png",
         "description": "A dull metal case with a sealed packet of viable seeds from Botanical Specimen 001. KEEP SEALED. DESTINATION: OUTSIDE APPROVED GROWING AREA.",
         "read": {
           "effects": {
@@ -872,8 +1187,8 @@
       },
       "botanical_antidote_public": {
         "name": "PUBLIC BOTANICAL ANTIDOTE",
-        "slotArt": null,
-        "inspectArt": null,
+        "slotArt": "art/items/botanical_antidote_public_slot.png",
+        "inspectArt": "art/items/botanical_antidote_public_inspect.png",
         "description": [
           {
             "if": {
@@ -901,8 +1216,8 @@
       },
       "botanical_antidote_maintenance": {
         "name": "MAINTENANCE BOTANICAL ANTIDOTE",
-        "slotArt": null,
-        "inspectArt": null,
+        "slotArt": "art/items/botanical_antidote_maintenance_slot.png",
+        "inspectArt": "art/items/botanical_antidote_maintenance_inspect.png",
         "description": [
           {
             "if": {
@@ -930,8 +1245,8 @@
       },
       "botanical_antidote_customs": {
         "name": "CUSTOMS BOTANICAL ANTIDOTE",
-        "slotArt": null,
-        "inspectArt": null,
+        "slotArt": "art/items/botanical_antidote_customs_slot.png",
+        "inspectArt": "art/items/botanical_antidote_customs_inspect.png",
         "description": [
           {
             "if": {
@@ -983,52 +1298,52 @@
         "house_of_tomorrow/utility_exit": "art/scenes/house_of_tomorrow/utility_exit.png",
         "house_of_tomorrow/portrait_gallery": "art/scenes/house_of_tomorrow/portrait_gallery.png",
         "house_of_tomorrow/bathroom": "art/scenes/house_of_tomorrow/bathroom.png",
-        "biology_park/conveniences_bureau": null,
-        "biology_park/groundskeeper": null,
-        "biology_park/formal_entrance": null,
-        "biology_park/service_entry": null,
-        "biology_park/sorting_conveyor": null,
-        "biology_park/planting_hopper": null,
-        "biology_park/jungle_junction": null,
-        "biology_park/control_tower": null,
-        "biology_park/authorization_archive": null,
-        "biology_park/spore_garden": null,
-        "biology_park/damaged_walkway": null,
-        "biology_park/moving_forest": null,
-        "biology_park/sensor_gallery": null,
-        "biology_park/tour_tram": null,
-        "biology_park/overgrown_tram": null,
-        "biology_park/reserve_siding": null,
-        "biology_park/reserve_tram": null,
-        "biology_park/concourse_crash": null,
-        "biology_park/abandoned_station": null,
-        "biology_park/central_flower": null,
-        "biology_park/agricultural_customs": null,
-        "biology_park/planting_machine": null,
-        "biology_park/waste_chute": null,
-        "biology_park/translator_machine": null,
-        "biology_park/lower_irrigation": null,
-        "biology_park/public_exit": null,
-        "biology_park/maintenance_exit": null,
-        "biology_park/exposition_concourse": null
+        "biology_park/conveniences_bureau": "art/scenes/biology_park/conveniences_bureau.png",
+        "biology_park/groundskeeper": "art/scenes/biology_park/groundskeeper.png",
+        "biology_park/formal_entrance": "art/scenes/biology_park/formal_entrance.png",
+        "biology_park/service_entry": "art/scenes/biology_park/service_entry.png",
+        "biology_park/sorting_conveyor": "art/scenes/biology_park/sorting_conveyor.png",
+        "biology_park/planting_hopper": "art/scenes/biology_park/planting_hopper.png",
+        "biology_park/jungle_junction": "art/scenes/biology_park/jungle_junction.png",
+        "biology_park/control_tower": "art/scenes/biology_park/control_tower.png",
+        "biology_park/authorization_archive": "art/scenes/biology_park/authorization_archive.png",
+        "biology_park/spore_garden": "art/scenes/biology_park/spore_garden.png",
+        "biology_park/damaged_walkway": "art/scenes/biology_park/damaged_walkway.png",
+        "biology_park/moving_forest": "art/scenes/biology_park/moving_forest.png",
+        "biology_park/sensor_gallery": "art/scenes/biology_park/sensor_gallery.png",
+        "biology_park/tour_tram": "art/scenes/biology_park/tour_tram.png",
+        "biology_park/overgrown_tram": "art/scenes/biology_park/overgrown_tram.png",
+        "biology_park/reserve_siding": "art/scenes/biology_park/reserve_siding.png",
+        "biology_park/reserve_tram": "art/scenes/biology_park/reserve_tram.png",
+        "biology_park/concourse_crash": "art/scenes/biology_park/concourse_crash.png",
+        "biology_park/abandoned_station": "art/scenes/biology_park/abandoned_station.png",
+        "biology_park/central_flower": "art/scenes/biology_park/central_flower.png",
+        "biology_park/agricultural_customs": "art/scenes/biology_park/agricultural_customs.png",
+        "biology_park/planting_machine": "art/scenes/biology_park/planting_machine.png",
+        "biology_park/waste_chute": "art/scenes/biology_park/waste_chute.png",
+        "biology_park/translator_machine": "art/scenes/biology_park/translator_machine.png",
+        "biology_park/lower_irrigation": "art/scenes/biology_park/lower_irrigation.png",
+        "biology_park/public_exit": "art/scenes/biology_park/public_exit.png",
+        "biology_park/maintenance_exit": "art/scenes/biology_park/maintenance_exit.png",
+        "biology_park/exposition_concourse": "art/scenes/biology_park/exposition_concourse.png"
       },
       "portraits": {
         "courtesy_conductor": {
           "backgrounds": {
-            "biology_park/concourse_crash": null
+            "biology_park/concourse_crash": "art/portraits/courtesy_conductor/concourse_crash_background.png"
           },
           "poses": {
-            "talking": null
+            "talking": "art/portraits/courtesy_conductor/courtesy_conductor_talking.png"
           },
           "background": "biology_park/concourse_crash",
           "pose": "talking"
         },
         "groundskeeper": {
           "backgrounds": {
-            "biology_park/groundskeeper": null
+            "biology_park/groundskeeper": "art/portraits/groundskeeper/groundskeeper_background.png"
           },
           "poses": {
-            "idle": null
+            "idle": "art/portraits/groundskeeper/groundskeeper_idle.png"
           },
           "background": "biology_park/groundskeeper",
           "pose": "idle"
@@ -1081,9 +1396,9 @@
             }
           ]
         },
-        "biology_park/public_exit/aid_box_open": null,
-        "biology_park/maintenance_exit/decontamination_kit_open": null,
-        "biology_park/agricultural_customs/exposure_dispenser_open": null
+        "biology_park/public_exit/aid_box_open": "art/focus/biology_park/aid_box_open.png",
+        "biology_park/maintenance_exit/decontamination_kit_open": "art/focus/biology_park/decontamination_kit_open.png",
+        "biology_park/agricultural_customs/exposure_dispenser_open": "art/focus/biology_park/exposure_dispenser_open.png"
       },
       "sceneStates": {
         "house_of_tomorrow/foyer": [

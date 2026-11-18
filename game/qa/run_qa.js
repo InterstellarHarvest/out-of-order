@@ -84,7 +84,8 @@ const STORY_UI_ART = { ['art/ui/shell/' + NARRATIVE_OVERLAY.image]: NARRATIVE_OV
 // installed Chapter 1 image by path and sha256 (PROVENANCE_ART below).
 // The death-presentation review proof (docs/94) pins its one approved image the same way.
 // Presentation Batch B (docs/101; public docs/107 section 9) pins the lounge + dining House views.
-const PROVENANCE = ['art/house_of_tomorrow.provenance.json', 'art/house_of_tomorrow.batch_b.provenance.json', 'art/deaths/rest_assured_voluntary.provenance.json'];
+// Chapter 2 (docs/102; public docs/108) pins the 50 Biology Park images the same way.
+const PROVENANCE = ['art/house_of_tomorrow.provenance.json', 'art/house_of_tomorrow.batch_b.provenance.json', 'art/biology_park.provenance.json', 'art/deaths/rest_assured_voluntary.provenance.json'];
 const STORY_UI_DATA = ['art/ui/shell/narrative-overlay.manifest.js'].concat(PROVENANCE);
 const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES v1 (lab option only since Round 2)
 const FILES_PANEL = 'art/ui/overlays/files_panel.png';

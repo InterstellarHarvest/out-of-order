@@ -38,6 +38,7 @@ const SUITES = [
   { id: 'ch01_art', script: 'game/qa/run_ch01_art_qa.js', results: ['game/qa/ch01_art_qa_results.json'], screenshots: ['game/qa/ch01_art_screenshots'] },
   { id: 'end_presentation', script: 'game/qa/run_end_presentation_qa.js', results: ['game/qa/end_presentation_results.json'], screenshots: ['game/qa/end_presentation_screenshots'] },
   { id: 'death_controls', script: 'game/qa/run_death_controls_qa.js', results: ['game/qa/death_controls_qa_results.json'], screenshots: ['game/qa/death_controls_screenshots'] },
+  { id: 'ch02_art', script: 'game/qa/run_ch02_art_qa.js', results: ['game/qa/ch02_art_qa_results.json'], screenshots: ['game/qa/ch02_art_screenshots'] },
   { id: 'ch02_routes', script: 'game/qa/run_ch02_routes_qa.js', results: ['game/qa/ch02_route_results_browser.json'], screenshots: ['game/qa/ch02_route_screenshots'] },
   { id: 'm2_reception', script: 'game/qa/run_qa.js', results: ['game/qa/qa_results.json'], screenshots: ['game/qa/screenshots'] },
   { id: 'polish_lab', script: 'tools/m2-reception-polish-lab/qa/run_qa.js', results: ['tools/m2-reception-polish-lab/qa/qa_results.json'], screenshots: ['tools/m2-reception-polish-lab/qa/screenshots'] },
