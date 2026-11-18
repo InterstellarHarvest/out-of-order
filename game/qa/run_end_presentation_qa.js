@@ -516,8 +516,13 @@ function engineCauses() {
   const ce = CANON.entries.map((e) => JSON.stringify([e.id, e.when, e.title, e.subtitle, e.body])).join(), ee = EXPORT.entries.map((e) => JSON.stringify([e.id, e.when, e.title, e.subtitle, e.body])).join();
   check('node', g, 'the runtime module carries exactly the projected canonical export (ids, when, title, subtitle, body) at the pinned revision', ce === ee
     && CANON.storyboard.revision === JSON.parse(fs.readFileSync(path.join(ROOT, 'story/canon.lock.json'), 'utf8')).revision);
-  check('node', g, 'Chapter 2 fatal entries have no selected art yet (their popups open with an empty frame, no art drawn); no Chapter 3 entry is consumed',
-    CANON.entries.filter((e) => /^chapter-02:/.test(e.id)).length === 5 && CANON.entries.filter((e) => /^chapter-02:/.test(e.id)).every((e) => e.art === null)
+  // docs/102 (public docs/108): the five approved Chapter 2 death images are integrated; the owner-accepted empty
+  // frame (docs/99) applied only until then. Each entry now hands the popup its own selected file and hash.
+  const ch2Deaths = CANON.entries.filter((e) => /^chapter-02:/.test(e.id));
+  check('node', g, 'Chapter 2 fatal entries carry their own selected art (native 314x206 at 2x, file sha256 = recorded); no Chapter 3 entry is consumed',
+    ch2Deaths.length === 5 && new Set(ch2Deaths.map((e) => e.art && e.art.path)).size === 5 && ch2Deaths.every((e) => e.art && /^art\/deaths\/[a-z_]+\.png$/.test(e.art.path)
+      && JSON.stringify(e.art.size) === '[314,206]' && e.art.scale === 2 && fs.existsSync(path.join(ROOT, e.art.path))
+      && require('crypto').createHash('sha256').update(fs.readFileSync(path.join(ROOT, e.art.path))).digest('hex') === e.art.sha256)
     && !CANON.entries.some((e) => /^chapter-03:/.test(e.id)) && CANON.entries.every((e) => e.readyForGameplay === false));
   check('node', g, 'ordinary play: activation always, ?nodeathpopups turns it off; no standing notice; backdrop 10px x 0.35', DATA.activation === 'always' && DATA.disableWith === 'nodeathpopups' && !('gate' in DATA)
     && ENTRY.notice === null && ENTRY.backdrop.block === 10 && ENTRY.backdrop.multiply === 0.35);

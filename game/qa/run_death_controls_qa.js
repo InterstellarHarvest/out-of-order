@@ -260,11 +260,12 @@ async function run(name, base) {
     await scenario('ch2_hopper_fatal', Rules.serialize(story, pre, { presented: pre.transcript.length, points }), '', async (page, C) => {
       await take(page, route.steps[route.steps.length - 1]);
       let L = await live(page);
-      const dom = await page.evaluate(() => ({ art: document.getElementById('endPresentation').dataset.art, img: !!document.getElementById('endArt'), entry: document.getElementById('endPresentation').dataset.entry,
+      const dom = await page.evaluate(() => ({ art: document.getElementById('endPresentation').dataset.art, img: !!document.getElementById('endArt'), src: (document.getElementById('endArt') || {}).getAttribute ? document.getElementById('endArt').getAttribute('src') : null, entry: document.getElementById('endPresentation').dataset.entry,
         title: document.getElementById('endTitle').dataset.text, overflow: document.getElementById('endPresentation').dataset.textOverflow }));
       const canon = require('../content/death-presentations.generated.js').entries.find((e) => e.id === 'chapter-02:fatal_hopper');
-      C('Chapter 2 hopper death: its own canonical popup opens in ordinary play; picture frame empty (art pending, nothing drawn); text fits', L.open && L.node === 'chapter-02:fatal_hopper'
-        && dom.entry === canon.id && dom.title === canon.title && dom.art === 'pending' && !dom.img && dom.overflow === 'false', dom);
+      // docs/102: the approved NEW ARRIVAL image is integrated (the empty frame of docs/99 applied until then).
+      C('Chapter 2 hopper death: its own canonical popup opens in ordinary play with its own selected image; text fits', L.open && L.node === 'chapter-02:fatal_hopper'
+        && dom.entry === canon.id && dom.title === canon.title && dom.art === 'selected' && dom.img && canon.art && (dom.src || '').endsWith(canon.art.path) && dom.overflow === 'false', dom);
       C('Chapter 2 death: RETRY and CHECKPOINT available, EXIT unavailable', L.controls.join() === 'RETRY:true,CHECKPOINT:true,EXIT:false', L.controls);
       await shot(page, '08_ch2_hopper_popup');
       await click(page, 1);
