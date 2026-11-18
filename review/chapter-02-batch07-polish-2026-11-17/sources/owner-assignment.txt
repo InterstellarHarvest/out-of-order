@@ -1,0 +1,184 @@
+# The Acceptable Error — Chapter 2 Art: Batch 7 Partial Approval and Final Polish
+
+## 1. OWNER DECISION — FINAL
+
+Nate approved the Art Director's three recommendations:
+
+1. **Approve Batch 7 assets A–H without changes.**
+2. **Polish only asset I**, removing unnecessary background speckling while preserving the injector design.
+3. **Correct the three kit descriptions** so the glass vial is described as being inside the injector's protective cage, not beside the injector.
+
+Do not regenerate the eight approved images.
+
+### Source
+
+- Repository: `InterstellarHarvest/CYOA`
+- Branch: `agent/ch02-art-batch07-treatment-kits`
+- Immutable candidate commit: `7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e`
+- Final review commit: `306aa694295829b6e0a13b25f78ed6b004826ffd`
+- Directory: `review/chapter-02-batch07-2026-11-17/candidates/`
+
+## 2. REGISTER EIGHT APPROVED ASSETS
+
+Register these exact SHA-256 hashes:
+
+| ID | Filename | SHA-256 |
+|---|---|---|
+| A | `A-public-aid-box-focus.png` | `706686f3d0186b0c5e71fad428bb99e8715ec5a6faa5b4af4e629cc1e067b229` |
+| B | `B-public-antidote-slot.png` | `d9b51dc71af033bb01e24fc7fa27bea611144312c5ac10a594e532e10aac4961` |
+| C | `C-public-antidote-inspect.png` | `4e9b94d727195d532f8dfaf2b85b07abc43c5170a11a34604317ce4453b4a0e9` |
+| D | `D-maintenance-decontamination-focus.png` | `d14ff669e3fb5f03e8c755a232a80f7064c6d7064a471255174b019a1ff42de8` |
+| E | `E-maintenance-antidote-slot.png` | `ca1b9ea48ab96d0e2e98171d551a2af50ca95f345c4c9659a483783fb2e213b1` |
+| F | `F-maintenance-antidote-inspect.png` | `f59a324d74a3a7bd772858a858f9bad95809fbdf83fa16f876563f1a20493c88` |
+| G | `G-customs-exposure-dispenser-focus.png` | `c57ec1054693cd9e379a91d68cd315d3c0be05b3ab50d098a864dc957615ba4b` |
+| H | `H-customs-antidote-slot.png` | `da857214a1bf850dbae043d32afa63db2423e57eafe3462186d0d685b9610e19` |
+
+Follow the established `docs/105` approval-registration workflow.
+
+- Promote A–H from `generated` to `approved`.
+- Record owner approval, immutable source provenance and SHA-256 hashes.
+- Publish exact PNG bytes to public selected-art locations.
+- Preserve all 100 previously approved selected-art images.
+- Verify all **108 selected public PNG hashes**.
+- Preserve source generations, rejected versions and processing history.
+- Keep production paths null.
+- Do not perform gameplay integration.
+
+**Asset I must remain generated and unselected.** Do not accidentally include it in this approval.
+
+## 3. ASSET I — TARGETED POLISH ONLY
+
+Target:
+
+`candidates/I-customs-antidote-inspect.png`
+
+Original candidate SHA-256:
+
+`901ea4bced05cc532e2447892f4722e0c6a90b109a650c9bf8250b5f07303d7f`
+
+The Art Director approves:
+
+- Upright hypo design.
+- Overall device proportions.
+- Plunger and finger rests.
+- Glass reservoir and metal cage.
+- Teal fittings.
+- Capped lower outlet.
+- Folded botanical label.
+- Object composition and placement.
+
+**None of these elements should change.**
+
+### Required correction
+
+The gray background contains considerably more fine speckling than the Public and Maintenance inspector images.
+
+Clean the background to achieve a restrained, coherent gray surface consistent with our established item-inspection art.
+
+Do not introduce blur or soft interpolation.
+
+Preserve the existing 64-color palette.
+
+Prefer a controlled, targeted correction that keeps all injector pixels unchanged.
+
+Do not perform a broad visual redesign.
+
+### Required proof
+
+Create a comparison showing:
+
+1. Original I candidate.
+2. Revised I candidate.
+3. Native-resolution comparison.
+4. Exact 4× nearest-neighbor comparison.
+5. Changed-pixel mask.
+6. Confirmation that the injector silhouette, hardware, reservoir, label and shadow are unchanged.
+
+Preserve the original candidate and source generation.
+
+Produce a new filename and SHA-256 hash for the revision.
+
+Keep revised I as `generated`, awaiting final Art Director selection.
+
+## 4. APPROVED NARRATIVE CORRECTION
+
+The three kit descriptions currently say that the medical injector is secured beside a glass vial.
+
+The artwork instead establishes that the vial is installed within the injector's protective cage.
+
+Nate approved correcting this discrepancy.
+
+For each of these three Chapter 2 kit descriptions:
+
+- Public first-aid box.
+- Maintenance decontamination locker.
+- Agricultural Customs exposure dispenser.
+
+Replace only the phrase:
+
+`a chunky medical injector secured beside a glass vial`
+
+with:
+
+`a chunky medical injector with a glass vial secured inside its metal cage`
+
+Preserve the rest of each passage, including:
+
+- Its opening description.
+- The antidote identification.
+- The folded label.
+- The three different expiration years.
+- All choices and consequences.
+- Infection and treatment mechanics.
+
+Apply the correction to canonical authored narrative sources.
+
+Preserve concurrent Chapter 3 narrative changes.
+
+Identify any separate playable-game copy requiring the same correction for the Gameplay PMO; do not modify gameplay branches.
+
+## 5. QUALITY AND PUBLICATION
+
+Run established:
+
+- Artwork QA.
+- Canonical synchronization validation.
+- Storyboard smoke tests.
+- Public artwork-gallery checks.
+- SHA-256 verification.
+- Browser review checks.
+
+Preserve all previously approved artwork and existing production files.
+
+Publish the approved A–H registration and narrative correction.
+
+The revised I artwork may be published as a generated candidate with immutable provenance, but must not enter selected-art previews before owner approval.
+
+## 6. NEXT PRODUCTION PHASE
+
+Batch 8 contains the five remaining Chapter 2 death-screen illustrations:
+
+1. `deathScreens:biology_park/classified_as_compost`
+2. `deathScreens:biology_park/new_arrival`
+3. `deathScreens:biology_park/personal_growth`
+4. `deathScreens:biology_park/reclassified`
+5. `deathScreens:biology_park/site_improvement`
+
+Do not begin generating Batch 8 until the revised I image receives final approval.
+
+You may inspect its existing canonical artwork records and prepare reference information without changing their status.
+
+## 7. REPORT BACK
+
+Provide:
+
+1. A–H approval-registration commit.
+2. Narrative correction commit.
+3. Verification of all 108 approved public artwork hashes.
+4. Revised I candidate path and SHA-256.
+5. Original-versus-revised visual comparison.
+6. Pixel-change and preservation QA.
+7. Public review-gallery location.
+8. Updated remaining artwork queue.
+
+**Stop for Art Director review of revised I. No further review is required for A–H.**

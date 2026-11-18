@@ -1,0 +1,29 @@
+{
+  "file": "story/chapters/chapter-02.draft.json",
+  "beforeSha256": "fa382042cbea4fd240b342482371624563b390fc1588c0604e3f4a7afed3374f",
+  "afterSha256": "615359868d109695d0f08a3b8efbd97a5448c2bfcbb6ac4f8f1e291e52c76c73",
+  "exactReplacementCount": 3,
+  "onlyApprovedPhraseReplaced": true,
+  "reversesExactlyToOriginalBytes": true,
+  "changedPassages": [
+    {
+      "node": "public_kit_focus",
+      "before": "The first-aid box swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+      "after": "The first-aid box swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip."
+    },
+    {
+      "node": "maintenance_kit_focus",
+      "before": "The industrial decontamination locker swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+      "after": "The industrial decontamination locker swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip."
+    },
+    {
+      "node": "customs_kit_focus",
+      "before": "The agricultural exposure dispenser swings open, revealing a chunky medical injector secured beside a glass vial. It is an old botanical-exposure antidote. The label is folded beneath a metal clip.",
+      "after": "The agricultural exposure dispenser swings open, revealing a chunky medical injector with a glass vial secured inside its metal cage. It is an old botanical-exposure antidote. The label is folded beneath a metal clip."
+    }
+  ],
+  "allChoicesConsequencesAndMechanicsUnchanged": true,
+  "allExpirationYearsUnchanged": true,
+  "concurrentChapter3Preserved": true,
+  "gameplayFilesModified": false
+}

@@ -1,0 +1,44 @@
+{
+  "key": "items:botanical_antidote_customs#inspect",
+  "source": "generation-source/I-customs-antidote-inspect-v03.png",
+  "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-15e0995a-98c6-4636-9c42-0e810b35c397.png",
+  "prompt": "prompts/I-v03.txt",
+  "references": [
+    "generation-source/C-public-antidote-inspect-v03.png",
+    "references/batch6-D-certified-seed-canister-inspect.png"
+  ],
+  "referenceRoles": [
+    "authoritative revised upright medical hypo identity",
+    "approved item presentation and palette"
+  ],
+  "previousVersions": [
+    {
+      "key": "items:botanical_antidote_customs#inspect",
+      "source": "generation-source/I-customs-antidote-inspect-v01.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-d231635a-d943-4fc2-a84d-fc55a7784637.png",
+      "prompt": "prompts/I-v01.txt",
+      "references": [
+        "generation-source/C-public-antidote-inspect-v01.png",
+        "references/batch5-D-agricultural-customs-4x.png"
+      ],
+      "referenceRoles": [
+        "shared new medical-device identity / presentation reference",
+        "approved reference: palette, presentation and container identity"
+      ],
+      "reason": "Targeted built-in cleanup replaces fine source color variation with broad clusters; original preserved."
+    },
+    {
+      "key": "items:botanical_antidote_customs#inspect",
+      "source": "generation-source/I-customs-antidote-inspect-v02.png",
+      "originalToolPath": "/Users/MrDashiki/.codex/generated_images/01a1e266-fcc3-79f0-aba1-07af2d82ddc4/exec-2e7273e9-20d4-42f5-91a6-9f41f6555d13.png",
+      "prompt": "prompts/I-v02.txt",
+      "references": [
+        "generation-source/I-customs-antidote-inspect-v01.png"
+      ],
+      "referenceRoles": [
+        "edit target: surface colors only; shared medical-device identity preserved"
+      ],
+      "reason": "Rejected pistol silhouette after owner feedback; retained byte-for-byte."
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "entries": [
+    {
+      "key": "focus:biology_park/public_exit/aid_box_open",
+      "file": "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/candidates/A-public-aid-box-focus.png",
+      "status": "approved",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/A-public-aid-box-focus.png"
+      }
+    },
+    {
+      "key": "items:botanical_antidote_public#slot",
+      "file": "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/candidates/B-public-antidote-slot.png",
+      "status": "approved",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/B-public-antidote-slot.png"
+      }
+    },
+    {
+      "key": "items:botanical_antidote_public#inspect",
+      "file": "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/candidates/C-public-antidote-inspect.png",
+      "status": "approved",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/C-public-antidote-inspect.png"
+      }
+    },
+    {
+      "key": "focus:biology_park/maintenance_exit/decontamination_kit_open",
+      "file": "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/candidates/D-maintenance-decontamination-focus.png",
+      "status": "approved",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/D-maintenance-decontamination-focus.png"
+      }
+    },
+    {
+      "key": "items:botanical_antidote_maintenance#slot",
+      "file": "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/candidates/E-maintenance-antidote-slot.png",
+      "status": "approved",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/E-maintenance-antidote-slot.png"
+      }
+    },
+    {
+      "key": "items:botanical_antidote_maintenance#inspect",
+      "file": "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/candidates/F-maintenance-antidote-inspect.png",
+      "status": "approved",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/F-maintenance-antidote-inspect.png"
+      }
+    },
+    {
+      "key": "focus:biology_park/agricultural_customs/exposure_dispenser_open",
+      "file": "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/candidates/G-customs-exposure-dispenser-focus.png",
+      "status": "approved",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/G-customs-exposure-dispenser-focus.png"
+      }
+    },
+    {
+      "key": "items:botanical_antidote_customs#slot",
+      "file": "/Users/MrDashiki/Experiments & Projects/_worktrees/CYOA-ch02-art-batch07/review/chapter-02-batch07-2026-11-17/candidates/H-customs-antidote-slot.png",
+      "status": "approved",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA",
+        "ref": "agent/ch02-art-batch07-treatment-kits",
+        "commit": "7ea47f63b6bbf86ffa02dd5a3ee2cb5ad5d3065e",
+        "path": "review/chapter-02-batch07-2026-11-17/candidates/H-customs-antidote-slot.png"
+      }
+    }
+  ]
+}
