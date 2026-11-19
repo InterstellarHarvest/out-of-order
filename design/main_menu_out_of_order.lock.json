@@ -6,14 +6,15 @@
     "date": "2026-11-19",
     "kind": "visual design and behavior lock"
   },
-  "artStatus": "pending byte-exact recovery and committed intake",
+  "artStatus": "byte-exact v06 artwork recovered and committed to review branch (20 PNG files)",
   "intendedRuntimeDirectory": "art/ui/main_menu/",
   "reviewBranch": "review/out-of-order-menu-intake",
   "originalSourceReference": {
     "sha": "7952711b30792c41724505d002b45b95d1e4fc94",
-    "reachableInAccessibleGitHubRepositories": false
+    "repositoryType": "ChatGPT Sites source repository (not GitHub game repository)",
+    "siteProjectId": "appgprj_6afe5ac031908191acc6f6d83f1bdac0",
+    "siteUrl": "https://out-of-order-menu-review-nate.cosmic-jelly-5330.chatgpt.site"
   },
-  "reportedUnattachedGitBlobs": 19,
   "behavior": {
     "titleRenderedInBackground": true,
     "continueAndNewGameSeparateButtons": true,
@@ -27,6 +28,14 @@
   },
   "engineIntegration": "deferred",
   "preservation": "Do not regenerate or infer final approved sprites from concept previews.",
-  "assetManifest": "not yet created; awaiting confirmed filenames, dimensions and SHA-256 hashes",
-  "provenance": "Prior chat Compare menu art directions, 2026-11-19. See docs/104_OUT_OF_ORDER_IDENTITY_AND_MENU_INTAKE_20261119.md."
+  "assetManifest": "art/ui/main_menu/manifest.json",
+  "provenance": "Prior chat Compare menu art directions (2026-11-19), source Site commit 7952711b30792c41724505d002b45b95d1e4fc94. See art/ui/main_menu/README.md and docs/104.",
+  "recoveredAssets": {
+    "count": 20,
+    "background": 1,
+    "sprites": 19,
+    "version": "v06",
+    "sha256Verified": true,
+    "gitBlobObjectsRecovered": true
+  }
 }

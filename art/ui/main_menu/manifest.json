@@ -1,0 +1,307 @@
+{
+  "schema": "out-of-order-main-menu-assets-v1",
+  "title": "Out of Order",
+  "design": "Exposition Entrance Plaza",
+  "version": "v06",
+  "approval": {
+    "owner": "Nate",
+    "date": "2026-11-19",
+    "scope": "visual artwork and review behavior, not engine integration"
+  },
+  "status": "approved assets staged on review branch; engine integration deferred",
+  "source": {
+    "type": "private ChatGPT Site source repository",
+    "siteProjectId": "appgprj_6afe5ac031908191acc6f6d83f1bdac0",
+    "siteTitle": "Out of Order — Main Menu Review",
+    "siteUrl": "https://out-of-order-menu-review-nate.cosmic-jelly-5330.chatgpt.site",
+    "commit": "7952711b30792c41724505d002b45b95d1e4fc94",
+    "sourceReadme": "README.md",
+    "sourceBaker": "tools/bake_menu_sprites.py",
+    "sourcePrototype": "dist/index.html"
+  },
+  "baseCanvas": {
+    "width": 1672,
+    "height": 941
+  },
+  "files": [
+    {
+      "path": "entrance_plaza.png",
+      "sourcePath": "dist/entrance-plaza-locked.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "sha256": "22083a038ed87ab9eb0155fba6648cec67699936402dc8b4b399b8aa5b48623d",
+      "gitBlobSha": "0030162bff09c7ab04b0af9f309c16a53a4c0bc2"
+    },
+    {
+      "path": "sprites/bitmap-letterforms.png",
+      "sourcePath": "dist/sprites/v06/bitmap-letterforms.png",
+      "width": 2816,
+      "height": 126,
+      "mode": "RGBA",
+      "sha256": "2a03d7274246785f6c0e13e3f8a69b8bedf9a4ab9646789a45e1024bad28495b",
+      "gitBlobSha": "a61971d94fa7a9e4f9afcb35a7ffc322f850f4ba"
+    },
+    {
+      "path": "sprites/continue-blank.png",
+      "sourcePath": "dist/sprites/v06/continue-blank.png",
+      "width": 222,
+      "height": 84,
+      "mode": "RGBA",
+      "sha256": "0b20747e22bde0c3e940567c84abc2b40249a8dedf1ab5a1bdf93d4f1c58d4e1",
+      "gitBlobSha": "20f1b1e8b1e507968d433f91edae5fe3e9b8b8b3"
+    },
+    {
+      "path": "sprites/continue-disabled.png",
+      "sourcePath": "dist/sprites/v06/continue-disabled.png",
+      "width": 222,
+      "height": 84,
+      "mode": "RGBA",
+      "sha256": "e251649c711374ac009b382033b6bf3115795baf86f5601aa52314005d254aa1",
+      "gitBlobSha": "d97b818893cc9db283a5ea529b1d2da2930e6aac"
+    },
+    {
+      "path": "sprites/continue-hover.png",
+      "sourcePath": "dist/sprites/v06/continue-hover.png",
+      "width": 222,
+      "height": 84,
+      "mode": "RGBA",
+      "sha256": "f22244d22582283e85fd6a8c822e9580b059a8e5896b5486162df019b226a830",
+      "gitBlobSha": "97baad6d8cb451670248c1ff52c147297da9372f"
+    },
+    {
+      "path": "sprites/continue-lit.png",
+      "sourcePath": "dist/sprites/v06/continue-lit.png",
+      "width": 222,
+      "height": 84,
+      "mode": "RGBA",
+      "sha256": "8a00ba8d692dd66d6e6503b84e5332d8cfe7518e5a8db5ba8bc08e09b44096b5",
+      "gitBlobSha": "b61b72217f1f5d4bffd7ca51dd9a8ece24dd514d"
+    },
+    {
+      "path": "sprites/continue-pressed.png",
+      "sourcePath": "dist/sprites/v06/continue-pressed.png",
+      "width": 222,
+      "height": 84,
+      "mode": "RGBA",
+      "sha256": "0e703373688db968e929cd7b99f5bd679a1436049809490c4e31123a427a9c51",
+      "gitBlobSha": "f1728f60dbad8fa006952c1b7a31abb7ef1bca71"
+    },
+    {
+      "path": "sprites/continue-unlit.png",
+      "sourcePath": "dist/sprites/v06/continue-unlit.png",
+      "width": 222,
+      "height": 84,
+      "mode": "RGBA",
+      "sha256": "4a21f025913fb3128cc2a7a6252cd1b32279e25760d5fba29e935e94d3f4f39a",
+      "gitBlobSha": "8ef5166aa07e56a75c90586fdbb9dbfde343890e"
+    },
+    {
+      "path": "sprites/fluorescent-off-fullframe.png",
+      "sourcePath": "dist/sprites/v06/fluorescent-off-fullframe.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGBA",
+      "sha256": "a45de0f5300cc2277bb403a5b2866abd54283c1e731ce8d45d202796a07d993e",
+      "gitBlobSha": "4ad86eb18ff9d367fe616796c0b02a3b05fd900f"
+    },
+    {
+      "path": "sprites/fluorescent-on-fullframe.png",
+      "sourcePath": "dist/sprites/v06/fluorescent-on-fullframe.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGBA",
+      "sha256": "dafae6eecb3e8d7726a4ca6d849849285cfc02aab4af3923609824dbd6c4a8c1",
+      "gitBlobSha": "2b216d6ac8bad227c338cd231de0621f30ad864c"
+    },
+    {
+      "path": "sprites/new-game-blank.png",
+      "sourcePath": "dist/sprites/v06/new-game-blank.png",
+      "width": 222,
+      "height": 75,
+      "mode": "RGBA",
+      "sha256": "62c18e5b50bc7e7dc8c5a7aa8818526f4c81f9c5c24ffca5b7da9dd44a035c55",
+      "gitBlobSha": "144ac74f52dc9b25171fd77d4ed558820ebbb154"
+    },
+    {
+      "path": "sprites/new-game-disabled.png",
+      "sourcePath": "dist/sprites/v06/new-game-disabled.png",
+      "width": 222,
+      "height": 75,
+      "mode": "RGBA",
+      "sha256": "847ef970c18ebef0fe9a3d92261c822021bb9db490fd8bb8e37b21b561149c83",
+      "gitBlobSha": "1b736ccb3cf19c4b83561d3fc55d3e32b0c0c8b3"
+    },
+    {
+      "path": "sprites/new-game-hover.png",
+      "sourcePath": "dist/sprites/v06/new-game-hover.png",
+      "width": 222,
+      "height": 75,
+      "mode": "RGBA",
+      "sha256": "4696ddb41641a89b79287c15960f1d295bc57018045a4353ce10840988b312d1",
+      "gitBlobSha": "d8fa9d8215a05f5c7f153b32d545fd7cee49b2ce"
+    },
+    {
+      "path": "sprites/new-game-lit.png",
+      "sourcePath": "dist/sprites/v06/new-game-lit.png",
+      "width": 222,
+      "height": 75,
+      "mode": "RGBA",
+      "sha256": "4aa45118455b964420e80c932f6d2ce2c53f5ed475ff0c7f43be0e1283b34203",
+      "gitBlobSha": "4472a55bdfa0b7b36faf53e947b841bf4cb78833"
+    },
+    {
+      "path": "sprites/new-game-pressed.png",
+      "sourcePath": "dist/sprites/v06/new-game-pressed.png",
+      "width": 222,
+      "height": 75,
+      "mode": "RGBA",
+      "sha256": "ee20cd79e83b969dc63ad2d91f1da4aff644ddf09ba1ab5ea7544fafa9bbc69d",
+      "gitBlobSha": "ca90bfaf47d2ad9c96277880d72d516422ef0c63"
+    },
+    {
+      "path": "sprites/new-game-unlit.png",
+      "sourcePath": "dist/sprites/v06/new-game-unlit.png",
+      "width": 222,
+      "height": 75,
+      "mode": "RGBA",
+      "sha256": "b75a5715c0495584269f5fb615565b259bdbf1aad8fe10161c425caee770e764",
+      "gitBlobSha": "05b5bcc3e9305ecc4e0122d289b0215ba4345661"
+    },
+    {
+      "path": "sprites/settings-hover.png",
+      "sourcePath": "dist/sprites/v06/settings-hover.png",
+      "width": 146,
+      "height": 40,
+      "mode": "RGBA",
+      "sha256": "c1213354a9907f4a620ac114568f42c5b186490ec33b182c6ffd859168d86171",
+      "gitBlobSha": "e52c4d20c134443c37cf5a1608f4a77f62f43494"
+    },
+    {
+      "path": "sprites/settings-lit.png",
+      "sourcePath": "dist/sprites/v06/settings-lit.png",
+      "width": 146,
+      "height": 40,
+      "mode": "RGBA",
+      "sha256": "3292d0c847fc81ff747e65e563ccac1a3562249ada7f985dea3cbee1da4f6e7e",
+      "gitBlobSha": "539aa9e44d020544ddc4a2e049b5fb66b2dd9e78"
+    },
+    {
+      "path": "sprites/settings-pressed.png",
+      "sourcePath": "dist/sprites/v06/settings-pressed.png",
+      "width": 146,
+      "height": 40,
+      "mode": "RGBA",
+      "sha256": "56cdd916cd2921e5e6588f0cfb19fbc546371600d34c3e2c6b7555b4e8545ae3",
+      "gitBlobSha": "07db91c3689e528c12d3925b11254ca6592254a4"
+    },
+    {
+      "path": "sprites/settings-unlit.png",
+      "sourcePath": "dist/sprites/v06/settings-unlit.png",
+      "width": 146,
+      "height": 40,
+      "mode": "RGBA",
+      "sha256": "3f7f6d7608e5d0bbd6daef1a3097a445ce829911c1bd9a06bbacb8af44d5c56b",
+      "gitBlobSha": "e112f1cbaf04622cf937fd3232a7f709fd2aa188"
+    }
+  ],
+  "layoutPercentOfCanvas": {
+    "continue": {
+      "left": 79.95,
+      "top": 37.66,
+      "width": 13.3,
+      "height": 8.93
+    },
+    "newGame": {
+      "left": 80.06,
+      "top": 46.36,
+      "width": 13.15,
+      "height": 7.97
+    },
+    "readout": {
+      "left": 79.95,
+      "top": 54.8,
+      "width": 12.82,
+      "height": 27,
+      "canvasWidth": 428,
+      "canvasHeight": 506
+    },
+    "settings": {
+      "left": 80.93,
+      "top": 76.72,
+      "width": 8.45,
+      "height": 4.24
+    },
+    "creditsHitTarget": {
+      "left": 90.28,
+      "top": 74.98,
+      "width": 3,
+      "height": 5
+    }
+  },
+  "startupTimingMs": {
+    "lampPulses": [
+      [
+        110,
+        0.08,
+        0.8
+      ],
+      [
+        160,
+        1,
+        0
+      ],
+      [
+        308,
+        0.3,
+        0.46
+      ],
+      [
+        356,
+        1,
+        0
+      ],
+      [
+        525,
+        0.1,
+        0.98
+      ],
+      [
+        597,
+        0.67,
+        0.22
+      ],
+      [
+        738,
+        0,
+        1
+      ]
+    ],
+    "continueCircuitStart": 1050,
+    "newGameCircuitStart": 2120,
+    "buttonCircuitOffsets": [
+      0,
+      190,
+      330,
+      540,
+      680,
+      940
+    ],
+    "startReadout": 3350,
+    "defaultTypewriterCharacterInterval": 50,
+    "settingsFlickerAfterTyping": [
+      170,
+      260,
+      440,
+      520,
+      740
+    ],
+    "reducedMotionSkipsSequence": true
+  },
+  "rules": [
+    "All 20 PNGs are byte-exact Site v06 Git objects, not resampled or regenerated.",
+    "The background is locked RGB; remaining 19 PNGs are RGBA overlays/atlas.",
+    "Copy pixels unchanged; review-only simulation controls are not gameplay.",
+    "Settings appears after readout completion. Sound and engine wiring are deferred."
+  ]
+}

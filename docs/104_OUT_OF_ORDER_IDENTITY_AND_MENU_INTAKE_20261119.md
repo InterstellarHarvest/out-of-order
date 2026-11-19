@@ -30,15 +30,15 @@ This is a design record, **not** confirmation that runtime menu code or art asse
 | Public canonical storyboard | `InterstellarHarvest/CYOA-storyboard`, independent from the private game repository |
 | Published Pages path, before renaming | `https://interstellarharvest.github.io/CYOA-storyboard/` |
 
-Prior-session evidence reported **19 menu sprite blobs uploaded** into the private game's Git object store, but they were **not attached to a commit/tree** when that session ended. Their exact blob SHA/path mapping is not currently recoverable from the review branch. The prior-session source reference `7952711b30792c41724505d002b45b95d1e4fc94` is not a reachable commit in the accessible project repositories. Do **not** attach guessed blobs or use the earlier generated concept image as a substitute for the approved master. The menu asset intake remains **incomplete**, not failed or approved for gameplay.
+**Recovery completed.** The source reference `7952711b30792c41724505d002b45b95d1e4fc94` is the commit in the **private ChatGPT Sites source repository** for the [approved v06 menu review](https://out-of-order-menu-review-nate.cosmic-jelly-5330.chatgpt.site), not a commit in the GitHub game/storyboard repositories. Its locked painting and 19 v06 sprite files were fetched from that exact checkout. All **20 Git blob SHAs** were already present in the game repository's unattached Git object store; the exact path mapping, PNG dimensions and SHA-256 checksums were recovered and recorded in `art/ui/main_menu/manifest.json`. They are now attached to this review branch without re-encoding. Earlier v02–v05 comparisons and the deterministic baking script remain preserved in the private review Site source. **No menu art was regenerated.**
 
-## Required byte-exact art closeout
+## Byte-exact art closeout — complete on review branch
 
-1. Recover the approved final menu master/sprites or the prior-session source package and its exact per-file names/SHAs.
-2. Verify dimensions, PNG decodability, hashes, transparency and visual identity against the final owner review.
-3. Place the approved runtime art in `art/ui/main_menu/`, with provenance and a complete non-placeholder asset manifest. Keep editable/original sources outside Git if they are excluded by the project's master-art rule.
-4. Confirm that every expected menu file is reachable in the review branch and that the branch differs from `main` only in scoped intake and identity records.
-5. Present that branch for review. **Do not merge** the menu into `main` or integrate it with the engine without a separate owner gate.
+1. Recovered the approved v06 source package from the private Site source commit; 20 original PNG Git blobs matched the Source Site tree.
+2. Verified PNG headers, dimensions, RGB/RGBA modes and per-file SHA-256 checksums (see `art/ui/main_menu/manifest.json`).
+3. Attached the locked 1672×941 background plus 19 v06 sprites to `art/ui/main_menu/`; committed a non-placeholder asset manifest and intake README.
+4. Preserved implementation geometry, animation timing and the original source commit for deferred engine work.
+5. **Review only. Do not merge** the menu into game `main` or wire it into gameplay without a separate owner gate.
 
 ## Coordinated naming migration (pending)
 
@@ -53,4 +53,4 @@ Historic `sourceRepo` values and immutable art provenance must continue to ident
 
 ## Exclusions and safety
 
-No gameplay logic, story canon, Chapter 3 artwork, approved sprite bytes, saved-game data, or production `main` branch is changed by this checkpoint. GitHub repository names and Pages URLs remain unchanged until the coordinated migration is ready.
+No gameplay logic, story canon, Chapter 3 artwork, existing sprite bytes, saved-game data, or production `main` branch is changed by this checkpoint. The approved menu art is newly attached byte-exactly on the review branch. GitHub repository names and Pages URLs remain unchanged until the coordinated migration is ready.
