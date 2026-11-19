@@ -1,0 +1,32 @@
+{
+  "schema": "out-of-order-menu-design-lock-v1",
+  "title": "Out of Order",
+  "approval": {
+    "owner": "Nate",
+    "date": "2026-11-19",
+    "kind": "visual design and behavior lock"
+  },
+  "artStatus": "pending byte-exact recovery and committed intake",
+  "intendedRuntimeDirectory": "art/ui/main_menu/",
+  "reviewBranch": "review/out-of-order-menu-intake",
+  "originalSourceReference": {
+    "sha": "7952711b30792c41724505d002b45b95d1e4fc94",
+    "reachableInAccessibleGitHubRepositories": false
+  },
+  "reportedUnattachedGitBlobs": 19,
+  "behavior": {
+    "titleRenderedInBackground": true,
+    "continueAndNewGameSeparateButtons": true,
+    "sequentialSlowButtonIllumination": true,
+    "slowTypewriterStatus": true,
+    "settingsAfterStatusText": true,
+    "settingsInNarrowBottomScreen": true,
+    "creditsBehindRedLight": true,
+    "subtleFlicker": true,
+    "sound": "deferred"
+  },
+  "engineIntegration": "deferred",
+  "preservation": "Do not regenerate or infer final approved sprites from concept previews.",
+  "assetManifest": "not yet created; awaiting confirmed filenames, dimensions and SHA-256 hashes",
+  "provenance": "Prior chat Compare menu art directions, 2026-11-19. See docs/104_OUT_OF_ORDER_IDENTITY_AND_MENU_INTAKE_20261119.md."
+}
