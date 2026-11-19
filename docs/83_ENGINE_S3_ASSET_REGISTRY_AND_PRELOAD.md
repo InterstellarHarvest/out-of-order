@@ -3,7 +3,7 @@
 **Date:** 2026-11-09
 **Status:** S3 implemented on an isolated integration branch, **for Gameplay Engine PMO review**. Not merged. S4–S9 not started.
 **Branch / worktree:** `agent/engine-s3-asset-integration`, `_worktrees/CYOA-engine-s3-asset-integration`
-**Authority:** `docs/ENGINE_S3_START_GATE_2026_11_09.md` (docs/story-gameplay-study-v01); [72](https://github.com/InterstellarHarvest/CYOA/blob/agent/engine-foundation-design/docs/72_GENERAL_ADVENTURE_ENGINE_FOUNDATION_V01.md) §§4, 6; [74](74_ENGINE_V0_S1_S2_RULES_IMPLEMENTATION.md); [82](82_M2_ROUND2_INTEGRATION_GATE.md).
+**Authority:** `docs/ENGINE_S3_START_GATE_2026_11_09.md` (docs/story-gameplay-study-v01); [72](https://github.com/InterstellarHarvest/out-of-order/blob/agent/engine-foundation-design/docs/72_GENERAL_ADVENTURE_ENGINE_FOUNDATION_V01.md) §§4, 6; [74](74_ENGINE_V0_S1_S2_RULES_IMPLEMENTATION.md); [82](82_M2_ROUND2_INTEGRATION_GATE.md).
 
 ---
 

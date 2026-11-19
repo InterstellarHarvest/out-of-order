@@ -5,7 +5,7 @@
 **Status:** PRODUCTION PNGS COMMITTED / ART CANDIDATE — owner approval pending; not game runtime.
 **Starting branch head:** `41bff906a332bc0c06afd285262a2f0c76392b56`.
 **Generated asset/proof commit:** `a84d2dea4bfc5123a707b03b5ac097f46742e72b`.
-**Repeatable CI proof:** https://github.com/InterstellarHarvest/CYOA/actions/runs/41266430632
+**Repeatable CI proof:** https://github.com/InterstellarHarvest/out-of-order/actions/runs/41266430632
 
 ## Authority and conflict resolution
 

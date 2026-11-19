@@ -15,7 +15,7 @@ The owner's existing local project area is:
 
 `/Users/MrDashiki/Experiments & Projects`
 
-Claude Code should keep a normal local clone of `InterstellarHarvest/CYOA` there and use normal Git worktrees for isolated implementation tasks.
+Claude Code should keep a normal local clone of `InterstellarHarvest/out-of-order` there and use normal Git worktrees for isolated implementation tasks.
 
 Do not modify the canonical shell while building either tool.
 
@@ -314,7 +314,7 @@ A restore/show-devtools button or keyboard shortcut can bring controls back.
 
 Claude should:
 
-1. Locate or clone `InterstellarHarvest/CYOA` under `/Users/MrDashiki/Experiments & Projects`.
+1. Locate or clone `InterstellarHarvest/out-of-order` under `/Users/MrDashiki/Experiments & Projects`.
 2. Fetch all remotes.
 3. Do not work directly in an unrelated dirty checkout.
 4. Create a dedicated worktree/branch from the current `review/m1-ui-shell-v2` head for tooling, suggested branch:

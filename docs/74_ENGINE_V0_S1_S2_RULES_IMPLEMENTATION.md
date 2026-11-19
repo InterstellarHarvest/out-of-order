@@ -3,7 +3,7 @@
 **Date:** 2026-11-08
 **Status:** S1/S2 **passed PMO architecture review** (docs/80 on `docs/story-gameplay-study-v01`). S2.1 owner-decision alignment added 2026-11-09 (section 7), for PMO review. **Not merged** into M2 or main. S3 (renderer integration) has not started.
 **Branch:** `agent/engine-v0-rules`, from `origin/agent/m2-reception-polish-lab` at `e66e7bf` (its remote head on 2026-11-08).
-**Authority:** [72 — General Adventure Engine Foundation](https://github.com/InterstellarHarvest/CYOA/blob/agent/engine-foundation-design/docs/72_GENERAL_ADVENTURE_ENGINE_FOUNDATION_V01.md) (`53205b6`), gated by 73 — Engine Foundation PMO Review and S1/S2 Gate (`docs/story-gameplay-study-v01`). This branch's 74 is free on both doc lines.
+**Authority:** [72 — General Adventure Engine Foundation](https://github.com/InterstellarHarvest/out-of-order/blob/agent/engine-foundation-design/docs/72_GENERAL_ADVENTURE_ENGINE_FOUNDATION_V01.md) (`53205b6`), gated by 73 — Engine Foundation PMO Review and S1/S2 Gate (`docs/story-gameplay-study-v01`). This branch's 74 is free on both doc lines.
 
 ## 1. What changed
 

@@ -18,7 +18,7 @@ The shell was measured directly in GitHub Actions: **1920×1080, RGBA**; transpa
 The first script check reported **15/16** locked component matches because the older preflight script contained an incomplete SHA-256 for `choice_2line_b.png`; the SHA was missing its final `a`. The actual ZIP member matched the original authoritative `design/ui_locked_component_contract_v1.json` identity. The verifier was corrected in commit `c902ca76`; **no binary was changed**.
 
 ## Baseline assembly
-Final GitHub Actions evidence: [M1 sprite intake and baseline assembly](https://github.com/InterstellarHarvest/CYOA/actions/runs/41260703240).
+Final GitHub Actions evidence: [M1 sprite intake and baseline assembly](https://github.com/InterstellarHarvest/out-of-order/actions/runs/41260703240).
 
 Automated results:
 - All **16/16** owner-locked component hashes: PASS.

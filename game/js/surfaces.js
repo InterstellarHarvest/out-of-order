@@ -372,7 +372,7 @@
     var stage = document.getElementById('stage');
     var shell = document.getElementById('shell');
     var n = document.getElementById('draftStamp');
-    var title = (G.story && G.story.title) || 'The Acceptable Error (working title)';
+    var title = (G.story && G.story.title) || 'Out of Order';
     document.body.dataset.draft = draft ? 'true' : 'false';
     if (!draft) {
       if (n) n.style.display = 'none';
