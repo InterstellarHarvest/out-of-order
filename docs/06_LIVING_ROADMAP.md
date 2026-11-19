@@ -1,3 +1,5 @@
+> **CURRENT OWNER TITLE OVERRIDE (2026-11-19):** *Out of Order* is the official title. This document intentionally preserves its 2026-10-29 working-title and milestone history; the updated decision is recorded in [docs/104](104_OUT_OF_ORDER_IDENTITY_AND_MENU_INTAKE_20261119.md).
+
 # CYOA — living path to a finished game
 
 ## 2026-11-05 milestone-numbering override
