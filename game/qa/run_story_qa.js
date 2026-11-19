@@ -489,7 +489,7 @@ async function suite(name, base) {
   check(b, 'the M2 reception slice is still available (?story=reception) on its own v1 flow', await page.evaluate(() => document.body.dataset.story === 'reception'
     && window.CYOA_GAME.flow !== window.CYOA_GAME.storyFlow && window.CYOA_GAME.ui.cards.length === 2));
   check(b, 'the reception regression page carries no draft stamp and keeps its title', await page.evaluate(() => !document.getElementById('draftStamp')
-    && document.title === 'The Acceptable Error (working title)'));
+    && document.title === 'Out of Order'));
   errorsAll = errorsAll.concat(errors);
   await page.close();
   ({ page, errors } = await open(context, url + '?nosave&seed=qa', FIX_APPROVED));

@@ -1,6 +1,6 @@
 > **CURRENT OWNER TITLE OVERRIDE (2026-11-19):** *Out of Order* is the official title. This document intentionally preserves its 2026-10-29 working-title and milestone history; the updated decision is recorded in [docs/104](104_OUT_OF_ORDER_IDENTITY_AND_MENU_INTAKE_20261119.md).
 
-# CYOA — living path to a finished game
+# Out of Order — living path to a finished game
 
 ## 2026-11-05 milestone-numbering override
 
@@ -8,7 +8,7 @@ The original roadmap below remains useful as historical planning logic, but its 
 
 The old table's labels such as “M2 — Mystery logic” and “M5 — Playable vertical slice” should therefore be read as conceptual gates, not current project milestone names. Mystery-truth work is still required before a full story is authored; it is simply not the next numbered implementation milestone.
 
-**Working title:** *The Acceptable Error* · **Roadmap version:** 0.1 · **2026-10-29**  
+**Current title (approved 2026-11-19):** *Out of Order* · **Roadmap version:** 0.1 · **2026-10-29**  
 **Purpose:** Give creative decisions an order, prevent uncontrolled scope, and identify what has to be demonstrated before the next commitment. **This is not an implementation order or locked design bible.**
 
 ## North star / definition of finished

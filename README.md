@@ -1,7 +1,7 @@
 # Out of Order — development repository
 
 **Official game title:** *Out of Order* (owner-selected 2026-11-19)  
-**Current GitHub repository slug:** `CYOA` (migration pending; do not assume links have moved)  
+**Current GitHub repository:** `InterstellarHarvest/out-of-order` (renamed 2026-11-19)  
 **Phase:** M2 — Reception vertical slice  
 **Status:** Bounded game implementation is authorized for the reception slice defined in `docs/47_M2_RECEPTION_VERTICAL_SLICE_CHARTER.md`. This does not authorize full-game production or an engine rewrite.
 
@@ -9,9 +9,9 @@ This repository preserves ideas and decisions for *Out of Order*, a retro-futuri
 
 ## Naming and menu production closeout (2026-11-19)
 
-**Out of Order** is the authoritative display title. *The Acceptable Error* is the retired working title; `CYOA` remains a technical repository/schema identifier until a coordinated migration. Historic design notes, Git commit links, artwork provenance and `cyoa-*` format identifiers are intentionally retained. See [the current identity and menu intake record](docs/104_OUT_OF_ORDER_IDENTITY_AND_MENU_INTAKE_20261119.md).
+**Out of Order** is the authoritative display title. *The Acceptable Error* is the retired working title; `CYOA` is retained only for technical schemas and the intentionally unchanged public `CYOA-storyboard` slug. Historic design notes, Git commit links, artwork provenance and `cyoa-*` format identifiers are intentionally retained. See [the current identity and menu intake record](docs/104_OUT_OF_ORDER_IDENTITY_AND_MENU_INTAKE_20261119.md).
 
-The owner-approved main-menu design is being preserved in `review/out-of-order-menu-intake`, intended for `art/ui/main_menu/`. **It is not wired into the engine.** The visual lock and deferred integration are recorded in [the design status file](design/main_menu_out_of_order.lock.json). The asset package is pending byte-exact recovery and verification; do not treat this branch as a complete art import yet.
+The owner-approved v06 main-menu art is committed byte-exactly in `art/ui/main_menu/` on this review branch. **It is not wired into the engine.** The [asset manifest](art/ui/main_menu/manifest.json) and [design lock](design/main_menu_out_of_order.lock.json) preserve provenance and deferred integration.
 
 ## Current direction
 

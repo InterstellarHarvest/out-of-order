@@ -23,12 +23,12 @@ This is a design record, **not** confirmation that runtime menu code or art asse
 
 | Area | Verified status |
 | --- | --- |
-| Game repository | `InterstellarHarvest/CYOA`, private, default branch `main` |
+| Game repository | `InterstellarHarvest/out-of-order`, private, default branch `main` (renamed 2026-11-19) |
 | Production baseline | `b4e11c9cc6fb44c2b7abd832400ba44401411db2`; GitHub QA succeeded |
 | Review branch | `review/out-of-order-menu-intake`, initially created at the production baseline |
 | Intended production-art path | `art/ui/main_menu/` |
 | Public canonical storyboard | `InterstellarHarvest/CYOA-storyboard`, independent from the private game repository |
-| Published Pages path, before renaming | `https://interstellarharvest.github.io/CYOA-storyboard/` |
+| Published Pages path, retained intentionally | `https://interstellarharvest.github.io/CYOA-storyboard/` |
 
 **Recovery completed.** The source reference `7952711b30792c41724505d002b45b95d1e4fc94` is the commit in the **private ChatGPT Sites source repository** for the [approved v06 menu review](https://out-of-order-menu-review-nate.cosmic-jelly-5330.chatgpt.site), not a commit in the GitHub game/storyboard repositories. Its locked painting and 19 v06 sprite files were fetched from that exact checkout. All **20 Git blob SHAs** were already present in the game repository's unattached Git object store; the exact path mapping, PNG dimensions and SHA-256 checksums were recovered and recorded in `art/ui/main_menu/manifest.json`. They are now attached to this review branch without re-encoding. Earlier v02–v05 comparisons and the deterministic baking script remain preserved in the private review Site source. **No menu art was regenerated.**
 
@@ -40,17 +40,13 @@ This is a design record, **not** confirmation that runtime menu code or art asse
 4. Preserved implementation geometry, animation timing and the original source commit for deferred engine work.
 5. **Review only. Do not merge** the menu into game `main` or wire it into gameplay without a separate owner gate.
 
-## Coordinated naming migration (pending)
+## Repository naming and links — owner confirmed
 
-The intended repository slugs are `out-of-order` for the private game and `out-of-order-storyboard` for the public authoring/Pages repository, subject to final URL checks at migration time. A rename of the private repository **does not** rename the public storyboard repository or automatically fix GitHub Pages site paths.
-
-Before moving URLs, audit and update the live cross-references in:
-- game: `README.md`, `game/README.md`, `game/index.html`, the game-visible fallback title in `game/js/surfaces.js`, `tools/story-sync/config.json`, `tools/story-sync/sync.js`, `tools/storyboard/README.md`;
-- storyboard: `README.md`, root `index.html`, `tools/storyboard/index.html` (including fatal-ending overline), Pages workflow title, sync tooling and any current authoring prompts;
-- canonical export/config ownership: `story/canon.lock.json`, `story/game-integration.json`, death-presentation exports, and approved-art ledgers **only as the generating/validation contract allows**.
-
-Historic `sourceRepo` values and immutable art provenance must continue to identify the original repository and commit. Changing those by global search/replace could invalidate canonical checks. The public site must be deployed at its new path and tested (root redirect, storyboard, art lab, selected-art previews, direct Chapter 3 review links) **before** updating user-facing links or declaring migration complete. Preserve a reliable notice/redirect for old Pages bookmarks if feasible.
+- **Private game repository:** renamed from `InterstellarHarvest/CYOA` to [`InterstellarHarvest/out-of-order`](https://github.com/InterstellarHarvest/out-of-order) on 2026-11-19. Use the new slug in current links, local remotes and sync configuration. Old GitHub links redirect.
+- **Public storyboard repository:** the owner explicitly chose to **keep** `InterstellarHarvest/CYOA-storyboard` and the existing [GitHub Pages address](https://interstellarharvest.github.io/CYOA-storyboard/). Do not rename this repository or move Pages.
+- **Visible game title:** *Out of Order* throughout active menus, tabs, README and storyboards. Title-only rollout and the browser-title QA assertion correction are handled separately from this art intake.
+- **Compatibility/provenance:** `cyoa-*` schemas, JavaScript globals, persistence keys, original artwork-generation prompts and immutable `sourceRepo` records remain unchanged. These are not the public-facing title.
 
 ## Exclusions and safety
 
-No gameplay logic, story canon, Chapter 3 artwork, existing sprite bytes, saved-game data, or production `main` branch is changed by this checkpoint. The approved menu art is newly attached byte-exactly on the review branch. GitHub repository names and Pages URLs remain unchanged until the coordinated migration is ready.
+No gameplay logic, story canon, Chapter 3 artwork, existing sprite bytes, saved-game data, or production `main` branch is changed by this checkpoint. The approved menu art is newly attached byte-exactly on the review branch. The private game repository was renamed; the public storyboard repository and Pages URL remain deliberately unchanged.

@@ -10,7 +10,7 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 ## A. Explicit owner preferences (preserve)
 | Area | Current preference | Interpretation |
 | --- | --- | --- |
-| Project identity | *Out of Order* official game title (2026-11-19) | `CYOA` is the old GitHub slug / technical codename until coordinated migration; *The Acceptable Error* is a retired working title |
+| Project identity | *Out of Order* official game title (2026-11-19) | Private game repository is `InterstellarHarvest/out-of-order`; public `CYOA-storyboard` slug and technical schemas remain unchanged |
 | Experience | Retro, branching, interactive pulp adventure | CYOA is not necessarily a simple digital gamebook |
 | Emotional arc | Absurd/funny → increasingly disturbing, also strange and unpredictable | Include human warmth and occasional wonder |
 | World | Alternate 1960s vision of a future in which oddities are normal | Brazil-like bureaucratic atmosphere |
