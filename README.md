@@ -1,13 +1,13 @@
-# CYOA — preproduction archive
+# Out of Order — development repository
 
-**Working game title:** *The Acceptable Error* (provisional)  
-**Repository name:** `CYOA` (temporary)  
+**Official game title:** *Out of Order* (owner-approved 2026-11-19)  
+**Repository:** `InterstellarHarvest/out-of-order` (renamed 2026-11-19)  
 **Phase:** M2 — Reception vertical slice  
 **Status:** Bounded game implementation is authorized for the reception slice defined in `docs/47_M2_RECEPTION_VERTICAL_SLICE_CHARTER.md`. This does not authorize full-game production or an engine rewrite.
 
-This repository preserves ideas and decisions for a possible retro-futuristic, branching pulp adventure. It is deliberately a **notebook, not a locked game-design bible**. Rejected and superseded ideas are kept because they may become useful later.
+This repository preserves ideas and decisions for a retro-futuristic, branching pulp adventure. It is deliberately a **notebook, not a locked game-design bible**. Rejected and superseded ideas are kept because they may become useful later.
 
-## Current direction
+The previous working title was retired on 2026-11-19. `CYOA` remains in technical schemas and internal keys for compatibility; the public [CYOA-storyboard](https://interstellarharvest.github.io/CYOA-storyboard/) repository and Pages URL retain their existing names. The approved v06 main-menu artwork is staged byte-exactly on the [menu review branch](https://github.com/InterstellarHarvest/out-of-order/tree/review/out-of-order-menu-intake/art/ui/main_menu); engine integration is deferred.\n\n## Current direction
 
 An ordinary person, inadvertently granted inappropriate authority through coincidence or bureaucratic nonsense, is drawn into an alternate retro-futuristic world where strangeness is commonplace. The tone begins absurd and funny, turns disturbing, and remains unpredictable. Humanity's remarkable technology works, but civilization may have misunderstood *what it actually does*. **The Exchange**—a system believed to transport objects but perhaps exchanging them with equivalents—is the leading story hypothesis, not established canon.
 

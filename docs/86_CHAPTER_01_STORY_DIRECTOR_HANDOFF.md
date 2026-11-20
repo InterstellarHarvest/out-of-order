@@ -1,4 +1,4 @@
-# The Acceptable Error — Chapter 1 Story Director handoff
+# Out of Order — Chapter 1 Story Director handoff
 
 **Deliverable:** `chapter-01.draft.json` — House of Tomorrow, a narrative/playable **DRAFT**. Do not treat prose, dice odds, item consumption or art as creatively approved canon. Original Prologue remains untouched.
 

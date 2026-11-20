@@ -1,7 +1,7 @@
 > **HISTORICAL / SUPERSEDED WHEN CONFLICTING:** Use the [M1 CANONICAL UI DESIGN CONTRACT](17_M1_CANONICAL_UI_DESIGN_CONTRACT.md) for all current geometry, scrollbar, inventory, frame and visual rules. This document is retained to preserve design history; its conflicting instructions are NOT binding.
 
 # M1 — Partial layout lock, rev 0.3
-**Project:** *The Acceptable Error* (working title)  
+**Project:** *Out of Order* (official title as of 2026-11-19)  
 **Date:** 2026-10-29  
 **Status:** **OWNER-DIRECTED PARTIAL LAYOUT LOCK FOR VISUAL STUDIES ONLY**. Geometry / zone purposes now stable for subsequent art variants. Fine sizes, palette, graphics and engineering not locked. No implementation authorization.
 

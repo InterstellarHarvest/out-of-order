@@ -1,6 +1,6 @@
 # Reception vertical slice (M2)
 
-The first playable slice of *The Acceptable Error* (working title), bounded by
+The first playable slice of *Out of Order*, bounded by
 `docs/47_M2_RECEPTION_VERTICAL_SLICE_CHARTER.md`. One location, one receptionist, one item.
 The checkpoint report (route graph, state, placeholders, QA, open decisions) is
 `docs/48_M2_RECEPTION_SLICE_CHECKPOINT_01.md`.

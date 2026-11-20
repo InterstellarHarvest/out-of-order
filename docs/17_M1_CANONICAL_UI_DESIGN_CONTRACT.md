@@ -1,7 +1,7 @@
 # M1 — CANONICAL UI DESIGN CONTRACT
 **Status: OWNER LOCK — use this as the ONLY authoritative design spec for all M1 visual mockups.**
 **Date:** October 30, 2026 · **Revision: v1.2 — frame-only mockups and square-slot footer sizing**
-**Applies to:** The Acceptable Error (working title), CYOA interactive-story presentation.
+**Applies to:** Out of Order, interactive-story presentation.
 **Scope:** Locked layout, interaction mechanics, and design constraints; NOT final art assets, exact runtime resolution, color palette, character art, or authorization for gameplay implementation.
 
 ## Authority and precedence

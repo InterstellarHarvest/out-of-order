@@ -51,10 +51,10 @@ These files and their generator sources are isolated under `review/m1-ui-shell-v
 **Owner approval scope:** only the candidate arrows, candidate utility controls, and candidate scrollbar art and UP/DOWN tactile read. No approval of revised shell, choice-card redraw, or gameplay integration is being sought.
 
 ## Git / provenance
-- [Candidate art and full 1920×1080 screens](https://github.com/InterstellarHarvest/CYOA/tree/review/m1-ui-shell-v2/review/m1-ui-shell-v2/candidate_art)
-- [Press study](https://github.com/InterstellarHarvest/CYOA/blob/review/m1-ui-shell-v2/review/m1-ui-shell-v2/candidate_art/press_study.png)
-- [Candidate generation QA](https://github.com/InterstellarHarvest/CYOA/actions/runs/41261318711)
-- [Baseline owner-original sprite preflight](https://github.com/InterstellarHarvest/CYOA/actions/runs/41260703240)
+- [Candidate art and full 1920×1080 screens](https://github.com/InterstellarHarvest/out-of-order/tree/review/m1-ui-shell-v2/review/m1-ui-shell-v2/candidate_art)
+- [Press study](https://github.com/InterstellarHarvest/out-of-order/blob/review/m1-ui-shell-v2/review/m1-ui-shell-v2/candidate_art/press_study.png)
+- [Candidate generation QA](https://github.com/InterstellarHarvest/out-of-order/actions/runs/41261318711)
+- [Baseline owner-original sprite preflight](https://github.com/InterstellarHarvest/out-of-order/actions/runs/41260703240)
 
 ## Self-rejected stress-proof correction
-The initial five-choice static test unintentionally displayed the NPC speech overflow indicator when only the **choice** list overflowed. That violates the independence of the two scroll systems. The indicator was removed from this choice-only scenario without changing any sprite or shell, and full-size screenshots were regenerated. Corrected GitHub Actions run: [41261420797](https://github.com/InterstellarHarvest/CYOA/actions/runs/41261420797). Last candidate PNG commit: `7b0b296c`. Exact shell blob remains `1849c8ec192c...`.
+The initial five-choice static test unintentionally displayed the NPC speech overflow indicator when only the **choice** list overflowed. That violates the independence of the two scroll systems. The indicator was removed from this choice-only scenario without changing any sprite or shell, and full-size screenshots were regenerated. Corrected GitHub Actions run: [41261420797](https://github.com/InterstellarHarvest/out-of-order/actions/runs/41261420797). Last candidate PNG commit: `7b0b296c`. Exact shell blob remains `1849c8ec192c...`.

@@ -8,7 +8,7 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 ## A. Explicit owner preferences (preserve)
 | Area | Current preference | Interpretation |
 | --- | --- | --- |
-| Project identity | CYOA repository; *The Acceptable Error* working title | Both names may change |
+| Project identity | *Out of Order* (official game title, 2026-11-19) | Game repository renamed `InterstellarHarvest/out-of-order`; the public `CYOA-storyboard` slug is retained |
 | Experience | Retro, branching, interactive pulp adventure | CYOA is not necessarily a simple digital gamebook |
 | Emotional arc | Absurd/funny → increasingly disturbing, also strange and unpredictable | Include human warmth and occasional wonder |
 | World | Alternate 1960s vision of a future in which oddities are normal | Brazil-like bureaucratic atmosphere |
@@ -59,7 +59,7 @@ Updated 2026-10-29. This file deliberately separates intent from authority.
 8. **What makes the Exchange mystery fair?** A stable internal explanation, planted clues, and satisfying but not omniscient reveals.
 9. **What role does comedy play late in the game?** Unsettling without becoming uniformly bleak.
 10. **What is the playable point-of-view and narrator voice?** Blank-slate protagonist vs lightly characterized viewpoint.
-11. **What does the title mean?** 'The Acceptable Error' is evocative but provisional.
+11. **Title resolution (2026-11-19):** *Out of Order* is the final owner-approved title; the earlier provisional-title question is closed.
 12. **What is the proof of fun?** A scene, branching vignette, portrait interaction, or mystery situation—after creative selection.
 
 ## M1 behavioral tests to resolve before the final art lock (2026-10-29)

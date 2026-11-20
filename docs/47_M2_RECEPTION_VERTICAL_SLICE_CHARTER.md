@@ -3,7 +3,7 @@
 **Date:** 2026-11-05  
 **Owner authorization:** YES — bounded M2 implementation authorized.  
 **Baseline:** `main` at `a30fc5a` before this charter.  
-**Working title:** *The Acceptable Error* (still provisional).
+**Current title (updated 2026-11-19):** *Out of Order*.
 
 ## 1. M2 purpose
 

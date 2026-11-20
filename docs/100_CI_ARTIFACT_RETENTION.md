@@ -18,7 +18,7 @@
 
 | Repository | Counts against the allowance? | Live artifacts (2026-11-17) | Size |
 |---|---|---|---|
-| `InterstellarHarvest/CYOA` (private) | **Yes** | 130 | **9.74 GB** |
+| `InterstellarHarvest/out-of-order` (private) | **Yes** | 130 | **9.74 GB** |
 | `InterstellarHarvest/CYOA-storyboard` (public) | No: GitHub measures the storage allowance for private repositories only | 29 | 0.95 GB |
 | Other InterstellarHarvest private repositories (MoonSammy, Science, tender) | — | 0 | 0 |
 
@@ -95,13 +95,13 @@ Mutation-tested: 14 out of 14 deliberate breakages fail it, and the unmodified w
    Or from a terminal:
 
    ```
-   gh workflow run qa.yml -R InterstellarHarvest/CYOA --ref <branch> -f visual_review=true
+   gh workflow run qa.yml -R InterstellarHarvest/out-of-order --ref <branch> -f visual_review=true
    ```
 
 2. When it finishes, download **within 24 hours**:
 
    ```
-   gh run download <run-id> -R InterstellarHarvest/CYOA -n qa-browsers-screenshots
+   gh run download <run-id> -R InterstellarHarvest/out-of-order -n qa-browsers-screenshots
    ```
 
 3. A failed run keeps its failed suites' screenshots for 24 hours as `qa-browsers-failure-screenshots`.

@@ -1,6 +1,6 @@
 # CYOA M1 — Handoff to the PMO (2026-11-05)
 
-**Repository:** `InterstellarHarvest/CYOA`. `main` = `a30fc5a`, the only branch.
+**Repository:** `InterstellarHarvest/out-of-order`. `main` = `a30fc5a`, the only branch.
 **Status:** M1 interface direction is set, and its assets are organised on `main`. Nothing here authorises building the game; that is the first decision below.
 
 ## 1. What M1 produced
