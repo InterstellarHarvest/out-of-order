@@ -41,7 +41,8 @@ then open <http://localhost:8137/game/index.html>.
 | `qa/validate_assets.js` | Asset contract (docs/72 EF-A1-A3, docs/83): registration, files and PNG class sizes, production paths, the boot list, negative controls: `node game/qa/validate_assets.js`; `--browser` (with `NODE_PATH="$(npm root -g)"`) adds the runtime registry and `G.preloadChapter` in Chromium and Firefox |
 | `qa/v1_on_v2.js`, `qa/fixtures/engine_fixture.js`, `qa/fixtures/endings_fixture.js` | QA only: the v1 API over the v2 engine, the neutral engine fixture, and the independent-endings fixture (S2.1). Not canon, never loaded by the game. |
 | `qa/run_qa.js` | Playwright browser QA: `NODE_PATH="$(npm root -g)" node game/qa/run_qa.js` |
-| `qa/route_results.json`, `qa/route_results_v2.json`, `qa/story_results.json`, `qa/asset_results.json`, `qa/qa_results.json`, `qa/screenshots/` | Last results and owner-review evidence. |
+| `qa/route_results.json`, `qa/route_results_v2.json`, `qa/story_results.json`, `qa/asset_results.json`, `qa/qa_results.json` | Last results. |
+| `qa/*screenshots/` | Screenshots each suite writes when it runs. Not committed (`.gitignore`); CI keeps them as 1-day artifacts (docs/100). |
 
 ### What it reuses, and what it leaves alone
 

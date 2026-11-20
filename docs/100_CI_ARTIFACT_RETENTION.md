@@ -52,7 +52,7 @@ Every QA step still runs, on every run, with the same command and run condition.
   - `rewritten-identical` (the suite wrote the same bytes as the committed copy, which is common for deterministic results);
   - `untouched-committed-copy`.
 
-  Several results files and four screenshot folders are tracked in git, so an untouched file means its suite did not write it. Rewritten is told from untouched by the file's modified time against the checkout.
+  Several results files are tracked in git, so an untouched file means its suite did not write it. (Four screenshot folders were also tracked until section 10 removed them.) Rewritten is told from untouched by the file's modified time against the checkout.
 - the outcome of every QA step.
 
 On a failed run, it copies the failed suites' PNGs, and nothing else, into `qa-failure-screenshots/` for upload. The same tables appear on the run's summary page.
@@ -235,3 +235,17 @@ No test changed. Every suite still runs locally for free, as before. The policy 
 **Not affected:**
 - Git pushes (commits, art, storyboard data): repository storage is separate from Actions.
 - The public repositories (CYOA-storyboard, Trans-plant), whose Actions minutes and storage are free. The storyboard's Pages upload succeeded at 21:09 UTC while CYOA's uploads were being refused.
+
+## 10. QA screenshots are no longer committed (2026-11-19)
+
+**Why:** four older suites committed their screenshots: `game/qa/screenshots`, `game/qa/story_screenshots`, `tools/layout-lab/qa/screenshots` and `tools/m2-reception-polish-lab/qa/screenshots` (82 PNGs, about 120 MB).
+- Every run rewrites them with slightly different pixels, so each re-commit added a full new copy to the repository history. About 530 MB of `game/qa` history is these PNGs.
+- No test reads a committed copy. Every suite writes its screenshots fresh (`mkdirSync` on its own folder) and compares only screenshots taken in the same run.
+- CI already keeps screenshots as 1-day artifacts (sections 3–4). The newer suites never committed theirs.
+
+**The change:**
+- The four folders are removed from git.
+- `.gitignore` covers `game/qa/*screenshots/` and `tools/*/qa/screenshots/`.
+- No test or workflow changed. `tools/ci/qa-artifact-index.js` reports a missing folder as empty and marks every PNG present after a run as `written-this-run`.
+
+**Older docs:** docs/57–64 and `tools/layout-lab/FIT_AND_SCALE_NOTES.md` name screenshots as evidence of their pass. They are dated records and stay as written. Running the suite reproduces the current version, and the commit each doc names still holds the image as it was then.
