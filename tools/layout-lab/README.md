@@ -78,7 +78,7 @@ Size the window to at least 1920×1080, choose **1:1**, then **Clean Review**. C
 | `scripts/build_lab_data.py` | Rebuilds `data/lab_data.js`. Run it after editing any JSON above. |
 | `qa/run_qa.js`, `qa/qa_results.json` | Playwright QA and its last results |
 | `qa/fixtures/placement.qa_baseline.json` | A fixed layout the behaviour checks run against, so they do not break when the owner changes the defaults. The real defaults get their own checks. |
-| `qa/screenshots/` | 1920×1080 examples, including `10_live_tuning_panel_in_use.png` |
+| `qa/screenshots/` | 1920×1080 examples, including `10_live_tuning_panel_in_use.png`, written by `qa/run_qa.js`. Not committed. |
 | `FIT_AND_SCALE_NOTES.md` | Shell measurements and scaling notes |
 
 ## Run QA
