@@ -47,6 +47,12 @@ This is a design record, **not** confirmation that runtime menu code or art asse
 - **Visible game title:** *Out of Order* throughout active menus, tabs, README and storyboards. Title-only rollout and the browser-title QA assertion correction are handled separately from this art intake.
 - **Compatibility/provenance:** `cyoa-*` schemas, JavaScript globals, persistence keys, original artwork-generation prompts and immutable `sourceRepo` records remain unchanged. These are not the public-facing title.
 
+## Branding rollout verified (2026-11-20)
+
+- Private game repository: [`InterstellarHarvest/out-of-order`](https://github.com/InterstellarHarvest/out-of-order), renamed from `CYOA`. Title/link/test updates merged through [PR #19](https://github.com/InterstellarHarvest/out-of-order/pull/19), production `main` **`9a0ca4a502216ce11b956bac15d0e61750e86904`**. Both pull-request QA jobs (`content`, `browsers`) passed before merge, including the corrected reception-title assertion.
+- Public storyboard repository: intentionally remains [`InterstellarHarvest/CYOA-storyboard`](https://github.com/InterstellarHarvest/CYOA-storyboard). Visible title/docs/art-lab updates merged via [PR #11](https://github.com/InterstellarHarvest/CYOA-storyboard/pull/11); shared future-art direction updated via [PR #12](https://github.com/InterstellarHarvest/CYOA-storyboard/pull/12), `main` **`d4bae261c93c0b7cd8617aaf0a1e054526df0c0d`**. Public Pages deployment passed at the unchanged [`CYOA-storyboard` URL](https://interstellarharvest.github.io/CYOA-storyboard/); live viewer and art-lab headings were verified as *Out of Order*.
+- **Menu art remains review-only** at `art/ui/main_menu/` on this branch. The game production `main` does not contain that directory. Engine integration, sound, and production-menu startup are deferred.
+
 ## Exclusions and safety
 
 No gameplay logic, story canon, Chapter 3 artwork, existing sprite bytes, saved-game data, or production `main` branch is changed by this checkpoint. The approved menu art is newly attached byte-exactly on the review branch. The private game repository was renamed; the public storyboard repository and Pages URL remain deliberately unchanged.
