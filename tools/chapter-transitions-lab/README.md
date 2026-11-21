@@ -1,4 +1,6 @@
-# Out of Order — Chapter Transition Lab (review 01)
+# Out of Order — Chapter Transition Lab (review archive)
+
+> **Selected direction (Nate, 2026-11-21):** Form 27B-6 **Register of Progress**, a pixel-art continuous-paper printer transition. The complete printer study is archived in [print/](print/README.md) with sprites, timings and isolated playback. This supersedes A/B/C as the direction for future integration, but this branch and PR remain review-only and unmerged.
 
 This is an **isolated, visual-only study** of three chapter-transition concepts:
 
@@ -46,11 +48,11 @@ Observed in InterstellarHarvest/out-of-order main at 9a0ca4a502216ce11b956bac15d
 5. For loading a save, use direct restore; for death, RETRY remains short, CHECKPOINT may later receive a reduced introduction only with approval, EXIT eventually uses the main menu.
 6. Add QA for every boundary, multiple routes, rapid activation, skip, reduced motion, keyboard and pointer, viewport scaling and save/load compatibility.
 
-## Review state
+## Historical A/B/C review state (superseded by printer study)
 
-**Prototype / owner decision pending.** None of the three is approved for integration. No gameplay merge is authorized by this project. Compare A/B/C at 2.5 seconds, then try shorter repeated-play timings before choosing.
+**Earlier prototype / owner decision pending.** None of the three is approved for integration. No gameplay merge is authorized by this project. Compare A/B/C at 2.5 seconds, then try shorter repeated-play timings before choosing.
 
-My current recommendation is **C, the Hybrid**: shutters offer a clear handover from one scene to another, while the file/stamp supplies the game's distinctive bureaucratic identity. A is calmer and visually restrained; B is quickest to understand and simplest to implement.
+The earlier recommendation was **C, the Hybrid**: shutters offer a clear handover from one scene to another, while the file/stamp supplies the game's distinctive bureaucratic identity. A is calmer and visually restrained; B is quickest to understand and simplest to implement.
 
 ## Owner review build
 
