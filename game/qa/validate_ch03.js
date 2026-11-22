@@ -2,10 +2,12 @@
 // Chapter 3 (The People's Pavilion, approved reboot) gameplay integration (docs/104). Node only.
 //
 //   1. intake      the 29 approved images: byte-identical to the approved SHA-256 (public storyboard registry
-//                  at main 43fe258, incl. the current A04/A05 v04 replacements), git blob and provenance;
+//                  at main 622ad87, incl. the current A04/A05 v04 replacements and Paper Emergency v04), git blob
+//                  and provenance;
 //                  native contract size; scenes and backgrounds fully opaque; poses 564x278 with binary alpha
-//   2. registry    each at exactly its production path in story/artwork.draft.json, status still approved
-//                  (integrated only at the normal reconciliation step)
+//   2. registry    each canonical record still approved with assetPath null (production paths and integrated
+//                  only at the separate reconciliation step), bound by the game's pending binding to its own
+//                  suggestedFilename with the current approved SHA-256 its notes name first
 //   3. narrative   chapter-03 is the locked approved narrative (source sha256 of blob 857ffdf), projected
 //                  unchanged into the runtime: every node, text, choice, check, SHOW / USE and ending
 //   4. bindings    every Chapter 3 scene, conversation background and pose resolves to its pinned file
@@ -47,8 +49,9 @@ const ART = J('story/artwork.draft.json');
 const LOCK = J('story/canon.lock.json');
 const CH3 = story.chapters['chapter-03'];
 
-// The approved selections (public storyboard story/artwork-preview.json at main 43fe258; docs/103,
-// docs/113, docs/119 (A04/A05 v04 current) and docs/122). Never edit to make a test pass.
+// The approved selections (public storyboard story/artwork-preview.json at main 622ad87; docs/103,
+// docs/113, docs/119 (A04/A05 v04 current), docs/122 and the 2026-11-22 Paper Emergency v04 addendum).
+// Never edit to make a test pass.
 const APPROVED = {
   'scenes:pavilion_reboot/arrival': '37d0b189fda18ad6659b0fae1f214145acd4ec67595c5e5a520917d6a7cbd478',
   'scenes:pavilion_reboot/backstage': 'aa90896023a59454887e9b3bd5b1745cb8b95a5d9737829119abddd9176f4889',
@@ -57,7 +60,7 @@ const APPROVED = {
   'scenes:pavilion_reboot/exterior_exit': '76b3232f685fd392f981f0c846382e3ddccd61ed94d44e09ea1bc5cf032c3e8a',
   'scenes:pavilion_reboot/human_verification_stage': '8df7e5dd2fffb17449fd43f4d9e7df167d75347efc53b0bde1771fd6d8d001ca',
   'scenes:pavilion_reboot/locomotion_stage': 'be99d790754951bcbcd1c26b94a94ff4e84280f5385735951b0f024b322e13c5',
-  'scenes:pavilion_reboot/paper_emergency': 'ac0f7c44d267dd54897507ae3b8b02959a5b76f4fcd9d0418b77b8fdb777ba7e',
+  'scenes:pavilion_reboot/paper_emergency': '93a48082124600b1afeb45e5ea54856bf253e858e55111295e9d9c26919bc978',
   'scenes:pavilion_reboot/record_printer': '1f80f8f17359c07fd24c74741be72bfa6ad941da67bb1622931e3b429bb0a722',
   'scenes:pavilion_reboot/record_scanner': '4afe7d0b1898c1e29443d45aba20614b14951bbf91c40e9508a62dc607fcd1b3',
   'scenes:pavilion_reboot/restroom_entrance': '117dd9d00b6c9d32b4b153f71aaf51c2546ade70b803d45a748728f8d1a1f8b4',
@@ -80,8 +83,10 @@ const APPROVED = {
   'portraits:pavilion_presenter:idle': 'da33e42a723c8f1a5fe82a2ecaa5cd1e22281caa3ee4abc26db8e81569cd6784',
   'portraits:pavilion_presenter:relieved': '29a349c7bcdfe32d2885709dc91977beb7e3869d2461913cfd89afdacebbda9b'
 };
-// The superseded A04/A05 selections (docs/119): must never be installed.
-const SUPERSEDED = ['9207bfdc140dd115783adba2f042ce756d51a288c053a3113f9a46f479e6e3c5', 'beb64cc6e9c3c0dc48f6dbe341e98762556b8e9ef4261fe132c8093c5e63b382'];
+// Superseded approved selections: must never be installed. A04/A05 (docs/119) and Paper Emergency v03
+// (ac0f7c44, superseded by Nate's v04 on 2026-11-22; storyboard PR #18).
+const SUPERSEDED = ['9207bfdc140dd115783adba2f042ce756d51a288c053a3113f9a46f479e6e3c5', 'beb64cc6e9c3c0dc48f6dbe341e98762556b8e9ef4261fe132c8093c5e63b382',
+  'ac0f7c44d267dd54897507ae3b8b02959a5b76f4fcd9d0418b77b8fdb777ba7e'];
 // The locked approved narrative (docs/111): blob 857ffdf1bc94 of story/chapters/chapter-03.reboot-candidate.json.
 const NARRATIVE_SHA256 = '36ae178d05a9db7dd318c441e4d8681eaa674c28ced81df97dcaba6c1c5c0253';
 
@@ -132,6 +137,12 @@ for (const [key, want] of Object.entries(APPROVED)) {
   if (kind === 'pose') check('intake', r.path + ': separate 564x278 RGBA layer with binary alpha (0/255 only)', png.w === 564 && png.h === 278 && png.ct === 6 && JSON.stringify(png.alpha) === '[0,255]', png);
 }
 // A04/A05: the current v04 continuity replacements.
+check('intake', 'Paper Emergency is Nate\'s approved v04 (93a48082, source d1600a3), not the superseded v03 (ac0f7c44, recorded as superseded)',
+  (() => { const r = byKey.get('scenes:pavilion_reboot/paper_emergency'); return r.sha256 === '93a48082124600b1afeb45e5ea54856bf253e858e55111295e9d9c26919bc978'
+    && r.source.commit === 'd1600a34a58497b4886518c6aa9feeaa205d8426' && /CH3-B06-paper-emergency-local-v04\.png$/.test(r.source.path)
+    && r.supersedes && r.supersedes.sha256 === 'ac0f7c44d267dd54897507ae3b8b02959a5b76f4fcd9d0418b77b8fdb777ba7e'; })());
+check('intake', 'no installed Chapter 3 image is a superseded selection (A04/A05 earlier versions, Paper Emergency v03)',
+  PROV.images.every((r) => fs.existsSync(path.join(ROOT, r.path)) && !SUPERSEDED.includes(sha256(fs.readFileSync(path.join(ROOT, r.path))))));
 check('intake', 'A04/A05 are the current v04 replacements, not their superseded versions',
   byKey.get('scenes:pavilion_reboot/human_verification_stage').source.commit === '7bf1f426f3a1d5dba14e7a1bd56ece86a4d23bdb'
   && /CH3-A04-verification-continuity-v04\.png$/.test(byKey.get('scenes:pavilion_reboot/human_verification_stage').source.path)
@@ -143,11 +154,23 @@ function record(key) {
   if (g === 'scenes') { const [id, v] = rest.split('#'); return v ? ART.scenes[id] && ART.scenes[id][v] : ART.scenes[id]; }
   return ART.portraits[rest];
 }
-for (const key of Object.keys(APPROVED)) {
-  const rec = record(key), r = byKey.get(key);
-  check('registry', key + ': registered at its production path ' + (r && r.path) + ', status still approved (not prematurely integrated)',
-    rec && r && rec.status === 'approved' && rec.assetPath === r.path && rec.assetPath === rec.suggestedFilename && /^art\/(scenes|portraits)\/pavilion_reboot\//.test(rec.assetPath), rec && { status: rec.status, assetPath: rec.assetPath });
+// Production paths stay null on the storyboard until the separate integration-status reconciliation; the
+// game binds each approved record to its own suggestedFilename (story/runtime-settings.json pendingArtBindings).
+const SETTINGS = J('story/runtime-settings.json');
+check('registry', 'story/runtime-settings.json binds exactly this provenance file, pending integration',
+  JSON.stringify(SETTINGS.pendingArtBindings) === JSON.stringify(['art/pavilion_reboot.provenance.json']) && /PENDING INTEGRATION/.test(PROV.binding || ''), SETTINGS.pendingArtBindings);
+const firstSha = (rec) => { const m = /SHA-256[^0-9a-f]{0,3}([0-9a-f]{64})/.exec(String(rec.notes || '')); return m && m[1]; };
+const builtArt = new Map(build.art.map((a) => [a.path, a]));
+for (const [key, want] of Object.entries(APPROVED)) {
+  const rec = record(key), r = byKey.get(key), b = r && builtArt.get(r.path);
+  check('registry', key + ': canonical record approved with assetPath null (not integrated, no production path yet); bound to its suggestedFilename ' + (r && r.path) + ' with the approved SHA-256 its notes name first',
+    rec && r && rec.status === 'approved' && rec.assetPath === null && rec.suggestedFilename === r.path && /^art\/(scenes|portraits)\/pavilion_reboot\//.test(r.path)
+    && firstSha(rec) === want && b && b.sha256 === want && b.binding === 'art/pavilion_reboot.provenance.json',
+    rec && { status: rec.status, assetPath: rec.assetPath, firstSha: firstSha(rec), built: b });
 }
+check('registry', 'the canonical Paper Emergency record names v04 first and keeps v03 only as history',
+  (() => { const n = String(record('scenes:pavilion_reboot/paper_emergency').notes); return firstSha(record('scenes:pavilion_reboot/paper_emergency')) === APPROVED['scenes:pavilion_reboot/paper_emergency']
+    && /HISTORICAL V03 APPROVAL/.test(n) && n.indexOf('ac0f7c44') > n.indexOf('93a48082'); })());
 
 // 3. Narrative fidelity ----------------------------------------------------------------------------
 const lockEntry = LOCK.files['story/chapters/chapter-03.reboot-candidate.json'];
@@ -279,7 +302,6 @@ const photoRun = runs.find((x) => x.r.name === 'photo');
 check('items', 'SHOW the family photo returns it (retained after Chapter 3)', photoRun && photoRun.f.end.inventory.includes('family_portrait_photo'));
 const stRun = runs.find((x) => x.r.name === 'stapler'), stRun2 = runs.find((x) => x.r.name === 'key_stapler');
 check('items', 'USE red_stapler consumes it exactly once and leads backstage', stRun && !stRun.f.end.inventory.includes('red_stapler') && stRun.f.end.node === 'backstage_exit' && stRun2 && !stRun2.f.end.inventory.includes('red_stapler'));
-
 // 6. Coverage ----------------------------------------------------------------------------------------
 const allNodes = Object.keys(CH3.nodes);
 check('coverage', 'every Chapter 3 node is reached on a real route (' + visited.size + '/34)', allNodes.every((n) => visited.has(n)), allNodes.filter((n) => !visited.has(n)));
