@@ -76,6 +76,33 @@ ROUTES.push({ name: 'clicker_spent_leap_raw3_fails', branch: 'leap_fail', key: f
   checks: { ch3_locomotion_leap: false }, rolls: { ch3_locomotion_leap: 3 }, bonus: { ch3_locomotion_leap: 0 }, end: 'locomotion_fail', takes: [] });
 ROUTES.push({ name: 'stapler_spent_record', branch: 'scan', key: false, entry: 'stapler_spent', steps: OPEN.concat(B(false), BRANCHES.scan.steps), checks: {}, end: 'backstage_exit', takes: [], noUse: 'red_stapler' });
 
+// The fullest inventory a player can carry into Chapter 3: NINE items, three more than the six visible slots.
+// The engine's exhaustive walk (262k states) reaches Chapter 3 with up to 9 items (25,917 states hold 7+); this is
+// one such real playthrough from a fresh game: no dice check on the way, any seed (seed '1' recorded). Prologue
+// keeps the clicker; the House returns the photo; Biology Park traces the tower requests, carries the seeds and
+// takes the customs kit. Its CONTINUE enters Chapter 3 holding all nine.
+const FULL_PACK = {
+  seed: '1',
+  steps: ['head_to_restroom', 'drone_show_form', 'sign_notice', 'signed_move_on', 'go_to_exit', 'take_box_and_leave', { item: 'effects_box_full', verb: 'inspect' },
+    'enter_exposition', 'pass_turnstile', 'keep_one', 'keep_clicker', 'continue_to_reception_kept_one', 'speak_to_receptionist', 'ask_for_restroom', 'wait_for_assistance',
+    'reject_examiner', 'move_on_disputed', 'leave_reception', 'continue_to_chapter_01',
+    'enter_show_home', 'hear_house_greeting', 'permit_housekeeping', 'ask_for_bathroom_after_storage', 'recover_belongings_now', 'take_back_house_item', 'return_from_cabinet',
+    'accept_refreshments', 'join_dinner_after_refreshments', 'interrupt_family_dinner', 'after_dinner_no_plant', 'attend_photo_session', 'continue_to_bathroom',
+    'use_bathroom_at_last', 'accept_completed_demonstration', 'leave_during_reset', 'continue_to_chapter_02_exit_showroom_reset',
+    'inspect_closed_conveniences', 'see_groundskeeper', 'react_to_gardener', 'examine_landscape_performance', 'accept_instant_vegetation_promotion', 'open_formal_park_gate',
+    'enter_authorized_jungle', 'head_to_tower', 'inspect_tower_approvals', 'trace_original_requests', 'follow_trace_to_flower', 'read_flower_district_decree',
+    'accept_seed_courier', 'carry_seeds_to_customs', 'carry_sealed_seeds_out', 'open_customs_aid', 'close_customs_kit_and_take', 'leave_cargo_checkpoint'],
+  end: 'end_customs',
+  inventory: ['termination_notice', 'property_claim_ticket', 'expo_examiner_badge', 'wc_key', 'timing_clicker', 'family_portrait_photo', 'acting_director_badge',
+    'certified_seed_canister', 'botanical_antidote_customs']
+};
+// Plays FULL_PACK to its Chapter 2 living ending (the state a save holds there).
+function fullPackEnd(story) {
+  let s = Rules.begin(story, { seed: FULL_PACK.seed }).state;
+  for (const st of FULL_PACK.steps) s = Rules.step(story, s, typeof st === 'string' ? { choice: st } : st).state;
+  return s;
+}
+
 const ENDINGS = ['backstage_exit', 'locomotion_fail', 'presenter_help_end', 'paper_problem_end', 'attendant_honest_end', 'door_dash_fail', 'door_reverse_end'];
 
 // The Chapter 2 living ending's own CONTINUE card into Chapter 3.
@@ -112,4 +139,4 @@ function findSeed(story, route, maxSeed) {
   return null;
 }
 
-module.exports = { R, Rules, ENTRIES, ARRIVAL, OPEN, KEY, BRANCHES, ROUTES, ENDINGS, enterChapter3, chapter2End, findSeed };
+module.exports = { R, Rules, ENTRIES, ARRIVAL, OPEN, KEY, BRANCHES, ROUTES, ENDINGS, FULL_PACK, fullPackEnd, enterChapter3, chapter2End, findSeed };

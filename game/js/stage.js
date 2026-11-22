@@ -470,6 +470,10 @@
       y += t.lineHeight;
       n++;
     }
+    // An incidental voice's NAME: label (docs/104 section 4) is never stranded as the last line of the panel
+    // with its words below it: it moves down with them. Only incidental-voice labels carry `voice`, so no
+    // Prologue-Chapter 2 view changes.
+    if (i < lines.length && n > 1 && lines[start + n - 1].role === 'labels' && lines[start + n - 1].voice) n--;
     return i >= lines.length ? n : Math.max(1, n);
   }
 
@@ -626,6 +630,7 @@
     place(els.speechCanvas, 0, 0, t.width, t.height);
     els.speech.dataset.lines = s.lines.length;
     els.speech.dataset.scroll = s.scrollLine;
+    els.speech.dataset.view = view;
     els.speech.dataset.typing = s.typing ? 'true' : 'false';
     els.speech.setAttribute('aria-label', s.parts.length ? s.parts[s.parts.length - 1].text : 'Dialogue');
 

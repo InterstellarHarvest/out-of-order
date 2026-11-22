@@ -302,6 +302,20 @@ const photoRun = runs.find((x) => x.r.name === 'photo');
 check('items', 'SHOW the family photo returns it (retained after Chapter 3)', photoRun && photoRun.f.end.inventory.includes('family_portrait_photo'));
 const stRun = runs.find((x) => x.r.name === 'stapler'), stRun2 = runs.find((x) => x.r.name === 'key_stapler');
 check('items', 'USE red_stapler consumes it exactly once and leads backstage', stRun && !stRun.f.end.inventory.includes('red_stapler') && stRun.f.end.node === 'backstage_exit' && stRun2 && !stRun2.f.end.inventory.includes('red_stapler'));
+// Six VISIBLE slots, never a six-item capacity: the fullest real inventory (9) crosses into Chapter 3 whole.
+const pack2 = C.fullPackEnd(story), pack3 = C.enterChapter3(story, pack2);
+check('items', 'a real playthrough reaches the Chapter 2 customs ending holding 9 items (no capacity limit; six slots are only what is visible)',
+  pack2.chapter === 'chapter-02' && pack2.node === C.FULL_PACK.end && JSON.stringify(pack2.inventory) === JSON.stringify(C.FULL_PACK.inventory), pack2.inventory);
+check('items', 'all 9 items cross into Chapter 3 (public-concourse arrival), in order', pack3.chapter === 'chapter-03' && pack3.node === 'pavilion_arrival'
+  && JSON.stringify(pack3.inventory) === JSON.stringify(C.FULL_PACK.inventory) && C.ARRIVAL.public_concourse.test(pack3.transcript.slice(-4).map((e) => (e.runs || []).map((r) => r.text).join(' ')).join(' ')), pack3.inventory);
+{
+  let s = pack3; const inspected = [];
+  for (const id of s.inventory) { s = Rules.step(story, s, { item: id, verb: 'inspect' }).state; if ((s.items[id] || []).includes('inspected')) inspected.push(id); }
+  check('items', 'every one of the 9 items, including the 7th-9th beyond the visible six, can be inspected in Chapter 3', inspected.length === 9, inspected);
+  let k = pack3; for (const st of C.OPEN.concat(C.KEY, C.BRANCHES.photo.via(true), C.BRANCHES.photo.steps)) k = Rules.step(story, k, typeof st === 'string' ? { choice: st } : st).state;
+  check('items', 'with 9 items: SHOW the key and SHOW the photo work and the route ends backstage still holding all 9', k.node === 'backstage_exit' && JSON.stringify(k.inventory) === JSON.stringify(C.FULL_PACK.inventory), { node: k.node, inv: k.inventory });
+}
+
 // 6. Coverage ----------------------------------------------------------------------------------------
 const allNodes = Object.keys(CH3.nodes);
 check('coverage', 'every Chapter 3 node is reached on a real route (' + visited.size + '/34)', allNodes.every((n) => visited.has(n)), allNodes.filter((n) => !visited.has(n)));

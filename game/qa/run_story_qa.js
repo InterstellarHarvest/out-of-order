@@ -390,6 +390,9 @@ async function suite(name, base) {
   // A dice-free Chapter 3 route to a surviving ending: the zero-second visit.
   for (const choice of ['approach_real_restroom', 'approach_pavilion_attendant', 'ask_attendant_for_restroom', 'try_unapproved_restroom_entry',
     'respond_to_open_door', 'back_into_restroom_exit']) await take(page, choice);
+  // The ending passage is longer than the panel: its presentation CONTINUE comes first (Narrative B paging),
+  // then the ending's own card.
+  await settle(page, true);
   s = await info(page);
   check(b, 'Chapter 3 surviving ending (NEW FACILITY RECORD): BEGIN AGAIN only, no death popup', s.node === 'chapter-03:door_reverse_end' && s.cards.length === 1 && s.cards[0].kind === 'system'
     && !(await page.evaluate(() => document.body.dataset.endPresentation)), s);

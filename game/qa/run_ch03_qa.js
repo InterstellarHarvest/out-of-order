@@ -16,6 +16,11 @@
 //   reload   a mid-Chapter-3 conversation survives a reload (node, art, history with labels)
 //   restart  BEGIN AGAIN starts a new playthrough at the Prologue
 //   items    missing-item behaviour in the inventory (no photo slot, no SHOW where none is authored)
+//   inventory_9   a real playthrough carrying NINE items into Chapter 3 (ch03_routes.js FULL_PACK): six VISIBLE
+//            slots with arrow scrolling (never a six-item capacity), the 9th item reachable and inspectable,
+//            reload, SHOW key + photo still work
+//   voice_labels  at every scroll position of every incidental-voice passage, no NAME: label is stranded as
+//            the last line of the dialogue panel with its words below it
 //   NODE_PATH=<playwright install> node game/qa/run_ch03_qa.js
 // Writes game/qa/ch03_qa_results.json and game/qa/ch03_screenshots/ (not committed).
 'use strict';
@@ -287,6 +292,78 @@ async function run(b, base) {
     const w = await page.evaluate(() => ({ slots: Array.from(document.querySelectorAll('[data-item]')).map((n) => n.dataset.item), cards: window.CYOA_GAME.ui.cards.map((c) => c.id), items: window.CYOA_GAME.flow.view().items }));
     Ck('stapler spent in Chapter 2: no stapler slot, no USE; the three record choices remain', !w.slots.includes('red_stapler') && w.items.every((i) => !i.use) && w.cards.length === 3, w);
   });
+  // 6. Nine items in the six VISIBLE slots (never a six-item capacity) --------------------------------------
+  // C.FULL_PACK: a real playthrough that enters Chapter 3 holding nine items (the engine's maximum here).
+  await scenario('inventory_9', async ({ page, C: Ck, shot }) => {
+    const inv9 = C.FULL_PACK.inventory;
+    const strip = () => page.evaluate(() => {
+      const G = window.CYOA_GAME;
+      const shown = Array.from(document.querySelectorAll('[data-item]')).filter((n) => n.dataset.item && getComputedStyle(n).display !== 'none' && n.getClientRects().length)
+        .map((n) => ({ index: Number(n.dataset.index), item: n.dataset.item })).sort((a, b) => a.index - b.index);
+      return { start: G.ui.inv.start, inv: G.state.inventory.slice(), shown, busy: G.inventoryBusy(performance.now()) };
+    });
+    const settleStrip = () => page.waitForFunction(() => !window.CYOA_GAME.inventoryBusy(performance.now()), null, { timeout: 10000 });
+    await load(page, base, save(C.fullPackEnd(story)));
+    await take(page, 'continue_to_chapter_03_end_customs');
+    let st = await strip();
+    Ck('a real playthrough enters Chapter 3 holding all 9 items (more than the six visible slots; nothing dropped or refused)', JSON.stringify(st.inv) === JSON.stringify(inv9), st.inv);
+    Ck('exactly six slots are visible, showing items 1-6 in order; items 7-9 are held but scrolled out of view', st.start === 0 && st.shown.length === 6
+      && JSON.stringify(st.shown.map((x) => x.item)) === JSON.stringify(inv9.slice(0, 6)), st.shown);
+    const seenItems = new Set(st.shown.map((x) => x.item));
+    for (let k = 0; k < 6; k++) { await page.click('#inv-right'); await settleStrip(); (await strip()).shown.forEach((x) => seenItems.add(x.item)); }
+    st = await strip();
+    Ck('the right arrow scrolls the strip to its end: still six visible, now items 4-9 (the 9th fully reachable)', st.start === 3 && st.shown.length === 6
+      && JSON.stringify(st.shown.map((x) => x.item)) === JSON.stringify(inv9.slice(3)), st);
+    Ck('scrolling shows every one of the 9 held items', inv9.every((i) => seenItems.has(i)), [...seenItems]);
+    await shot('scrolled_to_ninth');
+    await page.click('[data-item="botanical_antidote_customs"]');
+    await page.waitForFunction(() => { const G = window.CYOA_GAME; return G.ui.inspector && G.ui.inspector.id === 'botanical_antidote_customs'; }, null, { timeout: 10000 });
+    Ck('clicking the 9th item\'s slot opens it in the inspector', true);
+    await page.evaluate(() => window.CYOA_GAME.flow.toggleInspect('botanical_antidote_customs'));
+    for (let k = 0; k < 6; k++) { await page.click('#inv-left'); await settleStrip(); }
+    st = await strip();
+    Ck('the left arrow returns to items 1-6', st.start === 0 && JSON.stringify(st.shown.map((x) => x.item)) === JSON.stringify(inv9.slice(0, 6)), st);
+    await page.reload();
+    await page.waitForFunction(() => document.body.dataset.ready === 'true', null, { timeout: 30000 });
+    await settle(page);
+    st = await strip();
+    Ck('a reload keeps all 9 items and the six-slot view', JSON.stringify(st.inv) === JSON.stringify(inv9) && st.shown.length === 6, st);
+    for (const s of C.OPEN.concat(C.KEY, C.BRANCHES.photo.via(true), C.BRANCHES.photo.steps)) await take(page, s);
+    st = await strip();
+    const end = await page.evaluate(() => ({ node: window.CYOA_GAME.state.node, cards: window.CYOA_GAME.ui.cards.map((c) => c.kind) }));
+    Ck('with 9 items held, SHOW the key and SHOW the photo through the inspector reach backstage_exit (BEGIN AGAIN) still holding all 9',
+      end.node === 'backstage_exit' && end.cards.join() === 'system' && JSON.stringify(st.inv) === JSON.stringify(inv9), { end, inv: st.inv });
+  });
+
+  // 7. Incidental-voice labels are never stranded at the bottom of the dialogue panel -------------------------
+  // Every Chapter 3 node with an incidental voice; at EVERY scroll position the last visible line is never a
+  // NAME: label whose words are below the panel (the label moves down with its line).
+  await scenario('voice_labels', async ({ page, C: Ck, shot }) => {
+    for (const [route, node] of [['urgency', 'authentic_urgency_visitor'], ['scan', 'record_scanner'], ['hold', 'door_choices'], ['hold', 'door_courtesy']]) {
+      const s = at(route, node);
+      if (!s) { Ck(node + ' reached on the real ' + route + ' route', false); continue; }
+      await load(page, base, save(s));
+      const r = await page.evaluate(() => {
+        const G = window.CYOA_GAME, el = document.getElementById('speechText'), lines = G.ui.speech.lines, max = G.speechMaxScroll(), out = { lines: lines.length, max, labels: 0, stranded: [], moved: 0, views: [] };
+        lines.forEach((l) => { if (l.role === 'labels' && l.voice) out.labels++; });
+        for (let i = 0; i <= max; i++) {
+          G.setSpeechScroll(i);
+          const top = Number(el.dataset.scroll), view = Number(el.dataset.view), last = lines[top + view - 1], next = lines[top + view];
+          out.views.push(view);
+          if (last && last.role === 'labels' && last.voice && top + view < lines.length) out.stranded.push(top + ':' + last.text);
+          if (next && next.role === 'labels' && next.voice) out.moved++;
+        }
+        G.setSpeechScroll(max);
+        return out;
+      });
+      Ck(node + ': at all ' + (r.max + 1) + ' scroll positions no incidental-voice label is stranded at the bottom of the panel (' + r.labels + ' labels)', r.labels > 0 && !r.stranded.length, r);
+      if (node === 'door_choices') {
+        Ck('door_choices: the rule is exercised (a label that would have ended the panel moves down with its words)', r.moved > 0, r);
+        await shot('door_choices_scroll_end');
+      }
+    }
+  });
+
   await context.close();
   await browser.close();
 }
