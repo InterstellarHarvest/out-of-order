@@ -30,5 +30,8 @@
     "restroom_system": {
       "name": "RESTROOM SYSTEM"
     }
-  }
+  },
+  "pendingArtBindings": [
+    "art/pavilion_reboot.provenance.json"
+  ]
 }

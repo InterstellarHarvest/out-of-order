@@ -476,6 +476,62 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
     && ['x', 'y', 'width', 'lineHeight', 'safeBottom'].every((k) => typeof ov.textBox[k] === 'number'), [sha, ov]);
 })();
 
+// 5b. Pending-integration art bindings (docs/104 section 3) ------------------------------------------
+// The 29 Pavilion records stay `approved` with a null canonical assetPath until the integration-status
+// reconciliation; story/runtime-settings.json binds them to their suggestedFilename through
+// art/pavilion_reboot.provenance.json. Every way a binding could install the wrong bytes is refused.
+(function pendingBindings() {
+  const g = 'pending-binding';
+  const PE = 'pavilion_reboot/paper_emergency', V04 = '93a48082124600b1afeb45e5ea54856bf253e858e55111295e9d9c26919bc978';
+  const V03 = 'ac0f7c44d267dd54897507ae3b8b02959a5b76f4fcd9d0418b77b8fdb777ba7e', FAKE = 'f'.repeat(64);
+  const PROV = 'art/pavilion_reboot.provenance.json';
+  // A throwaway bindings root holding an edited copy of the provenance file (the repository is never touched).
+  const provRoot = (fn) => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cyoa-binding-'));
+    temps.push(dir);
+    const j = JSON.parse(fs.readFileSync(path.join(ROOT, PROV), 'utf8'));
+    fn(j);
+    fs.mkdirSync(path.join(dir, 'art'), { recursive: true });
+    fs.writeFileSync(path.join(dir, PROV), JSON.stringify(j, null, 2));
+    return dir;
+  };
+  const pe = (j) => j.images.find((i) => i.key === 'scenes:' + PE);
+  const run = (edits, opts) => { const t = copySource(STORY); (edits || []).forEach(([rel, fn]) => t.edit(rel, fn)); return build(Object.assign({ from: t.dir }, opts || {})); };
+  const refused = (name, b, re) => check(g, name, !b.ok && has(b.report.errors, re), b.report.errors.slice(0, 3));
+
+  const real = build();
+  const bound = real.meta.art.filter((a) => a.binding);
+  check(g, 'the real build binds exactly the 29 approved Pavilion images through ' + PROV + ', each at its approved SHA-256 (Paper Emergency v04)',
+    real.ok && bound.length === 29 && bound.every((a) => a.binding === PROV && a.status === 'approved') && bound.some((a) => a.path === 'art/scenes/pavilion_reboot/paper_emergency.png' && a.sha256 === V04),
+    bound.length);
+  refused('a binding to a superseded selection (Paper Emergency v03 hash) is refused: the record names v04 first',
+    run([], { bindingsRoot: provRoot((j) => { pe(j).sha256 = V03; }) }), /binding ac0f7c44.* is not the current approved selection its record names \(93a48082/);
+  refused('installed bytes that differ from the bound SHA-256 are refused (binding and record both name another hash)',
+    run([['artwork.draft.json', (j) => { j.scenes[PE].notes = j.scenes[PE].notes.replace(V04, FAKE); }]], { bindingsRoot: provRoot((j) => { pe(j).sha256 = FAKE; }) }),
+    /paper_emergency\.png is 93a48082.*not the approved f{64}/);
+  refused('a bound record that is not approved (generated) is refused',
+    run([['artwork.draft.json', (j) => { j.scenes[PE].status = 'generated'; }]]), /bound pending integration but its record is "generated"/);
+  refused('a bound record that is already integrated is refused (reconciled art drops its binding)',
+    run([['artwork.draft.json', (j) => { j.scenes[PE].status = 'integrated'; }]]), /bound pending integration but its record is "integrated"/);
+  refused('a binding for a record that already has a canonical assetPath is refused (remove the binding at reconciliation)',
+    run([['artwork.draft.json', (j) => { j.scenes[PE].assetPath = 'art/scenes/pavilion_reboot/paper_emergency.png'; }]]), /already has a canonical assetPath; remove its pending binding/);
+  refused('a binding no approved record uses is refused (nothing orphaned)',
+    run([], { bindingsRoot: provRoot((j) => { j.images.push(Object.assign({}, pe(j), { key: 'scenes:pavilion_reboot/nowhere', path: 'art/scenes/pavilion_reboot/nowhere.png' })); }) }),
+    /nowhere\.png \(scenes:pavilion_reboot\/nowhere\) is bound but no approved record of this build uses it/);
+  refused('an approved (promoted) build refuses pending bindings: it needs reconciled canonical art',
+    run([], { mode: 'approved' }), /bound pending integration .*an approved build needs reconciled canonical art/);
+  refused('pendingArtBindings may only name art/*.provenance.json files',
+    run([['runtime-settings.json', (j) => { j.pendingArtBindings = ['story/artwork.draft.json']; }]]), /pendingArtBindings must list art\/\*\.provenance\.json files/);
+  const nob = run([['runtime-settings.json', (j) => { delete j.pendingArtBindings; }]]);
+  check(g, 'without the binding the 29 Pavilion images are DEV PLACEHOLDERS (fixture profile): the binding is the only way they reach this build',
+    nob.ok && nob.story.profile === 'fixture' && nob.story.assets.scenes[PE] === null && has(nob.report.warnings, /pavilion_reboot\/paper_emergency has no assetPath yet/), nob.report.errors.slice(0, 3));
+  const t = copySource(STORY);
+  const out = path.join(t.dir, 'generated.js');
+  fs.writeFileSync(out, real.text);
+  const v = verify({ from: t.dir, out, bindingsRoot: provRoot((j) => { pe(j).bytes += 0; j.copied += ' '; }) });
+  check(g, 'editing the binding provenance file makes the committed build STALE (it is a build source)', !v.ok && /STALE/.test(v.why), v.why);
+})();
+
 // 6b. Prologue -> Chapter 1 hand-off: separate chapter files, and the player's whole state crosses ---
 (function handoff() {
   const g = 'handoff';

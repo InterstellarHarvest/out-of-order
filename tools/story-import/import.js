@@ -52,7 +52,7 @@ function pngSize(buf) {
 }
 
 // Reads the export folder: the manifest names every other file.
-function readSources(fromDir) {
+function readSources(fromDir, bindingsRoot) {
   const errors = [];
   const sources = []; // { path (repo-relative or absolute), bytes }
   const rel = (f) => (f.startsWith(ROOT + path.sep) ? path.relative(ROOT, f) : f).split(path.sep).join('/');
@@ -66,6 +66,12 @@ function readSources(fromDir) {
   let settingsFile = path.join(fromDir, 'runtime-settings.json');
   if (!fs.existsSync(settingsFile)) settingsFile = path.join(DEFAULT_FROM, 'runtime-settings.json');
   const settings = load(settingsFile, 'runtime-settings');
+  // Pending-integration art bindings (docs/104 section 3): game-owned provenance files, repo-relative.
+  const bindings = [];
+  if (settings && settings.pendingArtBindings !== undefined) {
+    if (!Array.isArray(settings.pendingArtBindings) || settings.pendingArtBindings.some((f) => typeof f !== 'string' || !/^art\/[a-z0-9_./-]+\.provenance\.json$/.test(f))) errors.push('runtime-settings: pendingArtBindings must list art/*.provenance.json files');
+    else settings.pendingArtBindings.forEach((f) => { const json = load(path.join(bindingsRoot || ROOT, f), 'pending art binding ' + f); if (json) bindings.push({ file: f, json }); });
+  }
   const chapters = {};
   let items = null;
   let artwork = null;
@@ -79,14 +85,14 @@ function readSources(fromDir) {
     else errors.push('manifest: artwork must name the artwork file');
   }
   sources.sort((a, b) => (a.path < b.path ? -1 : 1));
-  return { errors, sources, input: { manifest, settings, chapters, items, artwork } };
+  return { errors, sources, input: { manifest, settings, chapters, items, artwork, bindings } };
 }
 
 // The whole build, in memory: { ok, text, report }.
 function build(opts) {
   const o = Object.assign({ from: DEFAULT_FROM, mode: 'preview' }, opts || {});
   const report = { mode: o.mode, errors: [], warnings: [], info: [], draftStops: [], artPending: [], stats: null, art: [], contentHash: null, version: null };
-  const src = readSources(o.from);
+  const src = readSources(o.from, o.bindingsRoot); // bindingsRoot: tests only (a throwaway copy of art/*.provenance.json)
   report.errors.push(...src.errors);
   if (src.errors.length) return { ok: false, text: null, report };
 
@@ -149,6 +155,11 @@ function build(opts) {
       if (!size) report.errors.push(a.kind + ' ' + a.id + ': not a PNG: ' + a.path);
       else if (want && (size[0] !== want[0] || size[1] !== want[1])) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' is ' + size.join('x') + ', must be ' + want.join('x'));
       entry.sha256 = sha256(buf);
+      // A pending binding is only as good as its bytes: exactly the approved SHA-256 it names.
+      if (a.binding) {
+        entry.binding = a.binding.file;
+        if (entry.sha256 !== a.binding.sha256) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' is ' + entry.sha256 + ', not the approved ' + a.binding.sha256 + ' its pending binding names (' + a.binding.file + ')');
+      }
     }
     report.art.push(entry);
   });
@@ -198,7 +209,7 @@ function verify(opts) {
   if (!fs.existsSync(o.out)) return { ok: false, why: 'no generated file at ' + o.out };
   const current = fs.readFileSync(o.out, 'utf8');
   const m = /"channel": "(preview|approved)"/.exec(current);
-  const b = build({ from: o.from, mode: m ? m[1] : 'preview' });
+  const b = build({ from: o.from, mode: m ? m[1] : 'preview', bindingsRoot: o.bindingsRoot });
   if (!b.ok) return { ok: false, why: 'the sources do not build: ' + b.report.errors.slice(0, 3).join(' | '), report: b.report };
   if (b.text !== current) return { ok: false, why: 'STALE: ' + path.relative(ROOT, o.out) + ' does not match story/ (run node tools/story-import/import.js)', report: b.report };
   return { ok: true, why: 'up to date (' + b.meta.channel + ', content ' + b.meta.contentHash.slice(0, 12) + ')', report: b.report };

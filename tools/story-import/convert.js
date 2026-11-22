@@ -9,7 +9,7 @@
 //   chapters  { <id>: chapter JSON }            { title, start, scene, nodes: { id: NODE } }
 //   items     story/items.draft.json            { <id>: { name, description, read?, inspect?, slotArt?, inspectArt? } }
 //   artwork   story/artwork.draft.json          cyoa-storyboard-artwork-v1: { scenes, portraits, items, focus }
-//   settings  story/runtime-settings.json       cyoa-runtime-settings-v1: { story, save, cast: { id: { name } }, start?, initialState? }
+//   settings  story/runtime-settings.json       cyoa-runtime-settings-v1: { story, save, cast: { id: { name } }, start?, initialState?, pendingArtBindings? }
 //
 // What is NOT read: storyboard-layout.json (box positions in the authoring tool are not gameplay),
 // art prompts, notes and suggested filenames. The artwork registry is the ONE authority for art
@@ -34,7 +34,7 @@ const NODE_KEYS = ['mode', 'scene', 'speaker', 'pose', 'focus', 'scenePickup', '
 const CHOICE_KEYS = ['id', 'kind', 'text', 'say', 'if', 'effects', 'once', 'result', 'check', 'pass', 'fail', 'to', 'back', 'chapter', 'restart'];
 const ENTRY_KEYS = ['kind', 'say', 'if', 'effects', 'once', 'result', 'check', 'pass', 'fail', 'to', 'back', 'chapter'];
 const ITEM_KEYS = ['name', 'description', 'read', 'inspect', 'slotArt', 'inspectArt'];
-const SETTINGS_KEYS = ['schema', 'story', 'save', 'cast', 'start', 'initialState'];
+const SETTINGS_KEYS = ['schema', 'story', 'save', 'cast', 'start', 'initialState', 'pendingArtBindings'];
 // Authoring-only node annotations: reported, never imported.
 const AUTHORING_ONLY = ['notes', 'comment', 'position', 'layout'];
 // Artwork statuses (artwork.statusValues). Only these count as approved production art.
@@ -98,11 +98,39 @@ function convert(input, opts) {
   if (start !== undefined && chapterIds.indexOf(start) === -1) err('manifest', 'start chapter ' + start + ' is not listed');
 
   // Art lookups (the registry is the one authority) --------------------------------------------
-  const art = []; // every image the story uses: { kind, id, path, status }
+  const art = []; // every image the story uses: { kind, id, path, status, binding? }
   const artPending = [];
+  // Pending-integration bindings (docs/104 section 3): game-owned provenance files listed in
+  // runtime-settings.pendingArtBindings bind an APPROVED canonical record whose assetPath is still null
+  // (production paths stay null on the storyboard until the integration-status reconciliation) to its
+  // own suggestedFilename, with the exact approved SHA-256. import.js proves the file bytes.
+  const bound = new Map(); // path -> { file, key, sha256, used }
+  (input.bindings || []).forEach((b) => {
+    const w = 'pending art binding ' + b.file;
+    if (!obj(b.json) || b.json.schema !== 'cyoa-art-provenance-v1' || !Array.isArray(b.json.images)) return err(w, 'must be a cyoa-art-provenance-v1 file with images');
+    b.json.images.forEach((i, n) => {
+      if (!obj(i) || typeof i.key !== 'string' || typeof i.path !== 'string' || !/^[0-9a-f]{64}$/.test(i.sha256 || '')) return err(w, 'image ' + n + ' needs key, path and a 64-hex sha256');
+      if (bound.has(i.path)) return err(w, i.path + ' is bound twice');
+      bound.set(i.path, { file: b.file, key: i.key, sha256: i.sha256, used: false });
+    });
+  });
+  // The record's CURRENT approved selection is the first SHA-256 its canonical notes name (a superseded
+  // selection, e.g. Paper Emergency v03, is only ever named after it, as history).
+  const approvedSha = (rec) => { const m = /SHA-256[^0-9a-f]{0,3}([0-9a-f]{64})/.exec(String(rec.notes || '')); return m ? m[1] : null; };
   function artRecord(kind, id, rec, where) {
     if (!obj(rec)) { draft(where, 'no ' + kind + ' artwork record for ' + id + ' (missing required artwork; shown as a DEV PLACEHOLDER)'); return null; }
-    const path = rec.assetPath;
+    let path = rec.assetPath;
+    const b = typeof rec.suggestedFilename === 'string' ? bound.get(rec.suggestedFilename) : null;
+    if (b && path !== null && path !== undefined) { err(where, kind + ' ' + id + ' already has a canonical assetPath; remove its pending binding (' + b.file + ')'); b.used = true; }
+    else if (b) {
+      b.used = true;
+      if (mode === 'approved') { err(where, kind + ' ' + id + ' is bound pending integration (' + b.file + '); an approved build needs reconciled canonical art'); return null; }
+      if (rec.status !== 'approved') { err(where, kind + ' ' + id + ' is bound pending integration but its record is "' + rec.status + '" (only an approved, not yet integrated record may be bound)'); return null; }
+      if (approvedSha(rec) !== b.sha256) { err(where, kind + ' ' + id + ' binding ' + b.sha256 + ' is not the current approved selection its record names (' + approvedSha(rec) + ')'); return null; }
+      path = rec.suggestedFilename;
+      art.push({ kind, id, path, status: rec.status, binding: { file: b.file, key: b.key, sha256: b.sha256 } });
+      return path;
+    }
     if (path === null || path === undefined) { draft(where, kind + ' ' + id + ' has no assetPath yet (missing required artwork; DEV PLACEHOLDER)'); return null; }
     if (typeof path !== 'string' || !/^art\/[a-z0-9_./-]+\.png$/.test(path)) { err(where, kind + ' ' + id + ' assetPath must be a png under art/ (got ' + path + ')'); return null; }
     if (/(^|\/)(source|originals|review)\//.test(path)) { err(where, kind + ' ' + id + ' may not use source/, originals/ or review/ art: ' + path); return null; }
@@ -484,6 +512,8 @@ function convert(input, opts) {
   if (Object.keys(sceneStates).length) story.assets.sceneStates = sceneStates;
   if (marksSet.length) story.marks = marksSet.slice().sort();
   if (nullArt) warnings.push('story: some art is missing, so this build uses the fixture profile (labelled DEV PLACEHOLDERS)');
+  // Nothing orphaned: every pending binding must bind an image this build actually uses.
+  bound.forEach((b, p) => { if (!b.used) err('pending art binding ' + b.file, p + ' (' + b.key + ') is bound but no approved record of this build uses it'); });
   return { ok: !errors.length, errors, warnings, info, draftStops, story, art, artPending, artUnbound };
 }
 

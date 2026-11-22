@@ -397,7 +397,18 @@ function artKeysByPath(art) {
   for (const [id, r] of Object.entries(art.items || {})) for (const v of Object.keys(r)) if (r[v] && typeof r[v] === 'object') add('items:' + id + '#' + v, r[v].assetPath);
   for (const [id, r] of Object.entries(art.focus || {})) { add('focus:' + id, r.assetPath); (r.pages || []).forEach((p, i) => add('focus:' + id + '#pages:' + (i + 1), p.assetPath)); }
   for (const [id, r] of Object.entries(art.deathScreens || {})) add('deathScreens:' + id, r.assetPath);
+  // Pending-integration bindings (docs/104 section 3): an approved record whose canonical assetPath is
+  // still null, bound by the game's own provenance to its suggestedFilename (the importer has already
+  // proved the bytes against the record's approved SHA-256).
+  for (const b of pendingBindings()) {
+    const r = recordAt(art, b.key);
+    if (r && r.assetPath === null && r.status === 'approved' && r.suggestedFilename === b.path) add(b.key, b.path);
+  }
   return m;
+}
+function pendingBindings() {
+  const settings = JSON.parse(fs.readFileSync(path.join(ROOT, 'story/runtime-settings.json'), 'utf8'));
+  return (settings.pendingArtBindings || []).flatMap((f) => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')).images.map((i) => ({ key: i.key, path: i.path })));
 }
 
 // The record a key names (see the key grammar in the public tools/sync/lib.mjs).
