@@ -110,6 +110,9 @@ async function project(src, rev) {
   const chapters = {};
   for (const entry of manifest.chapters.filter((c) => CONFIG.chapters.includes(c.id))) {
     const p = 'story/' + entry.file, raw = await read(p), ch = JSON.parse(raw.toString('utf8')), stripped = {};
+    // A narrative-only chapter (public check-canon: development.notForGameplay must stay true until its
+    // artwork and engine integration are complete) is never consumed, whatever config.json says.
+    if (ch.development && ch.development.notForGameplay === true) errors.push(entry.id + ' is published as narrative only (development.notForGameplay) and cannot be consumed by a game build');
     const out = keep('chapter', ch, entry.id, stripped);
     out.nodes = {};
     for (const [nid, n] of Object.entries(ch.nodes)) {
@@ -174,6 +177,10 @@ const gitBlob = (buf) => crypto.createHash('sha1').update('blob ' + buf.length +
 function deriveDeathExport(manifest, pub, art) {
   const entries = [];
   for (const chap of manifest.chapters) {
+    // Public tools/storyboard/export-death-presentations.mjs (storyboard 34a2607+): a chapter published
+    // as narrative only (development.notForGameplay, e.g. Chapter 4) keeps its fatal briefs in the
+    // story but stays out of the game export, before any of its popups is examined.
+    if (pub[chap.id].development && pub[chap.id].development.notForGameplay === true) continue;
     for (const [nodeId, node] of Object.entries(pub[chap.id].nodes || {})) {
       if (!node.deathPopup) continue;
       if (node.end !== true) throw Error('Death popup on nonterminal node ' + chap.id + ':' + nodeId);
