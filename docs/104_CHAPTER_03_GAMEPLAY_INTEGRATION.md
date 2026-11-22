@@ -1,64 +1,105 @@
 # 104 — Chapter 3 gameplay integration (The People's Pavilion, approved reboot)
 
-**Date:** 2026-11-20. **Authorization:** Nate, "Out of Order — Chapter 3 Gameplay Integration": prepare Chapter 3 on a separate review branch; do not merge into `main` until separately authorized.
+**Date:** 2026-11-20; recovered and completed 2026-11-22 (section 10).
 
-**Branch:** `agent/ch03-gameplay-integration-20261120`, from game `main` `9a0ca4a502216ce11b956bac15d0e61750e86904`.
+**Authorization:**
+- Nate, "Out of Order — Chapter 3 Gameplay Integration" (2026-11-20): prepare Chapter 3 on a separate review branch; do not merge into `main` until separately authorized.
+- Owner, 2026-11-22: recover the work into tested draft PRs only; no merge, deployment, production-status change or Chapter 4 integration.
 
-**Storyboard:** source `main` `43fe258c3a668f02a5296cb12d8f74679a3434dc`. Pinned integration revision `a4bda1075ba207eb21dc0ae6c3f788c0c17ef774` on the public branch `integration/ch03-gameplay-20261120` (section 2). Storyboard `main` is unchanged.
+**Branch:** `agent/ch03-gameplay-integration-20261122`, from game `main` `9a0ca4a502216ce11b956bac15d0e61750e86904`. It supersedes the never-committed `agent/ch03-gameplay-integration-20261120` worktree (section 10).
+
+**Storyboard:** source `main` `622ad879dfe187ff2683ae7072515ed740522243`. Pinned revision `df253f6eb83e7ade89362911e4af6e6cd191895b` on the public branch `integration/ch03-gameplay-20261122` (draft PR InterstellarHarvest/CYOA-storyboard#19; section 2). Storyboard `main` is unchanged.
 
 **Not changed:**
 - No dialogue, choice, outcome, ending, check or item of the approved narrative.
 - No image regenerated, re-encoded, resized or sharpened. No Prologue to Chapter 2 artwork changed.
 - No main-menu asset (`review/out-of-order-menu-intake` untouched). No historical Chapter 3 gallery file.
-- No approval record on storyboard `main`. No artwork marked `integrated`.
-- No Chapter 4 work.
+- No approval record on storyboard `main`. No artwork marked `integrated`, and no production `assetPath` assigned on the storyboard.
+- No Chapter 4 work: Chapter 4 is published narrative-only and is not consumed (section 2). `ch3_exit_route` is not implemented.
 
 ## 1. Narrative source and mapping
 
 | | Value |
 |---|---|
-| Approved narrative | `story/chapters/chapter-03.reboot-candidate.json`, blob `857ffdf1bc9432cf4bbbfd7819f5f430a06d9036` (SHA-256 `36ae178d…0253`), locked by public docs/111 |
+| Approved narrative | `story/chapters/chapter-03.reboot-candidate.json`, blob `857ffdf1bc9432cf4bbbfd7819f5f430a06d9036` (SHA-256 `36ae178d…0253`), locked by public docs/111. Unchanged on storyboard `main` `622ad87` |
 | Not used | `chapter-03.reboot-review-layout.json` (the 34-node review-only *layout*) and the archived 62-node `chapter-03.draft.json` (preserved byte for byte, with its archive copy) |
 | Shape | 34 nodes (20 dialogue, 14 Narrative B), 28 authored route variants, 7 surviving endings, 2 hidden d6 checks, 3 inherited-item actions |
-| Transformation | none. `sync.js` projects the file unchanged; the lock records the source SHA-256 above; the importer emits it with only its usual pose/backdrop normalisation. `validate_ch03.js` compares every node field. |
+| Transformation | None. `sync.js` projects the file unchanged; the lock records the source SHA-256 above; the importer emits it with only its usual pose/backdrop normalisation. `validate_ch03.js` compares every node field. |
 
-Presentation rules carried as authored: second-person present tense; Narrative B for non-NPC passages; attendant and presenter conversations in dialogue mode with portraits; CONTINUE beats; spoken cards (quoted by the renderer) vs action cards (action ink); hidden d6 checks with the standard risk marker only; no repeated question banks. Chapter 3 has no Focus A node, so Focus A is not used.
+Presentation rules carried as authored:
+- second-person present tense; Narrative B for non-NPC passages;
+- attendant and presenter conversations in dialogue mode with portraits;
+- CONTINUE beats;
+- spoken cards (quoted by the renderer) vs action cards (action ink);
+- hidden d6 checks with the standard risk marker only;
+- no repeated question banks.
+
+Chapter 3 has no Focus A node, so Focus A is not used.
 
 **Outcome rules held.** Every surviving route leaves the Pavilion without using the restroom; the Original stays an unexplained record datum. All 7 endings are surviving: BEGIN AGAIN, no death popup, no death art, no Chapter 4 link (docs/111).
 
-## 2. Storyboard integration branch (public `integration/ch03-gameplay-20261120`)
+**Chapter 4 dependency, recorded only.** The published Chapter 4 narrative routes its start on a flag `ch3_exit_route`, which the locked Chapter 3 never sets. That handoff belongs to the Chapter 4 milestone (as the Chapter 2 → 3 handoff belonged to this one) and needs a Chapter 3 narrative amendment by Nate. It is not implemented here.
 
-This is the established step-A pattern (Chapter 2 storyboard commit `0e9dc25`; Chapter 1 to Chapter 2 hand-offs). It is pushed so the game's pin resolves online, and it is **not** merged into storyboard `main`.
+## 2. Storyboard integration branch (public `integration/ch03-gameplay-20261122`, draft PR #19)
 
-**`a2ce2d9` (data):**
-- **Manifest.** `chapter-03` now reads the approved reboot file, as `draft`. Previously it was the archived legacy file, `archived`.
-- **Chapter 2.** The five living endings (`end_concourse_robot`, `end_public`, `end_customs`, `end_maintenance`, `end_underground_station`) now have one `CONTINUE` card: `continue_to_chapter_03_<node>` → `chapter: chapter-03`.
+A fresh branch from storyboard `main` `622ad87`, holding one normal merge (`df253f6`) of the 2026-11-20 integration history (`a2ce2d9` data, `a4bda10` tests). The superseded `integration/ch03-gameplay-20261120` is left untouched.
+
+Against `main`, the branch changes 9 files:
+- **Manifest.** `chapter-03` reads the approved reboot file, as `draft` (previously the archived legacy file, `archived`). Chapter 4's entry stays as published ("narrative approved · artwork pending · not in game").
+- **Chapter 2.** The five living endings (`end_concourse_robot`, `end_public`, `end_customs`, `end_maintenance`, `end_underground_station`) each have one `CONTINUE` card: `continue_to_chapter_03_<node>` → `chapter: chapter-03`.
   - This replaces the draft BEGIN AGAIN bridge, exactly as the Chapter 1 exits hand off to Chapter 2.
-  - Text, effects and entry groups are unchanged. The node notes themselves anticipated this ("Existing end:true and restart behavior remain for gameplay until future integration").
-  - The five fatal endings are unchanged.
-- **Art.** The 29 approved Chapter 3 records get their own proposed production `assetPath` (= their `suggestedFilename`), with an appended GAMEPLAY PMO line.
-  - **Status stays `approved`**; approvals, hashes and provenance are unchanged.
-  - Preview copies move from `pending-integration/` to the production paths, with identical bytes.
-- **Death export** regenerated. The 3 legacy Chapter 3 popups drop out, because the active Chapter 3 has no fatal ending. The 6 Prologue–Chapter 2 entries are unchanged.
-- **Layout.** `chapter-03` takes the approved reboot timeline (viewer only).
+  - Text, effects and entry groups are unchanged. The five fatal endings are unchanged.
+- **Death export.** The 3 legacy Chapter 3 popups drop out (the active Chapter 3 has no fatal ending). The 6 Prologue–Chapter 2 entries are unchanged, and narrative-only Chapter 4 is skipped by the public exporter.
+- **Layout.** `chapter-03` takes the approved reboot timeline (viewer only). Chapter 4's timeline is unchanged.
+- **QA.** `qa-smoke`, `qa-timeline`, `qa-legacy-render`, `qa-ch3-reboot-candidate` and `qa-ch3-artwork-briefs` assert the activation.
 
-**`a4bda10` (tests only):** the storyboard suites now assert this deliberate activation.
-- The legacy 62-node render snapshot is still checked, against the preserved legacy file.
-- All storyboard CI suites pass: check-canon, qa-sync 22, qa-smoke, export, art-lab static, qa-browser 24, qa-timeline 136, qa-artwork-preview 60, art-lab pages 70 + browser 106, Chapter 3 candidate and briefs.
+**Artwork is byte-identical to `main`.** `story/artwork.draft.json`, `story/artwork-preview.json` and `assets/selected/` are unchanged:
+- All 29 Chapter 3 records are `approved` with `assetPath: null`.
+- Paper Emergency is Nate's v04 (`93a48082…`), with its v03 history intact.
+- The 2026-11-20 commit `a2ce2d9` had assigned production paths: 29 `assetPath` values, 29 notes lines and 29 preview moves. Those 87 changes were deliberately not taken in the merge (owner direction: production paths stay null until the integration-status reconciliation). The game binds the art itself (section 3).
 
-The game consumes it with `tools/story-sync/config.json` + `chapter-03` (owner authorization), then `sync.js pull --rev a4bda10…`.
+**Conflicts, resolved individually:**
+- manifest: union;
+- layout: union, verified structurally;
+- `qa-smoke.mjs`: three hunks, each a union of the Chapter 4 and Chapter 3 assertions;
+- `artwork.draft.json` / `artwork-preview.json`: `main`, for the reason above.
+
+**Verification at `df253f6`:**
+- **Static:** check-canon, qa-sync, the supersession guard, qa-smoke, `export --check` (6), qa-static, qa-ch3-reboot-candidate, qa-ch3-artwork-briefs, qa-legacy-render.
+- **Browsers (Chromium + Firefox):** qa-browser 26/26, qa-timeline 136/136, qa-artwork-preview 60/60, art lab pages-site 70/70, art lab browser 106/106.
+- **Complete Pages build** (emulated from `pages.yml` at the commit, with the four pinned galleries really checked out, including Batch A/B/C/D staging): 8/8 run steps, as on `main`.
+  - The built site differs from `main` only in the 4 intended story files; the gallery receipts differ only in the build SHA.
+
+The game consumes it with `node tools/story-sync/sync.js pull --rev df253f6eb83e7ade89362911e4af6e6cd191895b`.
+- The lock consumes `prologue-00`, `chapter-01`, `chapter-02` and `chapter-03`.
+- `chapter-04` and its two items are recorded as published but not consumed.
+- No Chapter 4 death entry is projected.
 
 ## 3. Artwork (29 images)
 
-Approved selections, byte-exact from each registered selection blob (`git show <commit>:<path>` in the public storyboard). Each one was verified against the approved SHA-256, the canonical preview and the docs/103 / 113 / 119 / 122 ledgers, both before and after copying.
+Approved selections, byte-exact from each registered selection blob (`git show <commit>:<path>` in the public storyboard). Each one was verified against the approved SHA-256 and the canonical preview on storyboard `main` `622ad87`.
 
 Pinned in `art/pavilion_reboot.provenance.json` (admitted to the M2 static art guard).
-- **Scenes:** 314×206.
+- **Scenes:** 314×206, opaque.
 - **Backgrounds:** 564×278, opaque.
 - **Poses:** separate 564×278 RGBA layers with binary alpha (0/255), composited over the scene's own closer background at the established portrait offset.
-- **A04/A05:** the current v04 continuity replacements (`7bf1f42`). The superseded v07/v04 bytes are asserted absent.
+- **A04/A05:** the current v04 continuity replacements (`7bf1f42`). The superseded bytes are asserted absent.
+- **Paper Emergency:** Nate's v04, approved 2026-11-22 (storyboard PR #18, `main` `622ad87`). The superseded v03 (`ac0f7c44…`, blob `a3d8673c`) is recorded under `supersedes`, asserted absent, and was never committed on this branch.
 
-| Record | Production path | SHA-256 | Source (commit:file) |
+**Pending-integration binding.** The storyboard keeps every one of the 29 records `approved` with `assetPath: null` until the separate integration-status reconciliation. The game binds them itself:
+- `story/runtime-settings.json` (game-owned) lists `pendingArtBindings: ["art/pavilion_reboot.provenance.json"]`.
+- The importer (`convert.js`) binds a record to its own `suggestedFilename` only when all of these hold:
+  - the record is `approved` (not generated, not integrated);
+  - its canonical `assetPath` is null;
+  - the bound SHA-256 equals the **first** SHA-256 its canonical notes name. That is the current selection; a superseded selection such as Paper Emergency v03 is only ever named after it, as history.
+- `import.js` proves the file bytes against the bound SHA-256. The binding files are build sources, so editing one makes the committed build STALE.
+- Refused:
+  - a binding for a record that already has a canonical `assetPath` (drop it at reconciliation);
+  - an unused binding;
+  - any binding in an approved (`--promote`) build.
+- `sync.js report` keys bound images to their records, so `sync.js publish` can register them at reconciliation.
+
+| Record | Production path (= suggestedFilename) | SHA-256 | Source (commit:file) |
 |---|---|---|---|
 | `scenes:pavilion_reboot/arrival` | `art/scenes/pavilion_reboot/arrival.png` | `37d0b189fda18ad6659b0fae1f214145acd4ec67595c5e5a520917d6a7cbd478` | `7337e5e`:`CH3-B01-arrival-v03.png` |
 | `scenes:pavilion_reboot/backstage` | `art/scenes/pavilion_reboot/backstage.png` | `aa90896023a59454887e9b3bd5b1745cb8b95a5d9737829119abddd9176f4889` | `e65f42c`:`CH3-D05-backstage-v03.png` |
@@ -67,7 +108,7 @@ Pinned in `art/pavilion_reboot.provenance.json` (admitted to the M2 static art g
 | `scenes:pavilion_reboot/exterior_exit` | `art/scenes/pavilion_reboot/exterior_exit.png` | `76b3232f685fd392f981f0c846382e3ddccd61ed94d44e09ea1bc5cf032c3e8a` | `e65f42c`:`CH3-D06-exterior-exit-v01.png` |
 | `scenes:pavilion_reboot/human_verification_stage` | `art/scenes/pavilion_reboot/human_verification_stage.png` | `8df7e5dd2fffb17449fd43f4d9e7df167d75347efc53b0bde1771fd6d8d001ca` | `7bf1f42`:`CH3-A04-verification-continuity-v04.png` |
 | `scenes:pavilion_reboot/locomotion_stage` | `art/scenes/pavilion_reboot/locomotion_stage.png` | `be99d790754951bcbcd1c26b94a94ff4e84280f5385735951b0f024b322e13c5` | `7bf1f42`:`CH3-C03-locomotion-v04.png` |
-| `scenes:pavilion_reboot/paper_emergency` | `art/scenes/pavilion_reboot/paper_emergency.png` | `ac0f7c44d267dd54897507ae3b8b02959a5b76f4fcd9d0418b77b8fdb777ba7e` | `7337e5e`:`CH3-B06-paper-emergency-v03.png` |
+| `scenes:pavilion_reboot/paper_emergency` | `art/scenes/pavilion_reboot/paper_emergency.png` | `93a48082124600b1afeb45e5ea54856bf253e858e55111295e9d9c26919bc978` | `d1600a3`:`CH3-B06-paper-emergency-local-v04.png` (blob `261474c4`) |
 | `scenes:pavilion_reboot/record_printer` | `art/scenes/pavilion_reboot/record_printer.png` | `1f80f8f17359c07fd24c74741be72bfa6ad941da67bb1622931e3b429bb0a722` | `7337e5e`:`CH3-B02-record-printer-v03.png` |
 | `scenes:pavilion_reboot/record_scanner` | `art/scenes/pavilion_reboot/record_scanner.png` | `4afe7d0b1898c1e29443d45aba20614b14951bbf91c40e9508a62dc607fcd1b3` | `7337e5e`:`CH3-B04-record-scanner-v03.png` |
 | `scenes:pavilion_reboot/restroom_entrance` | `art/scenes/pavilion_reboot/restroom_entrance.png` | `117dd9d00b6c9d32b4b153f71aaf51c2546ade70b803d45a748728f8d1a1f8b4` | `a87155b`:`CH3-A01-restroom-v09.png` |
@@ -90,7 +131,7 @@ Pinned in `art/pavilion_reboot.provenance.json` (admitted to the M2 static art g
 | `portraits:pavilion_presenter:idle` | `art/portraits/pavilion_reboot/pavilion_presenter/idle.png` | `da33e42a723c8f1a5fe82a2ecaa5cd1e22281caa3ee4abc26db8e81569cd6784` | `a87155b`:`CH3-A06-presenter-idle-v04.png` |
 | `portraits:pavilion_presenter:relieved` | `art/portraits/pavilion_reboot/pavilion_presenter/relieved.png` | `29a349c7bcdfe32d2885709dc91977beb7e3869d2461913cfd89afdacebbda9b` | `e65f42c`:`CH3-D04-presenter-relieved-v01.png` |
 
-The service-exit background is one canonical record shared by both speakers (docs/111: "shared by every attendee/presenter pose used at this scene"). The runtime registers it once per speaker. `validate_assets.js` EF-A1 now allows exactly that shape: one file, the same scene id, background keys of different speakers. A new negative control proves that a background reused across *different* scenes is still refused.
+The service-exit background is one canonical record shared by both speakers (docs/111: "shared by every attendee/presenter pose used at this scene"). The runtime registers it once per speaker. `validate_assets.js` EF-A1 allows exactly that shape: one file, the same scene id, background keys of different speakers. A negative control proves that a background reused across *different* scenes is still refused.
 
 **Accepted limitation, not resolved:** the original native-grid authorship of the Chapter 3 pixel art is **not proven**. These are source-derived grid transfers with localized native-pixel corrections (public docs/103, Chapter 3 addenda). The owner accepted this as an unresolved limitation. It is recorded in the provenance file and asserted by `validate_ch03.js`. This integration neither resolves nor re-verifies it.
 
@@ -109,8 +150,10 @@ Changes, generic to the schema:
 - **`story-flow.js` / `stage.js`:**
   - An incidental voice's line gets its `NAME:` label in the existing Labels face, with the normal speaker gap.
   - NOTES uses the same label.
-  - Portrait speakers are never labelled, so no Prologue–Chapter 2 rendering changes (no earlier chapter has a `who` run).
-- **Display names (game-owned `runtime-settings.json`, for Nate to confirm):** `pavilion_attendant` ATTENDANT, `pavilion_presenter` PRESENTER, `visitor` VISITOR, `restroom_system` RESTROOM SYSTEM.
+  - **The label is never stranded** (2026-11-22). The dialogue panel scrolls by line. `linesFrom` never ends a view on an incidental-voice label while its words follow; the label moves down with them. Before this rule, every one of the four voice passages could strand a label, and `record_scanner` did so in its very first settled view.
+  - Portrait speakers are never labelled, and only incidental-voice labels carry `voice`, so no Prologue–Chapter 2 rendering changes (no earlier chapter has a `who` run).
+  - `#speechText` exposes `data-view` (visible lines) beside `data-lines` and `data-scroll`.
+- **Display names (game-owned `runtime-settings.json`; provisional, for Nate's gameplay review):** `pavilion_attendant` ATTENDANT, `pavilion_presenter` PRESENTER, `visitor` VISITOR, `restroom_system` RESTROOM SYSTEM.
 
 ## 5. The `%` glyph (owner decision, 2026-11-20)
 
@@ -118,7 +161,7 @@ Two approved readouts contain `%`: "AUDIENCE PARTICIPATION: 0%" and "AUTHENTIC H
 
 - **Font atlases.** `bake_fonts.py` appends `%` (`EXTRA_CHARS`) to the three TTF-baked faces (Jersey 15, Press Start 2P, Tiny5), each from its own OFL source.
   - Verified: today's bake reproduces the committed atlases pixel for pixel.
-  - With `%`, only the new glyph's cell changes. All 76 existing glyphs, metrics, line heights and atlas sizes are identical.
+  - With `%`, only the new glyph's cell changes (re-verified 2026-11-22: each atlas's pixel difference is confined to the new cell). All 76 existing glyphs, metrics, line heights and atlas sizes are identical.
   - `fonts.json`, `lab_data.js` (fonts entry only), `snapshot_assets.js` (3 atlas entries) and `glyph-ink.js` (3 `%` entries) are updated. An unrelated, pre-existing drift between `placement.default.json` and `lab_data.js` was deliberately left alone.
 - **Locked face unchanged.** It draws choice cards, the player's own lines and item names; it has no source font and still has no `%`.
 - **Charset check.** `Rules.validateStory` charset is now role-aware (`{ locked, text }`): narration, NPC speech and directions in node text and results may use what every baked face draws. Everything else keeps the locked set, as before.
@@ -132,40 +175,114 @@ Two approved readouts contain `%`: "AUDIENCE PARTICIPATION: 0%" and "AUTHENTIC H
 | Chapter transition | 5 Chapter 2 living endings → CONTINUE → `pavilion_arrival`. The whole state crosses; the chapter entry is a CHECKPOINT | `validate_ch03` transition/routes; `run_ch03_qa` (the game itself takes each CONTINUE) |
 | Arrival variants | 4 `flagIs` variants (tram crash, public concourse, service, underground). The unconditional fallback is unreachable on real play (allowed importer warning) | routes: each entry group's variant |
 | Inventory carry-over | No new items. `wc_key` (every real route), `family_portrait_photo` (5 Chapter 2 routes), `red_stapler` (2), `timing_clicker` (kept House clicker). Contamination, credentials and exit-route flags persist; Chapter 3 changes no earlier flag | routes (32), browser tour |
+| Six visible slots | **Never a capacity.** The engine's exhaustive walk reaches Chapter 3 with up to **9** items (25 917 Chapter 3 states hold 7 or more). `ch03_routes.js` `FULL_PACK` is one real playthrough (no dice) entering Chapter 3 with nine | `validate_ch03` items (9 cross whole, all inspectable, SHOW key + photo still work); `run_ch03_qa` `inventory_9` (six visible, arrows scroll to items 4–9, the 9th opens in the inspector, reload, the route still works) |
 | SHOW / USE | SHOW key (kept), SHOW photo (returned), USE stapler (consumed once). Only while held; never otherwise | items group, browser inspector path, missing-item scenario |
 | Dice | Leap d6≥4, +1 only while the clicker is held (raw 3 passes with it, fails after Chapter 2 spends it). Dash d6≥4, unmodified. Hidden: risk marker only | checks group; both outcomes of both checks on real seeds |
-| Dialogue ↔ narration | 20 dialogue / 14 Narrative B nodes; incidental voices labelled | presentation group; browser voices + reload |
+| Dialogue ↔ narration | 20 dialogue / 14 Narrative B nodes; incidental voices labelled, labels never stranded | presentation group; browser `voices` (+ reload) and `voice_labels` (every scroll position of all 4 voice passages) |
 | NOTES / FILES | NOTES carries the whole playthrough with speaker labels. No new case file | browser voices (NOTES) |
-| Endings | 7 surviving endings: BEGIN AGAIN → new playthrough. No death popup, no RETRY / CHECKPOINT on screen | endings group; browser tour + restart |
+| Endings | 7 surviving endings: BEGIN AGAIN → new playthrough. No death popup, no RETRY / CHECKPOINT on screen. A long ending passage pages with a presentation CONTINUE first | endings group; browser tour + restart; `run_story_qa` |
 | Saves | Real saves written by game `main` 9a0ca4a (Prologue, Chapter 1, Chapter 2 mid, two Chapter 2 living endings) migrate. Old ending saves now offer CONTINUE into Chapter 3. Chapter 3 saves restore exactly | saves group; browser reload |
 
 ## 7. QA
 
 New suites:
-- **`game/qa/validate_ch03.js`** (content job): intake, registry, narrative, bindings, 32 real routes, coverage, endings, transition, presentation, saves, scope. Mutation-tested with 9 defects: a changed PNG byte, superseded A04 bytes, a rewritten line, a Chapter 2 ending left as BEGIN AGAIN, an unconsumed stapler, a lost clicker modifier, a mislabelled voice, an incompatible old save. Each fails a named check.
-- **`game/qa/run_ch03_qa.js`** (browser job, step `ch03`): Chromium + Firefox.
-- **`game/qa/ch03_routes.js`:** the shared real-route catalogue (28 authored variants + 4 inherited-item routes; real Prologue → House → Chapter 2 → Chapter 3, real dice by seed).
+- **`game/qa/validate_ch03.js`** (content job; 451 checks): intake, registry (the binding), narrative, bindings, 32 real routes, coverage, endings, transition, presentation, saves, scope, the 9-item inventory.
+  - Mutation-tested (2026-11-20) with 9 defects: a changed PNG byte, superseded A04 bytes, a rewritten line, a Chapter 2 ending left as BEGIN AGAIN, an unconsumed stapler, a lost clicker modifier, a mislabelled voice, an incompatible old save. Each fails a named check.
+- **`game/qa/run_ch03_qa.js`** (browser job, step `ch03`; Chromium + Firefox): tour (every scene at 4× and every conversation pair 1:1, pixel-compared), voices, glyph, restart, missing items, `inventory_9`, `voice_labels`.
+  - Mutant: removing the label rule fails all four voice passages.
+- **`game/qa/ch03_routes.js`:** the shared real-route catalogue (28 authored variants + 4 inherited-item routes + `FULL_PACK`; real Prologue → House → Chapter 2 → Chapter 3, real dice by seed).
+- **`validate_story_import` `pending-binding`** (11 checks): see section 3.
+- **`tools/story-sync/qa-sync.js` 10b:** the actual narrative-only Chapter 4. The fixture `tools/story-sync/qa-fixtures/chapter-04.wip.json` is byte-exact from storyboard `622ad87`, blob `a0e1ad47`.
+  - It checks the death-export re-derivation, status, and the refusal to consume Chapter 4.
+  - A mutant without the port reproduces the original refusal.
 
 Updated, deliberately, for the integrated state:
 - `validate_story_import` (4 chapters; Chapter 3 art approved-only pending reconciliation; Chapter 3 approval guard);
 - `validate_ch02_routes` and `run_ch02_routes_qa` (living endings continue into Chapter 3);
-- `run_story_qa` (the customs ending enters Chapter 3; BEGIN AGAIN proved at a Chapter 3 ending);
+- `run_story_qa` (the customs ending enters Chapter 3; BEGIN AGAIN proved at a Chapter 3 ending, paging through its presentation CONTINUE first);
 - `validate_ch02_art` (scope);
-- `validate_death_controls` (content hash re-pinned 0bb7124ab2f6 → 8045c71dcbf1, an intentional canon pull);
+- `validate_death_controls` (content hash re-pinned 0bb7124ab2f6 → 8045c71dcbf1, an intentional canon pull; unchanged by the 2026-11-22 re-pin);
 - `validate_assets` (EF-A1 shared background + control);
 - `qa-sync.js` (Chapter 3 consumed; a Chapter 4 stub keeps the not-consumed path tested);
 - CI artifact index and policy (120 checks).
 
-Results: see the PR description for the full local run of every `qa.yml` step.
+Results: see the PR description for the full local run of every `qa.yml` step (2026-11-22).
 
 ## 8. Open items and reconciliation
 
-1. **Nate's gameplay review** of this branch.
-2. **Display names** (section 4).
-3. **Reconciliation, after approval and a separate merge authorization:**
-   - `sync.js publish --storyboard <public worktree>` registers the 29 images as `integrated` with this build's provenance.
-   - Merge the storyboard integration branch into public `main` (one Pages deploy).
-   - Re-pin the game.
-   - Until then the 29 records stay `approved`, and `validate_story_import` asserts exactly that.
-4. **Timing.** `validate_story_import` now takes about 16 minutes locally. Every build walks about 262k reachable states with Chapter 3, against 164 nodes before.
+1. **Nate's gameplay review** of this branch (checklist in the PR description).
+2. **Display names** (section 4): provisional until that review.
+3. **Reconciliation, after approval and a separate merge authorization** (not done here):
+   1. Storyboard: apply the Pages-staging repair (section 9) to the integration branch.
+   2. Storyboard: assign the 29 production paths (`assetPath = suggestedFilename`, as Chapter 2's step A).
+   3. Game: drop `pendingArtBindings` (the importer refuses a binding once a record has a canonical path) and re-pin.
+   4. Run `sync.js publish --storyboard <worktree>`: the 29 become `integrated`, with this build's provenance and `story/game-integration.json`.
+   5. Storyboard: `git rm` the 29 superseded `assets/selected/pending-integration/` preview copies (`register-art` writes the production-path copies but leaves the old ones, which check-canon refuses).
+   6. Run check-canon and the complete Pages emulation.
+   7. Merge the storyboard (one Pages deploy), then re-pin and merge the game.
+   - Until then the 29 records stay `approved` with null paths, and `validate_ch03` / `validate_story_import` assert exactly that.
+4. **Timing.** `validate_story_import` takes about 16–17 minutes locally. Every build walks about 262k reachable states with Chapter 3, against 164 nodes before.
 5. The viewer legend's "preview handoff (not gameplay)" mode is now unused by any chapter (storyboard, cosmetic).
+6. **Chapter 3 → 4** (`ch3_exit_route`): Chapter 4 milestone, needs Nate (section 1).
+
+## 9. Reconciliation: the storyboard Pages-staging issue and its repair (proposed, not applied)
+
+**Issue.** The storyboard's Pages build stages the pinned Chapter 3 review galleries, and `pages.yml` runs those steps only on `main`; PR CI does not.
+
+Two of its guards assume the Chapter 3 art is never integrated:
+- `tools/sync/stage-ch3-batch04-review.mjs` (Batch D, 9 records): asserts `status === 'approved'`, `assetPath === null`, and that each preview's `source` is the approved selection.
+- `tools/sync/ch3-reference-supersession.mjs` (Paper Emergency v03 → v04): asserts `approved` with a null path.
+
+In addition, `tools/storyboard/qa-smoke.mjs` hard-codes that integrated Biology Park previews cite `InterstellarHarvest/CYOA`. That is the game repository's old name: `sync.js publish` re-registers every image the build uses, so all 115 previously integrated previews then cite `InterstellarHarvest/out-of-order`.
+
+Consequence: the first Pages deploy after reconciliation would fail at `qa-smoke` and then at Batch D staging.
+
+**Rehearsal (scratch only, never pushed).** On `df253f6` the reconciliation of section 8 was run with the real tools:
+- the 29 paths assigned;
+- `register-art --batch` with this branch's real `sync.js report` (game `e9cc65a`, 144 images);
+- the 29 stale `pending-integration/` copies removed.
+
+check-canon passes (140 integrated). The complete Pages emulation then fails at `qa-smoke` and, after that, at Batch D (`registered approval is never lowered to generated`); `qa-ch3-reference-supersession` also fails.
+
+**Repair** (`docs/104_storyboard_reconciliation_pages_repair.patch`, SHA-256 `f25dacbbb51325f56de36d708c2b1625186b2f02e057b2572bf924a62539a0c8`; 4 storyboard files, +44 −12). It is hash-preserving: no image, preview or record byte changes, and integration is admitted only with proof of the same bytes.
+1. `qa-smoke.mjs`: an integrated preview may cite either name of the game repository (renamed 2026-11-19).
+2. `ch3-reference-supersession.mjs`: Paper Emergency passes either while `approved` with no production path, or when all of these hold:
+   - it is `integrated` at exactly its `suggestedFilename`;
+   - `story/game-integration.json` shows a game build used exactly v04 (`93a48082…`) at that path.
+
+   Everything else still fails. `qa-ch3-reference-supersession.mjs` builds both states explicitly and adds 6 refusals: approved with a path, no report, v03 bytes, a different game path, and a path other than `suggestedFilename`, plus the existing notes rule. 17 checks.
+3. `stage-ch3-batch04-review.mjs`: each Batch D record passes as before, or when all of these hold:
+   - it is `integrated` at exactly its `suggestedFilename`;
+   - the game integration report used exactly its approved SHA-256 there;
+   - its preview cites that game build at `assets/selected/<assetPath>`.
+
+   The receipts (`deployment-provenance.json`, `selection.html`) then state the integration instead of "not integrated".
+
+**Proof (rehearsal):**
+- Reconciled state + repair: complete Pages build 8/8, Batch D "9/9 byte-exact; 22 strict + 1 recorded later replacement".
+- Pre-reconciliation state (`df253f6`) + repair: 8/8, and the built site is identical to `df253f6`'s except for build SHAs, so the repair changes nothing until reconciliation.
+- Negative: a reconciled Batch D record whose game report names other bytes, or whose `assetPath` is not its `suggestedFilename`, is refused.
+
+## 10. Recovery record (2026-11-22)
+
+The 2026-11-20 session left 74 uncommitted entries in `_worktrees/out-of-order-ch03-gameplay` (base `9a0ca4a`), and its final QA run was interrupted. That worktree is untouched. Full local recovery copies:
+- the ref `refs/preserve/ch03-gameplay-wip-20261122` = `58362d9` (local only: it includes ignored QA output);
+- `_backups/out-of-order-ch03-gameplay-wip-2026-11-22.tgz`.
+
+**Audit findings that this branch resolves:**
+- Paper Emergency was v03; it is now v04.
+- The storyboard pin `a4bda10` was 50 commits behind and conflicted with `main` in 5 files; it is now `df253f6` (section 2).
+- The game's `sync.js` could not consume any storyboard revision carrying the real Chapter 4. It now ports `development.notForGameplay` and refuses to consume such a chapter.
+- `run_story_qa` had failed 84/88 (the Chapter 3 ending's presentation CONTINUE); the check is fixed.
+- Incidental-voice labels could be stranded; the rule is fixed and tested.
+- The six visible slots were never exercised beyond six items; now 9.
+
+**Commits:**
+1. The 2026-11-20 source exactly as left (74 paths, byte-identical), without run output and without the v03 PNG.
+2. The sync port.
+3. The pending binding.
+4. The re-pin and v04.
+5. The QA additions.
+6. This record.
+
+Screenshots and `*_results.json` run output are not committed.
