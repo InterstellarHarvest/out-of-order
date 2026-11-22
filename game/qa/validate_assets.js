@@ -116,7 +116,14 @@ function audit(story) {
   keys.forEach((k) => { if (!refs.has(k)) out.A1.push('registered but never shown: ' + k); });
   const byPath = {};
   keys.forEach((k) => { if (reg[k].path !== null) (byPath[reg[k].path] = byPath[reg[k].path] || []).push(k); });
-  Object.keys(byPath).forEach((p) => { if (byPath[p].length > 1) out.A1.push('one file registered under ' + byPath[p].length + ' keys: ' + byPath[p].join(', ') + ' (' + p + ')'); });
+  // One exception (docs/104 section 4): a scene's ONE canonical conversation background
+  // (scenes[<scene>].portraitBackground) is shared by every speaker who talks in that scene, so the runtime
+  // registers it once per speaker: background keys only, all with the same scene id, all different speakers.
+  const sharedSceneBackground = (ks) => {
+    const m = ks.map((k) => /^portrait:([a-z0-9_]+):background:([a-z0-9_]+\/[a-z0-9_]+)$/.exec(k));
+    return m.every(Boolean) && new Set(m.map((x) => x[2])).size === 1 && new Set(m.map((x) => x[1])).size === m.length;
+  };
+  Object.keys(byPath).forEach((p) => { if (byPath[p].length > 1 && !sharedSceneBackground(byPath[p])) out.A1.push('one file registered under ' + byPath[p].length + ' keys: ' + byPath[p].join(', ') + ' (' + p + ')'); });
   // EF-A2: the file exists and its PNG size is its class's.
   keys.forEach((k) => {
     const e = reg[k];
@@ -257,6 +264,10 @@ for (const id of Object.keys(STORIES)) {
   caught('registered pose never shown (orphan)', 'A1', mut(R, (s) => { s.assets.portraits.receptionist.poses.idle2 = 'art/portraits/receptionist/receptionist_idle2.png'; }), /registered but never shown: portrait:receptionist:pose:idle2/);
   caught('registered scene never shown (orphan)', 'A1', mut(R, (s) => { s.assets.scenes['conference_hall/annex'] = null; }), /registered but never shown: scene:conference_hall\/annex/);
   caught('one file registered twice (duplicate registration)', 'A1', mut(R, (s) => { s.assets.focus['conference_hall/reception/desk'] = 'art/scenes/conference_hall/reception/reception_scene.png'; }), /one file registered under 2 keys/);
+  // The shared-scene-background exception is exact: the same file as two speakers' backgrounds for DIFFERENT scenes is still a duplicate.
+  const IMP = require('../content/story.generated.js').story;
+  caught('one background file under two speakers for different scenes (duplicate registration)', 'A1', mut(IMP, (s) => {
+    s.assets.portraits.pavilion_presenter.backgrounds['pavilion_reboot/urgency_stage'] = s.assets.portraits.pavilion_attendant.backgrounds['pavilion_reboot/record_printer']; }), /one file registered under 2 keys/);
   caught('production null art', 'A3', mut(R, (s) => { s.assets.portraits.receptionist.backgrounds.reception = null; }), /null art in a production story: portrait:receptionist:background:reception/);
   caught('production null item art', 'A3', mut(R, (s) => { s.items.wc_key.inspectArt = null; }), /null art in a production story: inspect:wc_key/);
   for (const dir of ['review', 'source', 'originals']) {

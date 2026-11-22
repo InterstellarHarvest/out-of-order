@@ -451,8 +451,13 @@
     return L.speech.text;
   }
 
+  // An incidental voice (docs/104 section 4) is its own speaker: its NAME: label and line sit together,
+  // with the usual speaker gap before and after them.
+  function speakerOf(line) {
+    return line.voice ? 'voice:' + line.voice : SPEAKER[line.who];
+  }
   function speakerGap(lines, start, i) {
-    return i > start && SPEAKER[lines[i].who] !== SPEAKER[lines[i - 1].who] ? S().speakerGap : 0;
+    return i > start && speakerOf(lines[i]) !== speakerOf(lines[i - 1]) ? S().speakerGap : 0;
   }
 
   function linesFrom(start) {
@@ -486,7 +491,7 @@
     var width = S().width;
     s.lines = [];
     s.parts.forEach(function (p, pi) {
-      T.wrap(p.text, width, p.role).forEach(function (text) { s.lines.push({ text: text, role: p.role, who: p.who, part: pi }); });
+      T.wrap(p.text, width, p.role).forEach(function (text) { s.lines.push({ text: text, role: p.role, who: p.who, voice: p.voice, part: pi }); });
     });
   }
 
@@ -512,16 +517,18 @@
     renderSpeech();
   };
 
-  // Several parts at once (an imported story's paragraph runs, docs/84): [{ text, who }]. The new
-  // parts type from the first one that types (npc), as one passage; the player's own lines and
+  // Several parts at once (an imported story's paragraph runs, docs/84): [{ text, who, voice?, label? }].
+  // The new parts type from the first one that types (npc), as one passage; the player's own lines and
   // thoughts before it are there at once. opts.instant shows them all at once (history rebuilds).
+  // A part with a label (an incidental voice, docs/104 section 4) gets its NAME: line in the Labels face.
   G.addSpeechParts = function (parts, opts) {
     var s = ui.speech;
     if (!parts.length) return;
     var firstNew = s.parts.length;
     parts.forEach(function (p) {
       if (!SPEECH_FACE[p.who]) throw new Error('Unknown speaker role: ' + p.who);
-      s.parts.push({ text: p.who === 'thought' ? G.thoughtText(p.text) : p.text, role: SPEECH_FACE[p.who], who: p.who });
+      if (p.label) s.parts.push({ text: p.label + ':', role: 'labels', who: p.who, voice: p.voice });
+      s.parts.push({ text: p.who === 'thought' ? G.thoughtText(p.text) : p.text, role: SPEECH_FACE[p.who], who: p.who, voice: p.voice });
     });
     rewrap();
     var typesFrom = -1;

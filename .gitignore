@@ -11,3 +11,8 @@ originals/
 # CI artifact index (tools/ci/qa-artifact-index.js, docs/100): a CI output, never committed
 game/qa/ci_artifact_index_*.json
 qa-failure-screenshots/
+
+# Chapter 3 QA run output (docs/104): never committed
+game/qa/ch03_results.json
+game/qa/ch03_qa_results.json
+game/qa/ch03_screenshots/

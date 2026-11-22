@@ -153,6 +153,22 @@ function convert(input, opts) {
   }
 
   const speakers = {}; // cast id -> { poses: [ids in use order], scenes: [scene ids it speaks in] }
+  // Incidental voices (docs/104 section 4): `who` of { say, who } runs. One that never leads a dialogue
+  // node is imported as a portrait-less cast member: a display name, no portrait.
+  const voices = {}; // who id -> first place it speaks
+  function scanVoices(t, where) {
+    if (!Array.isArray(t)) return;
+    t.forEach((v) => {
+      if (!obj(v)) return;
+      if (has(v, 'say') && typeof v.who === 'string' && v.who !== 'you' && !has(voices, v.who)) voices[v.who] = where;
+      if (has(v, 'text')) scanVoices(v.text, where);
+    });
+  }
+  function scanChoiceVoices(c, where) {
+    if (!obj(c)) return;
+    scanVoices(c.result, where);
+    ['pass', 'fail'].forEach((k) => { if (obj(c[k])) scanVoices(c[k].result, where); });
+  }
   const outChapters = {};
   chapterIds.forEach((chId) => {
     const ch = chapters[chId];
@@ -184,6 +200,9 @@ function convert(input, opts) {
       scanEffects(n.effects);
       scanText(n.text);
       scanText(n.objective);
+      scanVoices(n.text, w);
+      (Array.isArray(n.choices) ? n.choices : []).forEach((c) => scanChoiceVoices(c, w));
+      ['show', 'use'].forEach((verb) => { if (obj(n[verb])) Object.values(n[verb]).forEach((e) => scanChoiceVoices(e, w)); });
       (Array.isArray(n.choices) ? n.choices : []).forEach((c, i) => {
         if (obj(c)) onlyKeys(w + ' choice ' + (c.id || '#' + i), c, CHOICE_KEYS);
         scanChoice(c);
@@ -348,7 +367,14 @@ function convert(input, opts) {
     }));
     portraits[sid] = p;
   });
-  Object.keys(castNames).forEach((id) => { if (!speakers[id]) info.push('cast ' + id + ' does not speak in any imported chapter (not imported)'); });
+  Object.keys(voices).filter((id) => !speakers[id]).forEach((id) => {
+    if (!obj(castNames[id]) || typeof castNames[id].name !== 'string') err('voice ' + id + ' (' + voices[id] + ')', 'no display name: add cast.' + id + '.name to story/runtime-settings.json');
+    cast[id] = { name: obj(castNames[id]) ? castNames[id].name : id.toUpperCase() };
+  });
+  Object.keys(castNames).forEach((id) => { if (!speakers[id] && !voices[id]) info.push('cast ' + id + ' does not speak in any imported chapter (not imported)'); });
+  // Cast in id order whatever its kind, so the output never depends on authoring order.
+  const castSorted = {};
+  Object.keys(cast).sort().forEach((id) => { castSorted[id] = cast[id]; });
 
   // Scenes and focus targets ------------------------------------------------------------------------
   const scenes = {};
@@ -449,7 +475,7 @@ function convert(input, opts) {
     save: settings.save,
     start,
     initialState,
-    cast,
+    cast: castSorted,
     items: outItems,
     files: [],
     assets: { scenes, portraits, focus },

@@ -17,6 +17,18 @@
     },
     "courtesy_conductor": {
       "name": "COURTESY CONDUCTOR"
+    },
+    "pavilion_attendant": {
+      "name": "ATTENDANT"
+    },
+    "pavilion_presenter": {
+      "name": "PRESENTER"
+    },
+    "visitor": {
+      "name": "VISITOR"
+    },
+    "restroom_system": {
+      "name": "RESTROOM SYSTEM"
     }
   }
 }

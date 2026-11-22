@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Self-test for tools/story-sync/sync.js (docs/97). Offline and dependency-free: it builds a
-// throwaway "public storyboard" git repository from this game's own story/ files (plus a Chapter 3
-// stub, storyboard-only annotations and a Chapter 3 item), and a minimal copy of the game tools, then
+// throwaway "public storyboard" git repository from this game's own story/ files (plus an unconsumed
+// Chapter 4 stub, storyboard-only annotations and a Chapter-4-only item; Chapter 3 is consumed since
+// docs/104), and a minimal copy of the game tools, then
 // proves the projection, the pinning, and every refusal. The real story/ is never touched.
 'use strict';
 
@@ -33,16 +34,16 @@ try {
   for (const f of ['storyboard-manifest.json', 'items.draft.json', 'artwork.draft.json', 'storyboard-layout.json']) fs.cpSync(path.join(ROOT, 'story', f), path.join(PUB, 'story', f));
   fs.cpSync(path.join(ROOT, 'story/chapters'), path.join(PUB, 'story/chapters'), { recursive: true });
   const m = J(PUB, 'story/storyboard-manifest.json');
-  m.chapters.push({ id: 'chapter-03', title: 'Chapter 3 — QA stub', file: 'chapters/chapter-03.draft.json', status: 'draft' });
+  m.chapters.push({ id: 'chapter-04', title: 'Chapter 4 — QA stub', file: 'chapters/chapter-04.draft.json', status: 'draft' });
   W(PUB, 'story/storyboard-manifest.json', m);
-  W(PUB, 'story/chapters/chapter-03.draft.json', { title: 'QA stub', start: 'a', scene: 'pavilion/x', nodes: { a: { mode: 'narrative', text: 'Uses qa_pavilion_item.', choices: [], end: true, notes: 'n',
+  W(PUB, 'story/chapters/chapter-04.draft.json', { title: 'QA stub', start: 'a', scene: 'pavilion/x', nodes: { a: { mode: 'narrative', text: 'Uses qa_pavilion_item.', choices: [], end: true, notes: 'n',
     deathPopup: { title: 'QA STUB.', subtitle: 'STUB', description: 'Stub death.', status: 'proposed', artRef: 'pavilion/a_model_citizen' }, endingArt: 'pavilion/a_model_citizen' } } });
   const items = J(PUB, 'story/items.draft.json');
-  items.qa_pavilion_item = { name: 'QA PAVILION ITEM', description: 'Only Chapter 3 mentions it.', slotArt: null, inspectArt: null };
+  items.qa_pavilion_item = { name: 'QA PAVILION ITEM', description: 'Only Chapter 4 mentions it.', slotArt: null, inspectArt: null };
   W(PUB, 'story/items.draft.json', items);
   const ch2 = J(PUB, 'story/chapters/chapter-02.draft.json');
   const endId = Object.keys(ch2.nodes).find((id) => ch2.nodes[id].end);
-  ch2.nodes[endId].storyboardNextChapter = 'chapter-03';
+  ch2.nodes[endId].storyboardNextChapter = 'chapter-04';
   ch2.nodes[endId].notes = 'STORYBOARD-ONLY handoff';
   W(PUB, 'story/chapters/chapter-02.draft.json', ch2);
   // Death popups (docs/98): put the storyboard-only deathPopup / endingArt back on the consumed
@@ -78,14 +79,15 @@ try {
   assert.equal(r.code, 0, r.out); ok('pull pinned revision');
   const lock = J(GAME, 'story/canon.lock.json');
   assert.equal(lock.revision, A);
-  assert.deepEqual(lock.notConsumed.chapters, ['chapter-03']); ok('Chapter 3 not consumed (config.json)');
-  assert.ok(lock.notConsumed.items.includes('qa_pavilion_item')); ok('Chapter-3-only item not consumed');
-  assert.ok(!fs.existsSync(path.join(GAME, 'story/chapters/chapter-03.draft.json')));
-  assert.equal(J(GAME, 'story/storyboard-manifest.json').chapters.some((c) => c.id === 'chapter-03'), false);
+  assert.deepEqual(lock.chapters, ['prologue-00', 'chapter-01', 'chapter-02', 'chapter-03']); ok('Chapter 3 consumed (config.json, docs/104)');
+  assert.deepEqual(lock.notConsumed.chapters, ['chapter-04']); ok('unauthorized chapter (Chapter 4 stub) not consumed');
+  assert.ok(lock.notConsumed.items.includes('qa_pavilion_item')); ok('Chapter-4-only item not consumed');
+  assert.ok(!fs.existsSync(path.join(GAME, 'story/chapters/chapter-04.draft.json')));
+  assert.equal(J(GAME, 'story/storyboard-manifest.json').chapters.some((c) => c.id === 'chapter-04'), false);
   const gameEnd = J(GAME, 'story/chapters/chapter-02.draft.json').nodes[endId];
   assert.equal(gameEnd.storyboardNextChapter, undefined); assert.equal(gameEnd.notes, undefined);
   assert.equal(JSON.stringify(gameEnd), JSON.stringify(J(ROOT, 'story/chapters/chapter-02.draft.json').nodes[endId])); ok('storyboard-only hand-off stripped; ending behaviour unchanged');
-  for (const f of ['prologue-00', 'chapter-01', 'chapter-02']) assert.equal(fs.readFileSync(path.join(GAME, 'story/chapters', f + '.draft.json'), 'utf8'), fs.readFileSync(path.join(ROOT, 'story/chapters', f + '.draft.json'), 'utf8'), f);
+  for (const c of J(ROOT, 'story/storyboard-manifest.json').chapters) assert.equal(fs.readFileSync(path.join(GAME, 'story', c.file), 'utf8'), fs.readFileSync(path.join(ROOT, 'story', c.file), 'utf8'), c.id);
   assert.equal(fs.readFileSync(path.join(GAME, 'story/items.draft.json'), 'utf8'), fs.readFileSync(path.join(ROOT, 'story/items.draft.json'), 'utf8'));
   ok('projection reproduces the real story/ byte for byte');
   assert.equal(fs.readFileSync(path.join(GAME, 'story/runtime-settings.json'), 'utf8'), fs.readFileSync(path.join(ROOT, 'story/runtime-settings.json'), 'utf8')); ok('game-owned runtime-settings untouched');
@@ -96,12 +98,12 @@ try {
 
   // 2b. Death popups: projected for consumed chapters, compiled for the runtime (docs/98).
   assert.equal(fs.readFileSync(path.join(GAME, 'story/death-presentations.export.json'), 'utf8'), fs.readFileSync(path.join(ROOT, 'story/death-presentations.export.json'), 'utf8'));
-  assert.ok(lock.notConsumed.deathPresentations.includes('chapter-03:a'));
+  assert.ok(lock.notConsumed.deathPresentations.includes('chapter-04:a'));
   const rt = require(path.join(GAME, 'game/content/death-presentations.generated.js'));
   assert.equal(rt.storyboard.revision, A);
   // Since docs/102 all six consumed deaths have integrated art (Rest Assured + the five Chapter 2 deaths).
-  assert.ok(!rt.entries.some((e) => /^chapter-03:/.test(e.id)) && rt.entries.filter((e) => e.art).map((e) => e.id).join() === 'chapter-01:exit_chair_fatal,chapter-02:fatal_sorter,chapter-02:fatal_hopper,chapter-02:fatal_transformation,chapter-02:fatal_planting,chapter-02:fatal_roots');
-  ok('death export: consumed chapters only (Chapter 3 excluded), byte-identical to the real projection; runtime module pinned to the revision; only selected art handed over');
+  assert.ok(!rt.entries.some((e) => /^chapter-0[34]:/.test(e.id)) && rt.entries.filter((e) => e.art).map((e) => e.id).join() === 'chapter-01:exit_chair_fatal,chapter-02:fatal_sorter,chapter-02:fatal_hopper,chapter-02:fatal_transformation,chapter-02:fatal_planting,chapter-02:fatal_roots');
+  ok('death export: consumed chapters only (Chapter 4 stub excluded; Chapter 3 has no fatal ending), byte-identical to the real projection; runtime module pinned to the revision; only selected art handed over');
   const gfile = path.join(GAME, 'game/content/death-presentations.generated.js'), gorig = fs.readFileSync(gfile);
   fs.writeFileSync(gfile, gorig.toString().replace('PERMANENTLY SATISFIED.', 'PERMANENTLY SATISFIED!'));
   r = sync('verify'); assert.equal(r.code, 1); assert.match(r.out, /death-presentations\.generated\.js was edited by hand or is stale/); ok('verify catches a hand-edited runtime popup module');
@@ -115,9 +117,9 @@ try {
   r = sync('pull', '--rev', A, '--from-git', PUB, '--force'); assert.equal(r.code, 0, r.out); assert.ok(fs.readFileSync(f1).equals(orig)); ok('--force restores canon');
 
   // 4. A stray chapter copied in by hand is rejected.
-  fs.writeFileSync(path.join(GAME, 'story/chapters/chapter-03.draft.json'), '{}\n');
+  fs.writeFileSync(path.join(GAME, 'story/chapters/chapter-04.draft.json'), '{}\n');
   r = sync('verify'); assert.equal(r.code, 1); assert.match(r.out, /not part of the canonical projection/); ok('stray local canon rejected');
-  fs.rmSync(path.join(GAME, 'story/chapters/chapter-03.draft.json'));
+  fs.rmSync(path.join(GAME, 'story/chapters/chapter-04.draft.json'));
 
   // 5. Branch names are not pins.
   r = sync('pull', '--rev', 'main', '--from-git', PUB); assert.equal(r.code, 2); ok('pull requires a full commit SHA');
@@ -128,7 +130,7 @@ try {
   const B = commit('B');
   r = sync('status', '--rev', B, '--from-git', PUB); assert.equal(r.code, 0, r.out);
   assert.match(r.out, new RegExp('~ story/chapters/chapter-01.draft.json node ' + c1p.start));
-  assert.match(r.out, /published but not consumed by this game.*chapter-03/); ok('status reports node + art drift and unconsumed chapters');
+  assert.match(r.out, /published but not consumed by this game.*chapter-04/); ok('status reports node + art drift and unconsumed chapters');
   r = sync('status', '--rev', B, '--from-git', PUB, '--fail-on-drift'); assert.equal(r.code, 1); ok('status --fail-on-drift');
   r = sync('verify', '--from-git', PUB); assert.equal(r.code, 0, r.out); ok('pinned build still verifies while public moves on');
   r = sync('pull', '--rev', B, '--from-git', PUB); assert.equal(r.code, 0, r.out);

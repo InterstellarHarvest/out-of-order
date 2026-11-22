@@ -42,7 +42,11 @@ const MAINTENANCE = CLEANED.map((n) => `art/ui/sprites/choice_cards/${n}.png`).c
   'tools/layout-lab/README.md',
   // The owner's top-frame pixel fix to the shell (2026-11-08, 2376 opaque pixels in x1325-1897 y25-47;
   // alpha mask unchanged), with the re-measured identity and notes that follow from it.
-  SHELL_PATH, 'tools/layout-lab/data/measured_shell_regions.json', 'tools/layout-lab/FIT_AND_SCALE_NOTES.md']);
+  SHELL_PATH, 'tools/layout-lab/data/measured_shell_regions.json', 'tools/layout-lab/FIT_AND_SCALE_NOTES.md',
+  // The owner's '%' glyph decision (2026-11-20, docs/104 section 5): the three TTF-baked atlases gain one
+  // glyph each (every existing glyph, metric and atlas size unchanged), with their map and baker.
+  'art/ui/fonts/jersey15-1x.png', 'art/ui/fonts/pressstart2p-2x.png', 'art/ui/fonts/tiny5-3x.png',
+  'tools/layout-lab/data/fonts.json', 'tools/layout-lab/scripts/bake_fonts.py']);
 
 // Approved reception production art (docs/56 approval, docs/57 integration), pinned by hash. These
 // are the ONLY files the art/ allowlist admits beyond OWNER_ART; anything else under art/ fails.
@@ -85,7 +89,9 @@ const STORY_UI_ART = { ['art/ui/shell/' + NARRATIVE_OVERLAY.image]: NARRATIVE_OV
 // The death-presentation review proof (docs/94) pins its one approved image the same way.
 // Presentation Batch B (docs/101; public docs/107 section 9) pins the lounge + dining House views.
 // Chapter 2 (docs/102; public docs/108) pins the 50 Biology Park images the same way.
-const PROVENANCE = ['art/house_of_tomorrow.provenance.json', 'art/house_of_tomorrow.batch_b.provenance.json', 'art/biology_park.provenance.json', 'art/deaths/rest_assured_voluntary.provenance.json'];
+// Chapter 3 (docs/104) pins the 29 Pavilion images the same way.
+const PROVENANCE = ['art/house_of_tomorrow.provenance.json', 'art/house_of_tomorrow.batch_b.provenance.json', 'art/biology_park.provenance.json', 'art/deaths/rest_assured_voluntary.provenance.json',
+  'art/pavilion_reboot.provenance.json'];
 const STORY_UI_DATA = ['art/ui/shell/narrative-overlay.manifest.js'].concat(PROVENANCE);
 const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES v1 (lab option only since Round 2)
 const FILES_PANEL = 'art/ui/overlays/files_panel.png';

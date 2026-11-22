@@ -1461,7 +1461,12 @@
   function validateStory(story, charset, opts) {
     var o = opts || {};
     var errors = [];
-    var chars = charset ? new Set(charset) : null;
+    // charset: the characters every face draws (an array), or { locked, text } (docs/104 section 5):
+    // `locked` = the locked face (choice cards, the player's own lines and actions, item names; every
+    // field is checked against it as before), `text` = what the baked Dialogue/Labels/Objective faces
+    // draw, used only for narration, NPC speech and directions in node text and results.
+    var chars = charset ? new Set(Array.isArray(charset) ? charset : charset.locked) : null;
+    var textChars = charset ? new Set(Array.isArray(charset) ? charset : charset.text) : null;
     var compat = story && story.compat === 'v1';
     function err(where, msg) { errors.push(where + ': ' + msg); }
     function obj(v) { return !!v && typeof v === 'object' && !Array.isArray(v); }
@@ -1505,10 +1510,11 @@
       if (allChecks[id].length > 1) err('check ' + id, 'id is used more than once (' + allChecks[id].map(function (c) { return c.at; }).join('; ') + '); check ids must be unique across the story');
     });
 
-    function text(where, s) {
+    function text(where, s, face) {
       if (typeof s !== 'string' || !s.trim()) return err(where, 'empty text');
-      if (chars) {
-        var bad = Array.from(new Set(s.replace(/\n/g, '').split(''))).filter(function (ch) { return !chars.has(ch); });
+      var set = face === 'text' ? textChars : chars;
+      if (set) {
+        var bad = Array.from(new Set(s.replace(/\n/g, '').split(''))).filter(function (ch) { return !set.has(ch); });
         if (bad.length) err(where, 'characters the fonts cannot draw: ' + bad.join(' '));
       }
     }
@@ -1540,12 +1546,14 @@
       });
       if (f[f.length - 1].if) err(where, 'last variant must have no condition, so something is always said');
     }
-    function runs(where, t) {
-      if (typeof t === 'string') return text(where, t);
+    // face 'text' (node text and results): plain strings, directions and a named cast member's speech
+    // are drawn in the Dialogue face; the player's actions and own speech always in the locked face.
+    function runs(where, t, face) {
+      if (typeof t === 'string') return text(where, t, face);
       if (!Array.isArray(t) || !t.length) return err(where, 'must be text, runs or variants');
       t.forEach(function (r, i) {
         var w = where + ' run ' + i;
-        if (typeof r === 'string') return text(w, r);
+        if (typeof r === 'string') return text(w, r, face);
         if (!obj(r)) return err(w, 'a run is a string or one { say | act | desc | think } object');
         var roles = Object.keys(r).filter(function (k) { return has(RUN_ROLES, k); });
         Object.keys(r).forEach(function (k) { if (!has(RUN_ROLES, k) && k !== 'who') err(w, 'unknown run key ' + k); });
@@ -1553,13 +1561,14 @@
         if (roles[0] === 'think') err(w, 'think runs are reserved for the thought contract (docs/72 section 8.3)');
         if (has(r, 'who') && roles[0] !== 'say') err(w, 'who is only for say runs');
         if (has(r, 'who') && r.who !== YOU && !cast[r.who]) err(w, 'unknown speaker ' + r.who);
-        text(w, r[roles[0]]);
+        var npcFace = face === 'text' && (roles[0] === 'desc' || (roles[0] === 'say' && has(r, 'who') && r.who !== YOU));
+        text(w, r[roles[0]], npcFace ? 'text' : undefined);
       });
     }
-    function textField(where, f) {
-      if (isVariants(f)) return variants(where, f, runs);
+    function textField(where, f, face) {
+      if (isVariants(f)) return variants(where, f, function (w, t) { runs(w, t, face); });
       if (Array.isArray(f) && f.some(function (v) { return obj(v) && has(v, 'text'); })) return err(where, 'mixes runs and { if, text } variants');
-      runs(where, f);
+      runs(where, f, face);
     }
     function effects(where, fx) {
       if (fx === undefined) return;
@@ -1625,7 +1634,7 @@
     function outcomeSpec(where, o, n, chId) {
       if (!obj(o)) return err(where, 'needs a pass and a fail outcome');
       onlyKeys(where, o, OUTCOME_KEYS);
-      if (o.result !== undefined) textField(where + ' result', o.result);
+      if (o.result !== undefined) textField(where + ' result', o.result, 'text');
       effects(where, o.effects);
       destinations(where, o, n, chId, false);
     }
@@ -1705,6 +1714,9 @@
       if (!obj(c)) return err('cast ' + id, 'must be an object');
       onlyKeys('cast ' + id, c, ['name', 'portrait']);
       text('cast ' + id + ' name', c.name);
+      // A cast member without a portrait is an incidental voice (docs/104 section 4): it speaks only in
+      // `say` runs ({ say, who }) inside another speaker's conversation and never leads a dialogue node.
+      if (!has(c, 'portrait')) return;
       if (!has(portraits, c.portrait)) err('cast ' + id, 'unregistered portrait ' + c.portrait);
       else refs.portraits[c.portrait] = true;
     });
@@ -1773,6 +1785,7 @@
         if (n.scene !== undefined) sceneRef(w, n.scene);
         if (n.mode === 'dialogue') {
           if (!cast[n.speaker]) err(w, 'a dialogue node needs a speaker from the cast');
+          else if (!has(cast[n.speaker], 'portrait')) err(w, 'speaker ' + n.speaker + ' is an incidental voice (no portrait): it may only speak in say runs');
           else {
             var reg = portraits[cast[n.speaker].portrait] || { backgrounds: {}, poses: {} };
             if (obj(reg.views)) {
@@ -1826,7 +1839,7 @@
         }
         if (n.objective !== undefined) plainField(w + ' objective', n.objective);
         effects(w, n.effects);
-        textField(w + ' text', n.text);
+        textField(w + ' text', n.text, 'text');
         if (has(n, 'contextAction')) context(w + ' contextAction', n.contextAction);
         if (n.end !== undefined && n.end !== true) err(w, 'end must be true when present');
         if (n.end) endings++;
@@ -1857,7 +1870,7 @@
           effects(x, c.effects);
           if (c.once !== undefined && c.once !== true) err(x, 'once must be true when present');
           if (c.once) onceKeys[chId + ':' + id + ':' + c.id] = true;
-          if (c.result !== undefined) textField(x + ' result', c.result);
+          if (c.result !== undefined) textField(x + ' result', c.result, 'text');
           var ds = destinations(x, c, n, chId, true);
           checked(x, c, n, chId);
           if (has(c, 'restart')) {
@@ -1886,7 +1899,7 @@
             effects(x, e.effects);
             if (e.once !== undefined && e.once !== true) err(x, 'once must be true when present');
             if (e.once) onceKeys[chId + ':' + id + ':' + item + ':' + verb] = true;
-            if (e.result !== undefined) textField(x + ' result', e.result);
+            if (e.result !== undefined) textField(x + ' result', e.result, 'text');
             var ds = destinations(x, e, n, chId, false);
             checked(x, e, n, chId);
             if (!ds.length && !e.once && !e.check && e.effects === undefined) err(x, 'stays here and changes nothing (needs once or effects, or a destination)');

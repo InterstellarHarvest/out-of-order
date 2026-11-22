@@ -67,9 +67,10 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const g = 'baseline';
   const b = build();
   check(g, 'story/ (prologue-00 + chapter-01 drafts) builds as a preview with no errors', b.ok, b.report.errors);
-  check(g, 'three chapters: 29 Prologue, 36 House and 99 Biology Park nodes, with no unfinished draft-stop nodes', b.ok
-    && b.report.stats.chapters === 3 && b.report.stats.nodes === 164 && Object.keys(b.story.chapters['prologue-00'].nodes).length === 29
+  check(g, 'four chapters: 29 Prologue, 36 House, 99 Biology Park and 34 Pavilion nodes (docs/104), with no unfinished draft-stop nodes', b.ok
+    && b.report.stats.chapters === 4 && b.report.stats.nodes === 198 && Object.keys(b.story.chapters['prologue-00'].nodes).length === 29
     && Object.keys(b.story.chapters['chapter-01'].nodes).length === 36 && Object.keys(b.story.chapters['chapter-02'].nodes).length === 99
+    && Object.keys(b.story.chapters['chapter-03'].nodes).length === 34
     && b.report.draftStops.length === 0, b.ok && [b.report.stats, b.report.draftStops]);
   const v = verify();
   check(g, 'game/content/story.generated.js is up to date with story/ (no stale output)', v.ok, v.why);
@@ -83,7 +84,7 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'authoring key order does not change the content hash or the runtime content', b2.ok && b2.meta.contentHash === b.meta.contentHash && b2.text.split('\n').slice(3).join() !== undefined
     && JSON.stringify(b2.story.chapters['prologue-00'].nodes.work_complete.choices) !== undefined, b2.ok && [b2.meta.contentHash, b.meta.contentHash]);
   check(g, 'the build records content hash, version, schema and every source file hash', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
-    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 7 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
+    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 8 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
   // docs/92 adds the 28 bound Chapter 1 House images (the 29th, the default chair, is unbound).
   const houseArt = (a) => /house_of_tomorrow|portraits\/house\/|family_portrait_photo/.test(a.path);
@@ -92,9 +93,13 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const parkArt = (a) => /biology_park|portraits\/(groundskeeper|courtesy_conductor)\/|items\/(botanical_antidote_|certified_seed_canister_|acting_director_badge_)/.test(a.path);
   // Owner ruling 2026-11-16 (public docs/102-103, docs/97): selected + used art is approved; in this build = integrated.
   // + 2 Batch B House views (lounge, dining; public docs/107 section 9) = 30 House images.
-  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images, 5 reused approved)', b.ok
+  // docs/104: + the 29 Pavilion images (14 scenes, 8 conversation backgrounds, 7 poses), still `approved` on this
+  // review build: they become `integrated` only at the normal reconciliation step (sync.js publish).
+  const pavilionArt = (a) => /pavilion_reboot\//.test(a.path);
+  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images, 5 reused approved, 29 approved Pavilion images pending reconciliation)', b.ok
     && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
     && b.meta.art.filter((a) => a.status === 'integrated' && parkArt(a)).length === 45
+    && b.meta.art.filter((a) => a.status === 'approved').length === 29 && b.meta.art.filter((a) => a.status === 'approved').every(pavilionArt)
     && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
 })();
 
@@ -215,11 +220,15 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   check(g, 'marking Prologue and Chapter 1 approved cannot promote Chapter 2', !two.ok
     && has(two.report.errors, /chapter-02 is marked "draft"/) && !has(two.report.errors, /chapter-01 is marked/), two.report.errors);
   t.edit('storyboard-manifest.json', (j) => { j.chapters[2].status = 'approved'; });
+  const three = build({ from: t.dir, mode: 'approved' });
+  check(g, 'marking Prologue, Chapter 1 and Chapter 2 approved cannot promote Chapter 3', !three.ok
+    && has(three.report.errors, /chapter-03 is marked "draft"/) && !has(three.report.errors, /chapter-02 is marked/), three.report.errors);
+  t.edit('storyboard-manifest.json', (j) => { j.chapters[3].status = 'approved'; });
   const noArt = build({ from: t.dir, mode: 'approved' });
   // docs/102: every House and Biology Park image the story uses is now produced, so with all three chapters marked
   // approved no artwork is missing and the draft statuses no longer block. The guard itself is proved on a copy
   // with one Chapter 2 scene's production path removed: the approved channel must refuse it as missing art.
-  check(g, 'with all three chapters marked approved, no required artwork is missing and no draft status blocks',
+  check(g, 'with all four chapters marked approved, no required artwork is missing and no draft status blocks',
     !has(noArt.report.errors, /missing required artwork/) && !has(noArt.report.errors, /is marked "draft"/), noArt.report.errors);
   t.edit('artwork.draft.json', (j) => { j.scenes['biology_park/formal_entrance'].assetPath = null; });
   const gap = build({ from: t.dir, mode: 'approved' });
@@ -229,7 +238,8 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
     JSON.stringify(b.meta.chapters) === JSON.stringify([
       { id: 'prologue-00', title: 'Prologue — The Last Good Day', status: 'draft' },
       { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', status: 'draft' },
-      { id: 'chapter-02', title: 'Chapter 2 — Biology Park', status: 'draft' }
+      { id: 'chapter-02', title: 'Chapter 2 — Biology Park', status: 'draft' },
+      { id: 'chapter-03', title: "Chapter 3 — The People's Pavilion", status: 'draft' }
     ]) && b.meta.channel === 'preview', b.meta.chapters);
 })();
 
@@ -440,8 +450,13 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   // reach the popup through the death runtime and are checked by validate_ch02_art.js).
   const park = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/biology_park.provenance.json'), 'utf8')).images.filter((r) => r.kind !== 'death-screen');
   const parkOk = park.length === 45 && park.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256));
-  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images matching their provenance, none generated or approved-only)', gen.length === 103 && prov.length === 30 && houseOk && parkOk
-    && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'approved' || a.status === 'generated'),
+  // docs/104: the 29 Pavilion images are used while still `approved` (review build; integrated at reconciliation),
+  // pinned by art/pavilion_reboot.provenance.json. Nothing else may read as approved-only, nothing as generated.
+  const pav = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/pavilion_reboot.provenance.json'), 'utf8')).images;
+  const appr = b.meta.art.filter((a) => a.status === 'approved');
+  const pavOk = pav.length === 29 && appr.length === 29 && pav.every((r) => appr.some((a) => a.path === r.path && a.sha256 === r.sha256));
+  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images matching their provenance; only the 29 Pavilion images approved-only, pending reconciliation; none generated)', gen.length === 103 && prov.length === 30 && houseOk && parkOk && pavOk
+    && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'generated'),
     b.meta.art.map((a) => a.status));
   const t = copySource(STORY).edit('artwork.draft.json', (j) => {
     const k = Object.keys(j.scenes)[0];
@@ -469,10 +484,11 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const st = b.story;
   const src = (rel) => JSON.parse(fs.readFileSync(path.join(STORY, rel), 'utf8'));
   const manifest = src('storyboard-manifest.json');
-  check(g, 'the manifest lists exactly Prologue, Chapter 1, Chapter 2, all draft, each in its own chapter file', JSON.stringify(manifest.chapters) === JSON.stringify([
+  check(g, 'the manifest lists exactly Prologue, Chapter 1, Chapter 2 and Chapter 3 (the approved reboot file), all draft, each in its own chapter file', JSON.stringify(manifest.chapters) === JSON.stringify([
     { id: 'prologue-00', title: 'Prologue — The Last Good Day', file: 'chapters/prologue-00.draft.json', status: 'draft' },
     { id: 'chapter-01', title: 'Chapter 1 — House of Tomorrow', file: 'chapters/chapter-01.draft.json', status: 'draft' },
-    { id: 'chapter-02', title: 'Chapter 2 — Biology Park', file: 'chapters/chapter-02.draft.json', status: 'draft' }]), manifest.chapters);
+    { id: 'chapter-02', title: 'Chapter 2 — Biology Park', file: 'chapters/chapter-02.draft.json', status: 'draft' },
+    { id: 'chapter-03', title: "Chapter 3 — The People's Pavilion", file: 'chapters/chapter-03.reboot-candidate.json', status: 'draft' }]), manifest.chapters);
   const pro = src(PROLOGUE);
   const ch1 = src(CHAPTER1);
   check(g, 'no Chapter 1 node lives in the Prologue JSON (and none of the Prologue\'s in Chapter 1)', Object.keys(ch1.nodes).every((id) => !pro.nodes[id])

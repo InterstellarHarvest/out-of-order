@@ -110,7 +110,11 @@ function build(opts) {
   report.version = story.version;
 
   // Rules validation: shape, then every reachable state (Rules.validateStory, docs/74 section 3).
-  const charset = Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping);
+  // The locked face draws cards, the player's own lines and item names; the baked faces (Dialogue,
+  // Labels, Objective) draw narration and NPC speech, and every one of them must draw it (docs/104 section 5).
+  const locked = Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping);
+  const faces = Object.values(JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/layout-lab/data/fonts.json'))));
+  const charset = { locked, text: Object.keys(faces[0].mapping).filter((ch) => faces.every((f) => Object.prototype.hasOwnProperty.call(f.mapping, ch))) };
   if (!c.errors.length) {
     const v = Rules.validateStory(story, charset, { routeMarks: true, liveKeys: true });
     // The schema requires every variant list to end with an unconditional fallback. When the

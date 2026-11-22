@@ -29,6 +29,11 @@ FACES = [
 LICENSES = {"kenney": ("CC0 1.0 (public domain)", "License.txt")}
 OFL = ("SIL Open Font License 1.1", "OFL.txt")
 PAD = 2  # transparent pixels around each glyph in the atlas
+# Characters these baked faces draw beyond the locked font's set, appended after it so every existing
+# glyph keeps its atlas cell, metrics and pixels. '%' (owner decision 2026-11-20, docs/104 section 5):
+# the approved Chapter 3 machine readouts. The locked face (choice cards, the player's own lines, item
+# names) is unchanged, so text drawn in it must still use only the locked set (Rules.validateStory).
+EXTRA_CHARS = ["%"]
 
 
 def bake(face, chars):
@@ -85,7 +90,7 @@ def bake(face, chars):
 
 
 def main():
-    chars = list(json.loads(LOCKED_GLYPHS.read_text())["mapping"].keys())
+    chars = list(json.loads(LOCKED_GLYPHS.read_text())["mapping"].keys()) + EXTRA_CHARS
     out = {}
     for face in FACES:
         atlas, meta = bake(face, chars)
