@@ -116,10 +116,30 @@ check('workflow_dispatch has a boolean visual_review input, default false',
 // --- Triggers (docs/100 section 9): drafts skip QA; manual, ready-for-review, non-draft PRs and main run it.
 check('pull_request runs on opened, synchronize, reopened and ready_for_review',
   /\n  pull_request:\n    types: \[opened, synchronize, reopened, ready_for_review\]\n/.test(text));
-check('push to main and workflow_dispatch still trigger QA', /\n  push:\n    branches: \[main\]\n  workflow_dispatch:\n/.test(text));
+// --- Minutes policy (docs/105): documentation-only changes run nothing; PRs and pushes run the content job;
+// the browser job runs only on a manual run with scope chromium or full; the story-import acceptance suite
+// runs only when tools/ci/changed-scope.js says the change can affect the importer, or on manual chromium/full.
+const IGNORE = "    paths-ignore: ['docs/**', '**/*.md', '**/*.tsv']\n";
+check('pull_request and push to main ignore documentation-only changes (docs/105)',
+  text.includes("\n  pull_request:\n    types: [opened, synchronize, reopened, ready_for_review]\n    # Documentation-only changes run nothing (docs/105).\n" + IGNORE)
+  && text.includes('\n  push:\n    branches: [main]\n' + IGNORE + '  workflow_dispatch:\n'));
+check('workflow_dispatch has a scope input: quick | chromium | full, default quick',
+  /\n      scope:\n        description: .*\n        type: choice\n        options: \[quick, chromium, full\]\n        default: quick\n/.test(text));
 const SKIP_IF = "    if: github.event_name != 'pull_request' || !github.event.pull_request.draft";
-for (const j of ['content', 'browsers']) check(`${j} job skips only draft PRs (exact condition)`,
-  (J[j] || []).filter(l => /^    if:/.test(l)).length === 1 && (J[j] || []).includes(SKIP_IF), (J[j] || []).filter(l => /^    if:/.test(l)));
+check('content job skips only draft PRs (exact condition)',
+  (J.content || []).filter(l => /^    if:/.test(l)).length === 1 && (J.content || []).includes(SKIP_IF), (J.content || []).filter(l => /^    if:/.test(l)));
+const MANUAL_IF = "    if: github.event_name == 'workflow_dispatch' && inputs.scope != 'quick'";
+check('browsers job runs only on a manual chromium/full run (exact condition; never on PRs or pushes)',
+  (J.browsers || []).filter(l => /^    if:/.test(l)).length === 1 && (J.browsers || []).includes(MANUAL_IF), (J.browsers || []).filter(l => /^    if:/.test(l)));
+check('browsers job picks its browsers from the scope (chromium -> Chromium only, full -> both) and installs only those',
+  (J.browsers || []).includes("      QA_BROWSERS: ${{ inputs.scope == 'chromium' && 'chromium' || 'chromium,firefox' }}")
+  && /playwright" install --with-deps \$\{QA_BROWSERS\/\/,\/ \}/.test((J.browsers || []).join('\n')));
+const contentSteps = steps(J.content || []);
+const scopeStep = contentSteps.find(s => s.id === 'scope'), siStep = contentSteps.find(s => s.run === 'node game/qa/validate_story_import.js');
+check('the story-import acceptance suite runs exactly when changed-scope says so, or on a manual chromium/full run',
+  scopeStep && /^node tools\/ci\/changed-scope\.js /.test(scopeStep.run) && siStep && contentSteps.indexOf(scopeStep) < contentSteps.indexOf(siStep)
+  && siStep.if === "(github.event_name != 'workflow_dispatch' && steps.scope.outputs.story_import == 'true') || (github.event_name == 'workflow_dispatch' && inputs.scope != 'quick')",
+  siStep && siStep.if);
 
 const idxStep = browsers.find(s => s.run === 'node tools/ci/qa-artifact-index.js');
 check('artifact index runs on every run before the uploads, with job status, visual_review and step outcomes',

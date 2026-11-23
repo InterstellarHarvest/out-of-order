@@ -1,40 +1,55 @@
-# Game QA (docs/84 section 7). Two jobs:
-#   content   Node only, about a minute: the storyboard import (check + freshness of the generated
-#             file), the glyph ink table, the rules, both route validators, the story-import
-#             acceptance suite (incl. Focus A, dice checks, content independence) and the static
-#             asset checks.
-#   browsers  Chromium + Firefox (Playwright, headless Linux): asset checks in the browser, the
-#             imported-story suite, the M2 reception game suite, the polish lab and the layout lab.
-#             The layout lab's 8 long-standing failures are allowed by exact name only
-#             (game/qa/known_failures/layout-lab.json); anything else fails.
+# Game QA (docs/84 section 7; minutes policy docs/105). Two jobs:
+#   content   Node only, ~5 min: the storyboard import (built + compared with the committed file), the
+#             storyboard sync, the glyph ink table, the rules, both route validators, the chapter art and
+#             route validators and the static asset checks. The story-import acceptance suite (~15-19 min)
+#             runs only when the change can affect the importer (tools/ci/changed-scope.js) and on manual
+#             chromium/full runs.
+#   browsers  Playwright, headless Linux: every browser suite. MANUAL ONLY (scope chromium or full):
+#             pull requests and pushes never start it. The layout lab's 8 long-standing failures are
+#             allowed by exact name only (game/qa/known_failures/layout-lab.json); anything else fails.
+#
+# When it runs (docs/105; GitHub Actions minutes are not to be spent on routine work):
+#   documentation-only change (docs/**, *.md, *.tsv)    nothing
+#   draft pull request                                  nothing
+#   non-draft pull request / push to main               content job (quick)
+#   Actions > QA > Run workflow, scope quick            content job (quick)
+#   ... scope chromium                                  everything, browsers in Chromium only
+#   ... scope full                                      everything, Chromium and Firefox
+# The primary gate is free and local: tools/ci/run-local-qa.sh runs every step of both jobs.
 # CI environment limits are recorded in docs/84 section 7.2 (no Safari/WebKit by owner rule, Linux
 # runners only, timing-sensitive checks are the first suspects in a one-off failure).
 #
-# Artifacts (docs/100). Actions storage on this private repository is billed against a small
-# allowance, and the browser screenshots are about 300 MB per run, so:
+# Artifacts (docs/100). The browser screenshots are about 300 MB per run, so:
 #   qa-content                       content-job JSON results          every run       7 days
 #   qa-browsers-summary              browser JSON results + index      every run       7 days
 #   qa-browsers-failure-screenshots  PNGs of the FAILED suites only    failed run      1 day
 #   qa-browsers-screenshots          every PNG of every suite          visual review   1 day
-# A manual visual-review run: Actions > QA > Run workflow, choose the branch, tick visual_review
-# (or: gh workflow run qa.yml --ref <branch> -f visual_review=true). Download within 24 hours.
-# Every test still runs on every run; only what is kept afterwards changed. Upload steps are
-# continue-on-error, so a refused upload can neither fail a passing run nor pass a failing one.
-# Draft PRs skip QA (Actions minutes are limited) unless it is run manually (Run workflow) or the
-# PR is marked ready for review; non-draft PRs, pushes to main and manual runs are unchanged.
+# A manual visual-review run: Actions > QA > Run workflow, choose the branch, scope chromium or full,
+# tick visual_review (gh workflow run qa.yml --ref <branch> -f scope=full -f visual_review=true).
+# Upload steps are continue-on-error, so a refused upload can neither fail a passing run nor pass a
+# failing one.
+
 name: QA
 
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
+    # Documentation-only changes run nothing (docs/105).
+    paths-ignore: ['docs/**', '**/*.md', '**/*.tsv']
   push:
     branches: [main]
+    paths-ignore: ['docs/**', '**/*.md', '**/*.tsv']
   workflow_dispatch:
     inputs:
       visual_review:
         description: 'Keep the full browser screenshots (qa-browsers-screenshots, 1 day) for creative / visual review'
         type: boolean
         default: false
+      scope:
+        description: 'quick = the content checks only (~5 min); chromium = everything, browsers in Chromium only (~35 min); full = everything in Chromium and Firefox (~65 min)'
+        type: choice
+        options: [quick, chromium, full]
+        default: quick
 
 concurrency:
   group: qa-${{ github.ref }}
@@ -45,13 +60,11 @@ permissions:
 
 jobs:
   content:
-    # Draft PRs do not run QA automatically (Actions minutes on this private repository are limited,
-    # docs/100 section 9): run it with Actions > QA > Run workflow on the branch, or mark the PR ready
-    # for review. Non-draft PRs, pushes to main and manual runs are unchanged. Locally it is free.
+    # Draft PRs run nothing (docs/100 section 9, docs/105).
     if: github.event_name != 'pull_request' || !github.event.pull_request.draft
     runs-on: ubuntu-24.04
-    # Full authored Chapter 1 turns the exhaustive acceptance mutations into a long CI job.
-    # Do not mask or skip them: give the source validator enough wall time to finish.
+    # The story-import acceptance suite re-walks every reachable state per case (~15-19 min); it runs when
+    # the change can affect the importer (tools/ci/changed-scope.js) and on every manual chromium/full run.
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
@@ -60,9 +73,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-      - name: Storyboard import - validate story/
-        run: node tools/story-import/import.js --check
-      - name: Generated story is up to date with story/ (not stale, not hand-edited)
+      - name: Which expensive checks this change needs (docs/105)
+        id: scope
+        run: node tools/ci/changed-scope.js "${{ github.event.pull_request.base.sha || github.event.before }}" "${{ github.sha }}"
+      # --verify builds story/ (the full import + reachability walk, as --check did) and compares the result
+      # with the committed file: a build error or a stale/hand-edited file both fail here.
+      - name: Generated story is up to date with story/ (builds it; not stale, not hand-edited)
         run: node tools/story-import/import.js --verify
       - name: story/ is the projection of its pinned canonical storyboard revision (no hand edits, no stray canon)
         run: node tools/story-sync/sync.js verify
@@ -82,6 +98,7 @@ jobs:
       - name: Rules (story engine, fixtures, mutants)
         run: node game/qa/validate_story.js
       - name: Story import acceptance (incl. Focus A, dice checks, content independence)
+        if: (github.event_name != 'workflow_dispatch' && steps.scope.outputs.story_import == 'true') || (github.event_name == 'workflow_dispatch' && inputs.scope != 'quick')
         run: node game/qa/validate_story_import.js
       - name: Biology Park routes (engine; every Chapter 2 node and check outcome, gating, antidotes)
         run: node game/qa/validate_ch02_routes.js
@@ -117,14 +134,15 @@ jobs:
           if-no-files-found: ignore
 
   browsers:
-    # Draft PRs do not run QA automatically (Actions minutes on this private repository are limited,
-    # docs/100 section 9): run it with Actions > QA > Run workflow on the branch, or mark the PR ready
-    # for review. Non-draft PRs, pushes to main and manual runs are unchanged. Locally it is free.
-    if: github.event_name != 'pull_request' || !github.event.pull_request.draft
+    # The browser suites (~22 min in Chromium, ~45 min in both browsers) run only on a manual run with
+    # scope chromium or full (docs/105). The primary gate is the free local run of every step:
+    # tools/ci/run-local-qa.sh. Pull requests and pushes never start this job.
+    if: github.event_name == 'workflow_dispatch' && inputs.scope != 'quick'
     runs-on: ubuntu-24.04
     timeout-minutes: 45
     env:
       PLAYWRIGHT_VERSION: 1.59.1
+      QA_BROWSERS: ${{ inputs.scope == 'chromium' && 'chromium' || 'chromium,firefox' }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -135,11 +153,11 @@ jobs:
       # Installed outside the checkout so no node_modules ever lands in the repository; the QA
       # scripts find it through NODE_PATH, as they do locally.
       # Pinned runner: ubuntu-latest moved to 26.04, which Playwright 1.59.1 does not support.
-      - name: Install Playwright (Chromium + Firefox)
+      - name: Install Playwright (the browsers this run uses)
         id: pw
         run: |
           npm install --prefix "$RUNNER_TEMP/pw" --no-save --no-audit --no-fund "playwright@$PLAYWRIGHT_VERSION"
-          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps chromium firefox
+          "$RUNNER_TEMP/pw/node_modules/.bin/playwright" install --with-deps ${QA_BROWSERS//,/ }
           echo "NODE_PATH=$RUNNER_TEMP/pw/node_modules" >> "$GITHUB_ENV"
       - name: Assets (in the browser)
         id: assets_browser
