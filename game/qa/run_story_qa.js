@@ -530,7 +530,7 @@ async function suite(name, base) {
 (async () => {
   const server = await startServer();
   const base = 'http://127.0.0.1:' + server.address().port;
-  for (const name of ['chromium', 'firefox']) {
+  for (const name of (process.env.QA_BROWSERS || process.env.BROWSERS || 'chromium,firefox').split(',')) {
     try { await suite(name, base); } catch (e) { check(name, 'suite ran to the end', false, String(e.stack || e).slice(0, 800)); }
   }
   server.close();
