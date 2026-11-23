@@ -66,6 +66,14 @@ then push its `v*` version tag to independently recheck it. A passing browser ru
 itself enforce GitHub branch protections or prevent manual release publishing; reviewers must
 verify the check on the intended SHA. Existing layout-lab known-failure rules remain unchanged.
 
+**Historical art object availability:** the Chapter 3 merge's first GitHub Actions content run
+failed the Chapter 2 provenance check at 0/50 historical source comparisons, even though all
+50 installed images passed their recorded hash and Git-blob checks. A standard checkout did not
+have the historical art commits locally. Both jobs now use full-history **partial checkout**
+(`filter: blob:none`), allowing Git to retrieve the exact pinned source commits and PNG blobs
+on demand. The unchanged Chapter 2 validator passed 326/326 in a clean partial clone locally.
+Remote Actions confirmation is still required before merging this policy PR.
+
 **Other changes:**
 - `import --check` was dropped from CI. `import --verify` already builds `story/` (the same import and reachability walk) and fails on a build error, so the second walk was pure duplication.
 - Every browser suite now honours `QA_BROWSERS=chromium`. Five suites used to read `BROWSERS` and three hard-coded both browsers; `BROWSERS` still works.

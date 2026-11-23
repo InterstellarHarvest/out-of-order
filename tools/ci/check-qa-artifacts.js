@@ -63,6 +63,9 @@ const J = jobs();
 check('workflow has the content and browsers jobs', J.content && J.browsers, Object.keys(J));
 const content = steps(J.content || []), browsers = steps(J.browsers || []);
 const uploads = [...content, ...browsers].filter(s => s.uses && s.uses.startsWith('actions/upload-artifact@'));
+const checkouts = [content, browsers].map(group => group.find(s => s.uses === 'actions/checkout@v4'));
+check('both jobs use full-history partial clone for historical art source byte checks',
+  checkouts.every(s => s && /fetch-depth: 0/.test(s.body) && /filter: blob:none/.test(s.body)));
 
 // --- Retention and folder uploads on every artifact. ----------------------------------------------
 for (const u of uploads) {
