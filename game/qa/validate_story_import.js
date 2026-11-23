@@ -83,8 +83,9 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const b2 = build({ from: t.dir });
   check(g, 'authoring key order does not change the content hash or the runtime content', b2.ok && b2.meta.contentHash === b.meta.contentHash && b2.text.split('\n').slice(3).join() !== undefined
     && JSON.stringify(b2.story.chapters['prologue-00'].nodes.work_complete.choices) !== undefined, b2.ok && [b2.meta.contentHash, b.meta.contentHash]);
-  check(g, 'the build records content hash, version, schema and every source file hash', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
-    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 8 && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
+  // 9 sources: manifest, runtime settings, 4 chapters, items, artwork + the pending art binding (docs/104 section 3).
+  check(g, 'the build records content hash, version, schema and every source file hash (incl. the pending art binding)', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
+    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 9 && b.meta.sources.some((s) => s.path === 'art/pavilion_reboot.provenance.json') && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
   // docs/92 adds the 28 bound Chapter 1 House images (the 29th, the default chair, is unbound).
   const houseArt = (a) => /house_of_tomorrow|portraits\/house\/|family_portrait_photo/.test(a.path);

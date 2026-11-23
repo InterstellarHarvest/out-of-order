@@ -164,8 +164,10 @@ async function full(b, page, base, x) {
   check(b, x.route, 'inventory, flags and check outcomes equal the independent rules walk', same(snap.s.inventory, f.end.inventory) && same(snap.s.flags, f.end.flags) && same(snap.s.checks, f.end.checks),
     { ui: [snap.s.inventory, snap.s.checks], rules: [f.end.inventory, f.end.checks] });
   check(b, x.route, 'NOTES from Prologue and House retained to the end', same(snap.s.transcript.slice(0, f.exit.transcript.length), f.exit.transcript));
-  // Since Chapter 3 integration (docs/104) a living ending's one card is its CONTINUE into Chapter 3.
-  check(b, x.route, 'ending shows only CONTINUE into Chapter 3', snap.cards.length === 1 && Rules.view(story, snap.s).cards[0].kind === 'continue'
+  // Since Chapter 3 integration (docs/104) a living ending's one card is its CONTINUE into Chapter 3; a fatal
+  // ending is unchanged (its one card is the system BEGIN AGAIN).
+  if (story.chapters['chapter-02'].nodes[r.end].end === true) check(b, x.route, 'fatal ending shows only BEGIN AGAIN (unchanged by Chapter 3)', snap.cards.length === 1 && Rules.view(story, snap.s).cards[0].kind === 'system', snap.cards);
+  else check(b, x.route, 'living ending shows only CONTINUE into Chapter 3', snap.cards.length === 1 && Rules.view(story, snap.s).cards[0].kind === 'continue'
     && story.chapters['chapter-02'].nodes[r.end].choices[0].chapter === 'chapter-03', snap.cards);
   if (x.sacrificed) check(b, x.route, x.sacrificed + ' held on entry and never back after its sacrifice', f.exit.inventory.includes(x.sacrificed) && !snap.s.inventory.includes(x.sacrificed));
   if (x.gained) check(b, x.route, 'the physical ' + x.gained + ' arrived with an item slip', snap.s.inventory.includes(x.gained) && snap.log.includes(x.gained), snap.log);

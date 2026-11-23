@@ -494,18 +494,22 @@ function engineCauses() {
   check('node', g, 'unarmed and stapler failures (60 seeds each): cause carries the check id and ok:false; every failure matches the ONE shared entry; passes are not endings and never match', fails > 0 && passes > 0 && sfails > 0 && !bad.length, { fails, sfails, passes, bad: bad.slice(0, 3) });
   // Every catalogued Chapter 2 route ending: a fatal ending matches exactly its own entry, every other
   // ending none; no House exit matches.
-  let ends = 0, fatalEnds = 0; const hits = [];
+  // Since Chapter 3 integration (docs/104) the five living endings CONTINUE into Chapter 3 (no longer terminal):
+  // they are counted as `living` and must select no popup, exactly like any other non-fatal state.
+  let ends = 0, fatalEnds = 0, living = 0; const hits = [];
   for (const route of R.ROUTES) {
     const f = R.findSeed(story, route, 400);
     if (!f) continue;
     const c = Rules.endCause(story, f.end);
     if (c) ends++;
+    if (!route.fatal && f.end.node === route.end && story.chapters['chapter-02'].nodes[route.end].choices.some((x) => x.chapter === 'chapter-03')) living++;
     const want = route.fatal ? ['chapter-02:' + route.end] : [];
     if (route.fatal) fatalEnds++;
     if (match(c).join() !== want.join()) hits.push(route.name + ':' + match(c).join());
   }
   for (const k of ['plant', 'martin', 'showroom', 'clean', 'registered']) { let e = null; for (let s = 1; s <= 400 && !e; s++) e = R.houseExit(story, k, s); if (match(Rules.endCause(story, e)).length) hits.push(k); }
-  check('node', g, 'Chapter 2: every fatal route ending (' + fatalEnds + ') selects exactly its own popup; no other ending (' + ends + ' reached) and no House exit does', ends > 20 && fatalEnds >= 5 && !hits.length, hits);
+  check('node', g, 'Chapter 2: every fatal route ending (' + fatalEnds + ') selects exactly its own popup; no living ending (' + living + ' routes, CONTINUE into Chapter 3), no other ending (' + ends + ' terminal reached) and no House exit does',
+    ends + living > 20 && living > 15 && fatalEnds >= 5 && ends >= fatalEnds && !hits.length, { hits, ends, living, fatalEnds });
   // One opted-in entry, the shared canonical one; its art is the pinned approved file, byte-identical.
   const buf = fs.readFileSync(path.join(ROOT, ENTRY.art.path));
   check('node', g, 'every canonical death entry is opted in (canonical *: 6); the shared chapter-01:exit_chair_fatal art is the approved native PNG (sha256 7f469efa..., 314x206, 2x)', ENTRIES.length === CANON.entries.length && ENTRIES.length === 6 && !!ENTRY
