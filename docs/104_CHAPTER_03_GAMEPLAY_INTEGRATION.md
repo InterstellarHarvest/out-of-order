@@ -8,7 +8,7 @@
 
 **Branch:** `agent/ch03-gameplay-integration-20261122`, from game `main` `9a0ca4a502216ce11b956bac15d0e61750e86904`. It supersedes the never-committed `agent/ch03-gameplay-integration-20261120` worktree (section 10).
 
-**Storyboard:** source `main` `622ad879dfe187ff2683ae7072515ed740522243`. Pinned revision `df253f6eb83e7ade89362911e4af6e6cd191895b` on the public branch `integration/ch03-gameplay-20261122` (draft PR InterstellarHarvest/CYOA-storyboard#19; section 2). Storyboard `main` is unchanged.
+**Storyboard:** source `main` `fde5708e0043972feeae0309e8a1d1836e756dae` (merged in on 2026-11-22; first recovered against `622ad87`). Pinned revision `3ff759e44feaf4b37e61fd705ef23b97e621e723` on the public branch `integration/ch03-gameplay-20261122` (draft PR InterstellarHarvest/CYOA-storyboard#19; section 2). Storyboard `main` is unchanged.
 
 **Not changed:**
 - No dialogue, choice, outcome, ending, check or item of the approved narrative.
@@ -44,6 +44,8 @@ Chapter 3 has no Focus A node, so Focus A is not used.
 
 A fresh branch from storyboard `main` `622ad87`, holding one normal merge (`df253f6`) of the 2026-11-20 integration history (`a2ce2d9` data, `a4bda10` tests). The superseded `integration/ch03-gameplay-20261120` is left untouched.
 
+On 2026-11-22 storyboard `main` moved to `fde5708`, registering ten approved Chapter 4 artworks (PR #20 Batch 1, PR #21 B2-01). It was merged in normally as `3ff759e`, with no conflicts; `main`'s only `qa-smoke` change (the record count +10) auto-merged. Every artwork file is byte-identical to `fde5708`. Main's B2-01 verifier passes 361 checks once only this branch's 4 intended story files are exempted; that is 365 minus those 4. The Batch 1 verifier is point-in-time and fails on `main` itself, because B2-01 added five more selections after it.
+
 Against `main`, the branch changes 9 files:
 - **Manifest.** `chapter-03` reads the approved reboot file, as `draft` (previously the archived legacy file, `archived`). Chapter 4's entry stays as published ("narrative approved · artwork pending · not in game").
 - **Chapter 2.** The five living endings (`end_concourse_robot`, `end_public`, `end_customs`, `end_maintenance`, `end_underground_station`) each have one `CONTINUE` card: `continue_to_chapter_03_<node>` → `chapter: chapter-03`.
@@ -64,13 +66,13 @@ Against `main`, the branch changes 9 files:
 - `qa-smoke.mjs`: three hunks, each a union of the Chapter 4 and Chapter 3 assertions;
 - `artwork.draft.json` / `artwork-preview.json`: `main`, for the reason above.
 
-**Verification at `df253f6`:**
+**Verification at `df253f6`, repeated at `3ff759e`:**
 - **Static:** check-canon, qa-sync, the supersession guard, qa-smoke, `export --check` (6), qa-static, qa-ch3-reboot-candidate, qa-ch3-artwork-briefs, qa-legacy-render.
 - **Browsers (Chromium + Firefox):** qa-browser 26/26, qa-timeline 136/136, qa-artwork-preview 60/60, art lab pages-site 70/70, art lab browser 106/106.
 - **Complete Pages build** (emulated from `pages.yml` at the commit, with the four pinned galleries really checked out, including Batch A/B/C/D staging): 8/8 run steps, as on `main`.
   - The built site differs from `main` only in the 4 intended story files; the gallery receipts differ only in the build SHA.
 
-The game consumes it with `node tools/story-sync/sync.js pull --rev df253f6eb83e7ade89362911e4af6e6cd191895b`.
+The game consumes it with `node tools/story-sync/sync.js pull --rev 3ff759e44feaf4b37e61fd705ef23b97e621e723` (first `df253f6`). The re-pin adds only the ten Chapter 4 art records, which are not consumed. The content hash is unchanged (`8045c71dcbf1`), the chapter files are unchanged, and the art is unchanged.
 - The lock consumes `prologue-00`, `chapter-01`, `chapter-02` and `chapter-03`.
 - `chapter-04` and its two items are recorded as published but not consumed.
 - No Chapter 4 death entry is projected.
@@ -237,7 +239,7 @@ In addition, `tools/storyboard/qa-smoke.mjs` hard-codes that integrated Biology 
 
 Consequence: the first Pages deploy after reconciliation would fail at `qa-smoke` and then at Batch D staging.
 
-**Rehearsal (scratch only, never pushed).** On `df253f6` the reconciliation of section 8 was run with the real tools:
+**Rehearsal (scratch only, never pushed).** On `df253f6` (the repair patch also applies cleanly to `3ff759e`) the reconciliation of section 8 was run with the real tools:
 - the 29 paths assigned;
 - `register-art --batch` with this branch's real `sync.js report` (game `e9cc65a`, 144 images);
 - the 29 stale `pending-integration/` copies removed.
@@ -271,7 +273,7 @@ The 2026-11-20 session left 74 uncommitted entries in `_worktrees/out-of-order-c
 
 **Audit findings that this branch resolves:**
 - Paper Emergency was v03; it is now v04.
-- The storyboard pin `a4bda10` was 50 commits behind and conflicted with `main` in 5 files; it is now `df253f6` (section 2).
+- The storyboard pin `a4bda10` was 50 commits behind and conflicted with `main` in 5 files. It became `df253f6`, and then `3ff759e` after `main` moved (section 2).
 - The game's `sync.js` could not consume any storyboard revision carrying the real Chapter 4. It now ports `development.notForGameplay` and refuses to consume such a chapter.
 - `run_story_qa` had failed 84/88 (the Chapter 3 ending's presentation CONTINUE); the check is fixed.
 - Incidental-voice labels could be stranded; the rule is fixed and tested.
@@ -286,3 +288,10 @@ The 2026-11-20 session left 74 uncommitted entries in `_worktrees/out-of-order-c
 6. This record.
 
 Screenshots and `*_results.json` run output are not committed.
+
+**Remote CI.** No GitHub Actions run validates this draft:
+- The account's included Actions minutes were exhausted while the repository was private.
+- The owner wants no paid usage, so the one manual run (45095798209) was cancelled after its content job passed.
+- The repository is now public (free minutes), but QA still skips draft PRs.
+
+The complete local run of every `qa.yml` step is the evidence (PR description).

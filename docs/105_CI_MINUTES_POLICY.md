@@ -1,6 +1,6 @@
 # 105 — CI minutes policy: local-first QA, a small automatic CI
 
-**Date:** 2026-11-22.
+**Date:** 2026-11-22; amended 2026-11-23 following Chapter 3 integration.
 **Owner direction (Nate):** "we still want anything like what cost minutes to be way reduced, it was a ridiculous cost for what we were doing before". This applies even now the repository is public and its Actions minutes are free.
 **Supersedes:** docs/100 section 9 (draft PRs skip QA), which is kept and extended here.
 
@@ -27,13 +27,20 @@ The full run happened on every push to a non-draft PR and on every push to `main
 |---|---|---|
 | Documentation-only change (`docs/**`, `*.md`, `*.tsv`) | nothing (`paths-ignore`) | **0** |
 | Push to a draft PR | nothing (unchanged since docs/100) | **0** |
-| Non-draft PR push, or push to `main`, not touching the importer | content job, quick | **~5** |
+| Non-draft routine PR push, or push to `main`, not touching the importer | content job, quick | **~5** |
 | ... touching the importer or what it imports | quick + the story-import acceptance suite | **~17–25** |
+| Non-draft gameplay/story/art/QA PR | content + full Chromium and Firefox browser suites | **~65**, only on the reviewed PR |
+| Non-draft PR with `full-browser-qa` label | content + full Chromium and Firefox browser suites | **~65** |
+| Version-tag push (`v*`) | content + full Chromium and Firefox browser suites | **~65**, release verification |
 | Actions → QA → Run workflow, scope `quick` | content job, quick | **~5** |
 | ... scope `chromium` | everything, browser suites in Chromium only | **~40** |
 | ... scope `full` (the old run) | everything, Chromium and Firefox | **~65** |
 
-The old policy charged about 70 minutes for every row except the first two.
+The old policy charged about 70 minutes for every row except the first two. The amended policy
+keeps the substantial savings for routine/tooling/docs changes and avoids repeating the browser
+suite on the merge push to `main`, but **deliberately spends the full QA time** when playable
+content, game UI/engine, artwork, test code or QA controls changed. Those PRs should remain draft
+while being iterated, then be marked ready once for full verification.
 
 **When the story-import suite runs.** `tools/ci/changed-scope.js` compares the change with its base (a PR's base commit, or the previous `main` for a push). The suite runs if anything under these paths changed:
 - `tools/story-import/`
@@ -46,7 +53,18 @@ The old policy charged about 70 minutes for every row except the first two.
 
 If the base can't be resolved, the answer is "run it".
 
-**Browser suites never start automatically.** They run on a manual `chromium` or `full` run, or locally.
+**Browser suites are an automatic major-change gate.** `tools/ci/changed-scope.js` requests full
+Chromium and Firefox testing for any non-draft PR touching `game/`, `art/`, `story/`,
+`tools/story-import/`, `tools/story-sync/`, `tools/glyph-ink/`, `tools/layout-lab/`,
+`tools/m2-reception-polish-lab/`, `tools/ci/` or `qa.yml`. Other PRs can opt in with the
+`full-browser-qa` label; adding or removing the label re-evaluates the gate. A `v*` tag push also
+runs the full suite. On ordinary merges to `main`, the fast content job runs but browser QA does
+not run a second time. Unknown diff bases conservatively request both expensive gates.
+
+**Release procedure:** run a manual `full` job on the exact release commit before publishing,
+then push its `v*` version tag to independently recheck it. A passing browser run does not by
+itself enforce GitHub branch protections or prevent manual release publishing; reviewers must
+verify the check on the intended SHA. Existing layout-lab known-failure rules remain unchanged.
 
 **Other changes:**
 - `import --check` was dropped from CI. `import --verify` already builds `story/` (the same import and reachability walk) and fails on a build error, so the second walk was pure duplication.
@@ -81,7 +99,8 @@ Measured once: 717 s, against 1,132–1,149 s in the two previous full runs. The
 
 ## 5. Not changed
 
-- Every test still exists and still runs on a manual `full` run and in `run-local-qa.js full`. No assertion was loosened.
+- Every test still exists and still runs automatically on high-risk PRs, version tags, a manual
+  `full` run and in `run-local-qa.js full`. No assertion was loosened.
 - Artifact retention (docs/100) is unchanged. The policy check now pins the new triggers, conditions and scopes: 123 checks.
 - The negative control passes: the previous `qa.yml` fails 5 of the new rules.
 - **CYOA-storyboard** (public) is untouched. Its review workflow takes about 2.5 minutes per PR push, and Pages runs only on `main`.
