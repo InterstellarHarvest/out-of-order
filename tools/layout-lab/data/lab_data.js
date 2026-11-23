@@ -2211,6 +2211,15 @@ window.M1_LAB_DATA = {
      "h": 0,
      "advance": 6,
      "bearingY": 0
+    },
+    "%": {
+     "x": 254,
+     "y": 94,
+     "w": 17,
+     "h": 15,
+     "advance": 17,
+     "bearingY": 1,
+     "bearingX": 0
     }
    }
   },
@@ -2911,6 +2920,15 @@ window.M1_LAB_DATA = {
      "h": 0,
      "advance": 16,
      "bearingY": 0
+    },
+    "%": {
+     "x": 242,
+     "y": 82,
+     "w": 16,
+     "h": 16,
+     "advance": 16,
+     "bearingY": 0,
+     "bearingX": 0
     }
    }
   },
@@ -3611,6 +3629,15 @@ window.M1_LAB_DATA = {
      "h": 0,
      "advance": 6,
      "bearingY": 0
+    },
+    "%": {
+     "x": 266,
+     "y": 102,
+     "w": 18,
+     "h": 15,
+     "advance": 18,
+     "bearingY": 3,
+     "bearingX": 0
     }
    }
   }

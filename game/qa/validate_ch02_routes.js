@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Chapter 2 (Biology Park) engine acceptance on the imported three-chapter story. No browser:
+// Chapter 2 (Biology Park) engine acceptance on the imported story (Prologue to Chapter 3). No browser:
 //   node game/qa/validate_ch02_routes.js
 // Every route is a real Prologue -> House of Tomorrow -> Biology Park playthrough on a fixed seed
 // whose real rolls give the outcomes the route names (game/qa/ch02_routes.js). Checks the House
@@ -91,7 +91,8 @@ const found = {};
     if (route.fatal) {
       if (!node.end || !node.choices.every((c) => c.restart) || s.flags.chapter3_entry_group) problems.push('fatal ending is not terminal or set an entry group');
     } else {
-      if (!node.end) problems.push('ending not marked end');
+      // Since Chapter 3 integration (docs/104) a living ending hands off: one CONTINUE into chapter-03.
+      if (node.end || node.choices.length !== 1 || node.choices[0].kind !== 'continue' || node.choices[0].chapter !== 'chapter-03') problems.push('living ending does not continue into Chapter 3');
       if (s.flags.chapter3_entry_group !== e.group) problems.push('entry group ' + s.flags.chapter3_entry_group + ' != ' + e.group);
       if (e.exit && s.flags.ch2_exit_route !== e.exit) problems.push('exit route ' + s.flags.ch2_exit_route + ' != ' + e.exit);
     }

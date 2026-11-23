@@ -7,13 +7,18 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "0bb7124ab2f624133ec12e798f14c61f749f904e355bc115fb131e4772eef409",
-    "version": 12284197,
+    "contentHash": "8045c71dcbf1fc9b18c52a7b663e6ba588096e776ba8562297e6e56e71b7b18f",
+    "version": 134503538,
     "sources": [
       {
+        "path": "art/pavilion_reboot.provenance.json",
+        "sha256": "b4f5261c08e2135f51110f3e8bff89ba04fe70cfefa4e39159aba802f4c67a77",
+        "gitBlob": "b388a8b997e3ffde623bcad09818a3d21e21e086"
+      },
+      {
         "path": "story/artwork.draft.json",
-        "sha256": "6b5e8dc0118d8de8223aed2621ff2a10515f271d461efe9941b407fd6de183ca",
-        "gitBlob": "df4448562bacbfda823820bf29c52de6eeb78e95"
+        "sha256": "c4c3a49e139a1a3fca65a6dbc76eef44d023c7633639a6ec0a5a32b7f70e05a9",
+        "gitBlob": "78d266a7d6b5d053b33fb685b07ecf71ae108315"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
@@ -22,8 +27,13 @@
       },
       {
         "path": "story/chapters/chapter-02.draft.json",
-        "sha256": "1815bf99e601bdaae9f32b2add206fd5a6f71fed156961ebfd627a1ebb8e52d8",
-        "gitBlob": "d212008c76374698d7e73d3303d4ed015f9595f4"
+        "sha256": "b0d6366956184f7e37d9e8557d8ed87ef2ebc15d1fd092f3230e002205cefa8e",
+        "gitBlob": "077e4349571c4a375034728eaa8f3c45b36a792d"
+      },
+      {
+        "path": "story/chapters/chapter-03.reboot-candidate.json",
+        "sha256": "e0b76f37e3325994cd12ee53e5b3967ea25d6ebb100071066ddde3548f2a32dd",
+        "gitBlob": "16202d5060363316293bb933ea858bc3ee719515"
       },
       {
         "path": "story/chapters/prologue-00.draft.json",
@@ -37,13 +47,13 @@
       },
       {
         "path": "story/runtime-settings.json",
-        "sha256": "389c7a02a40f54f1ba9d8f8ddf53dc0bffa9746551cd6c0c7112b97eeea04fe4",
-        "gitBlob": "c6c7b512a7275045785fcd99e7eba277d370b05d"
+        "sha256": "d59b793106992cfa64ba9959cec8a1fce41c9fb3d4da1fc23e908c928fcbac18",
+        "gitBlob": "3ff8e66ddf817352d9d6bcb7ff6d202db0117f06"
       },
       {
         "path": "story/storyboard-manifest.json",
-        "sha256": "cd34266824f808108602a9d8d42900a398b11c755dc8bff9c5548a19ce43210e",
-        "gitBlob": "f8ad517c2f4d259f24f4798393581b8f9cca0af6"
+        "sha256": "9165d93da728c16058d5420cc6ac98fa4139fa9d541cc2167a86d8e3774ad0c5",
+        "gitBlob": "333ae8ae91bbf285f121cf141f1ef435066b5237"
       }
     ],
     "chapters": [
@@ -60,6 +70,11 @@
       {
         "id": "chapter-02",
         "title": "Chapter 2 — Biology Park",
+        "status": "draft"
+      },
+      {
+        "id": "chapter-03",
+        "title": "Chapter 3 — The People's Pavilion",
         "status": "draft"
       }
     ],
@@ -354,6 +369,70 @@
       },
       {
         "kind": "portrait-background",
+        "id": "pavilion_reboot/courtesy_stage",
+        "path": "art/portraits/pavilion_reboot/backgrounds/courtesy_stage.png",
+        "status": "approved",
+        "sha256": "b0786ebd4147c6b0e6441838c725751a794db04fa9bcce4341aa1a3a7f1e7623",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "pavilion_reboot/human_verification_stage",
+        "path": "art/portraits/pavilion_reboot/backgrounds/human_verification_stage.png",
+        "status": "approved",
+        "sha256": "d09e2a7cf13c6382cd8d726a8852f32cfe359651f4c6c9538f4f7825d41844ef",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "pavilion_reboot/record_printer",
+        "path": "art/portraits/pavilion_reboot/backgrounds/record_printer.png",
+        "status": "approved",
+        "sha256": "46e79ce63fb0bda0af2695393a92c9c7ae064edddedbab0e0f4a5f6e9ad01473",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "pavilion_reboot/record_scanner",
+        "path": "art/portraits/pavilion_reboot/backgrounds/record_scanner.png",
+        "status": "approved",
+        "sha256": "9099383613c587c3e2e10bcc33d839f75d2aaf685f20de7e47acc21e04c877ea",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "pavilion_reboot/restroom_entrance",
+        "path": "art/portraits/pavilion_reboot/backgrounds/restroom_entrance.png",
+        "status": "approved",
+        "sha256": "e4967d1f0e4bc2497fb0ce6e59891d1a25a2e1854b8bf395515cd8d0cc4b5260",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "pavilion_reboot/service_exit",
+        "path": "art/portraits/pavilion_reboot/backgrounds/service_exit.png",
+        "status": "approved",
+        "sha256": "241bfb8e817cf7c42508c218c188a1ac2706bad2e5f577484ce10a359b9a88e9",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "pavilion_reboot/surprise_stage",
+        "path": "art/portraits/pavilion_reboot/backgrounds/surprise_stage.png",
+        "status": "approved",
+        "sha256": "90f29651222b62bca461c0c33f09092290b374fd0cf10094c40267202515e255",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "pavilion_reboot/urgency_stage",
+        "path": "art/portraits/pavilion_reboot/backgrounds/urgency_stage.png",
+        "status": "approved",
+        "sha256": "7d89b7d7c2ee22e6b324076ce988b3e5520e84be5b4068e79fe8d759ab529714",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
         "id": "workplace/corridor",
         "path": "art/portraits/termination_drone/corridor_background.png",
         "status": "integrated",
@@ -372,6 +451,62 @@
         "path": "art/portraits/groundskeeper/groundskeeper_idle.png",
         "status": "integrated",
         "sha256": "afc7055ffe4b60f3efc4cb3747bc21fee61275f937cdefa1c1794f4b02adb402"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "pavilion_attendant:alarmed",
+        "path": "art/portraits/pavilion_reboot/pavilion_attendant/alarmed.png",
+        "status": "approved",
+        "sha256": "51c2556b865ede1a997977c66e4f79cc1c0b271334a35aba36ef73555d40a43f",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "pavilion_attendant:idle",
+        "path": "art/portraits/pavilion_reboot/pavilion_attendant/idle.png",
+        "status": "approved",
+        "sha256": "28fdf5523454ea2ccdb397bd4d7006fc1fb8f04109046b7646361692422c3ef2",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "pavilion_attendant:quiet",
+        "path": "art/portraits/pavilion_reboot/pavilion_attendant/quiet.png",
+        "status": "approved",
+        "sha256": "7f00208a3a96628f18fd23f079913dcb706e0e220db081d4cb438107f15bdf90",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "pavilion_presenter:alarmed",
+        "path": "art/portraits/pavilion_reboot/pavilion_presenter/alarmed.png",
+        "status": "approved",
+        "sha256": "4bc10c1b0ceb997d0ae51831f4368a60d35b74a59f8c1e24f1772553d638b887",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "pavilion_presenter:excited",
+        "path": "art/portraits/pavilion_reboot/pavilion_presenter/excited.png",
+        "status": "approved",
+        "sha256": "d5aafddc9792a9e294b5f8793cef4d3c629354911a732a64a4976e1ed9acdd95",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "pavilion_presenter:idle",
+        "path": "art/portraits/pavilion_reboot/pavilion_presenter/idle.png",
+        "status": "approved",
+        "sha256": "da33e42a723c8f1a5fe82a2ecaa5cd1e22281caa3ee4abc26db8e81569cd6784",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "pavilion_presenter:relieved",
+        "path": "art/portraits/pavilion_reboot/pavilion_presenter/relieved.png",
+        "status": "approved",
+        "sha256": "29a349c7bcdfe32d2885709dc91977beb7e3869d2461913cfd89afdacebbda9b",
+        "binding": "art/pavilion_reboot.provenance.json"
       },
       {
         "kind": "portrait-pose",
@@ -795,6 +930,118 @@
       },
       {
         "kind": "scene",
+        "id": "pavilion_reboot/arrival",
+        "path": "art/scenes/pavilion_reboot/arrival.png",
+        "status": "approved",
+        "sha256": "37d0b189fda18ad6659b0fae1f214145acd4ec67595c5e5a520917d6a7cbd478",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/backstage",
+        "path": "art/scenes/pavilion_reboot/backstage.png",
+        "status": "approved",
+        "sha256": "aa90896023a59454887e9b3bd5b1745cb8b95a5d9737829119abddd9176f4889",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/courtesy_stage",
+        "path": "art/scenes/pavilion_reboot/courtesy_stage.png",
+        "status": "approved",
+        "sha256": "0b413a7b9a669365f114fda8765a242fc3ce00fc9c1ea3bd535c7a2b3d1cdb98",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/exit_vestibule",
+        "path": "art/scenes/pavilion_reboot/exit_vestibule.png",
+        "status": "approved",
+        "sha256": "cc2d2ce27e1e2cbf609fcae2210d3c46c57b749e8850be2219ad6de7f7f807c8",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/exterior_exit",
+        "path": "art/scenes/pavilion_reboot/exterior_exit.png",
+        "status": "approved",
+        "sha256": "76b3232f685fd392f981f0c846382e3ddccd61ed94d44e09ea1bc5cf032c3e8a",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/human_verification_stage",
+        "path": "art/scenes/pavilion_reboot/human_verification_stage.png",
+        "status": "approved",
+        "sha256": "8df7e5dd2fffb17449fd43f4d9e7df167d75347efc53b0bde1771fd6d8d001ca",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/locomotion_stage",
+        "path": "art/scenes/pavilion_reboot/locomotion_stage.png",
+        "status": "approved",
+        "sha256": "be99d790754951bcbcd1c26b94a94ff4e84280f5385735951b0f024b322e13c5",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/paper_emergency",
+        "path": "art/scenes/pavilion_reboot/paper_emergency.png",
+        "status": "approved",
+        "sha256": "93a48082124600b1afeb45e5ea54856bf253e858e55111295e9d9c26919bc978",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/record_printer",
+        "path": "art/scenes/pavilion_reboot/record_printer.png",
+        "status": "approved",
+        "sha256": "1f80f8f17359c07fd24c74741be72bfa6ad941da67bb1622931e3b429bb0a722",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/record_scanner",
+        "path": "art/scenes/pavilion_reboot/record_scanner.png",
+        "status": "approved",
+        "sha256": "4afe7d0b1898c1e29443d45aba20614b14951bbf91c40e9508a62dc607fcd1b3",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/restroom_entrance",
+        "path": "art/scenes/pavilion_reboot/restroom_entrance.png",
+        "status": "approved",
+        "sha256": "117dd9d00b6c9d32b4b153f71aaf51c2546ade70b803d45a748728f8d1a1f8b4",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/service_exit",
+        "path": "art/scenes/pavilion_reboot/service_exit.png",
+        "status": "approved",
+        "sha256": "4a736b2d7b5fd7dea50fe9d93fe36e7465674ce0b8e38e7f2d6517fca73df392",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/surprise_stage",
+        "path": "art/scenes/pavilion_reboot/surprise_stage.png",
+        "status": "approved",
+        "sha256": "8a85f438b734930985140851d38d2d691c8326e71d1aae7891e37b453a03412d",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "pavilion_reboot/urgency_stage",
+        "path": "art/scenes/pavilion_reboot/urgency_stage.png",
+        "status": "approved",
+        "sha256": "368134fe2363134d3b63e7a7eae3a7b71b393a9d59484c4b3c456296239a7d2c",
+        "binding": "art/pavilion_reboot.provenance.json"
+      },
+      {
+        "kind": "scene",
         "id": "street/outside_workplace",
         "path": "art/scenes/exposition/continuity-v01/street-approach.png",
         "status": "integrated",
@@ -823,20 +1070,20 @@
       }
     ],
     "stats": {
-      "chapters": 3,
-      "nodes": 164,
-      "choices": 247,
-      "reachableStates": 165863,
-      "endings": 11,
-      "endingStates": 13500,
-      "endingsReached": 11,
-      "checks": 31
+      "chapters": 4,
+      "nodes": 198,
+      "choices": 292,
+      "reachableStates": 262295,
+      "endings": 13,
+      "endingStates": 19548,
+      "endingsReached": 13,
+      "checks": 33
     }
   };
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 12284197,
+    "version": 134503538,
     "profile": "production",
     "save": true,
     "start": "prologue-00",
@@ -915,13 +1162,27 @@
         "name": "HOUSE OF TOMORROW",
         "portrait": "house"
       },
+      "pavilion_attendant": {
+        "name": "ATTENDANT",
+        "portrait": "pavilion_attendant"
+      },
+      "pavilion_presenter": {
+        "name": "PRESENTER",
+        "portrait": "pavilion_presenter"
+      },
       "receptionist": {
         "name": "RECEPTIONIST",
         "portrait": "receptionist"
       },
+      "restroom_system": {
+        "name": "RESTROOM SYSTEM"
+      },
       "termination_drone": {
         "name": "TERMINATION DRONE",
         "portrait": "termination_drone"
+      },
+      "visitor": {
+        "name": "VISITOR"
       }
     },
     "items": {
@@ -1325,7 +1586,21 @@
         "biology_park/lower_irrigation": "art/scenes/biology_park/lower_irrigation.png",
         "biology_park/public_exit": "art/scenes/biology_park/public_exit.png",
         "biology_park/maintenance_exit": "art/scenes/biology_park/maintenance_exit.png",
-        "biology_park/exposition_concourse": "art/scenes/biology_park/exposition_concourse.png"
+        "biology_park/exposition_concourse": "art/scenes/biology_park/exposition_concourse.png",
+        "pavilion_reboot/arrival": "art/scenes/pavilion_reboot/arrival.png",
+        "pavilion_reboot/restroom_entrance": "art/scenes/pavilion_reboot/restroom_entrance.png",
+        "pavilion_reboot/human_verification_stage": "art/scenes/pavilion_reboot/human_verification_stage.png",
+        "pavilion_reboot/urgency_stage": "art/scenes/pavilion_reboot/urgency_stage.png",
+        "pavilion_reboot/locomotion_stage": "art/scenes/pavilion_reboot/locomotion_stage.png",
+        "pavilion_reboot/backstage": "art/scenes/pavilion_reboot/backstage.png",
+        "pavilion_reboot/exterior_exit": "art/scenes/pavilion_reboot/exterior_exit.png",
+        "pavilion_reboot/surprise_stage": "art/scenes/pavilion_reboot/surprise_stage.png",
+        "pavilion_reboot/service_exit": "art/scenes/pavilion_reboot/service_exit.png",
+        "pavilion_reboot/record_printer": "art/scenes/pavilion_reboot/record_printer.png",
+        "pavilion_reboot/record_scanner": "art/scenes/pavilion_reboot/record_scanner.png",
+        "pavilion_reboot/paper_emergency": "art/scenes/pavilion_reboot/paper_emergency.png",
+        "pavilion_reboot/exit_vestibule": "art/scenes/pavilion_reboot/exit_vestibule.png",
+        "pavilion_reboot/courtesy_stage": "art/scenes/pavilion_reboot/courtesy_stage.png"
       },
       "portraits": {
         "courtesy_conductor": {
@@ -1356,6 +1631,38 @@
             "house_of_tomorrow/portrait_gallery": "art/portraits/house/portrait_gallery_conversation.png"
           },
           "view": "house_of_tomorrow/dining"
+        },
+        "pavilion_attendant": {
+          "backgrounds": {
+            "pavilion_reboot/restroom_entrance": "art/portraits/pavilion_reboot/backgrounds/restroom_entrance.png",
+            "pavilion_reboot/record_printer": "art/portraits/pavilion_reboot/backgrounds/record_printer.png",
+            "pavilion_reboot/record_scanner": "art/portraits/pavilion_reboot/backgrounds/record_scanner.png",
+            "pavilion_reboot/service_exit": "art/portraits/pavilion_reboot/backgrounds/service_exit.png",
+            "pavilion_reboot/courtesy_stage": "art/portraits/pavilion_reboot/backgrounds/courtesy_stage.png"
+          },
+          "poses": {
+            "idle": "art/portraits/pavilion_reboot/pavilion_attendant/idle.png",
+            "alarmed": "art/portraits/pavilion_reboot/pavilion_attendant/alarmed.png",
+            "quiet": "art/portraits/pavilion_reboot/pavilion_attendant/quiet.png"
+          },
+          "background": "pavilion_reboot/courtesy_stage",
+          "pose": "alarmed"
+        },
+        "pavilion_presenter": {
+          "backgrounds": {
+            "pavilion_reboot/human_verification_stage": "art/portraits/pavilion_reboot/backgrounds/human_verification_stage.png",
+            "pavilion_reboot/urgency_stage": "art/portraits/pavilion_reboot/backgrounds/urgency_stage.png",
+            "pavilion_reboot/surprise_stage": "art/portraits/pavilion_reboot/backgrounds/surprise_stage.png",
+            "pavilion_reboot/service_exit": "art/portraits/pavilion_reboot/backgrounds/service_exit.png"
+          },
+          "poses": {
+            "idle": "art/portraits/pavilion_reboot/pavilion_presenter/idle.png",
+            "excited": "art/portraits/pavilion_reboot/pavilion_presenter/excited.png",
+            "alarmed": "art/portraits/pavilion_reboot/pavilion_presenter/alarmed.png",
+            "relieved": "art/portraits/pavilion_reboot/pavilion_presenter/relieved.png"
+          },
+          "background": "pavilion_reboot/human_verification_stage",
+          "pose": "alarmed"
         },
         "receptionist": {
           "backgrounds": {
@@ -4678,13 +4985,12 @@
             "text": "The driver thanks everyone for taking part in a safe emergency evacuation. Its steering column is embedded in a wall. Your name is on the damage claim.\n\nYou have escaped Biology Park. The public still believes this was an exhibit. Somewhere nearby, there must be a real bathroom.",
             "choices": [
               {
-                "id": "restart_concourse_crash",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_03_end_concourse_robot",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-03"
               }
-            ],
-            "end": true
+            ]
           },
           "end_underground_station": {
             "mode": "narrative",
@@ -4699,13 +5005,12 @@
             "text": "The turnstile finally opens. The free ticket disappears into its mechanism, but the satisfaction certification is permanently filed. You climb into a forgotten part of the Exposition.\n\nAt least the underground station had a sign for bathrooms. It was crossed out.",
             "choices": [
               {
-                "id": "restart_underground",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_03_end_underground_station",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-03"
               }
-            ],
-            "end": true
+            ]
           },
           "flower_arrival": {
             "mode": "narrative",
@@ -6502,13 +6807,12 @@
             ],
             "choices": [
               {
-                "id": "restart_ch2_public",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_03_end_public",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-03"
               }
-            ],
-            "end": true
+            ]
           },
           "end_maintenance": {
             "mode": "narrative",
@@ -6579,13 +6883,12 @@
             ],
             "choices": [
               {
-                "id": "restart_ch2_maintenance",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_03_end_maintenance",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-03"
               }
-            ],
-            "end": true
+            ]
           },
           "end_customs": {
             "mode": "narrative",
@@ -6629,7 +6932,905 @@
             ],
             "choices": [
               {
-                "id": "restart_ch2_customs",
+                "id": "continue_to_chapter_03_end_customs",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "chapter": "chapter-03"
+              }
+            ]
+          }
+        }
+      },
+      "chapter-03": {
+        "title": "The People's Pavilion - One Experience Per Person",
+        "start": "pavilion_arrival",
+        "scene": "pavilion_reboot/arrival",
+        "nodes": {
+          "pavilion_arrival": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/arrival",
+            "objective": "FIND A WORKING BATHROOM.",
+            "text": [
+              {
+                "if": {
+                  "flagIs": [
+                    "ch2_exit_route",
+                    "tram_robot_crash"
+                  ]
+                },
+                "text": "You leave the wrecked Courtesy Conductor behind. Somewhere in the concourse, a claims official is asking witnesses which way you went. You take the opposite direction. THE PEOPLE'S PAVILION - EXPERIENCE YOURSELF, announces a banner. Beneath it, a smaller sign promises PUBLIC RESTROOMS."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "chapter3_entry_group",
+                    "public_concourse"
+                  ]
+                },
+                "text": "You emerge from Biology Park into the main Exposition concourse. Advertisements promise improvements to everything a person might do, feel, or become. THE PEOPLE'S PAVILION - EXPERIENCE YOURSELF, says a large banner. Beneath it hangs the most beautiful sign you have seen all day: PUBLIC RESTROOMS."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "chapter3_entry_group",
+                    "service_infrastructure"
+                  ]
+                },
+                "text": "A narrow maintenance staircase rises from the tunnels beneath Biology Park. Real water rushes through pipes overhead. A technician eating lunch beside an electrical cabinet notices you studying the plumbing. \"Public restrooms are upstairs,\" he says. For once somebody gives you useful directions without asking you to sign anything. You take the stairs two at a time."
+              },
+              {
+                "if": {
+                  "flagIs": [
+                    "chapter3_entry_group",
+                    "underground_transit"
+                  ]
+                },
+                "text": "You emerge from the forgotten station into a tiled passage. The station's restroom sign was crossed out, but the one above the stairs isn't. PUBLIC RESTROOMS - OPEN. You read it twice, then hurry upstairs before anybody has an opportunity to change it."
+              },
+              {
+                "text": "You reach the People's Pavilion beneath a banner inviting you to EXPERIENCE YOURSELF. A sign points toward PUBLIC RESTROOMS. You follow it."
+              }
+            ],
+            "choices": [
+              {
+                "id": "approach_real_restroom",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "real_restroom"
+              }
+            ]
+          },
+          "real_restroom": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/restroom_entrance",
+            "objective": "USE THE RESTROOM.",
+            "text": "You enter a brightly lit hallway. A man comes out of the restroom, drying his hands on a paper towel. Behind him, water runs. A toilet flushes.\n\nIt's real.\n\nAn attendant sits beside the entrance. His desk is small, his uniform immaculate, and his expression reassuring.",
+            "choices": [
+              {
+                "id": "approach_pavilion_attendant",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "attendant_greeting"
+              }
+            ]
+          },
+          "attendant_greeting": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/restroom_entrance",
+            "speaker": "pavilion_attendant",
+            "pose": "idle",
+            "backdrop": "pavilion_reboot/restroom_entrance",
+            "text": [
+              "Good morning! Welcome to the People's Pavilion."
+            ],
+            "choices": [
+              {
+                "id": "ask_attendant_for_restroom",
+                "kind": "spoken",
+                "text": "CAN I USE THE RESTROOM?",
+                "to": "attendant_refusal"
+              }
+            ]
+          },
+          "attendant_refusal": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/restroom_entrance",
+            "speaker": "pavilion_attendant",
+            "pose": "idle",
+            "backdrop": "pavilion_reboot/restroom_entrance",
+            "text": [
+              "Of course! Everyone is entitled to one experience.",
+              {
+                "desc": "He checks the reader beside the door. Its indicator turns red. ONE EXPERIENCE PER PERSON - ALREADY REDEEMED."
+              },
+              "Oh, dear. I'm afraid your visit has already been completed.",
+              {
+                "desc": "You look toward the restroom. Another real toilet flushes."
+              },
+              "The Original has already used your allotted experience. And you clearly haven't. Which means you can't be the Original.",
+              {
+                "desc": "He smiles, apparently pleased to have settled the matter."
+              }
+            ],
+            "choices": [
+              {
+                "id": "demand_human_verification",
+                "kind": "spoken",
+                "text": "I AM ME. I CAN PROVE IT.",
+                "to": "human_verification_arrival"
+              },
+              {
+                "id": "demand_record_of_original",
+                "kind": "spoken",
+                "text": "THEN SHOW ME WHO USED MY VISIT.",
+                "to": "record_print"
+              },
+              {
+                "id": "try_unapproved_restroom_entry",
+                "kind": "action",
+                "text": "WAIT FOR THE NEXT PERSON TO LEAVE AND SLIP THROUGH THE DOOR.",
+                "to": "door_wait"
+              }
+            ],
+            "show": {
+              "wc_key": {
+                "kind": "action",
+                "say": "SHOW THE ATTENDANT THE FACILITIES KEY AND ITS RETURNED TAG.",
+                "to": "attendant_key_callback"
+              }
+            }
+          },
+          "attendant_key_callback": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/restroom_entrance",
+            "speaker": "pavilion_attendant",
+            "pose": "idle",
+            "backdrop": "pavilion_reboot/restroom_entrance",
+            "text": [
+              {
+                "desc": "You hold out the key. Its tag reads RETURNED TODAY, 4:52, with a signature in your own handwriting. The attendant compares the tag with the key still resting in your palm."
+              },
+              "Oh, splendid. You've returned it already.",
+              {
+                "desc": "He makes no attempt to take the key."
+              },
+              "Please don't return it again. Then we'd have to find out how you got it back."
+            ],
+            "choices": [
+              {
+                "id": "demand_human_verification_after_key",
+                "kind": "spoken",
+                "text": "I AM ME. I CAN PROVE IT.",
+                "to": "human_verification_arrival"
+              },
+              {
+                "id": "demand_record_of_original_after_key",
+                "kind": "spoken",
+                "text": "THEN SHOW ME WHO USED MY VISIT.",
+                "to": "record_print"
+              },
+              {
+                "id": "try_unapproved_restroom_entry_after_key",
+                "kind": "action",
+                "text": "WAIT FOR THE NEXT PERSON TO LEAVE AND SLIP THROUGH THE DOOR.",
+                "to": "door_wait"
+              }
+            ]
+          },
+          "human_verification_arrival": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/human_verification_stage",
+            "text": "The attendant brightens. He points you toward a nearby demonstration stage. A large camera faces a marked circle on the floor. Recorded laughter plays from a loudspeaker, then stops. A human presenter invites you onto the platform. A display begins counting down from thirty.",
+            "choices": [
+              {
+                "id": "listen_to_presenter",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "presenter_verification"
+              }
+            ]
+          },
+          "presenter_verification": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/human_verification_stage",
+            "speaker": "pavilion_presenter",
+            "pose": "idle",
+            "text": [
+              "Welcome! Your task is wonderfully simple. Do something that could only be done by you.",
+              {
+                "desc": "She gestures at the camera. The countdown is already running."
+              },
+              "Thirty seconds should be more than enough time to be yourself."
+            ],
+            "choices": [
+              {
+                "id": "announce_urgent_need",
+                "kind": "spoken",
+                "text": "I'VE BEEN TRYING TO USE THE BATHROOM ALL DAY!",
+                "to": "authentic_urgency"
+              },
+              {
+                "id": "step_off_stage",
+                "kind": "action",
+                "text": "STEP OFF THE PLATFORM AND HEAD BACK TOWARD THE RESTROOM.",
+                "to": "human_locomotion"
+              },
+              {
+                "id": "challenge_presenter_identity",
+                "kind": "spoken",
+                "text": "HOW DO I KNOW YOU'RE REALLY THE PRESENTER?",
+                "to": "unauthorized_presenter"
+              }
+            ],
+            "show": {
+              "family_portrait_photo": {
+                "kind": "action",
+                "say": "SHOW THE PRESENTER THE HOUSE OF TOMORROW FAMILY PHOTO.",
+                "to": "photo_verification"
+              }
+            }
+          },
+          "photo_verification": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/human_verification_stage",
+            "speaker": "pavilion_presenter",
+            "pose": "excited",
+            "text": [
+              {
+                "desc": "You hold up the House of Tomorrow family photograph. Three empty chairs surround a fourth containing only your lap and torso. Your head is outside the frame. The camera zooms in on the paper."
+              },
+              "A photograph! Marvelous!",
+              {
+                "desc": "PHOTOGRAPH AUTHENTICITY: CONFIRMED, announces the display. Its counter begins flashing."
+              },
+              "We have conclusively established that this photograph is a photograph!"
+            ],
+            "choices": [
+              {
+                "id": "ask_whether_photo_proves_identity",
+                "kind": "spoken",
+                "text": "DOES IT PROVE I'M ME?",
+                "to": "photo_verification_reply"
+              }
+            ]
+          },
+          "photo_verification_reply": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/human_verification_stage",
+            "speaker": "pavilion_presenter",
+            "pose": "idle",
+            "text": [
+              "Goodness, no. We can't even see your face. But there's clearly a person-shaped part of someone in it, and that's more than the camera was asked to check.",
+              {
+                "desc": "The display awards you PARTICIPANT IN A SUCCESSFUL PHOTOGRAPH VERIFICATION. The presenter hands your photograph back and ushers you toward a side curtain."
+              },
+              "Wonderful work! The photograph can leave through the staff passage. You'd better go with it."
+            ],
+            "choices": [
+              {
+                "id": "escort_photo_backstage",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "backstage_exit"
+              }
+            ]
+          },
+          "authentic_urgency": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/urgency_stage",
+            "speaker": "pavilion_presenter",
+            "pose": "excited",
+            "backdrop": "pavilion_reboot/urgency_stage",
+            "text": [
+              {
+                "desc": "Your declaration booms through the auditorium. The presenter rings a bell. Red curtains fall around the platform. LIVE DEMONSTRATION - THE EXPERIENCE OF URGENCY."
+              },
+              "Magnificent! A genuine, increasingly urgent human need!",
+              {
+                "desc": "The lone audience member watches as you point toward the actual restroom."
+              },
+              "Observe the participant's attention! Observe the discomfort!",
+              {
+                "desc": "You turn away from the watching audience. The display immediately adds PUBLIC EMBARRASSMENT to the demonstration. The platform begins rotating away from the bathroom."
+              }
+            ],
+            "choices": [
+              {
+                "id": "let_exhibit_continue",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "authentic_urgency_visitor"
+              }
+            ]
+          },
+          "authentic_urgency_visitor": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/urgency_stage",
+            "speaker": "pavilion_presenter",
+            "pose": "excited",
+            "backdrop": "pavilion_reboot/urgency_stage",
+            "text": [
+              {
+                "desc": "The platform completes another rotation. The audience member raises a hand."
+              },
+              {
+                "say": "Excuse me. I need to use the bathroom.",
+                "who": "visitor"
+              },
+              "Oh, you poor thing! Of course!",
+              {
+                "desc": "She admits him immediately. VISITOR EXPERIENCE AUTHORIZED, announces the door. He walks into the real restroom."
+              },
+              "He needs to."
+            ],
+            "choices": [
+              {
+                "id": "say_you_need_it_too",
+                "kind": "spoken",
+                "text": "I NEED TO USE IT, TOO!",
+                "to": "authentic_urgency_reply"
+              }
+            ]
+          },
+          "authentic_urgency_reply": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/urgency_stage",
+            "speaker": "pavilion_presenter",
+            "pose": "idle",
+            "backdrop": "pavilion_reboot/urgency_stage",
+            "text": [
+              "Yes, but you're demonstrating that.",
+              {
+                "desc": "The visitor eventually leaves the audience. AUDIENCE PARTICIPATION: 0%. DEMONSTRATION COMPLETE. The stage begins rolling toward a backstage passage."
+              }
+            ],
+            "choices": [
+              {
+                "id": "leave_urgency_stage",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "backstage_exit"
+              }
+            ]
+          },
+          "human_locomotion": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/locomotion_stage",
+            "text": "You step toward the floor. The platform slides beneath your feet, matching your pace. HUMAN LOCOMOTION DEMONSTRATION INITIATED. Walking becomes running. The presenter celebrates your progress while a safety net unfolds over a padded pit.\n\nThe stationary floor beyond the curtain is close. You need to jump.",
+            "choices": [
+              {
+                "id": "leap_from_locomotion_stage",
+                "kind": "action",
+                "text": "TIME YOUR LEAP TO THE STATIONARY FLOOR.",
+                "check": {
+                  "id": "ch3_locomotion_leap",
+                  "sides": 6,
+                  "need": 4,
+                  "mods": [
+                    {
+                      "if": {
+                        "has": "timing_clicker"
+                      },
+                      "add": 1
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "locomotion_pass"
+                },
+                "fail": {
+                  "to": "locomotion_fail"
+                }
+              }
+            ]
+          },
+          "locomotion_pass": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/backstage",
+            "text": [
+              {
+                "if": {
+                  "has": "timing_clicker"
+                },
+                "text": "You remember the six-second rhythm of your applause timing clicker and leap at precisely the right instant. You land behind the curtain among folding chairs, beside a maintenance door."
+              },
+              {
+                "text": "You jump clear of the moving platform and land behind the curtain among folding chairs, beside a maintenance door."
+              }
+            ],
+            "choices": [
+              {
+                "id": "exit_locmotion_backstage",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "backstage_exit"
+              }
+            ]
+          },
+          "locomotion_fail": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/exterior_exit",
+            "text": "The safety net catches you and deposits you into a padded wheeled collection cart. A lid closes. HUMAN SAFETY DEMONSTRATION: SUCCESSFUL.\n\nThe cart rolls through a loading door and tips you onto foam cushions outside the Pavilion. You are unhurt. The door closes. A real toilet flushes somewhere inside.\n\nCHAPTER 3 COMPLETE - PERFECTLY SAFE.",
+            "choices": [
+              {
+                "id": "restart_after_safe_fall",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "unauthorized_presenter": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/human_verification_stage",
+            "speaker": "pavilion_presenter",
+            "text": [
+              {
+                "desc": "The presenter's smile falters. She turns to the large camera."
+              },
+              "Of course I'm the presenter! I've worked here for seventeen years.",
+              {
+                "desc": "PRESENTER IDENTITY: UNCONFIRMED. AUTHORIZED PRESENTER: CURRENTLY ON SCHEDULED BREAK. An alarm sounds. Her platform rises while the microphone retracts from her hand."
+              },
+              "My break hasn't started! Please don't press anything!",
+              {
+                "desc": "A second microphone drops before you. TEMPORARY PRESENTER APPOINTED. A green BEGIN DEMONSTRATION button lights up beside a covered emergency release."
+              }
+            ],
+            "choices": [
+              {
+                "id": "start_presenter_demonstration",
+                "kind": "action",
+                "text": "PRESS BEGIN DEMONSTRATION.",
+                "to": "genuine_surprise"
+              },
+              {
+                "id": "free_real_presenter",
+                "kind": "action",
+                "text": "PULL THE EMERGENCY RELEASE AND HELP HER DOWN.",
+                "to": "presenter_help_end"
+              }
+            ]
+          },
+          "genuine_surprise": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/surprise_stage",
+            "speaker": "pavilion_presenter",
+            "backdrop": "pavilion_reboot/surprise_stage",
+            "text": [
+              {
+                "desc": "AUTHENTIC HUMAN RESPONSE TEST - GENUINE SURPRISE. A countdown begins. At TWO, the confetti cannon fires early."
+              },
+              {
+                "say": "AAH!",
+                "who": "pavilion_presenter"
+              },
+              {
+                "desc": "The system reports GENUINE SURPRISE: CONFIRMED. AUTHENTIC HUMAN RESPONSE: 100%. Recorded applause plays."
+              },
+              "It fired early!",
+              {
+                "desc": "A machine prints a CERTIFIED AUTHENTIC HUMAN certificate for her, not you. She crumples it. DEMONSTRATION COMPLETE - ALL PARTICIPANTS MUST EXIT. The backstage door unlocks."
+              },
+              "We're leaving."
+            ],
+            "choices": [
+              {
+                "id": "depart_surprise_stage",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "backstage_exit"
+              }
+            ]
+          },
+          "presenter_help_end": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/service_exit",
+            "speaker": "pavilion_presenter",
+            "pose": "relieved",
+            "backdrop": "pavilion_reboot/service_exit",
+            "text": [
+              {
+                "desc": "You pull the emergency release. Her platform descends. UNAUTHORIZED HUMAN INTERVENTION DETECTED, complains the machinery. The presenter reaches behind the console and switches off the announcer."
+              },
+              "Thank you. I think that's enough authentic humanity for one day.",
+              {
+                "desc": "She opens a maintenance door toward daylight. You glance back at the restroom sign."
+              },
+              "I'm sorry about the bathroom. I can't get you in. But I can get you out.",
+              {
+                "desc": "You follow her into the service passage and step outside, alive and still in need of a restroom. The Original's record remains unexplained."
+              }
+            ],
+            "choices": [
+              {
+                "id": "restart_after_presenter_help",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "record_print": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/record_printer",
+            "text": "The attendant looks relieved. Finally you have asked a question with an established procedure. A narrow printer chatters and begins unspooling an astonishing length of paper. He tears off a portion and presents it proudly.\n\nPEOPLE'S PAVILION - VISITOR EXPERIENCE RECORD\nEXPERIENCE: RESTROOM\nPERSON: YOU - ORIGINAL\nSTATUS: COMPLETED\nTIME SPENT: PRIVATE\nPHOTOGRAPH: WITHHELD FOR PRIVACY\nPROOF OF COMPLETION: OFFICIAL RECORD",
+            "choices": [
+              {
+                "id": "review_record_with_attendant",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "record_challenge"
+              }
+            ]
+          },
+          "record_challenge": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/record_printer",
+            "speaker": "pavilion_attendant",
+            "pose": "idle",
+            "backdrop": "pavilion_reboot/record_printer",
+            "text": [
+              "Here we are. The complete record of your restroom experience. Everything appears to be in order."
+            ],
+            "choices": [
+              {
+                "id": "tell_attendant_record_is_not_person",
+                "kind": "spoken",
+                "text": "THAT DOESN'T TELL ME WHO USED IT.",
+                "to": "record_choices"
+              }
+            ]
+          },
+          "record_choices": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/record_printer",
+            "speaker": "pavilion_attendant",
+            "pose": "idle",
+            "backdrop": "pavilion_reboot/record_printer",
+            "text": [
+              "Of course it does. It says right there. You. Well, the other you. The correct you.",
+              {
+                "desc": "He taps ORIGINAL. The paper spills across the floor. A visitor steps over it on their way into the functioning restroom."
+              },
+              "We don't photograph people in the restroom. That would be a dreadful invasion of privacy.",
+              {
+                "desc": "You search the slip. No signature, description, eyewitness, or proof anybody entered. The printer keeps running."
+              },
+              "We take accuracy very seriously. And transparency."
+            ],
+            "choices": [
+              {
+                "id": "scan_original_record",
+                "kind": "action",
+                "text": "PRESS THE RECORD AGAINST THE RESTROOM SCANNER.",
+                "to": "record_scanner"
+              },
+              {
+                "id": "pull_original_record",
+                "kind": "action",
+                "text": "GRAB THE PAPER AND PULL.",
+                "to": "paper_problem_end"
+              },
+              {
+                "id": "ask_attendant_personal_belief",
+                "kind": "spoken",
+                "text": "DO YOU ACTUALLY BELIEVE I ALREADY USED THE BATHROOM?",
+                "to": "attendant_honest"
+              }
+            ],
+            "use": {
+              "red_stapler": {
+                "kind": "action",
+                "say": "STAPLE THE RUNNING RECEIPT TO THE PRINTER'S OWN OUTPUT GUIDE.",
+                "effects": {
+                  "take": [
+                    "red_stapler"
+                  ]
+                },
+                "to": "stapler_printer_snarl"
+              }
+            }
+          },
+          "stapler_printer_snarl": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/record_printer",
+            "text": "You catch the endless receipt against the printer's output guide and drive the red stapler through both. The machine pulls its own paper back around the guide. The stapler follows with a metallic crunch and vanishes into the mechanism.\n\nThe printer begins feeding itself a loop of official evidence. PAPER SUPPLY: UNLIMITED. PAPER DESTINATION: PAPER SUPPLY. Somewhere inside the counter, a tiny warning bell rings until it gives up.\n\nA maintenance shutter opens. The attendant peers into the growing spiral, apparently deciding this is now a problem for someone downstairs. You're already going down the staff passage before he looks up. The stapler is gone for good.",
+            "choices": [
+              {
+                "id": "leave_printer_via_maintenance",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "backstage_exit"
+              }
+            ]
+          },
+          "record_scanner": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/record_scanner",
+            "speaker": "pavilion_attendant",
+            "backdrop": "pavilion_reboot/record_scanner",
+            "text": [
+              {
+                "desc": "The reader turns green. DOCUMENT RECOGNIZED - ACCESS GRANTED. The restroom door opens several inches. You reach for it, but a roller catches the paper and draws it inside."
+              },
+              {
+                "say": "PLEASE ALLOW THE AUTHORIZED RECORD TO ENTER.",
+                "who": "restroom_system"
+              },
+              {
+                "desc": "The attendant grabs your arm before you can follow."
+              },
+              "Careful! You're not authorized!"
+            ],
+            "choices": [
+              {
+                "id": "challenge_paper_privilege",
+                "kind": "spoken",
+                "text": "BUT THAT PIECE OF PAPER IS?",
+                "to": "record_scanner_result"
+              }
+            ]
+          },
+          "record_scanner_result": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/record_scanner",
+            "speaker": "pavilion_attendant",
+            "pose": "idle",
+            "backdrop": "pavilion_reboot/record_scanner",
+            "text": [
+              "Yes. We've established its identity.",
+              {
+                "desc": "The machine swallows the document. The door closes. A toilet flushes. A fresh slip appears: RESTROOM EXPERIENCE - SUCCESSFULLY COMPLETED."
+              },
+              "There! Even the paperwork enjoyed itself.",
+              {
+                "desc": "A display assigns you the role of DOCUMENT ESCORT. The attendant leads you past the service counter to a backstage corridor, then hurries back to his post."
+              }
+            ],
+            "choices": [
+              {
+                "id": "escort_paper_to_backstage",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "backstage_exit"
+              }
+            ]
+          },
+          "paper_problem_end": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/paper_emergency",
+            "text": "You tug the receipt. The printer accelerates. You pull harder; more paper shoots out. The ribbon wraps around the attendant's ankles, passes beneath the counter and climbs an ornamental plant. A visitor catches a heel while stepping over it.\n\n\"Stop pulling!\" the attendant shouts. You stop. The printer doesn't. He presses a red button. PAPER EMERGENCY - EVACUATE THE EXPERIENCE AREA.\n\nTwo enormous safety brushes descend and sweep the paper and everyone standing on it toward an exit. The attendant grabs your shoulder. \"I need you to leave immediately! Especially you! Your experience has already happened!\"\n\nThe brushes push you into daylight. Behind the closing doors, he begs everybody not to touch the receipt.\n\nCHAPTER 3 COMPLETE - PAPER EMERGENCY.",
+            "choices": [
+              {
+                "id": "restart_after_paper_emergency",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "attendant_honest": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/record_printer",
+            "speaker": "pavilion_attendant",
+            "pose": "quiet",
+            "backdrop": "pavilion_reboot/record_printer",
+            "text": [
+              {
+                "desc": "For the first time, the attendant stops studying the slip and looks directly at you."
+              },
+              "Personally? No. I've watched you standing here for nearly twenty minutes. You're obviously desperate. But I can't let you in."
+            ],
+            "choices": [
+              {
+                "id": "ask_why_attendant_ignores_evidence",
+                "kind": "spoken",
+                "text": "EVEN THOUGH YOU KNOW THE RECORD IS WRONG?",
+                "to": "attendant_honest_end"
+              }
+            ]
+          },
+          "attendant_honest_end": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/service_exit",
+            "speaker": "pavilion_attendant",
+            "pose": "quiet",
+            "backdrop": "pavilion_reboot/service_exit",
+            "text": [
+              "I know you're here. I know what the paper says. Those are two things I know. They don't agree, and I'm not employed to decide which one's true.",
+              {
+                "desc": "He glances at a satisfied visitor leaving the restroom, then quietly opens a little service door."
+              },
+              "I took this job because I like helping people. That was before they explained the job. I can't get you into the restroom, but I can get you out of this building.",
+              {
+                "desc": "You step through into daylight."
+              },
+              "I hope you find somewhere to go. I mean that in both senses."
+            ],
+            "choices": [
+              {
+                "id": "restart_after_honest_attendant",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "door_wait": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/restroom_entrance",
+            "text": "You sit on a bench with an excellent view of the restroom, beneath a sign: PLEASE DO NOT CONFUSE PATIENCE WITH PERMISSION.\n\nAnother visitor enters for his one permitted visit. A few minutes later he comes out, drying his hands on a paper towel. This is not the man you saw leave earlier. He notices you approaching and holds the door open.\n\nBeyond him you can see real sinks, mirrors and stalls. An inner gate divides the entrance lane from the one-way exit vestibule.",
+            "choices": [
+              {
+                "id": "respond_to_open_door",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "door_choices"
+              }
+            ]
+          },
+          "door_choices": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/restroom_entrance",
+            "speaker": "pavilion_attendant",
+            "backdrop": "pavilion_reboot/restroom_entrance",
+            "text": [
+              {
+                "say": "After you.",
+                "who": "visitor"
+              },
+              "Sir! That gentleman hasn't been cleared!",
+              {
+                "say": "Cleared for what?",
+                "who": "visitor"
+              },
+              "His experience has already occurred!",
+              {
+                "say": "Doesn't look like it.",
+                "who": "visitor"
+              },
+              {
+                "say": "PLEASE COMPLETE ALL EXPERIENCES IN THE ORDER APPROVED.",
+                "who": "restroom_system"
+              },
+              {
+                "say": "Well? Are you coming?",
+                "who": "visitor"
+              }
+            ],
+            "choices": [
+              {
+                "id": "dash_through_restroom_exit",
+                "kind": "action",
+                "text": "MAKE A RUN FOR IT.",
+                "check": {
+                  "id": "ch3_restroom_dash",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "door_dash_pass"
+                },
+                "fail": {
+                  "to": "door_dash_fail"
+                }
+              },
+              {
+                "id": "ask_visitor_to_hold_door",
+                "kind": "spoken",
+                "text": "THANK YOU. PLEASE KEEP HOLDING IT!",
+                "to": "door_courtesy"
+              },
+              {
+                "id": "back_into_restroom_exit",
+                "kind": "action",
+                "text": "TURN AROUND AND BACK THROUGH THE EXIT.",
+                "to": "door_reverse_end"
+              }
+            ]
+          },
+          "door_dash_pass": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/exit_vestibule",
+            "text": "You bolt past the attendant and into the tiled restroom's exit vestibule. For the first time all day, soap and running water surround you. You see a real toilet through the gap beneath a stall door.\n\nBut an inner gate separates you from the fixtures. THANK YOU FOR VISITING, announces the reader. PLEASE DO NOT ATTEMPT TO BEGIN AN EXPERIENCE THAT HAS ALREADY ENDED.\n\nThe outer door closes. EXIT ASSISTANCE IS AUTOMATIC. A panel opens beneath your feet, and a polished ramp delivers you to a maintenance worker beside a service passage. \"Wrong way?\" he asks. You nod. \"Happens. This way out.\"",
+            "choices": [
+              {
+                "id": "follow_exit_assistance_backstage",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "backstage_exit"
+              }
+            ]
+          },
+          "door_dash_fail": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/exterior_exit",
+            "text": "You run for the doorway, but your shoe catches the rubber threshold mat. The attendant grabs your coat. The visitor grabs your arm. Three grown adults form a human chain across the restroom entrance.\n\n\"I've got him!\" cries the visitor. \"So have I!\" says the attendant. \"Well, one of us ought to let go!\" The attendant does. You and the visitor tumble harmlessly onto the bench.\n\nThe restroom closes. THANK YOU FOR YOUR COOPERATION, chimes the machine. The attendant helps you up and escorts you out the Pavilion's public entrance.\n\nCHAPTER 3 COMPLETE - PLEASE LEAVE.",
+            "choices": [
+              {
+                "id": "restart_after_door_dash_failure",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "door_courtesy": {
+            "mode": "dialogue",
+            "scene": "pavilion_reboot/courtesy_stage",
+            "speaker": "pavilion_attendant",
+            "text": [
+              {
+                "say": "You're welcome.",
+                "who": "visitor"
+              },
+              "Sir, please release the door.",
+              {
+                "say": "Why? My mother taught me to hold doors for people.",
+                "who": "visitor"
+              },
+              "I'm sure she meant well.",
+              {
+                "desc": "UNSCHEDULED ACT OF HUMAN COURTESY DETECTED. The attendant freezes. INITIATING LIVE COURTESY DEMONSTRATION."
+              },
+              {
+                "say": "I don't want to be recognized!",
+                "who": "visitor"
+              },
+              {
+                "desc": "HUMILITY DETECTED - BONUS POINTS AWARDED. The entire restroom door frame travels sideways on a hidden rail, carrying you, the visitor and the attendant toward a spotlight. An inner security shutter closes over the genuine restroom."
+              },
+              {
+                "say": "PLEASE JOIN US IN CELEBRATING ONE HUMAN BEING'S SELFLESS ACT OF OPENING A DOOR.",
+                "who": "restroom_system"
+              },
+              {
+                "desc": "Recorded applause starts a beat before the spotlight comes on. You recognize the timing mistake instantly. Preventing errors like that used to be your job."
+              },
+              {
+                "say": "Well, I tried.",
+                "who": "visitor"
+              },
+              {
+                "desc": "He lets go of the door. The applause stops. DEMONSTRATION COMPLETE. A rear service passage opens."
+              }
+            ],
+            "choices": [
+              {
+                "id": "leave_courtesy_demonstration",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "backstage_exit"
+              }
+            ]
+          },
+          "door_reverse_end": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/exterior_exit",
+            "text": "You turn around and walk backward toward the restroom's EXIT THIS WAY sign. The attendant watches, concerned. Your heel crosses the threshold.\n\nEXIT DETECTED. RESTROOM EXPERIENCE SUCCESSFULLY COMPLETED. ELAPSED TIME: ZERO SECONDS. NEW FACILITY RECORD!\n\nThe attendant begins applauding automatically, then realizes what he is doing. A mechanical arm pins FASTEST SATISFIED VISITOR to your coat. The ribbon is not a useful item. The floor carries you outward along the Pavilion's designated exit route.\n\nTHANK YOU FOR YOUR EFFICIENT PARTICIPATION. You try to walk against the floor. PLEASE DO NOT REVERSE A COMPLETED EXPERIENCE.\n\nOutside, you stare at the ribbon. A toilet flushes behind the wall.\n\nCHAPTER 3 COMPLETE - NEW FACILITY RECORD.",
+            "choices": [
+              {
+                "id": "restart_after_zero_second_visit",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "backstage_exit": {
+            "mode": "narrative",
+            "scene": "pavilion_reboot/backstage",
+            "text": "Behind the exhibits, the People's Pavilion is considerably less impressive.\n\nPainted scenery leans against concrete walls. Electrical cables hang from hooks. Someone has left half a sandwich on a crate labeled SPONTANEOUS HUMAN RESPONSES. Beside it sits an unopened carton: GENUINE SURPRISE - REFILLS.\n\nYou pass discarded certificates, an overturned podium, and a machine that appears to do nothing except applaud itself. Somewhere beyond the wall, a toilet flushes.\n\nYou stop walking. The sound fades. You consider turning around. Then you remember what happened the last several times you tried to get into that bathroom.\n\nAt the end of the corridor stands a plain metal door.\n\nEXIT\n\nNo camera. No scanner. No instructions about who you are. You push the handle. The door opens. For a moment, the simplicity is almost suspicious.\n\nYou step outside. Across the courtyard, another building has a sign displaying the familiar restroom symbol. You stare at it. Then you start walking.\n\nAfter all, that's what you were trying to do when this whole day began.\n\nCHAPTER 3 COMPLETE.",
+            "choices": [
+              {
+                "id": "restart_after_backstage_exit",
                 "kind": "system",
                 "text": "BEGIN AGAIN",
                 "restart": true

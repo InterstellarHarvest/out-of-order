@@ -15,7 +15,7 @@
 //                 pinned production art: scene, overlay, conversation background + pose, Focus A and the
 //                 inventory slots; each fatal route ends on its death popup with its own image; and
 //                 all 50 images are actually shown on at least one real route (nothing installed unused)
-//   5. scope      Chapter 3 is not consumed (canon lock, generated story, death runtime)
+//   5. scope      Chapter 3 is consumed only as the approved reboot, with no death (docs/104)
 // Node only; no browser. Writes game/qa/ch02_art_results.json. Exit code 1 on any failure.
 'use strict';
 const fs = require('fs');
@@ -178,8 +178,10 @@ const unseen = PROV.images.map((r) => r.path).filter((p) => !shown.has(p));
 check('routes', 'every one of the 50 images is shown on at least one real route (nothing installed unused)', unseen.length === 0, unseen);
 
 // 5. Scope -------------------------------------------------------------------------------------------
-check('scope', 'Chapter 3 is not consumed (lock, story, death runtime)', LOCK.chapters.join() === 'prologue-00,chapter-01,chapter-02' && (LOCK.notConsumed.chapters || []).includes('chapter-03')
-  && !story.chapters['chapter-03'] && !DEATHS.entries.some((e) => e.id.startsWith('chapter-03')), { lock: LOCK.chapters, story: Object.keys(story.chapters) });
+// docs/104: Chapter 3 (the approved reboot) is consumed; its own art and routes are validate_ch03.js's. It has no death.
+check('scope', 'Chapter 3 is consumed only as the approved reboot, with no death entry; nothing beyond it (lock, story, death runtime; Chapter 4 is published narrative-only and not consumed)', LOCK.chapters.join() === 'prologue-00,chapter-01,chapter-02,chapter-03'
+  && JSON.stringify(LOCK.notConsumed.chapters || []) === JSON.stringify(['chapter-04']) && !DEATHS.entries.some((e) => e.id.startsWith('chapter-04')) && LOCK.files['story/chapters/chapter-03.reboot-candidate.json'] && !story.chapters['chapter-04']
+  && !DEATHS.entries.some((e) => e.id.startsWith('chapter-03')), { lock: LOCK.chapters, story: Object.keys(story.chapters) });
 
 const failed = results.filter((r) => !r.ok);
 const groups = {};

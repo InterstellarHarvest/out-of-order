@@ -973,7 +973,6 @@
     "end_concourse_robot": {
       "mode": "narrative",
       "scene": "biology_park/concourse_crash",
-      "end": true,
       "effects": {
         "set": {
           "ch2_exit_route": "tram_robot_crash",
@@ -983,17 +982,16 @@
       "text": "The driver thanks everyone for taking part in a safe emergency evacuation. Its steering column is embedded in a wall. Your name is on the damage claim.\n\nYou have escaped Biology Park. The public still believes this was an exhibit. Somewhere nearby, there must be a real bathroom.",
       "choices": [
         {
-          "id": "restart_concourse_crash",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_03_end_concourse_robot",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-03"
         }
       ]
     },
     "end_underground_station": {
       "mode": "narrative",
       "scene": "biology_park/abandoned_station",
-      "end": true,
       "effects": {
         "set": {
           "ch2_exit_route": "tram_silent_station",
@@ -1004,10 +1002,10 @@
       "text": "The turnstile finally opens. The free ticket disappears into its mechanism, but the satisfaction certification is permanently filed. You climb into a forgotten part of the Exposition.\n\nAt least the underground station had a sign for bathrooms. It was crossed out.",
       "choices": [
         {
-          "id": "restart_underground",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_03_end_underground_station",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-03"
         }
       ]
     },
@@ -2722,7 +2720,6 @@
     "end_public": {
       "mode": "narrative",
       "scene": "biology_park/exposition_concourse",
-      "end": true,
       "effects": {
         "set": {
           "chapter3_entry_group": "public_concourse"
@@ -2807,17 +2804,16 @@
       ],
       "choices": [
         {
-          "id": "restart_ch2_public",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_03_end_public",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-03"
         }
       ]
     },
     "end_maintenance": {
       "mode": "narrative",
       "scene": "biology_park/maintenance_exit",
-      "end": true,
       "effects": {
         "set": {
           "chapter3_entry_group": "service_infrastructure"
@@ -2884,17 +2880,16 @@
       ],
       "choices": [
         {
-          "id": "restart_ch2_maintenance",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_03_end_maintenance",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-03"
         }
       ]
     },
     "end_customs": {
       "mode": "narrative",
       "scene": "biology_park/agricultural_customs",
-      "end": true,
       "effects": {
         "set": {
           "chapter3_entry_group": "public_concourse"
@@ -2934,10 +2929,10 @@
       ],
       "choices": [
         {
-          "id": "restart_ch2_customs",
-          "kind": "system",
-          "text": "BEGIN AGAIN",
-          "restart": true
+          "id": "continue_to_chapter_03_end_customs",
+          "kind": "continue",
+          "text": "CONTINUE",
+          "chapter": "chapter-03"
         }
       ]
     }

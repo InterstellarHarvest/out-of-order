@@ -1,0 +1,77 @@
+{
+  "schema": "cyoa-ch03-save-compat-fixtures-v1",
+  "about": "Real autosaves written by game main 9a0ca4a502216ce11b956bac15d0e61750e86904 (engine game/js/rules.js and content 0bb7124ab2f6), before Chapter 3 integration. game/qa/validate_ch03.js migrates each into the current build (Rules.migrate). Regenerate only from that commit.",
+  "storyVersion": 12284197,
+  "contentHash": "0bb7124ab2f624133ec12e798f14c61f749f904e355bc115fb131e4772eef409",
+  "saves": {
+    "prologue_mid": {
+      "file": "prologue_mid.json",
+      "chapter": "prologue-00",
+      "node": "signed_response",
+      "inventory": [
+        "termination_notice"
+      ],
+      "cards": [
+        "signed_move_on"
+      ]
+    },
+    "chapter01_mid": {
+      "file": "chapter01_mid.json",
+      "chapter": "chapter-01",
+      "node": "welcome_home",
+      "inventory": [
+        "termination_notice",
+        "property_claim_ticket",
+        "expo_examiner_badge",
+        "wc_key"
+      ],
+      "cards": [
+        "permit_housekeeping",
+        "decline_housekeeping"
+      ]
+    },
+    "chapter02_mid": {
+      "file": "chapter02_mid.json",
+      "chapter": "chapter-02",
+      "node": "gardener_choices",
+      "inventory": [
+        "termination_notice",
+        "property_claim_ticket",
+        "expo_examiner_badge",
+        "wc_key"
+      ],
+      "cards": [
+        "examine_landscape_performance",
+        "hide_in_supply_hopper"
+      ]
+    },
+    "chapter02_end_public": {
+      "file": "chapter02_end_public.json",
+      "chapter": "chapter-02",
+      "node": "end_public",
+      "inventory": [
+        "termination_notice",
+        "property_claim_ticket",
+        "expo_examiner_badge",
+        "wc_key"
+      ],
+      "cards": [
+        "restart_ch2_public"
+      ]
+    },
+    "chapter02_end_underground_station": {
+      "file": "chapter02_end_underground_station.json",
+      "chapter": "chapter-02",
+      "node": "end_underground_station",
+      "inventory": [
+        "termination_notice",
+        "property_claim_ticket",
+        "expo_examiner_badge",
+        "wc_key"
+      ],
+      "cards": [
+        "restart_underground"
+      ]
+    }
+  }
+}

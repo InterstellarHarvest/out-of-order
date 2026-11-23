@@ -89,6 +89,8 @@ jobs:
         run: node game/qa/validate_ch01_art.js
       - name: Chapter 2 production art (50-image provenance, registry, bindings, every real route, deaths; docs/102)
         run: node game/qa/validate_ch02_art.js
+      - name: Chapter 3 Pavilion (29-image intake vs approved hashes, narrative fidelity, every route variant from real Chapter 2 endings, items, checks, saves; docs/104)
+        run: node game/qa/validate_ch03.js
       - name: Death controls (restore points, attempt-scoped dice, saves; RETRY / CHECKPOINT rules)
         run: node game/qa/validate_death_controls.js
       - name: Assets (static)
@@ -109,6 +111,7 @@ jobs:
             game/qa/ch02_route_results.json
             game/qa/ch01_art_results.json
             game/qa/ch02_art_results.json
+            game/qa/ch03_results.json
             game/qa/death_controls_results.json
             game/qa/asset_results.json
           if-no-files-found: ignore
@@ -169,6 +172,10 @@ jobs:
         id: ch02_routes
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch02_routes_qa.js
+      - name: Chapter 3 Pavilion in the game (Chapter 2 hand-off, every scene + conversation pair pixel-compared, SHOW / USE, dice, incidental voices, '%', reload, endings; docs/104)
+        id: ch03
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_ch03_qa.js
       - name: M2 reception game (regression fixture, ?story=reception)
         id: m2_reception
         if: (success() || failure()) && steps.pw.outcome == 'success'
@@ -211,6 +218,7 @@ jobs:
             game/qa/death_controls_qa_results.json
             game/qa/ch02_art_qa_results.json
             game/qa/ch02_route_results_browser.json
+            game/qa/ch03_qa_results.json
             game/qa/qa_results.json
             tools/m2-reception-polish-lab/qa/qa_results.json
             tools/layout-lab/qa/qa_results.json
@@ -244,6 +252,7 @@ jobs:
             game/qa/death_controls_screenshots/*.png
             game/qa/ch02_art_screenshots/*.png
             game/qa/ch02_route_screenshots/*.png
+            game/qa/ch03_screenshots/*.png
             tools/m2-reception-polish-lab/qa/screenshots/*.png
             tools/layout-lab/qa/screenshots/*.png
           if-no-files-found: warn

@@ -377,10 +377,26 @@ async function suite(name, base) {
     'follow_trace_to_flower', 'read_flower_district_decree', 'accept_seed_courier', 'carry_seeds_to_customs', 'carry_sealed_seeds_out', 'leave_cargo_checkpoint'
   ]) await take(page, choice);
   s = await info(page);
-  check(b, 'Chapter 2 ending: Agricultural Customs with the sealed canister, public concourse entry group, BEGIN AGAIN only',
-    s.node === 'chapter-02:end_customs' && s.inv.includes('certified_seed_canister') && s.cards.length === 1 && s.cards[0].kind === 'system'
+  // Since Chapter 3 integration (docs/104) a living Chapter 2 ending continues into Chapter 3.
+  check(b, 'Chapter 2 ending: Agricultural Customs with the sealed canister, public concourse entry group, CONTINUE into Chapter 3 only',
+    s.node === 'chapter-02:end_customs' && s.inv.includes('certified_seed_canister') && s.cards.length === 1 && s.cards[0].id === 'continue_to_chapter_03_end_customs'
     && (await page.evaluate(() => window.CYOA_GAME.state.flags.chapter3_entry_group)) === 'public_concourse', s);
   await shot(page, '10c_chapter_02_customs_ending.png');
+  await take(page, s.cards[0].id);
+  s = await info(page);
+  check(b, 'HAND-OFF 3: the customs ending enters the Chapter 3 Pavilion with the public-concourse arrival and the canister still held',
+    s.node === 'chapter-03:pavilion_arrival' && s.inv.includes('certified_seed_canister')
+    && /emerge from Biology Park into the main Exposition concourse/.test(await page.evaluate(() => window.CYOA_GAME.state.transcript.slice(-4).map((e) => e.runs.map((r) => r.text).join(' ')).join(' '))), s);
+  // A dice-free Chapter 3 route to a surviving ending: the zero-second visit.
+  for (const choice of ['approach_real_restroom', 'approach_pavilion_attendant', 'ask_attendant_for_restroom', 'try_unapproved_restroom_entry',
+    'respond_to_open_door', 'back_into_restroom_exit']) await take(page, choice);
+  // The ending passage is longer than the panel: its presentation CONTINUE comes first (Narrative B paging),
+  // then the ending's own card.
+  await settle(page, true);
+  s = await info(page);
+  check(b, 'Chapter 3 surviving ending (NEW FACILITY RECORD): BEGIN AGAIN only, no death popup', s.node === 'chapter-03:door_reverse_end' && s.cards.length === 1 && s.cards[0].kind === 'system'
+    && !(await page.evaluate(() => document.body.dataset.endPresentation)), s);
+  await shot(page, '10d_chapter_03_surviving_ending.png');
   await take(page, s.cards[0].id);
   s = await info(page);
   check(b, 'BEGIN AGAIN restarts the playthrough (new NOTES, empty inventory, opening node)', s.node === 'prologue-00:work_complete' && s.inv.length === 0

@@ -59,7 +59,7 @@
         if (!runs.length) return;
         if (e.mode !== 'dialogue') { last = null; return add(G.narrationText(runs), 'dialogue', lead); }
         dialogueParts(runs).forEach(function (p, k) {
-          var who = p.who === 'npc' ? speakerName(e) : 'YOU';
+          var who = p.who === 'npc' ? (p.label || speakerName(e)) : 'YOU';
           if (p.who === 'thought') { last = null; return add(G.thoughtText(p.text), 'choices', k ? 4 : lead); }
           if (who !== last) add(who + ':', 'labels', k ? 8 : lead);
           last = who;
@@ -82,13 +82,21 @@
     if (r.role === 'speech' && r.who === 'you') return 'player';
     return 'npc';
   }
+  // An incidental voice (docs/104 section 4: a cast member with no portrait, e.g. a passer-by or a
+  // machine announcer) speaking inside another speaker's conversation is attributed by name, so its
+  // line never reads as the portrait speaker's. Portrait speakers are never labelled (unchanged).
+  function voiceOf(r) {
+    var c = r.role === 'speech' && r.who && r.who !== 'you' ? story.cast[r.who] : null;
+    return c && !c.portrait ? r.who : null;
+  }
   function dialogueParts(runs) {
     var out = [];
     runs.forEach(function (r) {
       var who = styleOf(r);
+      var voice = voiceOf(r);
       var lastPart = out[out.length - 1];
-      if (lastPart && lastPart.who === who) lastPart.text += ' ' + r.text;
-      else out.push({ text: r.text, who: who });
+      if (lastPart && lastPart.who === who && (lastPart.voice || null) === voice) lastPart.text += ' ' + r.text;
+      else out.push(voice ? { text: r.text, who: who, voice: voice, label: story.cast[voice].name } : { text: r.text, who: who });
     });
     return out;
   }

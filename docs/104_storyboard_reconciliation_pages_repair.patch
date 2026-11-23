@@ -1,0 +1,125 @@
+diff --git a/tools/storyboard/qa-smoke.mjs b/tools/storyboard/qa-smoke.mjs
+index 70fc332..eb5739a 100644
+--- a/tools/storyboard/qa-smoke.mjs
++++ b/tools/storyboard/qa-smoke.mjs
+@@ -63,7 +63,7 @@ for(const [name,hash] of Object.entries(batch2SelectedHashes)){
+   // Selected-only previews cite the owner approval commit; once a tested game build publishes the image as
+   // integrated (docs/105 step 4) its preview cites that build at the production path, and the approval commit
+   // stays recorded in the record's notes. The bytes (sha256 above) never change.
+-  if(record.status==='integrated'){assert.equal(preview.source.repo,'InterstellarHarvest/CYOA','integrated preview cites the game build: '+id);assert.equal(preview.source.path,record.assetPath,'integrated preview cites the production path: '+id);assert.ok(record.notes.includes('ed098eee6999b25d44a6b4db2ad7605e430d88c6'),'owner approval commit kept in notes: '+id);}
++  if(record.status==='integrated'){assert.ok(['InterstellarHarvest/CYOA','InterstellarHarvest/out-of-order'].includes(preview.source.repo),'integrated preview cites the game build (repository renamed 2026-11-19): '+id);assert.equal(preview.source.path,record.assetPath,'integrated preview cites the production path: '+id);assert.ok(record.notes.includes('ed098eee6999b25d44a6b4db2ad7605e430d88c6'),'owner approval commit kept in notes: '+id);}
+   else assert.equal(preview.source.commit,'ed098eee6999b25d44a6b4db2ad7605e430d88c6','exact owner approval commit: '+id);
+   if(record.status==='approved'&&record.assetPath!==null)assert.equal(record.assetPath,'art/scenes/'+id+'.png','an approved record carries only the production path assigned at integration (docs/105): '+id);
+   if(record.assetPath!==null)assert.equal(preview.file,'assets/selected/'+record.assetPath,'the preview mirrors the production path: '+id);
+diff --git a/tools/sync/ch3-reference-supersession.mjs b/tools/sync/ch3-reference-supersession.mjs
+index 818e1bf..3df2207 100644
+--- a/tools/sync/ch3-reference-supersession.mjs
++++ b/tools/sync/ch3-reference-supersession.mjs
+@@ -7,7 +7,9 @@
+ //   - the reference is the original v03 (ac0f7c44...) and the canonical preview is exactly v04 (93a48082...),
+ //     in the registry and in the preview file's bytes;
+ //   - the preserved v03 history copy still has its original hash;
+-//   - the record is still `approved` with no production assetPath, and its notes name both hashes.
++//   - the record is still `approved` with no production assetPath (or, after the integration-status reconciliation,
++//     `integrated` at its suggestedFilename by a game build whose story/game-integration.json used exactly the
++//     approved replacement bytes there), and its notes name both hashes.
+ // Any other difference, for this key or any other, fails. The gallery itself is never modified.
+ export const PAPER_EMERGENCY_V04 = Object.freeze({
+   key: 'scenes:pavilion_reboot/paper_emergency',
+@@ -46,7 +48,14 @@ export function checkApprovedReferences({ refs, previews, art, readRepo, reviewD
+     try { history = readRepo(s.historyFile); } catch (e) { fail(key + ': preserved historical copy ' + s.historyFile + ' is missing'); }
+     if (digest(history) !== s.historicalSha256) fail(key + ': preserved historical copy ' + s.historyFile + ' no longer has its original sha256 ' + s.historicalSha256);
+     const rec = art.scenes[s.record];
+-    if (!rec || rec.status !== 'approved' || rec.assetPath !== null) fail(key + ': record must stay approved with no production assetPath');
++    // Before gameplay integration: approved, no production path. After the integration-status reconciliation:
++    // integrated at exactly its proposed production path, and the published game build (story/game-integration.json)
++    // used exactly the approved replacement bytes there. Any other state fails.
++    let gi = null;
++    try { gi = JSON.parse(readRepo('story/game-integration.json')); } catch (e) { gi = null; }
++    const reconciled = !!rec && rec.status === 'integrated' && rec.assetPath === rec.suggestedFilename
++      && !!gi && Array.isArray(gi.images) && gi.images.some((i) => i.key === key && i.path === rec.assetPath && i.sha256 === s.currentSha256);
++    if (!rec || !((rec.status === 'approved' && rec.assetPath === null) || reconciled)) fail(key + ': record must stay approved with no production assetPath, or be integrated at its suggestedFilename by a game build that used exactly ' + s.currentSha256);
+     if (!String(rec.notes).includes(s.currentSha256) || !String(rec.notes).includes(s.historicalSha256)) fail(key + ': record notes must name the replacement and the historical selection');
+     superseded.push({ key, historicalSha256: s.historicalSha256, currentSha256: s.currentSha256, historyFile: s.historyFile, approved: s.approved });
+   }
+diff --git a/tools/sync/qa-ch3-reference-supersession.mjs b/tools/sync/qa-ch3-reference-supersession.mjs
+index 7f1a9d9..96811ed 100644
+--- a/tools/sync/qa-ch3-reference-supersession.mjs
++++ b/tools/sync/qa-ch3-reference-supersession.mjs
+@@ -73,11 +73,24 @@ assert.equal(digest(v03), S.historicalSha256); assert.equal(digest(v04), S.curre
+   assert.throws(() => checkApprovedReferences({ refs: r2, previews, art, digest, readRepo: R, reviewDigest: (f) => Object.values(r2).find((r) => r.reviewFile === f).sha256 }),
+     /is not the recorded historical selection/); ok('a Paper Emergency reference other than v03 fails');
+ }
+-// The supersession also requires the record to stay approved, unintegrated and documented.
++// The supersession requires the record approved with no production path (before gameplay integration) OR integrated at
++// exactly its suggestedFilename by a published game build that used exactly the v04 bytes (after the integration-status
++// reconciliation), and notes naming both hashes. Both states are built explicitly, whatever the repository holds now.
+ {
+-  const a = clone(art); a.scenes[S.record].assetPath = 'art/scenes/pavilion_reboot/paper_emergency.png';
+-  refused({ a }, /must stay approved with no production assetPath/);
+-  const b = clone(art); b.scenes[S.record].notes = b.scenes[S.record].notes.split(S.historicalSha256).join('');
+-  refused({ a: b }, /notes must name/); ok('the exception requires the record approved, no production path, notes naming both hashes');
++  const PATH = 'art/scenes/pavilion_reboot/paper_emergency.png';
++  const state = (status, assetPath) => { const a = clone(art); a.scenes[S.record].status = status; a.scenes[S.record].assetPath = assetPath; return a; };
++  const gi = (images) => ({ 'story/game-integration.json': Buffer.from(JSON.stringify({ schema: 'cyoa-game-integration-v1', images })) });
++  const used = (sha, path = PATH, key = S.key) => [{ key, path, sha256: sha, kind: 'scene' }];
++  assert.equal(run({ a: state('approved', null) }).superseded.length, 1); ok('before integration: approved with no production path passes');
++  assert.equal(run({ a: state('integrated', PATH), files: gi(used(S.currentSha256)) }).superseded.length, 1);
++  ok('after reconciliation: integrated at its suggestedFilename by a game build that used exactly v04 passes');
++  refused({ a: state('approved', PATH) }, /must stay approved with no production assetPath, or be integrated/); ok('approved WITH a production path fails');
++  refused({ a: state('integrated', PATH), missing: ['story/game-integration.json'] }, /or be integrated/); ok('integrated with no game integration report fails');
++  refused({ a: state('integrated', PATH), files: gi(used(S.historicalSha256)) }, /or be integrated/); ok('integrated by a build that used v03 bytes fails');
++  refused({ a: state('integrated', PATH), files: gi(used(S.currentSha256, 'art/scenes/other.png')) }, /or be integrated/); ok('integrated at another path than the game used fails');
++  refused({ a: state('integrated', 'art/scenes/pavilion_reboot/elsewhere.png'), files: gi(used(S.currentSha256, 'art/scenes/pavilion_reboot/elsewhere.png')) }, /or be integrated/);
++  ok('integrated at a path other than its suggestedFilename fails');
++  const b = state('approved', null); b.scenes[S.record].notes = b.scenes[S.record].notes.split(S.historicalSha256).join('');
++  refused({ a: b }, /notes must name/); ok('the exception still requires notes naming both hashes');
+ }
+ console.log(JSON.stringify({ result: 'PASS', checks: results.length, results }, null, 1));
+diff --git a/tools/sync/stage-ch3-batch04-review.mjs b/tools/sync/stage-ch3-batch04-review.mjs
+index 4b67365..cf26dbc 100644
+--- a/tools/sync/stage-ch3-batch04-review.mjs
++++ b/tools/sync/stage-ch3-batch04-review.mjs
+@@ -36,6 +36,8 @@ const history=verifyPackage(historical),previous=verifyPackage(previousRoot),lat
+ const oldExpected=new Map(previous.manifest.candidates.map(c=>[c.candidateId,c]));
+ assert.equal(history.manifest.candidateSourceCommit,'4fc277651c7d05163817d9ab99d0fc3fcf522d47');
+ const manifest=latest.manifest;
++const integration=fs.existsSync('story/game-integration.json')?JSON.parse(fs.readFileSync('story/game-integration.json','utf8')):null;
++const integratedRecords=[];
+ for(const m of [history.manifest,previous.manifest,manifest]){
+  assert.equal(m.narrativeBlob,'857ffdf1bc9432cf4bbbfd7819f5f430a06d9036');assert.equal(m.selected,false);assert.equal(m.approved,false);assert.equal(m.assetPath,null);assert.equal(m.candidates.length,9);
+ }
+@@ -70,10 +72,18 @@ for(const c of manifest.candidates){
+  assert.equal(d.selectedVersion,changed?'v03':path.basename(d.file,'.png').slice(-3));assert.deepEqual(d.source,{repo:'InterstellarHarvest/CYOA-storyboard',ref:'art/ch3-pavilion-batch04-20261120',commit:process.env.CH3_BATCH_D_REVIEW_COMMIT,path:d.file});
+  assert.equal(d.status,'approved');assert.equal(d.approved,true);assert.equal(d.selected,true);assert.equal(d.assetPath,null);assert.equal(d.gitBlob,createHash('sha1').update('blob '+bytes.length+'\0').update(bytes).digest('hex'));
+  const entry=batchEntries.get(c.record);assert.ok(entry);assert.equal(entry.status,'approved');assert.equal(entry.expectedSha256,c.sha256);assert.deepEqual(entry.source,d.source);
+- assert.equal(record.status,'approved','registered approval is never lowered to generated');assert.equal(record.assetPath,null,'no production path before gameplay integration');
++ // Before gameplay integration: approved, no production path, preview citing the approved selection. After the
++ // integration-status reconciliation: integrated at exactly its suggestedFilename, and the published game build
++ // (story/game-integration.json) used exactly these approved bytes there. Nothing else passes; the bytes never change.
++ const reconciled=record.status==='integrated'&&record.assetPath===record.suggestedFilename&&!!integration
++  &&integration.images.some(i=>i.key===c.record&&i.path===record.assetPath&&i.sha256===c.sha256);
++ if(reconciled)integratedRecords.push(c.record);
++ else{assert.equal(record.status,'approved','registered approval is never lowered to generated');assert.equal(record.assetPath,null,'no production path before gameplay integration');}
+  assert.ok(record.notes.includes(c.sha256));assert.ok(record.notes.includes(process.env.CH3_BATCH_D_REVIEW_COMMIT));assert.ok(record.notes.includes('native-grid authorship NOT proven'),'accepted limitation recorded');
+  if(changed)assert.ok(!record.notes.includes(prior.sha256),'superseded D05 v02 review bytes are not the registered selection');
+- const pv=previews[c.record];assert.ok(pv,'approved selection has a canonical preview');assert.equal(pv.sha256,c.sha256);assert.deepEqual(pv.source,d.source);assert.deepEqual(fs.readFileSync(pv.file),bytes,'canonical preview byte-identical to the pinned gallery file');
++ const pv=previews[c.record];assert.ok(pv,'approved selection has a canonical preview');assert.equal(pv.sha256,c.sha256);
++ if(reconciled)assert.deepEqual([pv.file,pv.source.repo,pv.source.commit,pv.source.path],['assets/selected/'+record.assetPath,integration.game.repo,integration.game.commit,record.assetPath],'an integrated preview cites the game build at its production path');
++ else assert.deepEqual(pv.source,d.source);assert.deepEqual(fs.readFileSync(pv.file),bytes,'canonical preview byte-identical to the pinned gallery file');
+ }
+ assert.equal(expected.size,0);assert.equal(manifest.candidates.filter(c=>c.retainedFromPreviousReview).length,8);
+ const refs=JSON.parse(fs.readFileSync(path.join(historical,'references/approved-sources.json'),'utf8'));
+@@ -89,10 +99,10 @@ for(const [name,pkg] of [['v01',history],['v02-close-camera-corrections',previou
+ // Deployment metadata and the owner-selection receipt live beside, never inside, the three immutable snapshots.
+ for(const f of ['deployment-provenance.json','owner-selection.json','selection.html','index.html'])assert.ok(!fs.existsSync(path.join(dest,f)),'refuse to overwrite '+f);
+ const registered=decision.candidates.filter(d=>previews[d.key]&&previews[d.key].sha256===d.sha256).length;assert.equal(registered,9);
+-fs.writeFileSync(path.join(dest,'deployment-provenance.json'),JSON.stringify({publicSiteSource:process.env.GITHUB_SHA||'local-validation',deployedBy:'canonical main Pages workflow (.github/workflows/pages.yml)',gallerySource:process.env.CH3_BATCH_D_REVIEW_COMMIT,galleryRef:'art/ch3-pavilion-batch04-20261120',selectedReviewVersion:version,creativeApproval:'Nate selected all nine Chapter 3 Batch D artworks on 2026-11-20 exactly as mapped in v03: D01/D04/D06/D07/D08 v01, D02/D03/D09 v02, D05 v03 (docs/122; docs/103 Chapter 3 Batch D section).',status:'approved',approved:true,canonicalExactSelectedPreviewCount:registered,gameplayIntegration:'Not authorized by this approval or publication; production assetPath null.',nativeGridAuthorship:'Unresolved/unproven; accepted by Nate for the exact selected bytes.',history:'v01, v02-close-camera-corrections and v03-clapper-correction remain byte-preserved. Their review-time generated/unselected labels are historical provenance, superseded by owner-selection.json.',approvedSourceReferences:{strict:referenceCheck.strict.length,laterApprovedReplacements:referenceCheck.superseded}},null,2)+'\n');
++fs.writeFileSync(path.join(dest,'deployment-provenance.json'),JSON.stringify({publicSiteSource:process.env.GITHUB_SHA||'local-validation',deployedBy:'canonical main Pages workflow (.github/workflows/pages.yml)',gallerySource:process.env.CH3_BATCH_D_REVIEW_COMMIT,galleryRef:'art/ch3-pavilion-batch04-20261120',selectedReviewVersion:version,creativeApproval:'Nate selected all nine Chapter 3 Batch D artworks on 2026-11-20 exactly as mapped in v03: D01/D04/D06/D07/D08 v01, D02/D03/D09 v02, D05 v03 (docs/122; docs/103 Chapter 3 Batch D section).',status:'approved',approved:true,canonicalExactSelectedPreviewCount:registered,gameplayIntegration:integratedRecords.length?('Integrated by game build '+integration.game.commit+' ('+integration.game.repo+'; story/game-integration.json) at their production paths: '+integratedRecords.length+'/9 selections, exact approved bytes.'):'Not authorized by this approval or publication; production assetPath null.',nativeGridAuthorship:'Unresolved/unproven; accepted by Nate for the exact selected bytes.',history:'v01, v02-close-camera-corrections and v03-clapper-correction remain byte-preserved. Their review-time generated/unselected labels are historical provenance, superseded by owner-selection.json.',approvedSourceReferences:{strict:referenceCheck.strict.length,laterApprovedReplacements:referenceCheck.superseded}},null,2)+'\n');
+ fs.writeFileSync(path.join(dest,'owner-selection.json'),decisionBytes);
+ const esc=t=>String(t).replace(/[&<>"]/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[ch]));
+ const rows=decision.candidates.map(d=>'<tr><td><a href="'+esc(d.file.slice(dir.length+1))+'">'+esc(d.candidateId)+'</a></td><td>'+d.selectedVersion+'</td><td><code>'+esc(d.key)+'</code></td><td><code>'+d.sha256+'</code></td></tr>').join('');
+-fs.writeFileSync(path.join(dest,'selection.html'),'<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Out of Order — Chapter 3 Batch D selections</title><style>body{max-width:72rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui}td,code,a{overflow-wrap:anywhere}td{padding:.5rem;vertical-align:top}table{table-layout:fixed;width:100%}</style><h1>Chapter 3 Batch D — Nate’s approved selections</h1><p>Owner-approved 2026-11-20: all nine Batch D artworks exactly as mapped in the v03 review. D01, D04, D06, D07 and D08 keep v01; D02, D03 and D09 keep v02; D05 is the v03 localized mechanical-clapper correction.</p><p><a href="'+version+'/">v03 gallery (current mapping)</a> · <a href="v02-close-camera-corrections/">Historical v02</a> · <a href="v01/">Historical v01</a> · <a href="owner-selection.json">Owner decision and provenance</a></p><p>Original native-grid authorship remains unresolved/unproven and is accepted by Nate for these exact bytes. Canonical previews matching these exact selections: '+registered+'/9. Approved, not integrated: no gameplay integration or production path is authorized.</p><table><tr><th>Selection</th><th>Version</th><th>Record</th><th>SHA-256</th></tr>'+rows+'</table><p>Historical generated/unselected labels inside the v01, v02 and v03 review snapshots remain unchanged as provenance; the later owner decision above supersedes them.</p></html>');
++fs.writeFileSync(path.join(dest,'selection.html'),'<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Out of Order — Chapter 3 Batch D selections</title><style>body{max-width:72rem;margin:2rem auto;padding:0 1rem;font:16px/1.6 system-ui}td,code,a{overflow-wrap:anywhere}td{padding:.5rem;vertical-align:top}table{table-layout:fixed;width:100%}</style><h1>Chapter 3 Batch D — Nate’s approved selections</h1><p>Owner-approved 2026-11-20: all nine Batch D artworks exactly as mapped in the v03 review. D01, D04, D06, D07 and D08 keep v01; D02, D03 and D09 keep v02; D05 is the v03 localized mechanical-clapper correction.</p><p><a href="'+version+'/">v03 gallery (current mapping)</a> · <a href="v02-close-camera-corrections/">Historical v02</a> · <a href="v01/">Historical v01</a> · <a href="owner-selection.json">Owner decision and provenance</a></p><p>Original native-grid authorship remains unresolved/unproven and is accepted by Nate for these exact bytes. Canonical previews matching these exact selections: '+registered+'/9. '+(integratedRecords.length?('Integrated in gameplay by game build '+integration.game.commit+' at their production paths ('+integratedRecords.length+'/9), exact approved bytes.'):'Approved, not integrated: no gameplay integration or production path is authorized.')+'</p><table><tr><th>Selection</th><th>Version</th><th>Record</th><th>SHA-256</th></tr>'+rows+'</table><p>Historical generated/unselected labels inside the v01, v02 and v03 review snapshots remain unchanged as provenance; the later owner decision above supersedes them.</p></html>');
+ fs.writeFileSync(path.join(dest,'index.html'),'<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Chapter 3 Batch D review</title><p><a href="selection.html">Batch D — Nate’s nine approved selections (receipt)</a></p><p><a href="'+version+'/">v03 gallery (approved mapping)</a> · <a href="v02-close-camera-corrections/">Historical v02</a> · <a href="v01/">Historical v01</a></p><p>Review galleries keep their original review-time labels.</p></html>');
+ console.log('PASS: staged immutable v01/v02/v03; nine approved selections registered byte-exact ('+registered+'/9); approved-source references '+referenceCheck.strict.length+' strict + '+referenceCheck.superseded.length+' recorded later replacement'+(referenceCheck.superseded.length?' ('+referenceCheck.superseded.map(x=>x.key).join(', ')+')':'')+'; receipt written outside the snapshots; no gallery code executed.');
