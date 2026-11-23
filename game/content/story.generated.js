@@ -17,8 +17,8 @@
       },
       {
         "path": "story/artwork.draft.json",
-        "sha256": "4ee67b6f2e91b3311bac87953b85786fbd868d5cd1a5dd225f58821c9185d490",
-        "gitBlob": "96f9b19fd2f07f15c0e253d5a7eb061b3348094e"
+        "sha256": "3087f5d262cdbede94947b924c40ab57fae1a7fb1ceac563666b2204cc69e777",
+        "gitBlob": "77a3678b1f9b916489b1785c564fb3a9958d903b"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
