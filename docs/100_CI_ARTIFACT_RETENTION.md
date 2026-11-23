@@ -235,3 +235,5 @@ No test changed. Every suite still runs locally for free, as before. The policy 
 **Not affected:**
 - Git pushes (commits, art, storyboard data): repository storage is separate from Actions.
 - The public repositories (CYOA-storyboard, Trans-plant), whose Actions minutes and storage are free. The storyboard's Pages upload succeeded at 21:09 UTC while CYOA's uploads were being refused.
+
+**Superseded 2026-11-22 by docs/105.** The draft skip is kept, but the included 2,000 minutes still ran out (about 1,983 minutes from Nov 1–22). QA now runs the browser suites only on a manual `chromium` or `full` run, and nothing at all for documentation-only changes. The primary gate is the free local run (`node tools/ci/run-local-qa.js`).
