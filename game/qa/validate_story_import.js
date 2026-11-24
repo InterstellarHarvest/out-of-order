@@ -9,9 +9,34 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '../..');
-const { build, verify } = require(path.join(ROOT, 'tools/story-import/import.js'));
+const { build: buildOnce, verify } = require(path.join(ROOT, 'tools/story-import/import.js'));
 const Rules = require(path.join(ROOT, 'game/js/rules.js'));
 const STORY = path.join(ROOT, 'story');
+// Every build walks every reachable state of the whole story (~262k with Chapter 3, docs/104), so a build is
+// the cost of this suite. A build is deterministic in its sources, so identical sources (byte for byte),
+// folder, mode and bindings are built once per run (docs/105). Each caller gets its own deep copy, so no case can
+// see another's mutations. A case that edits a copy has different sources and is always built afresh.
+const crypto = require('crypto');
+const digestDir = (dir) => {
+  const h = crypto.createHash('sha256');
+  (function walk(d) {
+    for (const f of fs.readdirSync(d).sort()) {
+      const p = path.join(d, f);
+      if (fs.statSync(p).isDirectory()) walk(p); else h.update(path.relative(dir, p) + '\0').update(fs.readFileSync(p)).update('\0');
+    }
+  })(dir);
+  return h.digest('hex');
+};
+const builds = new Map();
+let buildHits = 0;
+function build(opts) {
+  const o = opts || {};
+  // The folder itself is part of the key: a build records its source paths, so equal bytes elsewhere are a different build.
+  const from = path.resolve(o.from || STORY);
+  const key = JSON.stringify([o.mode || 'preview', from, digestDir(from), o.bindingsRoot ? [path.resolve(o.bindingsRoot), digestDir(o.bindingsRoot)] : null, o.out || null]);
+  if (builds.has(key)) buildHits++; else builds.set(key, buildOnce(o));
+  return structuredClone(builds.get(key));
+}
 const FIXTURE = path.join(__dirname, 'fixtures/story-import');
 
 const results = [];
@@ -709,4 +734,5 @@ const groups = {};
 results.forEach((r) => { groups[r.group] = groups[r.group] || { total: 0, passed: 0 }; groups[r.group].total++; if (r.ok) groups[r.group].passed++; });
 fs.writeFileSync(path.join(__dirname, 'story_import_results.json'), JSON.stringify({ suite: 'story-import', passed, total: results.length, groups, results }, null, 2) + '\n');
 console.log('story import ' + passed + '/' + results.length + (passed === results.length ? ' passed ' : ' FAILED ') + JSON.stringify(groups));
+console.log('  builds: ' + builds.size + ' distinct, ' + buildHits + ' identical rebuilds reused (docs/105)');
 process.exitCode = passed === results.length ? 0 : 1;

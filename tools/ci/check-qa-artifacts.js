@@ -63,6 +63,9 @@ const J = jobs();
 check('workflow has the content and browsers jobs', J.content && J.browsers, Object.keys(J));
 const content = steps(J.content || []), browsers = steps(J.browsers || []);
 const uploads = [...content, ...browsers].filter(s => s.uses && s.uses.startsWith('actions/upload-artifact@'));
+const checkouts = [content, browsers].map(group => group.find(s => s.uses === 'actions/checkout@v4'));
+check('both jobs use full-history partial clone for historical art source byte checks',
+  checkouts.every(s => s && /fetch-depth: 0/.test(s.body) && /filter: blob:none/.test(s.body)));
 
 // --- Retention and folder uploads on every artifact. ----------------------------------------------
 for (const u of uploads) {
@@ -114,12 +117,60 @@ check('every browser QA step is a known suite with an id', qaSteps.every(s => ID
 check('workflow_dispatch has a boolean visual_review input, default false',
   /workflow_dispatch:\n    inputs:\n      visual_review:\n(?:        .*\n)*?        type: boolean\n        default: false\n/.test(text));
 // --- Triggers (docs/100 section 9): drafts skip QA; manual, ready-for-review, non-draft PRs and main run it.
-check('pull_request runs on opened, synchronize, reopened and ready_for_review',
-  /\n  pull_request:\n    types: \[opened, synchronize, reopened, ready_for_review\]\n/.test(text));
-check('push to main and workflow_dispatch still trigger QA', /\n  push:\n    branches: \[main\]\n  workflow_dispatch:\n/.test(text));
+check('pull_request runs on opened/synchronize/reopened/ready and label changes',
+  /\n  pull_request:\n    types: \[opened, synchronize, reopened, ready_for_review, labeled, unlabeled\]\n/.test(text));
+// --- Minutes policy (docs/105): documentation-only changes run nothing; routine PRs and main pushes
+// run quick content checks; gameplay-sensitive PRs and release tags run the full browser job.
+// A full-browser-qa label can escalate an otherwise routine PR. Manual chromium/full stays available.
+const IGNORE = "    paths-ignore: ['docs/**', '**/*.md', '**/*.tsv']\n";
+check('pull_request and push to main ignore documentation-only changes (docs/105)',
+  text.includes("\n  pull_request:\n    types: [opened, synchronize, reopened, ready_for_review, labeled, unlabeled]\n    # Documentation-only changes run nothing (docs/105).\n" + IGNORE)
+  && text.includes("\n  push:\n    branches: [main]\n    tags: ['v*']\n" + IGNORE + '  workflow_dispatch:\n'));
+check('workflow_dispatch has a scope input: quick | chromium | full, default quick',
+  /\n      scope:\n        description: .*\n        type: choice\n        options: \[quick, chromium, full\]\n        default: quick\n/.test(text));
 const SKIP_IF = "    if: github.event_name != 'pull_request' || !github.event.pull_request.draft";
-for (const j of ['content', 'browsers']) check(`${j} job skips only draft PRs (exact condition)`,
-  (J[j] || []).filter(l => /^    if:/.test(l)).length === 1 && (J[j] || []).includes(SKIP_IF), (J[j] || []).filter(l => /^    if:/.test(l)));
+check('content job skips only draft PRs (exact condition)',
+  (J.content || []).filter(l => /^    if:/.test(l)).length === 1 && (J.content || []).includes(SKIP_IF), (J.content || []).filter(l => /^    if:/.test(l)));
+check('content exposes changed-scope browser_full to the browser job',
+  (J.content || []).includes('    outputs:') && (J.content || []).includes('      browser_full: ${{ steps.scope.outputs.browser_full }}'));
+const BROWSER_IF = `    if: >-
+      (github.event_name == 'pull_request' && !github.event.pull_request.draft &&
+       (needs.content.outputs.browser_full == 'true' || contains(github.event.pull_request.labels.*.name, 'full-browser-qa')))
+      || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))
+      || (github.event_name == 'workflow_dispatch' && inputs.scope != 'quick')`;
+check('browsers run only for sensitive PRs, full-browser-qa label, version tags or manual chromium/full',
+  (J.browsers || []).includes('    needs: content') && (J.browsers || []).join('\n').includes(BROWSER_IF) &&
+  (J.browsers || []).filter(l => /^    if:/.test(l)).length === 1);
+// The complete two-browser run needs more than 45 minutes on GitHub's runner (docs/105 section 2): a job timeout must
+// never silently drop the last suites (run 45313464297 lost M2 reception, polish lab and layout lab at 45).
+check('browser job allows the complete Chromium + Firefox run (timeout-minutes >= 75)',
+  (J.browsers || []).some(l => /^    timeout-minutes: (\d+)$/.test(l) && Number(l.match(/(\d+)$/)[1]) >= 75), (J.browsers || []).filter(l => /timeout-minutes/.test(l)));
+check('browser job picks Chromium-only only for manual chromium; automated/full uses both browsers',
+  (J.browsers || []).includes("      QA_BROWSERS: ${{ github.event_name == 'workflow_dispatch' && inputs.scope == 'chromium' && 'chromium' || 'chromium,firefox' }}")
+  && /playwright" install --with-deps \$\{QA_BROWSERS\/\/,\/ \}/.test((J.browsers || []).join('\n')));
+const scopeRules = require('./changed-scope.js');
+const scopeCases = [
+  { files: ['docs/105_CI_MINUTES_POLICY.md'], import: false, browser: false },
+  { files: ['tools/ci/run-local-qa.js'], import: true, browser: true },
+  { files: ['.github/workflows/qa.yml'], import: true, browser: true },
+  { files: ['game/js/stage.js'], import: false, browser: true },
+  { files: ['story/chapters/chapter-03.reboot-candidate.json'], import: true, browser: true },
+  { files: ['art/scenes/pavilion_reboot/arrival.png'], import: false, browser: true },
+  { files: ['tools/layout-lab/js/stage.js'], import: false, browser: true },
+  { files: ['tools/story-import/import.js'], import: true, browser: true },
+  { files: ['.github/workflows/other.yml'], import: false, browser: false }
+];
+for (const c of scopeCases) {
+  const actual = scopeRules.scope(c.files);
+  check(`changed-scope ${c.files[0]} (import=${c.import}, browser=${c.browser})`,
+    actual.story_import === c.import && actual.browser_full === c.browser, actual);
+}
+const contentSteps = steps(J.content || []);
+const scopeStep = contentSteps.find(s => s.id === 'scope'), siStep = contentSteps.find(s => s.run === 'node game/qa/validate_story_import.js');
+check('the story-import acceptance suite runs exactly when changed-scope says so, or on a manual chromium/full run',
+  scopeStep && /^node tools\/ci\/changed-scope\.js /.test(scopeStep.run) && siStep && contentSteps.indexOf(scopeStep) < contentSteps.indexOf(siStep)
+  && siStep.if === "(github.event_name != 'workflow_dispatch' && steps.scope.outputs.story_import == 'true') || (github.event_name == 'workflow_dispatch' && inputs.scope != 'quick')",
+  siStep && siStep.if);
 
 const idxStep = browsers.find(s => s.run === 'node tools/ci/qa-artifact-index.js');
 check('artifact index runs on every run before the uploads, with job status, visual_review and step outcomes',
