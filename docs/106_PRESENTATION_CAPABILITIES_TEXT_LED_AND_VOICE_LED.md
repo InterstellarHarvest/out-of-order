@@ -1,4 +1,4 @@
-# 105. Presentation capabilities: text-led scenes (C1) and voice-led dialogue (C2)
+# 106. Presentation capabilities: text-led scenes (C1) and voice-led dialogue (C2)
 
 **Authority:** Nate approved both on 2026-11-24 (storyboard PR #31, docs/137 §8 and §14). He asked for them as a separate, reviewable engine PR that preserves dialogue, narration, speaker labels, CONTINUE behaviour and existing gameplay rules.
 
@@ -60,12 +60,15 @@ Chapter 4 uses three text-led scenes (arrival, forecourt, courtyard: 5 nodes) an
 |---|---|
 | `game/qa/validate_presentation_capabilities.js` (new, content job) | **33/33**: import, validator, surfaces, held scene, echo on B, resume, 10 mutants. The **gameplay-unchanged proof**: every route × 6 seeds reaches byte-identical rules state, rule events and transcript words as a control story where the voice has a portrait. |
 | `game/qa/run_presentation_qa.js` (new, browser job `presentation`, Chromium + Firefox) | **28/28**: the held image is unchanged and never faded (also on the text-led ending and after a reload); voice-led on B with no portrait and `DOOR AI: "…"` labels; echo on B; back to the dialogue box with the portrait; the docs/104 in-dialogue label is unchanged; no page errors. |
-| Existing content job (local, 2026-11-24) | All PASS: import `--check` / `--verify` (generated story unchanged, content 8045c71dcbf1), sync verify, qa-sync, glyph ink, routes v1 49 / v2 49, story 178, story import 105, Chapter 2 routes 157, Chapter 1 art 261, Chapter 2 art 326, **Chapter 3 453**, death controls 45, assets 60, CI artifact policy 127. One Chapter 3 mutant asserted the replaced docs/104 refusal; it now asserts the approved C2 rule both ways. |
-| Existing browser job (local, Chromium + Firefox) | PASS: assets 98, story 128, Chapter 1 routes 154, Chapter 1 art 164, end presentation, death controls 102, Chapter 2 art 224, Chapter 2 routes 346, **Chapter 3 248**, polish lab 143. Known baselines, unchanged: M2 reception Firefox 7 (environmental, as on main), layout lab 8 known (gate PASS). |
+| Full local gate after merging game main 7c06f52 (PR #23 CI + PR #24 Chapter 3 art), `node tools/ci/run-local-qa.js full` | Every content and browser step **PASS**: story import 105, Chapter 3 453 / browser 248, Chapter 2 routes 157 / browser 346, Chapter 1 art 261 / browser 164, story browser 128, death controls 45 / 102, assets 60 / 98, CI artifact policy 142, polish lab 143, layout lab (known-failures gate PASS), C1/C2 33 + 28. The **only** failing step is M2 reception Firefox 521/528: the same 7 checks, name for name, that fail on untouched main (environmental baseline). |
 
 Real Chapter 4 (storyboard `ce504af`, read-only): the importer yields 15 voice-led nodes and 3 text-led scenes (5 nodes), with **zero** placeholders for those keys.
 
 ## 6. Chapter 4 integration findings (not changed here)
+
+**Update 2026-11-24 (Nate):**
+- Finding 1 is **resolved in canon** (storyboard PR #31 docs/139: 97 audited player lines, who `visitor` → `you`). A local check in Chromium and Firefox confirms the corrected lines render in the player's Choices face and under **YOU:** in NOTES, while Chapter 3's NPC `visitor` keeps its **VISITOR:** label.
+- Findings 2–4 are **deferred** to the Chapter 4 integration work package (storyboard docs/140). They are deliberately out of scope here.
 
 Seen while importing real Chapter 4 read-only. They are for the later Chapter 4 gameplay integration:
 
