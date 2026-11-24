@@ -243,7 +243,7 @@ async function run(browserName,base){
 }
 (async()=>{
   const server=await serve(),base='http://127.0.0.1:'+server.address().port;
-  try{for(const b of ['chromium','firefox'])await run(b,base);}
+  try{for(const b of (process.env.QA_BROWSERS || process.env.BROWSERS || 'chromium,firefox').split(','))await run(b,base);}
   finally{server.close();}
   const failed=results.filter(x=>!x.ok);
   console.log('House Chapter 1 playable route QA '+(results.length-failed.length)+'/'+results.length+' passed');
