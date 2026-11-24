@@ -11,14 +11,9 @@
     "version": 134503538,
     "sources": [
       {
-        "path": "art/pavilion_reboot.provenance.json",
-        "sha256": "b4f5261c08e2135f51110f3e8bff89ba04fe70cfefa4e39159aba802f4c67a77",
-        "gitBlob": "b388a8b997e3ffde623bcad09818a3d21e21e086"
-      },
-      {
         "path": "story/artwork.draft.json",
-        "sha256": "c4c3a49e139a1a3fca65a6dbc76eef44d023c7633639a6ec0a5a32b7f70e05a9",
-        "gitBlob": "78d266a7d6b5d053b33fb685b07ecf71ae108315"
+        "sha256": "4011d6f65f82e041a5e4246d80d338d0bf3ecf5d9c8cc734930a0ed5a86ac87b",
+        "gitBlob": "138a7f9fae2ed2ebc9f9a16c40f9fe7fe88a58d8"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
@@ -47,8 +42,8 @@
       },
       {
         "path": "story/runtime-settings.json",
-        "sha256": "d59b793106992cfa64ba9959cec8a1fce41c9fb3d4da1fc23e908c928fcbac18",
-        "gitBlob": "3ff8e66ddf817352d9d6bcb7ff6d202db0117f06"
+        "sha256": "ce195a34def55b1353baf7d1aabfefbebe1439684e593f26ea001572d6bebde3",
+        "gitBlob": "124083c6519adaf662141d7f7fa78cd71a0a8249"
       },
       {
         "path": "story/storyboard-manifest.json",
@@ -371,65 +366,57 @@
         "kind": "portrait-background",
         "id": "pavilion_reboot/courtesy_stage",
         "path": "art/portraits/pavilion_reboot/backgrounds/courtesy_stage.png",
-        "status": "approved",
-        "sha256": "b0786ebd4147c6b0e6441838c725751a794db04fa9bcce4341aa1a3a7f1e7623",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "b0786ebd4147c6b0e6441838c725751a794db04fa9bcce4341aa1a3a7f1e7623"
       },
       {
         "kind": "portrait-background",
         "id": "pavilion_reboot/human_verification_stage",
         "path": "art/portraits/pavilion_reboot/backgrounds/human_verification_stage.png",
-        "status": "approved",
-        "sha256": "d09e2a7cf13c6382cd8d726a8852f32cfe359651f4c6c9538f4f7825d41844ef",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "d09e2a7cf13c6382cd8d726a8852f32cfe359651f4c6c9538f4f7825d41844ef"
       },
       {
         "kind": "portrait-background",
         "id": "pavilion_reboot/record_printer",
         "path": "art/portraits/pavilion_reboot/backgrounds/record_printer.png",
-        "status": "approved",
-        "sha256": "46e79ce63fb0bda0af2695393a92c9c7ae064edddedbab0e0f4a5f6e9ad01473",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "46e79ce63fb0bda0af2695393a92c9c7ae064edddedbab0e0f4a5f6e9ad01473"
       },
       {
         "kind": "portrait-background",
         "id": "pavilion_reboot/record_scanner",
         "path": "art/portraits/pavilion_reboot/backgrounds/record_scanner.png",
-        "status": "approved",
-        "sha256": "9099383613c587c3e2e10bcc33d839f75d2aaf685f20de7e47acc21e04c877ea",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "9099383613c587c3e2e10bcc33d839f75d2aaf685f20de7e47acc21e04c877ea"
       },
       {
         "kind": "portrait-background",
         "id": "pavilion_reboot/restroom_entrance",
         "path": "art/portraits/pavilion_reboot/backgrounds/restroom_entrance.png",
-        "status": "approved",
-        "sha256": "e4967d1f0e4bc2497fb0ce6e59891d1a25a2e1854b8bf395515cd8d0cc4b5260",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "e4967d1f0e4bc2497fb0ce6e59891d1a25a2e1854b8bf395515cd8d0cc4b5260"
       },
       {
         "kind": "portrait-background",
         "id": "pavilion_reboot/service_exit",
         "path": "art/portraits/pavilion_reboot/backgrounds/service_exit.png",
-        "status": "approved",
-        "sha256": "241bfb8e817cf7c42508c218c188a1ac2706bad2e5f577484ce10a359b9a88e9",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "241bfb8e817cf7c42508c218c188a1ac2706bad2e5f577484ce10a359b9a88e9"
       },
       {
         "kind": "portrait-background",
         "id": "pavilion_reboot/surprise_stage",
         "path": "art/portraits/pavilion_reboot/backgrounds/surprise_stage.png",
-        "status": "approved",
-        "sha256": "90f29651222b62bca461c0c33f09092290b374fd0cf10094c40267202515e255",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "90f29651222b62bca461c0c33f09092290b374fd0cf10094c40267202515e255"
       },
       {
         "kind": "portrait-background",
         "id": "pavilion_reboot/urgency_stage",
         "path": "art/portraits/pavilion_reboot/backgrounds/urgency_stage.png",
-        "status": "approved",
-        "sha256": "7d89b7d7c2ee22e6b324076ce988b3e5520e84be5b4068e79fe8d759ab529714",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "7d89b7d7c2ee22e6b324076ce988b3e5520e84be5b4068e79fe8d759ab529714"
       },
       {
         "kind": "portrait-background",
@@ -456,57 +443,50 @@
         "kind": "portrait-pose",
         "id": "pavilion_attendant:alarmed",
         "path": "art/portraits/pavilion_reboot/pavilion_attendant/alarmed.png",
-        "status": "approved",
-        "sha256": "51c2556b865ede1a997977c66e4f79cc1c0b271334a35aba36ef73555d40a43f",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "51c2556b865ede1a997977c66e4f79cc1c0b271334a35aba36ef73555d40a43f"
       },
       {
         "kind": "portrait-pose",
         "id": "pavilion_attendant:idle",
         "path": "art/portraits/pavilion_reboot/pavilion_attendant/idle.png",
-        "status": "approved",
-        "sha256": "28fdf5523454ea2ccdb397bd4d7006fc1fb8f04109046b7646361692422c3ef2",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "28fdf5523454ea2ccdb397bd4d7006fc1fb8f04109046b7646361692422c3ef2"
       },
       {
         "kind": "portrait-pose",
         "id": "pavilion_attendant:quiet",
         "path": "art/portraits/pavilion_reboot/pavilion_attendant/quiet.png",
-        "status": "approved",
-        "sha256": "7f00208a3a96628f18fd23f079913dcb706e0e220db081d4cb438107f15bdf90",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "7f00208a3a96628f18fd23f079913dcb706e0e220db081d4cb438107f15bdf90"
       },
       {
         "kind": "portrait-pose",
         "id": "pavilion_presenter:alarmed",
         "path": "art/portraits/pavilion_reboot/pavilion_presenter/alarmed.png",
-        "status": "approved",
-        "sha256": "4bc10c1b0ceb997d0ae51831f4368a60d35b74a59f8c1e24f1772553d638b887",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "4bc10c1b0ceb997d0ae51831f4368a60d35b74a59f8c1e24f1772553d638b887"
       },
       {
         "kind": "portrait-pose",
         "id": "pavilion_presenter:excited",
         "path": "art/portraits/pavilion_reboot/pavilion_presenter/excited.png",
-        "status": "approved",
-        "sha256": "d5aafddc9792a9e294b5f8793cef4d3c629354911a732a64a4976e1ed9acdd95",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "d5aafddc9792a9e294b5f8793cef4d3c629354911a732a64a4976e1ed9acdd95"
       },
       {
         "kind": "portrait-pose",
         "id": "pavilion_presenter:idle",
         "path": "art/portraits/pavilion_reboot/pavilion_presenter/idle.png",
-        "status": "approved",
-        "sha256": "da33e42a723c8f1a5fe82a2ecaa5cd1e22281caa3ee4abc26db8e81569cd6784",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "da33e42a723c8f1a5fe82a2ecaa5cd1e22281caa3ee4abc26db8e81569cd6784"
       },
       {
         "kind": "portrait-pose",
         "id": "pavilion_presenter:relieved",
         "path": "art/portraits/pavilion_reboot/pavilion_presenter/relieved.png",
-        "status": "approved",
-        "sha256": "29a349c7bcdfe32d2885709dc91977beb7e3869d2461913cfd89afdacebbda9b",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "29a349c7bcdfe32d2885709dc91977beb7e3869d2461913cfd89afdacebbda9b"
       },
       {
         "kind": "portrait-pose",
@@ -932,113 +912,99 @@
         "kind": "scene",
         "id": "pavilion_reboot/arrival",
         "path": "art/scenes/pavilion_reboot/arrival.png",
-        "status": "approved",
-        "sha256": "37d0b189fda18ad6659b0fae1f214145acd4ec67595c5e5a520917d6a7cbd478",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "37d0b189fda18ad6659b0fae1f214145acd4ec67595c5e5a520917d6a7cbd478"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/backstage",
         "path": "art/scenes/pavilion_reboot/backstage.png",
-        "status": "approved",
-        "sha256": "aa90896023a59454887e9b3bd5b1745cb8b95a5d9737829119abddd9176f4889",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "aa90896023a59454887e9b3bd5b1745cb8b95a5d9737829119abddd9176f4889"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/courtesy_stage",
         "path": "art/scenes/pavilion_reboot/courtesy_stage.png",
-        "status": "approved",
-        "sha256": "0b413a7b9a669365f114fda8765a242fc3ce00fc9c1ea3bd535c7a2b3d1cdb98",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "0b413a7b9a669365f114fda8765a242fc3ce00fc9c1ea3bd535c7a2b3d1cdb98"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/exit_vestibule",
         "path": "art/scenes/pavilion_reboot/exit_vestibule.png",
-        "status": "approved",
-        "sha256": "cc2d2ce27e1e2cbf609fcae2210d3c46c57b749e8850be2219ad6de7f7f807c8",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "cc2d2ce27e1e2cbf609fcae2210d3c46c57b749e8850be2219ad6de7f7f807c8"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/exterior_exit",
         "path": "art/scenes/pavilion_reboot/exterior_exit.png",
-        "status": "approved",
-        "sha256": "76b3232f685fd392f981f0c846382e3ddccd61ed94d44e09ea1bc5cf032c3e8a",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "76b3232f685fd392f981f0c846382e3ddccd61ed94d44e09ea1bc5cf032c3e8a"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/human_verification_stage",
         "path": "art/scenes/pavilion_reboot/human_verification_stage.png",
-        "status": "approved",
-        "sha256": "8df7e5dd2fffb17449fd43f4d9e7df167d75347efc53b0bde1771fd6d8d001ca",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "8df7e5dd2fffb17449fd43f4d9e7df167d75347efc53b0bde1771fd6d8d001ca"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/locomotion_stage",
         "path": "art/scenes/pavilion_reboot/locomotion_stage.png",
-        "status": "approved",
-        "sha256": "be99d790754951bcbcd1c26b94a94ff4e84280f5385735951b0f024b322e13c5",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "be99d790754951bcbcd1c26b94a94ff4e84280f5385735951b0f024b322e13c5"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/paper_emergency",
         "path": "art/scenes/pavilion_reboot/paper_emergency.png",
-        "status": "approved",
-        "sha256": "93a48082124600b1afeb45e5ea54856bf253e858e55111295e9d9c26919bc978",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "93a48082124600b1afeb45e5ea54856bf253e858e55111295e9d9c26919bc978"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/record_printer",
         "path": "art/scenes/pavilion_reboot/record_printer.png",
-        "status": "approved",
-        "sha256": "1f80f8f17359c07fd24c74741be72bfa6ad941da67bb1622931e3b429bb0a722",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "1f80f8f17359c07fd24c74741be72bfa6ad941da67bb1622931e3b429bb0a722"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/record_scanner",
         "path": "art/scenes/pavilion_reboot/record_scanner.png",
-        "status": "approved",
-        "sha256": "4afe7d0b1898c1e29443d45aba20614b14951bbf91c40e9508a62dc607fcd1b3",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "4afe7d0b1898c1e29443d45aba20614b14951bbf91c40e9508a62dc607fcd1b3"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/restroom_entrance",
         "path": "art/scenes/pavilion_reboot/restroom_entrance.png",
-        "status": "approved",
-        "sha256": "117dd9d00b6c9d32b4b153f71aaf51c2546ade70b803d45a748728f8d1a1f8b4",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "117dd9d00b6c9d32b4b153f71aaf51c2546ade70b803d45a748728f8d1a1f8b4"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/service_exit",
         "path": "art/scenes/pavilion_reboot/service_exit.png",
-        "status": "approved",
-        "sha256": "4a736b2d7b5fd7dea50fe9d93fe36e7465674ce0b8e38e7f2d6517fca73df392",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "4a736b2d7b5fd7dea50fe9d93fe36e7465674ce0b8e38e7f2d6517fca73df392"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/surprise_stage",
         "path": "art/scenes/pavilion_reboot/surprise_stage.png",
-        "status": "approved",
-        "sha256": "8a85f438b734930985140851d38d2d691c8326e71d1aae7891e37b453a03412d",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "8a85f438b734930985140851d38d2d691c8326e71d1aae7891e37b453a03412d"
       },
       {
         "kind": "scene",
         "id": "pavilion_reboot/urgency_stage",
         "path": "art/scenes/pavilion_reboot/urgency_stage.png",
-        "status": "approved",
-        "sha256": "368134fe2363134d3b63e7a7eae3a7b71b393a9d59484c4b3c456296239a7d2c",
-        "binding": "art/pavilion_reboot.provenance.json"
+        "status": "integrated",
+        "sha256": "368134fe2363134d3b63e7a7eae3a7b71b393a9d59484c4b3c456296239a7d2c"
       },
       {
         "kind": "scene",

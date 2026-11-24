@@ -377,7 +377,7 @@ async function run(name, base) {
 (async () => {
   const server = await serve();
   const base = 'http://127.0.0.1:' + server.address().port;
-  const browsers = (process.env.BROWSERS || 'chromium,firefox').split(',');
+  const browsers = (process.env.QA_BROWSERS || process.env.BROWSERS || 'chromium,firefox').split(',');
   try { for (const b of browsers) await run(b, base); } finally { server.close(); }
   const failed = results.filter((x) => !x.ok);
   const by = {};

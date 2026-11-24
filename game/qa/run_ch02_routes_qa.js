@@ -291,7 +291,7 @@ async function run(b, base) {
 (async () => {
   const server = await serve();
   const base = 'http://127.0.0.1:' + server.address().port;
-  try { for (const b of ['chromium', 'firefox']) await run(b, base); } finally { server.close(); }
+  try { for (const b of (process.env.QA_BROWSERS || process.env.BROWSERS || 'chromium,firefox').split(',')) await run(b, base); } finally { server.close(); }
   const failed = results.filter((x) => !x.ok);
   const per = {};
   results.forEach((x) => { const k = x.browser; per[k] = per[k] || { total: 0, passed: 0 }; per[k].total++; if (x.ok) per[k].passed++; });

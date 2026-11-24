@@ -9,9 +9,34 @@ const fs = require('fs');
 const os = require('os');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '../..');
-const { build, verify } = require(path.join(ROOT, 'tools/story-import/import.js'));
+const { build: buildOnce, verify } = require(path.join(ROOT, 'tools/story-import/import.js'));
 const Rules = require(path.join(ROOT, 'game/js/rules.js'));
 const STORY = path.join(ROOT, 'story');
+// Every build walks every reachable state of the whole story (~262k with Chapter 3, docs/104), so a build is
+// the cost of this suite. A build is deterministic in its sources, so identical sources (byte for byte),
+// folder, mode and bindings are built once per run (docs/105). Each caller gets its own deep copy, so no case can
+// see another's mutations. A case that edits a copy has different sources and is always built afresh.
+const crypto = require('crypto');
+const digestDir = (dir) => {
+  const h = crypto.createHash('sha256');
+  (function walk(d) {
+    for (const f of fs.readdirSync(d).sort()) {
+      const p = path.join(d, f);
+      if (fs.statSync(p).isDirectory()) walk(p); else h.update(path.relative(dir, p) + '\0').update(fs.readFileSync(p)).update('\0');
+    }
+  })(dir);
+  return h.digest('hex');
+};
+const builds = new Map();
+let buildHits = 0;
+function build(opts) {
+  const o = opts || {};
+  // The folder itself is part of the key: a build records its source paths, so equal bytes elsewhere are a different build.
+  const from = path.resolve(o.from || STORY);
+  const key = JSON.stringify([o.mode || 'preview', from, digestDir(from), o.bindingsRoot ? [path.resolve(o.bindingsRoot), digestDir(o.bindingsRoot)] : null, o.out || null]);
+  if (builds.has(key)) buildHits++; else builds.set(key, buildOnce(o));
+  return structuredClone(builds.get(key));
+}
 const FIXTURE = path.join(__dirname, 'fixtures/story-import');
 
 const results = [];
@@ -83,9 +108,10 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const b2 = build({ from: t.dir });
   check(g, 'authoring key order does not change the content hash or the runtime content', b2.ok && b2.meta.contentHash === b.meta.contentHash && b2.text.split('\n').slice(3).join() !== undefined
     && JSON.stringify(b2.story.chapters['prologue-00'].nodes.work_complete.choices) !== undefined, b2.ok && [b2.meta.contentHash, b.meta.contentHash]);
-  // 9 sources: manifest, runtime settings, 4 chapters, items, artwork + the pending art binding (docs/104 section 3).
-  check(g, 'the build records content hash, version, schema and every source file hash (incl. the pending art binding)', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
-    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 9 && b.meta.sources.some((s) => s.path === 'art/pavilion_reboot.provenance.json') && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
+  // 8 sources: manifest, runtime settings, 4 chapters, items, artwork. The Chapter 3 pending art binding (docs/104
+  // section 3) was dropped at the integration-status reconciliation: no art/*.provenance.json is a build source.
+  check(g, 'the build records content hash, version, schema and every source file hash (no pending art binding since the reconciliation)', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
+    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 8 && !b.meta.sources.some((s) => /^art\//.test(s.path)) && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
   // docs/92 adds the 28 bound Chapter 1 House images (the 29th, the default chair, is unbound).
   const houseArt = (a) => /house_of_tomorrow|portraits\/house\/|family_portrait_photo/.test(a.path);
@@ -94,13 +120,14 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const parkArt = (a) => /biology_park|portraits\/(groundskeeper|courtesy_conductor)\/|items\/(botanical_antidote_|certified_seed_canister_|acting_director_badge_)/.test(a.path);
   // Owner ruling 2026-11-16 (public docs/102-103, docs/97): selected + used art is approved; in this build = integrated.
   // + 2 Batch B House views (lounge, dining; public docs/107 section 9) = 30 House images.
-  // docs/104: + the 29 Pavilion images (14 scenes, 8 conversation backgrounds, 7 poses), still `approved` on this
-  // review build: they become `integrated` only at the normal reconciliation step (sync.js publish).
+  // docs/104: + the 29 Pavilion images (14 scenes, 8 conversation backgrounds, 7 poses), `integrated` since the
+  // integration-status reconciliation (section 11: game build abaf917 published by sync.js publish).
   const pavilionArt = (a) => /pavilion_reboot\//.test(a.path);
-  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images, 5 reused approved, 29 approved Pavilion images pending reconciliation)', b.ok
-    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
+  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images, 5 reused approved, none approved-only)', b.ok
+    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a) && !pavilionArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
     && b.meta.art.filter((a) => a.status === 'integrated' && parkArt(a)).length === 45
-    && b.meta.art.filter((a) => a.status === 'approved').length === 29 && b.meta.art.filter((a) => a.status === 'approved').every(pavilionArt)
+    && b.meta.art.filter((a) => a.status === 'integrated' && pavilionArt(a)).length === 29 && b.meta.art.filter(pavilionArt).length === 29
+    && b.meta.art.filter((a) => a.status === 'approved').length === 0
     && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
 })();
 
@@ -451,12 +478,13 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   // reach the popup through the death runtime and are checked by validate_ch02_art.js).
   const park = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/biology_park.provenance.json'), 'utf8')).images.filter((r) => r.kind !== 'death-screen');
   const parkOk = park.length === 45 && park.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256));
-  // docs/104: the 29 Pavilion images are used while still `approved` (review build; integrated at reconciliation),
-  // pinned by art/pavilion_reboot.provenance.json. Nothing else may read as approved-only, nothing as generated.
+  // docs/104 section 8: + the 29 Pavilion images, integrated at their canonical production paths since the
+  // integration-status reconciliation (no pending binding), pinned by art/pavilion_reboot.provenance.json.
+  // Nothing may read as approved-only (selected but unused) or as generated.
   const pav = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/pavilion_reboot.provenance.json'), 'utf8')).images;
   const appr = b.meta.art.filter((a) => a.status === 'approved');
-  const pavOk = pav.length === 29 && appr.length === 29 && pav.every((r) => appr.some((a) => a.path === r.path && a.sha256 === r.sha256));
-  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images matching their provenance; only the 29 Pavilion images approved-only, pending reconciliation; none generated)', gen.length === 103 && prov.length === 30 && houseOk && parkOk && pavOk
+  const pavOk = pav.length === 29 && pav.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256 && !a.binding));
+  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images matching their provenance; none approved-only, none generated)', gen.length === 132 && appr.length === 0 && prov.length === 30 && houseOk && parkOk && pavOk
     && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'generated'),
     b.meta.art.map((a) => a.status));
   const t = copySource(STORY).edit('artwork.draft.json', (j) => {
@@ -477,15 +505,18 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
     && ['x', 'y', 'width', 'lineHeight', 'safeBottom'].every((k) => typeof ov.textBox[k] === 'number'), [sha, ov]);
 })();
 
-// 5b. Pending-integration art bindings (docs/104 section 3) ------------------------------------------
-// The 29 Pavilion records stay `approved` with a null canonical assetPath until the integration-status
-// reconciliation; story/runtime-settings.json binds them to their suggestedFilename through
-// art/pavilion_reboot.provenance.json. Every way a binding could install the wrong bytes is refused.
+// 5b. Pending-integration art bindings (docs/104 sections 3 and 8) -----------------------------------
+// The mechanism stays (a later chapter may need it); Chapter 3 no longer uses it. Until the integration-status
+// reconciliation the 29 Pavilion records were `approved` with a null canonical assetPath and story/runtime-settings.json
+// bound them to their suggestedFilename through art/pavilion_reboot.provenance.json. The real build now binds them
+// through their canonical assetPath. That pre-reconciliation state is rebuilt here in a throwaway copy (PRE), and every
+// way a binding could install the wrong bytes is still refused.
 (function pendingBindings() {
   const g = 'pending-binding';
   const PE = 'pavilion_reboot/paper_emergency', V04 = '93a48082124600b1afeb45e5ea54856bf253e858e55111295e9d9c26919bc978';
   const V03 = 'ac0f7c44d267dd54897507ae3b8b02959a5b76f4fcd9d0418b77b8fdb777ba7e', FAKE = 'f'.repeat(64);
   const PROV = 'art/pavilion_reboot.provenance.json';
+  const PAV = JSON.parse(fs.readFileSync(path.join(ROOT, PROV), 'utf8')).images;
   // A throwaway bindings root holding an edited copy of the provenance file (the repository is never touched).
   const provRoot = (fn) => {
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'cyoa-binding-'));
@@ -497,40 +528,59 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
     return dir;
   };
   const pe = (j) => j.images.find((i) => i.key === 'scenes:' + PE);
+  const recordOf = (art, key) => {
+    const grp = key.slice(0, key.indexOf(':')), rest = key.slice(key.indexOf(':') + 1), [id, v] = rest.split('#');
+    return v ? art[grp][id][v] : art[grp][id];
+  };
+  // The pre-reconciliation state: the 29 records approved with null production paths again, and the binding listed.
+  const UNPATH = ['artwork.draft.json', (j) => { PAV.forEach((r) => { const rec = recordOf(j, r.key); rec.assetPath = null; rec.status = 'approved'; }); }];
+  const BIND = ['runtime-settings.json', (j) => { j.pendingArtBindings = [PROV]; }];
+  const PRE = [UNPATH, BIND];
   const run = (edits, opts) => { const t = copySource(STORY); (edits || []).forEach(([rel, fn]) => t.edit(rel, fn)); return build(Object.assign({ from: t.dir }, opts || {})); };
   const refused = (name, b, re) => check(g, name, !b.ok && has(b.report.errors, re), b.report.errors.slice(0, 3));
 
   const real = build();
-  const bound = real.meta.art.filter((a) => a.binding);
-  check(g, 'the real build binds exactly the 29 approved Pavilion images through ' + PROV + ', each at its approved SHA-256 (Paper Emergency v04)',
-    real.ok && bound.length === 29 && bound.every((a) => a.binding === PROV && a.status === 'approved') && bound.some((a) => a.path === 'art/scenes/pavilion_reboot/paper_emergency.png' && a.sha256 === V04),
-    bound.length);
+  const pav = real.meta.art.filter((a) => PAV.some((r) => r.path === a.path));
+  check(g, 'the real build has no pending binding: the 29 Pavilion images bind through their canonical assetPath, each at its approved SHA-256 (Paper Emergency v04)',
+    real.ok && !real.meta.art.some((a) => a.binding) && !('pendingArtBindings' in JSON.parse(fs.readFileSync(path.join(STORY, 'runtime-settings.json'), 'utf8')))
+    && pav.length === 29 && PAV.every((r) => pav.some((a) => a.path === r.path && a.sha256 === r.sha256 && recordOf(JSON.parse(fs.readFileSync(path.join(STORY, 'artwork.draft.json'), 'utf8')), r.key).assetPath === r.path))
+    && pav.some((a) => a.path === 'art/scenes/pavilion_reboot/paper_emergency.png' && a.sha256 === V04), pav.length);
+  refused('re-adding the binding to the reconciled registry is refused: every bound record already has a canonical assetPath',
+    run([BIND]), /already has a canonical assetPath; remove its pending binding/);
+  const pre = run(PRE);
+  const bound = pre.ok ? pre.meta.art.filter((a) => a.binding) : [];
+  check(g, 'pre-reconciliation state (rebuilt): the binding installs exactly the 29 approved Pavilion images through ' + PROV + ', the same bytes as the real build',
+    pre.ok && bound.length === 29 && bound.every((a) => a.binding === PROV && a.status === 'approved' && pav.some((x) => x.path === a.path && x.sha256 === a.sha256)),
+    pre.ok ? bound.length : pre.report.errors.slice(0, 3));
   refused('a binding to a superseded selection (Paper Emergency v03 hash) is refused: the record names v04 first',
-    run([], { bindingsRoot: provRoot((j) => { pe(j).sha256 = V03; }) }), /binding ac0f7c44.* is not the current approved selection its record names \(93a48082/);
+    run(PRE, { bindingsRoot: provRoot((j) => { pe(j).sha256 = V03; }) }), /binding ac0f7c44.* is not the current approved selection its record names \(93a48082/);
   refused('installed bytes that differ from the bound SHA-256 are refused (binding and record both name another hash)',
-    run([['artwork.draft.json', (j) => { j.scenes[PE].notes = j.scenes[PE].notes.replace(V04, FAKE); }]], { bindingsRoot: provRoot((j) => { pe(j).sha256 = FAKE; }) }),
+    run(PRE.concat([['artwork.draft.json', (j) => { j.scenes[PE].notes = j.scenes[PE].notes.replace(V04, FAKE); }]]), { bindingsRoot: provRoot((j) => { pe(j).sha256 = FAKE; }) }),
     /paper_emergency\.png is 93a48082.*not the approved f{64}/);
   refused('a bound record that is not approved (generated) is refused',
-    run([['artwork.draft.json', (j) => { j.scenes[PE].status = 'generated'; }]]), /bound pending integration but its record is "generated"/);
+    run(PRE.concat([['artwork.draft.json', (j) => { j.scenes[PE].status = 'generated'; }]])), /bound pending integration but its record is "generated"/);
   refused('a bound record that is already integrated is refused (reconciled art drops its binding)',
-    run([['artwork.draft.json', (j) => { j.scenes[PE].status = 'integrated'; }]]), /bound pending integration but its record is "integrated"/);
+    run(PRE.concat([['artwork.draft.json', (j) => { j.scenes[PE].status = 'integrated'; }]])), /bound pending integration but its record is "integrated"/);
   refused('a binding for a record that already has a canonical assetPath is refused (remove the binding at reconciliation)',
-    run([['artwork.draft.json', (j) => { j.scenes[PE].assetPath = 'art/scenes/pavilion_reboot/paper_emergency.png'; }]]), /already has a canonical assetPath; remove its pending binding/);
+    run(PRE.concat([['artwork.draft.json', (j) => { j.scenes[PE].assetPath = 'art/scenes/pavilion_reboot/paper_emergency.png'; }]])), /already has a canonical assetPath; remove its pending binding/);
   refused('a binding no approved record uses is refused (nothing orphaned)',
-    run([], { bindingsRoot: provRoot((j) => { j.images.push(Object.assign({}, pe(j), { key: 'scenes:pavilion_reboot/nowhere', path: 'art/scenes/pavilion_reboot/nowhere.png' })); }) }),
+    run(PRE, { bindingsRoot: provRoot((j) => { j.images.push(Object.assign({}, pe(j), { key: 'scenes:pavilion_reboot/nowhere', path: 'art/scenes/pavilion_reboot/nowhere.png' })); }) }),
     /nowhere\.png \(scenes:pavilion_reboot\/nowhere\) is bound but no approved record of this build uses it/);
   refused('an approved (promoted) build refuses pending bindings: it needs reconciled canonical art',
-    run([], { mode: 'approved' }), /bound pending integration .*an approved build needs reconciled canonical art/);
+    run(PRE, { mode: 'approved' }), /bound pending integration .*an approved build needs reconciled canonical art/);
   refused('pendingArtBindings may only name art/*.provenance.json files',
-    run([['runtime-settings.json', (j) => { j.pendingArtBindings = ['story/artwork.draft.json']; }]]), /pendingArtBindings must list art\/\*\.provenance\.json files/);
-  const nob = run([['runtime-settings.json', (j) => { delete j.pendingArtBindings; }]]);
-  check(g, 'without the binding the 29 Pavilion images are DEV PLACEHOLDERS (fixture profile): the binding is the only way they reach this build',
+    run([UNPATH, ['runtime-settings.json', (j) => { j.pendingArtBindings = ['story/artwork.draft.json']; }]]), /pendingArtBindings must list art\/\*\.provenance\.json files/);
+  const nob = run([UNPATH]);
+  check(g, 'with null production paths and no binding the 29 Pavilion images are DEV PLACEHOLDERS (fixture profile): only a canonical path or a binding reaches a build',
     nob.ok && nob.story.profile === 'fixture' && nob.story.assets.scenes[PE] === null && has(nob.report.warnings, /pavilion_reboot\/paper_emergency has no assetPath yet/), nob.report.errors.slice(0, 3));
-  const t = copySource(STORY);
-  const out = path.join(t.dir, 'generated.js');
-  fs.writeFileSync(out, real.text);
-  const v = verify({ from: t.dir, out, bindingsRoot: provRoot((j) => { pe(j).bytes += 0; j.copied += ' '; }) });
-  check(g, 'editing the binding provenance file makes the committed build STALE (it is a build source)', !v.ok && /STALE/.test(v.why), v.why);
+  if (pre.ok) {
+    const t = copySource(STORY);
+    PRE.forEach(([rel, fn]) => t.edit(rel, fn));
+    const out = path.join(t.dir, 'generated.js');
+    fs.writeFileSync(out, pre.text);
+    const v = verify({ from: t.dir, out, bindingsRoot: provRoot((j) => { pe(j).bytes += 0; j.copied += ' '; }) });
+    check(g, 'editing the binding provenance file makes a bound build STALE (it is a build source while bound)', !v.ok && /STALE/.test(v.why), v.why);
+  }
 })();
 
 // 6b. Prologue -> Chapter 1 hand-off: separate chapter files, and the player's whole state crosses ---
@@ -684,4 +734,5 @@ const groups = {};
 results.forEach((r) => { groups[r.group] = groups[r.group] || { total: 0, passed: 0 }; groups[r.group].total++; if (r.ok) groups[r.group].passed++; });
 fs.writeFileSync(path.join(__dirname, 'story_import_results.json'), JSON.stringify({ suite: 'story-import', passed, total: results.length, groups, results }, null, 2) + '\n');
 console.log('story import ' + passed + '/' + results.length + (passed === results.length ? ' passed ' : ' FAILED ') + JSON.stringify(groups));
+console.log('  builds: ' + builds.size + ' distinct, ' + buildHits + ' identical rebuilds reused (docs/105)');
 process.exitCode = passed === results.length ? 0 : 1;
