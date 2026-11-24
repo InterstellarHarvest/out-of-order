@@ -1,11 +1,12 @@
 # 104 — Chapter 3 gameplay integration (The People's Pavilion, approved reboot)
 
-**Date:** 2026-11-20; recovered and completed 2026-11-22 (section 10); artwork integration-status reconciliation prepared 2026-11-23 (section 11).
+**Date:** 2026-11-20; recovered and completed 2026-11-22 (section 10); artwork integration-status reconciliation prepared 2026-11-23 (section 11); integration completed and merged 2026-11-24 (section 11.8).
 
 **Authorization:**
 - Nate, "Out of Order — Chapter 3 Gameplay Integration" (2026-11-20): prepare Chapter 3 on a separate review branch; do not merge into `main` until separately authorized.
 - Owner, 2026-11-22: recover the work into tested draft PRs only; no merge, deployment, production-status change or Chapter 4 integration.
 - Nate, 2026-11-23: all 29 Chapter 3 production images approved; complete the canonical artwork reconciliation as draft PRs (section 11). Chapter 3 → Chapter 4 connectivity is handled when Chapter 4 integrates.
+- Nate, 2026-11-24: merge sequence authorized (game PR #23, storyboard PR #28, game PR #24, normal merge commits). Completed the same day (section 11.8).
 
 **Branch:** `agent/ch03-gameplay-integration-20261122`, from game `main` `9a0ca4a502216ce11b956bac15d0e61750e86904`. It supersedes the never-committed `agent/ch03-gameplay-integration-20261120` worktree (section 10).
 
@@ -224,6 +225,7 @@ Results: see the PR description for the full local run of every `qa.yml` step (2
    6. Run check-canon and the complete Pages emulation.
    7. Merge the storyboard (one Pages deploy), then re-pin and merge the game.
    - Done on the reconciliation branches (section 11). Step 5 happened in step 2: `register-art` moved each preview to its production path, so no stale copy was ever written.
+   - Merged 2026-11-24 with Nate's authorization: storyboard `main` `38bdb999`, game `main` `7c06f52` (section 11.8).
 4. **Timing.** `validate_story_import` takes about 16–17 minutes locally. Every build walks about 262k reachable states with Chapter 3, against 164 nodes before.
 5. The viewer legend's "preview handoff (not gameplay)" mode is now unused by any chapter (storyboard, cosmetic).
 6. **Chapter 3 → 4** (`ch3_exit_route`): Nate, 2026-11-23: handled when Chapter 4 integrates. Until then the seven Chapter 3 endings keep BEGIN AGAIN (section 11.6).
@@ -299,6 +301,8 @@ The complete local run of every `qa.yml` step is the evidence (PR description).
 
 ## 11. Integration-status reconciliation and production closeout (2026-11-23)
 
+**Status (2026-11-24): complete.** Merged with Nate's authorization; the completion record is section 11.8. Sections 11.1–11.7 are the record as prepared on 2026-11-23 and are kept as written (the only later edits: the commit that 11.2 calls "this commit" is now named, and a stray blank line that split the 11.2 table is removed).
+
 **Owner decision (Nate, 2026-11-23):** all 29 Chapter 3 production images are approved; complete the canonical artwork reconciliation. No artwork is generated or modified. Prepared as draft PRs only: no merge, deployment or milestone close without Nate's final authorization.
 
 **Starting state (verified before writing anything):**
@@ -345,10 +349,9 @@ Tests (Chromium + Firefox where browsers apply):
 |---|---|
 | `abaf917` | Re-pin storyboard `c785fb7` (step A). `pendingArtBindings` removed; rebuilt with the importer. Content hash `8045c71dcbf1` unchanged; the only build change is that the 29 art entries lose `binding` (same paths, same bytes). **This is the build published as integrated.** Chapter 3 in the browser 248/248 on it before publishing. |
 | `0ac87d8` | Re-pin storyboard `f0f8514`. The build changes exactly 29 art statuses `approved` → `integrated`; content hash unchanged. QA pins the integrated state. Closeout record (this section). |
-
 | `4512b13` | The story-import baseline art census pins the integrated Pavilion images (found by the first complete local run). |
 | `4be91fa` | Re-pin storyboard `c52437f` (B2-07 merge): the projection adds only the five unconsumed Chapter 4 B2-07 records; content hash and every art entry identical. |
-| this commit | Re-pin storyboard `04e6d9a` (B2-08 merge): adds only the six unconsumed B2-08 records; content hash and every art entry identical. |
+| this commit (`42e9a07`) | Re-pin storyboard `04e6d9a` (B2-08 merge): adds only the six unconsumed B2-08 records; content hash and every art entry identical. |
 
 QA changed deliberately, without loosening anything:
 - **`validate_ch03` registry:** each record is `integrated` at exactly its production path, with the approved SHA-256 named first, built from that path, with no binding.
@@ -378,6 +381,8 @@ The 115 earlier previews keep their bytes and paths, and now cite this build und
 2. **Storyboard reconciliation PR.** Merge with a **normal merge commit, not a squash**: `story/game-integration.json` cites storyboard `c785fb7` and game `abaf917`, which must stay reachable. One Pages deploy follows from `main`.
 3. **Game.** If storyboard `main` moved again, merge it into the storyboard PR first (normal merge), as `c52437f` did. Then re-pin the storyboard merge commit (`sync.js pull --rev <merge>`). The projection should differ only in the lock revision, plus any Chapter 4 records published meanwhile (not consumed). Run the content QA, then merge this PR with a **normal merge commit** (`abaf917` must stay reachable).
 
+Carried out in this order on 2026-11-24 (section 11.8).
+
 ### 11.6 Deferred: Chapter 3 → Chapter 4
 
 The seven Chapter 3 endings keep BEGIN AGAIN, unchanged. Chapter 4's narrative expects `ch3_exit_route`, which the locked Chapter 3 never sets. Connecting them belongs to the Chapter 4 gameplay integration milestone (Nate, 2026-11-23). Nothing here adds the flag or a transition, and no main-menu or chapter-transition asset is integrated.
@@ -386,3 +391,34 @@ The seven Chapter 3 endings keep BEGIN AGAIN, unchanged. Chapter 4's narrative e
 
 - Original native-grid authorship of the Chapter 3 pixel art stays **not proven**: an accepted, unresolved limitation (section 3).
 - The display names ATTENDANT / PRESENTER / VISITOR / RESTROOM SYSTEM are unchanged and still await Nate's visual sign-off.
+
+### 11.8 Completion record (2026-11-24)
+
+Nate authorized the merge sequence on 2026-11-24. Every step used a normal merge commit: no squash, rebase or force-push, and no protection bypassed. No PR branch or provenance tag was deleted.
+
+| Step | Result |
+|---|---|
+| 1. Game PR #23 (CI policy) | Merged as game `main` `c4b9777cd00bdf79e8918e840768cc7958dc8752`. |
+| 2. Storyboard PR #28 (reconciliation) | Merged as storyboard `main` `38bdb999b970b2f03e947e31bb2e51e495b02aab`. One Pages deploy from `main`: run 45463878986, success. |
+| 3a. Re-pin | `7d5f2c3` on the PR #24 branch: a normal merge of game `main` `c4b9777` plus `sync.js pull --rev 38bdb999…`. The projection changed only the pinned revision: `story/canon.lock.json`, and the revision named in the header of `game/content/death-presentations.generated.js` (with its recorded hash). No story file, content hash or art entry changed. |
+| 3b. Game PR #24 | Merged as game `main` `7c06f526a638b89c2146ab3c1993b39602f8cce6` (parents `c4b9777` and `7d5f2c3`). The merge was locked to the verified head `7d5f2c3`, and the merge commit's tree equals that head's tree. |
+
+**Published integration build:** game `abaf9177ab79cadf0f0e9d665a48b93fccd79543` (section 11.4). It is cited by storyboard `story/game-integration.json` and is reachable from game `main` through the normal merge.
+
+**CI:**
+- **Exact-head run 45464787897** (`pull_request`, head `7d5f2c3`): success. Both jobs passed: content, and the browsers job in Chromium and Firefox.
+- **Post-merge run 45474767045** (`push`, `main` `7c06f52`): success. The content job passed; the browser job is skipped on `main` pushes by design (docs/105).
+
+**Artwork:** all 29 Chapter 3 records are `integrated`. For each one, on game `main`:
+- the canonical `assetPath` equals its `suggestedFilename`;
+- the installed file's SHA-256 equals the approved SHA-256 named first in its record (29/29 re-verified);
+- `story/runtime-settings.json` has no `pendingArtBindings`.
+
+The storyboard `main` registry agrees (29/29 `integrated`). Paper Emergency is v04 `93a48082…`, and the v03 history copy is preserved with its original hash. No PNG bytes changed in any of the three merges. The storyboard merge only moved the 29 preview copies to their production paths, all byte-identical (R100).
+
+**Content:** the Chapter 3 content hash is `8045c71dcbf1` (`8045c71dcbf1fc9b18c52a7b663e6ba588096e776ba8562297e6e56e71b7b18f`), unchanged throughout the reconciliation. The narrative is unchanged. The lock is pinned to storyboard `38bdb999`. Chapter 4 is published but not consumed.
+
+**Still open (not defects of this integration):**
+- **Native-grid authorship.** The original native-grid authorship of the Chapter 3 pixel art is still **not proven**. This is the accepted, unresolved limitation of section 3 and section 11.7. It stays recorded in `art/pavilion_reboot.provenance.json` and asserted by `validate_ch03.js`, and this closeout does not resolve it.
+- **Display names.** ATTENDANT, PRESENTER, VISITOR and RESTROOM SYSTEM (section 4) are unchanged and still await Nate's visual sign-off.
+- **Chapter 3 → Chapter 4.** Deferred to the Chapter 4 gameplay integration milestone (section 11.6). `ch3_exit_route` is not implemented, and the seven Chapter 3 endings keep BEGIN AGAIN.
