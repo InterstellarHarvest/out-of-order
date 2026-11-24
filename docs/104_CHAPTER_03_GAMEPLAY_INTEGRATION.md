@@ -314,6 +314,7 @@ The complete local run of every `qa.yml` step is the evidence (PR description).
 | `c785fb7` | Step A: the 29 `assetPath = suggestedFilename`, status still `approved`. `register-art` re-registered each preview with its own approval source, so it moved to `assets/selected/<assetPath>` (29 byte-identical renames). |
 | `9c3d504` | Step 4, written by the game's `sync.js publish` (nothing hand-edited): the 29 become `integrated`. `story/game-integration.json` names game build `abaf917`, and the 144 previews of the images that build uses cite it. |
 | `f0f8514` | Viewer QA: the integrated House arrival preview cites the renamed game repository (exact source line); the 29 list together under Integrated. |
+| `c52437f` | Normal merge of storyboard `main` `b56f91e` (Chapter 4 B2-07, five approved records), no conflicts. Verified field by field: the 238 other records and the 47 untouched previews are exactly `main`'s; the 29 records and 144 reconciled previews are this branch's. Main's point-in-time `verify-ch4-b207-selection.py` passes 365 checks once only the reconciliation's own changes are exempted. |
 
 **The shared rule.** An approved Chapter 3 selection passes in exactly two states:
 - **Approved, before integration.** No production path, and the preview cites the approved selection.
@@ -342,7 +343,10 @@ Tests (Chromium + Firefox where browsers apply):
 | Commit | What |
 |---|---|
 | `abaf917` | Re-pin storyboard `c785fb7` (step A). `pendingArtBindings` removed; rebuilt with the importer. Content hash `8045c71dcbf1` unchanged; the only build change is that the 29 art entries lose `binding` (same paths, same bytes). **This is the build published as integrated.** Chapter 3 in the browser 248/248 on it before publishing. |
-| this commit | Re-pin storyboard `f0f8514`. The build changes exactly 29 art statuses `approved` → `integrated`; content hash unchanged. QA pins the integrated state. Closeout record (this section). |
+| `0ac87d8` | Re-pin storyboard `f0f8514`. The build changes exactly 29 art statuses `approved` → `integrated`; content hash unchanged. QA pins the integrated state. Closeout record (this section). |
+
+| `4512b13` | The story-import baseline art census pins the integrated Pavilion images (found by the first complete local run). |
+| this commit | Re-pin storyboard `c52437f` (the merge above): the projection adds only the five unconsumed Chapter 4 B2-07 records; content hash and every art entry identical. |
 
 QA changed deliberately, without loosening anything:
 - **`validate_ch03` registry:** each record is `integrated` at exactly its production path, with the approved SHA-256 named first, built from that path, with no binding.
@@ -370,7 +374,7 @@ The 115 earlier previews keep their bytes and paths, and now cite this build und
 
 1. **Game PR #23 (CI policy).** Merge it first: game `main`'s `qa.yml` lacks the partial-clone checkout, so the Chapter 2 art check fails 0/50 in Actions without it.
 2. **Storyboard reconciliation PR.** Merge with a **normal merge commit, not a squash**: `story/game-integration.json` cites storyboard `c785fb7` and game `abaf917`, which must stay reachable. One Pages deploy follows from `main`.
-3. **Game.** Re-pin the storyboard merge commit (`sync.js pull --rev <merge>`). The projection should differ only in the lock revision, plus any Chapter 4 records published meanwhile (not consumed). Run the content QA, then merge this PR with a **normal merge commit** (`abaf917` must stay reachable).
+3. **Game.** If storyboard `main` moved again, merge it into the storyboard PR first (normal merge), as `c52437f` did. Then re-pin the storyboard merge commit (`sync.js pull --rev <merge>`). The projection should differ only in the lock revision, plus any Chapter 4 records published meanwhile (not consumed). Run the content QA, then merge this PR with a **normal merge commit** (`abaf917` must stay reachable).
 
 ### 11.6 Deferred: Chapter 3 → Chapter 4
 
