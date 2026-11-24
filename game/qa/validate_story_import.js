@@ -95,13 +95,14 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   const parkArt = (a) => /biology_park|portraits\/(groundskeeper|courtesy_conductor)\/|items\/(botanical_antidote_|certified_seed_canister_|acting_director_badge_)/.test(a.path);
   // Owner ruling 2026-11-16 (public docs/102-103, docs/97): selected + used art is approved; in this build = integrated.
   // + 2 Batch B House views (lounge, dining; public docs/107 section 9) = 30 House images.
-  // docs/104: + the 29 Pavilion images (14 scenes, 8 conversation backgrounds, 7 poses), still `approved` on this
-  // review build: they become `integrated` only at the normal reconciliation step (sync.js publish).
+  // docs/104: + the 29 Pavilion images (14 scenes, 8 conversation backgrounds, 7 poses), `integrated` since the
+  // integration-status reconciliation (section 11: game build abaf917 published by sync.js publish).
   const pavilionArt = (a) => /pavilion_reboot\//.test(a.path);
-  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images, 5 reused approved, 29 approved Pavilion images pending reconciliation)', b.ok
-    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
+  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images, 5 reused approved, none approved-only)', b.ok
+    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a) && !pavilionArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
     && b.meta.art.filter((a) => a.status === 'integrated' && parkArt(a)).length === 45
-    && b.meta.art.filter((a) => a.status === 'approved').length === 29 && b.meta.art.filter((a) => a.status === 'approved').every(pavilionArt)
+    && b.meta.art.filter((a) => a.status === 'integrated' && pavilionArt(a)).length === 29 && b.meta.art.filter(pavilionArt).length === 29
+    && b.meta.art.filter((a) => a.status === 'approved').length === 0
     && b.meta.art.filter((a) => a.status === 'reused').length === 5 && b.meta.art.every((a) => a.sha256));
 })();
 
