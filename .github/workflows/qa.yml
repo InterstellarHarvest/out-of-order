@@ -155,7 +155,10 @@ jobs:
       || (github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v'))
       || (github.event_name == 'workflow_dispatch' && inputs.scope != 'quick')
     runs-on: ubuntu-24.04
-    timeout-minutes: 45
+    # Both browsers measured on GitHub's runner 2026-11-24 (run 45313464297): Playwright install ~12 min, then the
+    # suites ~32 min through Chapter 3 alone; at 45 minutes the job was cut off before M2 reception, polish lab and
+    # layout lab (as was main's run 45262294661). 75 leaves room for the complete Chromium + Firefox run.
+    timeout-minutes: 75
     env:
       PLAYWRIGHT_VERSION: 1.59.1
       QA_BROWSERS: ${{ github.event_name == 'workflow_dispatch' && inputs.scope == 'chromium' && 'chromium' || 'chromium,firefox' }}

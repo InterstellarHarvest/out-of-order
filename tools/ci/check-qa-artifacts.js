@@ -141,6 +141,10 @@ const BROWSER_IF = `    if: >-
 check('browsers run only for sensitive PRs, full-browser-qa label, version tags or manual chromium/full',
   (J.browsers || []).includes('    needs: content') && (J.browsers || []).join('\n').includes(BROWSER_IF) &&
   (J.browsers || []).filter(l => /^    if:/.test(l)).length === 1);
+// The complete two-browser run needs more than 45 minutes on GitHub's runner (docs/105 section 2): a job timeout must
+// never silently drop the last suites (run 45313464297 lost M2 reception, polish lab and layout lab at 45).
+check('browser job allows the complete Chromium + Firefox run (timeout-minutes >= 75)',
+  (J.browsers || []).some(l => /^    timeout-minutes: (\d+)$/.test(l) && Number(l.match(/(\d+)$/)[1]) >= 75), (J.browsers || []).filter(l => /timeout-minutes/.test(l)));
 check('browser job picks Chromium-only only for manual chromium; automated/full uses both browsers',
   (J.browsers || []).includes("      QA_BROWSERS: ${{ github.event_name == 'workflow_dispatch' && inputs.scope == 'chromium' && 'chromium' || 'chromium,firefox' }}")
   && /playwright" install --with-deps \$\{QA_BROWSERS\/\/,\/ \}/.test((J.browsers || []).join('\n')));

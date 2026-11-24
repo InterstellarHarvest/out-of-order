@@ -72,7 +72,16 @@ failed the Chapter 2 provenance check at 0/50 historical source comparisons, eve
 have the historical art commits locally. Both jobs now use full-history **partial checkout**
 (`filter: blob:none`), allowing Git to retrieve the exact pinned source commits and PNG blobs
 on demand. The unchanged Chapter 2 validator passed 326/326 in a clean partial clone locally.
-Remote Actions confirmation is still required before merging this policy PR.
+**Confirmed on GitHub's runner** (run 45313464297, PR head `e06d73c`): Chapter 2 art 326/326, including
+the strict 50/50 source comparison, and Chapter 1 art 261/261 with no skipped source comparison
+(260/260 plus a SKIP on `main`). The 9 source commits are reachable from no branch, tag or pull-request
+ref; GitHub still serves them by SHA, so they could disappear if GitHub ever prunes unreachable
+objects. Anchoring them with a ref is an owner decision (none of them contains originals or source masters).
+
+**Browser job time limit:** the same run cut the browser job off at its 45-minute limit after 9 of
+12 suites had passed in both browsers (Playwright install ~12 min; the suites through Chapter 3
+~32 min). `main`'s run 45262294661 was cut off the same way. The limit is now 75 minutes, pinned by
+the policy check. Nothing else changed, and no suite was skipped or loosened.
 
 **Other changes:**
 - `import --check` was dropped from CI. `import --verify` already builds `story/` (the same import and reachability walk) and fails on a build error, so the second walk was pure duplication.
@@ -109,6 +118,6 @@ Measured once: 717 s, against 1,132–1,149 s in the two previous full runs. The
 
 - Every test still exists and still runs automatically on high-risk PRs, version tags, a manual
   `full` run and in `run-local-qa.js full`. No assertion was loosened.
-- Artifact retention (docs/100) is unchanged. The policy check now pins the new triggers, conditions and scopes: 123 checks.
-- The negative control passes: the previous `qa.yml` fails 5 of the new rules.
+- Artifact retention (docs/100) is unchanged. The policy check now pins the new triggers, conditions, scopes, the partial-clone checkout and the browser job's time limit: 135 checks.
+- The negative control passes: `main`'s `qa.yml` (`3a8e07a`) fails 9 of the new rules.
 - **CYOA-storyboard** (public) is untouched. Its review workflow takes about 2.5 minutes per PR push, and Pages runs only on `main`.
