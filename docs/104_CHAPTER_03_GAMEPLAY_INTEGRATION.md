@@ -315,6 +315,7 @@ The complete local run of every `qa.yml` step is the evidence (PR description).
 | `9c3d504` | Step 4, written by the game's `sync.js publish` (nothing hand-edited): the 29 become `integrated`. `story/game-integration.json` names game build `abaf917`, and the 144 previews of the images that build uses cite it. |
 | `f0f8514` | Viewer QA: the integrated House arrival preview cites the renamed game repository (exact source line); the 29 list together under Integrated. |
 | `c52437f` | Normal merge of storyboard `main` `b56f91e` (Chapter 4 B2-07, five approved records), no conflicts. Verified field by field: the 238 other records and the 47 untouched previews are exactly `main`'s; the 29 records and 144 reconciled previews are this branch's. Main's point-in-time `verify-ch4-b207-selection.py` passes 365 checks once only the reconciliation's own changes are exempted. |
+| `04e6d9a` | Normal merge of storyboard `main` `96e3c2a` (Chapter 4 B2-08, six approved records), no conflicts. The 244 other records and 53 untouched previews are exactly `main`'s; the 29 records and 144 reconciled previews are this branch's. `verify-ch4-b208-selection.py` passes 405 checks with the same exemptions. |
 
 **The shared rule.** An approved Chapter 3 selection passes in exactly two states:
 - **Approved, before integration.** No production path, and the preview cites the approved selection.
@@ -346,7 +347,8 @@ Tests (Chromium + Firefox where browsers apply):
 | `0ac87d8` | Re-pin storyboard `f0f8514`. The build changes exactly 29 art statuses `approved` → `integrated`; content hash unchanged. QA pins the integrated state. Closeout record (this section). |
 
 | `4512b13` | The story-import baseline art census pins the integrated Pavilion images (found by the first complete local run). |
-| this commit | Re-pin storyboard `c52437f` (the merge above): the projection adds only the five unconsumed Chapter 4 B2-07 records; content hash and every art entry identical. |
+| `4be91fa` | Re-pin storyboard `c52437f` (B2-07 merge): the projection adds only the five unconsumed Chapter 4 B2-07 records; content hash and every art entry identical. |
+| this commit | Re-pin storyboard `04e6d9a` (B2-08 merge): adds only the six unconsumed B2-08 records; content hash and every art entry identical. |
 
 QA changed deliberately, without loosening anything:
 - **`validate_ch03` registry:** each record is `integrated` at exactly its production path, with the approved SHA-256 named first, built from that path, with no binding.
