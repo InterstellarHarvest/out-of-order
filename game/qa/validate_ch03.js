@@ -5,7 +5,7 @@
 //                  at main 622ad87, incl. the current A04/A05 v04 replacements and Paper Emergency v04), git blob
 //                  and provenance;
 //                  native contract size; scenes and backgrounds fully opaque; poses 564x278 with binary alpha
-//   2. registry    reconciled (docs/104 section 8): each canonical record carries its production assetPath =
+//   2. registry    reconciled (docs/104 section 8): each canonical record is integrated at its production assetPath =
 //                  its suggestedFilename = the pinned file, with the current approved SHA-256 its notes name
 //                  first; no pending binding remains; the build uses exactly those bytes there
 //   3. narrative   chapter-03 is the locked approved narrative (source sha256 of blob 857ffdf), projected
@@ -155,10 +155,10 @@ function record(key) {
   return ART.portraits[rest];
 }
 // Integration-status reconciliation (docs/104 section 8): the storyboard assigned each record its production assetPath
-// (= suggestedFilename = the pinned file), and the game's temporary pending binding is gone. Step A: the records are
-// `approved` at those paths; this build is the one `sync.js publish` registers as integrated.
+// (= suggestedFilename = the pinned file), and the game's temporary pending binding is gone. Game build abaf917 used
+// exactly these bytes there and was published (sync.js publish): the records are `integrated` at those paths.
 const SETTINGS = J('story/runtime-settings.json');
-const REG_STATUS = 'approved';
+const REG_STATUS = 'integrated';
 check('registry', 'story/runtime-settings.json has no pending art binding; the provenance file records the reconciliation',
   !('pendingArtBindings' in SETTINGS) && /^RECONCILED/.test(PROV.binding || ''), SETTINGS.pendingArtBindings);
 const firstSha = (rec) => { const m = /SHA-256[^0-9a-f]{0,3}([0-9a-f]{64})/.exec(String(rec.notes || '')); return m && m[1]; };

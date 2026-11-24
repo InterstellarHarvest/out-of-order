@@ -452,13 +452,13 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   // reach the popup through the death runtime and are checked by validate_ch02_art.js).
   const park = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/biology_park.provenance.json'), 'utf8')).images.filter((r) => r.kind !== 'death-screen');
   const parkOk = park.length === 45 && park.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256));
-  // docs/104 section 8, reconciliation step A: the 29 Pavilion images are `approved` at their canonical production paths
-  // (no pending binding), pinned by art/pavilion_reboot.provenance.json; this build is the one published as integrated.
-  // Nothing else may read as approved-only, nothing as generated.
+  // docs/104 section 8: + the 29 Pavilion images, integrated at their canonical production paths since the
+  // integration-status reconciliation (no pending binding), pinned by art/pavilion_reboot.provenance.json.
+  // Nothing may read as approved-only (selected but unused) or as generated.
   const pav = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/pavilion_reboot.provenance.json'), 'utf8')).images;
   const appr = b.meta.art.filter((a) => a.status === 'approved');
-  const pavOk = pav.length === 29 && appr.length === 29 && pav.every((r) => appr.some((a) => a.path === r.path && a.sha256 === r.sha256 && !a.binding));
-  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park images matching their provenance; the 29 Pavilion images approved at their canonical production paths, to be published as integrated; none generated)', gen.length === 103 && prov.length === 30 && houseOk && parkOk && pavOk
+  const pavOk = pav.length === 29 && pav.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256 && !a.binding));
+  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images matching their provenance; none approved-only, none generated)', gen.length === 132 && appr.length === 0 && prov.length === 30 && houseOk && parkOk && pavOk
     && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'generated'),
     b.meta.art.map((a) => a.status));
   const t = copySource(STORY).edit('artwork.draft.json', (j) => {
@@ -506,8 +506,8 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
     const grp = key.slice(0, key.indexOf(':')), rest = key.slice(key.indexOf(':') + 1), [id, v] = rest.split('#');
     return v ? art[grp][id][v] : art[grp][id];
   };
-  // The pre-reconciliation state: the 29 production paths null again, and the binding listed.
-  const UNPATH = ['artwork.draft.json', (j) => { PAV.forEach((r) => { recordOf(j, r.key).assetPath = null; }); }];
+  // The pre-reconciliation state: the 29 records approved with null production paths again, and the binding listed.
+  const UNPATH = ['artwork.draft.json', (j) => { PAV.forEach((r) => { const rec = recordOf(j, r.key); rec.assetPath = null; rec.status = 'approved'; }); }];
   const BIND = ['runtime-settings.json', (j) => { j.pendingArtBindings = [PROV]; }];
   const PRE = [UNPATH, BIND];
   const run = (edits, opts) => { const t = copySource(STORY); (edits || []).forEach(([rel, fn]) => t.edit(rel, fn)); return build(Object.assign({ from: t.dir }, opts || {})); };
