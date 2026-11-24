@@ -60,7 +60,8 @@ Chapter 4 uses three text-led scenes (arrival, forecourt, courtyard: 5 nodes) an
 |---|---|
 | `game/qa/validate_presentation_capabilities.js` (new, content job) | **33/33**: import, validator, surfaces, held scene, echo on B, resume, 10 mutants. The **gameplay-unchanged proof**: every route × 6 seeds reaches byte-identical rules state, rule events and transcript words as a control story where the voice has a portrait. |
 | `game/qa/run_presentation_qa.js` (new, browser job `presentation`, Chromium + Firefox) | **28/28**: the held image is unchanged and never faded (also on the text-led ending and after a reload); voice-led on B with no portrait and `DOOR AI: "…"` labels; echo on B; back to the dialogue box with the portrait; the docs/104 in-dialogue label is unchanged; no page errors. |
-| Existing content and browser suites | See the PR for the full local run. |
+| Existing content job (local, 2026-11-24) | All PASS: import `--check` / `--verify` (generated story unchanged, content 8045c71dcbf1), sync verify, qa-sync, glyph ink, routes v1 49 / v2 49, story 178, story import 105, Chapter 2 routes 157, Chapter 1 art 261, Chapter 2 art 326, **Chapter 3 453**, death controls 45, assets 60, CI artifact policy 127. One Chapter 3 mutant asserted the replaced docs/104 refusal; it now asserts the approved C2 rule both ways. |
+| Existing browser job (local, Chromium + Firefox) | PASS: assets 98, story 128, Chapter 1 routes 154, Chapter 1 art 164, end presentation, death controls 102, Chapter 2 art 224, Chapter 2 routes 346, **Chapter 3 248**, polish lab 143. Known baselines, unchanged: M2 reception Firefox 7 (environmental, as on main), layout lab 8 known (gate PASS). |
 
 Real Chapter 4 (storyboard `ce504af`, read-only): the importer yields 15 voice-led nodes and 3 text-led scenes (5 nodes), with **zero** placeholders for those keys.
 
