@@ -225,6 +225,8 @@
     function use(k) { if (keys.indexOf(k) === -1) keys.push(k); }
     // A scene, then every state of it: whichever the state selects is decoded before any fade.
     function useScene(id) {
+      // docs/137 C1: a text-led scene has no image of its own (story-flow preloads what it holds).
+      if (Array.isArray(story.assets.textLedScenes) && story.assets.textLedScenes.indexOf(id) !== -1) return;
       use(artKey.scene(id));
       (states[id] || []).forEach(function (st) { use(artKey.sceneState(id, st.id)); });
     }
@@ -232,7 +234,8 @@
     Object.keys(ch.nodes).forEach(function (nid) {
       var n = ch.nodes[nid];
       if (n.scene) useScene(n.scene);
-      if (n.mode === 'dialogue') {
+      // docs/137 C2: a dialogue led by a cast member without a portrait shows no portrait art.
+      if (n.mode === 'dialogue' && !(story.cast && story.cast[n.speaker] && !story.cast[n.speaker].portrait)) {
         var cast = story.cast && story.cast[n.speaker];
         var p = cast && story.assets.portraits && story.assets.portraits[cast.portrait];
         if (!p) throw new Error('No registered portrait for speaker ' + n.speaker + ' (' + chapterId + ':' + nid + ')');
@@ -278,7 +281,7 @@
   function openingArt(story) {
     var ch = story.chapters[story.start];
     var node = ch.nodes[ch.start];
-    if (node.mode !== 'dialogue') {
+    if (node.mode !== 'dialogue' || !story.cast[node.speaker].portrait) {
       // An imported story may open in Narrative B: no portrait yet (js/story-flow.js sets the
       // apertures from Rules.view from then on).
       var sid = node.scene || ch.scene;
