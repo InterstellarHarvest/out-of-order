@@ -5,9 +5,9 @@
 //                  at main 622ad87, incl. the current A04/A05 v04 replacements and Paper Emergency v04), git blob
 //                  and provenance;
 //                  native contract size; scenes and backgrounds fully opaque; poses 564x278 with binary alpha
-//   2. registry    each canonical record still approved with assetPath null (production paths and integrated
-//                  only at the separate reconciliation step), bound by the game's pending binding to its own
-//                  suggestedFilename with the current approved SHA-256 its notes name first
+//   2. registry    reconciled (docs/104 section 8): each canonical record carries its production assetPath =
+//                  its suggestedFilename = the pinned file, with the current approved SHA-256 its notes name
+//                  first; no pending binding remains; the build uses exactly those bytes there
 //   3. narrative   chapter-03 is the locked approved narrative (source sha256 of blob 857ffdf), projected
 //                  unchanged into the runtime: every node, text, choice, check, SHOW / USE and ending
 //   4. bindings    every Chapter 3 scene, conversation background and pose resolves to its pinned file
@@ -154,18 +154,20 @@ function record(key) {
   if (g === 'scenes') { const [id, v] = rest.split('#'); return v ? ART.scenes[id] && ART.scenes[id][v] : ART.scenes[id]; }
   return ART.portraits[rest];
 }
-// Production paths stay null on the storyboard until the separate integration-status reconciliation; the
-// game binds each approved record to its own suggestedFilename (story/runtime-settings.json pendingArtBindings).
+// Integration-status reconciliation (docs/104 section 8): the storyboard assigned each record its production assetPath
+// (= suggestedFilename = the pinned file), and the game's temporary pending binding is gone. Step A: the records are
+// `approved` at those paths; this build is the one `sync.js publish` registers as integrated.
 const SETTINGS = J('story/runtime-settings.json');
-check('registry', 'story/runtime-settings.json binds exactly this provenance file, pending integration',
-  JSON.stringify(SETTINGS.pendingArtBindings) === JSON.stringify(['art/pavilion_reboot.provenance.json']) && /PENDING INTEGRATION/.test(PROV.binding || ''), SETTINGS.pendingArtBindings);
+const REG_STATUS = 'approved';
+check('registry', 'story/runtime-settings.json has no pending art binding; the provenance file records the reconciliation',
+  !('pendingArtBindings' in SETTINGS) && /^RECONCILED/.test(PROV.binding || ''), SETTINGS.pendingArtBindings);
 const firstSha = (rec) => { const m = /SHA-256[^0-9a-f]{0,3}([0-9a-f]{64})/.exec(String(rec.notes || '')); return m && m[1]; };
 const builtArt = new Map(build.art.map((a) => [a.path, a]));
 for (const [key, want] of Object.entries(APPROVED)) {
   const rec = record(key), r = byKey.get(key), b = r && builtArt.get(r.path);
-  check('registry', key + ': canonical record approved with assetPath null (not integrated, no production path yet); bound to its suggestedFilename ' + (r && r.path) + ' with the approved SHA-256 its notes name first',
-    rec && r && rec.status === 'approved' && rec.assetPath === null && rec.suggestedFilename === r.path && /^art\/(scenes|portraits)\/pavilion_reboot\//.test(r.path)
-    && firstSha(rec) === want && b && b.sha256 === want && b.binding === 'art/pavilion_reboot.provenance.json',
+  check('registry', key + ': canonical record ' + REG_STATUS + ' at its production assetPath ' + (r && r.path) + ' (= suggestedFilename), with the approved SHA-256 its notes name first; built from that path, no pending binding',
+    rec && r && rec.status === REG_STATUS && rec.assetPath === r.path && rec.suggestedFilename === r.path && /^art\/(scenes|portraits)\/pavilion_reboot\//.test(r.path)
+    && firstSha(rec) === want && b && b.sha256 === want && !b.binding && b.status === REG_STATUS,
     rec && { status: rec.status, assetPath: rec.assetPath, firstSha: firstSha(rec), built: b });
 }
 check('registry', 'the canonical Paper Emergency record names v04 first and keeps v03 only as history',
