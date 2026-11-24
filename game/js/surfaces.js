@@ -28,8 +28,16 @@
 
   // A paragraph's runs as narration: speech quoted, everything else plain (docs/70 section 1).
   G.narrationText = function (runs) {
-    return runs.map(function (r) { return r.role === 'speech' ? '"' + r.text + '"' : r.role === 'thought' ? '(' + r.text + ')' : r.text; }).join(' ');
+    return runs.map(function (r) { return r.role === 'speech' ? voiceLabel(r) + '"' + r.text + '"' : r.role === 'thought' ? '(' + r.text + ')' : r.text; }).join(' ');
   };
+  // Speech by a cast member without a portrait (an incidental or voice-only voice, docs/104 section 4
+  // and docs/137 C2) is attributed by name on Narrative B too: NAME: "...". Portrait speakers and the
+  // player are never labelled here, so narration without such voices reads exactly as before.
+  function voiceLabel(r) {
+    var cast = G.story && G.story.cast;
+    var c = r.who && r.who !== 'you' && cast ? cast[r.who] : null;
+    return c && !c.portrait ? c.name + ': ' : '';
+  }
 
   function box(kind) {
     var t = kind === 'focus' ? TU.focus : TU.narrative;

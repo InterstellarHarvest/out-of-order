@@ -55,6 +55,11 @@
   // unknown chapter, unregistered art or an image that cannot load (err.failures lists each one).
   // It only loads: nothing on the stage changes. S4's chapter transition will call it for the
   // next chapter; boot decodes the opening chapter's same list inside its one G.loadImages call.
+  // Decodes a list of registered art keys (docs/137 C1: the scene a text-led node holds).
+  G.preloadKeys = function (keys) {
+    try { var list = artList(keys, G.ART); } catch (e) { return Promise.reject(e); }
+    return G.decodeImages(list);
+  };
   G.preloadChapter = function (chapterId, story) {
     var s = story || G.story;
     try {

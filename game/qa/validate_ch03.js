@@ -402,7 +402,16 @@ const mutant = (fn) => { const s = JSON.parse(JSON.stringify(story)); fn(s); ret
 check('presentation', "validator: '%' on a choice card (locked face) is refused", mutant((s) => { s.chapters['chapter-03'].nodes.door_choices.choices[1].text = 'HOLD IT 100%'; }).some((e) => /cannot draw: %/.test(e)));
 check('presentation', "validator: '%' in the player's action run (locked face) is refused", mutant((s) => { s.chapters['chapter-03'].nodes.attendant_refusal.text.push({ act: 'You nod 100%.' }); }).some((e) => /cannot draw: %/.test(e)));
 check('presentation', "validator: a plain-array charset (the locked set) still refuses '%' anywhere", !Rules.validateStory(story, charset.locked).ok);
-check('presentation', 'validator: an incidental voice may not lead a dialogue node', mutant((s) => { s.chapters['chapter-03'].nodes.door_choices.speaker = 'visitor'; }).some((e) => /incidental voice/.test(e)));
+// docs/137 C2 (Nate, 2026-11-24) replaces the old docs/104 rule: a voice without a portrait may lead a dialogue
+// node (presented on Narrative B, labelled), but never with a pose or backdrop. Chapter 3 itself has none.
+check('presentation', 'validator (docs/137 C2): an incidental voice may lead a dialogue node, with no pose or backdrop', (function () {
+  // A sentinel shape error elsewhere stops the validator before its reachable-state walk (which would need the
+  // whole Prologue-Chapter 3 graph in memory); the sentinel must then be the ONLY error.
+  const errs = mutant((s) => { const n = s.chapters['chapter-03'].nodes.door_choices; n.speaker = 'visitor'; delete n.pose; delete n.backdrop; s.chapters['chapter-03'].nodes.door_courtesy.qaSentinel = 1; });
+  return errs.length === 1 && /door_courtesy/.test(errs[0]) && /qaSentinel/.test(errs[0]);
+})());
+check('presentation', 'validator (docs/137 C2): a voice-led node given a pose is refused', mutant((s) => { const n = s.chapters['chapter-03'].nodes.door_choices; n.speaker = 'visitor'; n.pose = 'default'; }).some((e) => /pose is not available to visitor/.test(e)));
+check('presentation', 'Chapter 3 content has no voice-led dialogue (every dialogue speaker has a portrait)', Object.values(CH3.nodes).filter((n) => n.mode === 'dialogue').every((n) => story.cast[n.speaker] && story.cast[n.speaker].portrait));
 check('presentation', 'validator: an unknown who is refused', mutant((s) => { s.chapters['chapter-03'].nodes.door_choices.text[0].who = 'stranger'; }).some((e) => /unknown speaker stranger/.test(e)));
 
 // 10. Saves ------------------------------------------------------------------------------------------

@@ -298,6 +298,29 @@ function convert(input, opts) {
   Object.keys(speakers).sort().forEach((sid) => {
     const w = 'speaker ' + sid;
     if (!obj(castNames[sid]) || typeof castNames[sid].name !== 'string') err(w, 'no display name: add cast.' + sid + '.name to story/runtime-settings.json');
+    // A voice-only speaker (docs/137 C2, owner-approved 2026-11-24): a portrait record with format
+    // 'voice-only' is a deliberate NO-IMAGE decision. The speaker leads its dialogue nodes with no
+    // portrait at all: a portrait-less cast member (like an incidental voice) whose nodes the rules
+    // present on Narrative B. Exactly one record per speaker, never mixed with portrait art.
+    const voiceRecs = speakers[sid].poses.map((pose) => portraitsArt[sid + ':' + pose]).filter((r) => obj(r) && r.format === 'voice-only');
+    if (voiceRecs.length) {
+      if (speakers[sid].poses.length !== 1 || voiceRecs.length !== 1) {
+        err(w, 'a voice-only speaker uses exactly one portrait record (no poses); found ' + speakers[sid].poses.map((x) => sid + ':' + x).join(', '));
+        return;
+      }
+      const vr = voiceRecs[0];
+      if (vr.status !== 'approved' || (vr.assetPath !== null && vr.assetPath !== undefined)) err(w, 'a voice-only record is an approved no-image decision (status approved, no assetPath)');
+      cast[sid] = { name: obj(castNames[sid]) ? castNames[sid].name : sid.toUpperCase() };
+      chapterIds.forEach((chId) => Object.keys(outChapters[chId].nodes).forEach((nid) => {
+        const n = outChapters[chId].nodes[nid];
+        if (n.mode !== 'dialogue' || n.speaker !== sid) return;
+        const ordered = {};
+        Object.keys(n).forEach((k) => { if (k !== '_pose' && k !== '_scene') ordered[k] = n[k]; });
+        outChapters[chId].nodes[nid] = ordered;
+      }));
+      info.push(w + ': voice-only (docs/137 C2): leads ' + speakers[sid].scenes.length + ' scene(s) on Narrative B with no portrait');
+      return;
+    }
     cast[sid] = { name: obj(castNames[sid]) ? castNames[sid].name : sid.toUpperCase(), portrait: sid };
     // An opaque-complete speaker (docs/92 section 1: the House intercom): ONE complete opaque
     // 564x278 image per talking location, chosen by the scene the conversation happens in. No
@@ -406,8 +429,18 @@ function convert(input, opts) {
 
   // Scenes and focus targets ------------------------------------------------------------------------
   const scenes = {};
+  // A text-led scene (docs/137 C1, owner-approved 2026-11-24): a scene record with format 'text-led'
+  // is a deliberate NO-IMAGE decision. It is listed, never registered as art: the game keeps the
+  // previous scene image on screen while its nodes are presented.
+  const textLed = [];
   scenesUsed.forEach((id) => {
     if (!/^[a-z0-9_]+\/[a-z0-9_]+$/.test(id)) return err('scene ' + id, 'id must be location/scene');
+    const rec = scenesArt[id];
+    if (obj(rec) && rec.format === 'text-led') {
+      if (rec.status !== 'approved' || (rec.assetPath !== null && rec.assetPath !== undefined) || rec.states || rec.portraitBackground) err('scene ' + id, 'a text-led record is an approved no-image decision (status approved, no assetPath, states or background)');
+      textLed.push(id);
+      return;
+    }
     scenes[id] = artRecord('scene', id, scenesArt[id], 'scene ' + id);
   });
   // Scene states (docs/92 section 3): an opaque alternate of a scene ('replace') or one transparent
@@ -510,6 +543,7 @@ function convert(input, opts) {
     chapters: outChapters
   };
   if (Object.keys(sceneStates).length) story.assets.sceneStates = sceneStates;
+  if (textLed.length) story.assets.textLedScenes = textLed.slice().sort();
   if (marksSet.length) story.marks = marksSet.slice().sort();
   if (nullArt) warnings.push('story: some art is missing, so this build uses the fixture profile (labelled DEV PLACEHOLDERS)');
   // Nothing orphaned: every pending binding must bind an image this build actually uses.

@@ -587,6 +587,29 @@
   function sceneOf(story, chapter, id) {
     return nodeOf(story, chapter, id).scene || story.chapters[chapter].scene;
   }
+  // Presentation capabilities (docs/137 C1/C2, owner-approved 2026-11-24). Presentation only: every
+  // rule (echo, returnTo / back, checks, effects, destinations) still reads the node's own mode.
+  // C2: a dialogue node led by a cast member without a portrait (a voice-only speaker or incidental
+  // voice) is presented on Narrative B: no portrait aperture, its lines labelled by name.
+  function voiceLed(story, n) {
+    return n.mode === 'dialogue' && !!story.cast[n.speaker] && !has(story.cast[n.speaker], 'portrait');
+  }
+  // The surface a node's text is written to and shown on: its mode, except a voice-led dialogue (B).
+  function surfaceOf(story, n) {
+    return voiceLed(story, n) ? 'narrative' : n.mode;
+  }
+  // C1: a text-led scene has no image of its own; the previous scene image stays on screen.
+  function textLed(story, scene) {
+    var l = story.assets && story.assets.textLedScenes;
+    return Array.isArray(l) && l.indexOf(scene) !== -1;
+  }
+  // The scene a text-led scene holds: the latest earlier transcript entry on a scene with its own
+  // image (the transcript is saved, so a restore holds exactly what play would). null: none yet.
+  function heldScene(story, state) {
+    var t = state.transcript;
+    for (var i = t.length - 1; i >= 0; i--) if (t[i].scene && !textLed(story, t[i].scene)) return t[i].scene;
+    return null;
+  }
   function at(state) {
     return state.chapter + ':' + state.node;
   }
@@ -872,7 +895,7 @@
     var n = here(story, state);
     var ch = story.chapters[state.chapter];
     var portrait = null;
-    if (n.mode === 'dialogue') {
+    if (n.mode === 'dialogue' && !voiceLed(story, n)) {
       var pid = story.cast[n.speaker].portrait;
       var reg = story.assets.portraits[pid];
       // An opaque-complete portrait (docs/92 section 1) is one whole image per location: `view`,
@@ -882,12 +905,12 @@
     }
     var sel = sceneStatesOf(story, state);
     var ctx = contextOf(story, state);
-    return {
+    var out = {
       story: story.id,
       chapter: state.chapter,
       title: ch.title,
       node: state.node,
-      mode: n.mode,
+      mode: surfaceOf(story, n),
       scene: sceneOf(story, state.chapter, state.node),
       // The scene state ids on show (null: the scene's own art, no overlay).
       sceneArt: { replace: sel.replace[0] || null, overlay: sel.overlay[0] || null },
@@ -913,6 +936,9 @@
       files: filesOf(story, state),
       history: history(story, state)
     };
+    if (voiceLed(story, n)) out.voiceLed = true;
+    if (textLed(story, out.scene)) out.sceneHeld = heldScene(story, state);
+    return out;
   }
 
   function filesOf(story, state) {
@@ -1004,14 +1030,14 @@
   // Move to a node, announcing chapter, scene and mode changes (in that order).
   Tx.prototype.move = function (chapter, node) {
     var s = this.s;
-    var was = s.node === null ? null : { chapter: s.chapter, scene: sceneOf(this.story, s.chapter, s.node), mode: here(this.story, s).mode };
+    var was = s.node === null ? null : { chapter: s.chapter, scene: sceneOf(this.story, s.chapter, s.node), mode: surfaceOf(this.story, here(this.story, s)) };
     s.chapter = chapter;
     s.node = node;
     var n = here(this.story, s);
     var scene = sceneOf(this.story, chapter, node);
     if (!was || was.chapter !== chapter) this.events.push({ t: 'chapter', id: chapter, title: this.story.chapters[chapter].title });
     if (!was || was.scene !== scene) this.events.push({ t: 'scene', id: scene });
-    if (!was || was.mode !== n.mode) this.events.push({ t: 'mode', from: was ? was.mode : null, to: n.mode });
+    if (!was || was.mode !== surfaceOf(this.story, n)) this.events.push({ t: 'mode', from: was ? was.mode : null, to: surfaceOf(this.story, n) });
   };
   // Arrival: node effects, objective, then the text variant chosen by the state after them.
   Tx.prototype.arrive = function () {
@@ -1024,7 +1050,7 @@
     if (n.objective) s.objective = this.pick('objective ' + at(s), n.objective);
     this.announce(inv, obj);
     this.see('node ' + at(s));
-    this.write('text', n.mode, toParas(this.pick(key, n.text), arrivalCtx(n)), { t: 'text', surface: n.mode });
+    this.write('text', surfaceOf(this.story, n), toParas(this.pick(key, n.text), arrivalCtx(n)), { t: 'text', surface: surfaceOf(this.story, n) });
     if (n.end) this.events.push({ t: 'end' });
   };
   Tx.prototype.done = function (from) {
@@ -1107,7 +1133,8 @@
     }
     if (r.type === 'context') {
       if (s.contextDone.indexOf(r.a.id) === -1) s.contextDone.push(r.a.id);
-      tx.write('thought', 'dialogue', toParas(r.a.text, { role: 'thought', who: YOU, speaker: YOU }), { t: 'text', surface: 'dialogue' });
+      var ts = voiceLed(story, here(story, s)) ? 'narrative' : 'dialogue';
+      tx.write('thought', ts, toParas(r.a.text, { role: 'thought', who: YOU, speaker: YOU }), { t: 'text', surface: ts });
       return tx.done(from);
     }
 
@@ -1151,7 +1178,8 @@
     // 5. Echo: dialogue mode only, spoken and action kinds only.
     if (fromNode.mode === 'dialogue' && (r.kind === 'spoken' || r.kind === 'action')) {
       var said = e.say || e.text;
-      tx.write('echo', 'dialogue', toParas(said, echoCtx(r.kind)), { t: 'echo', role: echoCtx(r.kind).role, who: YOU });
+      var es = surfaceOf(story, fromNode);
+      tx.write('echo', es, toParas(said, echoCtx(r.kind)), { t: 'echo', role: echoCtx(r.kind).role, who: YOU, surface: es });
     }
 
     // 6. Destination: chapter, then to, then back, then stay. restart starts a new playthrough.
@@ -1183,7 +1211,7 @@
     if (result !== undefined) {
       var dn = here(story, s);
       var rkey = 'result ' + where + ':' + (r.type === 'choice' ? e.id : r.verb + ':' + r.item) + (which ? ':' + which : '');
-      tx.write('result', dn.mode, toParas(tx.pick(rkey, result), resultCtx(dn)), { t: 'text', surface: dn.mode });
+      tx.write('result', surfaceOf(story, dn), toParas(tx.pick(rkey, result), resultCtx(dn)), { t: 'text', surface: surfaceOf(story, dn) });
     }
 
     // 8. Arrival (not for back or stay: a return is not an entry).
@@ -1440,7 +1468,7 @@
     var t = state.transcript;
     var from = state.presentFrom;
     if (cursor && typeof cursor.presented === 'number') from = Math.max(from, Math.min(t.length, cursor.presented));
-    var mode = here(story, state).mode;
+    var mode = surfaceOf(story, here(story, state));
     var elsewhere = [];
     while (from < t.length && t[from].mode !== mode) elsewhere.push(from++);
     var events = [];
@@ -1448,7 +1476,7 @@
     for (var i = from; i < t.length; i++) {
       var e = t[i];
       if (last && last.n === e.n && last.src === e.src && last.mode === e.mode) { last.ev.paras.push(e.runs); continue; }
-      var ev = e.src === 'echo' ? { t: 'echo', role: e.runs[0].role, who: YOU, paras: [e.runs] } : { t: 'text', surface: e.mode, paras: [e.runs] };
+      var ev = e.src === 'echo' ? { t: 'echo', role: e.runs[0].role, who: YOU, surface: e.mode, paras: [e.runs] } : { t: 'text', surface: e.mode, paras: [e.runs] };
       events.push(ev);
       last = { n: e.n, src: e.src, mode: e.mode, ev: ev };
     }
@@ -1651,7 +1679,7 @@
     }
 
     // Assets: registered ids, and every registered id referenced (nothing orphaned).
-    var refs = { scenes: {}, portraits: {}, focus: {}, layers: {} };
+    var refs = { scenes: {}, portraits: {}, focus: {}, layers: {}, textLed: {} };
     function assetPath(where, p) {
       if (p === null) { if (story.profile !== 'fixture') err(where, 'null art is only allowed in a fixture story'); return; }
       if (typeof p !== 'string' || !/\.png$/.test(p)) return err(where, 'must be a .png path or null');
@@ -1660,7 +1688,18 @@
     var scenes = obj(assets.scenes) ? assets.scenes : {};
     var portraits = obj(assets.portraits) ? assets.portraits : {};
     var focusArt = obj(assets.focus) ? assets.focus : {};
-    onlyKeys('assets', assets, ['scenes', 'portraits', 'focus', 'sceneStates']);
+    onlyKeys('assets', assets, ['scenes', 'portraits', 'focus', 'sceneStates', 'textLedScenes']);
+    // docs/137 C1: text-led scenes are listed ids with no image (the previous scene image is held).
+    var textLedList = [];
+    if (has(assets, 'textLedScenes')) {
+      if (!Array.isArray(assets.textLedScenes)) err('assets.textLedScenes', 'must be a list of scene ids');
+      else assets.textLedScenes.forEach(function (id, i) {
+        if (typeof id !== 'string' || !/^[a-z0-9_]+\/[a-z0-9_]+$/.test(id)) err('assets.textLedScenes[' + i + ']', 'id must be location/scene');
+        else if (textLedList.indexOf(id) !== -1) err('assets.textLedScenes', 'lists ' + id + ' twice');
+        else if (has(obj(assets.scenes) ? assets.scenes : {}, id)) err('assets.textLedScenes', id + ' is also registered as scene art');
+        else textLedList.push(id);
+      });
+    }
     Object.keys(scenes).forEach(function (id) {
       if (!/^[a-z0-9_]+\/[a-z0-9_]+$/.test(id)) err('assets.scenes ' + id, 'id must be location/scene');
       assetPath('assets.scenes ' + id, scenes[id]);
@@ -1703,6 +1742,7 @@
       refs.layers[id + ':pose:' + p.pose] = true;
     });
     function sceneRef(where, id) {
+      if (textLedList.indexOf(id) !== -1) { refs.textLed[id] = true; return; }
       if (!has(scenes, id)) return err(where, 'unregistered scene ' + id);
       refs.scenes[id] = true;
     }
@@ -1714,8 +1754,9 @@
       if (!obj(c)) return err('cast ' + id, 'must be an object');
       onlyKeys('cast ' + id, c, ['name', 'portrait']);
       text('cast ' + id + ' name', c.name);
-      // A cast member without a portrait is an incidental voice (docs/104 section 4): it speaks only in
-      // `say` runs ({ say, who }) inside another speaker's conversation and never leads a dialogue node.
+      // A cast member without a portrait is an incidental voice (docs/104 section 4) or a voice-only
+      // speaker (docs/137 C2). It speaks in `say` runs ({ say, who }); when it leads a dialogue node
+      // that node is presented on Narrative B.
       if (!has(c, 'portrait')) return;
       if (!has(portraits, c.portrait)) err('cast ' + id, 'unregistered portrait ' + c.portrait);
       else refs.portraits[c.portrait] = true;
@@ -1785,8 +1826,11 @@
         if (n.scene !== undefined) sceneRef(w, n.scene);
         if (n.mode === 'dialogue') {
           if (!cast[n.speaker]) err(w, 'a dialogue node needs a speaker from the cast');
-          else if (!has(cast[n.speaker], 'portrait')) err(w, 'speaker ' + n.speaker + ' is an incidental voice (no portrait): it may only speak in say runs');
-          else {
+          else if (!has(cast[n.speaker], 'portrait')) {
+            // docs/137 C2: a speaker without a portrait may lead a dialogue node; it is presented on
+            // Narrative B with its lines labelled. It has no pose or backdrop to choose.
+            ['pose', 'backdrop'].forEach(function (k) { if (has(n, k)) err(w, k + ' is not available to ' + n.speaker + ', which has no portrait'); });
+          } else {
             var reg = portraits[cast[n.speaker].portrait] || { backgrounds: {}, poses: {} };
             if (obj(reg.views)) {
               if (n.pose !== undefined) err(w, 'an opaque-complete portrait has no poses (pose ' + n.pose + ')');
@@ -1909,6 +1953,12 @@
     });
     if (!endings) err('story', 'no node is marked end: true');
     Object.keys(scenes).forEach(function (id) { if (!refs.scenes[id]) err('assets.scenes ' + id, 'registered but never used'); });
+    textLedList.forEach(function (id) { if (!refs.textLed[id]) err('assets.textLedScenes ' + id, 'listed but never used'); });
+    // A text-led scene holds the previous image, so the story cannot open on one.
+    if (story.chapters[story.start] && story.chapters[story.start].nodes[story.chapters[story.start].start]) {
+      var openN = story.chapters[story.start].nodes[story.chapters[story.start].start];
+      if (textLedList.indexOf(openN.scene || story.chapters[story.start].scene) !== -1) err('story', 'the opening node is on a text-led scene: there is no previous image to hold');
+    }
     Object.keys(focusArt).forEach(function (id) { if (!refs.focus[id]) err('assets.focus ' + id, 'registered but never used'); });
     // Scene states: on a registered scene, valid selectors, and (after the walk) each one shown.
     var sceneStates = obj(assets.sceneStates) ? assets.sceneStates : {};
@@ -2283,6 +2333,8 @@
 
   var Rules = {
     MARKS: MARKS,
+    surfaceOf: surfaceOf,
+    heldScene: heldScene,
     newState: newState,
     start: start,
     enter: enter,

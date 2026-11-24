@@ -166,8 +166,19 @@
   // nothing art-related is remembered, so no layer can go stale.
   function applyArt(v) {
     var sa = v.sceneArt || {};
-    G.setSceneArt(sa.replace ? G.artKey.sceneState(v.scene, sa.replace) : G.artKey.scene(v.scene), sceneLabel(v.scene),
-      sa.overlay ? G.artKey.sceneState(v.scene, sa.overlay) : null);
+    if (v.sceneHeld !== undefined) {
+      // docs/137 C1: a text-led scene keeps the previous scene image exactly as it is on screen. Only a
+      // cold load (nothing of the held scene showing yet) draws the held scene's own image.
+      var shownArt = document.getElementById('scene') && document.getElementById('scene').dataset.art || '';
+      var heldKey = v.sceneHeld ? G.artKey.scene(v.sceneHeld) : null;
+      var showing = heldKey && (shownArt === heldKey || shownArt.indexOf(heldKey + '#') === 0 || shownArt.indexOf(heldKey + ' + ') === 0);
+      if (heldKey && !showing) {
+        G.setSceneArt(G.artKey.scene(v.sceneHeld), sceneLabel(v.sceneHeld), null);
+      }
+    } else {
+      G.setSceneArt(sa.replace ? G.artKey.sceneState(v.scene, sa.replace) : G.artKey.scene(v.scene), sceneLabel(v.scene),
+        sa.overlay ? G.artKey.sceneState(v.scene, sa.overlay) : null);
+    }
     if (v.mode === 'dialogue') {
       var label = story.cast[v.speaker].name;
       if (v.portrait.view) G.setPortraitArt({ view: G.artKey.view(v.portrait.id, v.portrait.view), label: label });
@@ -251,6 +262,8 @@
       case 'mode':
         return transition(ev);
       case 'echo':
+        // docs/137 C2: an echo from a voice-led dialogue is shown where that dialogue is, on Narrative B.
+        if (ev.surface && ev.surface !== 'dialogue') return present({ t: 'text', surface: ev.surface, paras: ev.paras });
         G.addSpeechParts(ev.paras.reduce(function (a, p) { return a.concat(dialogueParts(p)); }, []));
         shown += ev.paras.length;
         setPhase('reply-beat');
@@ -273,23 +286,34 @@
     }
     setPhase('transition');
     var ms = G.TUNING.story.transitionMs;
-    var ready = chapter ? G.preloadChapter(chapter) : Promise.resolve();
+    var ready = chapter ? preloadView(chapter) : preloadHeld();
+    // docs/137 C1: entering a text-led scene keeps the scene image steady (no fade); everything else fades.
+    var hold = view().sceneHeld !== undefined;
     ready.then(function () {
       fade(1, 0, ms / 2, function () {
         applyView(view());
-        fade(0, 1, ms / 2, next);
-      });
+        fade(0, 1, ms / 2, next, hold);
+      }, hold);
     }, failed);
   }
   var fading = null;
-  function fade(from, to, ms, done) {
-    fading = { from: from, to: to, start: performance.now(), ms: Math.max(1, ms), done: done };
+  function fade(from, to, ms, done, holdScene) {
+    fading = { from: from, to: to, start: performance.now(), ms: Math.max(1, ms), done: done, holdScene: !!holdScene };
+  }
+  // The chapter's art, plus (docs/137 C1) the scene a text-led node holds, which may belong to an
+  // earlier chapter on a cold load or restore.
+  function preloadHeld() {
+    var h = view().sceneHeld;
+    return h ? G.preloadKeys([G.artKey.scene(h)]) : Promise.resolve();
+  }
+  function preloadView(chapter) {
+    return G.preloadChapter(chapter).then(preloadHeld);
   }
   function fadeTick(now) {
     if (!fading) return;
     var u = Math.min(1, (now - fading.start) / fading.ms);
     var o = fading.from + (fading.to - fading.from) * u;
-    ['scene', 'portrait', 'narrativeLayer', 'focusLayer'].forEach(function (id) {
+    (fading.holdScene ? ['portrait', 'narrativeLayer', 'focusLayer'] : ['scene', 'portrait', 'narrativeLayer', 'focusLayer']).forEach(function (id) {
       var n = document.getElementById(id);
       if (n) n.style.opacity = o >= 1 ? '' : String(o);
     });
@@ -621,7 +645,7 @@
       events = b.events.filter(function (e) { return ['chapter', 'scene', 'mode'].indexOf(e.t) === -1; });
       save();
     }
-    return G.preloadChapter(G.state.chapter).then(function () {
+    return preloadView(G.state.chapter).then(function () {
       applyView(view());
       requestAnimationFrame(tick);
       run(events);
@@ -672,7 +696,7 @@
     save();
     setPhase('transition');
     var ms = G.TUNING.story.transitionMs;
-    G.preloadChapter(G.state.chapter).then(function () {
+    preloadView(G.state.chapter).then(function () {
       fade(1, 0, ms / 2, function () {
         applyView(view());
         G.renderAll();
