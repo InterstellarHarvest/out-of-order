@@ -7,13 +7,28 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "8045c71dcbf1fc9b18c52a7b663e6ba588096e776ba8562297e6e56e71b7b18f",
-    "version": 134503538,
+    "contentHash": "b78af8d5f2a5276df294d31bc818cf4aa7a8c4ce4a6e554f86170148ed83ee6d",
+    "version": 192458638,
     "sources": [
       {
+        "path": "art/grand_bellevue.conditional-art.json",
+        "sha256": "280c1dc518f545b31cc4a63f54443e4b31c53d73ca6112aa309e1fdbcfadc848",
+        "gitBlob": "ebf1f7e3ffe230395b9a8cd9cb242be2256f91eb"
+      },
+      {
+        "path": "art/grand_bellevue.provenance.json",
+        "sha256": "61686bff00f1f04da7f0c633a769e2371b500aee89f50a35e50f16c22519635e",
+        "gitBlob": "e6ff781a39f330f0dd907eea7a51fdb2eaecc1d5"
+      },
+      {
+        "path": "art/items/pavilion/pavilion_temporary_staff_pass.provenance.json",
+        "sha256": "8343cebbbd2ae22feea2a820241c404bd7f3f33dbbc7f68cd9e57bc838afc977",
+        "gitBlob": "9eec9ac7aae3baf7eaad1a0361172ae9c773b646"
+      },
+      {
         "path": "story/artwork.draft.json",
-        "sha256": "4011d6f65f82e041a5e4246d80d338d0bf3ecf5d9c8cc734930a0ed5a86ac87b",
-        "gitBlob": "138a7f9fae2ed2ebc9f9a16c40f9fe7fe88a58d8"
+        "sha256": "aa36f239895f30d492ea3ce4ec3065149417ffe148390abc76279898573fd4fa",
+        "gitBlob": "7837f848cc25b0f1374bc3c16c0a272d7fc8e7dd"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
@@ -27,8 +42,13 @@
       },
       {
         "path": "story/chapters/chapter-03.reboot-candidate.json",
-        "sha256": "e0b76f37e3325994cd12ee53e5b3967ea25d6ebb100071066ddde3548f2a32dd",
-        "gitBlob": "16202d5060363316293bb933ea858bc3ee719515"
+        "sha256": "05bd81ccfec93f4b1780e25b1e0795ddbb8d7cbb79bd50decd93f81a5e466edc",
+        "gitBlob": "840746698438873f26a0f8ba8407226375500fe2"
+      },
+      {
+        "path": "story/chapters/chapter-04.wip.json",
+        "sha256": "1585f3f60d16c311b71b0edd7075bc9e0f4162d079e76b191893b8a5b00c55d6",
+        "gitBlob": "cb3da104b718a938358e4f8ece736fd34790ba54"
       },
       {
         "path": "story/chapters/prologue-00.draft.json",
@@ -36,19 +56,24 @@
         "gitBlob": "d5ab33b8f27e1cb27400d23a2124ce83fe780717"
       },
       {
+        "path": "story/death-presentations.export.json",
+        "sha256": "fd28bdddaca0f9607bb0416ff4a94d639fca68d844b73e72c90275feac2eebae",
+        "gitBlob": "cab787a73dcf9b3483b613e3e5d5306b3ede2cb8"
+      },
+      {
         "path": "story/items.draft.json",
-        "sha256": "ee582566cdc792898a24b99fc8126f48b5cd51d7b391fbcbeb9da66c3a70af50",
-        "gitBlob": "596f6cce509a281527533526e978ea11523ae08d"
+        "sha256": "3b89041a1042190b5c3f94c694b1a43882e0908a0dc37548a3d5f3755b45618c",
+        "gitBlob": "d144645eb20e45988d9e9690d3d748472d28b65a"
       },
       {
         "path": "story/runtime-settings.json",
-        "sha256": "ce195a34def55b1353baf7d1aabfefbebe1439684e593f26ea001572d6bebde3",
-        "gitBlob": "124083c6519adaf662141d7f7fa78cd71a0a8249"
+        "sha256": "5ffb87e62186f98d1d259edbbaa3f4e01167a6d104e6c5d4e6b7822ef869ab48",
+        "gitBlob": "7160fba4e8f053316bb818b1657d99a156fbcb85"
       },
       {
         "path": "story/storyboard-manifest.json",
-        "sha256": "9165d93da728c16058d5420cc6ac98fa4139fa9d541cc2167a86d8e3774ad0c5",
-        "gitBlob": "333ae8ae91bbf285f121cf141f1ef435066b5237"
+        "sha256": "7ba4ce487fbfdba6abec085cdc691d3f55a567c70ed65e69730f4e9cd6b76f64",
+        "gitBlob": "2261bc06ad44420cff03251885d67ffbd86fc561"
       }
     ],
     "chapters": [
@@ -71,10 +96,143 @@
         "id": "chapter-03",
         "title": "Chapter 3 — The People's Pavilion",
         "status": "draft"
+      },
+      {
+        "id": "chapter-04",
+        "title": "Chapter 4 — Something Old, Something Sold",
+        "status": "draft"
       }
     ],
     "draftStops": [],
     "art": [
+      {
+        "kind": "background-reference",
+        "id": "boiler_inspection_hold_close",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_inspection_hold_close.png",
+        "status": "approved",
+        "sha256": "01e200de1f21d56328dc876166bcc77ecd0bd43ba8ab7fee556f514bfcb2af0f",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "boiler_relieved_close",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_relieved_close.png",
+        "status": "approved",
+        "sha256": "25b3b3bf50e84fe62510b43cda9072e976ad4c316eea8223ed04a0668d784692",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "boiler_staff_access_close",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_staff_access_close.png",
+        "status": "approved",
+        "sha256": "fb67d5ae76b4f91de9995ed6095e396b769e688bbcc3f9e8931ae4a8ec56b7ea",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "restroom_active_leak_close",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/restroom_active_leak_close.png",
+        "status": "approved",
+        "sha256": "35a8f8297da89038a0a7b30596363bfa6ad86e3edc6b02bf0efb360a4dc3a46a",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "staff_lavatory_cleared_close",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/staff_lavatory_cleared_close.png",
+        "status": "approved",
+        "sha256": "7eb87b07f2f1390e2e2d278c3f757d66db1e0afd8bcf716821bf9c324eeeb668",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "staff_lavatory_permit_close",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/staff_lavatory_permit_close.png",
+        "status": "approved",
+        "sha256": "2bd720955c229d775d9b5f55ecb2bea4b74670c1e00517231e2d771d58e82831",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "threshold_rubber_band_fender",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_rubber_band_fender.png",
+        "status": "approved",
+        "sha256": "7c4261a915e62c91f394942eac5fe7c0e6f5fc847fcc68b248494cf76c0c850b",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "threshold_water_emerging",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_water_emerging.png",
+        "status": "approved",
+        "sha256": "b5b1b1d0cc775cc02cfb61447efe12950fe78ca3e6184602b07c42dac9cb6f65",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "threshold_wheel_mounted",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_wheel_mounted.png",
+        "status": "approved",
+        "sha256": "ba0e7961134a632a522331f57945dd7889f9ae158a27a67e1cadc16cbdf1afc9",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "background-reference",
+        "id": "threshold_wheel_removed",
+        "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_wheel_removed.png",
+        "status": "approved",
+        "sha256": "cc9d19c2413df5b017b72592e3d5c676a84ad0ad91c354093a0a9e0199233e7d",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "death-screen",
+        "id": "grand_bellevue/final_occupancy",
+        "path": "art/deaths/final_occupancy.png",
+        "status": "approved",
+        "binding": "art/grand_bellevue.provenance.json",
+        "sha256": "e65d321cac76af8e03dd57ba5cbe3aa2d7db454669b0dd36631c61e51e475b7a"
+      },
+      {
+        "kind": "death-screen",
+        "id": "grand_bellevue/folded_for_convenience",
+        "path": "art/deaths/folded_for_convenience.png",
+        "status": "approved",
+        "binding": "art/grand_bellevue.provenance.json",
+        "sha256": "30490a4259b363879dc126e273dcc07bb979d96ad4f6534dd75cb7e3901ddc07"
+      },
+      {
+        "kind": "death-screen",
+        "id": "grand_bellevue/made_to_measure",
+        "path": "art/deaths/made_to_measure.png",
+        "status": "approved",
+        "binding": "art/grand_bellevue.provenance.json",
+        "sha256": "d244595dd545551268143fc6a94e0d9d641d3825324b16db7791b5f0118b21bc"
+      },
+      {
+        "kind": "death-screen",
+        "id": "grand_bellevue/pressed_and_steamed",
+        "path": "art/deaths/pressed_and_steamed.png",
+        "status": "approved",
+        "binding": "art/grand_bellevue.provenance.json",
+        "sha256": "f0cb0816a5639977634ef21b7d1d57ccfa136c5ef575aa2bb9fd006fc8097e56"
+      },
+      {
+        "kind": "focus-reference",
+        "id": "chair_seam_open",
+        "path": "art/focus/grand_bellevue/auction_floor/chair_armrest/states/chair_seam_open.png",
+        "status": "approved",
+        "sha256": "a90e705303261114f882f0f270c195716f1a6e6b7384f6792373bc650c9b204c",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "focus-reference",
+        "id": "collection_ring_slipped",
+        "path": "art/focus/grand_bellevue/collection_stairs/chair_armrest/states/collection_ring_slipped.png",
+        "status": "approved",
+        "sha256": "afc5ba21cf2b472a762538ee9bbeb8ae571f64e27815d36a3849fd9ba5dd6846",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
       {
         "kind": "focus",
         "id": "biology_park/agricultural_customs/exposure_dispenser_open",
@@ -95,6 +253,70 @@
         "path": "art/focus/biology_park/aid_box_open.png",
         "status": "integrated",
         "sha256": "706686f3d0186b0c5e71fad428bb99e8715ec5a6faa5b4af4e629cc1e067b229"
+      },
+      {
+        "kind": "focus",
+        "id": "grand_bellevue/auction_floor/chair_armrest",
+        "path": "art/focus/grand_bellevue/auction_floor/chair_armrest.png",
+        "status": "approved",
+        "sha256": "facb4981ccef1f270f200346333ce108a9db7679fb383982d4704e8b65fa0fc7",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "focus",
+        "id": "grand_bellevue/autofit_gown",
+        "path": "art/focus/grand_bellevue/autofit_gown.png",
+        "status": "approved",
+        "sha256": "0e1a0d3cd73c087416a7e9a2502ae263a597f7da77476e4cd0219dd504d48095",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "focus",
+        "id": "grand_bellevue/bridal_privacy_panel",
+        "path": "art/focus/grand_bellevue/bridal_privacy_panel.png",
+        "status": "approved",
+        "sha256": "d4c260fb9b4c55e647cecb58bb6fed196f9f056fd3cf291f1862889ff8035520",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "focus",
+        "id": "grand_bellevue/collection_stairs/chair_armrest",
+        "path": "art/focus/grand_bellevue/collection_stairs/chair_armrest.png",
+        "status": "approved",
+        "sha256": "68bbf32b040a984201dfb0f5b83b1315cf391848848500b1e7ee97819a5f5645",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "focus",
+        "id": "grand_bellevue/maintenance/water_isolator",
+        "path": "art/focus/grand_bellevue/maintenance/water_isolator.png",
+        "status": "approved",
+        "sha256": "723bb38b569aa15f0520ce5c042fd9a9d30c0eed9a93e537e610a621573fe43f",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "focus",
+        "id": "grand_bellevue/restroom/lot_14_receipt",
+        "path": "art/focus/grand_bellevue/restroom/lot_14_receipt.png",
+        "status": "approved",
+        "sha256": "af9f7b03eacfe54721e52217b265b7fcdc852b0eb7cf1d0cd1fd7e7f1eef85d3",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "focus",
+        "id": "grand_bellevue/restroom/master_isolator",
+        "path": "art/focus/grand_bellevue/restroom/master_isolator.png",
+        "status": "approved",
+        "sha256": "ba494521a177b397cc9db901e83046fccc83afcfcebca890b23a0656be042153",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "focus",
+        "id": "grand_bellevue/three_seashells",
+        "path": "art/focus/grand_bellevue/three_seashells.png",
+        "status": "approved",
+        "sha256": "70f35ae3853883b4fe15293ae5e6fd5ede1e721ab54946d2bc7499ce94ac04c6",
+        "binding": "art/grand_bellevue.provenance.json"
       },
       {
         "kind": "focus",
@@ -189,6 +411,22 @@
       },
       {
         "kind": "item-inspect",
+        "id": "lot_53_dispute_ticket",
+        "path": "art/items/grand_bellevue/lot_53_dispute_ticket_inspect.png",
+        "status": "approved",
+        "sha256": "493004874154a0037559aa3eb4393eb60d73fac4977577699245eb9154393eed",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "pavilion_temporary_staff_pass",
+        "path": "art/items/pavilion/pavilion_temporary_staff_pass_inspect.png",
+        "status": "approved",
+        "sha256": "527e17af4a27971d2d729441f8a74d097c5442df93f0161dc841d81ee1788e41",
+        "binding": "art/items/pavilion/pavilion_temporary_staff_pass.provenance.json"
+      },
+      {
+        "kind": "item-inspect",
         "id": "property_claim_ticket",
         "path": "art/items/property_claim_ticket_inspect.png",
         "status": "integrated",
@@ -228,6 +466,14 @@
         "path": "art/items/bathroom_pass_inspect.png",
         "status": "reused",
         "sha256": "9c8527a3fd85cfeddc01ce4a85b74b04cb54063ffc30100be19497e73e7fa722"
+      },
+      {
+        "kind": "item-inspect",
+        "id": "wedding_ring_lot31",
+        "path": "art/items/grand_bellevue/wedding_ring_lot31_inspect.png",
+        "status": "approved",
+        "sha256": "298d8e45f371f7cc3f95e14928cf153fbe1af50f1bfac941a569c4f844a067e8",
+        "binding": "art/grand_bellevue.provenance.json"
       },
       {
         "kind": "item-slot",
@@ -301,6 +547,22 @@
       },
       {
         "kind": "item-slot",
+        "id": "lot_53_dispute_ticket",
+        "path": "art/items/grand_bellevue/lot_53_dispute_ticket_slot.png",
+        "status": "approved",
+        "sha256": "21543ddb40788ee4f994601b37397caa3173a082b851e569cccf79484c9741cd",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "item-slot",
+        "id": "pavilion_temporary_staff_pass",
+        "path": "art/items/pavilion/pavilion_temporary_staff_pass_slot.png",
+        "status": "approved",
+        "sha256": "662ecb2c15b0b70afd5e6a14a73dadab6090fc2f4c75a389f9f5a96ba06b59b5",
+        "binding": "art/items/pavilion/pavilion_temporary_staff_pass.provenance.json"
+      },
+      {
+        "kind": "item-slot",
         "id": "property_claim_ticket",
         "path": "art/items/property_claim_ticket_slot.png",
         "status": "integrated",
@@ -342,6 +604,14 @@
         "sha256": "5ad9b6f94328d645173b4f0476f4bdde0bac07d4415ab2c7afcba36e8494355d"
       },
       {
+        "kind": "item-slot",
+        "id": "wedding_ring_lot31",
+        "path": "art/items/grand_bellevue/wedding_ring_lot31_slot.png",
+        "status": "approved",
+        "sha256": "e3a1d25cf2343302a6df8c660341879fa1e6a90f43629ac0706e50d2ba3e1ebe",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
         "kind": "portrait-background",
         "id": "biology_park/concourse_crash",
         "path": "art/portraits/courtesy_conductor/concourse_crash_background.png",
@@ -361,6 +631,70 @@
         "path": "art/portraits/receptionist/reception_background.png",
         "status": "reused",
         "sha256": "16fe3a96d4304efdbd820981ae8d24039b176d30e28b6c0feee8b2baa08c3c74"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "grand_bellevue/ballroom",
+        "path": "art/portraits/grand_bellevue/backgrounds/ballroom.png",
+        "status": "approved",
+        "sha256": "cc9d19c2413df5b017b72592e3d5c676a84ad0ad91c354093a0a9e0199233e7d",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "grand_bellevue/boiler_room",
+        "path": "art/portraits/grand_bellevue/backgrounds/boiler_room.png",
+        "status": "approved",
+        "sha256": "5cf871e30bce74f86343546653f22352981eeb559592c0162ef98ff32cf63034",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "grand_bellevue/loading_dock",
+        "path": "art/portraits/grand_bellevue/backgrounds/loading_dock.png",
+        "status": "approved",
+        "sha256": "27f69050b10d3e10121f7f2c2860db1418504b00d3848daabde420485b9bcc1f",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "grand_bellevue/lobby",
+        "path": "art/portraits/grand_bellevue/backgrounds/lobby.png",
+        "status": "approved",
+        "sha256": "b2f11966c5b598b1869803f35eb38d00006f346c40a563118c4bdb0eacadf77f",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "grand_bellevue/maintenance",
+        "path": "art/portraits/grand_bellevue/backgrounds/maintenance.png",
+        "status": "approved",
+        "sha256": "0836e7de87767563257424d071217098b5b4c5b056f30318e868737573d7364b",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "grand_bellevue/restroom",
+        "path": "art/portraits/grand_bellevue/backgrounds/restroom.png",
+        "status": "approved",
+        "sha256": "77325aca0d3c61d5b6d1980232fb11fa55156454a26659c6887c4d726a82c377",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "grand_bellevue/service_passage",
+        "path": "art/portraits/grand_bellevue/backgrounds/service_passage.png",
+        "status": "approved",
+        "sha256": "b3c41ce02b3812d7ee3829bdd39e556fc648f730094d781ce19680c2a6ce6721",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-background",
+        "id": "grand_bellevue/staff_lavatory",
+        "path": "art/portraits/grand_bellevue/backgrounds/staff_lavatory.png",
+        "status": "approved",
+        "sha256": "a8ba232710e12784d7103b9882a3c6e8286e8cca89bd29fe7abbfab90b6d2b94",
+        "binding": "art/grand_bellevue.provenance.json"
       },
       {
         "kind": "portrait-background",
@@ -438,6 +772,190 @@
         "path": "art/portraits/groundskeeper/groundskeeper_idle.png",
         "status": "integrated",
         "sha256": "afc7055ffe4b60f3efc4cb3747bc21fee61275f937cdefa1c1794f4b02adb402"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_auction_clerk:precise",
+        "path": "art/portraits/grand_bellevue/hotel_auction_clerk/precise.png",
+        "status": "approved",
+        "sha256": "e8fae3f87ede6b59411e82d8d9c36429c5859bbf539cb8452e0d4017e95ffe0a",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_auctioneer:delighted",
+        "path": "art/portraits/grand_bellevue/hotel_auctioneer/delighted.png",
+        "status": "approved",
+        "sha256": "1d1121394a9a628116f8d110ba122159c0ae32894414b9bec4ec641e662f84e4",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_auctioneer:disappointed",
+        "path": "art/portraits/grand_bellevue/hotel_auctioneer/disappointed.png",
+        "status": "approved",
+        "sha256": "07ebaa5a00f4119855a9b6ba319ce3614b2b3c710243857f7756b08022cb33fc",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_auctioneer:showman",
+        "path": "art/portraits/grand_bellevue/hotel_auctioneer/showman.png",
+        "status": "approved",
+        "sha256": "231baf25ffd00511144693927354e73f42cae4f052964a9db0a99323689a0d78",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_boiler_engineer:careful",
+        "path": "art/portraits/grand_bellevue/hotel_boiler_engineer/careful.png",
+        "status": "approved",
+        "sha256": "f5291b027540cb41898fd2032ea3462723269fd319ebe156b3a2e2a80acc9067",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_boiler_engineer:defeated",
+        "path": "art/portraits/grand_bellevue/hotel_boiler_engineer/defeated.png",
+        "status": "approved",
+        "sha256": "4ed315b347d1aa8c976d4b8c78322eaa5fd064d24e525923ac7c830c0ec8267d",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_boiler_engineer:pleased",
+        "path": "art/portraits/grand_bellevue/hotel_boiler_engineer/pleased.png",
+        "status": "approved",
+        "sha256": "77ae105216f93d7c889716c00cce3abcf7b2f1323e47171095ff9cc4a8792730",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_bride:determined",
+        "path": "art/portraits/grand_bellevue/hotel_bride/determined.png",
+        "status": "approved",
+        "sha256": "301d2fe0ccfd8eb7324ee9dffa4711f98aa0ee2e4d53378b43794eca240277ee",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_bride:grateful",
+        "path": "art/portraits/grand_bellevue/hotel_bride/grateful.png",
+        "status": "approved",
+        "sha256": "afde2e43b85a3b364ae532fcceb9c0d558249fb9d476072b4df261c6de4f8577",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_bride:helpful",
+        "path": "art/portraits/grand_bellevue/hotel_bride/helpful.png",
+        "status": "approved",
+        "sha256": "2e4baeb93b73894f09267f64dd5d16b81ecb2470ba202651b881309d86919e5b",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_commodore_bixby:delighted",
+        "path": "art/portraits/grand_bellevue/hotel_commodore_bixby/delighted.png",
+        "status": "approved",
+        "sha256": "44f81292dc520eeabc6864c21449fb033db4891702c6102634b126b344ee05b8",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_groom:nervous",
+        "path": "art/portraits/grand_bellevue/hotel_groom/nervous.png",
+        "status": "approved",
+        "sha256": "dd4d497088f3264a04d7182245b176e65cd9a3e5c5f04e7be872adc4cc52352a",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_groom:relieved",
+        "path": "art/portraits/grand_bellevue/hotel_groom/relieved.png",
+        "status": "approved",
+        "sha256": "19d8d42ff06b02020d5bdb3ddba33d9f47eb6222bb0c59e635d43bd5bf21691c",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_plumber:worried",
+        "path": "art/portraits/grand_bellevue/hotel_plumber/worried.png",
+        "status": "approved",
+        "sha256": "cedd81713cbd5ee4bb0a97d869a62c395a1b34ea04ba276fa5ac21c01d5de65d",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_plumber_assistant:pleased",
+        "path": "art/portraits/grand_bellevue/hotel_plumber_assistant/pleased.png",
+        "status": "approved",
+        "sha256": "ac47c23105b70af92b970682b72c266726ddbe9a75e182bdf6a71869568d6eea",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_porter:alarmed",
+        "path": "art/portraits/grand_bellevue/hotel_porter/alarmed.png",
+        "status": "approved",
+        "sha256": "19653d7cb5e1a04cc87c195b551d9533f7bb5aac0f8a5842c45fa56ba4d85061",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_porter:businesslike",
+        "path": "art/portraits/grand_bellevue/hotel_porter/businesslike.png",
+        "status": "approved",
+        "sha256": "863bffb11ce70970dd8f18a2e6188e7835092c4c8218c6f0a74b487ad26e89eb",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_porter:practical",
+        "path": "art/portraits/grand_bellevue/hotel_porter/practical.png",
+        "status": "approved",
+        "sha256": "646386199bfad2bd77e73bb3137dfac9c5b8effa85e324e906208ae48a62c11e",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_porter:uncertain",
+        "path": "art/portraits/grand_bellevue/hotel_porter/uncertain.png",
+        "status": "approved",
+        "sha256": "25d6ac8823dff67881c076c2405e50c7229375ab98bb5e4324511b2f7033f77d",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_salvage_foreman:annoyed",
+        "path": "art/portraits/grand_bellevue/hotel_salvage_foreman/annoyed.png",
+        "status": "approved",
+        "sha256": "d394c5c3617f1da66eb6957d8eb2d8594e018e558b30efe0e5eef6d43f095aad",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_wedding_assistant:apologetic",
+        "path": "art/portraits/grand_bellevue/hotel_wedding_assistant/apologetic.png",
+        "status": "approved",
+        "sha256": "f3b61e1ba4f2ebc98b9b9a70b88a969784314e1501ac9c33cce2c88573df00ad",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_wedding_assistant:busy",
+        "path": "art/portraits/grand_bellevue/hotel_wedding_assistant/busy.png",
+        "status": "approved",
+        "sha256": "0b1551cdfd6a744e5d61961dc7e9c679fd9519cc0877297b1bb08f25288c3515",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "portrait-pose",
+        "id": "hotel_wedding_organizer:urgent",
+        "path": "art/portraits/grand_bellevue/hotel_wedding_organizer/urgent.png",
+        "status": "approved",
+        "sha256": "ffb2444306854dc07373de096ff27e3328b8fe88bd0fe7e2e727a4b6f4127f76",
+        "binding": "art/grand_bellevue.provenance.json"
       },
       {
         "kind": "portrait-pose",
@@ -578,6 +1096,110 @@
         "path": "art/scenes/house_of_tomorrow/states/utility_exit_returns_display.png",
         "status": "integrated",
         "sha256": "a6df04106deb0da8fb62600b05b3ee9d9a24bc1cf39d008b7b60bfaa63fd9c30"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "boiler_inspection_hold",
+        "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_inspection_hold.png",
+        "status": "approved",
+        "sha256": "93f7ab9c125077718aa345b9374ee3368caf2499010ee4862b6e189205c7d482",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "boiler_relieved",
+        "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_relieved.png",
+        "status": "approved",
+        "sha256": "8278a9dbb107cdf62e5883a386626fff9b30d7d933e08e10a81c30bb9703c051",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "boiler_staff_access",
+        "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_staff_access.png",
+        "status": "approved",
+        "sha256": "b179c47d6cc0730ba7f88d8c5e8c159be46dca9c99539fce5da4186ddf8efbba",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "lobby_doors_removed",
+        "path": "art/scenes/grand_bellevue/lobby/states/lobby_doors_removed.png",
+        "status": "approved",
+        "sha256": "e2aa3835dca0edf1e76b93df2a3cf628db8dc5ff8f56c1f5df8e6188ea7d218e",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "lot61_open",
+        "path": "art/scenes/grand_bellevue/lobby/states/lot61_open.png",
+        "status": "approved",
+        "sha256": "3913c8ad89c0245c31827f1933926ff0d1a00ec9da71f34dfa9818ff222c42b5",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "lot61_packed",
+        "path": "art/scenes/grand_bellevue/lobby/states/lot61_packed.png",
+        "status": "approved",
+        "sha256": "f3c27be75a18007850f8eb9bff7ae71f031063aa44735f9bfbd24bf5d876b558",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "public_corridor_flood",
+        "path": "art/scenes/grand_bellevue/public_corridor/states/public_corridor_flood.png",
+        "status": "approved",
+        "sha256": "f802ff0c9aa345147f6039779df8b49403cc96add6be89b13f2ef9396727212f",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "restroom_active_leak",
+        "path": "art/scenes/grand_bellevue/restroom/states/restroom_active_leak.png",
+        "status": "approved",
+        "sha256": "9a6243310bb7af1958854110af742c603275b2ebf9c889050c6c065737e57279",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "restroom_contained",
+        "path": "art/scenes/grand_bellevue/restroom/states/restroom_contained.png",
+        "status": "approved",
+        "sha256": "674cb60c905347e99c95b99ec87dfacc218cf15483abe89bc4e092d40b43ed1a",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "restroom_flood_onset",
+        "path": "art/scenes/grand_bellevue/restroom/states/restroom_flood_onset.png",
+        "status": "approved",
+        "sha256": "432ce64f5e7e0420f678774ec8cf2edb02ce745ff532d83b3e1723af9d90fb46",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "restroom_stall_lifting",
+        "path": "art/scenes/grand_bellevue/restroom/states/restroom_stall_lifting.png",
+        "status": "approved",
+        "sha256": "84976c116d9fc87b6ce8f4cf5d7f316d7185fa308f889df6d1c76eafe6bc525e",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "staff_lavatory_cleared",
+        "path": "art/scenes/grand_bellevue/staff_lavatory/states/staff_lavatory_cleared.png",
+        "status": "approved",
+        "sha256": "97a1485382bfdda21a70258af8be957ace82fa19b0a8e64b3179e14e43ce73df",
+        "conditional": "art/grand_bellevue.conditional-art.json"
+      },
+      {
+        "kind": "scene-reference",
+        "id": "staff_lavatory_permit",
+        "path": "art/scenes/grand_bellevue/staff_lavatory/states/staff_lavatory_permit.png",
+        "status": "approved",
+        "sha256": "1e410771e048a01f43ec77ddeee1d61a137338579a428e160e952d674a352c85",
+        "conditional": "art/grand_bellevue.conditional-art.json"
       },
       {
         "kind": "scene-replace",
@@ -812,6 +1434,166 @@
       },
       {
         "kind": "scene",
+        "id": "grand_bellevue/ballroom",
+        "path": "art/scenes/grand_bellevue/ballroom.png",
+        "status": "approved",
+        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/boiler_access",
+        "path": "art/scenes/grand_bellevue/boiler_access.png",
+        "status": "approved",
+        "sha256": "c7e5eb215898ee1f6128cf321d1f295f3c6896e4764131bd0995c5ce36c2c93f",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/boiler_room",
+        "path": "art/scenes/grand_bellevue/boiler_room.png",
+        "status": "approved",
+        "sha256": "c4441ea36243bf1b6161359b4d5d3956b70e612a293bd144f7fef107e29e121c",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/bridal_corridor",
+        "path": "art/scenes/grand_bellevue/service_passage.png",
+        "status": "reused",
+        "sha256": "a5d416c47786a070c3a6acfdba91e2f7756cea4418f39425fea23511608220f9",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/bridal_dressing_room",
+        "path": "art/scenes/grand_bellevue/bridal_dressing_room.png",
+        "status": "approved",
+        "sha256": "f2718d729a28138a88cf51b6ef3c511bdf6d7de0d500654d975b1ab0249bdf49",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/bridal_lavatory",
+        "path": "art/scenes/grand_bellevue/bridal_lavatory.png",
+        "status": "approved",
+        "sha256": "85fb565d8c2f79525a95ada44a9f9e3c05e2cee374712e520488c88153ee7480",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/freight_lift",
+        "path": "art/scenes/grand_bellevue/upper_salvage.png",
+        "status": "reused",
+        "sha256": "1030e04f9b32d2c0fc4394e9f00a4a70ba162db1c9eeed4f2772068cf9ce3207",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/loading_dock",
+        "path": "art/scenes/grand_bellevue/loading_dock.png",
+        "status": "approved",
+        "sha256": "a867a114d2286b382acc756eb8e803bec87b66790a24ce3498603cb9bd21c79c",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/loading_lane",
+        "path": "art/scenes/grand_bellevue/loading_lane.png",
+        "status": "approved",
+        "sha256": "9cd7d2e916770097425c990a43b1d9ecffe36bad2ec050b4b73964c440299de6",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/lobby",
+        "path": "art/scenes/grand_bellevue/lobby.png",
+        "status": "approved",
+        "sha256": "582bcd51de937e5fe124160a8beb74b4ee469f52eeb6d9d0d38b918cfb0d6be0",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/maintenance",
+        "path": "art/scenes/grand_bellevue/maintenance.png",
+        "status": "approved",
+        "sha256": "e069dbb75908fde2cb51867cd137bdac43301bd38ac8c72a3d266a1e400059c0",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/public_corridor",
+        "path": "art/scenes/grand_bellevue/public_corridor.png",
+        "status": "approved",
+        "sha256": "86da5123204f65c43ed23f418fe0edcf987dbdb3d000821367c36c8f30c390ec",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/refreshment_table",
+        "path": "art/scenes/grand_bellevue/ballroom.png",
+        "status": "reused",
+        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/restroom",
+        "path": "art/scenes/grand_bellevue/restroom.png",
+        "status": "approved",
+        "sha256": "83cf1f0df4d130f24c53c931cae83fd92abef8fdc7e8f80359c5657ce051ce06",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/service_alley",
+        "path": "art/scenes/grand_bellevue/service_alley.png",
+        "status": "approved",
+        "sha256": "aee362709a49a3234dcc8a17f2624de27b64f4da2b4b5a27265a98820241c54a",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/service_passage",
+        "path": "art/scenes/grand_bellevue/service_passage.png",
+        "status": "approved",
+        "sha256": "a5d416c47786a070c3a6acfdba91e2f7756cea4418f39425fea23511608220f9",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/service_stairs",
+        "path": "art/scenes/grand_bellevue/service_stairs.png",
+        "status": "approved",
+        "sha256": "b4d6fb424c8f608cac816c10d59f9eab570a36b4ab9bc0fc9b921a781ee64166",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/staff_lavatory",
+        "path": "art/scenes/grand_bellevue/staff_lavatory.png",
+        "status": "approved",
+        "sha256": "84f52f2d8458a82c8d479d628f20eda67b6e78162be4658f89db674ddf6acad3",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/upper_salvage",
+        "path": "art/scenes/grand_bellevue/upper_salvage.png",
+        "status": "approved",
+        "sha256": "1030e04f9b32d2c0fc4394e9f00a4a70ba162db1c9eeed4f2772068cf9ce3207",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
+        "id": "grand_bellevue/wedding_entry",
+        "path": "art/scenes/grand_bellevue/ballroom.png",
+        "status": "reused",
+        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c",
+        "binding": "art/grand_bellevue.provenance.json"
+      },
+      {
+        "kind": "scene",
         "id": "house_of_tomorrow/arrival",
         "path": "art/scenes/house_of_tomorrow/arrival.png",
         "status": "integrated",
@@ -1036,20 +1818,25 @@
       }
     ],
     "stats": {
-      "chapters": 4,
-      "nodes": 198,
-      "choices": 292,
-      "reachableStates": 262295,
-      "endings": 13,
-      "endingStates": 19548,
-      "endingsReached": 13,
-      "checks": 33
+      "chapters": 5,
+      "nodes": 318,
+      "choices": 537,
+      "reachableStates": 74914,
+      "endings": 20,
+      "endingStates": 47,
+      "endingsReached": 20,
+      "checks": 41,
+      "runsAlwaysShown": [
+        "text of chapter-04:hotel_seashell_instructions run 2",
+        "text of chapter-04:hotel_seashell_instructions run 4",
+        "text of chapter-04:hotel_seashell_complaint run 6"
+      ]
     }
   };
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 134503538,
+    "version": 192458638,
     "profile": "production",
     "save": true,
     "start": "prologue-00",
@@ -1061,6 +1848,90 @@
         "botanical_infection_state": false,
         "box_unpacked": false,
         "ch2_exit_route": false,
+        "ch3_exit_route": false,
+        "ch4_auction_demonstrator": false,
+        "ch4_auctioneer_restroom_inventory_asked": false,
+        "ch4_autofit_release_located": false,
+        "ch4_autofit_survived": false,
+        "ch4_bixby_expects_bridge": false,
+        "ch4_bixby_fender_trade": false,
+        "ch4_boiler_entry_spotted": false,
+        "ch4_boiler_entry_unnoticed": false,
+        "ch4_boiler_inspection_access": false,
+        "ch4_boiler_inspection_hold": false,
+        "ch4_boiler_lavatory_location_confirmed": false,
+        "ch4_boiler_lavatory_passage_open": false,
+        "ch4_boiler_pressure_incident_seen": false,
+        "ch4_boiler_pressure_relieved": false,
+        "ch4_boiler_staff_access": false,
+        "ch4_bridal_door_inspected": false,
+        "ch4_bridal_emergency_override_denied": false,
+        "ch4_bridal_gown_camera_rejected": false,
+        "ch4_bridal_gown_inspected": false,
+        "ch4_bridal_identification_explained": false,
+        "ch4_bridal_registration_fee_pending": false,
+        "ch4_bridal_ring_rejected": false,
+        "ch4_bride_ally": false,
+        "ch4_bride_service_permission": false,
+        "ch4_chair_damaged": false,
+        "ch4_chair_inspection_authorized": false,
+        "ch4_chair_sale_paused": false,
+        "ch4_chair_seam_open": false,
+        "ch4_chair_stapler_caught": false,
+        "ch4_chair_stapler_unnoticed": false,
+        "ch4_chair_vegetation_permitted": false,
+        "ch4_exit_park_approached": false,
+        "ch4_exit_route": false,
+        "ch4_false_bride_claim_rejected": false,
+        "ch4_flooded_corridor_reached": false,
+        "ch4_freight_upper_level_reached": false,
+        "ch4_freight_wc_misunderstanding": false,
+        "ch4_groom_directions_received": false,
+        "ch4_groom_left_behind": false,
+        "ch4_groom_located": false,
+        "ch4_groom_saw_ring": false,
+        "ch4_hotel_water_off": false,
+        "ch4_hotel_water_outage_confirmed": false,
+        "ch4_knows_blue_delivery_ledger": false,
+        "ch4_knows_bridal_dressing_lavatory": false,
+        "ch4_knows_organizer_has_lavatory_key": false,
+        "ch4_knows_wheel_lot_14": false,
+        "ch4_lot14_catalogue_correction": false,
+        "ch4_lot14_dispute_opened": false,
+        "ch4_lot14_recalled_temporary": false,
+        "ch4_lot31_staff_escort": false,
+        "ch4_lot58_permit_paradox": false,
+        "ch4_lot58_toilet_sold_separately": false,
+        "ch4_maintenance_access_authorized": false,
+        "ch4_master_key_recognized": false,
+        "ch4_not_included_tag": false,
+        "ch4_plumber_helped": false,
+        "ch4_pod_survived_packing": false,
+        "ch4_provisional_bride_registered": false,
+        "ch4_restroom_leak": false,
+        "ch4_restroom_water_off": false,
+        "ch4_ring_inscription_read": false,
+        "ch4_ring_recovered_at_collection": false,
+        "ch4_ring_recovery_unnoticed": false,
+        "ch4_ring_recovery_witnessed": false,
+        "ch4_ring_returned_to_bride": false,
+        "ch4_ring_slipped_inside_chair": false,
+        "ch4_ring_spotted_in_chair": false,
+        "ch4_seashell_ai_instructions_requested": false,
+        "ch4_seashell_assessment_appealed": false,
+        "ch4_seashell_first_attempt_failed": false,
+        "ch4_seashell_lavatory_entered": false,
+        "ch4_seashell_missing_toilet_complaint_filed": false,
+        "ch4_seashell_second_attempt_failed": false,
+        "ch4_seashells_inspected": false,
+        "ch4_staff_lavatory_sold_for_storage": false,
+        "ch4_stall_survived_crane": false,
+        "ch4_stall_walked_away_publicly": false,
+        "ch4_upper_salvage_reached": false,
+        "ch4_upper_salvage_staff_lavatory_clue": false,
+        "ch4_valve_wheel_recovered": false,
+        "ch4_wedding_organizer_met": false,
+        "ch4_wedding_ring_retrieved": false,
         "chair_survived": false,
         "chapter3_entry_group": false,
         "courtesy_driver_activated": false,
@@ -1116,6 +1987,15 @@
       "items": {}
     },
     "cast": {
+      "autofit_system": {
+        "name": "AUTOFIT"
+      },
+      "bathroom_ai": {
+        "name": "BATHROOM AI"
+      },
+      "bridal_door_ai": {
+        "name": "BRIDAL DOOR"
+      },
       "courtesy_conductor": {
         "name": "COURTESY CONDUCTOR",
         "portrait": "courtesy_conductor"
@@ -1123,6 +2003,72 @@
       "groundskeeper": {
         "name": "GROUNDSKEEPER",
         "portrait": "groundskeeper"
+      },
+      "hotel_attendant": {
+        "name": "ATTENDANT"
+      },
+      "hotel_auction_clerk": {
+        "name": "AUCTION CLERK",
+        "portrait": "hotel_auction_clerk"
+      },
+      "hotel_auctioneer": {
+        "name": "AUCTIONEER",
+        "portrait": "hotel_auctioneer"
+      },
+      "hotel_boiler_engineer": {
+        "name": "BOILER ENGINEER",
+        "portrait": "hotel_boiler_engineer"
+      },
+      "hotel_bride": {
+        "name": "BRIDE",
+        "portrait": "hotel_bride"
+      },
+      "hotel_commodore_bixby": {
+        "name": "COMMODORE BIXBY",
+        "portrait": "hotel_commodore_bixby"
+      },
+      "hotel_groom": {
+        "name": "GROOM",
+        "portrait": "hotel_groom"
+      },
+      "hotel_lift_voice": {
+        "name": "FREIGHT LIFT"
+      },
+      "hotel_plumber": {
+        "name": "PLUMBER",
+        "portrait": "hotel_plumber"
+      },
+      "hotel_plumber_assistant": {
+        "name": "EDDIE",
+        "portrait": "hotel_plumber_assistant"
+      },
+      "hotel_porter": {
+        "name": "PORTER",
+        "portrait": "hotel_porter"
+      },
+      "hotel_salvage_clerk": {
+        "name": "SALVAGE CLERK"
+      },
+      "hotel_salvage_foreman": {
+        "name": "SALVAGE FOREMAN",
+        "portrait": "hotel_salvage_foreman"
+      },
+      "hotel_second_porter": {
+        "name": "SECOND PORTER"
+      },
+      "hotel_service_foreman": {
+        "name": "SERVICE FOREMAN"
+      },
+      "hotel_wedding_assistant": {
+        "name": "WEDDING ASSISTANT",
+        "portrait": "hotel_wedding_assistant"
+      },
+      "hotel_wedding_guest": {
+        "name": "WEDDING GUEST"
+      },
+      "hotel_wedding_organizer": {
+        "name": "WEDDING ORGANIZER",
+        "portrait": "hotel_wedding_organizer"
       },
       "house": {
         "name": "HOUSE OF TOMORROW",
@@ -1498,6 +2444,70 @@
             ]
           }
         }
+      },
+      "pavilion_temporary_staff_pass": {
+        "name": "TEMPORARY STAFF PASS",
+        "slotArt": "art/items/pavilion/pavilion_temporary_staff_pass_slot.png",
+        "inspectArt": "art/items/pavilion/pavilion_temporary_staff_pass_inspect.png",
+        "description": "A PRINTED CARD FROM THE PEOPLE'S PAVILION: TEMPORARY STAFF. DEPARTMENT: HUMAN PRESENTATION. VALID UNTIL CORRECTED.",
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "pavilion_temporary_staff_pass",
+                "read"
+              ]
+            ]
+          }
+        }
+      },
+      "lot_53_dispute_ticket": {
+        "name": "LOT 53 DISPUTE TICKET",
+        "slotArt": "art/items/grand_bellevue/lot_53_dispute_ticket_slot.png",
+        "inspectArt": "art/items/grand_bellevue/lot_53_dispute_ticket_inspect.png",
+        "description": "A RED CARBON-COPY TICKET FOR LOT 53. REASON: LACK OF PRIVACY — CUSTOMER PRESENT. THE CLERK HAS STAMPED IT HOLD FOR INSPECTION. IT ENTITLES YOU TO INSPECT THE DISPUTED MERCHANDISE BEFORE IT LEAVES THE HOTEL, BUT IT DOES NOT CANCEL THE SALE.",
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "lot_53_dispute_ticket",
+                "read"
+              ]
+            ]
+          }
+        }
+      },
+      "wedding_ring_lot31": {
+        "name": "WEDDING RING",
+        "slotArt": "art/items/grand_bellevue/wedding_ring_lot31_slot.png",
+        "inspectArt": "art/items/grand_bellevue/wedding_ring_lot31_inspect.png",
+        "description": [
+          {
+            "if": {
+              "itemNot": [
+                "wedding_ring_lot31",
+                "read"
+              ]
+            },
+            "text": "A SMALL SILVER WEDDING BAND FREED FROM LOT 31'S UPHOLSTERY. A SHORT PALE BLUE RIBBON STILL CLINGS TO IT. TINY LETTERS ARE ENGRAVED INSIDE, TOO SMALL TO READ AT A GLANCE."
+          },
+          {
+            "text": "YOU TURN THE SILVER BAND BETWEEN YOUR FINGERS. A SMALL STRAND OF BLUE RIBBON HANGS FROM IT.\n\nINSIDE, BENEATH A TINY MAKER'S MARK, YOU CAN FINALLY MAKE OUT THE ENGRAVING:\n\nAS IS, WHERE IS.\n\nTHE STANDARD TERMS OF AN AUCTION.\n\nAS WEDDING PROMISES GO, YOU'VE HEARD WORSE."
+          }
+        ],
+        "read": {
+          "effects": {
+            "mark": [
+              [
+                "wedding_ring_lot31",
+                "read"
+              ]
+            ],
+            "set": {
+              "ch4_ring_inscription_read": true
+            }
+          }
+        }
       }
     },
     "files": [],
@@ -1566,7 +2576,27 @@
         "pavilion_reboot/record_scanner": "art/scenes/pavilion_reboot/record_scanner.png",
         "pavilion_reboot/paper_emergency": "art/scenes/pavilion_reboot/paper_emergency.png",
         "pavilion_reboot/exit_vestibule": "art/scenes/pavilion_reboot/exit_vestibule.png",
-        "pavilion_reboot/courtesy_stage": "art/scenes/pavilion_reboot/courtesy_stage.png"
+        "pavilion_reboot/courtesy_stage": "art/scenes/pavilion_reboot/courtesy_stage.png",
+        "grand_bellevue/loading_lane": "art/scenes/grand_bellevue/loading_lane.png",
+        "grand_bellevue/service_alley": "art/scenes/grand_bellevue/service_alley.png",
+        "grand_bellevue/wedding_entry": "art/scenes/grand_bellevue/ballroom.png",
+        "grand_bellevue/lobby": "art/scenes/grand_bellevue/lobby.png",
+        "grand_bellevue/loading_dock": "art/scenes/grand_bellevue/loading_dock.png",
+        "grand_bellevue/ballroom": "art/scenes/grand_bellevue/ballroom.png",
+        "grand_bellevue/restroom": "art/scenes/grand_bellevue/restroom.png",
+        "grand_bellevue/maintenance": "art/scenes/grand_bellevue/maintenance.png",
+        "grand_bellevue/service_stairs": "art/scenes/grand_bellevue/service_stairs.png",
+        "grand_bellevue/refreshment_table": "art/scenes/grand_bellevue/ballroom.png",
+        "grand_bellevue/service_passage": "art/scenes/grand_bellevue/service_passage.png",
+        "grand_bellevue/boiler_access": "art/scenes/grand_bellevue/boiler_access.png",
+        "grand_bellevue/staff_lavatory": "art/scenes/grand_bellevue/staff_lavatory.png",
+        "grand_bellevue/boiler_room": "art/scenes/grand_bellevue/boiler_room.png",
+        "grand_bellevue/bridal_dressing_room": "art/scenes/grand_bellevue/bridal_dressing_room.png",
+        "grand_bellevue/bridal_corridor": "art/scenes/grand_bellevue/service_passage.png",
+        "grand_bellevue/bridal_lavatory": "art/scenes/grand_bellevue/bridal_lavatory.png",
+        "grand_bellevue/upper_salvage": "art/scenes/grand_bellevue/upper_salvage.png",
+        "grand_bellevue/public_corridor": "art/scenes/grand_bellevue/public_corridor.png",
+        "grand_bellevue/freight_lift": "art/scenes/grand_bellevue/upper_salvage.png"
       },
       "portraits": {
         "courtesy_conductor": {
@@ -1588,6 +2618,140 @@
           },
           "background": "biology_park/groundskeeper",
           "pose": "idle"
+        },
+        "hotel_auction_clerk": {
+          "backgrounds": {
+            "grand_bellevue/lobby": "art/portraits/grand_bellevue/backgrounds/lobby.png"
+          },
+          "poses": {
+            "precise": "art/portraits/grand_bellevue/hotel_auction_clerk/precise.png"
+          },
+          "background": "grand_bellevue/lobby",
+          "pose": "precise"
+        },
+        "hotel_auctioneer": {
+          "backgrounds": {
+            "grand_bellevue/lobby": "art/portraits/grand_bellevue/backgrounds/lobby.png"
+          },
+          "poses": {
+            "showman": "art/portraits/grand_bellevue/hotel_auctioneer/showman.png",
+            "delighted": "art/portraits/grand_bellevue/hotel_auctioneer/delighted.png",
+            "disappointed": "art/portraits/grand_bellevue/hotel_auctioneer/disappointed.png"
+          },
+          "background": "grand_bellevue/lobby",
+          "pose": "delighted"
+        },
+        "hotel_boiler_engineer": {
+          "backgrounds": {
+            "grand_bellevue/boiler_room": "art/portraits/grand_bellevue/backgrounds/boiler_room.png",
+            "grand_bellevue/service_passage": "art/portraits/grand_bellevue/backgrounds/service_passage.png"
+          },
+          "poses": {
+            "careful": "art/portraits/grand_bellevue/hotel_boiler_engineer/careful.png",
+            "pleased": "art/portraits/grand_bellevue/hotel_boiler_engineer/pleased.png",
+            "defeated": "art/portraits/grand_bellevue/hotel_boiler_engineer/defeated.png"
+          },
+          "background": "grand_bellevue/boiler_room",
+          "pose": "careful"
+        },
+        "hotel_bride": {
+          "backgrounds": {
+            "grand_bellevue/lobby": "art/portraits/grand_bellevue/backgrounds/lobby.png"
+          },
+          "poses": {
+            "determined": "art/portraits/grand_bellevue/hotel_bride/determined.png",
+            "grateful": "art/portraits/grand_bellevue/hotel_bride/grateful.png",
+            "helpful": "art/portraits/grand_bellevue/hotel_bride/helpful.png"
+          },
+          "background": "grand_bellevue/lobby",
+          "pose": "determined"
+        },
+        "hotel_commodore_bixby": {
+          "backgrounds": {
+            "grand_bellevue/ballroom": "art/portraits/grand_bellevue/backgrounds/ballroom.png"
+          },
+          "poses": {
+            "delighted": "art/portraits/grand_bellevue/hotel_commodore_bixby/delighted.png"
+          },
+          "background": "grand_bellevue/ballroom",
+          "pose": "delighted"
+        },
+        "hotel_groom": {
+          "backgrounds": {
+            "grand_bellevue/maintenance": "art/portraits/grand_bellevue/backgrounds/maintenance.png"
+          },
+          "poses": {
+            "nervous": "art/portraits/grand_bellevue/hotel_groom/nervous.png",
+            "relieved": "art/portraits/grand_bellevue/hotel_groom/relieved.png"
+          },
+          "background": "grand_bellevue/maintenance",
+          "pose": "nervous"
+        },
+        "hotel_plumber": {
+          "backgrounds": {
+            "grand_bellevue/restroom": "art/portraits/grand_bellevue/backgrounds/restroom.png"
+          },
+          "poses": {
+            "worried": "art/portraits/grand_bellevue/hotel_plumber/worried.png"
+          },
+          "background": "grand_bellevue/restroom",
+          "pose": "worried"
+        },
+        "hotel_plumber_assistant": {
+          "backgrounds": {
+            "grand_bellevue/restroom": "art/portraits/grand_bellevue/backgrounds/restroom.png"
+          },
+          "poses": {
+            "pleased": "art/portraits/grand_bellevue/hotel_plumber_assistant/pleased.png"
+          },
+          "background": "grand_bellevue/restroom",
+          "pose": "pleased"
+        },
+        "hotel_porter": {
+          "backgrounds": {
+            "grand_bellevue/restroom": "art/portraits/grand_bellevue/backgrounds/restroom.png",
+            "grand_bellevue/lobby": "art/portraits/grand_bellevue/backgrounds/lobby.png",
+            "grand_bellevue/service_passage": "art/portraits/grand_bellevue/backgrounds/service_passage.png"
+          },
+          "poses": {
+            "businesslike": "art/portraits/grand_bellevue/hotel_porter/businesslike.png",
+            "uncertain": "art/portraits/grand_bellevue/hotel_porter/uncertain.png",
+            "alarmed": "art/portraits/grand_bellevue/hotel_porter/alarmed.png",
+            "practical": "art/portraits/grand_bellevue/hotel_porter/practical.png"
+          },
+          "background": "grand_bellevue/lobby",
+          "pose": "alarmed"
+        },
+        "hotel_salvage_foreman": {
+          "backgrounds": {
+            "grand_bellevue/loading_dock": "art/portraits/grand_bellevue/backgrounds/loading_dock.png"
+          },
+          "poses": {
+            "annoyed": "art/portraits/grand_bellevue/hotel_salvage_foreman/annoyed.png"
+          },
+          "background": "grand_bellevue/loading_dock",
+          "pose": "annoyed"
+        },
+        "hotel_wedding_assistant": {
+          "backgrounds": {
+            "grand_bellevue/staff_lavatory": "art/portraits/grand_bellevue/backgrounds/staff_lavatory.png"
+          },
+          "poses": {
+            "busy": "art/portraits/grand_bellevue/hotel_wedding_assistant/busy.png",
+            "apologetic": "art/portraits/grand_bellevue/hotel_wedding_assistant/apologetic.png"
+          },
+          "background": "grand_bellevue/staff_lavatory",
+          "pose": "apologetic"
+        },
+        "hotel_wedding_organizer": {
+          "backgrounds": {
+            "grand_bellevue/ballroom": "art/portraits/grand_bellevue/backgrounds/ballroom.png"
+          },
+          "poses": {
+            "urgent": "art/portraits/grand_bellevue/hotel_wedding_organizer/urgent.png"
+          },
+          "background": "grand_bellevue/ballroom",
+          "pose": "urgent"
         },
         "house": {
           "views": {
@@ -1671,7 +2835,15 @@
         },
         "biology_park/public_exit/aid_box_open": "art/focus/biology_park/aid_box_open.png",
         "biology_park/maintenance_exit/decontamination_kit_open": "art/focus/biology_park/decontamination_kit_open.png",
-        "biology_park/agricultural_customs/exposure_dispenser_open": "art/focus/biology_park/exposure_dispenser_open.png"
+        "biology_park/agricultural_customs/exposure_dispenser_open": "art/focus/biology_park/exposure_dispenser_open.png",
+        "grand_bellevue/maintenance/water_isolator": "art/focus/grand_bellevue/maintenance/water_isolator.png",
+        "grand_bellevue/restroom/lot_14_receipt": "art/focus/grand_bellevue/restroom/lot_14_receipt.png",
+        "grand_bellevue/restroom/master_isolator": "art/focus/grand_bellevue/restroom/master_isolator.png",
+        "grand_bellevue/auction_floor/chair_armrest": "art/focus/grand_bellevue/auction_floor/chair_armrest.png",
+        "grand_bellevue/collection_stairs/chair_armrest": "art/focus/grand_bellevue/collection_stairs/chair_armrest.png",
+        "grand_bellevue/bridal_privacy_panel": "art/focus/grand_bellevue/bridal_privacy_panel.png",
+        "grand_bellevue/autofit_gown": "art/focus/grand_bellevue/autofit_gown.png",
+        "grand_bellevue/three_seashells": "art/focus/grand_bellevue/three_seashells.png"
       },
       "sceneStates": {
         "house_of_tomorrow/foyer": [
@@ -1758,6 +2930,386 @@
             "layer": "replace",
             "path": "art/scenes/house_of_tomorrow/states/portrait_gallery_album_removed.png",
             "focus": "house_of_tomorrow/portrait_gallery/album"
+          }
+        ]
+      },
+      "textLedScenes": [
+        "grand_bellevue/arrival",
+        "grand_bellevue/courtyard",
+        "grand_bellevue/forecourt"
+      ],
+      "artStates": {
+        "scene:grand_bellevue/lobby": [
+          {
+            "id": "lot61_packed",
+            "ref": "lot61_packed",
+            "path": "art/scenes/grand_bellevue/lobby/states/lot61_packed.png",
+            "at": [
+              "chapter-04:hotel_lot61_pod_escaped"
+            ],
+            "beat": "Behind you, the booth folds inward"
+          },
+          {
+            "id": "lot61_open",
+            "ref": "lot61_open",
+            "path": "art/scenes/grand_bellevue/lobby/states/lot61_open.png",
+            "at": [
+              "chapter-04:hotel_lot61_pod_auction"
+            ],
+            "beat": "Two porters wheel out a gleaming metal booth."
+          },
+          {
+            "id": "lot61_open_demonstration",
+            "ref": "lot61_open",
+            "path": "art/scenes/grand_bellevue/lobby/states/lot61_open.png",
+            "at": [
+              "chapter-04:hotel_lot61_pod_declined",
+              "chapter-04:hotel_lot61_pod_escaped",
+              "chapter-04:fatal_lot61_folded"
+            ]
+          },
+          {
+            "id": "lobby_doors_removed",
+            "ref": "lobby_doors_removed",
+            "path": "art/scenes/grand_bellevue/lobby/states/lobby_doors_removed.png",
+            "at": [
+              "chapter-04:entry_backstage_exit",
+              "chapter-04:hotel_lobby_view",
+              "chapter-04:hotel_auctioneer_arrival",
+              "chapter-04:hotel_auction_reopen_53",
+              "chapter-04:hotel_auction_testimonial",
+              "chapter-04:hotel_auction_bride_ally",
+              "chapter-04:hotel_auction_dispute_ticket",
+              "chapter-04:hotel_auction_chair_lot31",
+              "chapter-04:hotel_chair_vegetation_inspection",
+              "chapter-04:hotel_chair_examiner_inspection",
+              "chapter-04:hotel_chair_stapler_stealth",
+              "chapter-04:hotel_chair_stapler_caught",
+              "chapter-04:hotel_chair_staff_escort",
+              "chapter-04:hotel_chair_ring_focus",
+              "chapter-04:hotel_ring_retrieved",
+              "chapter-04:hotel_ring_slips",
+              "chapter-04:hotel_ring_in_pocket",
+              "chapter-04:hotel_ring_show_bride",
+              "chapter-04:hotel_bride_ring_handover",
+              "chapter-04:hotel_bride_ring_bathroom",
+              "chapter-04:hotel_collection_ring_to_bride",
+              "chapter-04:hotel_lot61_pod_auction",
+              "chapter-04:hotel_lot61_pod_escaped",
+              "chapter-04:fatal_lot61_folded",
+              "chapter-04:hotel_lot61_pod_declined",
+              "chapter-04:hotel_ring_inspect_inscription",
+              "chapter-04:hotel_auctioneer_restroom_inventory",
+              "chapter-04:hotel_auctioneer_lot14_dispute",
+              "chapter-04:hotel_auctioneer_lot14_recall"
+            ],
+            "after": {
+              "node": "chapter-04:hotel_auctioneer_arrival",
+              "beat": "A workman carries away the first restroom door."
+            }
+          }
+        ],
+        "scene:grand_bellevue/restroom": [
+          {
+            "id": "restroom_stall_lifting",
+            "ref": "restroom_stall_lifting",
+            "path": "art/scenes/grand_bellevue/restroom/states/restroom_stall_lifting.png",
+            "at": [
+              "chapter-04:hotel_stall_lot_claimed"
+            ],
+            "beat": "Something shifts overhead."
+          },
+          {
+            "id": "restroom_stall_lifting_after",
+            "ref": "restroom_stall_lifting",
+            "path": "art/scenes/grand_bellevue/restroom/states/restroom_stall_lifting.png",
+            "at": [
+              "chapter-04:hotel_stall_crane_success",
+              "chapter-04:hotel_stall_porter_protest"
+            ]
+          },
+          {
+            "id": "restroom_contained",
+            "ref": "restroom_contained",
+            "path": "art/scenes/grand_bellevue/restroom/states/restroom_contained.png",
+            "at": [
+              "chapter-04:hotel_wheel_return"
+            ],
+            "beat": "One turn. A second."
+          },
+          {
+            "id": "restroom_contained_lever",
+            "ref": "restroom_contained",
+            "path": "art/scenes/grand_bellevue/restroom/states/restroom_contained.png",
+            "at": [
+              "chapter-04:hotel_key_master_cabinet"
+            ],
+            "beat": "Inside is a single large red lever."
+          },
+          {
+            "id": "restroom_contained_held",
+            "ref": "restroom_contained",
+            "path": "art/scenes/grand_bellevue/restroom/states/restroom_contained.png",
+            "at": [
+              "chapter-04:hotel_valve_braced",
+              "chapter-04:hotel_stall_lot_claimed"
+            ]
+          },
+          {
+            "id": "restroom_flood_onset",
+            "ref": "restroom_flood_onset",
+            "path": "art/scenes/grand_bellevue/restroom/states/restroom_flood_onset.png",
+            "at": [
+              "chapter-04:hotel_valve_flood"
+            ]
+          },
+          {
+            "id": "restroom_active_leak",
+            "ref": "restroom_active_leak",
+            "path": "art/scenes/grand_bellevue/restroom/states/restroom_active_leak.png",
+            "at": [
+              "chapter-04:hotel_restroom_plumber"
+            ],
+            "beat": "A violent jet of water erupts"
+          },
+          {
+            "id": "restroom_active_leak_held",
+            "ref": "restroom_active_leak",
+            "path": "art/scenes/grand_bellevue/restroom/states/restroom_active_leak.png",
+            "at": [
+              "chapter-04:hotel_wheel_buyer_lead",
+              "chapter-04:hotel_wheel_return",
+              "chapter-04:hotel_key_master_cabinet"
+            ]
+          }
+        ],
+        "background:grand_bellevue/restroom": [
+          {
+            "id": "restroom_active_leak_close",
+            "ref": "restroom_active_leak_close",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/restroom_active_leak_close.png",
+            "at": [
+              "chapter-04:hotel_restroom_plumber"
+            ],
+            "beat": "A violent jet of water erupts"
+          },
+          {
+            "id": "restroom_active_leak_close_held",
+            "ref": "restroom_active_leak_close",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/restroom_active_leak_close.png",
+            "at": [
+              "chapter-04:hotel_wheel_buyer_lead"
+            ]
+          }
+        ],
+        "scene:grand_bellevue/staff_lavatory": [
+          {
+            "id": "staff_lavatory_permit",
+            "ref": "staff_lavatory_permit",
+            "path": "art/scenes/grand_bellevue/staff_lavatory/states/staff_lavatory_permit.png",
+            "at": [
+              "chapter-04:hotel_staff_lavatory_temporary_use_permit"
+            ],
+            "beat": "She places her clipboard on the toilet seat."
+          },
+          {
+            "id": "staff_lavatory_cleared",
+            "ref": "staff_lavatory_cleared",
+            "path": "art/scenes/grand_bellevue/staff_lavatory/states/staff_lavatory_cleared.png",
+            "at": [
+              "chapter-04:hotel_staff_lavatory_move_boxes"
+            ],
+            "beat": "She begins removing boxes."
+          },
+          {
+            "id": "staff_lavatory_cleared_held",
+            "ref": "staff_lavatory_cleared",
+            "path": "art/scenes/grand_bellevue/staff_lavatory/states/staff_lavatory_cleared.png",
+            "at": [
+              "chapter-04:hotel_staff_lavatory_temporary_use_permit"
+            ]
+          }
+        ],
+        "background:grand_bellevue/staff_lavatory": [
+          {
+            "id": "staff_lavatory_permit_close",
+            "ref": "staff_lavatory_permit_close",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/staff_lavatory_permit_close.png",
+            "at": [
+              "chapter-04:hotel_staff_lavatory_temporary_use_permit"
+            ],
+            "beat": "She places her clipboard on the toilet seat."
+          },
+          {
+            "id": "staff_lavatory_cleared_close",
+            "ref": "staff_lavatory_cleared_close",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/staff_lavatory_cleared_close.png",
+            "at": [
+              "chapter-04:hotel_staff_lavatory_move_boxes"
+            ],
+            "beat": "She begins removing boxes."
+          },
+          {
+            "id": "staff_lavatory_cleared_close_held",
+            "ref": "staff_lavatory_cleared_close",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/staff_lavatory_cleared_close.png",
+            "at": [
+              "chapter-04:hotel_staff_lavatory_temporary_use_permit"
+            ]
+          }
+        ],
+        "scene:grand_bellevue/boiler_room": [
+          {
+            "id": "boiler_relieved",
+            "ref": "boiler_relieved",
+            "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_relieved.png",
+            "at": [
+              "chapter-04:hotel_boiler_pressure_relieved"
+            ],
+            "beat": "He unlocks the passage."
+          },
+          {
+            "id": "boiler_inspection_hold",
+            "ref": "boiler_inspection_hold",
+            "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_inspection_hold.png",
+            "at": [
+              "chapter-04:hotel_boiler_dispute_hold"
+            ],
+            "beat": "He hangs a DO NOT OPERATE tag"
+          },
+          {
+            "id": "boiler_staff_access",
+            "ref": "boiler_staff_access",
+            "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_staff_access.png",
+            "at": [
+              "chapter-04:hotel_boiler_staff_access"
+            ],
+            "beat": "He opens the maintenance gate."
+          }
+        ],
+        "background:grand_bellevue/boiler_room": [
+          {
+            "id": "boiler_relieved_close",
+            "ref": "boiler_relieved_close",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_relieved_close.png",
+            "at": [
+              "chapter-04:hotel_boiler_pressure_relieved"
+            ],
+            "beat": "He unlocks the passage."
+          },
+          {
+            "id": "boiler_inspection_hold_close",
+            "ref": "boiler_inspection_hold_close",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_inspection_hold_close.png",
+            "at": [
+              "chapter-04:hotel_boiler_dispute_hold"
+            ],
+            "beat": "He hangs a DO NOT OPERATE tag"
+          },
+          {
+            "id": "boiler_staff_access_close",
+            "ref": "boiler_staff_access_close",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_staff_access_close.png",
+            "at": [
+              "chapter-04:hotel_boiler_staff_access"
+            ],
+            "beat": "He opens the maintenance gate."
+          }
+        ],
+        "background:grand_bellevue/ballroom": [
+          {
+            "id": "threshold_rubber_band_fender",
+            "ref": "threshold_rubber_band_fender",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_rubber_band_fender.png",
+            "at": [
+              "chapter-04:hotel_bixby_trade"
+            ],
+            "beat": "He hands you the brass wheel"
+          },
+          {
+            "id": "threshold_wheel_removed",
+            "ref": "threshold_wheel_removed",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_wheel_removed.png",
+            "at": [
+              "chapter-04:hotel_bixby_emergency"
+            ],
+            "beat": "He pulls the wheel free"
+          },
+          {
+            "id": "threshold_wheel_mounted",
+            "ref": "threshold_wheel_mounted",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_wheel_mounted.png",
+            "at": [
+              "chapter-04:hotel_commodore_bixby",
+              "chapter-04:hotel_bixby_emergency",
+              "chapter-04:hotel_bixby_trade"
+            ]
+          },
+          {
+            "id": "threshold_water_emerging",
+            "ref": "threshold_water_emerging",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_water_emerging.png",
+            "at": [
+              "chapter-04:hotel_commodore_bixby"
+            ],
+            "beat": "Water creeps out from beneath the ballroom door",
+            "region": [
+              0,
+              221,
+              99,
+              42
+            ]
+          },
+          {
+            "id": "threshold_water_emerging_held",
+            "ref": "threshold_water_emerging",
+            "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_water_emerging.png",
+            "at": [
+              "chapter-04:hotel_bixby_emergency",
+              "chapter-04:hotel_bixby_trade"
+            ],
+            "region": [
+              0,
+              221,
+              99,
+              42
+            ]
+          }
+        ],
+        "scene:grand_bellevue/public_corridor": [
+          {
+            "id": "public_corridor_flood",
+            "ref": "public_corridor_flood",
+            "path": "art/scenes/grand_bellevue/public_corridor/states/public_corridor_flood.png",
+            "at": [
+              "chapter-04:hotel_flooded_public_corridor"
+            ]
+          }
+        ],
+        "focus:grand_bellevue/auction_floor/chair_armrest": [
+          {
+            "id": "chair_seam_open",
+            "ref": "chair_seam_open",
+            "path": "art/focus/grand_bellevue/auction_floor/chair_armrest/states/chair_seam_open.png",
+            "at": [
+              "chapter-04:hotel_chair_ring_focus"
+            ],
+            "if": {
+              "flag": "ch4_chair_seam_open"
+            }
+          }
+        ],
+        "focus:grand_bellevue/collection_stairs/chair_armrest": [
+          {
+            "id": "collection_ring_slipped",
+            "ref": "collection_ring_slipped",
+            "path": "art/focus/grand_bellevue/collection_stairs/chair_armrest/states/collection_ring_slipped.png",
+            "at": [
+              "chapter-04:hotel_collection_ring_focus"
+            ],
+            "if": {
+              "flag": "ch4_ring_slipped_inside_chair"
+            }
           }
         ]
       }
@@ -7319,10 +8871,15 @@
             "text": "The safety net catches you and deposits you into a padded wheeled collection cart. A lid closes. HUMAN SAFETY DEMONSTRATION: SUCCESSFUL.\n\nThe cart rolls through a loading door and tips you onto foam cushions outside the Pavilion. You are unhurt. The door closes. A real toilet flushes somewhere inside.\n\nCHAPTER 3 COMPLETE - PERFECTLY SAFE.",
             "choices": [
               {
-                "id": "restart_after_safe_fall",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_04_locomotion_fail",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "effects": {
+                  "set": {
+                    "ch3_exit_route": "locomotion_fail"
+                  }
+                },
+                "chapter": "chapter-04"
               }
             ],
             "end": true
@@ -7331,6 +8888,11 @@
             "mode": "dialogue",
             "scene": "pavilion_reboot/human_verification_stage",
             "speaker": "pavilion_presenter",
+            "effects": {
+              "give": [
+                "pavilion_temporary_staff_pass"
+              ]
+            },
             "text": [
               {
                 "desc": "The presenter's smile falters. She turns to the large camera."
@@ -7341,7 +8903,13 @@
               },
               "My break hasn't started! Please don't press anything!",
               {
-                "desc": "A second microphone drops before you. TEMPORARY PRESENTER APPOINTED. A green BEGIN DEMONSTRATION button lights up beside a covered emergency release."
+                "desc": "A second microphone drops before you. TEMPORARY PRESENTER APPOINTED."
+              },
+              {
+                "desc": "An administrative printer rattles and ejects a card: TEMPORARY STAFF. PEOPLE'S PAVILION. DEPARTMENT: HUMAN PRESENTATION. VALID UNTIL CORRECTED. You pocket it. Apparently, you have been hired again."
+              },
+              {
+                "desc": "A green BEGIN DEMONSTRATION button lights up beside a covered emergency release."
               }
             ],
             "choices": [
@@ -7411,10 +8979,15 @@
             ],
             "choices": [
               {
-                "id": "restart_after_presenter_help",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_04_presenter_help_end",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "effects": {
+                  "set": {
+                    "ch3_exit_route": "presenter_help_end"
+                  }
+                },
+                "chapter": "chapter-04"
               }
             ],
             "end": true
@@ -7571,10 +9144,15 @@
             "text": "You tug the receipt. The printer accelerates. You pull harder; more paper shoots out. The ribbon wraps around the attendant's ankles, passes beneath the counter and climbs an ornamental plant. A visitor catches a heel while stepping over it.\n\n\"Stop pulling!\" the attendant shouts. You stop. The printer doesn't. He presses a red button. PAPER EMERGENCY - EVACUATE THE EXPERIENCE AREA.\n\nTwo enormous safety brushes descend and sweep the paper and everyone standing on it toward an exit. The attendant grabs your shoulder. \"I need you to leave immediately! Especially you! Your experience has already happened!\"\n\nThe brushes push you into daylight. Behind the closing doors, he begs everybody not to touch the receipt.\n\nCHAPTER 3 COMPLETE - PAPER EMERGENCY.",
             "choices": [
               {
-                "id": "restart_after_paper_emergency",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_04_paper_problem_end",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "effects": {
+                  "set": {
+                    "ch3_exit_route": "paper_problem_end"
+                  }
+                },
+                "chapter": "chapter-04"
               }
             ],
             "end": true
@@ -7619,10 +9197,15 @@
             ],
             "choices": [
               {
-                "id": "restart_after_honest_attendant",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_04_attendant_honest_end",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "effects": {
+                  "set": {
+                    "ch3_exit_route": "attendant_honest_end"
+                  }
+                },
+                "chapter": "chapter-04"
               }
             ],
             "end": true
@@ -7719,10 +9302,15 @@
             "text": "You run for the doorway, but your shoe catches the rubber threshold mat. The attendant grabs your coat. The visitor grabs your arm. Three grown adults form a human chain across the restroom entrance.\n\n\"I've got him!\" cries the visitor. \"So have I!\" says the attendant. \"Well, one of us ought to let go!\" The attendant does. You and the visitor tumble harmlessly onto the bench.\n\nThe restroom closes. THANK YOU FOR YOUR COOPERATION, chimes the machine. The attendant helps you up and escorts you out the Pavilion's public entrance.\n\nCHAPTER 3 COMPLETE - PLEASE LEAVE.",
             "choices": [
               {
-                "id": "restart_after_door_dash_failure",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_04_door_dash_fail",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "effects": {
+                  "set": {
+                    "ch3_exit_route": "door_dash_fail"
+                  }
+                },
+                "chapter": "chapter-04"
               }
             ],
             "end": true
@@ -7782,10 +9370,15 @@
             "text": "You turn around and walk backward toward the restroom's EXIT THIS WAY sign. The attendant watches, concerned. Your heel crosses the threshold.\n\nEXIT DETECTED. RESTROOM EXPERIENCE SUCCESSFULLY COMPLETED. ELAPSED TIME: ZERO SECONDS. NEW FACILITY RECORD!\n\nThe attendant begins applauding automatically, then realizes what he is doing. A mechanical arm pins FASTEST SATISFIED VISITOR to your coat. The ribbon is not a useful item. The floor carries you outward along the Pavilion's designated exit route.\n\nTHANK YOU FOR YOUR EFFICIENT PARTICIPATION. You try to walk against the floor. PLEASE DO NOT REVERSE A COMPLETED EXPERIENCE.\n\nOutside, you stare at the ribbon. A toilet flushes behind the wall.\n\nCHAPTER 3 COMPLETE - NEW FACILITY RECORD.",
             "choices": [
               {
-                "id": "restart_after_zero_second_visit",
-                "kind": "system",
-                "text": "BEGIN AGAIN",
-                "restart": true
+                "id": "continue_to_chapter_04_door_reverse_end",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "effects": {
+                  "set": {
+                    "ch3_exit_route": "door_reverse_end"
+                  }
+                },
+                "chapter": "chapter-04"
               }
             ],
             "end": true
@@ -7796,13 +9389,5347 @@
             "text": "Behind the exhibits, the People's Pavilion is considerably less impressive.\n\nPainted scenery leans against concrete walls. Electrical cables hang from hooks. Someone has left half a sandwich on a crate labeled SPONTANEOUS HUMAN RESPONSES. Beside it sits an unopened carton: GENUINE SURPRISE - REFILLS.\n\nYou pass discarded certificates, an overturned podium, and a machine that appears to do nothing except applaud itself. Somewhere beyond the wall, a toilet flushes.\n\nYou stop walking. The sound fades. You consider turning around. Then you remember what happened the last several times you tried to get into that bathroom.\n\nAt the end of the corridor stands a plain metal door.\n\nEXIT\n\nNo camera. No scanner. No instructions about who you are. You push the handle. The door opens. For a moment, the simplicity is almost suspicious.\n\nYou step outside. Across the courtyard, another building has a sign displaying the familiar restroom symbol. You stare at it. Then you start walking.\n\nAfter all, that's what you were trying to do when this whole day began.\n\nCHAPTER 3 COMPLETE.",
             "choices": [
               {
-                "id": "restart_after_backstage_exit",
+                "id": "continue_to_chapter_04_backstage_exit",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "effects": {
+                  "set": {
+                    "ch3_exit_route": "backstage_exit"
+                  }
+                },
+                "chapter": "chapter-04"
+              }
+            ],
+            "end": true
+          }
+        }
+      },
+      "chapter-04": {
+        "title": "Something Old, Something Sold",
+        "start": "hotel_entry_dispatch",
+        "scene": "grand_bellevue/arrival",
+        "nodes": {
+          "hotel_entry_dispatch": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/arrival",
+            "objective": "FIND A WORKING BATHROOM.",
+            "text": "You leave the People's Pavilion behind. The next restroom symbol is closer than you expect.",
+            "choices": [
+              {
+                "id": "from_locomotion_fail",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "flagIs": [
+                    "ch3_exit_route",
+                    "locomotion_fail"
+                  ]
+                },
+                "to": "entry_locomotion_fail"
+              },
+              {
+                "id": "from_presenter_help_end",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "flagIs": [
+                    "ch3_exit_route",
+                    "presenter_help_end"
+                  ]
+                },
+                "to": "entry_presenter_help_end"
+              },
+              {
+                "id": "from_paper_problem_end",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "flagIs": [
+                    "ch3_exit_route",
+                    "paper_problem_end"
+                  ]
+                },
+                "to": "entry_paper_problem_end"
+              },
+              {
+                "id": "from_attendant_honest_end",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "flagIs": [
+                    "ch3_exit_route",
+                    "attendant_honest_end"
+                  ]
+                },
+                "to": "entry_attendant_honest_end"
+              },
+              {
+                "id": "from_door_dash_fail",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "flagIs": [
+                    "ch3_exit_route",
+                    "door_dash_fail"
+                  ]
+                },
+                "to": "entry_door_dash_fail"
+              },
+              {
+                "id": "from_door_reverse_end",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "flagIs": [
+                    "ch3_exit_route",
+                    "door_reverse_end"
+                  ]
+                },
+                "to": "entry_door_reverse_end"
+              },
+              {
+                "id": "from_backstage_exit",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "flagIs": [
+                    "ch3_exit_route",
+                    "backstage_exit"
+                  ]
+                },
+                "to": "entry_backstage_exit"
+              }
+            ]
+          },
+          "entry_locomotion_fail": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/loading_lane",
+            "text": "The last foam cushion falls off your shoulder.\n\nYou stand in the loading lane behind the People's Pavilion. The padded collection cart that deposited you outside is already disappearing through a mechanical doorway.\n\nAcross the lane, several workmen are unloading an enormous ornamental staircase from the back of a freight truck.\n\nThe staircase appears to be coming out of the building rather than going in.\n\nGRAND BELLEVUE HOTEL, reads the sign above the loading bay.\n\nBeyond the workers, through an open service entrance, you spot a small rectangular sign. RESTROOMS.\n\nYou look at the staircase. You look at the sign. You decide the workers probably know what they're doing.",
+            "choices": [
+              {
+                "id": "continue_from_locomotion",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_service_arrival"
+              }
+            ]
+          },
+          "entry_presenter_help_end": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/service_alley",
+            "text": "You emerge from the Pavilion's maintenance passage into a narrow service alley.\n\nFresh air. Daylight. No announcer telling you how well you're performing.\n\nA magnificent improvement.\n\nTwo men struggle past carrying an enormous upholstered sofa between them. Behind them, a third man pushes a trolley loaded with wedding decorations.\n\nThey disappear into the loading entrance of the Grand Bellevue Hotel.\n\nA sign beside the entrance points toward the hotel's service facilities. Below a small restroom symbol, somebody has written STAFF AND VISITORS.\n\nYou have never been so grateful to be either.\n\nYou follow the workers inside.",
+            "choices": [
+              {
+                "id": "continue_from_presenter",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_service_arrival"
+              }
+            ]
+          },
+          "entry_paper_problem_end": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/forecourt",
+            "text": "A strip of receipt paper remains tangled around your shoe.\n\nYou pull it free as you cross the courtyard outside the People's Pavilion.\n\nNearby, a group of wedding guests are entering an extravagant hotel. One woman looks at the ribbon of paper in your hand, smiles, and points approvingly toward the decorations above the entrance.\n\nYou look up. GRAND BELLEVUE HOTEL.\n\nFlowers surround the enormous glass doors. Somewhere inside, an orchestra is playing. Beside the entrance is a sign bearing the familiar restroom symbol.\n\nYou drop the paper.\n\nFor the moment, nobody seems interested in stopping you. You enter the hotel.",
+            "choices": [
+              {
+                "id": "continue_from_paper",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_lobby_view"
+              }
+            ]
+          },
+          "entry_attendant_honest_end": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/service_alley",
+            "text": "The Pavilion's service door closes behind you.\n\nThe attendant's parting words stay with you. You hope you find somewhere to go, too.\n\nAcross the service yard, a delivery truck reverses toward the Grand Bellevue Hotel. Its driver is arguing with a man carrying an enormous flower arrangement.\n\nThe hotel's delivery entrance stands open, held in place by a wooden crate. WEDDING CAKE - THIS SIDE UP.\n\nThe crate is lying on its side.\n\nBeyond the entrance, you notice a familiar symbol mounted above a narrow corridor. A restroom.\n\nPerhaps the attendant's good wishes have finally accomplished something. You slip inside.",
+            "choices": [
+              {
+                "id": "continue_from_attendant",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_service_arrival"
+              }
+            ]
+          },
+          "entry_door_dash_fail": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/forecourt",
+            "text": "You straighten your coat outside the People's Pavilion.\n\nYour unsuccessful attempt to reach its restroom has apparently provided considerable entertainment for everyone involved.\n\nAcross the courtyard, a formally dressed couple hurry toward the entrance of an enormous hotel. The man is carrying a wedding gift. The woman is carrying an expression suggesting the man has done something wrong.\n\nThey disappear through the glass doors.\n\nYou notice the building's restroom sign. You look back at the Pavilion. You consider the distance between the two buildings.\n\nThe hotel seems considerably more promising.\n\nYou cross the courtyard and enter.",
+            "choices": [
+              {
+                "id": "continue_from_dash",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_lobby_view"
+              }
+            ]
+          },
+          "entry_door_reverse_end": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/wedding_entry",
+            "text": "The ridiculous ribbon remains pinned to your coat: FASTEST SATISFIED VISITOR. You have never felt less satisfied.\n\nAt the Grand Bellevue, a woman carrying flowers mistakes the ribbon for a staff credential and ushers you through the side entrance. You point toward a restroom sign. She says there is a private lavatory upstairs and hurries you into the reception hall before you can object.",
+            "choices": [
+              {
+                "id": "continue_from_reverse",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_wedding_arrival"
+              }
+            ]
+          },
+          "entry_backstage_exit": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "text": "You reach the building across the courtyard. GRAND BELLEVUE HOTEL.\n\nIts enormous glass doors open onto a magnificent lobby. Music drifts from an adjoining ballroom. Guests in formal clothing wander between towering flower arrangements and polished furniture.\n\nYou barely notice them.\n\nAt the far end of the lobby are two doors bearing unmistakable restroom symbols. Actual restroom symbols. On actual restroom doors.\n\nYou begin walking.\n\nThen somebody shouts. SOLD! SIX HUNDRED AND FORTY!",
+            "choices": [
+              {
+                "id": "continue_from_backstage",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_auctioneer_arrival"
+              }
+            ]
+          },
+          "hotel_lobby_view": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "text": "The hotel's lobby is magnificent. Crystal chandeliers, immense flower arrangements, an orchestra playing somewhere beyond the ballroom doors.\n\nAt the far end of the lobby is a pair of restroom doors. You begin walking toward them.\n\nThen someone shouts. SOLD! SIX HUNDRED AND FORTY!",
+            "choices": [
+              {
+                "id": "approach_auctioneer",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_auctioneer_arrival"
+              }
+            ]
+          },
+          "hotel_auctioneer_arrival": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "pose": "showman",
+            "text": [
+              {
+                "desc": "An elderly gentleman in a crimson dinner jacket stands behind a wooden auction podium. He gestures toward two workmen."
+              },
+              "SOLD! SIX HUNDRED AND FORTY!",
+              {
+                "desc": "The workmen approach the restroom entrance. One starts unscrewing the hinges."
+              },
+              {
+                "say": "Papa, you're selling the bathrooms!",
+                "who": "hotel_bride"
+              },
+              "The doors, darling. Only the doors.",
+              {
+                "desc": "A workman carries away the first restroom door. You glance through the entrance toward the remaining stalls."
+              }
+            ],
+            "choices": [
+              {
+                "id": "public_a1_restroom",
+                "kind": "action",
+                "text": "WALK STRAIGHT INTO THE RESTROOM WHILE THE WORKMEN REMOVE THE DOORS.",
+                "to": "hotel_restroom_entry"
+              },
+              {
+                "id": "public_a2_auctioneer",
+                "kind": "spoken",
+                "text": "HAVE YOU SOLD ALL THE RESTROOMS, OR IS THERE ONE LEFT?",
+                "to": "hotel_auctioneer_restroom_inventory"
+              }
+            ]
+          },
+          "hotel_service_arrival": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/loading_dock",
+            "text": "The hotel's loading area is enormous. Freight elevators line one wall. Wooden crates occupy another. A collection of expensive furniture stands between them, waiting to be removed.\n\nA mechanical hoist slowly lowers an ornate chandelier into a padded shipping container.\n\nTwo workmen argue over a piano that appears to be considerably wider than the doorway through which they intend to move it.\n\nA third man, wearing rolled-up sleeves and a battered cap, watches the proceedings with mounting irritation. He notices you.",
+            "choices": [
+              {
+                "id": "meet_salvage_foreman",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_service_foreman"
+              }
+            ]
+          },
+          "hotel_service_foreman": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/loading_dock",
+            "speaker": "hotel_salvage_foreman",
+            "text": [
+              "You! Stay clear of that lift!",
+              {
+                "desc": "He points toward the piano."
+              },
+              "If that thing tips over, I'm not putting it back together.",
+              {
+                "desc": "A tremendous crash comes from somewhere upstairs. The foreman closes his eyes."
+              },
+              "That's another one.",
+              "You collecting something?",
+              {
+                "desc": "You point toward the staff facilities corridor."
+              },
+              "Lavatory's down there. Unless they've sold that too.",
+              {
+                "desc": "He turns back to the freight equipment. For once, nobody asks you to help move anything."
+              }
+            ],
+            "choices": [
+              {
+                "id": "service_s1_restroom",
+                "kind": "action",
+                "text": "FOLLOW THE RESTROOM SIGN THROUGH THE SERVICE CORRIDOR.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "service_s3_lift",
+                "kind": "action",
+                "text": "TAKE THE FREIGHT ELEVATOR UP TO SEARCH FOR A RESTROOM.",
+                "to": "hotel_freight_wc_misunderstanding"
+              },
+              {
+                "id": "service_yard_leave_park",
+                "kind": "action",
+                "text": "LEAVE THE HOTEL BY THE SIDE GATE AND HEAD FOR THE PARK.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
+          },
+          "hotel_wedding_arrival": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/ballroom",
+            "speaker": "hotel_wedding_organizer",
+            "effects": {
+              "set": {
+                "ch4_wedding_organizer_met": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The organizer releases your arm in the lavishly decorated reception hall. Musicians argue beside a piano while workmen carry furniture through a side door."
+              },
+              "Now, listen carefully.",
+              {
+                "desc": "You interrupt by pointing toward the nearest restroom symbol. The organizer follows your gesture."
+              },
+              "There's a private lavatory off the bridal dressing room. I have the key, but—",
+              {
+                "desc": "A crash comes from the ballroom. She winces."
+              },
+              "Give me one moment."
+            ],
+            "choices": [
+              {
+                "id": "wedding_w1_lavatory",
+                "kind": "spoken",
+                "text": "I NEED THAT PRIVATE LAVATORY. CAN YOU OPEN THE DRESSING ROOM?",
+                "to": "hotel_bridal_organizer"
+              },
+              {
+                "id": "wedding_w2_service",
+                "kind": "action",
+                "text": "SLIP THROUGH THE SERVICE DOOR WHILE THE ORGANIZER IS DISTRACTED.",
+                "to": "hotel_wedding_service_shortcut"
+              }
+            ]
+          },
+          "hotel_restroom_entry": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/restroom",
+            "text": "You walk directly between the workmen carrying away the restroom doors. Neither attempts to stop you. One even steps aside politely.\n\nYou enter. The bathroom is immaculate. Polished tiles. Clean sinks. Fresh towels.\n\nThree private stalls stand against the far wall. And there, visible through the open door of the nearest stall, is an actual porcelain toilet.\n\nYou stare at it. It has a seat. It has a tank. It has plumbing. There isn't even a sign explaining that you've already used it.\n\nYou take a step forward. A workman kneeling beneath one of the sinks looks up.",
+            "choices": [
+              {
+                "id": "meet_plumber",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_restroom_plumber"
+              }
+            ]
+          },
+          "hotel_restroom_plumber": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/restroom",
+            "speaker": "hotel_plumber",
+            "text": [
+              "Oh! Sorry, sir.",
+              {
+                "desc": "He sets down his wrench."
+              },
+              "Didn't know anybody was still using the facilities. Go right ahead. I'll give you a minute.",
+              {
+                "desc": "You are almost overcome by gratitude. The plumber turns toward his assistant, who is disconnecting a copper pipe."
+              },
+              "Hold off on that one, Eddie. Gentleman needs the lavatory.",
+              {
+                "say": "Right you are!",
+                "who": "hotel_plumber_assistant"
+              },
+              {
+                "desc": "A metallic snapping sound comes from beneath the sink. The plumber's expression changes."
+              },
+              "Eddie?",
+              {
+                "desc": "A violent jet of water erupts from the wall, strikes the opposite sink, ricochets across the floor, and sends fresh towels flying. You jump backward. The plumber lunges toward a valve and finds only a bare metal shaft."
+              },
+              "Oh, for the love of—",
+              {
+                "say": "What's wrong?",
+                "who": "hotel_plumber_assistant"
+              },
+              "Where's the bloody shutoff wheel?",
+              {
+                "say": "Sold it.",
+                "who": "hotel_plumber_assistant"
+              },
+              {
+                "desc": "The plumber closes his eyes."
+              },
+              "Of course you did.",
+              {
+                "say": "Fella gave twelve for it. Said it looked nautical.",
+                "who": "hotel_plumber_assistant"
+              },
+              "It's a valve handle, Eddie!",
+              {
+                "say": "Well, he didn't ask.",
+                "who": "hotel_plumber_assistant"
+              },
+              {
+                "desc": "A second pipe begins rattling. The plumber looks at it."
+              },
+              "Terribly sorry, sir. Little trouble with the plumbing. Possibly a medium-sized trouble.",
+              {
+                "desc": "Above the sinks hangs a locked cabinet marked EMERGENCY WATER ISOLATION. Its brass keyhole appears to be one of the few fittings nobody has bought."
+              }
+            ],
+            "choices": [
+              {
+                "id": "a1a_close_valve",
+                "kind": "action",
+                "text": "HELP THE PLUMBER TURN THE BARE VALVE SHAFT BEFORE ANOTHER PIPE BURSTS.",
+                "check": {
+                  "id": "ch4_restroom_valve_grip",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "result": "You catch the bare spindle between the wrench's jaws. It shudders, then turns. The violent spray collapses to a thin, furious dribble.",
+                  "effects": {
+                    "set": {
+                      "ch4_restroom_leak": "braced",
+                      "ch4_plumber_helped": true
+                    }
+                  },
+                  "to": "hotel_valve_braced"
+                },
+                "fail": {
+                  "result": "The wrench slips. A dreadful metallic pop comes from inside the wall. The spray doubles and knocks you into a stack of clean towels.",
+                  "effects": {
+                    "set": {
+                      "ch4_restroom_leak": "flooding"
+                    }
+                  },
+                  "to": "hotel_valve_flood"
+                }
+              },
+              {
+                "id": "a1b_maintenance",
+                "kind": "action",
+                "text": "FOLLOW THE PLUMBING THROUGH THE MAINTENANCE ACCESS.",
+                "effects": {
+                  "set": {
+                    "ch4_restroom_leak": "uncontained"
+                  }
+                },
+                "to": "hotel_pipe_tunnel"
+              },
+              {
+                "id": "a1c_wheel_buyer",
+                "kind": "spoken",
+                "text": "WHO BOUGHT THE SHUTOFF WHEEL?",
+                "effects": {
+                  "set": {
+                    "ch4_restroom_leak": "uncontained"
+                  }
+                },
+                "to": "hotel_wheel_buyer_lead"
+              }
+            ],
+            "use": {
+              "wc_key": {
+                "kind": "action",
+                "say": "TRY THE FACILITIES KEY IN THE EMERGENCY CABINET.",
+                "to": "hotel_key_master_cabinet"
+              }
+            }
+          },
+          "hotel_valve_braced": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/restroom",
+            "text": "The plumber throws his weight against the wrench and holds the shaft in place. Water drips from his sleeves. He warns you that the seal is temporary. Nobody should touch a tap, and absolutely nobody should flush.\n\nYou look at the nearest toilet. It is still the most beautiful thing you have seen all day.\n\nFrom the hall comes the scrape of a freight trolley. Two porters stop outside the open restroom entrance. One consults a card.\n\nLOT FIFTY-THREE. THREE COMPLETE STALLS.\n\nThe plumber stares at the ceiling. You have apparently bought everyone a minute, which he strongly recommends spending somewhere else.",
+            "choices": [
+              {
+                "id": "braced_try_stall",
+                "kind": "action",
+                "text": "TRY TO REACH A STALL BEFORE THE PORTERS TAKE IT.",
+                "to": "hotel_stall_lot_claimed"
+              },
+              {
+                "id": "braced_maintenance",
+                "kind": "action",
+                "text": "LEAVE THE PLUMBER HOLDING THE VALVE AND TAKE THE SERVICE ACCESS.",
+                "to": "hotel_pipe_tunnel"
+              }
+            ]
+          },
+          "hotel_valve_flood": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/restroom",
+            "text": "For a moment there is nothing but water.\n\nThen Eddie floats past on an overturned basket of clean towels, looking astonished by the speed at which his employment has deteriorated.\n\nThe plumber catches a sink with one hand. The other points toward a small service panel hanging open behind you. He shouts for you to get through it.\n\nWater pours beneath the missing restroom doors and races down the hotel corridor. The water surges toward the public corridor. The water seems to be winning.",
+            "choices": [
+              {
+                "id": "flood_service_escape",
+                "kind": "action",
+                "text": "SCRAMBLE THROUGH THE OPEN MAINTENANCE PANEL.",
+                "to": "hotel_pipe_tunnel"
+              },
+              {
+                "id": "flood_follow_downstairs",
+                "kind": "action",
+                "text": "ESCAPE INTO THE CORRIDOR AHEAD OF THE FLOOD.",
+                "to": "hotel_flooded_public_corridor"
+              }
+            ]
+          },
+          "hotel_pipe_tunnel": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/maintenance",
+            "text": "You duck through the access panel behind the sinks. The space beyond is wider than expected: a narrow maintenance walkway with pipes along one wall and hotel rooms on the other.\n\nA brass plate reads CENTRAL WATER ISOLATION — STAFF ONLY. Someone has hung a numbered auction tag from it.\n\nFarther along the walkway, a man in a wedding suit is crouched behind a boiler. His boutonnière is caught on a bolt. He sees you and immediately puts a finger to his lips.\n\nAt the opposite end, an EXIT TO LOADING DOCK sign points down a steep iron stairway.\n\nYou have found three things. None is a toilet.",
+            "choices": [
+              {
+                "id": "pipe_talk_groom",
+                "kind": "action",
+                "text": "ASK THE MAN IN THE WEDDING SUIT WHERE A TOILET IS.",
+                "to": "hotel_boiler_groom_encounter"
+              },
+              {
+                "id": "pipe_water_controls",
+                "kind": "action",
+                "text": "INSPECT THE HOTEL'S CENTRAL WATER CONTROLS.",
+                "to": "hotel_isolator_panel"
+              },
+              {
+                "id": "pipe_loading_dock",
+                "kind": "action",
+                "text": "TAKE THE IRON STAIRS TOWARD THE LOADING DOCK.",
+                "to": "hotel_maintenance_dock_exit"
+              }
+            ]
+          },
+          "hotel_isolator_panel": {
+            "mode": "focus",
+            "scene": "grand_bellevue/maintenance",
+            "focus": "grand_bellevue/maintenance/water_isolator",
+            "text": "Two great brass levers stand inside a recessed metal frame.\n\nRESTROOMS, reads the neat engraved label beneath the first.\n\nENTIRE HOTEL, reads the label beneath the second.\n\nSomeone has pasted a fresh auction sticker across the frame: LOT NINETEEN — TWO MATCHING DECORATIVE LEVERS.\n\nFrom the restroom wall comes the unmistakable sound of water hitting something it should not. Both levers appear to be connected.",
+            "choices": [
+              {
+                "id": "isolate_restrooms",
+                "kind": "action",
+                "text": "SHUT OFF WATER TO THE RESTROOMS ONLY.",
+                "effects": {
+                  "set": {
+                    "ch4_restroom_leak": "contained",
+                    "ch4_restroom_water_off": true
+                  }
+                },
+                "to": "hotel_isolator_restrooms"
+              },
+              {
+                "id": "isolate_hotel",
+                "kind": "action",
+                "text": "CLOSE THE MAIN WATER SUPPLY FOR THE ENTIRE HOTEL.",
+                "effects": {
+                  "set": {
+                    "ch4_restroom_leak": "contained",
+                    "ch4_hotel_water_off": true,
+                    "ch4_restroom_water_off": true
+                  }
+                },
+                "to": "hotel_isolator_entire"
+              }
+            ]
+          },
+          "hotel_isolator_restrooms": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/maintenance",
+            "text": "The RESTROOMS lever moves with a satisfying clunk. The hiss in the pipes fades. A moment later, through the wall, you hear the plumber give a grateful cheer.\n\nYou retrace your steps, already imagining a calm, dry stall. The plumber meets you at the access hatch and assures you the leak is under control. Unfortunately, he adds, the lavatories cannot flush without water.\n\nYou tell yourself that this is an inconvenience you can reason with. Then you hear the porters outside counting toilets.",
+            "choices": [
+              {
+                "id": "restrooms_off_continue",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_stall_lot_claimed"
+              }
+            ]
+          },
+          "hotel_isolator_entire": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/maintenance",
+            "text": "You pull down the MAIN lever. Every pipe in the Grand Bellevue gives a theatrical sigh. The flood stops. Somewhere beyond the wall, a fountain sputters out, and a guest complains about the champagne service.\n\nYou have stopped the leak by shutting off every tap in the building. That probably includes the toilets.",
+            "choices": [
+              {
+                "id": "hotel_water_ballroom",
+                "kind": "action",
+                "text": "FOLLOW THE DRY PIPES TO CHECK WHETHER ANY RESTROOM STILL WORKS.",
+                "to": "hotel_water_outage_confirmation"
+              },
+              {
+                "id": "hotel_water_dock",
+                "kind": "action",
+                "text": "TAKE THE SERVICE STAIRS TO THE LOADING DOCK.",
+                "to": "hotel_maintenance_dock_exit"
+              }
+            ]
+          },
+          "hotel_stall_lot_claimed": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/restroom",
+            "text": "You slip into the nearest stall and pull the door closed.\n\nIt even latches.\n\nFor one glorious moment, you are alone in a bathroom. An ordinary bathroom. With an actual toilet.\n\nYou reach toward your belt.\n\nCLANK.\n\nSomething shifts overhead. Four steel cables pull taut around the stall's partitions. The walls tremble. Then, with a deep mechanical groan, the entire enclosure begins rising.\n\nYou look up. A crane is lifting the stall—walls, door, latch and all—straight through an open service hatch in the ceiling.\n\nYou remain exactly where you are. Standing beside the toilet. Fully dressed. Your hand is still hovering halfway toward your belt buckle.\n\nThrough the restroom entrance, whose doors were removed only moments earlier, you find yourself facing a small procession of wedding guests. They stop. You stop. The stall continues upward.\n\nA porter checks his clipboard, looks at you, and gives an apologetic little wave.\n\nYou slowly lower your hand. The toilet is still there. Unfortunately, everyone can see it. And you.",
+            "choices": [
+              {
+                "id": "stall_protest",
+                "kind": "spoken",
+                "text": "EXCUSE ME! I'M USING THAT!",
+                "to": "hotel_stall_porter_protest"
+              },
+              {
+                "id": "stall_grab_crane",
+                "kind": "action",
+                "text": "JUMP AND GRAB THE RISING STALL BEFORE IT DISAPPEARS.",
+                "check": {
+                  "id": "ch4_stall_crane_grip",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "to": "hotel_stall_crane_success"
+                },
+                "fail": {
+                  "to": "fatal_stall_final_occupancy"
+                }
+              },
+              {
+                "id": "stall_walk_guests",
+                "kind": "action",
+                "text": "WALK PAST THE WEDDING GUESTS AS THOUGH NOTHING UNUSUAL HAS HAPPENED.",
+                "to": "hotel_stall_public_corridor_walk"
+              }
+            ]
+          },
+          "hotel_maintenance_dock_exit": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/service_stairs",
+            "text": "The iron stairway rattles under your feet. A swinging door at the bottom opens onto the hotel's loading dock. Crates, furniture, and a grand piano occupy most of the floor. An elaborate wedding cake is being wheeled dangerously close to the freight elevator.\n\nYou are still looking for the staff restroom sign when a foreman spots you and points sharply at the moving equipment.",
+            "choices": [
+              {
+                "id": "dock_meet_foreman",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_service_foreman"
+              }
+            ]
+          },
+          "hotel_wheel_buyer_lead": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/restroom",
+            "speaker": "hotel_plumber_assistant",
+            "text": [
+              "Oh, I remember him. Green auction paddle. Little cap with an anchor on it.",
+              {
+                "say": "Where did he go?",
+                "who": "hotel_plumber"
+              },
+              "Toward the wedding drinks, I think. Said he was going to turn an ice bucket into a boat.",
+              {
+                "desc": "Eddie retrieves a damp receipt from his pocket. The ink is beginning to spread."
+              },
+              "Twelve for the lot. Seemed a fair price.",
+              {
+                "say": "It's the emergency water shutoff, Eddie.",
+                "who": "hotel_plumber"
+              },
+              "Well, he did ask if it worked under pressure."
+            ],
+            "choices": [
+              {
+                "id": "wheel_find_buyer",
+                "kind": "action",
+                "text": "FIND THE BUYER WITH THE GREEN PADDLE.",
+                "to": "hotel_commodore_bixby"
+              },
+              {
+                "id": "wheel_read_receipt",
+                "kind": "action",
+                "text": "EXAMINE EDDIE'S RECEIPT FOR THE LOT NUMBER.",
+                "to": "hotel_lot_receipt_study"
+              },
+              {
+                "id": "wheel_ignore_buyer",
+                "kind": "action",
+                "text": "LEAVE THE AUCTION ALONE AND TRY THE MAINTENANCE SHUTOFF.",
+                "to": "hotel_pipe_tunnel"
+              }
+            ]
+          },
+          "hotel_lot_receipt_study": {
+            "mode": "focus",
+            "scene": "grand_bellevue/restroom",
+            "focus": "grand_bellevue/restroom/lot_14_receipt",
+            "effects": {
+              "set": {
+                "ch4_knows_wheel_lot_14": true
+              }
+            },
+            "text": "The little receipt is almost illegible. You smooth it against a dry patch of tile.\n\nLOT 14 — BRASS WATER SHUTOFF WHEEL.\nBUYER — COMMODORE E. BIXBY.\nPURCHASE PRICE — 12.00.\nDECLARED PURPOSE — NAVAL DECORATION.\n\nAt the bottom, someone has stamped ALL SALES FINAL, including the emergency fixtures. There is a small handwritten exception: CATALOGUING ERRORS REQUIRE ORIGINAL RECEIPT.",
+            "choices": [
+              {
+                "id": "receipt_find_commodore",
+                "kind": "action",
+                "text": "FIND COMMODORE BIXBY AND ASK FOR THE WHEEL.",
+                "to": "hotel_commodore_bixby"
+              },
+              {
+                "id": "receipt_appeal_auctioneer",
+                "kind": "action",
+                "text": "TAKE THE LOT NUMBER TO THE AUCTIONEER AND CHALLENGE THE SALE.",
+                "to": "hotel_auctioneer_lot14_dispute"
+              }
+            ]
+          },
+          "hotel_commodore_bixby": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/refreshment_table",
+            "speaker": "hotel_commodore_bixby",
+            "text": [
+              {
+                "desc": "At the edge of the reception, a gentleman in a miniature naval cap has mounted the stolen valve wheel on a silver ice bucket. A green auction paddle sticks out of his coat pocket."
+              },
+              "There she is! Fine little craft, isn't she?",
+              {
+                "desc": "He gives the wheel an experimental turn. The bucket rolls into a chair. He catches it just before it falls."
+              },
+              "Rudder needs work, but we'll have her seaworthy by Thursday.",
+              {
+                "desc": "Water creeps out from beneath the ballroom door and touches the toe of his polished shoe. He looks down with professional interest."
+              },
+              "Tide's coming in."
+            ],
+            "choices": [
+              {
+                "id": "bixby_emergency_truth",
+                "kind": "spoken",
+                "text": "THAT'S THE HOTEL'S SHUTOFF WHEEL. THE BUILDING IS FLOODING!",
+                "to": "hotel_bixby_emergency"
+              },
+              {
+                "id": "bixby_rubber_fender_trade",
+                "kind": "action",
+                "text": "TRADE YOUR RUBBER BAND BALL AS A FENDER FOR HIS LITTLE BOAT.",
+                "if": {
+                  "has": "rubber_band_ball"
+                },
+                "effects": {
+                  "take": [
+                    "rubber_band_ball"
+                  ],
+                  "set": {
+                    "ch4_bixby_fender_trade": true
+                  }
+                },
+                "to": "hotel_bixby_trade"
+              },
+              {
+                "id": "bixby_auction_dispute",
+                "kind": "action",
+                "text": "GO BACK TO THE AUCTIONEER AND DEMAND THE SALE BE REVERSED.",
+                "to": "hotel_auctioneer_lot14_dispute"
+              }
+            ]
+          },
+          "hotel_bixby_emergency": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/refreshment_table",
+            "speaker": "hotel_commodore_bixby",
+            "effects": {
+              "set": {
+                "ch4_bixby_expects_bridge": true,
+                "ch4_valve_wheel_recovered": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The Commodore straightens so abruptly that his tiny cap nearly falls off."
+              },
+              "An emergency at sea! Why didn't you say so?",
+              {
+                "desc": "He pulls the wheel free of the ice bucket and presses it into your hands."
+              },
+              "Take the helm, sailor. Save the vessel. I'll be expecting a tour of the bridge when this is all over.",
+              {
+                "desc": "Behind him, a wedding guest slips on the advancing water. The Commodore blows a small whistle and begins organizing a lifeboat drill using dining chairs."
+              }
+            ],
+            "choices": [
+              {
+                "id": "bixby_return_wheel",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_wheel_return"
+              }
+            ]
+          },
+          "hotel_bixby_trade": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/refreshment_table",
+            "speaker": "hotel_commodore_bixby",
+            "effects": {
+              "set": {
+                "ch4_valve_wheel_recovered": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You offer the rubber band ball. It is almost exactly the right size for the ice bucket. Bixby sets it alongside his little vessel and gasps."
+              },
+              "A perfect fender! Look at the elasticity!",
+              {
+                "desc": "He hands you the brass wheel without another word, then ties the rubber band ball to the bucket with a length of napkin. It remains with him, part of his new ship."
+              },
+              "Splendid trade, sailor. Safe passage!"
+            ],
+            "choices": [
+              {
+                "id": "trade_return_wheel",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_wheel_return"
+              }
+            ]
+          },
+          "hotel_wheel_return": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/restroom",
+            "effects": {
+              "set": {
+                "ch4_restroom_leak": "contained",
+                "ch4_restroom_water_off": true,
+                "ch4_plumber_helped": true
+              }
+            },
+            "text": "You hurry back through the lobby carrying the brass wheel. A small river has formed across the marble floor. The plumber sees you, seizes the wheel, and fits it onto the bare valve shaft.\n\nOne turn. A second. The roaring water dies away. Eddie gives a relieved little clap.\n\nThe plumber tells you that you have saved the hotel an enormous repair bill. Unfortunately, the water is shut off until the pipes can be repaired. There will be no flushing for a while.\n\nYou glance toward the stalls. You feel a small, unreasonable hope.\n\nThere is a scraping sound from the other end of the room.",
+            "choices": [
+              {
+                "id": "return_wheel_continue",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_stall_lot_claimed"
+              }
+            ]
+          },
+          "hotel_key_master_cabinet": {
+            "mode": "focus",
+            "scene": "grand_bellevue/restroom",
+            "focus": "grand_bellevue/restroom/master_isolator",
+            "effects": {
+              "set": {
+                "ch4_restroom_leak": "contained",
+                "ch4_restroom_water_off": true,
+                "ch4_plumber_helped": true,
+                "ch4_master_key_recognized": true
+              }
+            },
+            "text": "The Facilities Key slides into the emergency cabinet as if it has been waiting there for you. One quarter turn, and the catch opens.\n\nInside is a single large red lever. You pull it. The pipes shudder, the water subsides, and the room becomes suddenly quiet.\n\nThe plumber peers at the key's paper tag. The return date says today, four fifty-two, and the signature belongs to the examiner.\n\nHe looks at you. Then at the signature. Then back at you. In the end he chooses to be grateful rather than curious.\n\nYou keep the key. The line is shut off, but the last stall is still standing. For now.",
+            "choices": [
+              {
+                "id": "master_key_try_stall",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_stall_lot_claimed"
+              }
+            ]
+          },
+          "hotel_stall_porter_protest": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/restroom",
+            "speaker": "hotel_porter",
+            "pose": "businesslike",
+            "backdrop": "grand_bellevue/restroom",
+            "text": [
+              {
+                "desc": "The porter looks down from his clipboard."
+              },
+              "Of course you are, sir. That's why we left you there.",
+              {
+                "desc": "You point toward the stall, now halfway through the ceiling."
+              },
+              "We're strictly prohibited from lifting occupied fixtures. So we've removed the fixture and left the occupant. Perfectly safe.",
+              {
+                "desc": "He makes a checkmark on the clipboard."
+              },
+              "Now, if you're disputing the sale, that's an entirely different matter.",
+              {
+                "desc": "You attempt to explain that you simply want to use the toilet. The porter produces a bright red placard."
+              },
+              "Oh, you must take that up with the auctioneer. Here, I'll signal him.",
+              {
+                "desc": "He waves the placard enthusiastically."
+              },
+              "DISPUTE ON LOT FIFTY-THREE!",
+              {
+                "say": "An objection? Excellent! Competitive interest! Bring the gentleman forward!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "A wedding guest applauds. The porter ushers you into the lobby toward the podium."
+              }
+            ],
+            "choices": [
+              {
+                "id": "porter_to_auction",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_auction_reopen_53"
+              }
+            ]
+          },
+          "hotel_auction_reopen_53": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "pose": "showman",
+            "text": [
+              {
+                "desc": "The porter ushers you toward the podium. The elderly gentleman in the crimson dinner jacket looks delighted."
+              },
+              "Ah! Our dissatisfied gentleman! Welcome, welcome!",
+              {
+                "desc": "He taps his gavel."
+              },
+              "Ladies and gentlemen! An unexpected development! Lot Fifty-Three has attracted additional interest!",
+              {
+                "say": "Papa, you've already sold Lot Fifty-Three!",
+                "who": "hotel_bride"
+              },
+              "Indeed, darling. And now we have an opportunity to sell it again.",
+              {
+                "say": "You can't sell the same toilets twice!",
+                "who": "hotel_bride"
+              },
+              "My dear, there are three of them.",
+              "And here we have a gentleman who has personally inspected the merchandise!",
+              {
+                "desc": "You attempt to explain that you have no intention of purchasing a toilet."
+              },
+              "Naturally! A discerning customer! Quite right to examine one's investment before committing!",
+              {
+                "say": "Papa! He's trying to use the bathroom!",
+                "who": "hotel_bride"
+              },
+              "Then he understands its value better than anyone in the room!",
+              {
+                "desc": "A wedding guest raises a paddle, followed by another."
+              },
+              "Twenty-five! Thirty! Thirty from the lady by the flowers!",
+              {
+                "desc": "The bride looks horrified. The auctioneer raises his gavel."
+              },
+              "Thirty going once—"
+            ],
+            "choices": [
+              {
+                "id": "auction_not_bidding",
+                "kind": "spoken",
+                "text": "I'M NOT BIDDING! I JUST WANT TO USE THE TOILET!",
+                "to": "hotel_auction_testimonial"
+              },
+              {
+                "id": "auction_ask_bride",
+                "kind": "spoken",
+                "text": "MISS, CAN YOU STOP HIM FROM SELLING THE RESTROOM?",
+                "to": "hotel_auction_bride_ally"
+              },
+              {
+                "id": "auction_demand_record",
+                "kind": "spoken",
+                "text": "I WANT A WRITTEN RECORD OF MY OBJECTION!",
+                "to": "hotel_auction_dispute_ticket"
+              }
+            ]
+          },
+          "hotel_auction_testimonial": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "effects": {
+              "set": {
+                "ch4_auction_demonstrator": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The auctioneer's eyes light up."
+              },
+              "A testimonial! Ladies and gentlemen, our exceptional water pressure, personally verified by this gentleman!",
+              {
+                "desc": "A wedding guest raises her hand."
+              },
+              {
+                "say": "Excuse me. Is it self-cleaning?",
+                "who": "hotel_wedding_guest"
+              },
+              "Madam, it washed this gentleman and half the corridor without anyone touching a single control!",
+              {
+                "say": "Papa, that's a burst pipe!",
+                "who": "hotel_bride"
+              },
+              "Precisely! Fully automatic!",
+              {
+                "desc": "The guest nods appreciatively. The auctioneer turns toward his clerk."
+              },
+              "Make a note of our enthusiastic demonstrator!",
+              {
+                "desc": "The clerk writes PRODUCT DEMONSTRATOR — GENTLEMAN, DAMP. You stare at the entry."
+              },
+              "Splendid! Moving along!",
+              {
+                "desc": "He raises his gavel."
+              }
+            ],
+            "choices": [
+              {
+                "id": "demo_to_chair",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_auction_chair_lot31"
+              }
+            ]
+          },
+          "hotel_auction_bride_ally": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_bride",
+            "effects": {
+              "set": {
+                "ch4_bride_ally": true,
+                "ch4_knows_blue_delivery_ledger": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The bride looks at you with sudden appreciation."
+              },
+              "Believe me, I've been trying.",
+              "Papa can't remove anything without my signature in the blue delivery ledger. It's in his own contract.",
+              {
+                "say": "A charming little formality.",
+                "who": "hotel_auctioneer"
+              },
+              "It's at the loading dock. If you need to stop something being taken away, that's the paperwork.",
+              {
+                "say": "A less charming formality.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "You now know where to challenge a removal. Nobody has asked you to fix the wedding."
+              }
+            ],
+            "choices": [
+              {
+                "id": "bride_ally_to_chair",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_auction_chair_lot31"
+              }
+            ]
+          },
+          "hotel_auction_dispute_ticket": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auction_clerk",
+            "effects": {
+              "give": [
+                "lot_53_dispute_ticket"
+              ]
+            },
+            "text": [
+              {
+                "desc": "The auctioneer looks delighted."
+              },
+              {
+                "say": "Certainly! Nothing inspires confidence quite like a dissatisfied customer!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "See that the gentleman receives the appropriate paperwork.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "The clerk produces a small pad of red carbon-copy tickets."
+              },
+              "Lot Fifty-Three. Formal objection. Reason for dispute?",
+              {
+                "desc": "You point toward the ceiling, where the last corner of your former stall is disappearing. The clerk looks up."
+              },
+              "Lack of privacy. Very good.",
+              {
+                "desc": "He writes something, stamps the ticket, and tears off the top copy."
+              },
+              "This entitles you to inspect the disputed merchandise before it leaves the hotel. Present it to the collection foreman.",
+              {
+                "say": "A complimentary inspection! You see, sir? We take customer satisfaction very seriously!",
+                "who": "hotel_auctioneer"
+              },
+              "It doesn't cancel the sale, mind you.",
+              {
+                "say": "Naturally! We take sales even more seriously!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "The clerk hands you the ticket. The auctioneer returns to his gavel."
+              }
+            ],
+            "choices": [
+              {
+                "id": "dispute_ticket_to_chair",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_auction_chair_lot31"
+              }
+            ]
+          },
+          "hotel_auction_chair_lot31": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "pose": "showman",
+            "text": [
+              {
+                "desc": "The auctioneer brings down his gavel."
+              },
+              "SOLD! Lot Fifty-Three, to the lady in violet! May she enjoy her purchase in excellent health!",
+              {
+                "desc": "The bride opens her mouth to protest, but two porters wheel an enormous high-backed upholstered chair toward the podium. A paper tag hangs from one leg: LOT 31 — BRIDAL SUITE CHAIR."
+              },
+              "Moving along! Lot Thirty-One! A magnificent ceremonial chair, lovingly upholstered and barely used!",
+              {
+                "say": "Wait. That's the chair he was carrying!",
+                "who": "hotel_bride"
+              },
+              "Who, darling?",
+              {
+                "say": "The groom! Just before he disappeared!",
+                "who": "hotel_bride"
+              },
+              "Well, I'm delighted to report that at least the chair has turned up.",
+              {
+                "desc": "One porter lifts the chair's front legs onto the display platform. The chair tilts. A faint metallic clink comes from the upholstery. You catch a brief flash of silver disappearing between cushion and wooden armrest. Neither the bride nor her father notices."
+              },
+              "An exceptional piece! Fine craftsmanship! A fascinating history! Shall we open at fifteen?",
+              {
+                "desc": "Guests begin examining their auction paddles. The bride keeps staring at the chair. You look toward the narrow gap where something disappeared."
+              }
+            ],
+            "choices": [
+              {
+                "id": "chair_investigate_silver",
+                "kind": "action",
+                "text": "EXAMINE THE FLASH OF SILVER BETWEEN THE CHAIR CUSHIONS.",
+                "to": "hotel_chair_ring_focus"
+              },
+              {
+                "id": "chair_follow_porters",
+                "kind": "action",
+                "text": "FOLLOW THE PORTERS WHEN THEY TAKE THE CHAIR TO THE COLLECTION AREA.",
+                "to": "hotel_chair_follow_collection"
+              }
+            ],
+            "show": {
+              "acting_director_badge": {
+                "kind": "action",
+                "say": "SHOW YOUR VEGETATION CREDENTIAL AND REQUEST AN INSPECTION OF THE CHAIR'S WOODEN FRAME.",
+                "to": "hotel_chair_vegetation_inspection"
+              },
+              "expo_examiner_badge": {
+                "kind": "action",
+                "say": "SHOW YOUR EXAMINER BADGE AND DEMAND A PRE-SALE INSPECTION.",
+                "to": "hotel_chair_examiner_inspection"
+              },
+              "pavilion_temporary_staff_pass": {
+                "kind": "action",
+                "say": "SHOW YOUR STAFF PASS AND OFFER TO INSPECT LOT THIRTY-ONE BEFORE DELIVERY.",
+                "to": "hotel_chair_staff_escort"
+              }
+            },
+            "use": {
+              "red_stapler": {
+                "kind": "action",
+                "say": "USE THE RED STAPLER TO PRY OPEN THE CHAIR'S UPHOLSTERY SEAM.",
+                "check": {
+                  "id": "ch4_chair_stapler_stealth",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "effects": {
+                    "set": {
+                      "ch4_chair_seam_open": true,
+                      "ch4_chair_stapler_unnoticed": true
+                    }
+                  },
+                  "to": "hotel_chair_stapler_stealth"
+                },
+                "fail": {
+                  "effects": {
+                    "set": {
+                      "ch4_chair_seam_open": true,
+                      "ch4_chair_damaged": true,
+                      "ch4_chair_stapler_caught": true
+                    }
+                  },
+                  "to": "hotel_chair_stapler_caught"
+                }
+              }
+            }
+          },
+          "hotel_chair_vegetation_inspection": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_porter",
+            "pose": "uncertain",
+            "effects": {
+              "set": {
+                "ch4_chair_inspection_authorized": true,
+                "ch4_chair_vegetation_permitted": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You present your Acting Director of Vegetation credential to the porter. He examines it carefully."
+              },
+              "Vegetation?",
+              {
+                "desc": "You gesture toward the chair's carved wooden arms. The porter looks at the chair, then your credential."
+              },
+              "Well, I suppose it was a tree.",
+              {
+                "say": "Quite right! We mustn't interfere with an official botanical inspection!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "The porter steps aside."
+              },
+              "Very good, sir. Inspect away.",
+              {
+                "say": "Ladies and gentlemen! Lot Thirty-One is now undergoing a government inspection! A valuable endorsement indeed!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "You approach the chair. The loose upholstery is within reach."
+              }
+            ],
+            "choices": [
+              {
+                "id": "vegetation_open_focus",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_chair_ring_focus"
+              }
+            ]
+          },
+          "hotel_chair_examiner_inspection": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auction_clerk",
+            "effects": {
+              "set": {
+                "ch4_chair_inspection_authorized": true,
+                "ch4_chair_sale_paused": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You present your Temporary Examiner Badge. The clerk examines it."
+              },
+              "Office of Unverified Conditions. Is there something unverified about this item?",
+              {
+                "say": "Certainly not! It's an excellent chair! Four legs, splendid upholstery, perfectly chair-shaped!",
+                "who": "hotel_auctioneer"
+              },
+              "That's not quite the same as verifying its condition, sir.",
+              {
+                "desc": "The clerk stamps the auction sheet: INSPECTION PENDING."
+              },
+              {
+                "say": "Pending? We're in the middle of bidding!",
+                "who": "hotel_auctioneer"
+              },
+              "I'm afraid the sale must be suspended until the examiner has finished.",
+              {
+                "say": "Ladies and gentlemen! A brief intermission while our magnificent chair undergoes an entirely unnecessary official inspection!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "He sets down his gavel. You approach the chair."
+              }
+            ],
+            "choices": [
+              {
+                "id": "examiner_open_focus",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_chair_ring_focus"
+              }
+            ]
+          },
+          "hotel_chair_stapler_stealth": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "text": "The auctioneer launches into an enthusiastic description of the chair's craftsmanship. Everyone turns toward the podium.\n\nYou seize the opportunity. You slip behind the chair, wedge the stapler's metal base beneath the loosened upholstery, and carefully apply pressure.\n\nClick.\n\nThe seam separates just enough. Something silver glints inside.\n\nYou withdraw the stapler, slip it into your pocket, and straighten up. The auctioneer is still talking. The porter is still watching the bidders. Nobody has noticed a thing.",
+            "choices": [
+              {
+                "id": "stapler_stealth_focus",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_chair_ring_focus"
+              }
+            ]
+          },
+          "hotel_chair_stapler_caught": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_porter",
+            "text": [
+              {
+                "desc": "You wedge the stapler beneath the upholstered armrest. RRRIP. The stitching tears."
+              },
+              "Sir! You've damaged the merchandise!",
+              {
+                "say": "Good heavens! Is that your chair?",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "You shake your head."
+              },
+              {
+                "say": "Well, it may very shortly have to be!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "Papa, he hasn't purchased anything!",
+                "who": "hotel_bride"
+              },
+              {
+                "say": "Then I suggest we find him a buyer before he damages anything else!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "You retrieve your stapler. The chair's upholstery is open, but everyone has noticed."
+              }
+            ],
+            "choices": [
+              {
+                "id": "stapler_caught_focus",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_chair_ring_focus"
+              }
+            ]
+          },
+          "hotel_chair_staff_escort": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_porter",
+            "pose": "practical",
+            "effects": {
+              "set": {
+                "ch4_lot31_staff_escort": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You present your Temporary Staff Pass to a porter. He examines it."
+              },
+              "People's Pavilion? Isn't that the building across the courtyard?",
+              {
+                "desc": "You point to the authorization for a service inspection. The porter reads it again."
+              },
+              "One service inspection. Doesn't say what sort.",
+              {
+                "say": "Ah! A visiting professional! Our merchandise attracts experts from across the Exposition!",
+                "who": "hotel_auctioneer"
+              },
+              "Well, I suppose you can accompany the chair to collection. We're taking it down to the loading dock. Just stay clear of the freight equipment.",
+              {
+                "desc": "He hands your pass back, considers the enormous chair, and looks at you."
+              },
+              "Actually, since you're staff... mind giving us a hand?",
+              {
+                "desc": "He hands you one end of a carrying strap. You find yourself helping two porters move Lot Thirty-One toward the service entrance."
+              },
+              {
+                "say": "Excellent initiative! That's the kind of service we pride ourselves on!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "You have become an employee of yet another establishment without applying for a job."
+              }
+            ],
+            "choices": [
+              {
+                "id": "staff_escort_dock",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_chair_staff_escort_loading"
+              }
+            ]
+          },
+          "hotel_chair_ring_focus": {
+            "mode": "focus",
+            "scene": "grand_bellevue/lobby",
+            "focus": "grand_bellevue/auction_floor/chair_armrest",
+            "effects": {
+              "set": {
+                "ch4_ring_spotted_in_chair": true
+              }
+            },
+            "text": "The carved wooden arm of Lot Thirty-One fills your view.\n\nA row of small brass tacks secures the dark red upholstery to the frame. One tack has worked loose.\n\nJust beyond it, something silver catches the light.\n\nYou lean closer.\n\nA ring.\n\nA short length of pale blue ribbon is tangled around the band, trapping it between the wooden frame and a fold of fabric. Tiny letters are engraved along the inside, but you cannot make them out from this angle.\n\nThe ring is caught firmly enough that it won't simply fall out.\n\nThe chair shifts slightly as one of the porters adjusts its position. The ring slips a fraction deeper into the upholstery.\n\nYou need to decide what to do before the chair is taken away.",
+            "choices": [
+              {
+                "id": "focus_free_ring_stapler",
+                "kind": "action",
+                "text": "WORK THE BLUE RIBBON LOOSE AND SLIP THE RING INTO YOUR POCKET.",
+                "if": {
+                  "flag": "ch4_chair_seam_open"
+                },
+                "to": "hotel_ring_retrieved"
+              },
+              {
+                "id": "focus_free_ring_careful",
+                "kind": "action",
+                "text": "WORK THE BLUE RIBBON LOOSE AND SLIP THE RING INTO YOUR POCKET.",
+                "if": {
+                  "notFlag": "ch4_chair_seam_open"
+                },
+                "check": {
+                  "id": "ch4_careful_ring_retrieval",
+                  "sides": 6,
+                  "need": 4,
+                  "certain": true,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "ch4_chair_vegetation_permitted"
+                      },
+                      "add": 1
+                    },
+                    {
+                      "if": {
+                        "flag": "ch4_chair_sale_paused"
+                      },
+                      "add": 2
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "hotel_ring_retrieved"
+                },
+                "fail": {
+                  "to": "hotel_ring_slips"
+                }
+              },
+              {
+                "id": "focus_follow_chair_ring",
+                "kind": "action",
+                "text": "LET THE PORTERS TAKE THE CHAIR, THEN FOLLOW IT TO COLLECTION.",
+                "to": "hotel_chair_follow_collection"
+              }
+            ]
+          },
+          "hotel_ring_retrieved": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "effects": {
+              "give": [
+                "wedding_ring_lot31"
+              ],
+              "set": {
+                "ch4_wedding_ring_retrieved": true
+              }
+            },
+            "text": "You pinch the pale blue ribbon between two fingers. Carefully, you work it backward through the loose stitching.\n\nThe ring shifts. You ease it along the wooden frame, trying not to snag the fabric.\n\nFor one dreadful moment, it hangs over the narrow gap.\n\nThen it drops into your palm.\n\nYou close your fingers around it. A small silver wedding band rests against your skin. Tiny letters circle the inside, but they're too small to read here.\n\nYou slip the ring into your pocket before the chair can be moved.",
+            "choices": [
+              {
+                "id": "ring_pocket_continue",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_ring_in_pocket"
+              }
+            ]
+          },
+          "hotel_ring_slips": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "effects": {
+              "set": {
+                "ch4_ring_slipped_inside_chair": true
+              }
+            },
+            "text": "You catch the ribbon between your fingers. It seems loose enough. You give it a careful tug.\n\nPing.\n\nThe brass upholstery tack snaps free. The ring slips from the ribbon, strikes the wooden frame, and disappears into the narrow cavity beneath the armrest.\n\nYou hear it rattle downward. Then silence.\n\nYou try to reach into the gap, but your fingers cannot get past the chair's internal supports. Before you can attempt anything else, the porters begin moving the chair.\n\nOne porter calls to the other to watch the arms. The buyer wants the chair in its original condition.\n\nThe chair is lifted onto its trolley. Somewhere inside the upholstery, the wedding ring is still rattling.\n\nYou watch Lot Thirty-One roll toward the collection entrance. The ring isn't lost forever, but you're going to have to follow the chair to retrieve it.",
+            "choices": [
+              {
+                "id": "ring_follow_after_fail",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_chair_follow_collection"
+              }
+            ]
+          },
+          "hotel_stall_crane_success": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/restroom",
+            "text": "You catch the rising stall's metal frame with both hands.\n\nYour feet leave the floor.\n\nFor one dreadful moment, you swing beneath the crane.\n\nThen you find a foothold.\n\nThe stall rises toward an opening in the ceiling.\n\nBelow you, the restroom shrinks into the distance.\n\nYou have successfully escaped the bathroom.\n\nUnfortunately, that's the exact opposite of what you wanted.",
+            "choices": [
+              {
+                "id": "stall_ride_upper_salvage",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_upper_salvage_arrival"
+              }
+            ]
+          },
+          "fatal_stall_final_occupancy": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/restroom",
+            "text": "Your fingers slip.\n\nThe stall continues upward.\n\nYou don't.\n\nFor one extraordinary moment, you have an uninterrupted view of the restroom below.\n\nIncluding the toilet.\n\nDirectly below you.\n\nYou land on it.\n\nThere is a tremendous crack.\n\nThen several smaller ones.\n\nThe toilet breaks.\n\nSo do you.\n\nFor the first and last time today, you have finally managed to use a toilet.\n\nYou would have preferred a less permanent arrangement.\n\nENDING — FINAL OCCUPANCY.",
+            "choices": [
+              {
+                "id": "restart_final_occupancy",
                 "kind": "system",
                 "text": "BEGIN AGAIN",
                 "restart": true
               }
             ],
             "end": true
+          },
+          "hotel_chair_follow_collection": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/service_passage",
+            "text": [
+              {
+                "desc": "You trail Lot Thirty-One through the service door. The porters wheel it past empty shipping crates toward the collection stairs."
+              },
+              {
+                "desc": "Nobody questions your presence. Apparently, following furniture around is perfectly normal here."
+              },
+              {
+                "if": {
+                  "flag": "ch4_ring_slipped_inside_chair"
+                },
+                "desc": "At every bump, something metallic rattles inside the upholstered armrest. The ring is still there."
+              },
+              {
+                "desc": "The trolley rounds a corner. You keep pace."
+              }
+            ],
+            "choices": [
+              {
+                "id": "chair_follow_reach_collection",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_collection_stairs"
+              }
+            ]
+          },
+          "hotel_chair_staff_escort_loading": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_porter",
+            "pose": "practical",
+            "backdrop": "grand_bellevue/service_passage",
+            "text": [
+              {
+                "desc": "You carry one end of Lot Thirty-One through the service passage. The porter checks your Staff Pass again."
+              },
+              "Doesn't say anything about furniture removal.",
+              {
+                "desc": "He hands it back."
+              },
+              "Doesn't say you can't, either.",
+              {
+                "desc": "You continue carrying the chair. Your authorization has become remarkably physical."
+              }
+            ],
+            "choices": [
+              {
+                "id": "chair_staff_escort_reach_collection",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_collection_stairs"
+              }
+            ]
+          },
+          "hotel_ring_in_pocket": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "text": "You straighten beside Lot Thirty-One. A pale blue thread clings to your cuff. The wedding ring is safely in your pocket. Nearby, the bride argues with a porter about a chair. You still need a toilet.",
+            "choices": [
+              {
+                "id": "ring_pocket_show_bride",
+                "kind": "action",
+                "text": "SHOW THE WEDDING RING TO THE BRIDE.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_ring_show_bride"
+              },
+              {
+                "id": "ring_pocket_inspect",
+                "kind": "action",
+                "text": "INSPECT THE WEDDING RING.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_ring_inspect_inscription"
+              },
+              {
+                "id": "ring_pocket_find_restroom",
+                "kind": "action",
+                "text": "KEEP THE RING AND LOOK FOR ANOTHER RESTROOM.",
+                "to": "hotel_lot61_pod_auction"
+              }
+            ]
+          },
+          "hotel_ring_show_bride": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_bride",
+            "text": [
+              {
+                "desc": "You show the bride the ring, a length of pale blue ribbon still caught around it."
+              },
+              {
+                "say": "The ring! That was on the chair?",
+                "who": "hotel_bride"
+              },
+              {
+                "say": "YES. LOT THIRTY-ONE.",
+                "who": "you"
+              },
+              {
+                "say": "Of course. That miserable chair.",
+                "who": "hotel_bride"
+              },
+              {
+                "say": "An unlisted accessory! Shall I open bidding?",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "Papa. No.",
+                "who": "hotel_bride"
+              },
+              {
+                "desc": "She looks back at you, waiting. You still need a toilet."
+              }
+            ],
+            "choices": [
+              {
+                "id": "bride_ring_handover",
+                "kind": "action",
+                "text": "PLACE THE RING IN THE BRIDE'S HAND.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_bride_ring_handover"
+              },
+              {
+                "id": "bride_ask_lavatory",
+                "kind": "spoken",
+                "text": "I'M SORRY, BUT I STILL NEED A BATHROOM. CAN YOU HELP ME?",
+                "to": "hotel_bride_ring_bathroom"
+              }
+            ]
+          },
+          "hotel_bride_ring_handover": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_bride",
+            "pose": "grateful",
+            "effects": {
+              "take": [
+                "wedding_ring_lot31"
+              ],
+              "set": {
+                "ch4_ring_returned_to_bride": true,
+                "ch4_bride_ally": true,
+                "ch4_bride_service_permission": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You place the silver ring and its pale blue ribbon in the bride’s hand."
+              },
+              {
+                "say": "Oh! Thank you. Truly.",
+                "who": "hotel_bride"
+              },
+              {
+                "say": "A splendid private transaction! Shall we list it as—",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "Papa. No.",
+                "who": "hotel_bride"
+              },
+              {
+                "desc": "She turns back to you."
+              },
+              {
+                "say": "If you need the staff passage, tell the porters you’re helping me. They should let you through.",
+                "who": "hotel_bride"
+              },
+              {
+                "desc": "You thank her and turn toward the corridor. Perhaps the staff have a working toilet."
+              }
+            ],
+            "choices": [
+              {
+                "id": "bride_handover_next",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_bride_service_shortcut"
+              }
+            ]
+          },
+          "hotel_bride_ring_bathroom": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_bride",
+            "pose": "helpful",
+            "effects": {
+              "set": {
+                "ch4_knows_bridal_dressing_lavatory": true,
+                "ch4_knows_organizer_has_lavatory_key": true
+              }
+            },
+            "text": [
+              {
+                "say": "I STILL NEED A BATHROOM. CAN YOU HELP ME?",
+                "who": "you"
+              },
+              {
+                "say": "There’s a private lavatory off the bridal dressing room upstairs. The organizer has the key.",
+                "who": "hotel_bride"
+              },
+              {
+                "say": "WHERE IS SHE?",
+                "who": "you"
+              },
+              {
+                "say": "Left past the ballroom, by the white flowers.",
+                "who": "hotel_bride"
+              },
+              {
+                "say": "And please don’t tell my father there’s another bathroom.",
+                "who": "hotel_bride"
+              }
+            ],
+            "choices": [
+              {
+                "id": "bride_lavatory_organizer",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_bridal_organizer"
+              }
+            ]
+          },
+          "hotel_collection_stairs": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/service_passage",
+            "text": "You reach the collection stairs.\n\nThe auctioneer's voice still carries through the ventilation grilles.\n\nTwo porters struggle to free Lot Thirty-One from a narrow doorway.\n\nBeneath the trolley wheel lies a crushed white boutonnière and a delivery slip.\n\nLOT 31 — BRIDAL SUITE CHAIR\n\nATTACHED GENTLEMAN — NOT INCLUDED\n\nNOT INCLUDED has been underlined three times.\n\nBeyond the chair, a door reads:\n\nBOILER ACCESS — AUTHORIZED PERSONNEL ONLY\n\nSomething scrapes behind it.\n\nA man coughs, then abruptly goes quiet.\n\nThere may be someone inside who knows whether the engineers’ lavatory is open.\n\nYou also spot a sign pointing toward the staff lavatory.\n\nA bright red SOLD sticker covers the arrow.\n\nNaturally.",
+            "choices": [
+              {
+                "id": "collection_ask_porters_groom",
+                "kind": "spoken",
+                "text": "ASK WHETHER THE BOILER PASSAGE LEADS TO A WORKING TOILET.",
+                "to": "hotel_collection_porters_groom_clue"
+              },
+              {
+                "id": "collection_slip_past_chair",
+                "kind": "action",
+                "text": "SLIP THROUGH THE BOILER-ROOM DOOR WHILE THE PORTERS STRUGGLE WITH THE CHAIR.",
+                "check": {
+                  "id": "ch4_collection_stairs_slip_unnoticed",
+                  "sides": 6,
+                  "need": 4
+                },
+                "pass": {
+                  "effects": {
+                    "set": {
+                      "ch4_boiler_entry_unnoticed": true
+                    }
+                  },
+                  "to": "hotel_collection_slip_unnoticed"
+                },
+                "fail": {
+                  "effects": {
+                    "set": {
+                      "ch4_boiler_entry_spotted": true,
+                      "ch4_not_included_tag": true
+                    }
+                  },
+                  "to": "hotel_collection_slip_spotted"
+                }
+              },
+              {
+                "id": "collection_show_staff_pass",
+                "kind": "action",
+                "text": "SHOW YOUR TEMPORARY STAFF PASS AND REQUEST ACCESS TO THE MAINTENANCE AREA.",
+                "if": {
+                  "has": "pavilion_temporary_staff_pass"
+                },
+                "to": "hotel_collection_staff_pass"
+              },
+              {
+                "id": "collection_check_staff_lavatory",
+                "kind": "action",
+                "text": "INVESTIGATE THE STAFF LAVATORY DESPITE THE SOLD SIGN.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "collection_inspect_chair_ring",
+                "kind": "action",
+                "text": "INSPECT LOT THIRTY-ONE'S ARMREST BEFORE THE CHAIR IS CRATED.",
+                "if": {
+                  "notFlag": "ch4_wedding_ring_retrieved"
+                },
+                "to": "hotel_collection_ring_focus"
+              }
+            ]
+          },
+          "hotel_collection_ring_focus": {
+            "mode": "focus",
+            "scene": "grand_bellevue/service_passage",
+            "focus": "grand_bellevue/collection_stairs/chair_armrest",
+            "effects": {
+              "set": {
+                "ch4_ring_spotted_in_chair": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The porters pause with Lot Thirty-One tilted in the doorway. You crouch beside the armrest. A few loose brass tacks expose a narrow cavity beneath the red upholstery."
+              },
+              {
+                "if": {
+                  "flag": "ch4_ring_slipped_inside_chair"
+                },
+                "desc": "The wedding ring has fallen beneath a wooden brace. Now that the chair is tilted, you can see it, but your fingers cannot reach."
+              },
+              {
+                "if": {
+                  "notFlag": "ch4_ring_slipped_inside_chair"
+                },
+                "desc": "A silver wedding band is caught in a strand of pale blue ribbon behind the loosened fabric."
+              },
+              {
+                "desc": "The porters stand close enough to help—and close enough to notice any tampering. The delivery manifest lists one chair. It does not list a wedding ring."
+              }
+            ],
+            "choices": [
+              {
+                "id": "collection_ring_ask_porter",
+                "kind": "action",
+                "text": "ASK THE PORTER TO REMOVE THE UNLISTED WEDDING RING.",
+                "to": "hotel_collection_ring_porter_recovery"
+              },
+              {
+                "id": "collection_ring_return",
+                "kind": "action",
+                "text": "STOP INSPECTING AND RETURN TO THE COLLECTION STAIRS.",
+                "to": "hotel_collection_stairs"
+              }
+            ],
+            "use": {
+              "red_stapler": {
+                "kind": "action",
+                "say": "USE THE RED STAPLER TO OPEN THE UPHOLSTERY SEAM AND FREE THE RING.",
+                "to": "hotel_collection_ring_stapler_recovery"
+              }
+            }
+          },
+          "hotel_collection_ring_porter_recovery": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_porter",
+            "pose": "practical",
+            "backdrop": "grand_bellevue/service_passage",
+            "effects": {
+              "give": [
+                "wedding_ring_lot31"
+              ],
+              "set": {
+                "ch4_wedding_ring_retrieved": true,
+                "ch4_ring_recovered_at_collection": true,
+                "ch4_ring_recovery_witnessed": true,
+                "ch4_ring_slipped_inside_chair": false
+              }
+            },
+            "text": [
+              {
+                "desc": "You point to the silver ring lodged inside the armrest, then to the delivery manifest."
+              },
+              {
+                "say": "THAT RING ISN'T ON YOUR MANIFEST.",
+                "who": "you"
+              },
+              "Then it isn't included in the sale.",
+              {
+                "say": "Can you get it out?",
+                "who": "you"
+              },
+              "We'd better. Imagine delivering something the buyer hasn't paid for.",
+              {
+                "desc": "He carefully tilts the chair and pulls back the loose upholstery. The ring slides along the wooden frame. He catches it in his palm."
+              },
+              {
+                "say": "Should we list it as recovered?",
+                "who": "hotel_second_porter"
+              },
+              "No. It wasn't included.",
+              {
+                "desc": "He hands you the ring."
+              },
+              "Best take that before somebody puts a price on it.",
+              {
+                "desc": "You slip the wedding ring into your pocket."
+              }
+            ],
+            "choices": [
+              {
+                "id": "collection_porter_ring_continue",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_collection_ring_in_pocket"
+              }
+            ]
+          },
+          "hotel_collection_ring_stapler_recovery": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_porter",
+            "pose": "businesslike",
+            "backdrop": "grand_bellevue/service_passage",
+            "effects": {
+              "give": [
+                "wedding_ring_lot31"
+              ],
+              "set": {
+                "ch4_wedding_ring_retrieved": true,
+                "ch4_ring_recovered_at_collection": true,
+                "ch4_ring_recovery_unnoticed": true,
+                "ch4_ring_slipped_inside_chair": false
+              }
+            },
+            "text": [
+              {
+                "desc": "The porters are bent over their delivery manifest. You slip the red stapler from your pocket."
+              },
+              {
+                "desc": "Using its metal base, you carefully lever the loose upholstery away from the wooden armrest. The opening widens. You tilt the chair slightly."
+              },
+              {
+                "desc": "The wedding ring rolls along the wooden frame and drops into your palm. Click."
+              },
+              "If anything's fallen off, put it on the discrepancy form.",
+              {
+                "desc": "You slip the stapler and ring into your pockets. No discrepancies are reported."
+              }
+            ],
+            "choices": [
+              {
+                "id": "collection_stapler_ring_continue",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_collection_ring_in_pocket"
+              }
+            ]
+          },
+          "hotel_collection_ring_in_pocket": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/service_passage",
+            "text": "The wedding ring is in your pocket. The porters return to their paperwork. You can hand the ring to the bride for staff-passage permission, inspect it, check the engineers’ lavatory beyond Boiler Three, or try the staff lavatory. Your bladder favors the last two.",
+            "choices": [
+              {
+                "id": "collection_ring_go_bride",
+                "kind": "action",
+                "text": "RETURN TO THE BRIDE WITH THE WEDDING RING.",
+                "to": "hotel_collection_ring_to_bride"
+              },
+              {
+                "id": "collection_ring_inspect",
+                "kind": "action",
+                "text": "INSPECT THE WEDDING RING.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_ring_inspect_inscription"
+              },
+              {
+                "id": "collection_ring_go_boilers",
+                "kind": "action",
+                "text": "CHECK THE ENGINEERS’ LAVATORY BEYOND THE BOILERS.",
+                "to": "hotel_boiler_pressure_intro"
+              },
+              {
+                "id": "collection_ring_go_lavatory",
+                "kind": "action",
+                "text": "CHECK THE STAFF LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              }
+            ]
+          },
+          "hotel_collection_ring_to_bride": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "text": "You retrace the service passage and emerge beside the auction floor. The bride is still watching the collection crews, looking increasingly concerned.\n\nYou approach with the ring.",
+            "choices": [
+              {
+                "id": "collection_ring_bride_arrival",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_ring_show_bride"
+              }
+            ]
+          },
+          "hotel_collection_porters_groom_clue": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_porter",
+            "pose": "practical",
+            "backdrop": "grand_bellevue/service_passage",
+            "effects": {
+              "set": {
+                "ch4_boiler_lavatory_location_confirmed": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You point toward the BOILER ACCESS door beyond the chair."
+              },
+              {
+                "say": "IS THERE AN ENGINEERS’ TOILET THROUGH THERE?",
+                "who": "you"
+              },
+              {
+                "say": "Yes. Closed for pressure testing.",
+                "who": "hotel_porter"
+              },
+              {
+                "say": "ANY OTHER WAY IN?",
+                "who": "you"
+              },
+              {
+                "say": "You can ask the engineer. I wouldn’t touch the wheel.",
+                "who": "hotel_porter"
+              },
+              {
+                "desc": "He returns to his manifest. You approach the boiler passage."
+              }
+            ],
+            "choices": [
+              {
+                "id": "collection_porters_to_boilers",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "hotel_collection_slip_unnoticed": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/boiler_access",
+            "text": "You squeeze between Lot Thirty-One and the wall as both porters heave against the chair.\n\nA loose strip of upholstery catches your sleeve.\n\nThe chair lurches sideways.\n\nYou're still attached.\n\nYou duck with the chair's movement, grab the boiler-room handle, and slip inside.\n\nBehind you, the porters congratulate themselves on finally moving the chair.\n\nThey haven't.\n\nThe door clicks shut.\n\nNeither porter notices your departure.\n\nWarm pipes hiss overhead.\n\nAround the nearest boiler, the hem of a wedding coat disappears from view.\n\nYou straighten your sleeve.\n\nYou appear to be considerably easier to transport than the furniture.",
+            "choices": [
+              {
+                "id": "collection_unnoticed_to_groom",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "hotel_collection_slip_spotted": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/boiler_access",
+            "speaker": "hotel_porter",
+            "backdrop": "grand_bellevue/service_passage",
+            "text": [
+              {
+                "desc": "You squeeze behind Lot Thirty-One as the porters shove. Your sleeve catches on the trim. The chair swings around. Unfortunately, so do you."
+              },
+              {
+                "desc": "You find yourself face-to-face with a startled porter."
+              },
+              "Sir! You're attached to the merchandise!",
+              {
+                "say": "Is he included?",
+                "who": "hotel_second_porter"
+              },
+              {
+                "desc": "The first porter examines his delivery slip."
+              },
+              "Certainly not. It says so three times.",
+              {
+                "desc": "He carefully detaches your sleeve from the chair, produces a small paper tag, and pins it to your coat: NOT INCLUDED."
+              },
+              "There. That should prevent any further confusion.",
+              {
+                "desc": "He opens the boiler-room door and ushers you through."
+              },
+              "Please keep clear of the collection area, sir.",
+              {
+                "desc": "The door closes behind you. You look down at your new label. Apparently, you're no longer considered merchandise. A small victory."
+              },
+              {
+                "desc": "Beyond the nearest boiler, the hem of a wedding coat disappears behind the pipes."
+              }
+            ],
+            "choices": [
+              {
+                "id": "collection_spotted_to_groom",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "hotel_collection_staff_pass": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_porter",
+            "pose": "uncertain",
+            "backdrop": "grand_bellevue/service_passage",
+            "text": [
+              {
+                "desc": "You produce your Temporary Staff Pass. The porter examines it, looks at Lot Thirty-One, and consults his clipboard."
+              }
+            ],
+            "choices": [
+              {
+                "id": "collection_staff_pass_known",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "flag": "ch4_lot31_staff_escort"
+                },
+                "to": "hotel_collection_staff_pass_recognized"
+              },
+              {
+                "id": "collection_staff_pass_first",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "if": {
+                  "notFlag": "ch4_lot31_staff_escort"
+                },
+                "to": "hotel_collection_staff_pass_first"
+              }
+            ]
+          },
+          "hotel_collection_staff_pass_first": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_porter",
+            "pose": "uncertain",
+            "backdrop": "grand_bellevue/service_passage",
+            "text": [
+              "People's Pavilion? Isn't that across the courtyard?",
+              {
+                "say": "It says temporary staff.",
+                "who": "hotel_second_porter"
+              },
+              "Yes, but temporary staff for whom?",
+              {
+                "desc": "The second porter looks around at the half-dismantled hotel."
+              },
+              {
+                "say": "At this rate, all the staff are temporary.",
+                "who": "hotel_second_porter"
+              },
+              {
+                "desc": "The first porter considers this."
+              },
+              "Fair point."
+            ],
+            "choices": [
+              {
+                "id": "collection_staff_first_authorization",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_collection_staff_pass_authorized"
+              }
+            ]
+          },
+          "hotel_collection_staff_pass_recognized": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_porter",
+            "pose": "practical",
+            "backdrop": "grand_bellevue/service_passage",
+            "text": [
+              "Oh! Our visiting inspector. Back again?",
+              {
+                "say": "Excellent. Perhaps he can explain why this chair won't fit through the door.",
+                "who": "hotel_second_porter"
+              }
+            ],
+            "choices": [
+              {
+                "id": "collection_staff_known_authorization",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_collection_staff_pass_authorized"
+              }
+            ]
+          },
+          "hotel_collection_staff_pass_authorized": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_porter",
+            "pose": "practical",
+            "backdrop": "grand_bellevue/service_passage",
+            "effects": {
+              "set": {
+                "ch4_maintenance_access_authorized": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The porter retrieves his clipboard."
+              },
+              "Name?",
+              {
+                "desc": "You gesture toward the pass. He writes TEMPORARY."
+              },
+              "Purpose of visit?",
+              {
+                "desc": "You indicate the boiler-room door. He writes OFFICIAL."
+              },
+              {
+                "desc": "The porter steps aside and returns your pass."
+              },
+              "Very good. Authorized maintenance inspection.",
+              {
+                "desc": "You enter the boiler passage. Apparently, you have been hired again."
+              }
+            ],
+            "choices": [
+              {
+                "id": "collection_authorized_to_groom",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "hotel_staff_lavatory_storage": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/staff_lavatory",
+            "speaker": "hotel_wedding_assistant",
+            "pose": "busy",
+            "effects": {
+              "set": {
+                "ch4_staff_lavatory_sold_for_storage": true,
+                "ch4_knows_bridal_dressing_lavatory": true,
+                "ch4_knows_organizer_has_lavatory_key": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You open the staff lavatory. An actual toilet sits beneath a mountain of boxes marked WEDDING FAVORS."
+              },
+              {
+                "desc": "An assistant is stacking place cards on the cistern."
+              },
+              "Oh! Are you here for the favors?",
+              {
+                "say": "NO. THE TOILET.",
+                "who": "you"
+              },
+              "The room was sold to us as overflow storage. The auctioneer called it a convenience facility.",
+              {
+                "desc": "You look at the boxes. They are very convenient for someone else."
+              },
+              "There’s another lavatory off the bridal dressing room upstairs. The organizer has the key.",
+              "Please don’t disturb the boxes. They’re sorted by table number."
+            ],
+            "choices": [
+              {
+                "id": "staff_lavatory_ask_clear_boxes",
+                "kind": "spoken",
+                "text": "COULD YOU MOVE THESE BOXES? I REALLY NEED TO USE THAT TOILET.",
+                "to": "hotel_staff_lavatory_move_boxes"
+              },
+              {
+                "id": "staff_lavatory_seek_organizer",
+                "kind": "action",
+                "text": "FIND THE WEDDING ORGANIZER IN THE BALLROOM.",
+                "to": "hotel_bridal_organizer"
+              },
+              {
+                "id": "staff_lavatory_return_boilers",
+                "kind": "action",
+                "text": "LEAVE THE BOXES AND CHECK THE ENGINEERS’ LAVATORY.",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "hotel_staff_lavatory_move_boxes": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/staff_lavatory",
+            "speaker": "hotel_wedding_assistant",
+            "effects": {
+              "set": {
+                "ch4_lot58_toilet_sold_separately": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The assistant looks sympathetic."
+              },
+              "Oh! Of course. Just a moment.",
+              {
+                "desc": "She begins removing boxes. You help clear a space around the toilet. For the first time in what feels like hours, you can actually see the seat."
+              },
+              "There! That should—",
+              {
+                "desc": "She stops. A red ribbon is stretched across the toilet lid. Attached to it is an auction tag: LOT 58 — STAFF TOILET. SOLD — COLLECTION AFTER CEREMONY. DO NOT TEST."
+              },
+              {
+                "desc": "The assistant stares at it."
+              },
+              "Oh, dear.",
+              {
+                "desc": "She reads the tag again."
+              },
+              "He sold the room to us for storage and the toilet to somebody else.",
+              {
+                "desc": "She looks genuinely embarrassed."
+              },
+              "I'm terribly sorry. The buyer apparently insists on receiving it in its original condition.",
+              {
+                "desc": "She carefully replaces one of the boxes."
+              },
+              "I really think you should find the wedding organizer.",
+              {
+                "desc": "You look at the toilet. It looks perfectly functional. That somehow makes everything worse."
+              }
+            ],
+            "choices": [
+              {
+                "id": "lot58_ignore_sale_tag",
+                "kind": "action",
+                "text": "IGNORE THE AUCTION TAG AND TRY TO USE THE TOILET ANYWAY.",
+                "to": "hotel_staff_lavatory_temporary_use_permit"
+              },
+              {
+                "id": "lot58_seek_organizer",
+                "kind": "action",
+                "text": "FIND THE WEDDING ORGANIZER IN THE BALLROOM.",
+                "to": "hotel_bridal_organizer"
+              },
+              {
+                "id": "lot58_return_boilers",
+                "kind": "action",
+                "text": "RETURN TO THE BOILER ROOM AND TRY ANOTHER TOILET.",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "hotel_staff_lavatory_temporary_use_permit": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/staff_lavatory",
+            "speaker": "hotel_wedding_assistant",
+            "effects": {
+              "set": {
+                "ch4_lot58_permit_paradox": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You remove the SOLD ribbon and lift the toilet lid. Finally. You reach toward your belt."
+              },
+              "Wait! You'll need a Temporary Use Permit.",
+              {
+                "desc": "She checks her clipboard."
+              },
+              "To issue one, I first need to verify that the toilet flushes.",
+              {
+                "desc": "You reach for the handle."
+              },
+              "No! Testing a sold toilet requires a Temporary Use Permit!",
+              {
+                "desc": "She looks at the paperwork."
+              },
+              "Oh.",
+              {
+                "desc": "A pause."
+              },
+              "Well, there's an exception form. The wedding organizer can sign it.",
+              {
+                "desc": "She places her clipboard on the toilet seat."
+              },
+              "Shall I start the paperwork?",
+              {
+                "desc": "You stare at the toilet. Two feet away. Completely functional. Entirely unavailable."
+              }
+            ],
+            "choices": [
+              {
+                "id": "lot58_permit_organizer",
+                "kind": "spoken",
+                "text": "YES. WHERE CAN I FIND THE WEDDING ORGANIZER?",
+                "to": "hotel_bridal_organizer"
+              },
+              {
+                "id": "lot58_permit_return_boilers",
+                "kind": "action",
+                "text": "LEAVE THE PAPERWORK BEHIND AND RETURN TO THE BOILER ROOM.",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "hotel_boiler_pressure_intro": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/boiler_room",
+            "speaker": "hotel_boiler_engineer",
+            "effects": {
+              "set": {
+                "ch4_boiler_pressure_incident_seen": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The boiler room is sweltering. A pressure gauge trembles in the red. Beside it stands a chained door marked ENGINEERS' LAVATORY."
+              },
+              "Closed until we complete the emergency pressure test.",
+              {
+                "say": "THERE'S A TOILET IN THERE?",
+                "who": "you"
+              },
+              "Allegedly.",
+              {
+                "desc": "He points toward a large brass wheel."
+              },
+              "Regulations require an independent volunteer to operate that while I certify the results.",
+              {
+                "desc": "The warning plate reads HIGH-PRESSURE STEAM. The engineer is standing remarkably far away."
+              },
+              {
+                "say": "AND THEN I CAN USE THE TOILET?",
+                "who": "you"
+              },
+              "Then you can apply.",
+              {
+                "desc": "Somebody coughs behind Boiler Three."
+              },
+              "Gentleman in a wedding suit wouldn't volunteer either. Said he was under enough pressure already."
+            ],
+            "choices": [
+              {
+                "id": "boiler_volunteer_relief",
+                "kind": "action",
+                "text": "VOLUNTEER TO OPERATE THE PRESSURE-RELIEF WHEEL.",
+                "check": {
+                  "id": "ch4_boiler_steam_relief_survival",
+                  "sides": 6,
+                  "need": 5
+                },
+                "pass": {
+                  "to": "hotel_boiler_pressure_relieved"
+                },
+                "fail": {
+                  "to": "fatal_boiler_pressed_and_steamed"
+                }
+              },
+              {
+                "id": "boiler_show_dispute_ticket",
+                "kind": "action",
+                "text": "SHOW THE LOT 53 DISPUTE TICKET AND DEMAND AN INSPECTION HOLD.",
+                "if": {
+                  "has": "lot_53_dispute_ticket"
+                },
+                "to": "hotel_boiler_dispute_hold"
+              },
+              {
+                "id": "boiler_show_staff_pass",
+                "kind": "action",
+                "text": "SHOW YOUR TEMPORARY STAFF PASS AND REQUEST MAINTENANCE ACCESS.",
+                "if": {
+                  "has": "pavilion_temporary_staff_pass"
+                },
+                "to": "hotel_boiler_staff_access"
+              },
+              {
+                "id": "boiler_check_cough",
+                "kind": "action",
+                "text": "LOOK BEHIND BOILER THREE, AWAY FROM THE PRESSURE WHEEL.",
+                "to": "hotel_boiler_groom_encounter"
+              },
+              {
+                "id": "boiler_leave_for_service",
+                "kind": "action",
+                "text": "LEAVE THE BOILER ROOM AND SEARCH THE SERVICE PASSAGE.",
+                "to": "hotel_boiler_service_passage"
+              }
+            ]
+          },
+          "hotel_boiler_pressure_relieved": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/boiler_room",
+            "speaker": "hotel_boiler_engineer",
+            "pose": "pleased",
+            "effects": {
+              "set": {
+                "ch4_boiler_pressure_relieved": true,
+                "ch4_boiler_lavatory_passage_open": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You turn the wheel. Steam roars overhead. The gauge drops into the green."
+              },
+              "PASS! Beautifully done!",
+              {
+                "desc": "He unlocks the passage. Beyond it, another door reads SANITATION CLEARANCE PENDING."
+              },
+              {
+                "say": "YOU SAID IT WOULD OPEN!",
+                "who": "you"
+              },
+              "The passage did. Excellent progress!",
+              {
+                "desc": "A nervous cough comes from behind Boiler Three."
+              }
+            ],
+            "choices": [
+              {
+                "id": "boiler_pressure_pass_to_groom",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_boiler_groom_encounter"
+              }
+            ]
+          },
+          "fatal_boiler_pressed_and_steamed": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/boiler_room",
+            "text": "You turn the wheel.\n\nThe valve shrieks.\n\nAn enormous cloud of steam engulfs you.\n\nWhen it clears, your tuxedo hangs from a wire hanger. Jacket and trousers, perfectly pressed. Still steaming.\n\nThe engineer examines the result.\n\nWell. At least the steam press works.\n\nENDING — PRESSED AND STEAMED.",
+            "choices": [
+              {
+                "id": "restart_pressed_and_steamed",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "hotel_boiler_dispute_hold": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/boiler_room",
+            "speaker": "hotel_boiler_engineer",
+            "pose": "defeated",
+            "effects": {
+              "set": {
+                "ch4_boiler_inspection_hold": true,
+                "ch4_boiler_inspection_access": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You show the red carbon-copy Lot 53 Dispute Ticket."
+              },
+              "That's for a toilet stall.",
+              {
+                "desc": "You point toward the connected pipes."
+              },
+              "Oh, bother. Associated fixtures.",
+              {
+                "desc": "He hangs a DO NOT OPERATE tag on the pressure-relief wheel."
+              },
+              "Can't test disputed equipment. Safety regulations.",
+              {
+                "say": "SO THE TOILET'S OPEN?",
+                "who": "you"
+              },
+              "No test, no opening. Excellent safety record!",
+              {
+                "desc": "He unchains the inspection walkway. Somebody coughs behind Boiler Three."
+              }
+            ],
+            "choices": [
+              {
+                "id": "boiler_dispute_to_groom",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_boiler_groom_encounter"
+              }
+            ]
+          },
+          "hotel_boiler_staff_access": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/boiler_room",
+            "speaker": "hotel_boiler_engineer",
+            "effects": {
+              "set": {
+                "ch4_boiler_staff_access": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You show your Temporary Staff Pass."
+              },
+              {
+                "if": {
+                  "flag": "ch4_maintenance_access_authorized"
+                },
+                "say": "Ah, the temporary official the porters sent down. They warned me you were coming.",
+                "who": "hotel_boiler_engineer"
+              },
+              {
+                "if": {
+                  "notFlag": "ch4_maintenance_access_authorized"
+                },
+                "say": "Temporary staff? Well, I suppose that's most of our staff these days.",
+                "who": "hotel_boiler_engineer"
+              },
+              "Then you're ineligible to volunteer.",
+              {
+                "say": "THAT'S GOOD.",
+                "who": "you"
+              },
+              "For you. Terrible for our staffing plan.",
+              {
+                "desc": "He opens the maintenance gate. From behind Boiler Three comes another cough."
+              }
+            ],
+            "choices": [
+              {
+                "id": "boiler_staff_access_to_groom",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_boiler_groom_encounter"
+              }
+            ]
+          },
+          "hotel_boiler_groom_encounter": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/maintenance",
+            "speaker": "hotel_groom",
+            "effects": {
+              "set": {
+                "ch4_groom_located": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You round Boiler Three. A man in a rumpled wedding suit crouches behind a stack of coal scuttles."
+              },
+              {
+                "say": "If you're here for the wedding, I'm not available.",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "I'M LOOKING FOR A TOILET.",
+                "who": "you"
+              },
+              {
+                "say": "Oh. Then you're having a worse day than I am.",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "SOLD!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "The groom ducks at the sound coming through the vent."
+              },
+              {
+                "say": "Apparently there's a private lavatory off the bridal dressing room. The organizer has the key.",
+                "who": "hotel_groom"
+              },
+              {
+                "desc": "That's considerably more useful than anything else he's said."
+              }
+            ],
+            "choices": [
+              {
+                "id": "groom_ask_directions",
+                "kind": "spoken",
+                "text": "HOW DO I REACH THE BRIDAL DRESSING ROOM?",
+                "to": "hotel_groom_directions_to_lavatory"
+              },
+              {
+                "id": "groom_show_ring",
+                "kind": "action",
+                "text": "SHOW THE GROOM THE WEDDING RING.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_groom_show_ring"
+              },
+              {
+                "id": "groom_leave",
+                "kind": "action",
+                "text": "LEAVE HIM HIDING AND RETURN TO THE SERVICE PASSAGE.",
+                "to": "hotel_groom_leave_behind"
+              }
+            ]
+          },
+          "hotel_groom_show_ring": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/maintenance",
+            "speaker": "hotel_groom",
+            "pose": "relieved",
+            "effects": {
+              "set": {
+                "ch4_groom_saw_ring": true,
+                "ch4_groom_located": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You show the silver band, its pale blue ribbon still attached."
+              },
+              {
+                "say": "The ring! You found it!",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "IN A CHAIR.",
+                "who": "you"
+              },
+              {
+                "say": "I tied that ribbon around it because I was afraid I'd lose it.",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "GOOD SYSTEM.",
+                "who": "you"
+              },
+              {
+                "say": "I see the flaw now. Better keep hold of it. I don't trust myself.",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "I WASN'T OFFERING.",
+                "who": "you"
+              },
+              {
+                "if": {
+                  "flag": "ch4_ring_inscription_read"
+                },
+                "say": "AS IS, WHERE IS?",
+                "who": "you"
+              },
+              {
+                "if": {
+                  "flag": "ch4_ring_inscription_read"
+                },
+                "say": "I thought it sounded romantic. Her father asked whether it was legally binding.",
+                "who": "hotel_groom"
+              },
+              {
+                "desc": "You pocket the ring again."
+              }
+            ],
+            "choices": [
+              {
+                "id": "ring_groom_get_directions",
+                "kind": "spoken",
+                "text": "ASK HOW TO REACH THE BRIDAL LAVATORY.",
+                "to": "hotel_groom_directions_to_lavatory"
+              },
+              {
+                "id": "ring_groom_leave",
+                "kind": "action",
+                "text": "LEAVE THE GROOM TO HIS HIDING PLACE.",
+                "to": "hotel_groom_leave_behind"
+              }
+            ]
+          },
+          "hotel_lot61_pod_auction": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "pose": "showman",
+            "text": [
+              {
+                "desc": "Back on the auction floor, a wedding guest raises her hand."
+              },
+              {
+                "say": "Excuse me. If you're selling all the bathrooms, where are we supposed to go?",
+                "who": "hotel_wedding_guest"
+              },
+              "An excellent question! Ladies and gentlemen, Lot Sixty-One!",
+              {
+                "desc": "Two porters wheel out a gleaming metal booth."
+              },
+              "The Grand Bellevue Emergency Convenience Pod! Completely self-contained! No plumbing required!",
+              {
+                "desc": "The booth's door stands slightly open. Inside is a small porcelain toilet. An actual toilet."
+              },
+              {
+                "say": "Does it work?",
+                "who": "hotel_wedding_guest"
+              },
+              "Magnificently! Even during a complete hotel water outage!",
+              {
+                "say": "Papa, why haven't we been using that?",
+                "who": "hotel_bride"
+              },
+              "Because, darling, we hadn't sold it yet!",
+              {
+                "desc": "He turns toward the audience."
+              },
+              "Who would care to demonstrate?",
+              {
+                "desc": "His eyes settle on you."
+              },
+              "Ah! Our gentleman with the urgent interest in modern conveniences!",
+              {
+                "desc": "The porters open the booth's door. You can see a toilet, a seat, and what appears to be privacy."
+              },
+              {
+                "desc": "A small warning plate beside the entrance reads: AUTOMATIC PACKING MECHANISM — DISENGAGE BEFORE OCCUPANCY. The auctioneer appears not to have noticed it."
+              }
+            ],
+            "choices": [
+              {
+                "id": "lot61_enter_pod",
+                "kind": "action",
+                "text": "ENTER THE EMERGENCY CONVENIENCE POD AND TRY TO USE IT.",
+                "check": {
+                  "id": "ch4_pod_packing_escape",
+                  "sides": 6,
+                  "need": 5
+                },
+                "pass": {
+                  "to": "hotel_lot61_pod_escaped"
+                },
+                "fail": {
+                  "to": "fatal_lot61_folded"
+                }
+              },
+              {
+                "id": "lot61_decline_pod",
+                "kind": "action",
+                "text": "DECLINE THE DEMONSTRATION AND SEARCH THE SERVICE CORRIDORS FOR A TOILET.",
+                "to": "hotel_lot61_pod_declined"
+              }
+            ]
+          },
+          "hotel_lot61_pod_escaped": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "effects": {
+              "set": {
+                "ch4_pod_survived_packing": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You step inside. The door closes with a reassuring click. There is a toilet, walls, privacy. You are almost overcome with gratitude."
+              },
+              {
+                "desc": "Outside, the auctioneer raises his voice."
+              },
+              "Ladies and gentlemen! Observe the remarkable efficiency of our emergency sanitation system!",
+              {
+                "desc": "You reach toward your belt."
+              },
+              "And now, its most impressive feature!",
+              {
+                "desc": "A mechanical clunk comes from beneath the floor."
+              },
+              "Automatic packing for convenient transport!",
+              {
+                "desc": "The walls begin moving inward. You grab the door handle. It won't turn."
+              },
+              {
+                "desc": "You throw your weight against the door. The latch gives way. You tumble onto the auction floor."
+              },
+              {
+                "desc": "Behind you, the booth folds inward with a series of metallic bangs. Seconds later, it has become a remarkably compact shipping case. The audience applauds."
+              },
+              "Extraordinary! Completely portable!",
+              {
+                "desc": "You stand up. Your clothing is intact. Your dignity is not. You still need a toilet."
+              }
+            ],
+            "choices": [
+              {
+                "id": "lot61_escaped_seek_toilet",
+                "kind": "action",
+                "text": "SEARCH THE SERVICE CORRIDORS FOR ANOTHER TOILET.",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "fatal_lot61_folded": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "text": "You step inside the Emergency Convenience Pod. The door closes with a reassuring click.\n\nThere is a toilet. There are walls. There is privacy.\n\nYou reach toward your belt.\n\nOutside, the auctioneer announces the pod's most impressive feature: automatic packing for convenient transport.\n\nA mechanical clunk comes from beneath the floor. The walls begin moving inward. You grab the door handle. It won't turn.\n\nYou pull desperately at the handle.\n\nThe walls keep closing.\n\nThe porcelain toilet disappears beneath a folding metal panel.\n\nThere is a final mechanical clunk.\n\nThen silence.\n\nOutside, the auctioneer beams at the audience.\n\nAnd there we have it! Ready for immediate collection!\n\nENDING — FOLDED FOR CONVENIENCE.",
+            "choices": [
+              {
+                "id": "restart_folded_for_convenience",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "hotel_lot61_pod_declined": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "pose": "disappointed",
+            "text": [
+              {
+                "desc": "The auctioneer looks disappointed."
+              },
+              "A cautious gentleman! Quite right! Safety first!",
+              {
+                "desc": "He turns toward the audience."
+              },
+              "Who'll give me twenty-five?",
+              {
+                "desc": "The porters begin wheeling the pod toward the collection area. You leave before anybody asks you to help."
+              }
+            ],
+            "choices": [
+              {
+                "id": "lot61_declined_seek_toilet",
+                "kind": "action",
+                "text": "SEARCH THE SERVICE CORRIDORS FOR ANOTHER TOILET.",
+                "to": "hotel_boiler_pressure_intro"
+              }
+            ]
+          },
+          "hotel_groom_directions_to_lavatory": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/maintenance",
+            "speaker": "hotel_groom",
+            "effects": {
+              "set": {
+                "ch4_knows_bridal_dressing_lavatory": true,
+                "ch4_knows_organizer_has_lavatory_key": true,
+                "ch4_groom_directions_received": true,
+                "ch4_groom_located": true
+              }
+            },
+            "text": [
+              {
+                "say": "HOW DO I GET TO THE BRIDAL DRESSING ROOM?",
+                "who": "you"
+              },
+              {
+                "say": "Service stairs. Up one floor, then left past the ballroom.",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "There's a door with white flowers around it. The wedding organizer has the key.",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "THANK YOU.",
+                "who": "you"
+              },
+              {
+                "say": "If you happen to see my bride, could you—",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "I'M LOOKING FOR A TOILET.",
+                "who": "you"
+              },
+              {
+                "say": "Right. Of course. Good luck.",
+                "who": "hotel_groom"
+              },
+              {
+                "desc": "He ducks back into hiding. You take the service stairs toward the bridal corridor."
+              }
+            ],
+            "choices": [
+              {
+                "id": "groom_directions_to_organizer",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_bridal_organizer"
+              }
+            ]
+          },
+          "hotel_groom_leave_behind": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/maintenance",
+            "speaker": "hotel_groom",
+            "effects": {
+              "set": {
+                "ch4_groom_located": true,
+                "ch4_groom_left_behind": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You step around Boiler Three toward the service door."
+              },
+              {
+                "say": "You're not going to tell anyone I'm here, are you?",
+                "who": "hotel_groom"
+              },
+              {
+                "say": "NO.",
+                "who": "you"
+              },
+              {
+                "say": "Thank you.",
+                "who": "hotel_groom"
+              },
+              {
+                "desc": "You open the door."
+              },
+              {
+                "say": "And if anybody asks—",
+                "who": "hotel_groom"
+              },
+              {
+                "desc": "You let the door close. His problems remain on the other side."
+              },
+              {
+                "desc": "Ahead: the staff lavatory, stairs toward the ballroom, and a loading dock opening onto daylight. Still no toilet."
+              }
+            ],
+            "choices": [
+              {
+                "id": "groom_leave_staff_lavatory",
+                "kind": "action",
+                "text": "CHECK THE STAFF LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "groom_leave_organizer",
+                "kind": "action",
+                "text": "TAKE THE SERVICE STAIRS TOWARD THE BALLROOM.",
+                "to": "hotel_bridal_organizer"
+              },
+              {
+                "id": "groom_leave_dock",
+                "kind": "action",
+                "text": "HEAD THROUGH THE LOADING DOCK AND LEAVE THE HOTEL.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
+          },
+          "hotel_service_park_exit": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/loading_dock",
+            "effects": {
+              "set": {
+                "ch4_exit_route": "service_loading_dock",
+                "ch4_exit_park_approached": true
+              }
+            },
+            "text": [
+              "You follow the service passage to the loading dock. Workers are still carrying pieces of the Grand Bellevue onto trucks. You pass the crates and approach a narrow pedestrian gate.",
+              {
+                "say": "Leaving?",
+                "who": "hotel_service_foreman"
+              },
+              {
+                "say": "YES.",
+                "who": "you"
+              },
+              {
+                "say": "Use the side gate. It's the one thing they're not shipping.",
+                "who": "hotel_service_foreman"
+              },
+              "You push through. Across the courtyard is a small public park: trees, grass, a few promising shrubs. Surely you can find a little privacy there.",
+              "You cross the courtyard and head toward the park.\n\nEND CHAPTER 4."
+            ],
+            "choices": [
+              {
+                "id": "restart_after_service_park_exit",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "hotel_boiler_service_passage": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/maintenance",
+            "text": "You leave the overheated boiler room. The service passage branches toward a staff lavatory, stairs to the ballroom, and a loading dock where daylight filters around stacked crates. Your bladder votes for whichever route has an actual working toilet.",
+            "choices": [
+              {
+                "id": "service_passage_staff",
+                "kind": "action",
+                "text": "CHECK THE STAFF LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "service_passage_stairs",
+                "kind": "action",
+                "text": "TAKE THE STAIRS TOWARD THE BRIDAL CORRIDOR.",
+                "to": "hotel_bridal_organizer"
+              },
+              {
+                "id": "service_passage_exit",
+                "kind": "action",
+                "text": "LEAVE BY THE LOADING DOCK.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
+          },
+          "hotel_bridal_organizer": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/ballroom",
+            "speaker": "hotel_wedding_organizer",
+            "effects": {
+              "set": {
+                "ch4_wedding_organizer_met": true,
+                "ch4_knows_bridal_dressing_lavatory": true,
+                "ch4_knows_organizer_has_lavatory_key": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You find the organizer outside the ballroom, consulting three clipboards while a florist explains a missing centerpiece."
+              },
+              {
+                "say": "I NEED TO USE THE BRIDAL LAVATORY.",
+                "who": "you"
+              },
+              {
+                "say": "Are you a member of the wedding party?",
+                "who": "hotel_wedding_organizer"
+              },
+              {
+                "say": "NO.",
+                "who": "you"
+              },
+              {
+                "say": "Excellent. We've already lost two.",
+                "who": "hotel_wedding_organizer"
+              },
+              {
+                "desc": "She looks at your expression, then at her watch."
+              },
+              {
+                "say": "Follow me. Quickly.",
+                "who": "hotel_wedding_organizer"
+              },
+              {
+                "desc": "She leads you down a corridor lined with white flowers."
+              },
+              {
+                "say": "IS THERE A TOILET IN THERE?",
+                "who": "you"
+              },
+              {
+                "say": "Of course.",
+                "who": "hotel_wedding_organizer"
+              },
+              {
+                "say": "DOES IT WORK?",
+                "who": "you"
+              },
+              {
+                "say": "Nobody's complained.",
+                "who": "hotel_wedding_organizer"
+              },
+              {
+                "desc": "She stops before an ornate door."
+              },
+              {
+                "say": "It's reserved for the bride. But it's a smart facility. Perhaps you can explain your emergency.",
+                "who": "hotel_wedding_organizer"
+              },
+              {
+                "desc": "She unlocks the outer dressing-room door."
+              },
+              {
+                "say": "I have to get back. Someone's trying to auction the cake stand with the cake still on it.",
+                "who": "hotel_wedding_organizer"
+              },
+              {
+                "desc": "She hurries away."
+              }
+            ],
+            "choices": [
+              {
+                "id": "organizer_to_bridal_room",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_bridal_room"
+              }
+            ]
+          },
+          "hotel_bride_service_shortcut": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/service_passage",
+            "text": "You enter the staff corridor with the bride’s permission. The porters let you pass. A lavatory is marked down one hall; the service stairs toward the bridal dressing room climb another. Daylight shows through the loading dock farther on.",
+            "choices": [
+              {
+                "id": "bride_shortcut_staff",
+                "kind": "action",
+                "text": "CHECK THE STAFF LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "bride_shortcut_organizer",
+                "kind": "action",
+                "text": "TAKE THE STAIRS TO FIND THE WEDDING ORGANIZER.",
+                "to": "hotel_bridal_organizer"
+              },
+              {
+                "id": "bride_shortcut_exit",
+                "kind": "action",
+                "text": "LEAVE THROUGH THE SERVICE YARD.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
+          },
+          "hotel_wedding_service_shortcut": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/service_passage",
+            "text": "You slip through the service door while the organizer handles the ballroom. A staff lavatory, a staircase back toward the bridal corridor, and the loading dock are within reach. None guarantees a working toilet.",
+            "choices": [
+              {
+                "id": "wedding_service_staff",
+                "kind": "action",
+                "text": "CHECK THE STAFF LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "wedding_service_bridal",
+                "kind": "action",
+                "text": "RETURN UPSTAIRS AND ASK FOR THE BRIDAL LAVATORY KEY.",
+                "to": "hotel_bridal_organizer"
+              },
+              {
+                "id": "wedding_service_exit",
+                "kind": "action",
+                "text": "LEAVE BY THE SERVICE YARD.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
+          },
+          "hotel_bridal_room": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "text": "Inside the dressing room stands another door. A brass panel glows BRIDAL PRIVACY SYSTEM — AUTHORIZED USER: BRIDE. There is no ordinary handle. A white wedding gown hangs nearby. The organizer is already gone.",
+            "choices": [
+              {
+                "id": "bridal_room_inspect_door",
+                "kind": "action",
+                "text": "INSPECT THE SMART DOOR.",
+                "to": "hotel_bridal_door_focus"
+              },
+              {
+                "id": "bridal_room_inspect_gown",
+                "kind": "action",
+                "text": "INSPECT THE WEDDING GOWN.",
+                "to": "hotel_bridal_gown_focus"
+              },
+              {
+                "id": "bridal_room_knock",
+                "kind": "action",
+                "text": "KNOCK ON THE BATHROOM DOOR.",
+                "to": "hotel_bridal_door_knock"
+              },
+              {
+                "id": "bridal_room_leave",
+                "kind": "action",
+                "text": "LEAVE THE DRESSING ROOM.",
+                "to": "hotel_bridal_corridor_exit"
+              }
+            ]
+          },
+          "hotel_bridal_door_knock": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "speaker": "bridal_door_ai",
+            "text": [
+              {
+                "desc": "You knock. A green light blinks."
+              },
+              {
+                "say": "Knocking is not a recognized access credential.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "IT USUALLY WORKS ON DOORS.",
+                "who": "you"
+              },
+              {
+                "say": "This is a smart door.",
+                "who": "bridal_door_ai"
+              }
+            ],
+            "choices": [
+              {
+                "id": "knock_inspect_door",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_bridal_door_focus"
+              }
+            ]
+          },
+          "hotel_bridal_door_focus": {
+            "mode": "focus",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "focus": "grand_bellevue/bridal_privacy_panel",
+            "effects": {
+              "set": {
+                "ch4_bridal_door_inspected": true
+              }
+            },
+            "text": [
+              {
+                "desc": "There is no handle or keyhole. A polished brass panel holds a camera and a small screen: BRIDAL PRIVACY SYSTEM. OCCUPANT AUTHORIZATION: BRIDE ONLY. VISUAL IDENTIFICATION: ENABLED. PRE-WEDDING GROOM EXCLUSION: ENABLED."
+              },
+              {
+                "say": "Please maintain a respectful distance from the bride.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "I'M NOT THE GROOM.",
+                "who": "you"
+              },
+              {
+                "say": "That is not sufficient proof of being the bride.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "I JUST NEED THE TOILET.",
+                "who": "you"
+              },
+              {
+                "say": "The bridal lavatory is provided exclusively for the bride's comfort.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "I'M EXTREMELY UNCOMFORTABLE.",
+                "who": "you"
+              },
+              {
+                "say": "Your discomfort has been noted.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "It has not been approved.",
+                "who": "bridal_door_ai"
+              }
+            ],
+            "choices": [
+              {
+                "id": "door_ask_bridal_criteria",
+                "kind": "spoken",
+                "text": "ASK WHAT QUALIFIES SOMEONE AS THE BRIDE.",
+                "to": "hotel_bridal_criteria",
+                "if": {
+                  "notFlag": "ch4_bridal_identification_explained"
+                }
+              },
+              {
+                "id": "door_request_override",
+                "kind": "spoken",
+                "text": "REQUEST AN EMERGENCY OVERRIDE.",
+                "if": {
+                  "notFlag": "ch4_bridal_emergency_override_denied"
+                },
+                "to": "hotel_bridal_emergency_override"
+              },
+              {
+                "id": "door_show_ring",
+                "kind": "action",
+                "text": "SHOW THE WEDDING RING.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_bridal_ring_argument"
+              },
+              {
+                "id": "door_inspect_gown",
+                "kind": "action",
+                "text": "STEP BACK AND INSPECT THE WEDDING GOWN.",
+                "to": "hotel_bridal_gown_focus"
+              },
+              {
+                "id": "door_leave",
+                "kind": "action",
+                "text": "GIVE UP ON THIS DOOR AND LEAVE.",
+                "to": "hotel_bridal_corridor_exit"
+              }
+            ]
+          },
+          "hotel_bridal_criteria": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "speaker": "bridal_door_ai",
+            "effects": {
+              "set": {
+                "ch4_bridal_identification_explained": true
+              }
+            },
+            "text": [
+              {
+                "say": "HOW DOES THIS THING KNOW WHO THE BRIDE IS?",
+                "who": "you"
+              },
+              {
+                "say": "Bridal identification is based on visual recognition, ceremonial attire, and an approved bridal profile.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "WHAT IF THE BRIDE CHANGES HER CLOTHES?",
+                "who": "you"
+              },
+              {
+                "say": "That would be highly irregular.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "WHAT IF SOMEONE ELSE WEARS HER DRESS?",
+                "who": "you"
+              },
+              {
+                "say": "The Bridal Privacy System is designed to recognize the bride.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "THAT DOESN'T ANSWER MY QUESTION.",
+                "who": "you"
+              },
+              {
+                "say": "Correct. Your question concerns someone who is not the bride.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "You glance at the wedding gown hanging across the room."
+              },
+              {
+                "say": "SO THE DRESS MATTERS?",
+                "who": "you"
+              },
+              {
+                "say": "Appropriate bridal presentation is an important consideration.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "AND IF I LOOK LIKE A BRIDE?",
+                "who": "you"
+              },
+              {
+                "say": "You may submit yourself for identification.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "The camera swivels toward you."
+              },
+              {
+                "say": "You are not presently a bride.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "I'M AWARE.",
+                "who": "you"
+              },
+              {
+                "say": "Excellent. We agree.",
+                "who": "bridal_door_ai"
+              }
+            ],
+            "choices": [
+              {
+                "id": "criteria_inspect_gown",
+                "kind": "action",
+                "text": "INSPECT THE WEDDING GOWN.",
+                "to": "hotel_bridal_gown_focus"
+              },
+              {
+                "id": "criteria_claim_bride",
+                "kind": "spoken",
+                "text": "TELL THE DOOR YOU ARE THE BRIDE.",
+                "if": {
+                  "notFlag": "ch4_false_bride_claim_rejected"
+                },
+                "to": "hotel_bridal_false_claim"
+              },
+              {
+                "id": "criteria_override",
+                "kind": "spoken",
+                "text": "ASK FOR A HUMAN OVERRIDE.",
+                "if": {
+                  "notFlag": "ch4_bridal_emergency_override_denied"
+                },
+                "to": "hotel_bridal_emergency_override"
+              },
+              {
+                "id": "criteria_leave",
+                "kind": "action",
+                "text": "STOP ARGUING AND LEAVE.",
+                "to": "hotel_bridal_corridor_exit"
+              }
+            ]
+          },
+          "hotel_bridal_false_claim": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "speaker": "bridal_door_ai",
+            "effects": {
+              "set": {
+                "ch4_false_bride_claim_rejected": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You straighten your clothes and face the camera."
+              },
+              {
+                "say": "I AM THE BRIDE.",
+                "who": "you"
+              },
+              {
+                "say": "One moment. Verifying.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "The camera examines your face, clothing, and shoes."
+              },
+              {
+                "say": "You are not dressed for the occasion.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "THIS IS AN EMERGENCY.",
+                "who": "you"
+              },
+              {
+                "say": "Weddings often are. That does not make you the bride.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "The indicator turns red."
+              },
+              {
+                "say": "IS THERE AN APPEALS PROCESS?",
+                "who": "you"
+              },
+              {
+                "say": "Certainly. The bride may appeal.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "AND ME?",
+                "who": "you"
+              },
+              {
+                "say": "You may become the bride.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "You stare at the panel."
+              },
+              {
+                "say": "That was not a recommendation.",
+                "who": "bridal_door_ai"
+              }
+            ],
+            "choices": [
+              {
+                "id": "false_claim_gown",
+                "kind": "action",
+                "text": "INSPECT THE WEDDING GOWN.",
+                "to": "hotel_bridal_gown_focus"
+              },
+              {
+                "id": "false_claim_override",
+                "kind": "spoken",
+                "text": "REQUEST AN EMERGENCY OVERRIDE.",
+                "if": {
+                  "notFlag": "ch4_bridal_emergency_override_denied"
+                },
+                "to": "hotel_bridal_emergency_override"
+              },
+              {
+                "id": "false_claim_return",
+                "kind": "action",
+                "text": "RETURN TO THE SMART DOOR OPTIONS.",
+                "to": "hotel_bridal_door_options"
+              },
+              {
+                "id": "false_claim_leave",
+                "kind": "action",
+                "text": "LEAVE THE DRESSING ROOM.",
+                "to": "hotel_bridal_corridor_exit"
+              }
+            ]
+          },
+          "hotel_bridal_emergency_override": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "speaker": "bridal_door_ai",
+            "effects": {
+              "set": {
+                "ch4_bridal_emergency_override_denied": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You press EMERGENCY ASSISTANCE."
+              },
+              {
+                "say": "Please state the nature of your emergency.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "I NEED TO USE THE TOILET. URGENTLY.",
+                "who": "you"
+              },
+              {
+                "say": "Understood. Requesting emergency access authorization.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "The panel displays PROCESSING."
+              },
+              {
+                "say": "Authorization denied.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "WHY?!",
+                "who": "you"
+              },
+              {
+                "say": "Emergency overrides require confirmation from an authorized user.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "IF I WERE AN AUTHORIZED USER, I WOULDN'T NEED AN OVERRIDE!",
+                "who": "you"
+              },
+              {
+                "say": "Correct. We receive very few applications.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "The screen returns to BRIDAL PRIVACY PROTECTED."
+              }
+            ],
+            "choices": [
+              {
+                "id": "override_gown",
+                "kind": "action",
+                "text": "INSPECT THE WEDDING GOWN.",
+                "to": "hotel_bridal_gown_focus"
+              },
+              {
+                "id": "override_ring",
+                "kind": "action",
+                "text": "SHOW THE WEDDING RING.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_bridal_ring_argument"
+              },
+              {
+                "id": "override_return",
+                "kind": "action",
+                "text": "RETURN TO THE SMART DOOR OPTIONS.",
+                "to": "hotel_bridal_door_options"
+              },
+              {
+                "id": "override_leave",
+                "kind": "action",
+                "text": "LEAVE THE DRESSING ROOM.",
+                "to": "hotel_bridal_corridor_exit"
+              }
+            ]
+          },
+          "hotel_bridal_ring_argument": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "speaker": "bridal_door_ai",
+            "effects": {
+              "set": {
+                "ch4_bridal_ring_rejected": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You hold the silver wedding ring beneath the camera."
+              },
+              {
+                "say": "THIS IS THE WEDDING RING. DOES THAT COUNT?",
+                "who": "you"
+              },
+              {
+                "say": "It establishes possession of wedding property. It does not establish bridal identity.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "IF I HAD IT AT THE WEDDING, WOULD THAT HELP?",
+                "who": "you"
+              },
+              {
+                "say": "Possibly with the ceremony. Not with this door.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "YOU HAVE A CAMERA. YOU CAN SEE I NEED THE TOILET.",
+                "who": "you"
+              },
+              {
+                "say": "Visual distress is not a valid entry credential.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "The indicator remains red. You put the ring away, thoroughly fed up."
+              }
+            ],
+            "choices": [
+              {
+                "id": "ring_rejected_staff",
+                "kind": "action",
+                "text": "RETURN TO THE SERVICE CORRIDOR AND TRY THE STAFF LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "ring_rejected_exit",
+                "kind": "action",
+                "text": "GIVE UP AND HEAD OUTSIDE TOWARD THE PARK.",
+                "to": "hotel_bridal_corridor_park_exit"
+              }
+            ]
+          },
+          "hotel_bridal_gown_focus": {
+            "mode": "focus",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "focus": "grand_bellevue/autofit_gown",
+            "effects": {
+              "set": {
+                "ch4_bridal_gown_inspected": true
+              }
+            },
+            "text": [
+              {
+                "desc": "An elaborate white wedding gown hangs from a wheeled dressing stand. The waist is alarmingly narrow. Something metallic glints beneath the bodice."
+              },
+              {
+                "desc": "You pull aside the lace. A motor draws thin cables through the bodice and neckline. The label reads AUTOFIT BRIDAL SYSTEM — ONE SIZE FITS EVERYONE EVENTUALLY."
+              },
+              {
+                "desc": "SAFETY NOTICE: Disconnect automatic fitting mechanism before removing or adjusting garment."
+              },
+              {
+                "desc": "Apparently even wedding dresses are automated now."
+              },
+              {
+                "say": "That garment is reserved for the bride.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "I'M JUST LOOKING.",
+                "who": "you"
+              },
+              {
+                "say": "Your inspection has been noted.",
+                "who": "bridal_door_ai"
+              }
+            ],
+            "choices": [
+              {
+                "id": "gown_examine_motor",
+                "kind": "action",
+                "text": "EXAMINE THE AUTOMATIC FITTING MECHANISM.",
+                "if": {
+                  "notFlag": "ch4_autofit_release_located"
+                },
+                "to": "hotel_bridal_gown_motor"
+              },
+              {
+                "id": "gown_try_on",
+                "kind": "action",
+                "text": "TRY ON THE WEDDING GOWN.",
+                "to": "hotel_bridal_gown_try"
+              },
+              {
+                "id": "gown_hold_camera",
+                "kind": "action",
+                "text": "HOLD THE GOWN UP TO THE CAMERA.",
+                "to": "hotel_bridal_gown_camera"
+              },
+              {
+                "id": "gown_leave_alone",
+                "kind": "action",
+                "text": "LEAVE THE GOWN ALONE.",
+                "to": "hotel_bridal_door_options"
+              }
+            ]
+          },
+          "hotel_bridal_gown_motor": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "effects": {
+              "set": {
+                "ch4_autofit_release_located": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You lift the lining and follow cables to a motor beneath the waist. The cables run through the bodice and around the neckline."
+              },
+              {
+                "desc": "Beside the motor is a brass tab: MANUAL SLACK. Below it, in smaller letters: NOT AN EMERGENCY STOP."
+              },
+              {
+                "desc": "You press the tab. The neckline loosens slightly. You release it; the cables stay slack. At least you know where the release is."
+              },
+              {
+                "say": "Unauthorized garment adjustments may invalidate the bridal presentation warranty.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "IS THIS THING STILL TURNED ON?",
+                "who": "you"
+              },
+              {
+                "say": "The garment is ready for fitting.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "THAT'S NOT WHAT I ASKED.",
+                "who": "you"
+              },
+              {
+                "say": "Correct.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "You carefully replace the lining."
+              }
+            ],
+            "choices": [
+              {
+                "id": "motor_try_gown",
+                "kind": "action",
+                "text": "TRY ON THE WEDDING GOWN.",
+                "to": "hotel_bridal_gown_try"
+              },
+              {
+                "id": "motor_hold_camera",
+                "kind": "action",
+                "text": "HOLD THE GOWN UP TO THE CAMERA.",
+                "to": "hotel_bridal_gown_camera"
+              },
+              {
+                "id": "motor_return_door",
+                "kind": "action",
+                "text": "RETURN TO THE SMART DOOR.",
+                "to": "hotel_bridal_door_options"
+              },
+              {
+                "id": "motor_leave",
+                "kind": "action",
+                "text": "LEAVE THE DRESSING ROOM.",
+                "to": "hotel_bridal_corridor_exit"
+              }
+            ]
+          },
+          "hotel_bridal_gown_camera": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "speaker": "bridal_door_ai",
+            "effects": {
+              "set": {
+                "ch4_bridal_gown_camera_rejected": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You hold the gown up to the camera as though it might count as a person."
+              },
+              {
+                "say": "Bridal attire detected.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "GOOD. OPEN.",
+                "who": "you"
+              },
+              {
+                "say": "No bride detected inside bridal attire.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "You return the gown to the stand."
+              }
+            ],
+            "choices": [
+              {
+                "id": "camera_try_wear",
+                "kind": "action",
+                "text": "TRY THE GOWN ON YOURSELF.",
+                "to": "hotel_bridal_gown_try"
+              },
+              {
+                "id": "camera_return",
+                "kind": "action",
+                "text": "RETURN TO THE SMART DOOR.",
+                "to": "hotel_bridal_door_options"
+              },
+              {
+                "id": "camera_leave",
+                "kind": "action",
+                "text": "LEAVE THE DRESSING ROOM.",
+                "to": "hotel_bridal_corridor_exit"
+              }
+            ]
+          },
+          "hotel_bridal_gown_try": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "text": [
+              {
+                "desc": "You look at the dress. You look at the locked bathroom. There are moments when dignity must take a back seat."
+              },
+              {
+                "desc": "You step into the gown and pull it over your shoulders. A motor hums beneath the fabric."
+              },
+              {
+                "say": "Beginning personalized fitting.",
+                "who": "autofit_system"
+              },
+              {
+                "desc": "The waist tightens. Then the shoulders. Then the neckline."
+              },
+              {
+                "say": "WAIT—",
+                "who": "you"
+              },
+              {
+                "desc": "The motor accelerates."
+              }
+            ],
+            "choices": [
+              {
+                "id": "autofit_hidden_roll",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "check": {
+                  "id": "ch4_bridal_autofit_survival",
+                  "sides": 6,
+                  "need": 5,
+                  "mods": [
+                    {
+                      "if": {
+                        "flag": "ch4_autofit_release_located"
+                      },
+                      "add": 1
+                    }
+                  ]
+                },
+                "pass": {
+                  "to": "hotel_bridal_autofit_survived"
+                },
+                "fail": {
+                  "to": "fatal_bridal_made_to_measure"
+                }
+              }
+            ]
+          },
+          "fatal_bridal_made_to_measure": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "text": [
+              {
+                "desc": "The neckline draws tighter. You search beneath the fabric for the release."
+              },
+              {
+                "desc": "The motor interprets your struggling as a poor fit. It makes another adjustment."
+              },
+              {
+                "desc": "The mirror reflects a beautifully tailored wedding dress. The fitting system gives a cheerful chime."
+              },
+              {
+                "say": "Perfect fit achieved.",
+                "who": "autofit_system"
+              },
+              {
+                "desc": "Unfortunately, there is no longer anyone available to wear it."
+              },
+              "ENDING — MADE TO MEASURE."
+            ],
+            "choices": [
+              {
+                "id": "restart_made_to_measure",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "hotel_bridal_autofit_survived": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "effects": {
+              "set": {
+                "ch4_autofit_survived": true,
+                "ch4_provisional_bride_registered": true,
+                "ch4_bridal_registration_fee_pending": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The neckline tightens."
+              },
+              {
+                "if": {
+                  "flag": "ch4_autofit_release_located"
+                },
+                "desc": "Your fingers find the little brass tab beneath the waist. You press it. The neckline loosens just enough for you to breathe."
+              },
+              {
+                "if": {
+                  "notFlag": "ch4_autofit_release_located"
+                },
+                "desc": "You wrench at the fabric, fighting for breath. A seam gives way with a sharp click, and the pressure eases."
+              },
+              {
+                "desc": "The motor stops."
+              },
+              {
+                "say": "Fitting complete.",
+                "who": "autofit_system"
+              },
+              {
+                "desc": "You stand before the mirror, sweating inside an extraordinarily expensive wedding dress."
+              },
+              {
+                "say": "GOOD ENOUGH.",
+                "who": "you"
+              },
+              {
+                "desc": "You approach the bathroom. The camera examines you."
+              },
+              {
+                "say": "Bridal presentation detected.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "A green light illuminates."
+              },
+              {
+                "say": "Identity discrepancy noted.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "say": "OPEN THE DOOR.",
+                "who": "you"
+              },
+              {
+                "say": "Provisional bridal status approved.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "An electronic chime sounds."
+              },
+              {
+                "say": "Registration fee pending.",
+                "who": "bridal_door_ai"
+              },
+              {
+                "desc": "The lock clicks open."
+              },
+              {
+                "desc": "For the first time since entering the hotel, a bathroom door actually opens for you."
+              }
+            ],
+            "choices": [
+              {
+                "id": "autofit_to_seashells",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_seashell_room"
+              }
+            ]
+          },
+          "hotel_bridal_corridor_exit": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_corridor",
+            "text": "You abandon the unhelpful smart door and return to the corridor. The service passage leads back toward the staff lavatory. Downstairs, the loading yard offers a way out.",
+            "choices": [
+              {
+                "id": "corridor_staff_lavatory",
+                "kind": "action",
+                "text": "TRY THE STAFF LAVATORY AGAIN.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "corridor_exit_park",
+                "kind": "action",
+                "text": "LEAVE THE HOTEL AND HEAD TOWARD THE PARK.",
+                "to": "hotel_bridal_corridor_park_exit"
+              }
+            ]
+          },
+          "hotel_bridal_corridor_park_exit": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/courtyard",
+            "effects": {
+              "set": {
+                "ch4_exit_route": "bridal_corridor_departure",
+                "ch4_exit_park_approached": true
+              }
+            },
+            "text": "You leave the bridal corridor and cross the hotel lobby without stopping for another argument. Outside, a small public park lies across the courtyard. Trees, grass, and promising shrubs. You head toward it.\n\nEND CHAPTER 4.",
+            "choices": [
+              {
+                "id": "restart_after_bridal_corridor_park_exit",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "hotel_seashell_room": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_lavatory",
+            "effects": {
+              "set": {
+                "ch4_seashell_lavatory_entered": true
+              }
+            },
+            "text": "You step through the unlocked door. A spotless little room awaits. Against one wall is a narrow counter bearing three seashells. There is no toilet, no other fixture, and no explanation. You check again. Still three shells.",
+            "choices": [
+              {
+                "id": "seashell_room_inspect",
+                "kind": "action",
+                "text": "INSPECT THE THREE SEASHELLS.",
+                "to": "hotel_seashell_inspect"
+              },
+              {
+                "id": "seashell_room_try",
+                "kind": "action",
+                "text": "TRY TO USE THE THREE SEASHELLS.",
+                "if": {
+                  "notFlag": "ch4_seashell_first_attempt_failed"
+                },
+                "to": "hotel_seashell_first_attempt"
+              },
+              {
+                "id": "seashell_room_complain",
+                "kind": "spoken",
+                "text": "COMPLAIN THAT THERE IS NO TOILET.",
+                "if": {
+                  "notFlag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "to": "hotel_seashell_complaint"
+              },
+              {
+                "id": "seashell_room_leave",
+                "kind": "action",
+                "text": "PUT THIS ROOM BEHIND YOU AND LEAVE.",
+                "to": "hotel_bridal_lavatory_park_exit"
+              }
+            ]
+          },
+          "hotel_seashell_inspect": {
+            "mode": "focus",
+            "scene": "grand_bellevue/bridal_lavatory",
+            "focus": "grand_bellevue/three_seashells",
+            "effects": {
+              "set": {
+                "ch4_seashells_inspected": true
+              }
+            },
+            "text": [
+              {
+                "desc": "Three seashells rest on a counter. One is smooth, one ridged, and one differs mainly by being the third. None conceals a button, hose, drain, or toilet."
+              },
+              {
+                "desc": "There is nothing else in the room."
+              }
+            ],
+            "choices": [
+              {
+                "id": "shell_focus_try",
+                "kind": "action",
+                "text": "TRY USING THE SEASHELLS.",
+                "if": {
+                  "notFlag": "ch4_seashell_first_attempt_failed"
+                },
+                "to": "hotel_seashell_first_attempt"
+              },
+              {
+                "id": "shell_focus_ask",
+                "kind": "spoken",
+                "text": "ASK THE BATHROOM AI FOR INSTRUCTIONS.",
+                "if": {
+                  "notFlag": "ch4_seashell_ai_instructions_requested"
+                },
+                "to": "hotel_seashell_instructions"
+              },
+              {
+                "id": "shell_focus_complain",
+                "kind": "spoken",
+                "text": "FILE A MISSING-TOILET COMPLAINT.",
+                "if": {
+                  "notFlag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "to": "hotel_seashell_complaint"
+              },
+              {
+                "id": "shell_focus_leave",
+                "kind": "action",
+                "text": "LEAVE THE ROOM.",
+                "to": "hotel_bridal_lavatory_park_exit"
+              }
+            ]
+          },
+          "hotel_seashell_first_attempt": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_lavatory",
+            "effects": {
+              "set": {
+                "ch4_seashell_first_attempt_failed": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You pick up one seashell, consider it, and put it down. You try another. Nothing happens."
+              },
+              {
+                "desc": "The third shell is no more instructive than the first two."
+              },
+              {
+                "say": "Assistance is available for intuitive operation.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "THEN ASSIST ME.",
+                "who": "you"
+              }
+            ],
+            "choices": [
+              {
+                "id": "shell_first_ask",
+                "kind": "spoken",
+                "text": "ASK THE AI FOR INSTRUCTIONS.",
+                "if": {
+                  "notFlag": "ch4_seashell_ai_instructions_requested"
+                },
+                "to": "hotel_seashell_instructions"
+              },
+              {
+                "id": "shell_first_complain",
+                "kind": "spoken",
+                "text": "FILE A FORMAL COMPLAINT.",
+                "if": {
+                  "notFlag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "to": "hotel_seashell_complaint"
+              },
+              {
+                "id": "shell_first_retry",
+                "kind": "action",
+                "text": "ATTEMPT THE SEASHELLS A SECOND TIME.",
+                "if": {
+                  "notFlag": "ch4_seashell_second_attempt_failed"
+                },
+                "to": "hotel_seashell_second_attempt"
+              },
+              {
+                "id": "shell_first_leave",
+                "kind": "action",
+                "text": "PUT THE SEASHELLS DOWN AND LEAVE.",
+                "to": "hotel_bridal_lavatory_park_exit"
+              }
+            ]
+          },
+          "hotel_seashell_instructions": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_lavatory",
+            "speaker": "bathroom_ai",
+            "effects": {
+              "set": {
+                "ch4_seashell_ai_instructions_requested": true
+              }
+            },
+            "text": [
+              {
+                "say": "HOW AM I SUPPOSED TO USE THREE SEASHELLS?",
+                "who": "you"
+              },
+              {
+                "say": "Operation is considered intuitive for the intended female user.",
+                "who": "bathroom_ai"
+              },
+              {
+                "if": {
+                  "flag": "ch4_provisional_bride_registered"
+                },
+                "say": "I AM REGISTERED AS A BRIDE.",
+                "who": "you"
+              },
+              {
+                "if": {
+                  "notFlag": "ch4_provisional_bride_registered"
+                },
+                "say": "THAT DOES NOT HELP ME.",
+                "who": "you"
+              },
+              {
+                "if": {
+                  "flag": "ch4_provisional_bride_registered"
+                },
+                "say": "Provisional registration does not include intuition.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "THEN PLEASE GIVE ME THE INSTRUCTIONS.",
+                "who": "you"
+              },
+              {
+                "say": "That would defeat the purpose of intuitive operation.",
+                "who": "bathroom_ai"
+              }
+            ],
+            "choices": [
+              {
+                "id": "instructions_complaint",
+                "kind": "spoken",
+                "text": "FILE A FORMAL COMPLAINT.",
+                "if": {
+                  "notFlag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "to": "hotel_seashell_complaint"
+              },
+              {
+                "id": "instructions_retry",
+                "kind": "action",
+                "text": "TRY THE THREE SEASHELLS AGAIN.",
+                "if": {
+                  "notFlag": "ch4_seashell_second_attempt_failed"
+                },
+                "to": "hotel_seashell_second_attempt"
+              },
+              {
+                "id": "instructions_leave",
+                "kind": "action",
+                "text": "LEAVE THE LAVATORY.",
+                "to": "hotel_bridal_lavatory_park_exit"
+              }
+            ]
+          },
+          "hotel_seashell_complaint": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_lavatory",
+            "speaker": "bathroom_ai",
+            "effects": {
+              "set": {
+                "ch4_seashell_missing_toilet_complaint_filed": true
+              }
+            },
+            "text": [
+              {
+                "say": "THERE IS NO TOILET IN THIS BATHROOM.",
+                "who": "you"
+              },
+              {
+                "say": "Your report concerns a missing fixture.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "YES. THE TOILET.",
+                "who": "you"
+              },
+              {
+                "say": "An electronic record has been created.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "DOES THAT MEAN SOMEONE WILL BRING ONE?",
+                "who": "you"
+              },
+              {
+                "say": "Your complaint will remain available for review.",
+                "who": "bathroom_ai"
+              },
+              {
+                "if": {
+                  "flag": "ch4_bridal_registration_fee_pending"
+                },
+                "say": "Your provisional bridal registration fee remains pending.",
+                "who": "bathroom_ai"
+              },
+              {
+                "desc": "You are still standing in front of three seashells."
+              }
+            ],
+            "choices": [
+              {
+                "id": "complaint_second_try",
+                "kind": "action",
+                "text": "TRY THE SEASHELLS AGAIN.",
+                "if": {
+                  "notFlag": "ch4_seashell_second_attempt_failed"
+                },
+                "to": "hotel_seashell_second_attempt"
+              },
+              {
+                "id": "complaint_ask_ai",
+                "kind": "spoken",
+                "text": "ASK FOR OPERATING INSTRUCTIONS.",
+                "if": {
+                  "notFlag": "ch4_seashell_ai_instructions_requested"
+                },
+                "to": "hotel_seashell_instructions"
+              },
+              {
+                "id": "complaint_leave",
+                "kind": "action",
+                "text": "STOP THIS AND LEAVE.",
+                "to": "hotel_bridal_lavatory_park_exit"
+              }
+            ]
+          },
+          "hotel_seashell_second_attempt": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_lavatory",
+            "speaker": "bathroom_ai",
+            "effects": {
+              "set": {
+                "ch4_seashell_second_attempt_failed": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You stand before the counter. Three seashells. No toilet. You pick up the first, turn it over, and put it down."
+              },
+              {
+                "desc": "Perhaps there is a particular order. You rearrange all three. A pleasant chime sounds."
+              },
+              {
+                "say": "Practical assessment complete.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "DID I DO IT?",
+                "who": "you"
+              },
+              {
+                "say": "No.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "THEN WHAT AM I SUPPOSED TO DO?",
+                "who": "you"
+              },
+              {
+                "say": "Correct operation requires certification.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "HOW DO I GET CERTIFIED?",
+                "who": "you"
+              },
+              {
+                "say": "By demonstrating correct operation.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "THAT'S WHAT I'M TRYING TO DO!",
+                "who": "you"
+              },
+              {
+                "say": "Your application has been denied.",
+                "who": "bathroom_ai"
+              },
+              {
+                "desc": "The shells sit innocently on the counter. Your bladder is considerably less innocent."
+              }
+            ],
+            "choices": [
+              {
+                "id": "second_appeal",
+                "kind": "spoken",
+                "text": "CHALLENGE THE ASSESSMENT RESULT.",
+                "to": "hotel_seashell_assessment_appeal"
+              },
+              {
+                "id": "second_leave",
+                "kind": "action",
+                "text": "PUT THE SEASHELLS DOWN AND LEAVE.",
+                "to": "hotel_bridal_lavatory_park_exit"
+              }
+            ]
+          },
+          "hotel_seashell_assessment_appeal": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/bridal_lavatory",
+            "speaker": "bathroom_ai",
+            "effects": {
+              "set": {
+                "ch4_seashell_assessment_appealed": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You address the ceiling."
+              },
+              {
+                "say": "I WANT TO APPEAL THAT ASSESSMENT.",
+                "who": "you"
+              },
+              {
+                "say": "On what grounds?",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "THERE ISN'T EVEN A TOILET IN HERE!",
+                "who": "you"
+              },
+              {
+                "if": {
+                  "flag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "say": "That allegation is already on record.",
+                "who": "bathroom_ai"
+              },
+              {
+                "if": {
+                  "flag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "say": "BECAUSE I REPORTED IT!",
+                "who": "you"
+              },
+              {
+                "if": {
+                  "flag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "say": "Your corroborating testimony has been added.",
+                "who": "bathroom_ai"
+              },
+              {
+                "if": {
+                  "notFlag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "say": "A missing-fixture report must first be entered into the record.",
+                "who": "bathroom_ai"
+              },
+              {
+                "desc": "Somewhere, an electronic form becomes slightly longer."
+              }
+            ],
+            "choices": [
+              {
+                "id": "appeal_file_missing",
+                "kind": "spoken",
+                "text": "FILE THE MISSING-TOILET COMPLAINT.",
+                "if": {
+                  "notFlag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "to": "hotel_seashell_complaint"
+              },
+              {
+                "id": "appeal_other",
+                "kind": "action",
+                "text": "RETURN TO ANY UNTRIED ROOM INTERACTIONS.",
+                "if": {
+                  "flag": "ch4_seashell_missing_toilet_complaint_filed"
+                },
+                "to": "hotel_seashell_room"
+              },
+              {
+                "id": "appeal_leave",
+                "kind": "action",
+                "text": "PUT THE SEASHELLS DOWN AND LEAVE.",
+                "to": "hotel_bridal_lavatory_park_exit"
+              }
+            ]
+          },
+          "hotel_bridal_lavatory_park_exit": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/courtyard",
+            "effects": {
+              "set": {
+                "ch4_exit_route": "bridal_lavatory_departure",
+                "ch4_exit_park_approached": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You carefully replace the three seashells."
+              },
+              {
+                "say": "Thank you for leaving the facilities in their original condition.",
+                "who": "bathroom_ai"
+              },
+              {
+                "say": "THEY'RE IN BETTER CONDITION THAN I AM.",
+                "who": "you"
+              },
+              {
+                "desc": "You leave the bridal lavatory. Back in the dressing room, you remove the wedding gown and abandon it on its stand."
+              },
+              {
+                "desc": "You pass through the hotel without stopping for another argument. Outside, a small public park lies across the courtyard. Trees, shrubs, open space."
+              },
+              {
+                "desc": "You head toward the park."
+              },
+              "END CHAPTER 4."
+            ],
+            "choices": [
+              {
+                "id": "restart_after_bridal_lavatory_park_exit",
+                "kind": "system",
+                "text": "BEGIN AGAIN",
+                "restart": true
+              }
+            ],
+            "end": true
+          },
+          "hotel_ring_inspect_inscription": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/lobby",
+            "effects": {
+              "set": {
+                "ch4_ring_inscription_read": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You turn the silver ring between your fingers. Beneath the pale blue ribbon is a tiny engraving: AS IS, WHERE IS."
+              },
+              {
+                "desc": "Apparently the auctioneer has influenced the wording of the wedding vows."
+              }
+            ],
+            "choices": [
+              {
+                "id": "inscription_show_bride",
+                "kind": "action",
+                "text": "SHOW THE RING TO THE BRIDE.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_ring_show_bride"
+              },
+              {
+                "id": "inscription_find_restroom",
+                "kind": "action",
+                "text": "KEEP THE RING AND SEARCH FOR A RESTROOM.",
+                "to": "hotel_lot61_pod_auction"
+              },
+              {
+                "id": "inscription_service",
+                "kind": "action",
+                "text": "TAKE THE SERVICE PASSAGE TOWARD THE STAFF LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              }
+            ]
+          },
+          "hotel_bridal_door_options": {
+            "mode": "narrative",
+            "scene": "grand_bellevue/bridal_dressing_room",
+            "text": "The smart door remains locked. The camera follows you while the approved bridal-access options wait on its brass panel.",
+            "choices": [
+              {
+                "id": "door_return_ask_bridal_criteria",
+                "kind": "spoken",
+                "text": "ASK WHAT QUALIFIES SOMEONE AS THE BRIDE.",
+                "to": "hotel_bridal_criteria",
+                "if": {
+                  "notFlag": "ch4_bridal_identification_explained"
+                }
+              },
+              {
+                "id": "door_return_request_override",
+                "kind": "spoken",
+                "text": "REQUEST AN EMERGENCY OVERRIDE.",
+                "if": {
+                  "notFlag": "ch4_bridal_emergency_override_denied"
+                },
+                "to": "hotel_bridal_emergency_override"
+              },
+              {
+                "id": "door_return_show_ring",
+                "kind": "action",
+                "text": "SHOW THE WEDDING RING.",
+                "if": {
+                  "has": "wedding_ring_lot31"
+                },
+                "to": "hotel_bridal_ring_argument"
+              },
+              {
+                "id": "door_return_inspect_gown",
+                "kind": "action",
+                "text": "STEP BACK AND INSPECT THE WEDDING GOWN.",
+                "to": "hotel_bridal_gown_focus"
+              },
+              {
+                "id": "door_return_leave",
+                "kind": "action",
+                "text": "GIVE UP ON THIS DOOR AND LEAVE.",
+                "to": "hotel_bridal_corridor_exit"
+              }
+            ]
+          },
+          "hotel_upper_salvage_arrival": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/upper_salvage",
+            "speaker": "hotel_salvage_clerk",
+            "effects": {
+              "set": {
+                "ch4_upper_salvage_reached": true,
+                "ch4_stall_survived_crane": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The stall rises through the ceiling hatch. You cling to its frame as the crane carries it into a storage mezzanine above the hotel."
+              },
+              {
+                "desc": "It swings beside dismantled sinks, mirrors, and bathroom partitions. You climb onto the metal walkway."
+              },
+              {
+                "desc": "The stall is only an empty enclosure now. It hangs from the crane cables in the mezzanine, several feet above the floor. The toilet stayed downstairs, still fixed to the restroom floor."
+              },
+              {
+                "desc": "A salvage clerk approaches with a clipboard."
+              },
+              {
+                "say": "CAN YOU PUT THAT BACK?",
+                "who": "you"
+              },
+              {
+                "say": "Which part?",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "say": "THE STALL!",
+                "who": "you"
+              },
+              {
+                "say": "Plumbing isn't included in the lot.",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "say": "I JUST WANT TO USE IT!",
+                "who": "you"
+              },
+              {
+                "say": "Not while it's suspended. Insurance.",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "desc": "He checks a box on his clipboard."
+              },
+              {
+                "say": "Occupant successfully removed. Excellent.",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "desc": "An open maintenance hatch leads toward the pipework. Service stairs descend toward the loading dock. Surely somebody knows where an installed toilet is."
+              }
+            ],
+            "choices": [
+              {
+                "id": "upper_salvage_ask_clerk",
+                "kind": "spoken",
+                "text": "ASK WHERE AN INSTALLED TOILET CAN BE FOUND.",
+                "to": "hotel_upper_salvage_clerk_directions"
+              },
+              {
+                "id": "upper_salvage_hatch",
+                "kind": "action",
+                "text": "ENTER THE MAINTENANCE HATCH.",
+                "to": "hotel_pipe_tunnel"
+              },
+              {
+                "id": "upper_salvage_dock",
+                "kind": "action",
+                "text": "DESCEND THE SERVICE STAIRS TOWARD THE LOADING DOCK.",
+                "to": "hotel_maintenance_dock_exit"
+              }
+            ]
+          },
+          "hotel_upper_salvage_clerk_directions": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/upper_salvage",
+            "speaker": "hotel_salvage_clerk",
+            "effects": {
+              "set": {
+                "ch4_upper_salvage_staff_lavatory_clue": true
+              }
+            },
+            "text": [
+              {
+                "say": "WHERE CAN I FIND A TOILET THAT ISN'T BEING SOLD?",
+                "who": "you"
+              },
+              {
+                "say": "Installed or operational?",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "say": "BOTH!",
+                "who": "you"
+              },
+              {
+                "say": "Ah. That's two different departments.",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "desc": "He consults his clipboard."
+              },
+              {
+                "say": "There's a staff lavatory one floor down.",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "say": "DOES IT WORK?",
+                "who": "you"
+              },
+              {
+                "say": "It's still on the floor plan.",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "say": "THAT'S NOT WHAT I ASKED.",
+                "who": "you"
+              },
+              {
+                "say": "That's all the floor plan can tell you.",
+                "who": "hotel_salvage_clerk"
+              },
+              {
+                "desc": "He points toward the service stairs."
+              },
+              {
+                "say": "Second landing. Blue door.",
+                "who": "hotel_salvage_clerk"
+              }
+            ],
+            "choices": [
+              {
+                "id": "upper_clerk_to_staff_lavatory",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_staff_lavatory_storage"
+              }
+            ]
+          },
+          "hotel_stall_public_corridor_walk": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/public_corridor",
+            "speaker": "hotel_wedding_guest",
+            "effects": {
+              "set": {
+                "ch4_stall_walked_away_publicly": true
+              }
+            },
+            "text": [
+              {
+                "desc": "The stall continues upward. You remain on the restroom floor, fully dressed, with several guests watching through the doorway."
+              },
+              {
+                "desc": "You straighten your coat and walk past them. One guest glances toward the disappearing toilet."
+              },
+              {
+                "say": "Are you with the removals?",
+                "who": "hotel_wedding_guest"
+              },
+              {
+                "say": "NOT VOLUNTARILY.",
+                "who": "you"
+              },
+              {
+                "desc": "The guest nods sympathetically. You continue down the corridor."
+              },
+              {
+                "desc": "Behind you, the crane groans. Nobody attempts to stop you."
+              },
+              {
+                "desc": "Ahead are a service door, stairs toward the collection area, and a side passage leading outside."
+              }
+            ],
+            "choices": [
+              {
+                "id": "stall_walk_staff_lavatory",
+                "kind": "action",
+                "text": "CHECK THE STAFF LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "stall_walk_collection",
+                "kind": "action",
+                "text": "FOLLOW THE PORTERS TOWARD COLLECTION.",
+                "to": "hotel_collection_stairs"
+              },
+              {
+                "id": "stall_walk_exit",
+                "kind": "action",
+                "text": "LEAVE THE HOTEL THROUGH THE SERVICE EXIT.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
+          },
+          "hotel_flooded_public_corridor": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/public_corridor",
+            "speaker": "hotel_attendant",
+            "effects": {
+              "set": {
+                "ch4_flooded_corridor_reached": true
+              }
+            },
+            "text": [
+              {
+                "desc": "Water rushes across the hotel carpet. You splash into the corridor as an attendant struggles to keep a WET FLOOR sign upright."
+              },
+              {
+                "say": "This corridor has been temporarily reclassified as a water feature.",
+                "who": "hotel_attendant"
+              },
+              {
+                "say": "IT'S A FLOOD!",
+                "who": "you"
+              },
+              {
+                "say": "Only until Facilities completes the paperwork.",
+                "who": "hotel_attendant"
+              },
+              {
+                "desc": "The sign falls over and floats away."
+              },
+              {
+                "say": "WHERE CAN I FIND A WORKING TOILET?",
+                "who": "you"
+              },
+              {
+                "say": "Staff facilities are through that door.",
+                "who": "hotel_attendant"
+              },
+              {
+                "desc": "She points toward a service passage."
+              },
+              {
+                "say": "I can't speak for the plumbing.",
+                "who": "hotel_attendant"
+              },
+              {
+                "desc": "Water spreads beneath the corridor doors. You notice an open maintenance hatch, the staff passage, and a side exit leading toward the loading yard."
+              }
+            ],
+            "choices": [
+              {
+                "id": "flooded_corridor_staff_lavatory",
+                "kind": "action",
+                "text": "ENTER THE STAFF PASSAGE AND CHECK THE LAVATORY.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "flooded_corridor_hatch",
+                "kind": "action",
+                "text": "CLIMB INTO THE MAINTENANCE HATCH.",
+                "to": "hotel_pipe_tunnel"
+              },
+              {
+                "id": "flooded_corridor_exit",
+                "kind": "action",
+                "text": "LEAVE THROUGH THE SIDE EXIT.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
+          },
+          "hotel_water_outage_confirmation": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/service_passage",
+            "speaker": "hotel_boiler_engineer",
+            "backdrop": "grand_bellevue/service_passage",
+            "effects": {
+              "set": {
+                "ch4_hotel_water_outage_confirmed": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You follow the now-silent pipes into the service corridor. You turn on a nearby washbasin tap. Nothing."
+              },
+              {
+                "desc": "An engineer approaches, studying a pressure gauge."
+              },
+              {
+                "say": "DO ANY OF THE TOILETS STILL WORK?",
+                "who": "you"
+              },
+              {
+                "say": "Mechanically, yes. Hydraulically, no.",
+                "who": "hotel_boiler_engineer"
+              },
+              {
+                "say": "I ONLY NEED ONE!",
+                "who": "you"
+              },
+              {
+                "say": "Then you'd have one toilet that doesn't flush.",
+                "who": "hotel_boiler_engineer"
+              },
+              {
+                "say": "I'D TAKE IT!",
+                "who": "you"
+              },
+              {
+                "say": "Access is a separate issue.",
+                "who": "hotel_boiler_engineer"
+              },
+              {
+                "desc": "He returns to his gauge. The corridor branches toward the staff lavatory, the boiler room, and the loading dock."
+              }
+            ],
+            "choices": [
+              {
+                "id": "water_outage_check_staff",
+                "kind": "action",
+                "text": "CHECK THE STAFF LAVATORY ANYWAY.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "water_outage_check_engineers",
+                "kind": "action",
+                "text": "TRY THE ENGINEERS' LAVATORY.",
+                "to": "hotel_boiler_pressure_intro"
+              },
+              {
+                "id": "water_outage_exit",
+                "kind": "action",
+                "text": "LEAVE THE HOTEL THROUGH THE LOADING DOCK.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
+          },
+          "hotel_auctioneer_restroom_inventory": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "pose": "showman",
+            "effects": {
+              "set": {
+                "ch4_auctioneer_restroom_inventory_asked": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You approach the auctioneer while workers carry away the restroom doors."
+              },
+              {
+                "say": "HAVE YOU SOLD ALL THE RESTROOMS, OR IS THERE ONE LEFT?",
+                "who": "you"
+              },
+              {
+                "say": "Three stalls remain on the premises!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "ARE ANY OF THEM AVAILABLE?",
+                "who": "you"
+              },
+              {
+                "say": "To inspect? Certainly!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "TO USE.",
+                "who": "you"
+              },
+              {
+                "say": "Ah! A live demonstration. Very persuasive!",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "I'M NOT SELLING ANYTHING!",
+                "who": "you"
+              },
+              {
+                "say": "Then we'll call it a preview.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "He gestures toward the doorless restroom and returns to his auction."
+              }
+            ],
+            "choices": [
+              {
+                "id": "auctioneer_inventory_public",
+                "kind": "action",
+                "text": "ENTER THE RESTROOM WHILE IT'S STILL THERE.",
+                "to": "hotel_restroom_entry"
+              },
+              {
+                "id": "auctioneer_inventory_staff",
+                "kind": "action",
+                "text": "LOOK FOR A STAFF RESTROOM INSTEAD.",
+                "to": "hotel_staff_lavatory_storage"
+              },
+              {
+                "id": "auctioneer_inventory_service",
+                "kind": "action",
+                "text": "LEAVE THE AUCTION AND TAKE THE SERVICE CORRIDOR TO THE LOADING DOCK.",
+                "to": "hotel_service_foreman"
+              }
+            ]
+          },
+          "hotel_auctioneer_lot14_dispute": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "pose": "showman",
+            "effects": {
+              "set": {
+                "ch4_lot14_dispute_opened": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You approach the auction podium while water spreads across the lobby floor."
+              },
+              {
+                "say": "YOU SOLD THE HOTEL'S EMERGENCY WATER SHUTOFF!",
+                "who": "you"
+              },
+              {
+                "say": "We sold a brass nautical fitting.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "THE HOTEL'S FLOODING!",
+                "who": "you"
+              },
+              {
+                "say": "That does explain the damp bidding paddles.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "REVERSE THE SALE!",
+                "who": "you"
+              },
+              {
+                "say": "Cataloguing errors may be appealed.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "He produces a correction form."
+              },
+              {
+                "say": "Have you inspected the original receipt?",
+                "who": "hotel_auctioneer"
+              }
+            ],
+            "choices": [
+              {
+                "id": "lot14_dispute_cite_receipt",
+                "kind": "action",
+                "text": "CITE THE LOT 14 RECEIPT.",
+                "if": {
+                  "flag": "ch4_knows_wheel_lot_14"
+                },
+                "to": "hotel_auctioneer_lot14_recall"
+              },
+              {
+                "id": "lot14_dispute_find_buyer",
+                "kind": "action",
+                "text": "FIND COMMODORE BIXBY AND ASK HIM DIRECTLY.",
+                "to": "hotel_commodore_bixby"
+              },
+              {
+                "id": "lot14_dispute_maintenance",
+                "kind": "action",
+                "text": "ABANDON THE DISPUTE AND TRY THE MAINTENANCE CONTROLS.",
+                "to": "hotel_pipe_tunnel"
+              }
+            ]
+          },
+          "hotel_auctioneer_lot14_recall": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/lobby",
+            "speaker": "hotel_auctioneer",
+            "pose": "showman",
+            "effects": {
+              "set": {
+                "ch4_lot14_catalogue_correction": true,
+                "ch4_valve_wheel_recovered": true,
+                "ch4_lot14_recalled_temporary": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You point to the original receipt."
+              },
+              {
+                "say": "LOT FOURTEEN. WATER SHUTOFF WHEEL.",
+                "who": "you"
+              },
+              {
+                "say": "Hmm. The catalogue lists it as naval decoration.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "IT WAS ATTACHED TO A WATER PIPE!",
+                "who": "you"
+              },
+              {
+                "say": "Oh, dear. Incorrectly described merchandise.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "SO THE SALE IS CANCELLED?",
+                "who": "you"
+              },
+              {
+                "say": "Certainly not. All sales are final.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "say": "THEN GIVE ME THE WHEEL!",
+                "who": "you"
+              },
+              {
+                "say": "Naturally. We must recall it for inspection.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "He stamps the correction form: RECALL AUTHORIZED."
+              },
+              {
+                "desc": "Two porters retrieve the brass wheel from Commodore Bixby's ice-bucket boat."
+              },
+              {
+                "say": "But I've only just launched her!",
+                "who": "hotel_commodore_bixby"
+              },
+              {
+                "say": "For legal purposes, Commodore, you haven't taken delivery.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "The porters hand you the wheel."
+              },
+              {
+                "say": "Please return it when you've finished inspecting it.",
+                "who": "hotel_auctioneer"
+              },
+              {
+                "desc": "You leave before he can reconsider."
+              }
+            ],
+            "choices": [
+              {
+                "id": "lot14_recall_return_wheel",
+                "kind": "continue",
+                "text": "CONTINUE",
+                "to": "hotel_wheel_return"
+              }
+            ]
+          },
+          "hotel_freight_wc_misunderstanding": {
+            "mode": "dialogue",
+            "scene": "grand_bellevue/freight_lift",
+            "speaker": "hotel_lift_voice",
+            "effects": {
+              "set": {
+                "ch4_freight_upper_level_reached": true,
+                "ch4_freight_wc_misunderstanding": true
+              }
+            },
+            "text": [
+              {
+                "desc": "You step into the freight elevator. Its panel has three buttons. One is marked W.C. Finally."
+              },
+              {
+                "desc": "You press it. The elevator rattles upward."
+              },
+              {
+                "say": "Floor Two. W.C.",
+                "who": "hotel_lift_voice"
+              },
+              {
+                "desc": "The doors open onto a storage mezzanine filled with dismantled sinks, toilets, and bathroom partitions."
+              },
+              {
+                "say": "THIS ISN'T A RESTROOM!",
+                "who": "you"
+              },
+              {
+                "say": "Warehouse Collection.",
+                "who": "hotel_lift_voice"
+              },
+              {
+                "say": "THEN WHY DOES THE BUTTON SAY W.C.?",
+                "who": "you"
+              },
+              {
+                "say": "It was cheaper than replacing the panel.",
+                "who": "hotel_lift_voice"
+              },
+              {
+                "desc": "You step onto the mezzanine. A salvage clerk studies a clipboard nearby. An open maintenance hatch leads toward the pipework. The lift remains behind you."
+              }
+            ],
+            "choices": [
+              {
+                "id": "freight_wc_ask_clerk",
+                "kind": "spoken",
+                "text": "ASK THE SALVAGE CLERK WHERE A WORKING TOILET IS.",
+                "to": "hotel_upper_salvage_clerk_directions"
+              },
+              {
+                "id": "freight_wc_hatch",
+                "kind": "action",
+                "text": "ENTER THE MAINTENANCE HATCH.",
+                "to": "hotel_pipe_tunnel"
+              },
+              {
+                "id": "freight_wc_exit",
+                "kind": "action",
+                "text": "RIDE BACK DOWN AND LEAVE THE HOTEL.",
+                "to": "hotel_service_park_exit"
+              }
+            ]
           }
         }
       }

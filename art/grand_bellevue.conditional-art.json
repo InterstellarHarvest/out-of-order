@@ -1,0 +1,774 @@
+{
+  "schema": "cyoa-conditional-art-v1",
+  "about": "GAME-OWNED conditional art dispatch for Chapter 4 (game issue #27, game docs/107 section 5). The 28 approved preserved conditional references of public docs/152 section 4, copied byte-for-byte, and when each is shown: the authored node(s), the real state, and the authored text beat at which it starts (beat) or stops (until). They are references, not storyboard selections: no key, flag or story id is added. A state with a region draws only that rectangle of its own opaque image over the selected image (the NEW-18 water, combinable with the wheel states: its difference box is disjoint from theirs).",
+  "storyboard": {
+    "repo": "InterstellarHarvest/CYOA-storyboard",
+    "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3"
+  },
+  "references": [
+    {
+      "id": "lobby_doors_removed",
+      "surface": "scene",
+      "base": "grand_bellevue/lobby",
+      "path": "art/scenes/grand_bellevue/lobby/states/lobby_doors_removed.png",
+      "sha256": "e2aa3835dca0edf1e76b93df2a3cf628db8dc5ff8f56c1f5df8e6188ea7d218e",
+      "gitBlob": "f41f867fc598dd12083e34b5ce88e1fa83129593",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-19/lobby-doors-removed.png"
+      }
+    },
+    {
+      "id": "lot61_open",
+      "surface": "scene",
+      "base": "grand_bellevue/lobby",
+      "path": "art/scenes/grand_bellevue/lobby/states/lot61_open.png",
+      "sha256": "3913c8ad89c0245c31827f1933926ff0d1a00ec9da71f34dfa9818ff222c42b5",
+      "gitBlob": "f87b857f29d897e1fa6de8c71fe9aa26eaed1f9f",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-19/lot61-open.png"
+      }
+    },
+    {
+      "id": "lot61_packed",
+      "surface": "scene",
+      "base": "grand_bellevue/lobby",
+      "path": "art/scenes/grand_bellevue/lobby/states/lot61_packed.png",
+      "sha256": "f3c27be75a18007850f8eb9bff7ae71f031063aa44735f9bfbd24bf5d876b558",
+      "gitBlob": "a52f4a06670342192285ebe3346698ca72c6e50e",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-19/lot61-packed.png"
+      }
+    },
+    {
+      "id": "restroom_active_leak",
+      "surface": "scene",
+      "base": "grand_bellevue/restroom",
+      "path": "art/scenes/grand_bellevue/restroom/states/restroom_active_leak.png",
+      "sha256": "9a6243310bb7af1958854110af742c603275b2ebf9c889050c6c065737e57279",
+      "gitBlob": "c5601f4b5ce7ac9b48f5f88bbb1bf707b95dc1b4",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-18/restroom-active-leak-main.png"
+      }
+    },
+    {
+      "id": "restroom_contained",
+      "surface": "scene",
+      "base": "grand_bellevue/restroom",
+      "path": "art/scenes/grand_bellevue/restroom/states/restroom_contained.png",
+      "sha256": "674cb60c905347e99c95b99ec87dfacc218cf15483abe89bc4e092d40b43ed1a",
+      "gitBlob": "b90a55bdd3921cc6fa0b6a87496dc5b482c80c46",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-18/restroom-contained-main.png"
+      }
+    },
+    {
+      "id": "restroom_flood_onset",
+      "surface": "scene",
+      "base": "grand_bellevue/restroom",
+      "path": "art/scenes/grand_bellevue/restroom/states/restroom_flood_onset.png",
+      "sha256": "432ce64f5e7e0420f678774ec8cf2edb02ce745ff532d83b3e1723af9d90fb46",
+      "gitBlob": "ef9deeb970de042a0f22da0301b77fae41fb3e26",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-18/restroom-flood-onset-main.png"
+      }
+    },
+    {
+      "id": "restroom_stall_lifting",
+      "surface": "scene",
+      "base": "grand_bellevue/restroom",
+      "path": "art/scenes/grand_bellevue/restroom/states/restroom_stall_lifting.png",
+      "sha256": "84976c116d9fc87b6ce8f4cf5d7f316d7185fa308f889df6d1c76eafe6bc525e",
+      "gitBlob": "d6c00437734966c3d98f8e8696722372fa429ed7",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-18/restroom-stall-lifting-main.png"
+      }
+    },
+    {
+      "id": "restroom_active_leak_close",
+      "surface": "background",
+      "base": "grand_bellevue/restroom",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/restroom_active_leak_close.png",
+      "sha256": "35a8f8297da89038a0a7b30596363bfa6ad86e3edc6b02bf0efb360a4dc3a46a",
+      "gitBlob": "4db993c195aa3b6a60424ffbea612334ce118ca9",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-18/restroom-active-leak-close.png"
+      }
+    },
+    {
+      "id": "staff_lavatory_cleared",
+      "surface": "scene",
+      "base": "grand_bellevue/staff_lavatory",
+      "path": "art/scenes/grand_bellevue/staff_lavatory/states/staff_lavatory_cleared.png",
+      "sha256": "97a1485382bfdda21a70258af8be957ace82fa19b0a8e64b3179e14e43ce73df",
+      "gitBlob": "7469de3747d7b333d1ad965db888afa7e7311101",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-07/CH4-B2-37-cleared-v01.png"
+      }
+    },
+    {
+      "id": "staff_lavatory_permit",
+      "surface": "scene",
+      "base": "grand_bellevue/staff_lavatory",
+      "path": "art/scenes/grand_bellevue/staff_lavatory/states/staff_lavatory_permit.png",
+      "sha256": "1e410771e048a01f43ec77ddeee1d61a137338579a428e160e952d674a352c85",
+      "gitBlob": "26a17928122665309c291715ac418d838aef9c51",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-07/CH4-B2-37-permit-v01.png"
+      }
+    },
+    {
+      "id": "staff_lavatory_cleared_close",
+      "surface": "background",
+      "base": "grand_bellevue/staff_lavatory",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/staff_lavatory_cleared_close.png",
+      "sha256": "7eb87b07f2f1390e2e2d278c3f757d66db1e0afd8bcf716821bf9c324eeeb668",
+      "gitBlob": "643671d905b9cc7f176d631495807006e2fa45b4",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-07/CH4-B2-41-cleared-v01.png"
+      }
+    },
+    {
+      "id": "staff_lavatory_permit_close",
+      "surface": "background",
+      "base": "grand_bellevue/staff_lavatory",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/staff_lavatory_permit_close.png",
+      "sha256": "2bd720955c229d775d9b5f55ecb2bea4b74670c1e00517231e2d771d58e82831",
+      "gitBlob": "4dc5a370721b33eb675f755e896f036309d3f828",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-07/CH4-B2-41-permit-v01.png"
+      }
+    },
+    {
+      "id": "boiler_relieved",
+      "surface": "scene",
+      "base": "grand_bellevue/boiler_room",
+      "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_relieved.png",
+      "sha256": "8278a9dbb107cdf62e5883a386626fff9b30d7d933e08e10a81c30bb9703c051",
+      "gitBlob": "6939603d55c4c1ec4f42c35dc17302535f20524f",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-08/CH4-B2-42-relieved-v01.png"
+      }
+    },
+    {
+      "id": "boiler_inspection_hold",
+      "surface": "scene",
+      "base": "grand_bellevue/boiler_room",
+      "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_inspection_hold.png",
+      "sha256": "93f7ab9c125077718aa345b9374ee3368caf2499010ee4862b6e189205c7d482",
+      "gitBlob": "38a83f774d36bbf9e07b6eb5e62315f9ed358033",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-08/CH4-B2-42-inspection-hold-v01.png"
+      }
+    },
+    {
+      "id": "boiler_staff_access",
+      "surface": "scene",
+      "base": "grand_bellevue/boiler_room",
+      "path": "art/scenes/grand_bellevue/boiler_room/states/boiler_staff_access.png",
+      "sha256": "b179c47d6cc0730ba7f88d8c5e8c159be46dca9c99539fce5da4186ddf8efbba",
+      "gitBlob": "93c48c63fdad7b1d6b89a435ed91583a5740f065",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-08/CH4-B2-42-staff-access-v01.png"
+      }
+    },
+    {
+      "id": "boiler_relieved_close",
+      "surface": "background",
+      "base": "grand_bellevue/boiler_room",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_relieved_close.png",
+      "sha256": "25b3b3bf50e84fe62510b43cda9072e976ad4c316eea8223ed04a0668d784692",
+      "gitBlob": "c02316a20d17eab6ebff15ad6512929b7440c4f2",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-08/CH4-B2-47-relieved-v01.png"
+      }
+    },
+    {
+      "id": "boiler_inspection_hold_close",
+      "surface": "background",
+      "base": "grand_bellevue/boiler_room",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_inspection_hold_close.png",
+      "sha256": "01e200de1f21d56328dc876166bcc77ecd0bd43ba8ab7fee556f514bfcb2af0f",
+      "gitBlob": "57cf01e5015cb9eef5f58f408c09aad8df39cf91",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-08/CH4-B2-47-inspection-hold-v01.png"
+      }
+    },
+    {
+      "id": "boiler_staff_access_close",
+      "surface": "background",
+      "base": "grand_bellevue/boiler_room",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/boiler_staff_access_close.png",
+      "sha256": "fb67d5ae76b4f91de9995ed6095e396b769e688bbcc3f9e8931ae4a8ec56b7ea",
+      "gitBlob": "1ac9923d74684384eb87736c4818c886442f2c31",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-08/CH4-B2-47-staff-access-v01.png"
+      }
+    },
+    {
+      "id": "threshold_wheel_mounted",
+      "surface": "background",
+      "base": "grand_bellevue/ballroom",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_wheel_mounted.png",
+      "sha256": "ba0e7961134a632a522331f57945dd7889f9ae158a27a67e1cadc16cbdf1afc9",
+      "gitBlob": "fd0feb3cf2359f03fb0dcaaae33b51f50e0b39b7",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-09/CH4-NEW-18-wheel-mounted-v01.png"
+      }
+    },
+    {
+      "id": "threshold_wheel_removed",
+      "surface": "background",
+      "base": "grand_bellevue/ballroom",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_wheel_removed.png",
+      "sha256": "cc9d19c2413df5b017b72592e3d5c676a84ad0ad91c354093a0a9e0199233e7d",
+      "gitBlob": "3fba0ea9cee0dcfd7fac9ce9f81f2c53725a4f7f",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-09/CH4-NEW-18-wheel-removed-v01.png"
+      }
+    },
+    {
+      "id": "threshold_rubber_band_fender",
+      "surface": "background",
+      "base": "grand_bellevue/ballroom",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_rubber_band_fender.png",
+      "sha256": "7c4261a915e62c91f394942eac5fe7c0e6f5fc847fcc68b248494cf76c0c850b",
+      "gitBlob": "1287ae413ec3cf22de24106c82275ecde5885582",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-09/CH4-NEW-18-rubber-band-fender-v01.png"
+      }
+    },
+    {
+      "id": "threshold_water_emerging",
+      "surface": "background",
+      "base": "grand_bellevue/ballroom",
+      "path": "art/portraits/grand_bellevue/backgrounds/states/threshold_water_emerging.png",
+      "sha256": "b5b1b1d0cc775cc02cfb61447efe12950fe78ca3e6184602b07c42dac9cb6f65",
+      "gitBlob": "e3217cd6e6f497466d997a8f1feaa484719691b7",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-09/CH4-NEW-18-water-emerging-v01.png"
+      }
+    },
+    {
+      "id": "public_corridor_flood",
+      "surface": "scene",
+      "base": "grand_bellevue/public_corridor",
+      "path": "art/scenes/grand_bellevue/public_corridor/states/public_corridor_flood.png",
+      "sha256": "f802ff0c9aa345147f6039779df8b49403cc96add6be89b13f2ef9396727212f",
+      "gitBlob": "6581a18e1d192dd08d15c61ab03d009f2cadeaf2",
+      "width": 314,
+      "height": 206,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-11/CH4-NEW-04-public-corridor-flood-v04.png"
+      }
+    },
+    {
+      "id": "chair_seam_open",
+      "surface": "focus",
+      "base": "grand_bellevue/auction_floor/chair_armrest",
+      "path": "art/focus/grand_bellevue/auction_floor/chair_armrest/states/chair_seam_open.png",
+      "sha256": "a90e705303261114f882f0f270c195716f1a6e6b7384f6792373bc650c9b204c",
+      "gitBlob": "e13aa7164a0e3e3306eec75b96ce605c3e007209",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-04/CH4-B2-24-open-v01.png"
+      }
+    },
+    {
+      "id": "collection_ring_slipped",
+      "surface": "focus",
+      "base": "grand_bellevue/collection_stairs/chair_armrest",
+      "path": "art/focus/grand_bellevue/collection_stairs/chair_armrest/states/collection_ring_slipped.png",
+      "sha256": "afc5ba21cf2b472a762538ee9bbeb8ae571f64e27815d36a3849fd9ba5dd6846",
+      "gitBlob": "b6956ffaf4943488a7ee5cea4273f94013f23813",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-04/CH4-B2-25-slipped-v01.png"
+      }
+    },
+    {
+      "id": "collection_ring_recovered",
+      "surface": "focus",
+      "base": "grand_bellevue/collection_stairs/chair_armrest",
+      "path": "art/focus/grand_bellevue/collection_stairs/chair_armrest/states/collection_ring_recovered.png",
+      "sha256": "6cd99a639036a2ae746d7e7bcaca30a4d3914ebb125a3a59fde62e3a37f7ade1",
+      "gitBlob": "682fb9d354c7f2427a3d1d0a8a04f8ba2be79f91",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-04/CH4-B2-25-recovered-v01.png"
+      },
+      "unbound": "its authored nodes (hotel_collection_ring_porter_recovery, hotel_collection_ring_stapler_recovery) are conversations with the porter portrait, and hotel_collection_ring_focus cannot be entered again once the ring is retrieved (notFlag ch4_wedding_ring_retrieved)"
+    },
+    {
+      "id": "bridal_panel_provisional",
+      "surface": "focus",
+      "base": "grand_bellevue/bridal_privacy_panel",
+      "path": "art/focus/grand_bellevue/bridal_privacy_panel/states/bridal_panel_provisional.png",
+      "sha256": "b7d8014313519b67d3ebe8c72772ed0d01b4dbbb88748c9e5b0e7f589d669272",
+      "gitBlob": "c1ac97ff1d872f4986169da8a6ab98117ec4b925",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-12/CH4-NEW-07-focus-provisional-v02.png"
+      },
+      "unbound": "ch4_provisional_bride_registered is set only after hotel_bridal_door_focus can no longer be reached (docs/145; assessment D1)"
+    },
+    {
+      "id": "autofit_manual_slack",
+      "surface": "focus",
+      "base": "grand_bellevue/autofit_gown",
+      "path": "art/focus/grand_bellevue/autofit_gown/states/autofit_manual_slack.png",
+      "sha256": "592bc3e6a237745d9a066fe5d7424d1cb5f520caffbc0af2491eaf76d83bb98d",
+      "gitBlob": "ee8f6c3597bce8be0db294b0296f3c11dc3f6bfb",
+      "width": 564,
+      "height": 278,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-13/CH4-NEW-08-manual-slack-revealed-v01.png"
+      },
+      "unbound": "hotel_bridal_gown_motor is a Narrative B node (no Focus A aperture), and the lining is replaced before the close-up can be shown again (never persist an open lining, docs/152 section 4)"
+    }
+  ],
+  "states": {
+    "scene:grand_bellevue/lobby": [
+      {
+        "id": "lot61_packed",
+        "ref": "lot61_packed",
+        "at": [
+          "chapter-04:hotel_lot61_pod_escaped"
+        ],
+        "beat": "Behind you, the booth folds inward"
+      },
+      {
+        "id": "lot61_open",
+        "ref": "lot61_open",
+        "at": [
+          "chapter-04:hotel_lot61_pod_auction"
+        ],
+        "beat": "Two porters wheel out a gleaming metal booth."
+      },
+      {
+        "id": "lot61_open_demonstration",
+        "ref": "lot61_open",
+        "at": [
+          "chapter-04:hotel_lot61_pod_declined",
+          "chapter-04:hotel_lot61_pod_escaped",
+          "chapter-04:fatal_lot61_folded"
+        ]
+      },
+      {
+        "id": "lobby_doors_removed",
+        "ref": "lobby_doors_removed",
+        "at": [
+          "chapter-04:entry_backstage_exit",
+          "chapter-04:hotel_lobby_view",
+          "chapter-04:hotel_auctioneer_arrival",
+          "chapter-04:hotel_auction_reopen_53",
+          "chapter-04:hotel_auction_testimonial",
+          "chapter-04:hotel_auction_bride_ally",
+          "chapter-04:hotel_auction_dispute_ticket",
+          "chapter-04:hotel_auction_chair_lot31",
+          "chapter-04:hotel_chair_vegetation_inspection",
+          "chapter-04:hotel_chair_examiner_inspection",
+          "chapter-04:hotel_chair_stapler_stealth",
+          "chapter-04:hotel_chair_stapler_caught",
+          "chapter-04:hotel_chair_staff_escort",
+          "chapter-04:hotel_chair_ring_focus",
+          "chapter-04:hotel_ring_retrieved",
+          "chapter-04:hotel_ring_slips",
+          "chapter-04:hotel_ring_in_pocket",
+          "chapter-04:hotel_ring_show_bride",
+          "chapter-04:hotel_bride_ring_handover",
+          "chapter-04:hotel_bride_ring_bathroom",
+          "chapter-04:hotel_collection_ring_to_bride",
+          "chapter-04:hotel_lot61_pod_auction",
+          "chapter-04:hotel_lot61_pod_escaped",
+          "chapter-04:fatal_lot61_folded",
+          "chapter-04:hotel_lot61_pod_declined",
+          "chapter-04:hotel_ring_inspect_inscription",
+          "chapter-04:hotel_auctioneer_restroom_inventory",
+          "chapter-04:hotel_auctioneer_lot14_dispute",
+          "chapter-04:hotel_auctioneer_lot14_recall"
+        ],
+        "after": {
+          "node": "chapter-04:hotel_auctioneer_arrival",
+          "beat": "A workman carries away the first restroom door."
+        }
+      }
+    ],
+    "scene:grand_bellevue/restroom": [
+      {
+        "id": "restroom_stall_lifting",
+        "ref": "restroom_stall_lifting",
+        "at": [
+          "chapter-04:hotel_stall_lot_claimed"
+        ],
+        "beat": "Something shifts overhead."
+      },
+      {
+        "id": "restroom_stall_lifting_after",
+        "ref": "restroom_stall_lifting",
+        "at": [
+          "chapter-04:hotel_stall_crane_success",
+          "chapter-04:hotel_stall_porter_protest"
+        ]
+      },
+      {
+        "id": "restroom_contained",
+        "ref": "restroom_contained",
+        "at": [
+          "chapter-04:hotel_wheel_return"
+        ],
+        "beat": "One turn. A second."
+      },
+      {
+        "id": "restroom_contained_lever",
+        "ref": "restroom_contained",
+        "at": [
+          "chapter-04:hotel_key_master_cabinet"
+        ],
+        "beat": "Inside is a single large red lever."
+      },
+      {
+        "id": "restroom_contained_held",
+        "ref": "restroom_contained",
+        "at": [
+          "chapter-04:hotel_valve_braced",
+          "chapter-04:hotel_stall_lot_claimed"
+        ]
+      },
+      {
+        "id": "restroom_flood_onset",
+        "ref": "restroom_flood_onset",
+        "at": [
+          "chapter-04:hotel_valve_flood"
+        ]
+      },
+      {
+        "id": "restroom_active_leak",
+        "ref": "restroom_active_leak",
+        "at": [
+          "chapter-04:hotel_restroom_plumber"
+        ],
+        "beat": "A violent jet of water erupts"
+      },
+      {
+        "id": "restroom_active_leak_held",
+        "ref": "restroom_active_leak",
+        "at": [
+          "chapter-04:hotel_wheel_buyer_lead",
+          "chapter-04:hotel_wheel_return",
+          "chapter-04:hotel_key_master_cabinet"
+        ]
+      }
+    ],
+    "background:grand_bellevue/restroom": [
+      {
+        "id": "restroom_active_leak_close",
+        "ref": "restroom_active_leak_close",
+        "at": [
+          "chapter-04:hotel_restroom_plumber"
+        ],
+        "beat": "A violent jet of water erupts"
+      },
+      {
+        "id": "restroom_active_leak_close_held",
+        "ref": "restroom_active_leak_close",
+        "at": [
+          "chapter-04:hotel_wheel_buyer_lead"
+        ]
+      }
+    ],
+    "scene:grand_bellevue/staff_lavatory": [
+      {
+        "id": "staff_lavatory_permit",
+        "ref": "staff_lavatory_permit",
+        "at": [
+          "chapter-04:hotel_staff_lavatory_temporary_use_permit"
+        ],
+        "beat": "She places her clipboard on the toilet seat."
+      },
+      {
+        "id": "staff_lavatory_cleared",
+        "ref": "staff_lavatory_cleared",
+        "at": [
+          "chapter-04:hotel_staff_lavatory_move_boxes"
+        ],
+        "beat": "She begins removing boxes."
+      },
+      {
+        "id": "staff_lavatory_cleared_held",
+        "ref": "staff_lavatory_cleared",
+        "at": [
+          "chapter-04:hotel_staff_lavatory_temporary_use_permit"
+        ]
+      }
+    ],
+    "background:grand_bellevue/staff_lavatory": [
+      {
+        "id": "staff_lavatory_permit_close",
+        "ref": "staff_lavatory_permit_close",
+        "at": [
+          "chapter-04:hotel_staff_lavatory_temporary_use_permit"
+        ],
+        "beat": "She places her clipboard on the toilet seat."
+      },
+      {
+        "id": "staff_lavatory_cleared_close",
+        "ref": "staff_lavatory_cleared_close",
+        "at": [
+          "chapter-04:hotel_staff_lavatory_move_boxes"
+        ],
+        "beat": "She begins removing boxes."
+      },
+      {
+        "id": "staff_lavatory_cleared_close_held",
+        "ref": "staff_lavatory_cleared_close",
+        "at": [
+          "chapter-04:hotel_staff_lavatory_temporary_use_permit"
+        ]
+      }
+    ],
+    "scene:grand_bellevue/boiler_room": [
+      {
+        "id": "boiler_relieved",
+        "ref": "boiler_relieved",
+        "at": [
+          "chapter-04:hotel_boiler_pressure_relieved"
+        ],
+        "beat": "He unlocks the passage."
+      },
+      {
+        "id": "boiler_inspection_hold",
+        "ref": "boiler_inspection_hold",
+        "at": [
+          "chapter-04:hotel_boiler_dispute_hold"
+        ],
+        "beat": "He hangs a DO NOT OPERATE tag"
+      },
+      {
+        "id": "boiler_staff_access",
+        "ref": "boiler_staff_access",
+        "at": [
+          "chapter-04:hotel_boiler_staff_access"
+        ],
+        "beat": "He opens the maintenance gate."
+      }
+    ],
+    "background:grand_bellevue/boiler_room": [
+      {
+        "id": "boiler_relieved_close",
+        "ref": "boiler_relieved_close",
+        "at": [
+          "chapter-04:hotel_boiler_pressure_relieved"
+        ],
+        "beat": "He unlocks the passage."
+      },
+      {
+        "id": "boiler_inspection_hold_close",
+        "ref": "boiler_inspection_hold_close",
+        "at": [
+          "chapter-04:hotel_boiler_dispute_hold"
+        ],
+        "beat": "He hangs a DO NOT OPERATE tag"
+      },
+      {
+        "id": "boiler_staff_access_close",
+        "ref": "boiler_staff_access_close",
+        "at": [
+          "chapter-04:hotel_boiler_staff_access"
+        ],
+        "beat": "He opens the maintenance gate."
+      }
+    ],
+    "background:grand_bellevue/ballroom": [
+      {
+        "id": "threshold_rubber_band_fender",
+        "ref": "threshold_rubber_band_fender",
+        "at": [
+          "chapter-04:hotel_bixby_trade"
+        ],
+        "beat": "He hands you the brass wheel"
+      },
+      {
+        "id": "threshold_wheel_removed",
+        "ref": "threshold_wheel_removed",
+        "at": [
+          "chapter-04:hotel_bixby_emergency"
+        ],
+        "beat": "He pulls the wheel free"
+      },
+      {
+        "id": "threshold_wheel_mounted",
+        "ref": "threshold_wheel_mounted",
+        "at": [
+          "chapter-04:hotel_commodore_bixby",
+          "chapter-04:hotel_bixby_emergency",
+          "chapter-04:hotel_bixby_trade"
+        ]
+      },
+      {
+        "id": "threshold_water_emerging",
+        "ref": "threshold_water_emerging",
+        "at": [
+          "chapter-04:hotel_commodore_bixby"
+        ],
+        "beat": "Water creeps out from beneath the ballroom door",
+        "region": [
+          0,
+          221,
+          99,
+          42
+        ]
+      },
+      {
+        "id": "threshold_water_emerging_held",
+        "ref": "threshold_water_emerging",
+        "at": [
+          "chapter-04:hotel_bixby_emergency",
+          "chapter-04:hotel_bixby_trade"
+        ],
+        "region": [
+          0,
+          221,
+          99,
+          42
+        ]
+      }
+    ],
+    "scene:grand_bellevue/public_corridor": [
+      {
+        "id": "public_corridor_flood",
+        "ref": "public_corridor_flood",
+        "at": [
+          "chapter-04:hotel_flooded_public_corridor"
+        ]
+      }
+    ],
+    "focus:grand_bellevue/auction_floor/chair_armrest": [
+      {
+        "id": "chair_seam_open",
+        "ref": "chair_seam_open",
+        "at": [
+          "chapter-04:hotel_chair_ring_focus"
+        ],
+        "if": {
+          "flag": "ch4_chair_seam_open"
+        }
+      }
+    ],
+    "focus:grand_bellevue/collection_stairs/chair_armrest": [
+      {
+        "id": "collection_ring_slipped",
+        "ref": "collection_ring_slipped",
+        "at": [
+          "chapter-04:hotel_collection_ring_focus"
+        ],
+        "if": {
+          "flag": "ch4_ring_slipped_inside_chair"
+        }
+      }
+    ]
+  }
+}

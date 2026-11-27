@@ -131,8 +131,13 @@
     return faces[G.layout.typeface[role]] || LOCKED;
   };
 
+  // A character the face lacks draws its typographic fallback (js/glyph-fallback.js), else '?'.
+  var FALLBACK = window.CYOA_GLYPH_FALLBACK || {};
+  function drawn(ch, face) {
+    return face.mapping[ch] ? ch : FALLBACK[ch] && face.mapping[FALLBACK[ch]] ? FALLBACK[ch] : '?';
+  }
   function glyph(ch, face) {
-    return face.mapping[ch] || face.mapping['?'];
+    return face.mapping[drawn(ch, face)];
   }
 
   T.advance = function (text, role) {
@@ -236,7 +241,7 @@
     var top = Infinity;
     var bottom = -Infinity;
     for (var i = 0; i < text.length; i++) {
-      var ch = face.mapping[text[i]] ? text[i] : '?';
+      var ch = drawn(text[i], face);
       var g = face.mapping[ch];
       if (!g.w || !g.h) continue;
       var ink = table ? table[ch] : [0, g.h];

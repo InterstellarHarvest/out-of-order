@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Out of Order — Chapter 4 review starts (development only)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body { font: 15px/1.45 system-ui, sans-serif; margin: 24px; max-width: 900px; background: #f4f1ea; color: #222; }
+  h1 { font-size: 20px; } h2 { font-size: 15px; margin-top: 22px; }
+  button { font: inherit; padding: 6px 10px; margin: 3px 0; cursor: pointer; }
+  .note { color: #555; font-size: 13px; margin-left: 8px; }
+  code { background: #e6e1d6; padding: 1px 4px; }
+</style>
+</head>
+<body>
+<h1>Chapter 4 review starts <small>(development only, game issue #27)</small></h1>
+<p>Each button replaces this browser's Out of Order autosave with a <b>real playthrough</b> standing on a chapter's last node, then opens the game. Press CONTINUE there to cross the chapter boundary (the Form 27B-6 printer plays). These saves are made by the real rules from a new game with real dice (<code>tools/review/build-review-starts.js</code>); nothing is invented. This page is not part of the game.</p>
+<p>Other controls: <a href="../../game/index.html?new">NEW GAME</a> (Menu &rarr; Prologue printer) · add <code>?noprinter</code> to the game URL to compare without the printer · reduced motion follows the system setting.</p>
+<div id="list"></div>
+<script src="review-starts.generated.js"></script>
+<script>
+(function () {
+  var R = window.REVIEW_STARTS, list = document.getElementById('list'), group = null;
+  R.starts.forEach(function (s) {
+    if (s.group !== group) { group = s.group; var h = document.createElement('h2'); h.textContent = group; list.appendChild(h); }
+    var row = document.createElement('div');
+    var b = document.createElement('button');
+    b.textContent = s.label;
+    b.onclick = function () {
+      localStorage.setItem('cyoa-save:' + R.story, s.save);
+      location.href = '../../game/index.html';
+    };
+    var n = document.createElement('span'); n.className = 'note'; n.textContent = s.note + ' · seed ' + s.seed;
+    row.appendChild(b); row.appendChild(n); list.appendChild(row);
+  });
+})();
+</script>
+</body>
+</html>

@@ -164,8 +164,66 @@
   // It is called again whenever what is presented can change (a node's text, a Focus A page, an
   // item or context step in place, a transition, a restore), and re-derives everything each time:
   // nothing art-related is remembered, so no layer can go stale.
+  // Conditional art (game issue #27; public docs/152 section 4) ---------------------------------------
+  // Rules.artAt decides; the flow tells it which authored text beats have been presented: everything the
+  // transcript holds before the passage now typing, and, within that passage, the beats its typed text has
+  // already revealed. So a state appears when its words are typed, never earlier, and a reload or replay
+  // presents it at exactly the same words.
+  var beats = { step: -1, reached: {} };
+  var norm = function (t) { return String(t).replace(/\s+/g, ''); };
+  function beatsHere() {
+    var out = [], w = G.state.chapter + ':' + G.state.node;
+    var all = (story.assets && story.assets.artStates) || {};
+    Object.keys(all).forEach(function (sk) {
+      all[sk].forEach(function (st) {
+        if (st.at.indexOf(w) !== -1) ['beat', 'until'].forEach(function (k) { if (st[k] !== undefined && out.indexOf(st[k]) === -1) out.push(st[k]); });
+        if (st.after && st.after.node === w && out.indexOf(st.after.beat) === -1) out.push(st.after.beat);
+      });
+    });
+    return out;
+  }
+  function typedNow() {
+    if (F.phase !== 'typing') return '';
+    return G.surfaces.mode() ? G.surfaces.revealedNew() : G.speechRevealedNew();
+  }
+  // Notes the beats the passage now typing has revealed; true when one was newly reached.
+  function checkBeats() {
+    if (beats.step !== G.state.steps) beats = { step: G.state.steps, reached: {} };
+    var typed = norm(typedNow());
+    if (!typed) return false;
+    var grew = false;
+    beatsHere().forEach(function (b) { if (!beats.reached[b] && typed.indexOf(norm(b)) !== -1) { beats.reached[b] = true; grew = true; } });
+    return grew;
+  }
+  var typingFrom = 0; // transcript index of the first paragraph of the passage now typing
+  function presented() {
+    var t = G.state.transcript, here = G.state.chapter + ':' + G.state.node;
+    var limit = Math.min(t.length, F.phase === 'typing' ? typingFrom : shown);
+    if (beats.step !== G.state.steps) beats = { step: G.state.steps, reached: {} };
+    return function (nodeKey, text) {
+      if (nodeKey === here && beats.reached[text]) return true;
+      for (var i = 0; i < limit; i++) {
+        var e = t[i];
+        if (e.src === 'text' && e.chapter + ':' + e.node === nodeKey && e.runs.some(function (r) { return r.text.indexOf(text) === 0; })) return true;
+      }
+      return false;
+    };
+  }
+  function condKey(surfaceKey, sel) {
+    if (!sel || !sel.id) return null;
+    var st = story.assets.artStates[surfaceKey].filter(function (x) { return x.id === sel.id; })[0];
+    return G.artKey.artState(surfaceKey, st.ref);
+  }
+  function condRegions(surfaceKey, sel) {
+    return (sel && sel.regions || []).map(function (id) {
+      var st = story.assets.artStates[surfaceKey].filter(function (x) { return x.id === id; })[0];
+      return { key: G.artKey.artState(surfaceKey, st.ref), rect: st.region };
+    });
+  }
+
   function applyArt(v) {
     var sa = v.sceneArt || {};
+    var cond = story.assets && story.assets.artStates ? Rules.artAt(story, G.state, presented()) : null;
     if (v.sceneHeld !== undefined) {
       // docs/137 C1: a text-led scene keeps the previous scene image exactly as it is on screen. Only a
       // cold load (nothing of the held scene showing yet) draws the held scene's own image.
@@ -176,16 +234,24 @@
         G.setSceneArt(G.artKey.scene(v.sceneHeld), sceneLabel(v.sceneHeld), null);
       }
     } else {
-      G.setSceneArt(sa.replace ? G.artKey.sceneState(v.scene, sa.replace) : G.artKey.scene(v.scene), sceneLabel(v.scene),
+      var sk = 'scene:' + v.scene;
+      var condScene = cond && condKey(sk, cond.scene);
+      G.setSceneArt(condScene || (sa.replace ? G.artKey.sceneState(v.scene, sa.replace) : G.artKey.scene(v.scene)), sceneLabel(v.scene),
         sa.overlay ? G.artKey.sceneState(v.scene, sa.overlay) : null);
+      G.setSceneRegions(cond ? condRegions(sk, cond.scene) : []);
     }
     if (v.mode === 'dialogue') {
       var label = story.cast[v.speaker].name;
       if (v.portrait.view) G.setPortraitArt({ view: G.artKey.view(v.portrait.id, v.portrait.view), label: label });
-      else G.setPortraitArt({ background: G.artKey.background(v.portrait.id, v.portrait.background), pose: G.artKey.pose(v.portrait.id, v.portrait.pose), label: label });
+      else {
+        var bk = 'background:' + v.portrait.background;
+        G.setPortraitArt({ background: (cond && condKey(bk, cond.background)) || G.artKey.background(v.portrait.id, v.portrait.background),
+          backgroundRegions: cond ? condRegions(bk, cond.background) : [], pose: G.artKey.pose(v.portrait.id, v.portrait.pose), label: label });
+      }
     } else if (v.mode === 'focus') {
       var pages = focusPages(v.focus);
-      var key = pages ? G.artKey.focusPage(v.focus, Math.min(G.surfaces.segmentA(), pages.length - 1) + 1) : G.artKey.focus(v.focus);
+      var fk = 'focus:' + v.focus;
+      var key = (cond && condKey(fk, cond.focus)) || (pages ? G.artKey.focusPage(v.focus, Math.min(G.surfaces.segmentA(), pages.length - 1) + 1) : G.artKey.focus(v.focus));
       G.setPortraitArt({ focus: key, label: v.focus });
     } else {
       G.setPortraitArt(null);
@@ -251,6 +317,7 @@
         G.renderObjective();
         return next();
       case 'restart':
+        restarting = true; // BEGIN AGAIN starts a new playthrough: never a chapter transition
         G.clearNotices();
         G.ui.inspector = null;
         G.ui.overlay = null;
@@ -284,6 +351,12 @@
       var e = queue.shift();
       if (e.t === 'chapter') chapter = e.id;
     }
+    var afterRestart = restarting;
+    restarting = false;
+    // A genuine chapter boundary (a committed CONTINUE / result into another chapter): the Form 27B-6
+    // printer (js/chapter-transition.js, game issue #27). Never after BEGIN AGAIN, and RETRY / CHECKPOINT
+    // restores and loads never produce a chapter event.
+    if (chapter && !afterRestart && printerOn()) return printChapter(chapter);
     setPhase('transition');
     var ms = G.TUNING.story.transitionMs;
     var ready = chapter ? preloadView(chapter) : preloadHeld();
@@ -296,6 +369,51 @@
       }, hold);
     }, failed);
   }
+  // Form 27B-6 (game issue #27) ------------------------------------------------------------------
+  var restarting = false;
+  function printerOn() { return !!G.chapterTransition && !/[?&]noprinter\b/.test(location.search); }
+  // Every chapter this playthrough has entered, in arrival order (the incoming one last), from the transcript
+  // the rules keep: only encountered chapters are ever printed. Titles and numbers are canonical metadata.
+  function registerRows() {
+    var ids = [];
+    G.state.transcript.forEach(function (e) { if (ids.indexOf(e.chapter) === -1) ids.push(e.chapter); });
+    if (ids.indexOf(G.state.chapter) === -1) ids.push(G.state.chapter);
+    return ids.map(function (id) {
+      var m = /-(\d+)$/.exec(id);
+      return { id: id, number: m ? ('0' + m[1]).slice(-2) : '--', title: story.chapters[id].title };
+    });
+  }
+  // The incoming chapter's first frame, laid out under the printer and frozen for its cross-dissolve.
+  function freezeIncoming(chapter) {
+    return function (root) {
+      return preloadView(chapter).then(function () {
+        applyView(view());
+        return G.captureStage({ exclude: [root] });
+      });
+    };
+  }
+  function printChapter(chapter) {
+    setPhase('transition');
+    var rows = registerRows();
+    var from = G.captureStage();
+    document.body.dataset.printer = 'playing';
+    G.chapterTransition.play({ rows: rows, scenario: rows.length - 1, from: from, next: freezeIncoming(chapter), onDone: printed });
+  }
+  // Menu -> Prologue: a new playthrough, after the new game is set up and saved; no cross-out or advance.
+  function printNewGame(then) {
+    setPhase('transition');
+    document.body.dataset.printer = 'playing';
+    G.chapterTransition.play({ rows: registerRows(), scenario: 0, from: 'menu',
+      next: function (root) { return G.captureStage({ exclude: [root] }); }, onDone: function (r) { printed(r); then(); } });
+  }
+  function printed(r) {
+    document.body.dataset.printer = r && r.skipped ? 'skipped' : 'done';
+    document.body.dataset.printerCount = String((+document.body.dataset.printerCount || 0) + 1);
+    if (G.state && view().chapter) applyView(view());
+    if (!pendingNewGame) next();
+  }
+  var pendingNewGame = false;
+
   var fading = null;
   function fade(from, to, ms, done, holdScene) {
     fading = { from: from, to: to, start: performance.now(), ms: Math.max(1, ms), done: done, holdScene: !!holdScene };
@@ -328,6 +446,7 @@
   function present(ev) {
     var mode = G.surfaces.mode() || 'dialogue';
     var surface = ev.surface;
+    typingFrom = shown;
     if (surface !== (mode === 'dialogue' ? 'dialogue' : mode)) {
       // Text for a surface that is not on show (cannot happen with rules-ordered events; kept safe).
       shown += ev.paras.length;
@@ -395,6 +514,7 @@
     if (F.phase !== 'typing' || modal()) return;
     if (G.surfaces.mode()) G.surfaces.finish();
     else G.finishTyping();
+    if (checkBeats()) refreshArt();
     typingDone();
   };
 
@@ -598,6 +718,7 @@
     fadeTick(now);
     if (F.phase === 'typing') {
       var done = G.surfaces.mode() ? G.surfaces.typeTick(now) : G.typeTick(now);
+      if (checkBeats()) refreshArt();
       if (done) typingDone();
     }
     if (timer && now >= timer.at) {
@@ -645,9 +766,16 @@
       events = b.events.filter(function (e) { return ['chapter', 'scene', 'mode'].indexOf(e.t) === -1; });
       save();
     }
+    var fresh = !loaded;
     return preloadView(G.state.chapter).then(function () {
       applyView(view());
       requestAnimationFrame(tick);
+      // Menu -> Prologue (game issue #27): only a new game (no save loaded) at the story's opening chapter.
+      if (fresh && printerOn() && G.state.chapter === story.start) {
+        pendingNewGame = true;
+        printNewGame(function () { pendingNewGame = false; run(events); });
+        return;
+      }
       run(events);
     });
   };

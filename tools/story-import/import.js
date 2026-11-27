@@ -28,7 +28,9 @@ const IMPORTER_VERSION = 1;
 // scene-replace / scene-overlay: a scene state (docs/92 section 3) is a whole 314x206 scene, an
 // overlay sharing its origin; portrait-view: an opaque-complete conversation view (docs/92 section 1).
 const ART_SIZE = { scene: [314, 206], 'scene-replace': [314, 206], 'scene-overlay': [314, 206], 'portrait-pose': [564, 278], 'portrait-background': [564, 278],
-  'portrait-view': [564, 278], focus: [564, 278], 'item-slot': [96, 96], 'item-inspect': [565, 451], 'scene-state': [314, 206] };
+  'portrait-view': [564, 278], focus: [564, 278], 'item-slot': [96, 96], 'item-inspect': [565, 451], 'scene-state': [314, 206],
+  // Conditional art references (game issue #27): a whole alternate of the surface they replace.
+  'scene-reference': [314, 206], 'background-reference': [564, 278], 'focus-reference': [564, 278] };
 
 const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 const gitBlob = (buf) => crypto.createHash('sha1').update('blob ' + buf.length + '\0').update(buf).digest('hex');
@@ -72,6 +74,12 @@ function readSources(fromDir, bindingsRoot) {
     if (!Array.isArray(settings.pendingArtBindings) || settings.pendingArtBindings.some((f) => typeof f !== 'string' || !/^art\/[a-z0-9_./-]+\.provenance\.json$/.test(f))) errors.push('runtime-settings: pendingArtBindings must list art/*.provenance.json files');
     else settings.pendingArtBindings.forEach((f) => { const json = load(path.join(bindingsRoot || ROOT, f), 'pending art binding ' + f); if (json) bindings.push({ file: f, json }); });
   }
+  // Conditional art (game issue #27): game-owned dispatch files, repo-relative.
+  const conditionalArt = [];
+  if (settings && settings.conditionalArt !== undefined) {
+    if (!Array.isArray(settings.conditionalArt) || settings.conditionalArt.some((f) => typeof f !== 'string' || !/^art\/[a-z0-9_./-]+\.conditional-art\.json$/.test(f))) errors.push('runtime-settings: conditionalArt must list art/*.conditional-art.json files');
+    else settings.conditionalArt.forEach((f) => { const json = load(path.join(bindingsRoot || ROOT, f), 'conditional art ' + f); if (json) conditionalArt.push({ file: f, json }); });
+  }
   const chapters = {};
   let items = null;
   let artwork = null;
@@ -84,8 +92,15 @@ function readSources(fromDir, bindingsRoot) {
     if (typeof manifest.artwork === 'string') artwork = load(path.join(fromDir, manifest.artwork), 'artwork');
     else errors.push('manifest: artwork must name the artwork file');
   }
+  // The death screens the projected canonical death export draws (game issue #27: their pending bindings).
+  let deathArt = [];
+  const deathFile = path.join(fromDir, 'death-presentations.export.json');
+  if (fs.existsSync(deathFile)) {
+    const exp = load(deathFile, 'death presentations');
+    if (exp && Array.isArray(exp.entries)) deathArt = exp.entries.map((e) => e && e.artwork && e.artwork.id).filter((x) => typeof x === 'string');
+  }
   sources.sort((a, b) => (a.path < b.path ? -1 : 1));
-  return { errors, sources, input: { manifest, settings, chapters, items, artwork, bindings } };
+  return { errors, sources, input: { manifest, settings, chapters, items, artwork, bindings, deathArt, conditionalArt } };
 }
 
 // The whole build, in memory: { ok, text, report }.
@@ -120,9 +135,15 @@ function build(opts) {
   // Labels, Objective) draw narration and NPC speech, and every one of them must draw it (docs/104 section 5).
   const locked = Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping);
   const faces = Object.values(JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/layout-lab/data/fonts.json'))));
-  const charset = { locked, text: Object.keys(faces[0].mapping).filter((ch) => faces.every((f) => Object.prototype.hasOwnProperty.call(f.mapping, ch))) };
+  // A character a face lacks is still drawable when the face has its typographic fallback (game/js/glyph-fallback.js).
+  const FALLBACK = require(path.join(ROOT, 'game/js/glyph-fallback.js'));
+  const withFallback = (map) => Object.keys(map).concat(Object.keys(FALLBACK).filter((ch) => !map[ch] && map[FALLBACK[ch]]));
+  const lockedMap = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping;
+  const textChars = Object.keys(faces[0].mapping).filter((ch) => faces.every((f) => Object.prototype.hasOwnProperty.call(f.mapping, ch)));
+  const textMap = Object.fromEntries(textChars.map((ch) => [ch, true]));
+  const charset = { locked: withFallback(lockedMap), text: withFallback(textMap) };
   if (!c.errors.length) {
-    const v = Rules.validateStory(story, charset, { routeMarks: true, liveKeys: true });
+    const v = Rules.validateStory(story, charset, { routeMarks: true, liveKeys: true, chapterSplit: true });
     // The schema requires every variant list to end with an unconditional fallback. When the
     // conditions above it already cover every reachable case, that fallback can never show: report
     // it, but do not block on it (every other never-shown variant is still an error).
@@ -131,6 +152,18 @@ function build(opts) {
       if (m) { const d = story.items[m[1]] && story.items[m[1]].description; return Array.isArray(d) && +m[2] === d.length - 1 && !d[d.length - 1].if; }
       m = /^(text|objective) of ([^:]+):([a-z0-9_-]+) variant (\d+) never shown$/.exec(e);
       if (m) { const n = story.chapters[m[2]] && story.chapters[m[2]].nodes[m[3]]; const f = n && n[m[1]]; return Array.isArray(f) && +m[4] === f.length - 1 && !f[f.length - 1].if; }
+      // A conditional run (game issue #27) whose condition is the exact complement of a sibling run's (flag X vs
+      // notFlag X) is the same defensive alternative: allowed, reported, when its sibling does show.
+      m = /^text of ([^:]+):([a-z0-9_-]+)(?: variant (\d+))? conditional run (\d+) is never shown in any reachable state$/.exec(e);
+      if (m) {
+        const n = story.chapters[m[1]] && story.chapters[m[1]].nodes[m[2]];
+        let t = n && n.text;
+        if (m[3] !== undefined && Array.isArray(t)) t = t[+m[3]] && t[+m[3]].text;
+        const r = Array.isArray(t) && t[+m[4]];
+        if (!r || !r.if || Object.keys(r.if).length !== 1) return false;
+        const k = Object.keys(r.if)[0], other = { flag: 'notFlag', notFlag: 'flag' }[k];
+        return !!other && t.some((x, i) => i !== +m[4] && x && x.if && Object.keys(x.if).length === 1 && x.if[other] === r.if[k]);
+      }
       return false;
     };
     v.errors.forEach((e) => (fallback(e) ? report.warnings.push('rules: unreachable fallback (allowed): ' + e) : report.errors.push('rules: ' + e)));
@@ -160,6 +193,25 @@ function build(opts) {
         entry.binding = a.binding.file;
         if (entry.sha256 !== a.binding.sha256) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' is ' + entry.sha256 + ', not the approved ' + a.binding.sha256 + ' its pending binding names (' + a.binding.file + ')');
       }
+      // A conditional reference (game issue #27) is exactly the approved bytes its dispatch file names.
+      if (a.expect) {
+        entry.conditional = a.conditional;
+        if (entry.sha256 !== a.expect) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' is ' + entry.sha256 + ', not the approved ' + a.expect);
+      }
+    }
+    report.art.push(entry);
+  });
+  // Death screens bound pending integration (game issue #27): drawn by the death popups, proved the same way.
+  (c.deathArt || []).forEach((a) => {
+    const file = path.join(ROOT, a.path);
+    const entry = { kind: a.kind, id: a.id, path: a.path, status: a.status, binding: a.binding.file };
+    if (!fs.existsSync(file)) report.errors.push(a.kind + ' ' + a.id + ': art file missing: ' + a.path);
+    else {
+      const buf = fs.readFileSync(file);
+      const size = pngSize(buf);
+      if (!size || size[0] !== 314 || size[1] !== 206) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' must be a 314x206 PNG');
+      entry.sha256 = sha256(buf);
+      if (entry.sha256 !== a.binding.sha256) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' is ' + entry.sha256 + ', not the approved ' + a.binding.sha256 + ' its pending binding names (' + a.binding.file + ')');
     }
     report.art.push(entry);
   });
@@ -169,9 +221,11 @@ function build(opts) {
   (c.artUnbound || []).forEach((a) => {
     const file = path.join(ROOT, a.path);
     if (!fs.existsSync(file)) return report.errors.push(a.kind + ' ' + a.id + ': art file missing: ' + a.path);
-    const size = pngSize(fs.readFileSync(file));
+    const ubuf = fs.readFileSync(file);
+    const size = pngSize(ubuf);
     const want = ART_SIZE[a.kind];
     if (!size || size[0] !== want[0] || size[1] !== want[1]) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' is ' + (size ? size.join('x') : 'not a PNG') + ', must be ' + want.join('x'));
+    if (a.expect && sha256(ubuf) !== a.expect) report.errors.push(a.kind + ' ' + a.id + ': ' + a.path + ' is not the approved ' + a.expect);
   });
 
   const ok = !report.errors.length;
