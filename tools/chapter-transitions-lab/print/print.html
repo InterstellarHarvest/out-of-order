@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#171c20">
+  <meta name="description" content="Out of Order chapter transition study: a pixel-art printer and pre-ruled Register of Progress.">
+  <title>Out of Order — Register of Progress Printer Study</title>
+  <link rel="stylesheet" href="./print.css">
+  <script defer src="./print.js"></script>
+</head>
+<body>
+  <main class="page">
+    <header class="page-heading">
+      <div>
+        <div class="overline">OUT OF ORDER / TRANSITION STUDY 03</div>
+        <h1>Register of Progress.</h1>
+        <p>A real paper feed. Preprinted boxes. Only the entries get typed.</p>
+      </div>
+      <div class="study-badge">PIXEL ART STUDY <span>/</span> NOT GAMEPLAY</div>
+    </header>
+
+    <section class="preview" aria-label="Pixel-art printer transition preview">
+      <div class="stage" id="stage" tabindex="0" aria-label="Printer transition animation. Space pauses or resumes playback.">
+        <div id="oldMatte" class="matte matte-old">
+          <div class="background-scene scene-current" aria-hidden="true"></div>
+          <div class="test-marks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="matte-id">CURRENT / SCENE TREATMENT TEST</div>
+        </div>
+        <div id="nextMatte" class="matte matte-next">
+          <div class="background-scene scene-future" aria-hidden="true">
+            <div class="future-windows"></div>
+            <div class="future-door"><i></i></div>
+            <div class="future-title">HOUSE OF TOMORROW / SCHEMATIC NEXT SCENE</div>
+          </div>
+          <div class="test-marks" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          <div class="matte-id">NEXT / SCENE TREATMENT TEST</div>
+        </div>
+        <div class="black-veil" id="blackVeil"></div>
+        <div class="paper-viewport" id="paperViewport" aria-hidden="true">
+          <div class="paper-sheet" id="paperSheet">
+            <img class="paper-art" src="./art/print/form-27b6-blank-v01.png" alt="">
+            <div id="paperEntries"></div>
+          </div>
+        </div>
+        <div class="printer" id="printer" aria-hidden="true">
+          <img src="./art/print/printer-slot-v01.png" alt="">
+        </div>
+        <div class="printer-front-overlay" id="printerFront" aria-hidden="true">
+          <div class="printer" id="printerFrontCopy">
+            <img src="./art/print/printer-slot-v01.png" alt="">
+          </div>
+        </div>
+        <div id="stageStatus" class="stage-status">READY</div>
+      </div>
+      <div class="stage-foot">
+        <span>16:9 FRAME / PNG ALPHA CHECK</span>
+        <span id="phaseLabel">BEFORE TRANSITION</span>
+        <span>FORM 27B-6</span>
+      </div>
+    </section>
+
+    <section class="controls" aria-label="Printer transition controls">
+      <div class="field route">
+        <label for="scenario">Chapter handoff</label>
+        <select id="scenario">
+          <option value="0">Menu → Prologue</option>
+          <option value="1" selected>Prologue → Chapter 1</option>
+          <option value="2">Chapter 1 → Chapter 2</option>
+          <option value="3">Chapter 2 → Chapter 3</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="background">Background test</label>
+        <select id="background">
+          <option value="scene" selected>Scene art → Next scene</option>
+          <option value="black">Black → Magenta</option>
+          <option value="magenta">Magenta → Black</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="backdrop">Scene treatment</label>
+        <select id="backdrop">
+          <option value="dim">Blur, dim, cross-dissolve</option>
+          <option value="blackout">Blur, fade to black, reveal</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="exitMode">Paper exit</label>
+        <select id="exitMode">
+          <option value="retract">Reverse feed + fade</option>
+          <option value="dissolve">Still paper + dissolve</option>
+          <option value="eject">Feed upward + fade</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="slotLip">Printer slot lip</label>
+        <select id="slotLip">
+          <option value="upper">Thick on top</option>
+          <option value="lower" selected>Thick on bottom</option>
+        </select>
+      </div>
+      <div class="actions">
+        <button class="primary" id="play">PLAY</button>
+        <button id="hold">HOLD PRINTED</button>
+        <button id="reset">RESET</button>
+      </div>
+    </section>
+
+    <details class="tune-panel" id="tunePanel" open>
+      <summary><span>MOTION TUNING</span><span class="tune-summary">Paper seat + phase timing <span aria-hidden="true">⌄</span></span></summary>
+      <div class="tune-content">
+        <p class="tune-intro">Adjust while paused or playing. The timeline keeps your current phase in view. Values are included in a shareable link.</p>
+        <div class="tune-heading"><h2>Paper alignment</h2><span>Pixels at a 1024px-wide frame</span></div>
+        <div class="tune-grid alignment-grid">
+          <label class="tune-field" for="paperY">
+            <span class="tune-label">Paper vertical offset <output id="paperYValue" for="paperY">-5 px</output></span>
+            <input id="paperY" type="range" min="-80" max="80" step="1" value="-5" data-paper-tune="paperY">
+            <span class="tune-hint">Negative raises the sheet; positive lowers it.</span>
+          </label>
+          <label class="tune-field" for="feedDepth">
+            <span class="tune-label">Paper into slot <output id="feedDepthValue" for="feedDepth">5 px</output></span>
+            <input id="feedDepth" type="range" min="0" max="48" step="1" value="5" data-paper-tune="feedDepth">
+            <span class="tune-hint">How far the sheet continues behind the lip.</span>
+          </label>
+        </div>
+        <div class="tune-heading"><h2>Phase timing</h2><span>Seconds per phase</span></div>
+        <div class="tune-grid">
+          <label class="tune-field" for="timePrep"><span class="tune-label">Start delay <output id="timePrepValue" for="timePrep">0.18 s</output></span><input id="timePrep" type="range" min="0" max="1.5" step=".01" value=".18" data-duration="prep"></label>
+          <label class="tune-field" for="timeSlot"><span class="tune-label">Slot rises <output id="timeSlotValue" for="timeSlot">0.70 s</output></span><input id="timeSlot" type="range" min=".1" max="2.5" step=".01" value=".7" data-duration="slot"></label>
+          <label class="tune-field" for="timeFeed"><span class="tune-label">Initial paper feed <output id="timeFeedValue" for="timeFeed">0.70 s</output></span><input id="timeFeed" type="range" min=".1" max="3" step=".01" value=".7" data-duration="feed"></label>
+          <label class="tune-field" for="timeStrike"><span class="tune-label">Cross-out scribble <output id="timeStrikeValue" for="timeStrike">0.60 s</output></span><input id="timeStrike" type="range" min=".1" max="2" step=".01" value=".6" data-duration="strike"></label>
+          <label class="tune-field" for="timeStrikePause"><span class="tune-label">Pause after scribble <output id="timeStrikePauseValue" for="timeStrikePause">0.75 s</output></span><input id="timeStrikePause" type="range" min="0" max="3" step=".01" value=".75" data-duration="strikePause"></label>
+          <label class="tune-field" for="timeAdvance"><span class="tune-label">Next box scroll <output id="timeAdvanceValue" for="timeAdvance">1.20 s</output></span><input id="timeAdvance" type="range" min=".1" max="2.5" step=".01" value="1.2" data-duration="advance"></label>
+          <label class="tune-field" for="timeType"><span class="tune-label">Chapter typing <output id="timeTypeValue" for="timeType">1.20 s</output></span><input id="timeType" type="range" min=".2" max="4" step=".01" value="1.2" data-duration="type"></label>
+          <label class="tune-field" for="timeHold"><span class="tune-label">Reading pause <output id="timeHoldValue" for="timeHold">2.85 s</output></span><input id="timeHold" type="range" min="0" max="3" step=".01" value="2.85" data-duration="hold"></label>
+          <label class="tune-field" for="timeExit"><span class="tune-label">Reverse + fade <output id="timeExitValue" for="timeExit">1.50 s</output></span><input id="timeExit" type="range" min=".2" max="3" step=".01" value="1.5" data-duration="exit"></label>
+        </div>
+        <div class="tune-tools">
+          <span class="tune-total">Total: <output id="tuneTotal">9.68 s</output></span>
+          <button id="resetTune" type="button">RESET TUNING</button>
+          <button id="copyTune" type="button">COPY TUNING LINK</button>
+        </div>
+        <div class="tune-share">
+          <label for="tuneShare">Shareable tuning URL</label>
+          <input id="tuneShare" type="text" readonly spellcheck="false" aria-describedby="tuneMessage">
+          <span id="tuneMessage" aria-live="polite">Paste the link back here when you've dialed it in.</span>
+        </div>
+        <p class="tune-footnote">Menu → Prologue skips the cross-out, its pause, and the next-box scroll. RESET TUNING restores slider defaults without changing the chosen chapter or scene treatment.</p>
+      </div>
+    </details>
+
+    <section class="transport" aria-label="Timeline review">
+      <div class="transport-head"><span id="explain">The printer slot rises first. No chapter entry is printed yet.</span><output id="timeLabel">0.00 s</output></div>
+      <input id="scrub" type="range" min="0" max="1000" step="1" value="0" aria-label="Scrub animation timeline">
+      <div class="notes">
+        <p>Each empty box is already printed on the paper. Heavy irregular ink crosses out the outgoing title, rests for a tunable beat, then the sheet advances and types the next chapter.</p>
+        <p>Scene-art mode lets you see the blur, dimming, blackout, and cross-dissolve. Black/magenta modes remain for inspecting PNG edges. The next-scene backdrop is schematic, not production art. No gameplay state is altered.</p>
+      </div>
+    </section>
+    <footer><span>PRIVATE ART / MOTION REVIEW</span><a href="./form.html">Previous form study</a></footer>
+  </main>
+</body>
+</html>

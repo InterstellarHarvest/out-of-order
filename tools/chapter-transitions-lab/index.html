@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#17282a">
+  <meta name="description" content="Private Out of Order chapter-transition comparison lab.">
+  <title>Out of Order — Chapter Transition Lab</title>
+  <link rel="stylesheet" href="./lab.css">
+  <script src="./lab.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="masthead">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <div>
+          <span class="eyebrow">INTERDEPARTMENTAL PRESENTATION STUDY / 01</span>
+          <h1>OUT OF ORDER <span class="brand-sub">CHAPTER TRANSITIONS</span></h1>
+        </div>
+      </div>
+      <div class="project-badge"><span class="badge-lamp"></span> PRIVATE REVIEW BUILD <span class="stamp-divider">/</span> NOT IN GAME</div>
+    </header>
+
+    <div class="worktop">
+      <main class="review-main">
+        <div class="review-top">
+          <div>
+            <span class="eyebrow">SELECT A PROCESSING METHOD</span>
+            <h2>How should a chapter turn over?</h2>
+          </div>
+          <span class="iteration">CONCEPTS A—C <span>•</span> NO SOUND</span>
+        </div>
+
+        <div class="concept-tabs" role="tablist" aria-label="Chapter-transition concepts">
+          <button class="concept-tab selected" id="tab-a" role="tab" aria-selected="true" aria-controls="theatre" data-concept="a">
+            <span class="tab-code">A / CASEWORK</span>
+            <span class="tab-name">Administrative File</span>
+            <span class="tab-sub">A record is forwarded</span>
+          </button>
+          <button class="concept-tab" id="tab-b" role="tab" aria-selected="false" aria-controls="theatre" data-concept="b">
+            <span class="tab-code">B / BULKHEAD</span>
+            <span class="tab-name">Mechanical Shutters</span>
+            <span class="tab-sub">A chapter is sealed</span>
+          </button>
+          <button class="concept-tab" id="tab-c" role="tab" aria-selected="false" aria-controls="theatre" data-concept="c">
+            <span class="tab-code">C / PROCESSING</span>
+            <span class="tab-name">The Hybrid <span class="mini-favorite">LEADING STUDY</span></span>
+            <span class="tab-sub">Sealed, stamped, released</span>
+          </button>
+        </div>
+
+        <section class="theatre-outer" aria-label="Interactive transition preview">
+          <div id="theatre" class="theatre" tabindex="0" aria-label="Animation preview. Press Enter or Space to skip after the chapter title appears.">
+            <div id="sceneMenu" class="stage-image menu-stage">
+              <iframe id="approvedMenu" title="Approved Out of Order main menu, v06" src="./menu/index.html" loading="eager"></iframe>
+            </div>
+            <div id="sceneGame" class="stage-image game-stage hidden">
+              <div class="game-topline"><span>THE EXPOSITION OF EVERYTHING</span><span id="gameChapterLabel">CHAPTER 01</span></div>
+              <div class="game-scene-shell">
+                <div class="game-main-window">
+                  <div id="gameLandscape" class="game-landscape landscape-house">
+                    <div class="distant-grid"></div><div class="fixture fixture-left"></div><div class="fixture fixture-right"></div>
+                    <div class="landscape-icon"></div>
+                    <div class="scene-nametag" id="gameSceneName">HOUSE OF TOMORROW</div>
+                    <div class="floor-lines"></div>
+                  </div>
+                  <div class="inventory-rail">
+                    <span class="inventory-arrow">‹</span><span class="inventory-slot">▣</span><span class="inventory-slot"></span><span class="inventory-slot"></span><span class="inventory-slot"></span><span class="inventory-slot"></span><span class="inventory-slot"></span><span class="inventory-slot"></span><span class="inventory-arrow">›</span>
+                  </div>
+                </div>
+                <div class="game-right-column">
+                  <div class="game-portrait">
+                    <div class="portrait-device"><span class="portrait-eye"></span></div>
+                    <span id="gamePortraitLabel">HOUSE CONTROL</span>
+                  </div>
+                  <div class="game-choices">
+                    <div class="game-narration" id="gameNarration">You find the correct office. Its contents disagree.</div>
+                    <div class="mock-choice">CONTINUE</div>
+                    <div class="mock-choice">REQUEST ACCESS TO FACILITIES.</div>
+                    <div class="mock-choice faded">THIS OPTION IS NOT AVAILABLE.</div>
+                  </div>
+                  <div class="game-utils"><span>OBSERVE</span><span>NOTES</span><span>FILES</span></div>
+                </div>
+              </div>
+              <div class="game-bottomline">CURRENT OBJECTIVE <strong>FIND A FUNCTIONING BATHROOM.</strong><span>REPRESENTATIVE SCENE / NOT PRODUCTION ART</span></div>
+            </div>
+
+            <div id="sceneDim" class="scene-dim"></div>
+            <div id="shutterSystem" class="shutter-system" aria-hidden="true">
+              <div class="shutter left">
+                <div class="shutter-upper">GENERAL ARRANGEMENTS <span>AUTHORIZED PERSONNEL ONLY</span></div>
+                <div class="shutter-rail rail-first"></div><div class="shutter-rail rail-second"></div>
+                <div class="seam-detail"></div>
+                <div class="shutter-bottom">SECTOR / 01 <span>HYDRAULIC ASSEMBLY</span></div>
+              </div>
+              <div class="shutter right">
+                <div class="shutter-upper">MINISTRY OF PROCEDURES <span>RECORD NO. 006-40</span></div>
+                <div class="shutter-rail rail-first"></div><div class="shutter-rail rail-second"></div>
+                <div class="seam-detail"></div>
+                <div class="shutter-bottom">SECTOR / 02 <span>MANUAL OVERRIDE SEALED</span></div>
+              </div>
+              <div class="shutter-seam"><span>┃</span></div>
+            </div>
+
+            <div id="titlePlate" class="title-plate" aria-hidden="true">
+              <div class="plate-top"><span class="lamp green"></span> ACCESS PANEL <span>•</span> DIVISION TRANSFER <span class="lamp amber"></span></div>
+              <div class="plate-middle"><span id="plateChapterNumber" class="plate-number">02</span><div><div class="small-engraving">CHAPTER TRANSFER COMPLETE</div><div id="plateChapterTitle" class="plate-title">BIOLOGY PARK</div></div></div>
+              <div class="plate-bottom"><span>ENTRY AUTHORIZATION</span><span id="plateClearance">CLEARANCE RECORDED</span></div>
+            </div>
+
+            <div id="processingHousing" class="processing-housing" aria-hidden="true">
+              <div class="housing-label"><span>DEPARTMENTAL RECORD TRANSFER UNIT</span><span>MODEL 06–B / RECONDITIONED</span></div>
+              <div class="housing-track track-top"></div>
+              <div class="housing-track track-bottom"></div>
+              <span class="housing-light light-left"></span><span class="housing-light light-right"></span>
+              <div class="housing-serial">OPERATION OF THIS EQUIPMENT DOES NOT CONSTITUTE APPROVAL</div>
+            </div>
+
+            <div id="fileRig" class="file-rig" aria-hidden="true">
+              <div class="roller upper"></div>
+              <div id="fileCard" class="file-card">
+                <div class="docket-header"><span>DEPARTMENT OF PUBLIC ARRANGEMENTS</span><span>FORM 88-C</span></div>
+                <div class="docket-strip"><span>CASE FILE / ACTIVE</span><span>CONTROLLED DOCUMENT</span></div>
+                <div class="docket-body">
+                  <div class="document-left"><span>TRANSFER TO</span><strong id="fileChapterNumber">02</strong><span>CHAPTER</span></div>
+                  <div class="document-right"><span class="docket-small">DIRECTIVE FOR CONTINUED PROCESSING</span><h3 id="fileChapterTitle">BIOLOGY PARK</h3><span class="docket-small" id="fileSubline">YOUR NATURE IS REQUIRED</span></div>
+                </div>
+                <div class="docket-footer"><span>APPLICATION STATUS: IN PROGRESS</span></div>
+                <div id="stampInk" class="stamp-ink">TRANSFER APPROVED</div>
+              </div>
+              <div class="roller lower"></div>
+              <div id="stampMachine" class="stamp-machine"><div class="stamp-shaft"></div><div class="stamp-head"><span>OFFICIAL</span></div></div>
+            </div>
+            <div id="reducedTitle" class="reduced-title" aria-hidden="true">
+              <div class="reduced-code" id="reducedCode">CHAPTER 02</div>
+              <h2 id="reducedHeading">BIOLOGY PARK</h2>
+              <div class="reduced-rule"></div>
+              <div>FILE FORWARDED / PROCEED</div>
+            </div>
+            <div id="animationStatus" class="animation-status">AWAITING ACTIVATION</div>
+          </div>
+          <div class="theatre-foot"><span><span class="signal-square"></span> PRESENTATION SURFACE · 16:9</span><span id="stageState">READY / OUTGOING VIEW</span><span>MENU: CLICK NEW GAME TO TRIGGER</span></div>
+        </section>
+
+        <div class="playbar">
+          <button class="primary-action" id="playButton">▶ <span>PLAY TRANSITION</span></button>
+          <button class="secondary-action" id="skipButton" disabled>SKIP TO NEXT SCENE</button>
+          <button class="secondary-action" id="titleButton">INSPECT TITLE FRAME</button>
+          <button class="secondary-action" id="finalButton">VIEW FINAL SCENE</button>
+          <button class="ghost-action" id="resetButton">↺ RESET</button>
+        </div>
+        <div class="timing-track" aria-label="Animation progress">
+          <div class="track-bars"><div id="trackFill"></div></div>
+          <div class="track-labels"><span>01 COVER</span><span>02 PROCESS</span><span>03 TITLE</span><span>04 RELEASE</span></div>
+        </div>
+        <div class="concept-notes" id="conceptNotes"><span class="notes-heading">A / ADMINISTRATIVE FILE</span><p>The episode is treated as a case being forwarded. A folder enters, receives an official stamp, and disappears into the next department.</p></div>
+      </main>
+
+      <aside class="control-deck" aria-label="Review controls">
+        <div class="control-head"><span class="tiny-lamp"></span> REVIEW CONTROL DESK <span class="serial">R-003</span></div>
+        <div class="control-content">
+          <section class="control-group">
+            <div class="section-head"><span>01 /</span> SCENARIO</div>
+            <label for="scenario">Chapter boundary</label>
+            <select id="scenario">
+              <option value="menu">Menu → New Game → Prologue</option>
+              <option value="p1">Prologue → Chapter 1</option>
+              <option value="c12">Chapter 1 → Chapter 2</option>
+              <option value="c23">Chapter 2 → Chapter 3</option>
+            </select>
+            <div class="scenario-ticket"><div class="ticket-overline">RECEIVING DEPARTMENT</div><div class="ticket-number" id="ticketNumber">PROLOGUE</div><div class="ticket-title" id="ticketTitle">The Last Good Day</div><div class="ticket-footer" id="ticketNote">Working title from current canon</div></div>
+          </section>
+
+          <section class="control-group">
+            <div class="section-head"><span>02 /</span> CYCLE TIME <span id="totalDuration" class="counter">2.50 s</span></div>
+            <div class="range-line"><label for="speed">Playback speed</label><output id="speedValue" for="speed">1.00×</output></div>
+            <input id="speed" type="range" min=".5" max="2" step=".25" value="1">
+            <div class="range-line"><label for="cover">Cover outgoing view</label><output id="coverValue" for="cover">0.40 s</output></div>
+            <input id="cover" type="range" min=".2" max="1.2" step=".1" value=".4">
+            <div class="range-line"><label for="process">Mechanical action</label><output id="processValue" for="process">0.40 s</output></div>
+            <input id="process" type="range" min=".2" max="1.6" step=".1" value=".4">
+            <div class="range-line"><label for="hold">Title reading hold</label><output id="holdValue" for="hold">1.30 s</output></div>
+            <input id="hold" type="range" min=".5" max="3" step=".1" value="1.3">
+            <div class="range-line"><label for="reveal">Reveal incoming view</label><output id="revealValue" for="reveal">0.40 s</output></div>
+            <input id="reveal" type="range" min=".2" max="1.2" step=".1" value=".4">
+          </section>
+
+          <section class="control-group">
+            <div class="section-head"><span>03 /</span> PRESENTATION</div>
+            <label class="switch-line"><span>Reduced motion <small>Short fade with readable title</small></span><input type="checkbox" id="reduced"></label>
+            <label class="switch-line"><span>Hold title for inspection <small>Resume manually when paused</small></span><input type="checkbox" id="pauseTitle"></label>
+            <label class="switch-line"><span>Simulate existing save <small>For approved menu confirmation</small></span><input type="checkbox" id="hasSave"></label>
+          </section>
+          <section class="control-group review-guidance">
+            <div class="section-head"><span>04 /</span> WHAT TO LOOK FOR</div>
+            <ol>
+              <li>Does the machine feel at home in <em>Out of Order</em>?</li>
+              <li>Is the title comfortably legible?</li>
+              <li>Does its repetition become tiresome?</li>
+            </ol>
+            <div class="keyhint">KEYBOARD <kbd>Enter</kbd> / <kbd>Space</kbd> SKIP ONCE TITLE APPEARS</div>
+          </section>
+        </div>
+        <div class="control-bottom">DELIBERATELY UNNECESSARY MECHANIZATION <span>REV. 01</span></div>
+      </aside>
+    </div>
+    <footer class="page-footer"><span>OUT OF ORDER / TRANSITION RESEARCH</span><span>APPROVED MENU ART IS UNCHANGED · OTHER SCENES ARE SCHEMATIC</span></footer>
+  </div>
+</body>
+</html>
