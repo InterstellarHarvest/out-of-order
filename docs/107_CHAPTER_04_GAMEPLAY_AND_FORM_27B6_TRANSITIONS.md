@@ -6,7 +6,7 @@
 **Branches:**
 - Game `agent/ch04-gameplay-form27b6-integration`, from `main` `c7a2d3dc7e19b8d574deedec0e5b4b7098daa9a1`.
 - Storyboard `integration/ch04-gameplay-20261126`, from `main` `7618d8110e3963f9d037f4e0030b11c79f86eff5`. This follows the Chapter 3 precedent (public draft PR #19).
-- The game pins storyboard `0aa53dd148955ac98a1be5c9ed9c84fb0fa332dc` (story content as of `8bb4993`; `0aa53dd` adds only docs/154). Merge order when authorized: storyboard PR, re-pin the game to its merge commit, then the game PR. Use normal merge commits.
+- The game pins storyboard `main` `60edf00ed38ad4307d59bf5cf223f3f340bd40bb`, the normal merge of storyboard PR #46 (approved head `0aa53dd`, story content as of `8bb4993`; same tree as `0aa53dd`). Re-pinning changed only the revision stamps; story content `f36c40e5e9f1` is unchanged. Merge order (approved by Nate 2026-11-26): storyboard PR, re-pin the game to its merge commit, then the game PR. Use normal merge commits.
 
 **Nate's rulings during the work (2026-11-26):**
 1. Canon dead end at `hotel_seashell_first_attempt`: add one unconditional `shell_first_leave` card, "PUT THE SEASHELLS DOWN AND LEAVE." → `hotel_bridal_lavatory_park_exit`.
