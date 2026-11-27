@@ -238,3 +238,46 @@ Re-checked on the pushed head after Nate's review-gate rulings. Since commit `31
 - Known pre-existing failures, untouched: the M2 Firefox reception-fixture flake (docs/105 baseline) and the storyboard's `qa-ch3-artwork-briefs` (fails on `7618d81`, not in CI).
 
 **After merge approval, in this order:** merge storyboard #46 (normal merge) → re-pin the game to the resulting storyboard `main` commit (`sync.js pull --rev <sha>`, then `import.js --verify` and `sync.js verify --online`) → merge game #28 (normal merge) → `sync.js publish` reconciliation.
+
+## 11. Merge and integration-status reconciliation (2026-11-26)
+
+**Authorization (Nate, 2026-11-26):** merge storyboard #46, re-pin, verify, merge game #28, complete the reconciliation through `sync.js publish`, and verify. No public game deployment. Normal merges only; nothing squashed, rebased, force-pushed or deleted.
+
+### 11.1 Merges
+- **Storyboard #46** was merged as storyboard `main` `60edf00ed38ad4307d59bf5cf223f3f340bd40bb`, locked to the approved head `0aa53dd`. Its PR CI was green on that exact head (run 45930560757). `main` had not moved, so the merge's tree equals `0aa53dd`'s. Pages run 45933062644: success.
+- **Game #28** was re-pinned to `60edf00` (`a3f7b6f`). Only the revision stamps changed; content `f36c40e5e9f1` is unchanged. The checks passed again locally, including `run_ch04_qa` 42/42. It was merged as game `main` `3dce9c5bc363a1ac3dbc6399f1c766ad0394784f`, locked to `a3f7b6f`, with the same tree. Main QA run 45934808646: success (content job; on a push the browser job is skipped by policy).
+
+### 11.2 Storyboard branch `integration/ch04-art-reconciliation-20261126` (from `main` `60edf00`)
+
+| Commit | What |
+|---|---|
+| `863e3cb` | Step A: `assetPath = suggestedFilename` for exactly the 65 approved records game `main` uses (63 Chapter 4 + 2 Temporary Staff Pass). Status stays `approved`. `register-art` moved their previews out of `pending-integration/` (65 R100 renames). |
+| `dd34653` | Death export regenerated: the four fatal aftermath paths (null → `art/deaths/<id>.png`). |
+| `1e30f8e` | The four fatal aftermaths gain `selectedSource` (game file, git blob, SHA-256 = the first one their notes name). This follows the Chapter 2 precedent `0e9dc25`; the game's death runtime needs a source for an approved popup that has a path. Export regenerated. |
+| `cb515fd` | The four docs/137 C3 reuse keys get `assetPath` = their source's file, as their notes require ("assetPath stays null until … reconciliation"). They stay `reused`, and their previews point at the source's identical preview. Without this the build loses them once the pending binding is dropped. |
+| `c7ed7bc` | Step 4, written by the game's `sync.js publish`: the 65 become `integrated`, and no other field changes. `story/game-integration.json` names game build `446a795`. The 213 previews of its images cite it; no preview bytes or files change. |
+| `4859ee8` | Death export regenerated: the four statuses become `integrated`. |
+| `643a941` | qa-smoke: the B2-17 item views pass when `approved` with no path, or when `integrated` at their `suggestedFilename` with proof from the game report. |
+
+check-canon: OK (205 integrated, 9 reused). The 7 approved records the game does not consume are untouched.
+
+- **Local:** every storyboard-review suite passes (qa-browser 26/26, qa-timeline 136/136, qa-artwork-preview 64/64, art-lab Pages 70/70, art-lab browser 106/106).
+- **Pages emulation** (every `pages.yml` step): OK on `main` `60edf00` and on `643a941`. The built site differs only by the 69 preview moves, the four registry files, and receipts that name the build SHA or the citing game build.
+- **Merged** as storyboard PR #47: normal merge **`428a3d63412f470bbd9bbb5c0f772c511661ba32`**, locked to `643a941`, with the same tree. PR CI was green on that head. Pages run 45940522849 succeeded. The live site matches `main` byte for byte (game-integration, artwork registry, death export, sampled Chapter 4 and staff-pass images), and the old pending-integration copies are gone.
+
+### 11.3 Game branch `agent/ch04-art-reconciliation-20261126` (from `main` `3dce9c5`)
+
+| Commit | What |
+|---|---|
+| `446a795` | Re-pin step A (`cb515fd`). `pendingArtBindings` is removed, and both provenance files record RECONCILED. Content `f36c40e5e9f1` is unchanged. The 65 story-art entries lose `binding` (same paths, same bytes). The four death screens leave `build.art` and reach the popup through the death runtime from their canonical path, as in Chapters 1–2 (same bytes). QA pins the reconciled state. **This is the build published as integrated.** On it: story import 107/107, `run_ch04_qa` 42/42. |
+| this commit | Re-pin storyboard `main` `428a3d6` (the merge of `4859ee8`/`643a941`; same tree). Exactly 61 build-art statuses change `approved` → `integrated` (the 4 death screens change in the death runtime); content is unchanged. QA pins `integrated`. This record. |
+
+QA changed deliberately, without loosening anything:
+- `validate_ch03`: no pending binding; all three provenance files record RECONCILED; the staff-pass images are built from their paths with no binding, at the pinned status.
+- `validate_story_import`: 11 build sources; the Prologue integrated count excludes Chapter 4; the 61 Chapter 4 + staff-pass images at their pinned bytes with no binding; conditional references are the only other approved art; the pending-binding mechanism and its refusals are kept.
+- `qa-sync`: the Chapter 4 popups take their art from the canonical path with no binding.
+
+### 11.4 Merge order
+1. Storyboard reconciliation PR, as a **normal merge** (`game-integration.json` cites `cb515fd` and game `446a795`; both must stay reachable).
+2. Re-pin the game to that merge commit, then run the content QA.
+3. Game reconciliation PR, as a **normal merge** (`446a795` must stay reachable).

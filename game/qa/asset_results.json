@@ -1,8 +1,8 @@
 {
   "schema": "cyoa-asset-validation-v1",
   "browser": false,
-  "total": 59,
-  "passed": 59,
+  "total": 60,
+  "passed": 60,
   "groups": {
     "registry": {
       "total": 10,
@@ -25,8 +25,8 @@
       "passed": 10
     },
     "negative": {
-      "total": 24,
-      "passed": 24
+      "total": 25,
+      "passed": 25
     }
   },
   "results": [
@@ -266,19 +266,19 @@
     },
     {
       "group": "EF-A1",
-      "name": "imported (fixture): every referenced asset registered, every registration referenced, one key per file",
+      "name": "imported (production): every referenced asset registered, every registration referenced, one key per file",
       "ok": true,
       "detail": []
     },
     {
       "group": "EF-A2",
-      "name": "imported (fixture): every file exists at its art class's PNG size",
+      "name": "imported (production): every file exists at its art class's PNG size",
       "ok": true,
       "detail": []
     },
     {
       "group": "EF-A3",
-      "name": "imported (fixture): null placeholders only in a fixture; any path approved",
+      "name": "imported (production): no null art, no source/originals/review path",
       "ok": true,
       "detail": []
     },
@@ -402,10 +402,10 @@
       "name": "portrait layering in buildApertures: background -> rear FX -> pose -> front FX, then the shell above",
       "ok": true,
       "detail": [
-        18018,
-        18382,
-        18452,
-        18728
+        19795,
+        20159,
+        20229,
+        20505
       ]
     },
     {
@@ -580,6 +580,21 @@
         "A2": [
           "focus:conference_hall/reception/desk (focus) is 314x206, needs 564x278: art/scenes/conference_hall/reception/reception_scene.png"
         ],
+        "A3": []
+      }
+    },
+    {
+      "group": "negative",
+      "name": "one background file under two speakers for different scenes (duplicate registration) -> A1",
+      "ok": true,
+      "detail": {
+        "A1": [
+          "one file registered under 3 keys: scene:grand_bellevue/wedding_entry, scene:grand_bellevue/ballroom, scene:grand_bellevue/refreshment_table (art/scenes/grand_bellevue/ballroom.png)",
+          "one file registered under 2 keys: scene:grand_bellevue/service_passage, scene:grand_bellevue/bridal_corridor (art/scenes/grand_bellevue/service_passage.png)",
+          "one file registered under 2 keys: scene:grand_bellevue/upper_salvage, scene:grand_bellevue/freight_lift (art/scenes/grand_bellevue/upper_salvage.png)",
+          "one file registered under 2 keys: portrait:pavilion_attendant:background:pavilion_reboot/record_printer, portrait:pavilion_presenter:background:pavilion_reboot/urgency_stage (art/portraits/pavilion_reboot/backgrounds/record_printer.png)"
+        ],
+        "A2": [],
         "A3": []
       }
     },
