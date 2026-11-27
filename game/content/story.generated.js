@@ -16,19 +16,9 @@
         "gitBlob": "a9faf810a593c9e310d3da95b0f92f60fd4a00e7"
       },
       {
-        "path": "art/grand_bellevue.provenance.json",
-        "sha256": "61686bff00f1f04da7f0c633a769e2371b500aee89f50a35e50f16c22519635e",
-        "gitBlob": "e6ff781a39f330f0dd907eea7a51fdb2eaecc1d5"
-      },
-      {
-        "path": "art/items/pavilion/pavilion_temporary_staff_pass.provenance.json",
-        "sha256": "8343cebbbd2ae22feea2a820241c404bd7f3f33dbbc7f68cd9e57bc838afc977",
-        "gitBlob": "9eec9ac7aae3baf7eaad1a0361172ae9c773b646"
-      },
-      {
         "path": "story/artwork.draft.json",
-        "sha256": "aa36f239895f30d492ea3ce4ec3065149417ffe148390abc76279898573fd4fa",
-        "gitBlob": "7837f848cc25b0f1374bc3c16c0a272d7fc8e7dd"
+        "sha256": "f50f53e5a33582688e278b0392c832ccd77464d8489f27681fcd17b7a8bef5ff",
+        "gitBlob": "f06d80ecaabe0689d3a833924d3fc6855d626349"
       },
       {
         "path": "story/chapters/chapter-01.draft.json",
@@ -57,8 +47,8 @@
       },
       {
         "path": "story/death-presentations.export.json",
-        "sha256": "fd28bdddaca0f9607bb0416ff4a94d639fca68d844b73e72c90275feac2eebae",
-        "gitBlob": "cab787a73dcf9b3483b613e3e5d5306b3ede2cb8"
+        "sha256": "69776903538b22340a8f5568769ba276ec23ed964aedabfaa8b2b9a390599a86",
+        "gitBlob": "dbde362888e44c3023198bee2be663930211a0fe"
       },
       {
         "path": "story/items.draft.json",
@@ -67,8 +57,8 @@
       },
       {
         "path": "story/runtime-settings.json",
-        "sha256": "5ffb87e62186f98d1d259edbbaa3f4e01167a6d104e6c5d4e6b7822ef869ab48",
-        "gitBlob": "7160fba4e8f053316bb818b1657d99a156fbcb85"
+        "sha256": "72fc97f95d4bf9ec362161c3069be6e6337bbe7a123c478bf3e17b89c5271811",
+        "gitBlob": "6ad186f4fb491bba302d3422732c7e6c082ac421"
       },
       {
         "path": "story/storyboard-manifest.json",
@@ -186,38 +176,6 @@
         "conditional": "art/grand_bellevue.conditional-art.json"
       },
       {
-        "kind": "death-screen",
-        "id": "grand_bellevue/final_occupancy",
-        "path": "art/deaths/final_occupancy.png",
-        "status": "approved",
-        "binding": "art/grand_bellevue.provenance.json",
-        "sha256": "e65d321cac76af8e03dd57ba5cbe3aa2d7db454669b0dd36631c61e51e475b7a"
-      },
-      {
-        "kind": "death-screen",
-        "id": "grand_bellevue/folded_for_convenience",
-        "path": "art/deaths/folded_for_convenience.png",
-        "status": "approved",
-        "binding": "art/grand_bellevue.provenance.json",
-        "sha256": "30490a4259b363879dc126e273dcc07bb979d96ad4f6534dd75cb7e3901ddc07"
-      },
-      {
-        "kind": "death-screen",
-        "id": "grand_bellevue/made_to_measure",
-        "path": "art/deaths/made_to_measure.png",
-        "status": "approved",
-        "binding": "art/grand_bellevue.provenance.json",
-        "sha256": "d244595dd545551268143fc6a94e0d9d641d3825324b16db7791b5f0118b21bc"
-      },
-      {
-        "kind": "death-screen",
-        "id": "grand_bellevue/pressed_and_steamed",
-        "path": "art/deaths/pressed_and_steamed.png",
-        "status": "approved",
-        "binding": "art/grand_bellevue.provenance.json",
-        "sha256": "f0cb0816a5639977634ef21b7d1d57ccfa136c5ef575aa2bb9fd006fc8097e56"
-      },
-      {
         "kind": "focus-reference",
         "id": "chair_seam_open",
         "path": "art/focus/grand_bellevue/auction_floor/chair_armrest/states/chair_seam_open.png",
@@ -259,64 +217,56 @@
         "id": "grand_bellevue/auction_floor/chair_armrest",
         "path": "art/focus/grand_bellevue/auction_floor/chair_armrest.png",
         "status": "approved",
-        "sha256": "facb4981ccef1f270f200346333ce108a9db7679fb383982d4704e8b65fa0fc7",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "facb4981ccef1f270f200346333ce108a9db7679fb383982d4704e8b65fa0fc7"
       },
       {
         "kind": "focus",
         "id": "grand_bellevue/autofit_gown",
         "path": "art/focus/grand_bellevue/autofit_gown.png",
         "status": "approved",
-        "sha256": "0e1a0d3cd73c087416a7e9a2502ae263a597f7da77476e4cd0219dd504d48095",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "0e1a0d3cd73c087416a7e9a2502ae263a597f7da77476e4cd0219dd504d48095"
       },
       {
         "kind": "focus",
         "id": "grand_bellevue/bridal_privacy_panel",
         "path": "art/focus/grand_bellevue/bridal_privacy_panel.png",
         "status": "approved",
-        "sha256": "d4c260fb9b4c55e647cecb58bb6fed196f9f056fd3cf291f1862889ff8035520",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "d4c260fb9b4c55e647cecb58bb6fed196f9f056fd3cf291f1862889ff8035520"
       },
       {
         "kind": "focus",
         "id": "grand_bellevue/collection_stairs/chair_armrest",
         "path": "art/focus/grand_bellevue/collection_stairs/chair_armrest.png",
         "status": "approved",
-        "sha256": "68bbf32b040a984201dfb0f5b83b1315cf391848848500b1e7ee97819a5f5645",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "68bbf32b040a984201dfb0f5b83b1315cf391848848500b1e7ee97819a5f5645"
       },
       {
         "kind": "focus",
         "id": "grand_bellevue/maintenance/water_isolator",
         "path": "art/focus/grand_bellevue/maintenance/water_isolator.png",
         "status": "approved",
-        "sha256": "723bb38b569aa15f0520ce5c042fd9a9d30c0eed9a93e537e610a621573fe43f",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "723bb38b569aa15f0520ce5c042fd9a9d30c0eed9a93e537e610a621573fe43f"
       },
       {
         "kind": "focus",
         "id": "grand_bellevue/restroom/lot_14_receipt",
         "path": "art/focus/grand_bellevue/restroom/lot_14_receipt.png",
         "status": "approved",
-        "sha256": "af9f7b03eacfe54721e52217b265b7fcdc852b0eb7cf1d0cd1fd7e7f1eef85d3",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "af9f7b03eacfe54721e52217b265b7fcdc852b0eb7cf1d0cd1fd7e7f1eef85d3"
       },
       {
         "kind": "focus",
         "id": "grand_bellevue/restroom/master_isolator",
         "path": "art/focus/grand_bellevue/restroom/master_isolator.png",
         "status": "approved",
-        "sha256": "ba494521a177b397cc9db901e83046fccc83afcfcebca890b23a0656be042153",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "ba494521a177b397cc9db901e83046fccc83afcfcebca890b23a0656be042153"
       },
       {
         "kind": "focus",
         "id": "grand_bellevue/three_seashells",
         "path": "art/focus/grand_bellevue/three_seashells.png",
         "status": "approved",
-        "sha256": "70f35ae3853883b4fe15293ae5e6fd5ede1e721ab54946d2bc7499ce94ac04c6",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "70f35ae3853883b4fe15293ae5e6fd5ede1e721ab54946d2bc7499ce94ac04c6"
       },
       {
         "kind": "focus",
@@ -422,16 +372,14 @@
         "id": "lot_53_dispute_ticket",
         "path": "art/items/grand_bellevue/lot_53_dispute_ticket_inspect.png",
         "status": "approved",
-        "sha256": "493004874154a0037559aa3eb4393eb60d73fac4977577699245eb9154393eed",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "493004874154a0037559aa3eb4393eb60d73fac4977577699245eb9154393eed"
       },
       {
         "kind": "item-inspect",
         "id": "pavilion_temporary_staff_pass",
         "path": "art/items/pavilion/pavilion_temporary_staff_pass_inspect.png",
         "status": "approved",
-        "sha256": "527e17af4a27971d2d729441f8a74d097c5442df93f0161dc841d81ee1788e41",
-        "binding": "art/items/pavilion/pavilion_temporary_staff_pass.provenance.json"
+        "sha256": "527e17af4a27971d2d729441f8a74d097c5442df93f0161dc841d81ee1788e41"
       },
       {
         "kind": "item-inspect",
@@ -480,8 +428,7 @@
         "id": "wedding_ring_lot31",
         "path": "art/items/grand_bellevue/wedding_ring_lot31_inspect.png",
         "status": "approved",
-        "sha256": "298d8e45f371f7cc3f95e14928cf153fbe1af50f1bfac941a569c4f844a067e8",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "298d8e45f371f7cc3f95e14928cf153fbe1af50f1bfac941a569c4f844a067e8"
       },
       {
         "kind": "item-slot",
@@ -558,16 +505,14 @@
         "id": "lot_53_dispute_ticket",
         "path": "art/items/grand_bellevue/lot_53_dispute_ticket_slot.png",
         "status": "approved",
-        "sha256": "21543ddb40788ee4f994601b37397caa3173a082b851e569cccf79484c9741cd",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "21543ddb40788ee4f994601b37397caa3173a082b851e569cccf79484c9741cd"
       },
       {
         "kind": "item-slot",
         "id": "pavilion_temporary_staff_pass",
         "path": "art/items/pavilion/pavilion_temporary_staff_pass_slot.png",
         "status": "approved",
-        "sha256": "662ecb2c15b0b70afd5e6a14a73dadab6090fc2f4c75a389f9f5a96ba06b59b5",
-        "binding": "art/items/pavilion/pavilion_temporary_staff_pass.provenance.json"
+        "sha256": "662ecb2c15b0b70afd5e6a14a73dadab6090fc2f4c75a389f9f5a96ba06b59b5"
       },
       {
         "kind": "item-slot",
@@ -616,8 +561,7 @@
         "id": "wedding_ring_lot31",
         "path": "art/items/grand_bellevue/wedding_ring_lot31_slot.png",
         "status": "approved",
-        "sha256": "e3a1d25cf2343302a6df8c660341879fa1e6a90f43629ac0706e50d2ba3e1ebe",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "e3a1d25cf2343302a6df8c660341879fa1e6a90f43629ac0706e50d2ba3e1ebe"
       },
       {
         "kind": "portrait-background",
@@ -645,64 +589,56 @@
         "id": "grand_bellevue/ballroom",
         "path": "art/portraits/grand_bellevue/backgrounds/ballroom.png",
         "status": "approved",
-        "sha256": "cc9d19c2413df5b017b72592e3d5c676a84ad0ad91c354093a0a9e0199233e7d",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "cc9d19c2413df5b017b72592e3d5c676a84ad0ad91c354093a0a9e0199233e7d"
       },
       {
         "kind": "portrait-background",
         "id": "grand_bellevue/boiler_room",
         "path": "art/portraits/grand_bellevue/backgrounds/boiler_room.png",
         "status": "approved",
-        "sha256": "5cf871e30bce74f86343546653f22352981eeb559592c0162ef98ff32cf63034",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "5cf871e30bce74f86343546653f22352981eeb559592c0162ef98ff32cf63034"
       },
       {
         "kind": "portrait-background",
         "id": "grand_bellevue/loading_dock",
         "path": "art/portraits/grand_bellevue/backgrounds/loading_dock.png",
         "status": "approved",
-        "sha256": "27f69050b10d3e10121f7f2c2860db1418504b00d3848daabde420485b9bcc1f",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "27f69050b10d3e10121f7f2c2860db1418504b00d3848daabde420485b9bcc1f"
       },
       {
         "kind": "portrait-background",
         "id": "grand_bellevue/lobby",
         "path": "art/portraits/grand_bellevue/backgrounds/lobby.png",
         "status": "approved",
-        "sha256": "b2f11966c5b598b1869803f35eb38d00006f346c40a563118c4bdb0eacadf77f",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "b2f11966c5b598b1869803f35eb38d00006f346c40a563118c4bdb0eacadf77f"
       },
       {
         "kind": "portrait-background",
         "id": "grand_bellevue/maintenance",
         "path": "art/portraits/grand_bellevue/backgrounds/maintenance.png",
         "status": "approved",
-        "sha256": "0836e7de87767563257424d071217098b5b4c5b056f30318e868737573d7364b",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "0836e7de87767563257424d071217098b5b4c5b056f30318e868737573d7364b"
       },
       {
         "kind": "portrait-background",
         "id": "grand_bellevue/restroom",
         "path": "art/portraits/grand_bellevue/backgrounds/restroom.png",
         "status": "approved",
-        "sha256": "77325aca0d3c61d5b6d1980232fb11fa55156454a26659c6887c4d726a82c377",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "77325aca0d3c61d5b6d1980232fb11fa55156454a26659c6887c4d726a82c377"
       },
       {
         "kind": "portrait-background",
         "id": "grand_bellevue/service_passage",
         "path": "art/portraits/grand_bellevue/backgrounds/service_passage.png",
         "status": "approved",
-        "sha256": "b3c41ce02b3812d7ee3829bdd39e556fc648f730094d781ce19680c2a6ce6721",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "b3c41ce02b3812d7ee3829bdd39e556fc648f730094d781ce19680c2a6ce6721"
       },
       {
         "kind": "portrait-background",
         "id": "grand_bellevue/staff_lavatory",
         "path": "art/portraits/grand_bellevue/backgrounds/staff_lavatory.png",
         "status": "approved",
-        "sha256": "a8ba232710e12784d7103b9882a3c6e8286e8cca89bd29fe7abbfab90b6d2b94",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "a8ba232710e12784d7103b9882a3c6e8286e8cca89bd29fe7abbfab90b6d2b94"
       },
       {
         "kind": "portrait-background",
@@ -786,184 +722,161 @@
         "id": "hotel_auction_clerk:precise",
         "path": "art/portraits/grand_bellevue/hotel_auction_clerk/precise.png",
         "status": "approved",
-        "sha256": "e8fae3f87ede6b59411e82d8d9c36429c5859bbf539cb8452e0d4017e95ffe0a",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "e8fae3f87ede6b59411e82d8d9c36429c5859bbf539cb8452e0d4017e95ffe0a"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_auctioneer:delighted",
         "path": "art/portraits/grand_bellevue/hotel_auctioneer/delighted.png",
         "status": "approved",
-        "sha256": "1d1121394a9a628116f8d110ba122159c0ae32894414b9bec4ec641e662f84e4",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "1d1121394a9a628116f8d110ba122159c0ae32894414b9bec4ec641e662f84e4"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_auctioneer:disappointed",
         "path": "art/portraits/grand_bellevue/hotel_auctioneer/disappointed.png",
         "status": "approved",
-        "sha256": "07ebaa5a00f4119855a9b6ba319ce3614b2b3c710243857f7756b08022cb33fc",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "07ebaa5a00f4119855a9b6ba319ce3614b2b3c710243857f7756b08022cb33fc"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_auctioneer:showman",
         "path": "art/portraits/grand_bellevue/hotel_auctioneer/showman.png",
         "status": "approved",
-        "sha256": "231baf25ffd00511144693927354e73f42cae4f052964a9db0a99323689a0d78",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "231baf25ffd00511144693927354e73f42cae4f052964a9db0a99323689a0d78"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_boiler_engineer:careful",
         "path": "art/portraits/grand_bellevue/hotel_boiler_engineer/careful.png",
         "status": "approved",
-        "sha256": "f5291b027540cb41898fd2032ea3462723269fd319ebe156b3a2e2a80acc9067",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "f5291b027540cb41898fd2032ea3462723269fd319ebe156b3a2e2a80acc9067"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_boiler_engineer:defeated",
         "path": "art/portraits/grand_bellevue/hotel_boiler_engineer/defeated.png",
         "status": "approved",
-        "sha256": "4ed315b347d1aa8c976d4b8c78322eaa5fd064d24e525923ac7c830c0ec8267d",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "4ed315b347d1aa8c976d4b8c78322eaa5fd064d24e525923ac7c830c0ec8267d"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_boiler_engineer:pleased",
         "path": "art/portraits/grand_bellevue/hotel_boiler_engineer/pleased.png",
         "status": "approved",
-        "sha256": "77ae105216f93d7c889716c00cce3abcf7b2f1323e47171095ff9cc4a8792730",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "77ae105216f93d7c889716c00cce3abcf7b2f1323e47171095ff9cc4a8792730"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_bride:determined",
         "path": "art/portraits/grand_bellevue/hotel_bride/determined.png",
         "status": "approved",
-        "sha256": "301d2fe0ccfd8eb7324ee9dffa4711f98aa0ee2e4d53378b43794eca240277ee",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "301d2fe0ccfd8eb7324ee9dffa4711f98aa0ee2e4d53378b43794eca240277ee"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_bride:grateful",
         "path": "art/portraits/grand_bellevue/hotel_bride/grateful.png",
         "status": "approved",
-        "sha256": "afde2e43b85a3b364ae532fcceb9c0d558249fb9d476072b4df261c6de4f8577",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "afde2e43b85a3b364ae532fcceb9c0d558249fb9d476072b4df261c6de4f8577"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_bride:helpful",
         "path": "art/portraits/grand_bellevue/hotel_bride/helpful.png",
         "status": "approved",
-        "sha256": "2e4baeb93b73894f09267f64dd5d16b81ecb2470ba202651b881309d86919e5b",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "2e4baeb93b73894f09267f64dd5d16b81ecb2470ba202651b881309d86919e5b"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_commodore_bixby:delighted",
         "path": "art/portraits/grand_bellevue/hotel_commodore_bixby/delighted.png",
         "status": "approved",
-        "sha256": "44f81292dc520eeabc6864c21449fb033db4891702c6102634b126b344ee05b8",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "44f81292dc520eeabc6864c21449fb033db4891702c6102634b126b344ee05b8"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_groom:nervous",
         "path": "art/portraits/grand_bellevue/hotel_groom/nervous.png",
         "status": "approved",
-        "sha256": "dd4d497088f3264a04d7182245b176e65cd9a3e5c5f04e7be872adc4cc52352a",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "dd4d497088f3264a04d7182245b176e65cd9a3e5c5f04e7be872adc4cc52352a"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_groom:relieved",
         "path": "art/portraits/grand_bellevue/hotel_groom/relieved.png",
         "status": "approved",
-        "sha256": "19d8d42ff06b02020d5bdb3ddba33d9f47eb6222bb0c59e635d43bd5bf21691c",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "19d8d42ff06b02020d5bdb3ddba33d9f47eb6222bb0c59e635d43bd5bf21691c"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_plumber:worried",
         "path": "art/portraits/grand_bellevue/hotel_plumber/worried.png",
         "status": "approved",
-        "sha256": "cedd81713cbd5ee4bb0a97d869a62c395a1b34ea04ba276fa5ac21c01d5de65d",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "cedd81713cbd5ee4bb0a97d869a62c395a1b34ea04ba276fa5ac21c01d5de65d"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_plumber_assistant:pleased",
         "path": "art/portraits/grand_bellevue/hotel_plumber_assistant/pleased.png",
         "status": "approved",
-        "sha256": "ac47c23105b70af92b970682b72c266726ddbe9a75e182bdf6a71869568d6eea",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "ac47c23105b70af92b970682b72c266726ddbe9a75e182bdf6a71869568d6eea"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_porter:alarmed",
         "path": "art/portraits/grand_bellevue/hotel_porter/alarmed.png",
         "status": "approved",
-        "sha256": "19653d7cb5e1a04cc87c195b551d9533f7bb5aac0f8a5842c45fa56ba4d85061",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "19653d7cb5e1a04cc87c195b551d9533f7bb5aac0f8a5842c45fa56ba4d85061"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_porter:businesslike",
         "path": "art/portraits/grand_bellevue/hotel_porter/businesslike.png",
         "status": "approved",
-        "sha256": "863bffb11ce70970dd8f18a2e6188e7835092c4c8218c6f0a74b487ad26e89eb",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "863bffb11ce70970dd8f18a2e6188e7835092c4c8218c6f0a74b487ad26e89eb"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_porter:practical",
         "path": "art/portraits/grand_bellevue/hotel_porter/practical.png",
         "status": "approved",
-        "sha256": "646386199bfad2bd77e73bb3137dfac9c5b8effa85e324e906208ae48a62c11e",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "646386199bfad2bd77e73bb3137dfac9c5b8effa85e324e906208ae48a62c11e"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_porter:uncertain",
         "path": "art/portraits/grand_bellevue/hotel_porter/uncertain.png",
         "status": "approved",
-        "sha256": "25d6ac8823dff67881c076c2405e50c7229375ab98bb5e4324511b2f7033f77d",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "25d6ac8823dff67881c076c2405e50c7229375ab98bb5e4324511b2f7033f77d"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_salvage_foreman:annoyed",
         "path": "art/portraits/grand_bellevue/hotel_salvage_foreman/annoyed.png",
         "status": "approved",
-        "sha256": "d394c5c3617f1da66eb6957d8eb2d8594e018e558b30efe0e5eef6d43f095aad",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "d394c5c3617f1da66eb6957d8eb2d8594e018e558b30efe0e5eef6d43f095aad"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_wedding_assistant:apologetic",
         "path": "art/portraits/grand_bellevue/hotel_wedding_assistant/apologetic.png",
         "status": "approved",
-        "sha256": "f3b61e1ba4f2ebc98b9b9a70b88a969784314e1501ac9c33cce2c88573df00ad",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "f3b61e1ba4f2ebc98b9b9a70b88a969784314e1501ac9c33cce2c88573df00ad"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_wedding_assistant:busy",
         "path": "art/portraits/grand_bellevue/hotel_wedding_assistant/busy.png",
         "status": "approved",
-        "sha256": "0b1551cdfd6a744e5d61961dc7e9c679fd9519cc0877297b1bb08f25288c3515",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "0b1551cdfd6a744e5d61961dc7e9c679fd9519cc0877297b1bb08f25288c3515"
       },
       {
         "kind": "portrait-pose",
         "id": "hotel_wedding_organizer:urgent",
         "path": "art/portraits/grand_bellevue/hotel_wedding_organizer/urgent.png",
         "status": "approved",
-        "sha256": "ffb2444306854dc07373de096ff27e3328b8fe88bd0fe7e2e727a4b6f4127f76",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "ffb2444306854dc07373de096ff27e3328b8fe88bd0fe7e2e727a4b6f4127f76"
       },
       {
         "kind": "portrait-pose",
@@ -1445,160 +1358,140 @@
         "id": "grand_bellevue/ballroom",
         "path": "art/scenes/grand_bellevue/ballroom.png",
         "status": "approved",
-        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/boiler_access",
         "path": "art/scenes/grand_bellevue/boiler_access.png",
         "status": "approved",
-        "sha256": "c7e5eb215898ee1f6128cf321d1f295f3c6896e4764131bd0995c5ce36c2c93f",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "c7e5eb215898ee1f6128cf321d1f295f3c6896e4764131bd0995c5ce36c2c93f"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/boiler_room",
         "path": "art/scenes/grand_bellevue/boiler_room.png",
         "status": "approved",
-        "sha256": "c4441ea36243bf1b6161359b4d5d3956b70e612a293bd144f7fef107e29e121c",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "c4441ea36243bf1b6161359b4d5d3956b70e612a293bd144f7fef107e29e121c"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/bridal_corridor",
         "path": "art/scenes/grand_bellevue/service_passage.png",
         "status": "reused",
-        "sha256": "a5d416c47786a070c3a6acfdba91e2f7756cea4418f39425fea23511608220f9",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "a5d416c47786a070c3a6acfdba91e2f7756cea4418f39425fea23511608220f9"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/bridal_dressing_room",
         "path": "art/scenes/grand_bellevue/bridal_dressing_room.png",
         "status": "approved",
-        "sha256": "f2718d729a28138a88cf51b6ef3c511bdf6d7de0d500654d975b1ab0249bdf49",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "f2718d729a28138a88cf51b6ef3c511bdf6d7de0d500654d975b1ab0249bdf49"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/bridal_lavatory",
         "path": "art/scenes/grand_bellevue/bridal_lavatory.png",
         "status": "approved",
-        "sha256": "85fb565d8c2f79525a95ada44a9f9e3c05e2cee374712e520488c88153ee7480",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "85fb565d8c2f79525a95ada44a9f9e3c05e2cee374712e520488c88153ee7480"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/freight_lift",
         "path": "art/scenes/grand_bellevue/upper_salvage.png",
         "status": "reused",
-        "sha256": "1030e04f9b32d2c0fc4394e9f00a4a70ba162db1c9eeed4f2772068cf9ce3207",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "1030e04f9b32d2c0fc4394e9f00a4a70ba162db1c9eeed4f2772068cf9ce3207"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/loading_dock",
         "path": "art/scenes/grand_bellevue/loading_dock.png",
         "status": "approved",
-        "sha256": "a867a114d2286b382acc756eb8e803bec87b66790a24ce3498603cb9bd21c79c",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "a867a114d2286b382acc756eb8e803bec87b66790a24ce3498603cb9bd21c79c"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/loading_lane",
         "path": "art/scenes/grand_bellevue/loading_lane.png",
         "status": "approved",
-        "sha256": "9cd7d2e916770097425c990a43b1d9ecffe36bad2ec050b4b73964c440299de6",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "9cd7d2e916770097425c990a43b1d9ecffe36bad2ec050b4b73964c440299de6"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/lobby",
         "path": "art/scenes/grand_bellevue/lobby.png",
         "status": "approved",
-        "sha256": "582bcd51de937e5fe124160a8beb74b4ee469f52eeb6d9d0d38b918cfb0d6be0",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "582bcd51de937e5fe124160a8beb74b4ee469f52eeb6d9d0d38b918cfb0d6be0"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/maintenance",
         "path": "art/scenes/grand_bellevue/maintenance.png",
         "status": "approved",
-        "sha256": "e069dbb75908fde2cb51867cd137bdac43301bd38ac8c72a3d266a1e400059c0",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "e069dbb75908fde2cb51867cd137bdac43301bd38ac8c72a3d266a1e400059c0"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/public_corridor",
         "path": "art/scenes/grand_bellevue/public_corridor.png",
         "status": "approved",
-        "sha256": "86da5123204f65c43ed23f418fe0edcf987dbdb3d000821367c36c8f30c390ec",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "86da5123204f65c43ed23f418fe0edcf987dbdb3d000821367c36c8f30c390ec"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/refreshment_table",
         "path": "art/scenes/grand_bellevue/ballroom.png",
         "status": "reused",
-        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/restroom",
         "path": "art/scenes/grand_bellevue/restroom.png",
         "status": "approved",
-        "sha256": "83cf1f0df4d130f24c53c931cae83fd92abef8fdc7e8f80359c5657ce051ce06",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "83cf1f0df4d130f24c53c931cae83fd92abef8fdc7e8f80359c5657ce051ce06"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/service_alley",
         "path": "art/scenes/grand_bellevue/service_alley.png",
         "status": "approved",
-        "sha256": "aee362709a49a3234dcc8a17f2624de27b64f4da2b4b5a27265a98820241c54a",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "aee362709a49a3234dcc8a17f2624de27b64f4da2b4b5a27265a98820241c54a"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/service_passage",
         "path": "art/scenes/grand_bellevue/service_passage.png",
         "status": "approved",
-        "sha256": "a5d416c47786a070c3a6acfdba91e2f7756cea4418f39425fea23511608220f9",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "a5d416c47786a070c3a6acfdba91e2f7756cea4418f39425fea23511608220f9"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/service_stairs",
         "path": "art/scenes/grand_bellevue/service_stairs.png",
         "status": "approved",
-        "sha256": "b4d6fb424c8f608cac816c10d59f9eab570a36b4ab9bc0fc9b921a781ee64166",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "b4d6fb424c8f608cac816c10d59f9eab570a36b4ab9bc0fc9b921a781ee64166"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/staff_lavatory",
         "path": "art/scenes/grand_bellevue/staff_lavatory.png",
         "status": "approved",
-        "sha256": "84f52f2d8458a82c8d479d628f20eda67b6e78162be4658f89db674ddf6acad3",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "84f52f2d8458a82c8d479d628f20eda67b6e78162be4658f89db674ddf6acad3"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/upper_salvage",
         "path": "art/scenes/grand_bellevue/upper_salvage.png",
         "status": "approved",
-        "sha256": "1030e04f9b32d2c0fc4394e9f00a4a70ba162db1c9eeed4f2772068cf9ce3207",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "1030e04f9b32d2c0fc4394e9f00a4a70ba162db1c9eeed4f2772068cf9ce3207"
       },
       {
         "kind": "scene",
         "id": "grand_bellevue/wedding_entry",
         "path": "art/scenes/grand_bellevue/ballroom.png",
         "status": "reused",
-        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c",
-        "binding": "art/grand_bellevue.provenance.json"
+        "sha256": "76a290b0f7419927440e0635638183b89a7844b03bc9cec065bc08827dec713c"
       },
       {
         "kind": "scene",

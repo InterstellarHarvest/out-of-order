@@ -74,7 +74,7 @@ try {
   // Every death image the game ships (Rest Assured; since docs/102 the five Chapter 2 deaths): the projection checks each
   // selected death file's provenance against the game copy, so the fixture game must hold them all.
   const deathArt = fs.readdirSync(path.join(ROOT, 'art/deaths')).filter((f) => f.endsWith('.png')).map((f) => 'art/deaths/' + f);
-  // Game issue #27: approved Chapter 4 death art binds through the game-owned pending bindings (runtime-settings).
+  // Game issue #27: any pending bindings the game still lists (none since the reconciliation, docs/107 section 11).
   const bindingFiles = J(ROOT, 'story/runtime-settings.json').pendingArtBindings || [];
   for (const p of ['tools/story-sync/sync.js', 'tools/story-sync/config.json', 'tools/story-import/convert.js', 'story/runtime-settings.json'].concat(deathArt, bindingFiles)) fs.cpSync(path.join(ROOT, p), path.join(GAME, p));
 
@@ -106,9 +106,10 @@ try {
   const rt = require(path.join(GAME, 'game/content/death-presentations.generated.js'));
   assert.equal(rt.storyboard.revision, A);
   // Since docs/102 all six consumed deaths have integrated art (Rest Assured + the five Chapter 2 deaths).
-  // Game issue #27: + the four Chapter 4 deaths, their approved art bound pending integration through the game's provenance.
+  // Game issue #27: + the four Chapter 4 deaths. Since the reconciliation (docs/107 section 11) their art comes from the
+  // canonical selectedPath/selectedSource like every other death, with no pending binding.
   assert.ok(!rt.entries.some((e) => /^chapter-0[35]:/.test(e.id)) && rt.entries.filter((e) => e.art).map((e) => e.id).join() === 'chapter-01:exit_chair_fatal,chapter-02:fatal_sorter,chapter-02:fatal_hopper,chapter-02:fatal_transformation,chapter-02:fatal_planting,chapter-02:fatal_roots,chapter-04:fatal_stall_final_occupancy,chapter-04:fatal_boiler_pressed_and_steamed,chapter-04:fatal_lot61_folded,chapter-04:fatal_bridal_made_to_measure'
-    && rt.entries.filter((e) => /^chapter-04:/.test(e.id)).every((e) => e.art.binding === 'pending-integration' && e.subtitle === undefined), JSON.stringify(rt.entries.map((e) => [e.id, !!e.art])));
+    && rt.entries.filter((e) => /^chapter-04:/.test(e.id)).every((e) => !e.art.binding && /^art\/deaths\/[a-z_]+\.png$/.test(e.art.path) && /^[0-9a-f]{64}$/.test(e.art.sha256) && e.subtitle === undefined), JSON.stringify(rt.entries.map((e) => [e.id, !!e.art])));
   ok('death export: consumed chapters only (Chapter 5 stub excluded; Chapter 3 has no fatal ending), byte-identical to the real projection; runtime module pinned to the revision; only selected or bound approved art handed over');
   const gfile = path.join(GAME, 'game/content/death-presentations.generated.js'), gorig = fs.readFileSync(gfile);
   fs.writeFileSync(gfile, gorig.toString().replace('PERMANENTLY SATISFIED.', 'PERMANENTLY SATISFIED!'));

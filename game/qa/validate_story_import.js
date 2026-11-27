@@ -6,6 +6,11 @@
 'use strict';
 
 const fs = require('fs');
+// Game issue #27 reconciliation (docs/107 section 11): the 61 Chapter 4 + Temporary Staff Pass story images (63 + 2,
+// less the 4 death screens, which reach the popup through the death runtime) are built from their canonical production
+// paths with no pending binding: `approved` at step A, `integrated` once the build is published (sync.js publish).
+const CH4_STATUS = 'approved';
+const ch4Art = (a) => /grand_bellevue|pavilion_temporary_staff_pass/.test(a.path) && !a.conditional && a.status !== 'reused'; // the 4 C3 reuse keys stay reused
 const os = require('os');
 const path = require('path');
 const ROOT = path.resolve(__dirname, '../..');
@@ -111,11 +116,11 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
     && JSON.stringify(b2.story.chapters['prologue-00'].nodes.work_complete.choices) !== undefined, b2.ok && [b2.meta.contentHash, b.meta.contentHash]);
   // 8 sources: manifest, runtime settings, 4 chapters, items, artwork. The Chapter 3 pending art binding (docs/104
   // section 3) was dropped at the integration-status reconciliation: no art/*.provenance.json is a build source.
-  // Game issue #27: + chapter-04, the death export (its art ids bind death screens) and three game-owned art files
-  // (the Chapter 4 and Staff Pass pending bindings, until their reconciliation, and the conditional-art dispatch).
-  check(g, 'the build records content hash, version, schema and every source file hash (Chapter 4 bindings and conditional art are build sources)', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
-    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 13
-    && JSON.stringify(b.meta.sources.filter((s) => /^art\//.test(s.path)).map((s) => s.path)) === JSON.stringify(['art/grand_bellevue.conditional-art.json', 'art/grand_bellevue.provenance.json', 'art/items/pavilion/pavilion_temporary_staff_pass.provenance.json'])
+  // Game issue #27: + chapter-04, the death export (its art ids bind death screens) and the game-owned conditional-art
+  // dispatch. The Chapter 4 and Staff Pass pending bindings were build sources until their reconciliation (docs/107 section 11).
+  check(g, 'the build records content hash, version, schema and every source file hash (conditional art is a build source; no pending binding is)', b.ok && /^[0-9a-f]{64}$/.test(b.meta.contentHash) && b.meta.version > 0
+    && b.meta.storySchema === 'cyoa-story-v2' && b.meta.sources.length === 11
+    && JSON.stringify(b.meta.sources.filter((s) => /^art\//.test(s.path)).map((s) => s.path)) === JSON.stringify(['art/grand_bellevue.conditional-art.json'])
     && b.meta.sources.every((s) => /^[0-9a-f]{64}$/.test(s.sha256) && /^[0-9a-f]{40}$/.test(s.gitBlob)));
   check(g, 'storyboard box positions (storyboard-layout.json) are never read', b.ok && !b.meta.sources.some((s) => /layout/.test(s.path)));
   // docs/92 adds the 28 bound Chapter 1 House images (the 29th, the default chair, is unbound).
@@ -128,18 +133,18 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   // docs/104: + the 29 Pavilion images (14 scenes, 8 conversation backgrounds, 7 poses), `integrated` since the
   // integration-status reconciliation (section 11: game build abaf917 published by sync.js publish).
   const pavilionArt = (a) => /pavilion_reboot\//.test(a.path);
-  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images, 5 reused approved, none approved-only)', b.ok
+  check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images, 61 Chapter 4 + Staff Pass images ' + CH4_STATUS + ' at their production paths, 26 conditional references, 9 reused, nothing bound pending integration)', b.ok
     && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a) && !pavilionArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
     && b.meta.art.filter((a) => a.status === 'integrated' && parkArt(a)).length === 45
     && b.meta.art.filter((a) => a.status === 'integrated' && pavilionArt(a)).length === 29 && b.meta.art.filter(pavilionArt).length === 29
-    // Game issue #27: Chapter 4 + Staff Pass, approved and bound pending integration: 63 primaries + 2 staff-pass views
-    // (4 of them death screens), the 4 docs/137 C3 reuse keys bound to their sources' files, and 26 shown conditional
+    // Game issue #27: Chapter 4 + Staff Pass, reconciled (docs/107 section 11): 61 story images at their production paths
+    // with no binding, the 4 docs/137 C3 reuse keys at their sources' files (reused, unbound), and 26 shown conditional
     // references (28 conditional + 2 INSPECT, of which 4 are installed but bound to no moment), each at its approved bytes.
-    && b.meta.art.filter((a) => a.status === 'approved' && a.binding && !a.conditional).length === 65
-    && b.meta.art.filter((a) => a.status === 'approved' && !a.binding && !a.conditional).length === 0
+    && b.meta.art.filter(ch4Art).length === 61 && b.meta.art.filter(ch4Art).every((a) => a.status === CH4_STATUS && !a.binding)
+    && b.meta.art.filter((a) => a.status === 'approved' && !a.conditional && !ch4Art(a)).length === 0
     && b.meta.art.filter((a) => a.conditional).length === 26
-    && b.meta.art.filter((a) => a.status === 'reused' && a.binding).length === 4
-    && b.meta.art.filter((a) => a.status === 'reused' && !a.binding).length === 5 && b.meta.art.every((a) => a.sha256));
+    && !b.meta.art.some((a) => a.binding)
+    && b.meta.art.filter((a) => a.status === 'reused').length === 9 && b.meta.art.every((a) => a.sha256));
 })();
 
 // 2. Content changes reach the game without engine edits ----------------------------------------
@@ -498,15 +503,16 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   // integration-status reconciliation (no pending binding), pinned by art/pavilion_reboot.provenance.json.
   // Nothing may read as approved-only (selected but unused) or as generated.
   const pav = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/pavilion_reboot.provenance.json'), 'utf8')).images;
-  // Game issue #27: approved-but-unintegrated art is allowed only through a pending binding (Chapter 4 + Staff
-  // Pass, each at the bytes its provenance pins) or a conditional reference (at the bytes its dispatch file pins).
+  // Game issue #27: every Chapter 4 + Staff Pass story image is at the bytes its provenance pins, with no binding, at
+  // CH4_STATUS; any other approved art is a conditional reference at the bytes its dispatch file pins.
   const ch4Prov = ['art/grand_bellevue.provenance.json', 'art/items/pavilion/pavilion_temporary_staff_pass.provenance.json']
     .flatMap((f) => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')).images);
   const cond = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/grand_bellevue.conditional-art.json'), 'utf8')).references;
   const appr = b.meta.art.filter((a) => a.status === 'approved');
-  const apprOk = appr.every((a) => (a.binding && ch4Prov.some((r) => r.path === a.path && r.sha256 === a.sha256)) || (a.conditional && cond.some((r) => r.path === a.path && r.sha256 === a.sha256)));
+  const ch4Ok = b.meta.art.filter(ch4Art).every((a) => a.status === CH4_STATUS && !a.binding && ch4Prov.some((r) => r.path === a.path && r.sha256 === a.sha256));
+  const apprOk = ch4Ok && appr.every((a) => (CH4_STATUS === 'approved' && ch4Art(a)) || (a.conditional && cond.some((r) => r.path === a.path && r.sha256 === a.sha256)));
   const pavOk = pav.length === 29 && pav.every((r) => gen.some((a) => a.path === r.path && a.sha256 === r.sha256 && !a.binding));
-  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images matching their provenance; approved only when bound pending integration or a conditional reference, at their pinned bytes; none generated)', gen.length === 132 && appr.length === 91 && apprOk && prov.length === 30 && houseOk && parkOk && pavOk
+  check(g, 'the build records every story image with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images matching their provenance; 61 Chapter 4 + Staff Pass images ' + CH4_STATUS + ' at their pinned bytes with no binding; otherwise approved only as a conditional reference; none generated)', gen.length === 132 + (CH4_STATUS === 'integrated' ? 61 : 0) && appr.length === 26 + (CH4_STATUS === 'approved' ? 61 : 0) && apprOk && prov.length === 30 && houseOk && parkOk && pavOk
     && b.meta.art.every((a) => /^[0-9a-f]{64}$/.test(a.sha256) && typeof a.status === 'string') && !b.meta.art.some((a) => a.status === 'generated'),
     b.meta.art.map((a) => a.status));
   const t = copySource(STORY).edit('artwork.draft.json', (j) => {

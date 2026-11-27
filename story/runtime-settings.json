@@ -94,10 +94,6 @@
       "name": "AUTOFIT"
     }
   },
-  "pendingArtBindings": [
-    "art/grand_bellevue.provenance.json",
-    "art/items/pavilion/pavilion_temporary_staff_pass.provenance.json"
-  ],
   "conditionalArt": [
     "art/grand_bellevue.conditional-art.json"
   ]

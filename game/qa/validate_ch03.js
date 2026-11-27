@@ -161,9 +161,14 @@ function record(key) {
 // exactly these bytes there and was published (sync.js publish): the records are `integrated` at those paths.
 const SETTINGS = J('story/runtime-settings.json');
 const REG_STATUS = 'integrated';
-// Game issue #27: the only pending bindings are Chapter 4's and the Temporary Staff Pass's own provenance files.
-check('registry', 'story/runtime-settings.json binds no Pavilion image (only the Chapter 4 and Staff Pass provenance); the provenance file records the reconciliation',
-  JSON.stringify(SETTINGS.pendingArtBindings) === JSON.stringify(['art/grand_bellevue.provenance.json', 'art/items/pavilion/pavilion_temporary_staff_pass.provenance.json']) && /^RECONCILED/.test(PROV.binding || ''), SETTINGS.pendingArtBindings);
+// Game issue #27 reconciliation (docs/107 section 11): the Chapter 4 and Temporary Staff Pass bindings are gone too;
+// every provenance file that once bound records pending integration records its reconciliation.
+const PASS_PROV = J('art/items/pavilion/pavilion_temporary_staff_pass.provenance.json');
+const CH4_PROV = J('art/grand_bellevue.provenance.json');
+// Status of the reconciled Chapter 4 / Staff Pass records: approved at their paths (step A), integrated once published.
+const CH4_REG_STATUS = 'approved';
+check('registry', 'story/runtime-settings.json has no pending art binding; the Pavilion, Staff Pass and Chapter 4 provenance files record the reconciliation',
+  !('pendingArtBindings' in SETTINGS) && [PROV, PASS_PROV, CH4_PROV].every((p) => /^RECONCILED/.test(p.binding || '')), SETTINGS.pendingArtBindings);
 const firstSha = (rec) => { const m = /SHA-256[^0-9a-f]{0,3}([0-9a-f]{64})/.exec(String(rec.notes || '')); return m && m[1]; };
 const builtArt = new Map(build.art.map((a) => [a.path, a]));
 for (const [key, want] of Object.entries(APPROVED)) {
@@ -214,11 +219,11 @@ check('bindings', 'all 29 pinned images are in the build (none installed unused)
 // Public docs/153 (Nate, 2026-11-26): the one Chapter 3 item is the existing Temporary Staff Pass, granted at the
 // appointment, with its two approved images bound (96x96 slot 662ecb2c, 565x451 inspect 527e17af).
 const PASS = story.items.pavilion_temporary_staff_pass;
-check('bindings', 'Chapter 3 needs no Focus A or death art (docs/111); its only item is the approved Temporary Staff Pass with its two approved images',
+check('bindings', 'Chapter 3 needs no Focus A or death art (docs/111); its only item is the approved Temporary Staff Pass with its two approved images, built from their production paths (no pending binding)',
   !Object.values(CH3.nodes).some((n) => n.mode === 'focus' || n.focus) && same(Object.keys(story.items).filter((id) => /^pavilion_/.test(id)), ['pavilion_temporary_staff_pass'])
   && !!PASS && PASS.slotArt === 'art/items/pavilion/pavilion_temporary_staff_pass_slot.png' && PASS.inspectArt === 'art/items/pavilion/pavilion_temporary_staff_pass_inspect.png'
-  && build.art.some((a) => a.path === PASS.slotArt && a.sha256 === '662ecb2c15b0b70afd5e6a14a73dadab6090fc2f4c75a389f9f5a96ba06b59b5')
-  && build.art.some((a) => a.path === PASS.inspectArt && a.sha256 === '527e17af4a27971d2d729441f8a74d097c5442df93f0161dc841d81ee1788e41')
+  && build.art.some((a) => a.path === PASS.slotArt && a.sha256 === '662ecb2c15b0b70afd5e6a14a73dadab6090fc2f4c75a389f9f5a96ba06b59b5' && !a.binding && a.status === CH4_REG_STATUS)
+  && build.art.some((a) => a.path === PASS.inspectArt && a.sha256 === '527e17af4a27971d2d729441f8a74d097c5442df93f0161dc841d81ee1788e41' && !a.binding && a.status === CH4_REG_STATUS)
   && same(CH3.nodes.unauthorized_presenter.effects, { give: ['pavilion_temporary_staff_pass'] })
   && Object.entries(CH3.nodes).every(([id, n]) => id === 'unauthorized_presenter' || !JSON.stringify(n).includes('"give"')));
 
