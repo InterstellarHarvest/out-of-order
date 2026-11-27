@@ -632,7 +632,7 @@ function convert(input, opts) {
     if (!deathIds.has(id)) return;
     if (!obj(rec) || rec.status !== 'approved' || (rec.assetPath !== null && rec.assetPath !== undefined)) return err(w, b.key + ' is not an approved death screen pending integration');
     if (rec.suggestedFilename !== p) return err(w, b.key + ' binds ' + p + ' but its record names ' + rec.suggestedFilename);
-    if (mode === 'approved') return err(w, b.key + ' is bound pending integration; an approved build needs reconciled canonical art');
+    if (mode === 'approved') { b.used = true; return err(w, b.key + ' is bound pending integration; an approved build needs reconciled canonical art'); }
     if (approvedSha(rec) !== b.sha256) return err(w, b.key + ' binding ' + b.sha256 + ' is not the current approved selection its record names (' + approvedSha(rec) + ')');
     b.used = true;
     deathArt.push({ kind: 'death-screen', id, path: p, status: rec.status, binding: { file: b.file, key: b.key, sha256: b.sha256 } });

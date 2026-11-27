@@ -8,13 +8,13 @@
 //            CONTINUE into Chapter 3. At every settled step the DOM art equals Rules.view for the game's
 //            own state; the first time each scene / pair appears its pixels on screen are compared with
 //            the source PNGs (scene 4x NEAREST, conversation 1:1). Cards and SHOW / USE are taken through
-//            the real UI (cards, inventory inspector). Each route ends on its surviving ending: BEGIN
-//            AGAIN only, no death popup, no RETRY / CHECKPOINT.
+//            the real UI (cards, inventory inspector). Each route ends on its surviving ending: its one
+//            CONTINUE into Chapter 4 (game issue #27), no death popup, no RETRY / CHECKPOINT.
 //   voices   the incidental visitor and restroom-system lines carry their NAME: label in the dialogue box
 //            and in NOTES; the attendant's own lines carry none
 //   glyph    the approved '0%' / '100%' readouts draw a real '%' glyph (ink on the canvas)
 //   reload   a mid-Chapter-3 conversation survives a reload (node, art, history with labels)
-//   restart  BEGIN AGAIN starts a new playthrough at the Prologue
+//   handoff  an ending's CONTINUE enters Chapter 4 (after the Form 27B-6 printer) with its ending recorded (game issue #27)
 //   items    missing-item behaviour in the inventory (no photo slot, no SHOW where none is authored)
 //   inventory_9   a real playthrough carrying NINE items into Chapter 3 (ch03_routes.js FULL_PACK): six VISIBLE
 //            slots with arrow scrolling (never a six-item capacity), the 9th item reachable and inspectable,
@@ -227,7 +227,8 @@ async function run(b, base) {
         return { node: G.state.node, cards: G.ui.cards.map((c) => c.id + ':' + c.kind), popup: !!document.body.dataset.endPresentation,
           controls: r ? Array.from(r.querySelectorAll('button')).filter((x) => x.getClientRects().length && getComputedStyle(x).visibility !== 'hidden').length : 0,
           inv: G.state.inventory.slice(), checks: JSON.stringify(G.state.checks) }; });
-      Ck('reaches the surviving ending ' + t.r.end + ': BEGIN AGAIN only, no death popup, no RETRY / CHECKPOINT on screen', end.node === t.r.end && end.cards.length === 1 && /:system$/.test(end.cards[0]) && !end.popup && !end.controls, end);
+      // Game issue #27: the surviving ending's one card is the CONTINUE hand-off into Chapter 4.
+      Ck('reaches the surviving ending ' + t.r.end + ': its one CONTINUE into Chapter 4, no death popup, no RETRY / CHECKPOINT on screen', end.node === t.r.end && end.cards.length === 1 && end.cards[0] === 'continue_to_chapter_04_' + t.r.end + ':continue' && !end.popup && !end.controls, end);
       Ck('the real dice gave the planned outcomes and the inventory matches the engine', end.checks === JSON.stringify(t.f.end.checks) && JSON.stringify(end.inv) === JSON.stringify(t.f.end.inventory));
       await shot('ending');
     });
@@ -275,12 +276,15 @@ async function run(b, base) {
     await shot('percent_readout');
   });
 
-  // 4. BEGIN AGAIN ---------------------------------------------------------------------------------------
-  await scenario('restart', async ({ page, C: Ck }) => {
-    await load(page, base, save(planned.find((p) => p.r.name === 'back').f.end));
-    await take(page, 'restart_after_zero_second_visit');
-    const s = await page.evaluate(() => ({ chapter: window.CYOA_GAME.state.chapter, node: window.CYOA_GAME.state.node, inv: window.CYOA_GAME.state.inventory.slice() }));
-    Ck('BEGIN AGAIN at a Chapter 3 ending starts a new playthrough at the Prologue with the initial inventory', s.chapter === story.start && JSON.stringify(s.inv) === JSON.stringify(story.initialState.inventory), s);
+  // 4. The Chapter 4 hand-off (game issue #27; the BEGIN AGAIN these endings had before) ----------------------
+  await scenario('handoff', async ({ page, C: Ck }) => {
+    const back = planned.find((p) => p.r.name === 'back').f.end;
+    await load(page, base, save(back));
+    await take(page, 'continue_to_chapter_04_door_reverse_end');
+    await page.waitForFunction(() => window.CYOA_GAME.state.chapter === 'chapter-04' && !document.getElementById('printTransition') && document.body.dataset.phase === 'choosing', null, { timeout: 60000 });
+    const s = await page.evaluate(() => ({ chapter: window.CYOA_GAME.state.chapter, node: window.CYOA_GAME.state.node, route: window.CYOA_GAME.state.flags.ch3_exit_route, inv: window.CYOA_GAME.state.inventory.slice(), printer: document.body.dataset.printer }));
+    Ck('CONTINUE at a Chapter 3 ending enters Chapter 4 (after the printer) with the ending recorded and the inventory kept', s.chapter === 'chapter-04' && s.route === 'door_reverse_end'
+      && JSON.stringify(s.inv) === JSON.stringify(back.inventory) && s.printer === 'done', s);
   });
 
   // 5. Missing items ------------------------------------------------------------------------------------
@@ -331,8 +335,8 @@ async function run(b, base) {
     for (const s of C.OPEN.concat(C.KEY, C.BRANCHES.photo.via(true), C.BRANCHES.photo.steps)) await take(page, s);
     st = await strip();
     const end = await page.evaluate(() => ({ node: window.CYOA_GAME.state.node, cards: window.CYOA_GAME.ui.cards.map((c) => c.kind) }));
-    Ck('with 9 items held, SHOW the key and SHOW the photo through the inspector reach backstage_exit (BEGIN AGAIN) still holding all 9',
-      end.node === 'backstage_exit' && end.cards.join() === 'system' && JSON.stringify(st.inv) === JSON.stringify(inv9), { end, inv: st.inv });
+    Ck('with 9 items held, SHOW the key and SHOW the photo through the inspector reach backstage_exit (its CONTINUE into Chapter 4) still holding all 9',
+      end.node === 'backstage_exit' && end.cards.join() === 'continue' && JSON.stringify(st.inv) === JSON.stringify(inv9), { end, inv: st.inv });
   });
 
   // 7. Incidental-voice labels are never stranded at the bottom of the dialogue panel -------------------------

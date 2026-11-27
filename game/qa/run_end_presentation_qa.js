@@ -512,7 +512,8 @@ function engineCauses() {
     ends + living > 20 && living > 15 && fatalEnds >= 5 && ends >= fatalEnds && !hits.length, { hits, ends, living, fatalEnds });
   // One opted-in entry, the shared canonical one; its art is the pinned approved file, byte-identical.
   const buf = fs.readFileSync(path.join(ROOT, ENTRY.art.path));
-  check('node', g, 'every canonical death entry is opted in (canonical *: 6); the shared chapter-01:exit_chair_fatal art is the approved native PNG (sha256 7f469efa..., 314x206, 2x)', ENTRIES.length === CANON.entries.length && ENTRIES.length === 6 && !!ENTRY
+  // Game issue #27: + the four Chapter 4 deaths (6 -> 10).
+  check('node', g, 'every canonical death entry is opted in (canonical *: 10, with Chapter 4); the shared chapter-01:exit_chair_fatal art is the approved native PNG (sha256 7f469efa..., 314x206, 2x)', ENTRIES.length === CANON.entries.length && ENTRIES.length === 10 && !!ENTRY
     && JSON.stringify(ENTRY.when) === JSON.stringify({ end: 'chapter-01:exit_chair_fatal' })
     && require('crypto').createHash('sha256').update(buf).digest('hex') === ENTRY.art.sha256 && ENTRY.art.sha256 === '7f469efa40548568af5dfe3c11602b9c6293282d9574caa5f36fc37113e72d9c'
     && buf.readUInt32BE(16) === 314 && buf.readUInt32BE(20) === 206 && ENTRY.art.scale === 2);

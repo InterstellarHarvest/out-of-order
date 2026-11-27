@@ -216,6 +216,10 @@ jobs:
         id: ch03
         if: (success() || failure()) && steps.pw.outcome == 'success'
         run: node game/qa/run_ch03_qa.js
+      - name: Chapter 4 + Form 27B-6 printer in the game (Chapter 3 hand-off, printer at every boundary incl. skip / reload / reduced motion / scale, INSPECT, timed conditional art, four fatal popups, CHECKPOINT; game issue #27)
+        id: ch04
+        if: (success() || failure()) && steps.pw.outcome == 'success'
+        run: node game/qa/run_ch04_qa.js
       - name: Presentation capabilities in the game (text-led scene held without a fade, voice-led dialogue on Narrative B with labels, reload; storyboard docs/137)
         id: presentation
         if: (success() || failure()) && steps.pw.outcome == 'success'
@@ -263,6 +267,7 @@ jobs:
             game/qa/ch02_art_qa_results.json
             game/qa/ch02_route_results_browser.json
             game/qa/ch03_qa_results.json
+            game/qa/ch04_qa_results.json
             game/qa/presentation_qa_results.json
             game/qa/qa_results.json
             tools/m2-reception-polish-lab/qa/qa_results.json
@@ -298,6 +303,7 @@ jobs:
             game/qa/ch02_art_screenshots/*.png
             game/qa/ch02_route_screenshots/*.png
             game/qa/ch03_screenshots/*.png
+            game/qa/ch04_screenshots/*.png
             game/qa/presentation_screenshots/*.png
             tools/m2-reception-polish-lab/qa/screenshots/*.png
             tools/layout-lab/qa/screenshots/*.png

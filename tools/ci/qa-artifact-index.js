@@ -41,6 +41,7 @@ const SUITES = [
   { id: 'ch02_art', script: 'game/qa/run_ch02_art_qa.js', results: ['game/qa/ch02_art_qa_results.json'], screenshots: ['game/qa/ch02_art_screenshots'] },
   { id: 'ch02_routes', script: 'game/qa/run_ch02_routes_qa.js', results: ['game/qa/ch02_route_results_browser.json'], screenshots: ['game/qa/ch02_route_screenshots'] },
   { id: 'ch03', script: 'game/qa/run_ch03_qa.js', results: ['game/qa/ch03_qa_results.json'], screenshots: ['game/qa/ch03_screenshots'] },
+  { id: 'ch04', script: 'game/qa/run_ch04_qa.js', results: ['game/qa/ch04_qa_results.json'], screenshots: ['game/qa/ch04_screenshots'] },
   { id: 'presentation', script: 'game/qa/run_presentation_qa.js', results: ['game/qa/presentation_qa_results.json'], screenshots: ['game/qa/presentation_screenshots'] },
   { id: 'm2_reception', script: 'game/qa/run_qa.js', results: ['game/qa/qa_results.json'], screenshots: ['game/qa/screenshots'] },
   { id: 'polish_lab', script: 'tools/m2-reception-polish-lab/qa/run_qa.js', results: ['tools/m2-reception-polish-lab/qa/qa_results.json'], screenshots: ['tools/m2-reception-polish-lab/qa/screenshots'] },

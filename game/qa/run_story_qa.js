@@ -394,13 +394,45 @@ async function suite(name, base) {
   // then the ending's own card.
   await settle(page, true);
   s = await info(page);
-  check(b, 'Chapter 3 surviving ending (NEW FACILITY RECORD): BEGIN AGAIN only, no death popup', s.node === 'chapter-03:door_reverse_end' && s.cards.length === 1 && s.cards[0].kind === 'system'
-    && !(await page.evaluate(() => document.body.dataset.endPresentation)), s);
+  // Game issue #27: the surviving ending's one card is the CONTINUE hand-off into Chapter 4 (after the printer).
+  check(b, 'Chapter 3 surviving ending (NEW FACILITY RECORD): its one CONTINUE into Chapter 4, no death popup', s.node === 'chapter-03:door_reverse_end' && s.cards.length === 1 && s.cards[0].kind === 'continue'
+    && s.cards[0].id === 'continue_to_chapter_04_door_reverse_end' && !(await page.evaluate(() => document.body.dataset.endPresentation)), s);
   await shot(page, '10d_chapter_03_surviving_ending.png');
+  const inv3 = s.inv.slice();
   await take(page, s.cards[0].id);
+  await page.waitForFunction(() => !document.getElementById('printTransition') && document.body.dataset.phase === 'choosing', null, { timeout: 60000 });
   s = await info(page);
-  check(b, 'BEGIN AGAIN restarts the playthrough (new NOTES, empty inventory, opening node)', s.node === 'prologue-00:work_complete' && s.inv.length === 0
-    && await page.evaluate(() => window.CYOA_GAME.state.transcript.length) <= 3, s);
+  check(b, 'HAND-OFF 4: the zero-second-visit ending enters Chapter 4 at its dispatch, ending recorded, inventory kept, offering only its arrival variant',
+    s.node === 'chapter-04:hotel_entry_dispatch' && JSON.stringify(s.inv) === JSON.stringify(inv3) && s.cards.length === 1 && s.cards[0].id === 'from_door_reverse_end'
+    && (await page.evaluate(() => window.CYOA_GAME.state.flags.ch3_exit_route)) === 'door_reverse_end', s);
+  // BEGIN AGAIN, on the nearest Chapter 4 park-bound ending (dice-free path from the real state, found with the real rules).
+  {
+    const RulesN = require('../js/rules.js'), storyN = require('../content/story.generated.js').story;
+    const start = await page.evaluate(() => JSON.parse(JSON.stringify(window.CYOA_GAME.state)));
+    const q = [{ st: start, path: [] }], seen = new Set();
+    let path4 = null;
+    while (q.length && !path4) {
+      const { st, path: p } = q.shift();
+      const n = storyN.chapters[st.chapter].nodes[st.node];
+      for (const c of RulesN.view(storyN, st).cards) {
+        const e = n.choices.find((x) => x.id === c.id);
+        if (e.check || e.restart) continue;
+        const t = RulesN.step(storyN, st, { choice: c.id }).state;
+        if (/_park_exit$/.test(t.node)) { path4 = p.concat([c.id]); break; }
+        const k = t.node + '|' + t.inventory.join();
+        if (!seen.has(k) && p.length < 12) { seen.add(k); t.transcript = []; q.push({ st: t, path: p.concat([c.id]) }); }
+      }
+    }
+    for (const c of path4 || []) await take(page, c);
+    await settle(page, true);
+    s = await info(page);
+    check(b, 'a Chapter 4 park-bound ending offers BEGIN AGAIN only (until Chapter 5 exists), no death popup', !!path4 && /_park_exit$/.test(s.node) && s.cards.length === 1 && s.cards[0].kind === 'system'
+      && !(await page.evaluate(() => document.body.dataset.endPresentation)), { path4, s });
+    await take(page, s.cards[0].id);
+  }
+  s = await info(page);
+  check(b, 'BEGIN AGAIN restarts the playthrough (new NOTES, empty inventory, opening node, no chapter printer)', s.node === 'prologue-00:work_complete' && s.inv.length === 0
+    && await page.evaluate(() => window.CYOA_GAME.state.transcript.length) <= 3 && !(await page.evaluate(() => !!document.getElementById('printTransition'))), s);
   errorsAll = errorsAll.concat(errors);
   await page.close();
 

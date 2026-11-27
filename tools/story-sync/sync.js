@@ -463,7 +463,13 @@ function buildReport() {
     const hash = sha256(fs.readFileSync(path.join(ROOT, p)));
     keys.forEach((key) => images.push({ key, path: p, sha256: hash, kind, ...(gate ? { gate } : {}) }));
   };
-  build.art.forEach((a) => add(a.path, a.kind));
+  // Conditional references (game issue #27; public docs/152 section 4) are approved preserved references, not art
+  // records: listed with their bytes, never registered as a record's integration.
+  const references = [];
+  build.art.forEach((a) => {
+    if (a.conditional) { references.push({ path: a.path, sha256: sha256(fs.readFileSync(path.join(ROOT, a.path))), kind: a.kind, dispatch: a.conditional }); return; }
+    add(a.path, a.kind);
+  });
   // Review-gated end presentations (docs/94, docs/96): real game code, off unless ?<gate>.
   const ep = path.join(ROOT, 'game/content/end-presentations.review.js');
   if (fs.existsSync(ep)) {
@@ -489,7 +495,8 @@ function buildReport() {
       game: { repo: CONFIG.gameRepo, branch, commit },
       storyboard: { repo: lock.repo, revision: lock.revision },
       build: { channel: build.channel, contentHash: build.contentHash, chapters: build.chapters.map((c) => c.id) },
-      images: unique
+      images: unique,
+      ...(references.length ? { references: references.sort((x, y) => (x.path < y.path ? -1 : 1)) } : {})
     }
   };
 }

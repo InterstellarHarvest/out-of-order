@@ -179,8 +179,9 @@ check('routes', 'every one of the 50 images is shown on at least one real route 
 
 // 5. Scope -------------------------------------------------------------------------------------------
 // docs/104: Chapter 3 (the approved reboot) is consumed; its own art and routes are validate_ch03.js's. It has no death.
-check('scope', 'Chapter 3 is consumed only as the approved reboot, with no death entry; nothing beyond it (lock, story, death runtime; Chapter 4 is published narrative-only and not consumed)', LOCK.chapters.join() === 'prologue-00,chapter-01,chapter-02,chapter-03'
-  && JSON.stringify(LOCK.notConsumed.chapters || []) === JSON.stringify(['chapter-04']) && !DEATHS.entries.some((e) => e.id.startsWith('chapter-04')) && LOCK.files['story/chapters/chapter-03.reboot-candidate.json'] && !story.chapters['chapter-04']
+// Game issue #27: Chapter 4 is consumed too (its four deaths in the runtime); nothing is published beyond it.
+check('scope', 'Chapter 3 is consumed only as the approved reboot, with no death entry; Chapter 4 follows it with its four deaths; nothing beyond (lock, story, death runtime)', LOCK.chapters.join() === 'prologue-00,chapter-01,chapter-02,chapter-03,chapter-04'
+  && JSON.stringify(LOCK.notConsumed.chapters || []) === JSON.stringify([]) && DEATHS.entries.filter((e) => e.id.startsWith('chapter-04')).length === 4 && LOCK.files['story/chapters/chapter-03.reboot-candidate.json'] && !!story.chapters['chapter-04']
   && !DEATHS.entries.some((e) => e.id.startsWith('chapter-03')), { lock: LOCK.chapters, story: Object.keys(story.chapters) });
 
 const failed = results.filter((r) => !r.ok);

@@ -78,7 +78,7 @@ function readSources(fromDir, bindingsRoot) {
   const conditionalArt = [];
   if (settings && settings.conditionalArt !== undefined) {
     if (!Array.isArray(settings.conditionalArt) || settings.conditionalArt.some((f) => typeof f !== 'string' || !/^art\/[a-z0-9_./-]+\.conditional-art\.json$/.test(f))) errors.push('runtime-settings: conditionalArt must list art/*.conditional-art.json files');
-    else settings.conditionalArt.forEach((f) => { const json = load(path.join(bindingsRoot || ROOT, f), 'conditional art ' + f); if (json) conditionalArt.push({ file: f, json }); });
+    else settings.conditionalArt.forEach((f) => { const json = load(path.join(ROOT, f), 'conditional art ' + f); if (json) conditionalArt.push({ file: f, json }); });
   }
   const chapters = {};
   let items = null;
@@ -101,6 +101,17 @@ function readSources(fromDir, bindingsRoot) {
   }
   sources.sort((a, b) => (a.path < b.path ? -1 : 1));
   return { errors, sources, input: { manifest, settings, chapters, items, artwork, bindings, deathArt, conditionalArt } };
+}
+
+// What the faces draw (docs/104 section 5): { locked, text }. A character a face lacks is still drawable when the face
+// has its typographic fallback (game/js/glyph-fallback.js, game issue #27).
+function drawable() {
+  const FALLBACK = require(path.join(ROOT, 'game/js/glyph-fallback.js'));
+  const withFallback = (map) => Object.keys(map).concat(Object.keys(FALLBACK).filter((ch) => !map[ch] && map[FALLBACK[ch]]));
+  const lockedMap = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping;
+  const faces = Object.values(JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/layout-lab/data/fonts.json'))));
+  const textChars = Object.keys(faces[0].mapping).filter((ch) => faces.every((f) => Object.prototype.hasOwnProperty.call(f.mapping, ch)));
+  return { locked: withFallback(lockedMap), text: withFallback(Object.fromEntries(textChars.map((ch) => [ch, true]))) };
 }
 
 // The whole build, in memory: { ok, text, report }.
@@ -135,13 +146,7 @@ function build(opts) {
   // Labels, Objective) draw narration and NPC speech, and every one of them must draw it (docs/104 section 5).
   const locked = Object.keys(JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping);
   const faces = Object.values(JSON.parse(fs.readFileSync(path.join(ROOT, 'tools/layout-lab/data/fonts.json'))));
-  // A character a face lacks is still drawable when the face has its typographic fallback (game/js/glyph-fallback.js).
-  const FALLBACK = require(path.join(ROOT, 'game/js/glyph-fallback.js'));
-  const withFallback = (map) => Object.keys(map).concat(Object.keys(FALLBACK).filter((ch) => !map[ch] && map[FALLBACK[ch]]));
-  const lockedMap = JSON.parse(fs.readFileSync(path.join(ROOT, 'art/ui/sprites/fonts/locked_pixel_font_atlas.json'))).mapping;
-  const textChars = Object.keys(faces[0].mapping).filter((ch) => faces.every((f) => Object.prototype.hasOwnProperty.call(f.mapping, ch)));
-  const textMap = Object.fromEntries(textChars.map((ch) => [ch, true]));
-  const charset = { locked: withFallback(lockedMap), text: withFallback(textMap) };
+  const charset = drawable();
   if (!c.errors.length) {
     const v = Rules.validateStory(story, charset, { routeMarks: true, liveKeys: true, chapterSplit: true });
     // The schema requires every variant list to end with an unconditional fallback. When the
@@ -339,5 +344,5 @@ function main(argv) {
   return 0;
 }
 
-module.exports = { build, verify, canonical, ROOT, DEFAULT_OUT };
+module.exports = { build, verify, canonical, drawable, ROOT, DEFAULT_OUT };
 if (require.main === module) process.exitCode = main(process.argv);
