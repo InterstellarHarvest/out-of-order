@@ -123,7 +123,11 @@ function audit(story) {
     const m = ks.map((k) => /^portrait:([a-z0-9_]+):background:([a-z0-9_]+\/[a-z0-9_]+)$/.exec(k));
     return m.every(Boolean) && new Set(m.map((x) => x[2])).size === 1 && new Set(m.map((x) => x[1])).size === m.length;
   };
-  Object.keys(byPath).forEach((p) => { if (byPath[p].length > 1 && !sharedSceneBackground(byPath[p])) out.A1.push('one file registered under ' + byPath[p].length + ' keys: ' + byPath[p].join(', ') + ' (' + p + ')'); });
+  // A second exception (public docs/137 C3, game issue #27): an approved scene reused under other scene keys. Every key
+  // is a scene key, and all but exactly one (the source) are records the build reports as `reused`.
+  const REUSED = new Set((story === STORIES.imported ? require('../content/story.generated.js').build.art : []).filter((a) => a.kind === 'scene' && a.status === 'reused').map((a) => 'scene:' + a.id));
+  const reusedScene = (ks) => ks.every((k) => /^scene:[a-z0-9_]+\/[a-z0-9_]+$/.test(k)) && ks.filter((k) => !REUSED.has(k)).length === 1;
+  Object.keys(byPath).forEach((p) => { if (byPath[p].length > 1 && !sharedSceneBackground(byPath[p]) && !reusedScene(byPath[p])) out.A1.push('one file registered under ' + byPath[p].length + ' keys: ' + byPath[p].join(', ') + ' (' + p + ')'); });
   // EF-A2: the file exists and its PNG size is its class's.
   keys.forEach((k) => {
     const e = reg[k];

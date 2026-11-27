@@ -175,6 +175,9 @@
     sceneState: function (scene, state) { return 'scene:' + scene + '#' + state; },
     view: function (portrait, id) { return 'portrait:' + portrait + ':view:' + id; },
     focusPage: function (id, n) { return 'focus:' + id + ':page:' + n; },
+    // Conditional art (game issue #27): an approved reference that replaces (or, with a region, partly covers)
+    // a scene, a portrait background or a Focus A close-up. surfaceKey = 'scene:<id>' | 'background:<id>' | 'focus:<id>'.
+    artState: function (surfaceKey, ref) { return 'cond:' + surfaceKey + '#' + ref; },
     slot: function (id) { return 'item:' + id; },
     inspect: function (id) { return G.inspectImageName(id); }
   });
@@ -205,6 +208,14 @@
       var f = a.focus[id];
       if (f && typeof f === 'object') f.pages.forEach(function (pg, i) { add(artKey.focusPage(id, i + 1), 'focus', id + ':page:' + (i + 1), pg.path); });
       else add(artKey.focus(id), 'focus', id, f);
+    });
+    Object.keys(a.inspectViews || {}).forEach(function (nk) { add('inspectview:' + nk, 'inspect', nk, a.inspectViews[nk].path); });
+    var COND_CLASS = { scene: 'scene', background: 'background', focus: 'focus' };
+    Object.keys(a.artStates || {}).forEach(function (sk) {
+      a.artStates[sk].forEach(function (st) {
+        var k = artKey.artState(sk, st.ref);
+        if (!Object.prototype.hasOwnProperty.call(reg, k)) add(k, COND_CLASS[sk.split(':')[0]], st.ref, st.path);
+      });
     });
     Object.keys(story.items || {}).forEach(function (id) {
       var it = story.items[id];
@@ -254,6 +265,12 @@
         if (f && typeof f === 'object') f.pages.forEach(function (pg, i) { use(artKey.focusPage(n.focus, i + 1)); });
         else use(artKey.focus(n.focus));
       }
+    });
+    Object.keys((story.assets && story.assets.inspectViews) || {}).forEach(function (nk) { if (nk.indexOf(chapterId + ':') === 0) use('inspectview:' + nk); });
+    // Conditional art shown at this chapter's nodes, decoded with the chapter (no state art ever pops in).
+    var cond = (story.assets && story.assets.artStates) || {};
+    Object.keys(cond).forEach(function (sk) {
+      cond[sk].forEach(function (st) { if (st.at.some(function (a) { return a.indexOf(chapterId + ':') === 0; })) use(artKey.artState(sk, st.ref)); });
     });
     return keys;
   };
@@ -405,6 +422,33 @@
   // transparent scene state drawn over it from the same origin, or null. Each layer is compared
   // on its own, so a change of state within one scene swaps exactly the layer that changed, and an
   // overlay never outlives the state that selected it.
+  // Region layers (game issue #27): an approved opaque image of the same size drawn over the base from the
+  // same origin, clipped to one rectangle of its own native pixels (whole pixels at the class's scale). No pixel
+  // is made: every pixel on screen is one of an approved image's. regions = [{ key, rect: [x, y, w, h] }].
+  function syncRegions(parent, list, regions, before) {
+    var want = (regions || []).map(function (r) { return r.key + '@' + r.rect.join(','); }).join('|');
+    if ((list.sig || '') === want) {
+      // Same regions: keep them directly above the base image, which may just have been swapped in under them.
+      (list.nodes || []).forEach(function (n) { parent.insertBefore(n, before || null); });
+      return list;
+    }
+    (list.nodes || []).forEach(function (n) { if (n.parentNode) n.parentNode.removeChild(n); });
+    var nodes = (regions || []).map(function (r, i) {
+      var node = artLayer(parent, r.key, parent.id + 'Region' + i);
+      parent.insertBefore(node, before || null);
+      var sc = (ART_CLASS[G.ART[r.key].cls] || {}).scale || 1;
+      var W = node.naturalWidth || ART_CLASS[G.ART[r.key].cls].size[0], H = node.naturalHeight || ART_CLASS[G.ART[r.key].cls].size[1];
+      node.style.clipPath = 'inset(' + (r.rect[1] * sc) + 'px ' + ((W - r.rect[0] - r.rect[2]) * sc) + 'px ' + ((H - r.rect[1] - r.rect[3]) * sc) + 'px ' + (r.rect[0] * sc) + 'px)';
+      node.dataset.art = r.key;
+      node.dataset.region = r.rect.join(',');
+      return node;
+    });
+    return { sig: want, nodes: nodes };
+  }
+  var sceneRegions = {}, backgroundRegions = {};
+  G.setSceneRegions = function (regions) {
+    sceneRegions = syncRegions(els.scene, sceneRegions, regions, els.sceneOverlay || null);
+  };
   G.setSceneArt = function (key, label, overlay) {
     if (!(els.sceneArt && els.sceneArt.dataset.art === key)) {
       els.sceneArt = swapLayer(els.scene, els.sceneArt, key, 'sceneArt', els.sceneOverlay);
@@ -426,6 +470,7 @@
     if ((els.portraitBackground && els.portraitBackground.dataset.art) !== w.background) {
       els.portraitBackground = swapLayer(els.portrait, els.portraitBackground, w.background, 'portraitBackground', els.portraitRearFx);
     }
+    backgroundRegions = syncRegions(els.portrait, backgroundRegions, w.background ? w.backgroundRegions : null, els.portraitRearFx);
     if ((els.portraitNpc && els.portraitNpc.dataset.art) !== w.pose) {
       els.portraitNpc = swapLayer(els.portrait, els.portraitNpc, w.pose, 'portraitNpc', els.portraitFrontFx);
     }
@@ -591,6 +636,20 @@
     s.scrollLine = clamp(Math.min(lead, speechMaxScroll()), 0, speechMaxScroll());
     if (s.newRow + linesFrom(s.newRow) > s.lines.length) s.scrollLine = speechMaxScroll();
     renderSpeech();
+  };
+
+  // The text the newest passage has revealed so far (game issue #27: conditional art follows text beats).
+  G.speechRevealedNew = function () {
+    var s = ui.speech, out = '', n = 0;
+    for (var i = 0; i < s.lines.length; i++) {
+      var t = s.lines[i].text;
+      if (n + t.length <= s.base) { n += t.length; continue; }
+      var from = Math.max(0, s.base - n), to = Math.max(0, Math.min(t.length, s.revealed - n));
+      if (to > from) out += t.slice(from, to) + ' ';
+      n += t.length;
+      if (n >= s.revealed) break;
+    }
+    return out;
   };
 
   G.setSpeechScroll = function (line) {
@@ -1099,6 +1158,11 @@
   // cannot be taken now keeps its glyph in an inactive treatment, does not press, and its tooltip
   // says why (docs/49 section 2.1). Hover never changes any of this.
   function utilityActions() {
+    // Presentation-only INSPECT (game issue #27): nothing to do with it but read it; X / Escape close it.
+    if (ui.inspector && ui.inspector.presentation) {
+      var blank = function () { return { action: 'none', glyph: null, label: '', enabled: false, blank: true }; };
+      return [blank(), blank(), blank()];
+    }
     if (ui.inspector && ui.inspector.scenePickup) {
       // The wall kit is not inventory. Its own authored rules cards supply the
       // medical checks; these are just the existing three contextual buttons.
@@ -1122,7 +1186,9 @@
     }
     var ctx = G.state ? port().contextAction() : null;
     var first = { action: 'none', glyph: null, label: '', enabled: false, blank: true };
-    if (ctx) {
+    var iv = G.storyMode && G.state && G.flow && G.flow.view ? G.flow.view().inspectView : null;
+    if (iv) first = { action: 'inspect-view', glyph: iv.glyph, label: iv.label, enabled: G.flow.phase === 'choosing', why: 'NOT NOW' };
+    else if (ctx) {
       var spent = port().contextSpent();
       first = { action: 'context', glyph: ctx.glyph, label: ctx.label, enabled: !spent && G.flow.phase === 'choosing', why: spent ? ctx.spentWhy : 'NOT NOW' };
     }
@@ -1360,6 +1426,22 @@
   // Shows the item's inspect art 1:1 at the art area's origin, or the placeholder when it has none.
   function showInspectArt(id) {
     delete els.inspectArt.dataset.art;
+    if (ui.inspector && ui.inspector.presentation) {
+      var pk = 'inspectview:' + ui.inspector.presentation.node;
+      var pimg = G.image(pk);
+      pimg.id = 'inspectImage';
+      pimg.className = 'sprite-abs';
+      pimg.alt = '';
+      pimg.draggable = false;
+      pimg.setAttribute('aria-hidden', 'true');
+      pimg.width = pimg.naturalWidth;
+      pimg.height = pimg.naturalHeight;
+      place(pimg, 0, 0, pimg.naturalWidth, pimg.naturalHeight);
+      els.inspectArt.replaceChildren(pimg);
+      els.inspectArt.dataset.kind = 'inspect-view';
+      els.inspectArt.dataset.art = pk;
+      return;
+    }
     if (ui.inspector && ui.inspector.scenePickup) {
       // The scene pickup's own 565x451 window covers the portrait aperture. PMO ruling 2026-11-18
       // (docs/103): it shows the node's owner-approved Focus A close-up, the same native 564x278
@@ -1428,8 +1510,9 @@
     var width = C().viewport.width - C().text.offsetX - 24;
     // A scene-owned kit is only granted to inventory on X/Escape close. Its
     // physical source, title and narration come from the current authored node.
-    var lines = [{ text: pickup ? pickup.title : port().item(id).name, role: 'labels', ink: 'dark' }];
-    T.wrap(pickup ? pickup.description : port().description(id), width, 'dialogue').forEach(function (t, i) {
+    var pres = ui.inspector.presentation;
+    var lines = [{ text: pres ? pres.title : pickup ? pickup.title : port().item(id).name, role: 'labels', ink: 'dark' }];
+    T.wrap(pres ? pres.text : pickup ? pickup.description : port().description(id), width, 'dialogue').forEach(function (t, i) {
       lines.push({ text: t, role: 'dialogue', ink: 'dark', gap: i === 0 ? 10 : 0 });
     });
     return lines;
@@ -1452,9 +1535,10 @@
     show(els.inspectText, on);
     if (!on) return;
     var id = ui.inspector.id;
-    if (els.inspectArt.dataset.item !== (ui.inspector.scenePickup ? 'scene:' + ui.inspector.scenePickup.id : id)) {
+    var artId = ui.inspector.presentation ? 'view:' + ui.inspector.presentation.node : ui.inspector.scenePickup ? 'scene:' + ui.inspector.scenePickup.id : id;
+    if (els.inspectArt.dataset.item !== artId) {
       showInspectArt(id);
-      els.inspectArt.dataset.item = ui.inspector.scenePickup ? 'scene:' + ui.inspector.scenePickup.id : id;
+      els.inspectArt.dataset.item = artId;
     }
     var lines = inspectorLines();
     var lh = 24;

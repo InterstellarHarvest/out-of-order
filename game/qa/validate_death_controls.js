@@ -295,8 +295,8 @@ const { CHAIR, STAPLER_CHAIR } = T;
 {
   const g = 'engine';
   // Content pin re-set on purpose 2026-11-17 (public storyboard c086e8a, presentation Batch B: public docs/107 section 9):
-  // 407d8ec78f1c -> b8410b88d1ee (Batch A) -> b95b98f24e84 (Batch B) -> 0bb7124ab2f6 (Chapter 2 art, docs/102) -> 8045c71dcbf1 (Chapter 3 integration, docs/104). Re-pin only for an intentional canon pull, never to silence an engine change.
-  check(g, 'generated story unchanged (content 8045c71dcbf1); the validator never sees attempt or points', gen.build.contentHash.slice(0, 12) === '8045c71dcbf1');
+  // 407d8ec78f1c -> b8410b88d1ee (Batch A) -> b95b98f24e84 (Batch B) -> 0bb7124ab2f6 (Chapter 2 art, docs/102) -> 8045c71dcbf1 (Chapter 3 integration, docs/104) -> f36c40e5e9f1 (Chapter 4, the staff-pass grant and the Chapter 3 -> 4 hand-off, game issue #27). Re-pin only for an intentional canon pull, never to silence an engine change.
+  check(g, 'generated story unchanged (content f36c40e5e9f1); the validator never sees attempt or points', gen.build.contentHash.slice(0, 12) === 'f36c40e5e9f1');
   const src = fs.readFileSync(path.join(__dirname, '../js/rules.js'), 'utf8');
   check(g, 'step() reads attempt only for the roll namespace; nothing in step() writes it', (src.match(/\.attempt = /g) || []).length === 3 && /s\.attempt = \(state\.attempt \|\| 0\) \+ 1/.test(src));
 }

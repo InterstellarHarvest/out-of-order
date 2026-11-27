@@ -55,7 +55,15 @@ Rules.validateStory = function (story, cs, opts) {
     if (!same(fo.seen, lo.seen)) d.push('observations');
     if (!same(fo.used, lo.used)) d.push('choices/entries used');
     if (full.ok && live.stats.reachableStates > full.stats.reachableStates) d.push('more states');
-    if (d.length) liveEq.diffs.push({ routeMarks, d, full: errSet(full).slice(0, 2), live: errSet(live).slice(0, 2) });
+    // chapterSplit (game issue #27): the per-chapter walk is the same walk: verdict, errors, observations and
+    // state count all equal the unsplit liveKeys walk.
+    const so = {};
+    const split = rawValidate(story, cs, Object.assign({}, opts, { routeMarks, liveKeys: true, chapterSplit: true, observe: so }));
+    if (split.ok !== live.ok) d.push('split verdict');
+    if (!same(errSet(split), errSet(live))) d.push('split errors');
+    if (!same(so.seen, lo.seen) || !same(so.used, lo.used)) d.push('split observations');
+    if (live.stats && split.stats && live.stats.reachableStates !== split.stats.reachableStates) d.push('split states');
+    if (d.length) liveEq.diffs.push({ routeMarks, d, full: errSet(full).slice(0, 2), live: errSet(live).slice(0, 2), split: errSet(split).slice(0, 3), chapters: Object.keys(story.chapters) });
   });
   return r;
 };

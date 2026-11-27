@@ -90,8 +90,11 @@ const STORY_UI_ART = { ['art/ui/shell/' + NARRATIVE_OVERLAY.image]: NARRATIVE_OV
 // Presentation Batch B (docs/101; public docs/107 section 9) pins the lounge + dining House views.
 // Chapter 2 (docs/102; public docs/108) pins the 50 Biology Park images the same way.
 // Chapter 3 (docs/104) pins the 29 Pavilion images the same way.
+// Chapter 4 + Temporary Staff Pass (game issue #27, docs/107) pin their 65 approved images, the 30 conditional / INSPECT
+// references (`references`) and the Form 27B-6 printer art + menu painting the same way.
 const PROVENANCE = ['art/house_of_tomorrow.provenance.json', 'art/house_of_tomorrow.batch_b.provenance.json', 'art/biology_park.provenance.json', 'art/deaths/rest_assured_voluntary.provenance.json',
-  'art/pavilion_reboot.provenance.json'];
+  'art/pavilion_reboot.provenance.json', 'art/grand_bellevue.provenance.json', 'art/items/pavilion/pavilion_temporary_staff_pass.provenance.json',
+  'art/grand_bellevue.conditional-art.json', 'art/ui/chapter_transition/provenance.json'];
 const STORY_UI_DATA = ['art/ui/shell/narrative-overlay.manifest.js'].concat(PROVENANCE);
 const PANEL_ART = 'art/ui/overlays/notes_files_panel.png'; // NOTES v1 (lab option only since Round 2)
 const FILES_PANEL = 'art/ui/overlays/files_panel.png';
@@ -238,7 +241,7 @@ function staticChecks() {
   // docs/92: installed Chapter 1 art the story does not (yet) show, e.g. the deliberately unbound
   // default chair, is admitted only by its exact path and the sha256 the provenance record pins.
   const provenanceArt = {};
-  PROVENANCE.forEach((f) => JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')).images.forEach((r) => { provenanceArt[r.path] = r.sha256; }));
+  PROVENANCE.forEach((f) => { const j = JSON.parse(fs.readFileSync(path.join(ROOT, f), 'utf8')); (j.images || j.references).forEach((r) => { provenanceArt[r.path] = r.sha256; }); });
   const pinnedByProvenance = (f) => f in provenanceArt && fs.existsSync(path.join(ROOT, f)) && sha256(fs.readFileSync(path.join(ROOT, f))) === provenanceArt[f];
   const unexpected = added.filter((f) => !(f in OWNER_ART) && !(f in PRODUCTION_ART) && !(f in storyArt) && !(f in STORY_UI_ART) && STORY_UI_DATA.indexOf(f) === -1 && !pinnedByProvenance(f));
   check(b, 'nothing was added to art/, design/ or the lab except the owner\'s pinned art, the approved reception art, the imported story\'s registered art and the hash-pinned House provenance art', unexpected.length === 0, unexpected);

@@ -89,3 +89,35 @@ body { background: #000; overflow: hidden; display: flex; align-items: center; j
   pointer-events: none;
 }
 .tooltip canvas { position: absolute; }
+
+/* FORM 27B-6 / REGISTER OF PROGRESS chapter transition (js/chapter-transition.js; game issue #27).
+   The approved lab's stage rules (review/chapter-transitions-lab-v01 tools/chapter-transitions-lab/print/
+   print.css), unchanged in value, scoped to the overlay. ADAPTED: the container is the 1920x1080 stage
+   itself (the lab's .stage was a 16:9 box in a review page); the menu painting is the game's copy; the
+   paper is a stack of sheet copies (one sheet = the lab's single sheet); the frozen frames fill a matte. */
+#stage .print-transition { position: absolute; left: 0; top: 0; width: 1920px; height: 1080px; overflow: hidden; container-type: inline-size; isolation: isolate; background: #000; outline: none; z-index: 1000; }
+.print-transition .matte, .print-transition .black-veil { position: absolute; inset: 0; }
+.print-transition .matte-old { z-index: 1; background: #000; }
+.print-transition .matte-next { z-index: 2; background: #a100a5; opacity: 0; }
+.print-transition .black-veil { z-index: 3; background: #000; opacity: 0; pointer-events: none; }
+.print-transition .background-scene { position: absolute; inset: 0; display: none; image-rendering: pixelated; }
+.print-transition.scenic .background-scene { display: block; }
+.print-transition .scene-menu { background: url('../art/ui/main_menu/entrance_plaza.png') center/cover no-repeat; }
+#stage .print-transition .background-scene .frame { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.print-transition .paper-viewport { position: absolute; z-index: 6; top: 0; left: 0; right: 0; overflow: hidden; height: 88%; pointer-events: none; }
+.print-transition .paper-sheet { position: absolute; top: 100%; left: 50%; width: 59%; aspect-ratio: 2/3; transform: translateX(-50%); will-change: top, opacity; image-rendering: pixelated; }
+.print-transition .paper-page { position: relative; width: 100%; aspect-ratio: 2/3; }
+.print-transition .paper-entries { position: absolute; inset: 0; }
+#stage .print-transition .paper-art { display: block; width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.print-transition .paper-entry { position: absolute; left: 12.5%; width: 75.2%; height: 8.1%; display: grid; grid-template-columns: 14.6% 1fr; align-items: center; color: #34312f; overflow: hidden; }
+.print-transition .paper-no { display: flex; align-items: center; justify-content: center; height: 100%; padding: 0 5%; }
+.print-transition .paper-title { padding: 0 .7cqw; display: flex; align-items: center; height: 100%; overflow: hidden; }
+#stage .print-transition .paper-entry canvas { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+#stage .print-transition .paper-no canvas { width: 95%; }
+.print-transition .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; }
+.print-transition .paper-scribble { position: absolute; left: 15.5%; top: 17%; width: 81%; height: 66%; overflow: visible; pointer-events: none; }
+.print-transition .paper-scribble path { fill: none; stroke: #302c2a; stroke-width: 14; stroke-linecap: round; stroke-linejoin: round; opacity: .96; }
+.print-transition .printer { position: absolute; z-index: 5; left: 50%; width: 80%; height: 7%; transform: translateX(-50%); pointer-events: none; will-change: top, opacity; }
+#stage .print-transition .printer img { position: absolute; width: 100%; height: auto; left: 0; top: 50%; transform: translateY(-50%); image-rendering: pixelated; }
+#stage .print-transition .printer.flipped img { transform: translateY(-50%) scaleY(-1); }
+.print-transition .printer-front-overlay { position: absolute; z-index: 7; inset: 0; clip-path: inset(100% 0 0); pointer-events: none; }

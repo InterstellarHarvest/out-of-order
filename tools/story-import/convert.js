@@ -34,7 +34,7 @@ const NODE_KEYS = ['mode', 'scene', 'speaker', 'pose', 'focus', 'scenePickup', '
 const CHOICE_KEYS = ['id', 'kind', 'text', 'say', 'if', 'effects', 'once', 'result', 'check', 'pass', 'fail', 'to', 'back', 'chapter', 'restart'];
 const ENTRY_KEYS = ['kind', 'say', 'if', 'effects', 'once', 'result', 'check', 'pass', 'fail', 'to', 'back', 'chapter'];
 const ITEM_KEYS = ['name', 'description', 'read', 'inspect', 'slotArt', 'inspectArt'];
-const SETTINGS_KEYS = ['schema', 'story', 'save', 'cast', 'start', 'initialState', 'pendingArtBindings'];
+const SETTINGS_KEYS = ['schema', 'story', 'save', 'cast', 'start', 'initialState', 'pendingArtBindings', 'conditionalArt'];
 // Authoring-only node annotations: reported, never imported.
 const AUTHORING_ONLY = ['notes', 'comment', 'position', 'layout'];
 // Artwork statuses (artwork.statusValues). Only these count as approved production art.
@@ -125,7 +125,9 @@ function convert(input, opts) {
     else if (b) {
       b.used = true;
       if (mode === 'approved') { err(where, kind + ' ' + id + ' is bound pending integration (' + b.file + '); an approved build needs reconciled canonical art'); return null; }
-      if (rec.status !== 'approved') { err(where, kind + ' ' + id + ' is bound pending integration but its record is "' + rec.status + '" (only an approved, not yet integrated record may be bound)'); return null; }
+      // A `reused` record (docs/137 C3, game issue #27) names its source's file as its suggestedFilename and the
+      // source's approved SHA-256 first in its notes: it shows exactly the source's bound bytes.
+      if (rec.status !== 'approved' && rec.status !== 'reused') { err(where, kind + ' ' + id + ' is bound pending integration but its record is "' + rec.status + '" (only an approved or reused, not yet integrated record may be bound)'); return null; }
       if (approvedSha(rec) !== b.sha256) { err(where, kind + ' ' + id + ' binding ' + b.sha256 + ' is not the current approved selection its record names (' + approvedSha(rec) + ')'); return null; }
       path = rec.suggestedFilename;
       art.push({ kind, id, path, status: rec.status, binding: { file: b.file, key: b.key, sha256: b.sha256 } });
@@ -168,8 +170,9 @@ function convert(input, opts) {
       if (Array.isArray(e.mark)) e.mark.forEach((m) => { if (Array.isArray(m) && typeof m[1] === 'string' && ENGINE_MARKS.indexOf(m[1]) === -1 && marksSet.indexOf(m[1]) === -1) marksSet.push(m[1]); });
     });
   }
+  // Variants ({ if, text }) and conditional runs ({ say | act | desc, if }, game issue #27) both read state.
   function scanText(t) {
-    if (Array.isArray(t)) t.forEach((v) => { if (obj(v) && has(v, 'text')) { scanCond(v.if); scanText(v.text); } });
+    if (Array.isArray(t)) t.forEach((v) => { if (obj(v) && has(v, 'text')) { scanCond(v.if); scanText(v.text); } else if (obj(v) && has(v, 'if')) scanCond(v.if); });
   }
   function scanChoice(c) {
     if (!obj(c)) return;
@@ -527,6 +530,75 @@ function convert(input, opts) {
   if (obj(init.flags)) Object.keys(init.flags).forEach((f) => { flags[f] = init.flags[f]; });
   const initialState = { flags, inventory: Array.isArray(init.inventory) ? init.inventory : [], items: obj(init.items) ? init.items : {} };
 
+  // Conditional art (game issue #27; public docs/152 section 4): game-owned dispatch of approved preserved
+  // references (runtime-settings.conditionalArt, cyoa-conditional-art-v1). Each reference is installed under
+  // art/ and proved by its SHA-256 (import.js); a state names the surface it replaces (scene, portrait background
+  // or Focus A), the authored nodes and beats. References with no on-screen moment are installed, verified and
+  // reported (artUnbound), never emitted. Rules.validateStory proves the rest against the story.
+  const artStates = {};
+  const story_inspect = {};
+  const SURFACE_SIZE = { scene: [314, 206], background: [564, 278], focus: [564, 278] };
+  const bgIds = new Set();
+  Object.values(portraits).forEach((p) => Object.keys((p && p.backgrounds) || {}).forEach((b) => bgIds.add(b)));
+  (input.conditionalArt || []).forEach((f) => {
+    const w = 'conditional art ' + f.file, J = f.json;
+    if (!obj(J) || J.schema !== 'cyoa-conditional-art-v1' || !Array.isArray(J.references) || !obj(J.states)) return err(w, 'must be a cyoa-conditional-art-v1 file with references and states');
+    const refs = {};
+    J.references.forEach((r, i) => {
+      const rw = w + ' reference ' + (r && r.id || i);
+      if (!obj(r) || typeof r.id !== 'string' || !/^[a-z0-9_]+$/.test(r.id)) return err(rw, 'needs a lower-case id');
+      if (refs[r.id]) return err(rw, 'duplicate reference id');
+      if (!SURFACE_SIZE[r.surface] && r.surface !== 'inspect') return err(rw, 'surface must be scene, background, focus or inspect');
+      if (typeof r.path !== 'string' || !/^art\/[a-z0-9_./-]+\.png$/.test(r.path) || /(^|\/)(source|originals|review)\//.test(r.path)) return err(rw, 'path must be a production png under art/');
+      if (!/^[0-9a-f]{64}$/.test(r.sha256 || '')) return err(rw, 'needs its approved sha256');
+      refs[r.id] = r;
+      const kind = r.surface === 'inspect' ? 'inspect-reference' : r.surface + '-reference';
+      if (typeof r.unbound === 'string' && r.unbound) { artUnbound.push({ kind, id: r.id, path: r.path, status: 'approved', expect: r.sha256 }); info.push(rw + ': installed, bound to no authored moment (' + r.unbound + ')'); }
+      else art.push({ kind, id: r.id, path: r.path, status: 'approved', expect: r.sha256, conditional: f.file });
+    });
+    const used = {};
+    Object.keys(J.states).forEach((sk) => {
+      const sw = w + ' ' + sk, m = /^(scene|background|focus):(.+)$/.exec(sk);
+      if (!m) return err(sw, 'key must be scene:<id>, background:<id> or focus:<id>');
+      if (m[1] === 'scene' && !has(scenes, m[2])) return err(sw, 'scene is not used by this build');
+      if (m[1] === 'background' && !bgIds.has(m[2])) return err(sw, 'no portrait of this build has that background');
+      if (m[1] === 'focus' && !has(focus, m[2])) return err(sw, 'close-up is not used by this build');
+      if (!Array.isArray(J.states[sk])) return err(sw, 'must be a list');
+      artStates[sk] = J.states[sk].map((st, i) => {
+        const x = sw + '[' + i + ']';
+        if (!obj(st)) { err(x, 'must be an object'); return null; }
+        onlyKeys(x, st, ['id', 'ref', 'at', 'if', 'beat', 'until', 'after', 'region']);
+        const r = refs[st.ref];
+        if (!r) { err(x, 'unknown reference ' + st.ref); return null; }
+        if (r.unbound) { err(x, 'reference ' + st.ref + ' is declared unbound'); return null; }
+        if (r.surface + ':' + r.base !== sk) err(x, 'reference ' + st.ref + ' is art for ' + r.surface + ':' + r.base);
+        used[st.ref] = true;
+        scanCond(st.if);
+        const o = { id: st.id, ref: st.ref, path: r.path, at: clone(st.at) };
+        ['if', 'beat', 'until', 'after', 'region'].forEach((k) => { if (has(st, k)) o[k] = clone(st[k]); });
+        return o;
+      }).filter(Boolean);
+    });
+    // Presentation-only INSPECT (public docs/145, docs/152 section 5): a Focus A node's approved square image,
+    // opened in the inspector window without a rules step. Title and text quote the node itself.
+    Object.keys(J.inspect || {}).forEach((nk) => {
+      const iw = w + ' inspect ' + nk, v = J.inspect[nk], m = /^([a-z0-9_-]+):([a-z0-9_-]+)$/.exec(nk);
+      const node = m && outChapters[m[1]] && outChapters[m[1]].nodes[m[2]];
+      if (!node || node.mode !== 'focus') return err(iw, 'must name a Focus A node of this build');
+      onlyKeys(iw, v, ['ref', 'label', 'glyph', 'title', 'textRun']);
+      const r = refs[v.ref];
+      if (!r || r.surface !== 'inspect' || r.unbound) return err(iw, 'needs a bound inspect reference');
+      const runs = Array.isArray(node.text) ? node.text : [node.text];
+      const run = runs[v.textRun];
+      const text = typeof run === 'string' ? run : obj(run) ? (run.desc || run.say || run.act) : null;
+      if (typeof text !== 'string' || (obj(run) && has(run, 'if'))) return err(iw, 'textRun must name an unconditional run of the node');
+      if (typeof v.title !== 'string' || text.indexOf(v.title) === -1) return err(iw, 'title must quote the node text');
+      used[v.ref] = true;
+      (story_inspect[nk] = { path: r.path, label: v.label, glyph: v.glyph, title: v.title, text });
+    });
+    Object.keys(refs).forEach((id) => { if (!refs[id].unbound && !used[id]) err(w, 'reference ' + id + ' is neither shown by a state nor declared unbound (nothing orphaned)'); });
+  });
+
   const nullArt = JSON.stringify({ scenes, portraits, focus, outItems, sceneStates }).indexOf(':null') !== -1;
   const story = {
     schema: STORY_SCHEMA,
@@ -544,11 +616,30 @@ function convert(input, opts) {
   };
   if (Object.keys(sceneStates).length) story.assets.sceneStates = sceneStates;
   if (textLed.length) story.assets.textLedScenes = textLed.slice().sort();
+  if (Object.keys(artStates).length) story.assets.artStates = artStates;
+  if (Object.keys(story_inspect).length) story.assets.inspectViews = story_inspect;
   if (marksSet.length) story.marks = marksSet.slice().sort();
   if (nullArt) warnings.push('story: some art is missing, so this build uses the fixture profile (labelled DEV PLACEHOLDERS)');
+  // Death screens (game issue #27): an approved death screen with no assetPath is bound by the same provenance
+  // and drawn by the death-popup pipeline (tools/story-sync/sync.js compiles the runtime module), not by the
+  // story: its binding is used when the projected death export names that art and the record proves it.
+  const deathArt = [];
+  const deathIds = new Set(input.deathArt || []);
+  const deathScreens = obj(artwork.deathScreens) ? artwork.deathScreens : {};
+  bound.forEach((b, p) => {
+    if (b.used || !/^deathScreens:/.test(b.key)) return;
+    const id = b.key.slice('deathScreens:'.length), rec = deathScreens[id], w = 'pending art binding ' + b.file;
+    if (!deathIds.has(id)) return;
+    if (!obj(rec) || rec.status !== 'approved' || (rec.assetPath !== null && rec.assetPath !== undefined)) return err(w, b.key + ' is not an approved death screen pending integration');
+    if (rec.suggestedFilename !== p) return err(w, b.key + ' binds ' + p + ' but its record names ' + rec.suggestedFilename);
+    if (mode === 'approved') { b.used = true; return err(w, b.key + ' is bound pending integration; an approved build needs reconciled canonical art'); }
+    if (approvedSha(rec) !== b.sha256) return err(w, b.key + ' binding ' + b.sha256 + ' is not the current approved selection its record names (' + approvedSha(rec) + ')');
+    b.used = true;
+    deathArt.push({ kind: 'death-screen', id, path: p, status: rec.status, binding: { file: b.file, key: b.key, sha256: b.sha256 } });
+  });
   // Nothing orphaned: every pending binding must bind an image this build actually uses.
   bound.forEach((b, p) => { if (!b.used) err('pending art binding ' + b.file, p + ' (' + b.key + ') is bound but no approved record of this build uses it'); });
-  return { ok: !errors.length, errors, warnings, info, draftStops, story, art, artPending, artUnbound };
+  return { ok: !errors.length, errors, warnings, info, draftStops, story, art, artPending, artUnbound, deathArt };
 }
 
 module.exports = { convert, STORY_SCHEMA, ARTWORK_SCHEMA, SETTINGS_SCHEMA, DRAFT_STOP_ID, DRAFT_STOP_TEXT, APPROVED_ART };

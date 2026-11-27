@@ -1,0 +1,55 @@
+{
+  "schema": "cyoa-art-provenance-v1",
+  "handoff": "Temporary Staff Pass item art (Nate, storyboard PR #45 / docs/153, approved v01 slot and inspect; game issue #27).",
+  "binding": "PENDING INTEGRATION (docs/104 section 3; game docs/107): every record stays approved with assetPath null on the storyboard; story/runtime-settings.json pendingArtBindings lists this file, and the importer binds each record to its own suggestedFilename only while the first SHA-256 its canonical notes name equals sha256. Death screens bind the same way through tools/story-sync/sync.js (game issue #27). A docs/137 C3 reused record names the same suggestedFilename as its source and resolves through the source entry.",
+  "sourceRepo": "InterstellarHarvest/CYOA-storyboard",
+  "copied": "byte-for-byte from the git blob of each registered selection (git show <revision>:<registered path>); no decode, re-encode, resize, sharpening or metadata change. Each equals the canonical artwork-preview sha256, the first SHA-256 in its approval notes, and the git blob at its immutable review source commit.",
+  "images": [
+    {
+      "kind": "item-slot",
+      "key": "items:pavilion_temporary_staff_pass#slot",
+      "path": "art/items/pavilion/pavilion_temporary_staff_pass_slot.png",
+      "sha256": "662ecb2c15b0b70afd5e6a14a73dadab6090fc2f4c75a389f9f5a96ba06b59b5",
+      "gitBlob": "354687894a6d72365ffd1264f4f6655f937088dd",
+      "bytes": 1226,
+      "width": 96,
+      "height": 96,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "ref": "art/pavilion-temporary-staff-pass-review-20261126",
+        "commit": "a6a6bdbc1d619ea75a8fe7ebb056b379db02eb4f",
+        "path": "tools/prologue-art-lab/assets/review/pavilion-temporary-staff-pass-2026-11-26/v01/native/pavilion_temporary_staff_pass_slot.png",
+        "gitBlob": "354687894a6d72365ffd1264f4f6655f937088dd"
+      },
+      "registered": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "ffe1c58d18eecfb72d2521bd4442d038b28ca7f4",
+        "path": "assets/selected/pending-integration/items/pavilion_temporary_staff_pass/slot.png"
+      }
+    },
+    {
+      "kind": "item-inspect",
+      "key": "items:pavilion_temporary_staff_pass#inspect",
+      "path": "art/items/pavilion/pavilion_temporary_staff_pass_inspect.png",
+      "sha256": "527e17af4a27971d2d729441f8a74d097c5442df93f0161dc841d81ee1788e41",
+      "gitBlob": "11d36acc099a1eac746fca1fa58d7ffb09129c50",
+      "bytes": 6816,
+      "width": 565,
+      "height": 451,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "ref": "art/pavilion-temporary-staff-pass-review-20261126",
+        "commit": "a6a6bdbc1d619ea75a8fe7ebb056b379db02eb4f",
+        "path": "tools/prologue-art-lab/assets/review/pavilion-temporary-staff-pass-2026-11-26/v01/native/pavilion_temporary_staff_pass_inspect.png",
+        "gitBlob": "11d36acc099a1eac746fca1fa58d7ffb09129c50"
+      },
+      "registered": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "ffe1c58d18eecfb72d2521bd4442d038b28ca7f4",
+        "path": "assets/selected/pending-integration/items/pavilion_temporary_staff_pass/inspect.png"
+      }
+    }
+  ]
+}

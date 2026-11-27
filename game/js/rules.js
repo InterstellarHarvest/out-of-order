@@ -748,10 +748,19 @@
   // Text (a string or runs) -> paragraphs of { role, who, text }. `ctx` gives the role and speaker
   // of a plain string where it appears (docs/72 section 2.3); `\n` starts a new paragraph. A
   // paragraph's runs are joined by single spaces when drawn. Roles are authored, never inferred.
-  function toParas(text, ctx) {
+  // A run object may carry its own condition (`if`, game issue #27): with a `state` it is kept only
+  // when the condition holds there; `seen(i, shown)` notes each conditional run's outcome (route
+  // coverage). The paragraphs are written to the transcript once, at the step that shows them, so
+  // NOTES, saves and replay keep exactly the runs that were shown. Without a state every run is kept.
+  function toParas(text, ctx, state, seen) {
     var paras = [[]];
-    (typeof text === 'string' ? [text] : text).forEach(function (r) {
+    (typeof text === 'string' ? [text] : text).forEach(function (r, ri) {
       var role, who, s;
+      if (state && r && typeof r === 'object' && has(r, 'if')) {
+        var on = holds(r.if, state);
+        if (seen) seen(ri, on);
+        if (!on) return;
+      }
       if (typeof r === 'string') {
         role = ctx.role; who = ctx.who; s = r;
       } else {
@@ -867,6 +876,59 @@
     return out;
   }
 
+  // Conditional art (game issue #27; public docs/152 section 4) --------------------------------------
+  // assets.artStates: { '<surface>:<base>': [STATE, ...] } with surface 'scene' (a main scene id), 'background'
+  // (a portrait background id: the scene whose closer view it is) or 'focus' (a Focus A id), listed in priority
+  // order. STATE = { id, path, at: ['chapter:node', ...], if?, beat?, until?, after?: { node, beat }, region? }.
+  // A state holds when the current node is one of `at`, `if` holds over the real state, and its text beats
+  // agree with what has been presented: `beat` = the presented text of this node has reached the paragraph or
+  // run that begins with that text; `until` = it has not yet; `after` = that node's text from `beat` on has
+  // been presented in this playthrough (now, or on an earlier visit). The first holding state without a
+  // region replaces the base image; every holding state with a region [x, y, w, h] (native pixels) draws that
+  // rectangle of its own opaque image over it, in order. `presented(nodeKey, text)` answers the beats; without
+  // one, every text the transcript holds counts as presented (a settled view). Nothing is remembered: the same
+  // state and presentation always select the same art.
+  function runsBegin(runs, text) {
+    return runs.some(function (r) { return typeof r.text === 'string' && r.text.indexOf(text) === 0; });
+  }
+  function settledPresented(state) {
+    return function (nodeKey, text) {
+      return state.transcript.some(function (e) { return e.src === 'text' && e.chapter + ':' + e.node === nodeKey && runsBegin(e.runs, text); });
+    };
+  }
+  function artStateHolds(st, state, presented) {
+    var w = at(state);
+    if (st.at.indexOf(w) === -1) return false;
+    if (st.if && !holds(st.if, state)) return false;
+    if (st.beat !== undefined && !presented(w, st.beat)) return false;
+    if (st.until !== undefined && presented(w, st.until)) return false;
+    if (st.after && !presented(st.after.node, st.after.beat)) return false;
+    return true;
+  }
+  function artFor(list, state, presented) {
+    var out = { id: null, regions: [] };
+    (list || []).forEach(function (st) {
+      if (!artStateHolds(st, state, presented)) return;
+      if (st.region) out.regions.push(st.id);
+      else if (out.id === null) out.id = st.id;
+    });
+    return out;
+  }
+  // The conditional art for the state as presented: { scene, background, focus }, each { id, regions } (ids of
+  // assets.artStates entries for that surface's base; id null = the base image itself).
+  function artAt(story, state, presented) {
+    var all = (story.assets && story.assets.artStates) || {};
+    var n = here(story, state);
+    var p = presented || settledPresented(state);
+    var out = { scene: artFor(all['scene:' + sceneOf(story, state.chapter, state.node)], state, p), background: { id: null, regions: [] }, focus: { id: null, regions: [] } };
+    if (n.mode === 'dialogue' && !voiceLed(story, n)) {
+      var reg = story.assets.portraits[story.cast[n.speaker].portrait];
+      if (!reg.views) out.background = artFor(all['background:' + (n.backdrop || reg.background)], state, p);
+    }
+    if (n.mode === 'focus') out.focus = artFor(all['focus:' + n.focus], state, p);
+    return out;
+  }
+
   // The cause of the ending the state stands on (docs/93 death brief section 4) ----------------
   // An authored ending can be reached by several choices (and by either outcome of a check), so the
   // ending node alone does not say why it was reached. The decision log already records it: the
@@ -938,6 +1000,9 @@
     };
     if (voiceLed(story, n)) out.voiceLed = true;
     if (textLed(story, out.scene)) out.sceneHeld = heldScene(story, state);
+    if (story.assets && story.assets.artStates) out.artStates = artAt(story, state);
+    var iv = story.assets && story.assets.inspectViews && story.assets.inspectViews[at(state)];
+    if (iv) out.inspectView = { node: at(state), label: iv.label, glyph: iv.glyph, title: iv.title, text: iv.text };
     return out;
   }
 
@@ -1000,6 +1065,13 @@
     this.see(key + '[' + variantIndex2(field, this.s) + ']');
     return pickText(field, this.s);
   };
+  // A TEXT as paragraphs for the state as it stands: the variant (pick), then its conditional runs.
+  Tx.prototype.paras = function (key, field, ctx) {
+    var self = this;
+    var vi = variantIndex2(field, this.s);
+    var t = this.pick(key, field);
+    return toParas(t, ctx, this.s, function (ri, on) { self.see(key + '[' + vi + '] run ' + ri + (on ? ':shown' : ':hidden')); });
+  };
   Tx.prototype.write = function (src, mode, paras, event) {
     var s = this.s;
     var n = this.n;
@@ -1050,7 +1122,7 @@
     if (n.objective) s.objective = this.pick('objective ' + at(s), n.objective);
     this.announce(inv, obj);
     this.see('node ' + at(s));
-    this.write('text', surfaceOf(this.story, n), toParas(this.pick(key, n.text), arrivalCtx(n)), { t: 'text', surface: surfaceOf(this.story, n) });
+    this.write('text', surfaceOf(this.story, n), this.paras(key, n.text, arrivalCtx(n)), { t: 'text', surface: surfaceOf(this.story, n) });
     if (n.end) this.events.push({ t: 'end' });
   };
   Tx.prototype.done = function (from) {
@@ -1175,8 +1247,10 @@
     if (e.check) { rec.check = e.check.id; rec.ok = s.checks[e.check.id].ok; }
     s.taken.push(rec);
 
-    // 5. Echo: dialogue mode only, spoken and action kinds only.
-    if (fromNode.mode === 'dialogue' && (r.kind === 'spoken' || r.kind === 'action')) {
+    // 5. Echo: spoken and action kinds, in dialogue mode; and (game issue #27, docs/140) an action whose
+    // `say` is authored on a Focus A node, written on the Focus A surface (no one is addressed there).
+    if ((fromNode.mode === 'dialogue' && (r.kind === 'spoken' || r.kind === 'action'))
+      || (fromNode.mode === 'focus' && r.kind === 'action' && e.say !== undefined)) {
       var said = e.say || e.text;
       var es = surfaceOf(story, fromNode);
       tx.write('echo', es, toParas(said, echoCtx(r.kind)), { t: 'echo', role: echoCtx(r.kind).role, who: YOU, surface: es });
@@ -1211,7 +1285,7 @@
     if (result !== undefined) {
       var dn = here(story, s);
       var rkey = 'result ' + where + ':' + (r.type === 'choice' ? e.id : r.verb + ':' + r.item) + (which ? ':' + which : '');
-      tx.write('result', surfaceOf(story, dn), toParas(tx.pick(rkey, result), resultCtx(dn)), { t: 'text', surface: surfaceOf(story, dn) });
+      tx.write('result', surfaceOf(story, dn), tx.paras(rkey, result, resultCtx(dn)), { t: 'text', surface: surfaceOf(story, dn) });
     }
 
     // 8. Arrival (not for back or stay: a return is not an entry).
@@ -1584,7 +1658,9 @@
         if (typeof r === 'string') return text(w, r, face);
         if (!obj(r)) return err(w, 'a run is a string or one { say | act | desc | think } object');
         var roles = Object.keys(r).filter(function (k) { return has(RUN_ROLES, k); });
-        Object.keys(r).forEach(function (k) { if (!has(RUN_ROLES, k) && k !== 'who') err(w, 'unknown run key ' + k); });
+        Object.keys(r).forEach(function (k) { if (!has(RUN_ROLES, k) && k !== 'who' && k !== 'if') err(w, 'unknown run key ' + k); });
+        // A conditional run (game issue #27): shown only where its condition holds (proved by the walk).
+        if (has(r, 'if')) { if (!obj(r.if) || !Object.keys(r.if).length) err(w, 'a run condition must be a non-empty condition object'); else cond(w + ' if', r.if); }
         if (roles.length !== 1) return err(w, 'a run needs exactly one of say, act, desc, think (has ' + (roles.join(' ') || 'none') + ')');
         if (roles[0] === 'think') err(w, 'think runs are reserved for the thought contract (docs/72 section 8.3)');
         if (has(r, 'who') && roles[0] !== 'say') err(w, 'who is only for say runs');
@@ -1688,7 +1764,20 @@
     var scenes = obj(assets.scenes) ? assets.scenes : {};
     var portraits = obj(assets.portraits) ? assets.portraits : {};
     var focusArt = obj(assets.focus) ? assets.focus : {};
-    onlyKeys('assets', assets, ['scenes', 'portraits', 'focus', 'sceneStates', 'textLedScenes']);
+    onlyKeys('assets', assets, ['scenes', 'portraits', 'focus', 'sceneStates', 'textLedScenes', 'artStates', 'inspectViews']);
+    // Presentation-only INSPECT (game issue #27): { 'chapter:node': { path, label, glyph, title, text } } on Focus A nodes.
+    Object.keys(obj(assets.inspectViews) ? assets.inspectViews : {}).forEach(function (nk) {
+      var iv = assets.inspectViews[nk], w = 'assets.inspectViews ' + nk, m = /^([a-z0-9_-]+):([a-z0-9_-]+)$/.exec(nk);
+      var nn = m && story.chapters[m[1]] && obj(story.chapters[m[1]].nodes) && story.chapters[m[1]].nodes[m[2]];
+      if (!nn || nn.mode !== 'focus') return err(w, 'must name a Focus A node');
+      if (!obj(iv)) return err(w, 'must be an object');
+      onlyKeys(w, iv, ['path', 'label', 'glyph', 'title', 'text']);
+      assetPath(w, iv.path);
+      text(w + ' label', iv.label);
+      if (typeof iv.glyph !== 'string' || !/^[a-z0-9_]+$/.test(iv.glyph)) err(w, 'needs an action glyph name');
+      text(w + ' title', iv.title);
+      text(w + ' text', iv.text, 'text');
+    });
     // docs/137 C1: text-led scenes are listed ids with no image (the previous scene image is held).
     var textLedList = [];
     if (has(assets, 'textLedScenes')) {
@@ -1707,7 +1796,8 @@
     // A close-up is one image, or semantic pages (docs/92 section 2): { pages: [{ path, paragraphs }] },
     // each picture paired with that many paragraphs of the focus node's text, in order.
     Object.keys(focusArt).forEach(function (id) {
-      if (!/^[a-z0-9_]+\/[a-z0-9_]+\/[a-z0-9_]+$/.test(id)) err('assets.focus ' + id, 'id must be location/scene/target');
+      // location/scene/target, or (game issue #27, docs/140 WP-1) the canonical two-part location/target.
+      if (!/^[a-z0-9_]+(\/[a-z0-9_]+){1,2}$/.test(id)) err('assets.focus ' + id, 'id must be location/target or location/scene/target');
       var f = focusArt[id];
       if (!obj(f)) return assetPath('assets.focus ' + id, f);
       onlyKeys('assets.focus ' + id, f, ['pages']);
@@ -1855,6 +1945,7 @@
               // as many paragraphs as the pages claim, or a picture would show beside the wrong text.
               var want = paged.reduce(function (a, pg) { return a + (obj(pg) ? pg.paragraphs : 0); }, 0);
               if (isVariants(n.text)) err(w, 'a paged focus node needs one text, not variants');
+              else if (Array.isArray(n.text) && n.text.some(function (r) { return obj(r) && has(r, 'if'); })) err(w, 'a paged focus node cannot have conditional runs (each picture is paired with fixed paragraphs)');
               else if (typeof n.text === 'string' || Array.isArray(n.text)) {
                 var got = toParas(n.text, arrivalCtx(n)).filter(function (p) { return p.length; }).length;
                 if (got !== want) err(w, 'its text has ' + got + ' paragraphs; the pages of ' + n.focus + ' pair ' + want);
@@ -1907,7 +1998,7 @@
           }
           if (c.say !== undefined) {
             if (c.kind !== 'spoken' && c.kind !== 'action') err(x, 'only spoken and action choices have a say echo');
-            if (n.mode !== 'dialogue') err(x, 'say is only echoed in dialogue nodes');
+            if (n.mode === 'focus' ? c.kind !== 'action' : n.mode !== 'dialogue') err(x, 'say is only echoed in dialogue nodes (and, for an action, on a Focus A node)');
             textField(x + ' say', c.say);
           }
           cond(x, c.if);
@@ -1938,7 +2029,11 @@
             if (n.mode === 'dialogue') {
               if (e.say === undefined) err(x, 'needs say: the line echoed in the dialogue box');
               else textField(x + ' say', e.say);
-            } else if (e.say !== undefined) err(x, 'say is only echoed in dialogue nodes');
+            } else if (e.say !== undefined) {
+              // game issue #27 (docs/140): an action's say on a Focus A node is echoed on the Focus A surface.
+              if (n.mode !== 'focus' || kind !== 'action') err(x, 'say is only echoed in dialogue nodes (and, for an action, on a Focus A node)');
+              else textField(x + ' say', e.say);
+            }
             cond(x, e.if);
             effects(x, e.effects);
             if (e.once !== undefined && e.once !== true) err(x, 'once must be true when present');
@@ -1991,6 +2086,72 @@
         cond(x, st.if);
       });
     });
+    // Conditional art (game issue #27): bases exist, at-nodes show that base, beats begin authored text.
+    var artStates = obj(assets.artStates) ? assets.artStates : {};
+    if (has(assets, 'artStates') && !obj(assets.artStates)) err('assets.artStates', 'must be an object');
+    var bgIds = {};
+    Object.keys(portraits).forEach(function (pid) { if (obj(portraits[pid]) && obj(portraits[pid].backgrounds)) Object.keys(portraits[pid].backgrounds).forEach(function (b) { bgIds[b] = true; }); });
+    function nodeBegins(chId, nid, text) {
+      var t = story.chapters[chId].nodes[nid].text;
+      var all = isVariants(t) ? t.map(function (v) { return v.text; }) : [t];
+      return all.some(function (x) { return toParas(x, arrivalCtx(story.chapters[chId].nodes[nid])).some(function (pp) { return runsBegin(pp, text); }); });
+    }
+    function beatUnique(chId, nid, text) {
+      var squash = function (x) { return String(x).replace(/\s+/g, ''); };
+      var key = squash(text).slice(0, 12), t = story.chapters[chId].nodes[nid].text;
+      var all = isVariants(t) ? t.map(function (v) { return v.text; }) : [t];
+      return all.every(function (x) {
+        var flat = squash(toParas(x, arrivalCtx(story.chapters[chId].nodes[nid])).map(function (pp) { return pp.map(function (r) { return r.text; }).join(' '); }).join(' '));
+        return flat.indexOf(key) === flat.lastIndexOf(key);
+      });
+    }
+    function nodeAt(where, a) {
+      var m = /^([a-z0-9_-]+):([a-z0-9_-]+)$/.exec(a);
+      if (!m || !story.chapters[m[1]] || !obj(story.chapters[m[1]].nodes) || !story.chapters[m[1]].nodes[m[2]]) { err(where, 'names an unknown node ' + a); return null; }
+      return m;
+    }
+    Object.keys(artStates).forEach(function (sk) {
+      var w = 'assets.artStates ' + sk;
+      var m = /^(scene|background|focus):(.+)$/.exec(sk);
+      if (!m) return err(w, 'key must be scene:<id>, background:<id> or focus:<id>');
+      var surface = m[1], base = m[2];
+      if (surface === 'scene' && !has(scenes, base)) err(w, 'unregistered scene');
+      if (surface === 'background' && !bgIds[base]) err(w, 'no portrait has this background');
+      if (surface === 'focus' && !has(focusArt, base)) err(w, 'unregistered close-up');
+      var list = artStates[sk];
+      if (!Array.isArray(list) || !list.length) return err(w, 'must be a non-empty list');
+      var ids = {};
+      list.forEach(function (st, i) {
+        var x = w + '[' + i + ']';
+        if (!obj(st)) return err(x, 'must be an object');
+        onlyKeys(x, st, ['id', 'ref', 'path', 'at', 'if', 'beat', 'until', 'after', 'region']);
+        if (typeof st.id !== 'string' || !/^[a-z0-9_]+$/.test(st.id)) err(x, 'id must be a lower-case id');
+        else if (ids[st.id]) err(x, 'duplicate state id ' + st.id);
+        else ids[st.id] = true;
+        assetPath(x, st.path);
+        if (!Array.isArray(st.at) || !st.at.length) return err(x, 'at must be a list of chapter:node');
+        st.at.forEach(function (a) {
+          var nm = nodeAt(x + ' at', a);
+          if (!nm) return;
+          var nn = story.chapters[nm[1]].nodes[nm[2]];
+          if (surface === 'scene' && sceneOf(story, nm[1], nm[2]) !== base) err(x, 'at ' + a + ' is not in scene ' + base);
+          if (surface === 'focus' && !(nn.mode === 'focus' && nn.focus === base)) err(x, 'at ' + a + ' does not show close-up ' + base);
+          if (surface === 'background' && nn.mode !== 'dialogue') err(x, 'at ' + a + ' is not a conversation (no portrait background)');
+          ['beat', 'until'].forEach(function (k) {
+            if (st[k] === undefined) return;
+            if (typeof st[k] !== 'string' || !st[k]) err(x, k + ' must be text');
+            else if (!nodeBegins(nm[1], nm[2], st[k])) err(x, k + ' "' + st[k] + '" begins no paragraph or run of ' + a);
+            else if (!beatUnique(nm[1], nm[2], st[k])) err(x, k + ' "' + st[k] + '": its first 12 letters occur more than once in ' + a + ' (presentation reaches a beat by them)');
+          });
+        });
+        if (st.after !== undefined) {
+          if (!obj(st.after) || typeof st.after.beat !== 'string') err(x, 'after must be { node, beat }');
+          else { var am = nodeAt(x + ' after', st.after.node); if (am && !nodeBegins(am[1], am[2], st.after.beat)) err(x, 'after beat "' + st.after.beat + '" begins no paragraph or run of ' + st.after.node); }
+        }
+        if (st.region !== undefined && !(Array.isArray(st.region) && st.region.length === 4 && st.region.every(function (v) { return typeof v === 'number' && v >= 0 && v % 1 === 0; }) && st.region[2] > 0 && st.region[3] > 0)) err(x, 'region must be [x, y, w, h] in whole native pixels');
+        cond(x, st.if);
+      });
+    });
     Object.keys(portraits).forEach(function (id) {
       if (!refs.portraits[id]) err('assets.portraits ' + id, 'registered but no cast member uses it');
       var p = portraits[id];
@@ -2003,6 +2164,7 @@
       Object.keys(p.poses).forEach(function (b) { if (!refs.layers[id + ':pose:' + b]) err('assets.portraits ' + id, 'pose ' + b + ' is never shown'); });
     });
     if (errors.length) return { ok: false, errors: errors };
+    if (o.shapeOnly) return { ok: true, errors: [], stats: { shapeOnly: true } }; // development builds only
 
     // Walk every reachable state ------------------------------------------------------------
     // The key is v1's (node, flags, inventory, item marks) plus what v2 adds to the route:
@@ -2021,7 +2183,8 @@
         if (!obj(c)) return;
         ['item', 'itemNot'].forEach(function (k) { if (Array.isArray(c[k])) routeMark[c[k][0] + ':' + c[k][1]] = true; });
       };
-      var noteText = function (t) { if (isVariants(t)) t.forEach(function (v) { noteCond(v.if); }); };
+      var noteRuns = function (t) { if (Array.isArray(t)) t.forEach(function (r) { if (obj(r) && has(r, 'if')) noteCond(r.if); }); };
+      var noteText = function (t) { if (isVariants(t)) t.forEach(function (v) { noteCond(v.if); noteRuns(v.text); }); else noteRuns(t); };
       var noteFx = function (fx) { (Array.isArray(fx) ? fx : fx ? [fx] : []).forEach(function (e) { if (obj(e)) noteCond(e.if); }); };
       var noteEntry = function (c) {
         if (!obj(c)) return;
@@ -2069,11 +2232,19 @@
     if (o.liveKeys) {
       var READ_FLAG = { flag: 1, notFlag: 1 };
       var READ_CHECK = { passed: 1, failed: 1, untried: 1 };
+      // Inventory reads (game issue #27): holding an item matters only where something ahead can read it:
+      // has / lacks / item / itemNot conditions, a SHOW or USE entry for it, or a scene pickup naming it.
+      var READ_ITEM = { has: 1, lacks: 1 };
+      var READ_MARK = { item: 1, itemNot: 1 };
       var scanReads = function (v, acc, chId, succ) {
         if (Array.isArray(v)) { v.forEach(function (x) { scanReads(x, acc, chId, succ); }); return; }
         if (!v || typeof v !== 'object') return;
         Object.keys(v).forEach(function (k) {
           var x = v[k];
+          if (READ_ITEM[k] && typeof x === 'string') acc.items[x] = true;
+          else if (READ_MARK[k] && Array.isArray(x) && typeof x[0] === 'string') { acc.items[x[0]] = true; if (acc.marks) acc.marks[x[0] + ':' + x[1]] = true; }
+          else if ((k === 'show' || k === 'use') && obj(x)) Object.keys(x).forEach(function (it) { acc.items[it] = true; });
+          else if (k === 'scenePickup' && obj(x) && typeof x.item === 'string') acc.items[x.item] = true;
           if (READ_FLAG[k] && typeof x === 'string') acc.flags[x] = true;
           else if (k === 'flagIs' && Array.isArray(x) && typeof x[0] === 'string') acc.flags[x[0]] = true;
           else if (READ_CHECK[k] && typeof x === 'string') acc.checks[x] = true;
@@ -2083,29 +2254,94 @@
           scanReads(x, acc, chId, succ);
         });
       };
-      var globalReads = { flags: {}, checks: {}, nodes: {} };
+      var globalReads = { flags: {}, checks: {}, nodes: {}, items: {} };
+      var gateMarks = {}; // marks that decide whether an item's effectful READ / inspect can still run
+      // An item whose own READ or inspect does more than mark it read can change the route from any node.
+      Object.keys(items).forEach(function (id) {
+        var it = items[id];
+        var fx = [];
+        if (it.inspect) fx = fx.concat(Array.isArray(it.inspect.effects) ? it.inspect.effects : it.inspect.effects ? [it.inspect.effects] : []);
+        if (it.read) fx = fx.concat(Array.isArray(it.read.effects) ? it.read.effects : it.read.effects ? [it.read.effects] : []);
+        var onlySelfRead = fx.every(function (e) { return obj(e) && Object.keys(e).every(function (k) { return k === 'mark' && e.mark.every(function (m) { return m[0] === id && m[1] === 'read'; }); }); });
+        if (it.inspect || !onlySelfRead) { globalReads.items[id] = true; gateMarks[id + ':' + (it.inspect ? 'inspected' : 'read')] = true; if (it.inspect && it.read && !onlySelfRead) gateMarks[id + ':read'] = true; }
+      });
       // Scene-state selections (assets.sceneStates) are read only where their scene shows, so they
       // count as reads of that scene's nodes, not as global reads (a stored-item flag stays live in
       // the storage room, not for the rest of the game). Nothing else in assets reads state.
-      Object.keys(story).forEach(function (k) { if (k !== 'chapters' && k !== 'assets') scanReads(story[k], globalReads, null, null); });
+      // Presentation-only reads (game issue #27): item description variants and case files decide what is shown,
+      // never where play can go. Such a condition can produce a new observation only where one of its inputs can
+      // still change: a flag it reads is set, an item it reads (or the item it describes) is given or taken, or a
+      // mark it reads is set, at or after the node. Elsewhere every observation it can make is already made (the
+      // walk notes descriptions and case files for every reachable state before any merge), so its reads are part
+      // of the key only where it is active (below). Everything else at story level still reads everywhere.
+      Object.keys(story).forEach(function (k) { if (k !== 'chapters' && k !== 'assets' && k !== 'items' && k !== 'files') scanReads(story[k], globalReads, null, null); });
+      Object.keys(items).forEach(function (id) { scanReads(items[id].read, globalReads, null, null); scanReads(items[id].inspect, globalReads, null, null); });
+      var presConds = [];
+      var condReads = function (c) {
+        var r = { flags: {}, items: {}, marks: {}, engineMark: false };
+        Object.keys(c || {}).forEach(function (k) {
+          var v = c[k];
+          if (k === 'flag' || k === 'notFlag') r.flags[v] = true;
+          else if (k === 'flagIs') r.flags[v[0]] = true;
+          else if (k === 'has' || k === 'lacks') r.items[v] = true;
+          else if (k === 'item' || k === 'itemNot') { r.items[v[0]] = true; r.marks[v[0] + ':' + v[1]] = true; if (MARKS.indexOf(v[1]) !== -1) r.engineMark = true; }
+          else r.engineMark = true; // a check outcome: treat as always able to change (conservative)
+        });
+        return r;
+      };
+      Object.keys(items).forEach(function (id) {
+        var d = items[id].description;
+        if (isVariants(d)) d.forEach(function (v) { if (v.if) { var r = condReads(v.if); r.item = id; presConds.push(r); } });
+      });
+      (story.files || []).forEach(function (f) { if (f.if) presConds.push(condReads(f.if)); });
+      // What can be written (flags set, items given or taken, marks set) by a node; items' own READ / inspect
+      // effects can run wherever the item is held, so they count as written everywhere.
+      var scanWrites = function (v, wr) {
+        if (Array.isArray(v)) { v.forEach(function (x) { scanWrites(x, wr); }); return; }
+        if (!v || typeof v !== 'object') return;
+        Object.keys(v).forEach(function (k) {
+          var x = v[k];
+          if (k === 'set' && obj(x)) Object.keys(x).forEach(function (f) { wr.wflags[f] = true; });
+          else if ((k === 'give' || k === 'take') && Array.isArray(x)) x.forEach(function (it) { if (typeof it === 'string') wr.witems[it] = true; });
+          else if (k === 'mark' && Array.isArray(x)) x.forEach(function (m) { if (Array.isArray(m)) wr.wmarks[m[0] + ':' + m[1]] = true; });
+          else if ((k === 'show' || k === 'use') && obj(x)) Object.keys(x).forEach(function (it) { wr.wmarks[it + ':' + (k === 'show' ? 'shown' : 'used')] = true; });
+          scanWrites(x, wr);
+        });
+      };
+      var globalWrites = { wflags: {}, witems: {}, wmarks: {} };
+      Object.keys(items).forEach(function (id) {
+        scanWrites(items[id].read, globalWrites); scanWrites(items[id].inspect, globalWrites);
+        // An item marking itself (read / inspected) writes only while it is held: counted through its gives ahead.
+        delete globalWrites.wmarks[id + ':read']; delete globalWrites.wmarks[id + ':inspected'];
+      });
       var artReads = (obj(story.assets) && obj(story.assets.sceneStates)) ? story.assets.sceneStates : {};
+      // Conditional art (game issue #27): each state's condition is read only at its own nodes.
+      var artAt2 = {};
+      Object.keys(obj(story.assets) && obj(story.assets.artStates) ? story.assets.artStates : {}).forEach(function (sk) {
+        story.assets.artStates[sk].forEach(function (st) { if (st.if) st.at.forEach(function (a) { (artAt2[a] = artAt2[a] || []).push(st.if); }); });
+      });
       var live = {};
       var succOf = {};
       chapterIds.forEach(function (chId) {
         Object.keys(story.chapters[chId].nodes).forEach(function (id) {
           var w = chId + ':' + id;
-          var acc = { flags: Object.assign({}, globalReads.flags), checks: Object.assign({}, globalReads.checks), nodes: {} };
+          var acc = { flags: Object.assign({}, globalReads.flags), checks: Object.assign({}, globalReads.checks), nodes: {}, items: Object.assign({}, globalReads.items),
+            wflags: Object.assign({}, globalWrites.wflags), witems: Object.assign({}, globalWrites.witems), wmarks: Object.assign({}, globalWrites.wmarks), marks: {} };
           acc.nodes[w] = true;
           succOf[w] = {};
           scanReads(story.chapters[chId].nodes[id], acc, chId, succOf[w]);
+          scanWrites(story.chapters[chId].nodes[id], acc);
           scanReads(artReads[sceneOf(story, chId, id)] || [], acc, chId, null);
+          (artAt2[w] || []).forEach(function (c) { scanReads(c, acc, chId, null); });
           live[w] = acc;
         });
       });
       // Backward propagation to a fixpoint: live(n) = reads(n) + live(every successor of n).
       var merge = function (into, from) {
         var grew = false;
-        ['flags', 'checks', 'nodes'].forEach(function (f) {
+        ['flags', 'checks', 'nodes', 'items', 'wflags', 'witems', 'wmarks', 'marks'].forEach(function (f) {
+          if (!from[f]) return;
+          into[f] = into[f] || {};
           Object.keys(from[f]).forEach(function (k) { if (!into[f][k]) { into[f][k] = true; grew = true; } });
         });
         return grew;
@@ -2116,21 +2352,43 @@
           Object.keys(succOf[w]).forEach(function (t) { if (merge(live[w], live[t])) grew = true; });
         });
       }
+      // Active presentation conditions add their reads (and the item they describe) where they are active.
+      // Activity only shrinks along a route (writes ahead of a node include those ahead of its successors), so
+      // this needs no second propagation.
+      var someIn = function (a, b) { return Object.keys(a).some(function (k) { return !!b[k]; }); };
+      Object.keys(live).forEach(function (w) {
+        var L0 = live[w];
+        presConds.forEach(function (pc) {
+          // An engine mark (read / inspected) changes only while its item is held: it counts as written ahead
+          // where that item can still be given. A merge can at most hide an observation (reported as never seen,
+          // never a false pass); it can never change a route, which presentation does not decide.
+          var engineAhead = Object.keys(pc.marks).some(function (m) { var it = m.split(':')[0], mk = m.split(':')[1]; return MARKS.indexOf(mk) !== -1 && (L0.witems[it] || L0.wmarks[m]); });
+          var active = engineAhead || someIn(pc.flags, L0.wflags) || someIn(pc.items, L0.witems) || someIn(pc.marks, L0.wmarks) || (pc.item && L0.witems[pc.item]);
+          if (!active) return;
+          Object.keys(pc.flags).forEach(function (f) { L0.flags[f] = true; });
+          Object.keys(pc.items).forEach(function (it) { L0.items[it] = true; });
+          Object.keys(pc.marks).forEach(function (m) { L0.marks[m] = true; });
+          if (pc.item) L0.items[pc.item] = true;
+        });
+      });
       var liveCache = {};
       liveOf = function (s) {
         var w = at(s);
         var cacheKey = s.returnTo ? w + '<' + s.returnTo : w;
         if (liveCache[cacheKey]) return liveCache[cacheKey];
-        var acc = { flags: {}, checks: {}, nodes: {} };
+        var acc = { flags: {}, checks: {}, nodes: {}, items: {}, marks: {}, witems: {} };
         merge(acc, live[w]);
         if (s.returnTo) merge(acc, live[s.chapter + ':' + s.returnTo]);
         acc.flagList = Object.keys(acc.flags).sort();
+        acc.gate = gateMarks;
         return (liveCache[cacheKey] = acc);
       };
     }
-    function keyMarks(s) {
-      return Object.keys(s.items).sort().map(function (k) {
-        return [k, s.items[k].filter(function (m) { return !routeMark || routeMark[k + ':' + m]; }).sort()];
+    function keyMarks(s, L) {
+      return Object.keys(s.items).sort().filter(function (k) { return !L || L.items[k]; }).map(function (k) {
+        // liveKeys: a mark is kept only where something ahead reads it, or where it gates an effectful READ /
+        // inspect of an item that is held or can still be given.
+        return [k, s.items[k].filter(function (m) { return (!routeMark || routeMark[k + ':' + m]) && (!L || L.marks[k + ':' + m] || (L.gate[k + ':' + m] && (s.inventory.indexOf(k) !== -1 || L.witems[k]))); }).sort()];
       }).filter(function (e) { return !routeMark || e[1].length; });
     }
     function key(s) {
@@ -2144,8 +2402,8 @@
         var liveSpent = s.taken.filter(function (t) { return L.nodes[t.at]; })
           .map(function (t) { return t.at + ':' + (t.c || t.item + ':' + t.verb); })
           .filter(function (k) { return onceKeys[k]; }).sort();
-        return JSON.stringify([s.chapter, s.node, s.returnTo, flags, s.inventory.slice().sort(),
-          keyMarks(s), liveSpent,
+        return JSON.stringify([s.chapter, s.node, s.returnTo, flags, s.inventory.filter(function (id) { return L.items[id]; }).sort(),
+          keyMarks(s, L), liveSpent,
           Object.keys(s.checks).filter(function (k) { return L.checks[k]; }).sort().map(function (k) { return [k, s.checks[k].ok]; })]);
       }
       var spent = s.taken.map(function (t) { return t.at + ':' + (t.c || t.item + ':' + t.verb); })
@@ -2169,24 +2427,70 @@
     // Full canonical state keys remain collision-free; edges and endings use
     // compact numeric ids. Processed states no longer stay alive for the
     // entire exhaustive multi-chapter walk.
-    var states = Object.create(null); // canonical key -> numeric id
+    // opts.chapterSplit (the story importer, game issue #27): every state key names its chapter and no
+    // chapter leads back to an earlier one, so the key map is kept per chapter and freed once that
+    // chapter's walk is complete. Chapters are walked in story order; the numeric edge graph is kept whole,
+    // so reachability of an ending (below) is computed over the same graph as one walk. Exactly the same
+    // states, transitions and observations; only the peak memory differs. A state that enters a chapter
+    // whose walk is already complete is refused (the chapters would not be a sequence).
+    var split = !!o.chapterSplit;
+    var maps = Object.create(null); // map name ('*' or a chapter) -> canonical key -> numeric id
+    var queues = Object.create(null); // map name -> { list, index }
+    var walked = Object.create(null); // chapters whose walk is complete (split only)
+    var wantKeys = o._wantKeys || null; // ids whose keys a report needs (split only; see below)
+    var keyOfId = Object.create(null);
+    function mapName(ch) { return split ? ch : '*'; }
+    function mapFor(ch) { var m = mapName(ch); return maps[m] || (maps[m] = Object.create(null)); }
+    function queueFor(ch) { var m = mapName(ch); return queues[m] || (queues[m] = { list: [], index: 0 }); }
     var edges = Object.create(null); // numeric id -> successor ids
-    var queue = [{ id: 0, state: bare(first) }];
-    states[key(first)] = 0;
+    var firstKey = key(first);
+    mapFor(first.chapter)[firstKey] = 0;
+    queueFor(first.chapter).list.push({ id: 0, state: bare(first) });
+    if (wantKeys && wantKeys[0]) keyOfId[0] = firstKey;
     var stateCount = 1;
+    var REENTERED = { reentered: true };
     var used = { choices: {}, entries: {} };
     var restartFrom = [];
     var endAt = {}; // reachable states standing on an authored ending (end: true), by node
     var backless = {};
     function follow(fromId, s) {
+      // Item coverage is noted for every reachable state before any merge (a liveKeys merge may keep a
+      // representative that does not hold an item nothing ahead reads; the item was still held here).
+      s.inventory.forEach(function (id) { seen['item ' + id + ' description[' + variantIndex2(items[id].description, s) + ']'] = true; });
+      (story.files || []).forEach(function (f, i) { if (holds(f.if, s)) seen['files[' + i + ']'] = true; });
       var k = key(s);
-      var toId = states[k];
+      if (split && walked[s.chapter]) throw REENTERED; // not a sequence: the single walk is used instead (below)
+      var map = mapFor(s.chapter);
+      var toId = map[k];
       if (toId === undefined) {
         toId = stateCount++;
-        states[k] = toId;
-        queue.push({ id: toId, state: s });
+        map[k] = toId;
+        queueFor(s.chapter).list.push({ id: toId, state: s });
+        if (wantKeys && wantKeys[toId]) keyOfId[toId] = k;
       }
       (edges[fromId] = edges[fromId] || []).push(toId);
+    }
+    // The next state to process: one walk queue; or (split) the current chapter's, then the next chapter
+    // in story order that has states waiting, freeing each completed chapter's key map.
+    var current = null;
+    var currentMap = mapName(first.chapter);
+    function nextState() {
+      for (;;) {
+        var q = queues[currentMap];
+        if (q && q.index < q.list.length) {
+          var item = q.list[q.index];
+          q.list[q.index++] = null; // processed state can be garbage-collected
+          return item;
+        }
+        if (!split) return null;
+        walked[currentMap] = true;
+        delete maps[currentMap];
+        delete queues[currentMap];
+        var nextCh = chapterIds.filter(function (c) { return queues[c] && queues[c].index < queues[c].list.length; })[0];
+        if (!nextCh) return null;
+        currentMap = nextCh;
+        if (o.progress) o.progress({ chapterStart: nextCh, entries: queues[nextCh].list.length - queues[nextCh].index, states: stateCount, sample: queues[nextCh].list.slice(queues[nextCh].index).map(function (x) { return x.state; }), key: key }); // QA only
+      }
     }
     function walkStep(s, input) {
       return stepCore(story, s, input, { obs: seen, copy: copyJson }).state;
@@ -2201,11 +2505,16 @@
       return out;
     }
     // Indexed FIFO traversal avoids repeated O(N) array shifts as authored stories grow.
-    var queueIndex = 0;
-    while (queueIndex < queue.length) {
-      var current = queue[queueIndex];
-      queue[queueIndex++] = null; // processed state can be garbage-collected
+    try { walkLoop(); } catch (e) {
+      if (e !== REENTERED) throw e;
+      // A chapter is entered again after its walk: the chapters are not a sequence, so the exact single walk runs.
+      return validateStory(story, charset, Object.assign({}, o, { chapterSplit: false, _wantKeys: null }));
+    }
+    function walkLoop() {
+    while ((current = nextState())) {
       var s = current.state;
+      // QA only (opts.progress): a periodic report of the walk's size; it never changes the walk.
+      if (o.progress && current.id % 50000 === 0) o.progress({ states: stateCount, chapter: s.chapter, node: s.node });
       var fromId = current.id;
       var n = here(story, s);
       var where = at(s);
@@ -2221,6 +2530,9 @@
         });
       }
       (story.files || []).forEach(function (f, i) { if (holds(f.if, s)) seen['files[' + i + ']'] = true; });
+      Object.keys(artStates).forEach(function (sk) {
+        artStates[sk].forEach(function (st) { if (st.at.indexOf(where) !== -1 && (!st.if || holds(st.if, s))) seen['art state ' + sk + '#' + st.id] = true; });
+      });
       if (!s.returnTo && n.choices.some(function (c) { return c.back; }) && !backless[where]) {
         backless[where] = true;
         errors.push('a back choice at ' + where + ' is reachable with no opener to return to (enter it from a narrative node, or split the node)');
@@ -2244,11 +2556,21 @@
         });
       });
     }
+    }
 
     // Everything authored must be reachable.
+    var runsAlwaysShown = [];
+    function runsSeen(t, prefix, label) {
+      if (!Array.isArray(t)) return;
+      t.forEach(function (r, ri) {
+        if (!obj(r) || !has(r, 'if')) return;
+        if (!seen[prefix + ' run ' + ri + ':shown']) errors.push(label + ' conditional run ' + ri + ' is never shown in any reachable state');
+        else if (!seen[prefix + ' run ' + ri + ':hidden']) runsAlwaysShown.push(label + ' run ' + ri);
+      });
+    }
     function variantsSeen(field, prefix, label) {
-      if (!isVariants(field)) { if (!seen[prefix + '[0]']) errors.push(label + ' never shown'); return; }
-      field.forEach(function (v, i) { if (!seen[prefix + '[' + i + ']']) errors.push(label + ' variant ' + i + ' never shown'); });
+      if (!isVariants(field)) { if (!seen[prefix + '[0]']) errors.push(label + ' never shown'); else runsSeen(field, prefix + '[0]', label); return; }
+      field.forEach(function (v, i) { if (!seen[prefix + '[' + i + ']']) errors.push(label + ' variant ' + i + ' never shown'); else runsSeen(v.text, prefix + '[' + i + ']', label + ' variant ' + i); });
     }
     // Both outcomes of every check must happen in some reachable state.
     function outcomesSeen(c, label) {
@@ -2285,6 +2607,12 @@
       if (isVariants(d)) d.forEach(function (v, i) { if (!seen['item ' + id + ' description[' + i + ']']) errors.push('description variant never seen: ' + id + '[' + i + ']'); });
     });
     (story.files || []).forEach(function (f, i) { if (!seen['files[' + i + ']']) errors.push('case-file entry never shown: files[' + i + ']'); });
+    Object.keys(artStates).forEach(function (sk) {
+      artStates[sk].forEach(function (st) {
+        if (!seen['art state ' + sk + '#' + st.id]) errors.push('conditional art never shown: ' + sk + '#' + st.id);
+        else if (st.after && !seen['node ' + st.after.node]) errors.push('conditional art ' + sk + '#' + st.id + ': its after-node ' + st.after.node + ' is unreachable');
+      });
+    });
     Object.keys(anyStates ? assets.sceneStates : {}).forEach(function (sid) {
       assets.sceneStates[sid].forEach(function (st) { if (!seen['scene state ' + sid + '#' + st.id]) errors.push('scene state never shown: ' + sid + '#' + st.id); });
     });
@@ -2311,7 +2639,23 @@
         if (!canFinish[k]) { canFinish[k] = true; endingQueue.push(k); }
       });
     }
-    Object.keys(states).filter(function (k) { return !canFinish[states[k]]; }).forEach(function (k) { errors.push('cannot reach an ending from state ' + k); });
+    if (!split) {
+      var allStates = maps['*'] || {};
+      Object.keys(allStates).filter(function (k) { return !canFinish[allStates[k]]; }).forEach(function (k) { errors.push('cannot reach an ending from state ' + k); });
+    } else {
+      // The key maps are gone: the same deterministic walk is repeated once, keeping only the keys of the
+      // states that cannot finish, so the report names exactly the states a single walk would.
+      var stuckIds = [];
+      for (var sid2 = 0; sid2 < stateCount; sid2++) if (!canFinish[sid2]) stuckIds.push(sid2);
+      if (stuckIds.length) {
+        if (wantKeys) stuckIds.forEach(function (id) { errors.push('cannot reach an ending from state ' + keyOfId[id]); });
+        else {
+          var want = {};
+          stuckIds.forEach(function (id) { want[id] = true; });
+          return validateStory(story, charset, Object.assign({}, o, { _wantKeys: want }));
+        }
+      }
+    }
     // QA only: what the walk observed, so a test can prove two key strategies see the same story.
     if (o.observe) { o.observe.seen = Object.keys(seen).sort(); o.observe.used = Object.keys(used.choices).concat(Object.keys(used.entries)).sort(); }
 
@@ -2326,7 +2670,9 @@
         endings: endings,
         endingStates: restartFrom.length,
         endingsReached: Object.keys(endAt).length,
-        checks: Object.keys(allChecks).length
+        checks: Object.keys(allChecks).length,
+        // Conditional runs whose condition held in every reachable state that showed them (reported, not an error).
+        runsAlwaysShown: runsAlwaysShown
       }
     };
   }
@@ -2365,6 +2711,7 @@
     step: step,
     view: view,
     endCause: endCause,
+    artAt: artAt,
     trackPoints: trackPoints,
     canRestore: canRestore,
     restoreFrom: restoreFrom,

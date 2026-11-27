@@ -9,7 +9,8 @@
     "endings": 1,
     "endingStates": 96,
     "endingsReached": 1,
-    "checks": 0
+    "checks": 0,
+    "runsAlwaysShown": []
   },
   "total": 49,
   "passed": 49,
@@ -31,7 +32,8 @@
         "endings": 1,
         "endingStates": 96,
         "endingsReached": 1,
-        "checks": 0
+        "checks": 0,
+        "runsAlwaysShown": []
       }
     },
     {

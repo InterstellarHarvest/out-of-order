@@ -98,7 +98,8 @@
           "endings": 1,
           "endingStates": 96,
           "endingsReached": 1,
-          "checks": 0
+          "checks": 0,
+          "runsAlwaysShown": []
         }
       }
     },
@@ -179,7 +180,8 @@
         "endings": 1,
         "endingStates": 144,
         "endingsReached": 1,
-        "checks": 1
+        "checks": 1,
+        "runsAlwaysShown": []
       }
     },
     {
@@ -531,7 +533,7 @@
       "name": "rejects: say on a choice in a B node (it would never be echoed)",
       "ok": true,
       "detail": [
-        "node fx_one:wake choice examine-keypad: say is only echoed in dialogue nodes"
+        "node fx_one:wake choice examine-keypad: say is only echoed in dialogue nodes (and, for an action, on a Focus A node)"
       ]
     },
     {
@@ -1260,7 +1262,8 @@
           "endings": 2,
           "endingStates": 120,
           "endingsReached": 2,
-          "checks": 3
+          "checks": 3,
+          "runsAlwaysShown": []
         }
       }
     },

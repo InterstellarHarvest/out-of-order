@@ -87,8 +87,10 @@ const APPROVED = {
 // (ac0f7c44, superseded by Nate's v04 on 2026-11-22; storyboard PR #18).
 const SUPERSEDED = ['9207bfdc140dd115783adba2f042ce756d51a288c053a3113f9a46f479e6e3c5', 'beb64cc6e9c3c0dc48f6dbe341e98762556b8e9ef4261fe132c8093c5e63b382',
   'ac0f7c44d267dd54897507ae3b8b02959a5b76f4fcd9d0418b77b8fdb777ba7e'];
-// The locked approved narrative (docs/111): blob 857ffdf1bc94 of story/chapters/chapter-03.reboot-candidate.json.
-const NARRATIVE_SHA256 = '36ae178d05a9db7dd318c441e4d8681eaa674c28ced81df97dcaba6c1c5c0253';
+// The locked approved narrative (docs/111): blob 857ffdf1bc94 of story/chapters/chapter-03.reboot-candidate.json; d0591d6
+// adds Nate's approved Temporary Staff Pass grant (public docs/153); 36a72dc (game issue #27) replaces only the seven
+// endings' BEGIN AGAIN cards with the CONTINUE hand-off into Chapter 4 that records ch3_exit_route.
+const NARRATIVE_SHA256 = '2fdcb088e1a54816081ee5ab780c341e3fc2c0d7957ca61cede67e1fde9d8375';
 
 // A PNG decoder for the 8-bit, non-interlaced RGB / RGBA files used here (the alpha contract needs pixels).
 function decodePng(buf) {
@@ -159,8 +161,9 @@ function record(key) {
 // exactly these bytes there and was published (sync.js publish): the records are `integrated` at those paths.
 const SETTINGS = J('story/runtime-settings.json');
 const REG_STATUS = 'integrated';
-check('registry', 'story/runtime-settings.json has no pending art binding; the provenance file records the reconciliation',
-  !('pendingArtBindings' in SETTINGS) && /^RECONCILED/.test(PROV.binding || ''), SETTINGS.pendingArtBindings);
+// Game issue #27: the only pending bindings are Chapter 4's and the Temporary Staff Pass's own provenance files.
+check('registry', 'story/runtime-settings.json binds no Pavilion image (only the Chapter 4 and Staff Pass provenance); the provenance file records the reconciliation',
+  JSON.stringify(SETTINGS.pendingArtBindings) === JSON.stringify(['art/grand_bellevue.provenance.json', 'art/items/pavilion/pavilion_temporary_staff_pass.provenance.json']) && /^RECONCILED/.test(PROV.binding || ''), SETTINGS.pendingArtBindings);
 const firstSha = (rec) => { const m = /SHA-256[^0-9a-f]{0,3}([0-9a-f]{64})/.exec(String(rec.notes || '')); return m && m[1]; };
 const builtArt = new Map(build.art.map((a) => [a.path, a]));
 for (const [key, want] of Object.entries(APPROVED)) {
@@ -176,7 +179,7 @@ check('registry', 'the canonical Paper Emergency record names v04 first and keep
 
 // 3. Narrative fidelity ----------------------------------------------------------------------------
 const lockEntry = LOCK.files['story/chapters/chapter-03.reboot-candidate.json'];
-check('narrative', 'Chapter 3 is consumed from the locked approved narrative (source sha256 of blob 857ffdf1bc94), not the archived 62-node legacy file or the review-only layout',
+check('narrative', 'Chapter 3 is consumed from the locked approved narrative (source sha256 of blob 36a72dc0065f: 857ffdf + the staff-pass grant + the Chapter 4 hand-off), not the archived 62-node legacy file or the review-only layout',
   LOCK.chapters.includes('chapter-03') && lockEntry && lockEntry.source === 'story/chapters/chapter-03.reboot-candidate.json' && lockEntry.sourceSha256 === NARRATIVE_SHA256
   && !lockEntry.strippedStoryboardOnly && !LOCK.files['story/chapters/chapter-03.draft.json'] && !LOCK.files['story/chapter-03.reboot-review-layout.json'], lockEntry);
 const proj = J('story/chapters/chapter-03.reboot-candidate.json');
@@ -208,8 +211,16 @@ for (const sid of ['pavilion_attendant', 'pavilion_presenter']) {
 check('bindings', 'the build has no DEV PLACEHOLDER: production profile, every image in build.art exists', story.profile === 'production' && build.art.every((a) => fs.existsSync(path.join(ROOT, a.path))), story.profile);
 const built = new Set(build.art.map((a) => a.path));
 check('bindings', 'all 29 pinned images are in the build (none installed unused)', PROV.images.every((r) => built.has(r.path)), PROV.images.filter((r) => !built.has(r.path)).map((r) => r.path));
-check('bindings', 'Chapter 3 needs no Focus A, item or death art (docs/111): no Chapter 3 node is a focus node and no new item exists',
-  !Object.values(CH3.nodes).some((n) => n.mode === 'focus' || n.focus) && !Object.keys(story.items).some((id) => /^pavilion_/.test(id)));
+// Public docs/153 (Nate, 2026-11-26): the one Chapter 3 item is the existing Temporary Staff Pass, granted at the
+// appointment, with its two approved images bound (96x96 slot 662ecb2c, 565x451 inspect 527e17af).
+const PASS = story.items.pavilion_temporary_staff_pass;
+check('bindings', 'Chapter 3 needs no Focus A or death art (docs/111); its only item is the approved Temporary Staff Pass with its two approved images',
+  !Object.values(CH3.nodes).some((n) => n.mode === 'focus' || n.focus) && same(Object.keys(story.items).filter((id) => /^pavilion_/.test(id)), ['pavilion_temporary_staff_pass'])
+  && !!PASS && PASS.slotArt === 'art/items/pavilion/pavilion_temporary_staff_pass_slot.png' && PASS.inspectArt === 'art/items/pavilion/pavilion_temporary_staff_pass_inspect.png'
+  && build.art.some((a) => a.path === PASS.slotArt && a.sha256 === '662ecb2c15b0b70afd5e6a14a73dadab6090fc2f4c75a389f9f5a96ba06b59b5')
+  && build.art.some((a) => a.path === PASS.inspectArt && a.sha256 === '527e17af4a27971d2d729441f8a74d097c5442df93f0161dc841d81ee1788e41')
+  && same(CH3.nodes.unauthorized_presenter.effects, { give: ['pavilion_temporary_staff_pass'] })
+  && Object.entries(CH3.nodes).every(([id, n]) => id === 'unauthorized_presenter' || !JSON.stringify(n).includes('"give"')));
 
 // 5. Routes ------------------------------------------------------------------------------------------
 function shows(s) {
@@ -253,8 +264,10 @@ for (const r of C.ROUTES) {
   Object.entries(r.checks || {}).forEach(([id, ok]) => outcomes.add(id + ':' + ok));
   check('routes', r.name + ': reaches ' + r.end + ' with the named check outcomes', s.node === r.end && Object.entries(r.checks).every(([id, ok]) => s.checks[id].ok === ok));
   const lost = pre.inventory.filter((i) => !s.inventory.includes(i)), gained = s.inventory.filter((i) => !pre.inventory.includes(i));
-  check('routes', r.name + ': inventory: nothing gained in Chapter 3; only ' + (r.takes.length ? r.takes.join(', ') + ' (stapler USE)' : 'nothing') + ' lost',
-    !gained.length && same(lost, r.takes), { lost, gained });
+  // Public docs/153: the appointment routes (presenter begin / release) gain exactly the Temporary Staff Pass.
+  const passRoute = /presenter_(begin|release)$/.test(r.name);
+  check('routes', r.name + ': inventory: ' + (passRoute ? 'gains exactly the Temporary Staff Pass' : 'nothing gained') + ' in Chapter 3; only ' + (r.takes.length ? r.takes.join(', ') + ' (stapler USE)' : 'nothing') + ' lost',
+    same(gained, passRoute ? ['pavilion_temporary_staff_pass'] : []) && same(lost, r.takes), { lost, gained });
   const flagDiff = Object.keys(s.flags).filter((k) => !same(s.flags[k], pre.flags[k]));
   check('routes', r.name + ': Chapter 3 changes no earlier flag (contamination, credentials, exit route and entry group persist)', !flagDiff.length, flagDiff);
   for (const [id, b] of Object.entries(r.bonus || {})) check('routes', r.name + ': ' + id + ' bonus ' + b + ' (clicker ' + (s.inventory.includes('timing_clicker') ? 'held' : 'not held') + ')', s.checks[id].bonus === b, s.checks[id]);
@@ -323,7 +336,8 @@ const allNodes = Object.keys(CH3.nodes);
 check('coverage', 'every Chapter 3 node is reached on a real route (' + visited.size + '/34)', allNodes.every((n) => visited.has(n)), allNodes.filter((n) => !visited.has(n)));
 const allChoices = [];
 for (const [id, n] of Object.entries(CH3.nodes)) {
-  (n.choices || []).forEach((c) => { if (!c.restart) allChoices.push(id + ':' + c.id); });
+  // The endings' CONTINUE hand-offs are taken on every route by the 'endings' hand-off check (game issue #27).
+  (n.choices || []).forEach((c) => { if (!c.restart && !c.chapter) allChoices.push(id + ':' + c.id); });
   ['show', 'use'].forEach((verb) => Object.keys(n[verb] || {}).forEach((item) => allChoices.push(id + ':' + verb + ':' + item)));
 }
 check('coverage', 'every Chapter 3 choice, SHOW and USE is taken on a real route (' + allChoices.length + ')', allChoices.every((c) => taken.has(c)), allChoices.filter((c) => !taken.has(c)));
@@ -338,16 +352,25 @@ check('coverage', 'every authored conversation (speaker, location, pose) combina
 // 7. Endings -----------------------------------------------------------------------------------------
 for (const id of C.ENDINGS) {
   const n = CH3.nodes[id];
-  check('endings', id + ': a surviving chapter ending: end, BEGIN AGAIN (restart) only, no death popup or death art',
-    n.end === true && n.choices.length === 1 && n.choices[0].kind === 'system' && n.choices[0].text === 'BEGIN AGAIN' && n.choices[0].restart === true && !n.choices[0].chapter
-    && !DEATHS.entries.some((e) => e.when.end === 'chapter-03:' + id));
+  // Game issue #27: each surviving ending's one card is the CONTINUE hand-off into Chapter 4, recording which ending it was.
+  check('endings', id + ': a surviving chapter ending: end, one CONTINUE into Chapter 4 recording ch3_exit_route = ' + id + ', no death popup or death art',
+    n.end === true && n.choices.length === 1 && n.choices[0].kind === 'continue' && n.choices[0].chapter === 'chapter-04' && !n.choices[0].restart
+    && same(n.choices[0].effects, { set: { ch3_exit_route: id } }) && !DEATHS.entries.some((e) => e.when.end === 'chapter-03:' + id));
 }
-check('endings', 'exactly 7 Chapter 3 endings; none hands off to an unapproved Chapter 4', Object.values(CH3.nodes).filter((n) => n.end).length === 7
-  && !Object.values(CH3.nodes).some((n) => (n.choices || []).some((c) => c.chapter)) && !story.chapters['chapter-04']);
-const endRun = runs.find((x) => x.r.name === 'pull');
-const restarted = Rules.step(story, endRun.f.end, { choice: 'restart_after_paper_emergency' });
-check('endings', 'BEGIN AGAIN begins a new playthrough at the Prologue with the initial state', restarted.state.chapter === story.start && restarted.state.node === story.chapters[story.start].start
-  && same(restarted.state.inventory, story.initialState.inventory) && restarted.events.some((e) => e.t === 'restart'));
+check('endings', 'exactly 7 Chapter 3 endings; only they hand off, each to Chapter 4', Object.values(CH3.nodes).filter((n) => n.end).length === 7
+  && Object.entries(CH3.nodes).every(([id, n]) => (n.choices || []).every((c) => !c.chapter || (n.end && c.chapter === 'chapter-04' && C.ENDINGS.includes(id)))) && !!story.chapters['chapter-04']);
+// Every route's CONTINUE enters Chapter 4 at its dispatch with the ending recorded and inventory, flags and checks kept;
+// the dispatch then offers exactly that ending's arrival variant.
+const handoffs = runs.filter((x) => C.ENDINGS.includes(x.f.end.node)).map((x) => {
+  const end = x.f.end, r4 = Rules.step(story, end, { choice: 'continue_to_chapter_04_' + end.node }), s4 = r4.state;
+  const flagsKept = Object.keys(end.flags).every((f) => f === 'ch3_exit_route' || same(end.flags[f], s4.flags[f]));
+  const cards = Rules.view(story, s4).cards.map((c) => c.id);
+  return { route: x.r.name, end: end.node, ok: s4.chapter === 'chapter-04' && s4.node === story.chapters['chapter-04'].start && s4.flags.ch3_exit_route === end.node
+    && same(s4.inventory, end.inventory) && same(s4.items, end.items) && same(s4.checks, end.checks) && flagsKept && r4.events.some((e) => e.t === 'chapter' && e.id === 'chapter-04')
+    && same(cards, ['from_' + end.node]) };
+});
+check('endings', 'every Chapter 3 route enters Chapter 4 at its dispatch with its ending recorded, inventory, item marks, flags and checks kept, and exactly its arrival variant on offer ('
+  + handoffs.length + ' routes, all 7 endings)', handoffs.length >= 7 && handoffs.every((h) => h.ok) && C.ENDINGS.every((e) => handoffs.some((h) => h.end === e)), handoffs.filter((h) => !h.ok));
 check('endings', 'Rules.endCause names each Chapter 3 ending; no canonical or review death entry matches it', runs.filter((x) => C.ENDINGS.includes(x.f.end.node)).every((x) => {
   const cause = Rules.endCause(story, x.f.end);
   return cause && cause.end === 'chapter-03:' + x.f.end.node && !DEATHS.entries.some((e) => Object.keys(e.when).every((k) => cause[k] === e.when[k]));
@@ -396,7 +419,8 @@ check('presentation', 'who runs only inside dialogue nodes: 12 incidental-voice 
 const fonts = J('tools/layout-lab/data/fonts.json'), locked = J('art/ui/sprites/fonts/locked_pixel_font_atlas.json').mapping;
 check('presentation', "'%' is in every baked face (Jersey 15, Press Start 2P, Tiny5) and still not in the locked face", Object.values(fonts).every((f) => f.mapping['%'] && f.mapping['%'].w > 0) && !locked['%']);
 check('presentation', "the two approved readouts keep their '%' exactly (0% / 100%)", /AUDIENCE PARTICIPATION: 0%/.test(JSON.stringify(CH3.nodes.authentic_urgency_reply.text)) && /AUTHENTIC HUMAN RESPONSE: 100%/.test(JSON.stringify(CH3.nodes.genuine_surprise.text)));
-const charset = { locked: Object.keys(locked), text: Object.keys(fonts['jersey15-1x'].mapping).filter((ch) => Object.values(fonts).every((f) => f.mapping[ch])) };
+// The importer's own charset: the faces plus their typographic fallbacks (game issue #27).
+const charset = require(path.join(ROOT, 'tools/story-import/import.js')).drawable();
 const mutant = (fn) => { const s = JSON.parse(JSON.stringify(story)); fn(s); return Rules.validateStory(s, charset).errors; };
 // (The built story's own full validation, reachable states included, is import.js --check / --verify.)
 check('presentation', "validator: '%' on a choice card (locked face) is refused", mutant((s) => { s.chapters['chapter-03'].nodes.door_choices.choices[1].text = 'HOLD IT 100%'; }).some((e) => /cannot draw: %/.test(e)));
@@ -434,10 +458,10 @@ const back = Rules.restore(story, env);
 check('saves', 'a Chapter 3 save restores exactly (node, inventory, flags, transcript)', back.ok && same(back.state, mid), back.reason);
 
 // 11. Scope ------------------------------------------------------------------------------------------
-check('scope', 'no legacy pavilion/* scene, Registrar portrait or legacy Chapter 3 item is used', !Object.keys(A.scenes).some((s) => /^pavilion\//.test(s)) && !A.portraits.registrar
-  && !Object.keys(story.items).some((id) => /^pavilion_/.test(id) || id === 'certificate_fulfilled_requirements'));
+check('scope', 'no legacy pavilion/* scene, Registrar portrait or legacy Chapter 3 item is used (the Temporary Staff Pass is the approved re-grant, public docs/153)', !Object.keys(A.scenes).some((s) => /^pavilion\//.test(s)) && !A.portraits.registrar
+  && !Object.keys(story.items).some((id) => (/^pavilion_/.test(id) && id !== 'pavilion_temporary_staff_pass') || id === 'certificate_fulfilled_requirements'));
 check('scope', 'no Chapter 3 death presentation (canonical export or runtime)', !DEATHS.entries.some((e) => /^chapter-03:/.test(e.id)) && !J('story/death-presentations.export.json').entries.some((e) => /^chapter-03:/.test(e.id)));
-check('scope', 'consumed chapters are exactly Prologue, Chapter 1, Chapter 2 and Chapter 3', same(LOCK.chapters, ['prologue-00', 'chapter-01', 'chapter-02', 'chapter-03']) && same(build.chapters.map((c) => c.id), LOCK.chapters));
+check('scope', 'consumed chapters are exactly Prologue and Chapters 1-4 (Chapter 4 since game issue #27)', same(LOCK.chapters, ['prologue-00', 'chapter-01', 'chapter-02', 'chapter-03', 'chapter-04']) && same(build.chapters.map((c) => c.id), LOCK.chapters));
 
 const failed = results.filter((r) => !r.ok);
 const by = {};

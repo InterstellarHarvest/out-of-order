@@ -1,13 +1,14 @@
 {
   "schema": "cyoa-story-sync-config-v1",
-  "about": "Which canonical storyboard chapters this game build consumes (docs/97). Chapter 3 (the approved reboot) was added on explicit owner authorization (Nate, 2026-11-20; docs/104): add a chapter here only on such an authorization. deathPresentations: the canonical death-popup export (public docs/104) is projected for the consumed chapters only and compiled to a runtime module (docs/98).",
+  "about": "Which canonical storyboard chapters this game build consumes (docs/97). Chapter 3 (the approved reboot) was added on explicit owner authorization (Nate, 2026-11-20; docs/104), and Chapter 4 on Nate's authorization of game issue #27 (2026-11-26; docs/107): add a chapter here only on such an authorization. deathPresentations: the canonical death-popup export (public docs/104) is projected for the consumed chapters only and compiled to a runtime module (docs/98).",
   "repo": "InterstellarHarvest/CYOA-storyboard",
   "gameRepo": "InterstellarHarvest/out-of-order",
   "chapters": [
     "prologue-00",
     "chapter-01",
     "chapter-02",
-    "chapter-03"
+    "chapter-03",
+    "chapter-04"
   ],
   "gameOwned": [
     "story/runtime-settings.json"

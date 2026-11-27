@@ -358,6 +358,27 @@
   function finish() {
     if (on === 'focus') { A.typing = false; A.revealed = A.total; renderA(); } else finishB();
   }
+  // The text the newest passage on show has revealed so far (game issue #27: conditional art follows beats).
+  function revealedNew() {
+    if (on === 'focus') {
+      var P = pagesA(), lines = P.pages[Math.max(0, Math.min(A.page, P.pages.length - 1))].lines, out = '', n = 0;
+      for (var i = 0; i < lines.length; i++) {
+        var t = lines[i];
+        var from = Math.max(0, A.base - n), to = Math.max(0, Math.min(t.length, A.revealed - n));
+        if (to > from) out += t.slice(from, to) + ' ';
+        n += t.length;
+      }
+      return out;
+    }
+    var Lb = layoutB(), o = '', c = 0;
+    for (var j = 0; j < Lb.lines.length; j++) {
+      var u = Lb.lines[j];
+      var f = Math.max(0, Lb.base - c), e = Math.max(0, Math.min(u.length, B.revealed - c));
+      if (e > f) o += u.slice(f, e) + ' ';
+      c += u.length;
+    }
+    return o;
+  }
   function focusTarget() {
     return on === 'focus' ? els.hitA : els.hitB;
   }
@@ -434,6 +455,7 @@
     segmentA: segmentA,
     typeTick: typeTick,
     finish: finish,
+    revealedNew: revealedNew,
     focusTarget: focusTarget,
     info: function () { return { mode: on, b: { paras: B.paras.slice(), scroll: B.scroll, typing: B.typing }, a: { paras: A.paras.slice(), page: A.page, typing: A.typing } }; }
   };

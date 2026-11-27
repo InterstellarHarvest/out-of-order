@@ -121,6 +121,7 @@
     var actions = [];
     if (G.storyMode) {
       actions.push(G.story.contextAction);
+      Object.keys((G.story.assets && G.story.assets.inspectViews) || {}).forEach(function (nk) { actions.push(G.story.assets.inspectViews[nk]); });
       Object.keys(G.story.chapters).forEach(function (c) {
         var ns = G.story.chapters[c].nodes;
         Object.keys(ns).forEach(function (id) { actions.push(ns[id].contextAction); });

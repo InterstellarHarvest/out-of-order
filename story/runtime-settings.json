@@ -29,6 +29,76 @@
     },
     "restroom_system": {
       "name": "RESTROOM SYSTEM"
+    },
+    "hotel_auctioneer": {
+      "name": "AUCTIONEER"
+    },
+    "hotel_auction_clerk": {
+      "name": "AUCTION CLERK"
+    },
+    "hotel_bride": {
+      "name": "BRIDE"
+    },
+    "hotel_groom": {
+      "name": "GROOM"
+    },
+    "hotel_plumber": {
+      "name": "PLUMBER"
+    },
+    "hotel_plumber_assistant": {
+      "name": "EDDIE"
+    },
+    "hotel_porter": {
+      "name": "PORTER"
+    },
+    "hotel_second_porter": {
+      "name": "SECOND PORTER"
+    },
+    "hotel_salvage_foreman": {
+      "name": "SALVAGE FOREMAN"
+    },
+    "hotel_salvage_clerk": {
+      "name": "SALVAGE CLERK"
+    },
+    "hotel_service_foreman": {
+      "name": "SERVICE FOREMAN"
+    },
+    "hotel_commodore_bixby": {
+      "name": "COMMODORE BIXBY"
+    },
+    "hotel_boiler_engineer": {
+      "name": "BOILER ENGINEER"
+    },
+    "hotel_wedding_organizer": {
+      "name": "WEDDING ORGANIZER"
+    },
+    "hotel_wedding_assistant": {
+      "name": "WEDDING ASSISTANT"
+    },
+    "hotel_wedding_guest": {
+      "name": "WEDDING GUEST"
+    },
+    "hotel_attendant": {
+      "name": "ATTENDANT"
+    },
+    "hotel_lift_voice": {
+      "name": "FREIGHT LIFT"
+    },
+    "bridal_door_ai": {
+      "name": "BRIDAL DOOR"
+    },
+    "bathroom_ai": {
+      "name": "BATHROOM AI"
+    },
+    "autofit_system": {
+      "name": "AUTOFIT"
     }
-  }
+  },
+  "pendingArtBindings": [
+    "art/grand_bellevue.provenance.json",
+    "art/items/pavilion/pavilion_temporary_staff_pass.provenance.json"
+  ],
+  "conditionalArt": [
+    "art/grand_bellevue.conditional-art.json"
+  ]
 }

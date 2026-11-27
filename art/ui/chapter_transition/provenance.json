@@ -1,0 +1,52 @@
+{
+  "schema": "cyoa-art-provenance-v1",
+  "handoff": "Form 27B-6 / REGISTER OF PROGRESS chapter transition (owner-selected; game issue #27, game docs/107). Printer art from the approved printer handoff tools/chapter-transitions-lab/print/README.md; the outgoing backdrop for Menu -> Prologue is the approved v06 main-menu painting (the lab's own review backdrop), from its canonical intake branch.",
+  "copied": "byte-for-byte via git show <commit>:<path>; no decode, re-encode, resize or metadata change.",
+  "images": [
+    {
+      "kind": "ui-transition-paper",
+      "path": "art/ui/chapter_transition/form-27b6-blank-v01.png",
+      "sha256": "3c1c2df469ed101a3aff838c927801b59a2a6eb6b79dfb6c066f5c0e777cb052",
+      "gitBlob": "5337bfc22645da447880a46163bd443454f7f9aa",
+      "width": 1024,
+      "height": 1536,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/out-of-order",
+        "ref": "review/chapter-transitions-lab-v01",
+        "commit": "ae63c2c84d657f26dce55829b612fbfd7c8a769d",
+        "path": "tools/chapter-transitions-lab/print/art/print/form-27b6-blank-v01.png"
+      }
+    },
+    {
+      "kind": "ui-transition-printer",
+      "path": "art/ui/chapter_transition/printer-slot-v01.png",
+      "sha256": "7ee5584200759d72d9219193bb892597ed2ca3844e04af15f5a27babcb884229",
+      "gitBlob": "4ce9613d7643cc78917b8aed8d0c4a71bb51f852",
+      "width": 2172,
+      "height": 724,
+      "colorType": "RGBA",
+      "source": {
+        "repo": "InterstellarHarvest/out-of-order",
+        "ref": "review/chapter-transitions-lab-v01",
+        "commit": "ae63c2c84d657f26dce55829b612fbfd7c8a769d",
+        "path": "tools/chapter-transitions-lab/print/art/print/printer-slot-v01.png"
+      }
+    },
+    {
+      "kind": "ui-main-menu-painting",
+      "path": "art/ui/main_menu/entrance_plaza.png",
+      "sha256": "22083a038ed87ab9eb0155fba6648cec67699936402dc8b4b399b8aa5b48623d",
+      "gitBlob": "0030162bff09c7ab04b0af9f309c16a53a4c0bc2",
+      "width": 1672,
+      "height": 941,
+      "colorType": "RGB",
+      "source": {
+        "repo": "InterstellarHarvest/out-of-order",
+        "ref": "review/out-of-order-menu-intake",
+        "commit": "aba2179773010d91d92cc50b5f7590e5db39c6fa",
+        "path": "art/ui/main_menu/entrance_plaza.png"
+      }
+    }
+  ]
+}

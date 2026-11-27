@@ -16,6 +16,8 @@ qa-failure-screenshots/
 game/qa/ch03_results.json
 game/qa/ch03_qa_results.json
 game/qa/ch03_screenshots/
+game/qa/ch04_qa_results.json
+game/qa/ch04_screenshots/
 
 # Presentation capabilities QA run output (storyboard docs/137): never committed
 game/qa/presentation_qa_results.json
