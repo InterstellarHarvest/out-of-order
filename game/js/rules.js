@@ -1001,6 +1001,8 @@
     if (voiceLed(story, n)) out.voiceLed = true;
     if (textLed(story, out.scene)) out.sceneHeld = heldScene(story, state);
     if (story.assets && story.assets.artStates) out.artStates = artAt(story, state);
+    var iv = story.assets && story.assets.inspectViews && story.assets.inspectViews[at(state)];
+    if (iv) out.inspectView = { node: at(state), label: iv.label, glyph: iv.glyph, title: iv.title, text: iv.text };
     return out;
   }
 
@@ -1762,7 +1764,20 @@
     var scenes = obj(assets.scenes) ? assets.scenes : {};
     var portraits = obj(assets.portraits) ? assets.portraits : {};
     var focusArt = obj(assets.focus) ? assets.focus : {};
-    onlyKeys('assets', assets, ['scenes', 'portraits', 'focus', 'sceneStates', 'textLedScenes', 'artStates']);
+    onlyKeys('assets', assets, ['scenes', 'portraits', 'focus', 'sceneStates', 'textLedScenes', 'artStates', 'inspectViews']);
+    // Presentation-only INSPECT (game issue #27): { 'chapter:node': { path, label, glyph, title, text } } on Focus A nodes.
+    Object.keys(obj(assets.inspectViews) ? assets.inspectViews : {}).forEach(function (nk) {
+      var iv = assets.inspectViews[nk], w = 'assets.inspectViews ' + nk, m = /^([a-z0-9_-]+):([a-z0-9_-]+)$/.exec(nk);
+      var nn = m && story.chapters[m[1]] && obj(story.chapters[m[1]].nodes) && story.chapters[m[1]].nodes[m[2]];
+      if (!nn || nn.mode !== 'focus') return err(w, 'must name a Focus A node');
+      if (!obj(iv)) return err(w, 'must be an object');
+      onlyKeys(w, iv, ['path', 'label', 'glyph', 'title', 'text']);
+      assetPath(w, iv.path);
+      text(w + ' label', iv.label);
+      if (typeof iv.glyph !== 'string' || !/^[a-z0-9_]+$/.test(iv.glyph)) err(w, 'needs an action glyph name');
+      text(w + ' title', iv.title);
+      text(w + ' text', iv.text, 'text');
+    });
     // docs/137 C1: text-led scenes are listed ids with no image (the previous scene image is held).
     var textLedList = [];
     if (has(assets, 'textLedScenes')) {
@@ -2081,6 +2096,15 @@
       var all = isVariants(t) ? t.map(function (v) { return v.text; }) : [t];
       return all.some(function (x) { return toParas(x, arrivalCtx(story.chapters[chId].nodes[nid])).some(function (pp) { return runsBegin(pp, text); }); });
     }
+    function beatUnique(chId, nid, text) {
+      var squash = function (x) { return String(x).replace(/\s+/g, ''); };
+      var key = squash(text).slice(0, 12), t = story.chapters[chId].nodes[nid].text;
+      var all = isVariants(t) ? t.map(function (v) { return v.text; }) : [t];
+      return all.every(function (x) {
+        var flat = squash(toParas(x, arrivalCtx(story.chapters[chId].nodes[nid])).map(function (pp) { return pp.map(function (r) { return r.text; }).join(' '); }).join(' '));
+        return flat.indexOf(key) === flat.lastIndexOf(key);
+      });
+    }
     function nodeAt(where, a) {
       var m = /^([a-z0-9_-]+):([a-z0-9_-]+)$/.exec(a);
       if (!m || !story.chapters[m[1]] || !obj(story.chapters[m[1]].nodes) || !story.chapters[m[1]].nodes[m[2]]) { err(where, 'names an unknown node ' + a); return null; }
@@ -2117,6 +2141,7 @@
             if (st[k] === undefined) return;
             if (typeof st[k] !== 'string' || !st[k]) err(x, k + ' must be text');
             else if (!nodeBegins(nm[1], nm[2], st[k])) err(x, k + ' "' + st[k] + '" begins no paragraph or run of ' + a);
+            else if (!beatUnique(nm[1], nm[2], st[k])) err(x, k + ' "' + st[k] + '": its first 12 letters occur more than once in ' + a + ' (presentation reaches a beat by them)');
           });
         });
         if (st.after !== undefined) {

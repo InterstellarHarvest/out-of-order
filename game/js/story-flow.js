@@ -192,7 +192,8 @@
     var typed = norm(typedNow());
     if (!typed) return false;
     var grew = false;
-    beatsHere().forEach(function (b) { if (!beats.reached[b] && typed.indexOf(norm(b)) !== -1) { beats.reached[b] = true; grew = true; } });
+    // A beat is reached as its opening words appear (its first 12 letters; the validator proves them unique in the node).
+    beatsHere().forEach(function (b) { if (!beats.reached[b] && typed.indexOf(norm(b).slice(0, 12)) !== -1) { beats.reached[b] = true; grew = true; } });
     return grew;
   }
   var typingFrom = 0; // transcript index of the first paragraph of the passage now typing
@@ -662,6 +663,18 @@
       return;
     }
     if (F.phase !== 'choosing') return;
+    // Presentation-only INSPECT (game issue #27; public docs/145, docs/152 section 5): opens the node's approved
+    // square image in the inspector window. No rules step, no save, no state change; X / Escape close it
+    // (F.closeInspector) back to the same Focus A node and the same cards.
+    if (action === 'inspect-view') {
+      var iv = view().inspectView;
+      if (!iv || G.ui.inspector) return;
+      G.ui.inspector = { id: null, presentation: iv, scroll: 0, height: 0 };
+      G.hideTooltip();
+      G.renderAll();
+      document.getElementById('inspectClose').focus({ preventScroll: true });
+      return;
+    }
     if (action === 'context') {
       if (G.ui.inspector || PORT.contextSpent() || !PORT.contextAction()) return;
       var r = commit({ context: true });

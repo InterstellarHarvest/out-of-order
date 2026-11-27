@@ -209,6 +209,7 @@
       if (f && typeof f === 'object') f.pages.forEach(function (pg, i) { add(artKey.focusPage(id, i + 1), 'focus', id + ':page:' + (i + 1), pg.path); });
       else add(artKey.focus(id), 'focus', id, f);
     });
+    Object.keys(a.inspectViews || {}).forEach(function (nk) { add('inspectview:' + nk, 'inspect', nk, a.inspectViews[nk].path); });
     var COND_CLASS = { scene: 'scene', background: 'background', focus: 'focus' };
     Object.keys(a.artStates || {}).forEach(function (sk) {
       a.artStates[sk].forEach(function (st) {
@@ -265,6 +266,7 @@
         else use(artKey.focus(n.focus));
       }
     });
+    Object.keys((story.assets && story.assets.inspectViews) || {}).forEach(function (nk) { if (nk.indexOf(chapterId + ':') === 0) use('inspectview:' + nk); });
     // Conditional art shown at this chapter's nodes, decoded with the chapter (no state art ever pops in).
     var cond = (story.assets && story.assets.artStates) || {};
     Object.keys(cond).forEach(function (sk) {
@@ -1156,6 +1158,11 @@
   // cannot be taken now keeps its glyph in an inactive treatment, does not press, and its tooltip
   // says why (docs/49 section 2.1). Hover never changes any of this.
   function utilityActions() {
+    // Presentation-only INSPECT (game issue #27): nothing to do with it but read it; X / Escape close it.
+    if (ui.inspector && ui.inspector.presentation) {
+      var blank = function () { return { action: 'none', glyph: null, label: '', enabled: false, blank: true }; };
+      return [blank(), blank(), blank()];
+    }
     if (ui.inspector && ui.inspector.scenePickup) {
       // The wall kit is not inventory. Its own authored rules cards supply the
       // medical checks; these are just the existing three contextual buttons.
@@ -1179,7 +1186,9 @@
     }
     var ctx = G.state ? port().contextAction() : null;
     var first = { action: 'none', glyph: null, label: '', enabled: false, blank: true };
-    if (ctx) {
+    var iv = G.storyMode && G.state && G.flow && G.flow.view ? G.flow.view().inspectView : null;
+    if (iv) first = { action: 'inspect-view', glyph: iv.glyph, label: iv.label, enabled: G.flow.phase === 'choosing', why: 'NOT NOW' };
+    else if (ctx) {
       var spent = port().contextSpent();
       first = { action: 'context', glyph: ctx.glyph, label: ctx.label, enabled: !spent && G.flow.phase === 'choosing', why: spent ? ctx.spentWhy : 'NOT NOW' };
     }
@@ -1417,6 +1426,22 @@
   // Shows the item's inspect art 1:1 at the art area's origin, or the placeholder when it has none.
   function showInspectArt(id) {
     delete els.inspectArt.dataset.art;
+    if (ui.inspector && ui.inspector.presentation) {
+      var pk = 'inspectview:' + ui.inspector.presentation.node;
+      var pimg = G.image(pk);
+      pimg.id = 'inspectImage';
+      pimg.className = 'sprite-abs';
+      pimg.alt = '';
+      pimg.draggable = false;
+      pimg.setAttribute('aria-hidden', 'true');
+      pimg.width = pimg.naturalWidth;
+      pimg.height = pimg.naturalHeight;
+      place(pimg, 0, 0, pimg.naturalWidth, pimg.naturalHeight);
+      els.inspectArt.replaceChildren(pimg);
+      els.inspectArt.dataset.kind = 'inspect-view';
+      els.inspectArt.dataset.art = pk;
+      return;
+    }
     if (ui.inspector && ui.inspector.scenePickup) {
       // The scene pickup's own 565x451 window covers the portrait aperture. PMO ruling 2026-11-18
       // (docs/103): it shows the node's owner-approved Focus A close-up, the same native 564x278
@@ -1485,8 +1510,9 @@
     var width = C().viewport.width - C().text.offsetX - 24;
     // A scene-owned kit is only granted to inventory on X/Escape close. Its
     // physical source, title and narration come from the current authored node.
-    var lines = [{ text: pickup ? pickup.title : port().item(id).name, role: 'labels', ink: 'dark' }];
-    T.wrap(pickup ? pickup.description : port().description(id), width, 'dialogue').forEach(function (t, i) {
+    var pres = ui.inspector.presentation;
+    var lines = [{ text: pres ? pres.title : pickup ? pickup.title : port().item(id).name, role: 'labels', ink: 'dark' }];
+    T.wrap(pres ? pres.text : pickup ? pickup.description : port().description(id), width, 'dialogue').forEach(function (t, i) {
       lines.push({ text: t, role: 'dialogue', ink: 'dark', gap: i === 0 ? 10 : 0 });
     });
     return lines;
@@ -1509,9 +1535,10 @@
     show(els.inspectText, on);
     if (!on) return;
     var id = ui.inspector.id;
-    if (els.inspectArt.dataset.item !== (ui.inspector.scenePickup ? 'scene:' + ui.inspector.scenePickup.id : id)) {
+    var artId = ui.inspector.presentation ? 'view:' + ui.inspector.presentation.node : ui.inspector.scenePickup ? 'scene:' + ui.inspector.scenePickup.id : id;
+    if (els.inspectArt.dataset.item !== artId) {
       showInspectArt(id);
-      els.inspectArt.dataset.item = ui.inspector.scenePickup ? 'scene:' + ui.inspector.scenePickup.id : id;
+      els.inspectArt.dataset.item = artId;
     }
     var lines = inspectorLines();
     var lh = 24;

@@ -30,7 +30,7 @@ const IMPORTER_VERSION = 1;
 const ART_SIZE = { scene: [314, 206], 'scene-replace': [314, 206], 'scene-overlay': [314, 206], 'portrait-pose': [564, 278], 'portrait-background': [564, 278],
   'portrait-view': [564, 278], focus: [564, 278], 'item-slot': [96, 96], 'item-inspect': [565, 451], 'scene-state': [314, 206],
   // Conditional art references (game issue #27): a whole alternate of the surface they replace.
-  'scene-reference': [314, 206], 'background-reference': [564, 278], 'focus-reference': [564, 278] };
+  'scene-reference': [314, 206], 'background-reference': [564, 278], 'focus-reference': [564, 278], 'inspect-reference': [565, 451] };
 
 const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 const gitBlob = (buf) => crypto.createHash('sha1').update('blob ' + buf.length + '\0').update(buf).digest('hex');

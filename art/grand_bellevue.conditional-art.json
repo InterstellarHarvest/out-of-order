@@ -1,6 +1,6 @@
 {
   "schema": "cyoa-conditional-art-v1",
-  "about": "GAME-OWNED conditional art dispatch for Chapter 4 (game issue #27, game docs/107 section 5). The 28 approved preserved conditional references of public docs/152 section 4, copied byte-for-byte, and when each is shown: the authored node(s), the real state, and the authored text beat at which it starts (beat) or stops (until). They are references, not storyboard selections: no key, flag or story id is added. A state with a region draws only that rectangle of its own opaque image over the selected image (the NEW-18 water, combinable with the wheel states: its difference box is disjoint from theirs).",
+  "about": "GAME-OWNED conditional art dispatch for Chapter 4 (game issue #27, game docs/107 section 5). The 28 approved preserved conditional references of public docs/152 section 4, copied byte-for-byte, and when each is shown: the authored node(s), the real state, and the authored text beat at which it starts (beat) or stops (until). They are references, not storyboard selections: no key, flag or story id is added. A state with a region draws only that rectangle of its own opaque image over the selected image (the NEW-18 water, combinable with the wheel states: its difference box is disjoint from theirs). \"inspect\": a presentation-only INSPECT action on a Focus A node (public docs/145 and docs/152 section 5) opening its approved 565x451 square image in the inspector window; its title and text quote the node itself (the panel name from its text, and its first text run), never new prose.",
   "storyboard": {
     "repo": "InterstellarHarvest/CYOA-storyboard",
     "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3"
@@ -428,6 +428,37 @@
         "path": "tools/prologue-art-lab/assets/approved/conditional-production-references/chapter-04/b2-13/CH4-NEW-08-manual-slack-revealed-v01.png"
       },
       "unbound": "hotel_bridal_gown_motor is a Narrative B node (no Focus A aperture), and the lining is replaced before the close-up can be shown again (never persist an open lining, docs/152 section 4)"
+    },
+    {
+      "id": "bridal_panel_inspect_locked",
+      "surface": "inspect",
+      "base": "chapter-04:hotel_bridal_door_focus",
+      "path": "art/focus/grand_bellevue/bridal_privacy_panel/inspect/locked.png",
+      "sha256": "b571f3215be27ab7e86bdb67530a86d33e20ed6a0638842f88227fdbc06ec0e3",
+      "gitBlob": "96247a123c6ff94ae02762b16612f293865edb5d",
+      "width": 565,
+      "height": 451,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/inspection-references/chapter-04/b2-12/CH4-NEW-07-inspect-locked-v03.png"
+      }
+    },
+    {
+      "id": "bridal_panel_inspect_provisional",
+      "surface": "inspect",
+      "base": "chapter-04:hotel_bridal_door_focus",
+      "path": "art/focus/grand_bellevue/bridal_privacy_panel/inspect/provisional.png",
+      "sha256": "fa4d465cd6c25b7591ff97caf2713e4b521ef3c2dba6243c5a571685f17660e9",
+      "gitBlob": "363bf62092c6412845bf5de656e29fb5e698b1e4",
+      "width": 565,
+      "height": 451,
+      "source": {
+        "repo": "InterstellarHarvest/CYOA-storyboard",
+        "revision": "8bb4993b23764b0316d5b1b4336887a587e848b3",
+        "path": "tools/prologue-art-lab/assets/approved/inspection-references/chapter-04/b2-12/CH4-NEW-07-inspect-provisional-v03.png"
+      },
+      "unbound": "the provisional authorization (ch4_provisional_bride_registered) is set only after hotel_bridal_door_focus can no longer be reached (docs/145; assessment D1)"
     }
   ],
   "states": {
@@ -770,5 +801,14 @@
         }
       }
     ]
+  },
+  "inspect": {
+    "chapter-04:hotel_bridal_door_focus": {
+      "ref": "bridal_panel_inspect_locked",
+      "label": "INSPECT",
+      "glyph": "inspect",
+      "title": "BRIDAL PRIVACY SYSTEM",
+      "textRun": 0
+    }
   }
 }

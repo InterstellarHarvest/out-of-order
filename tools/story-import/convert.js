@@ -536,6 +536,7 @@ function convert(input, opts) {
   // or Focus A), the authored nodes and beats. References with no on-screen moment are installed, verified and
   // reported (artUnbound), never emitted. Rules.validateStory proves the rest against the story.
   const artStates = {};
+  const story_inspect = {};
   const SURFACE_SIZE = { scene: [314, 206], background: [564, 278], focus: [564, 278] };
   const bgIds = new Set();
   Object.values(portraits).forEach((p) => Object.keys((p && p.backgrounds) || {}).forEach((b) => bgIds.add(b)));
@@ -547,11 +548,11 @@ function convert(input, opts) {
       const rw = w + ' reference ' + (r && r.id || i);
       if (!obj(r) || typeof r.id !== 'string' || !/^[a-z0-9_]+$/.test(r.id)) return err(rw, 'needs a lower-case id');
       if (refs[r.id]) return err(rw, 'duplicate reference id');
-      if (!SURFACE_SIZE[r.surface]) return err(rw, 'surface must be scene, background or focus');
+      if (!SURFACE_SIZE[r.surface] && r.surface !== 'inspect') return err(rw, 'surface must be scene, background, focus or inspect');
       if (typeof r.path !== 'string' || !/^art\/[a-z0-9_./-]+\.png$/.test(r.path) || /(^|\/)(source|originals|review)\//.test(r.path)) return err(rw, 'path must be a production png under art/');
       if (!/^[0-9a-f]{64}$/.test(r.sha256 || '')) return err(rw, 'needs its approved sha256');
       refs[r.id] = r;
-      const kind = r.surface + '-reference';
+      const kind = r.surface === 'inspect' ? 'inspect-reference' : r.surface + '-reference';
       if (typeof r.unbound === 'string' && r.unbound) { artUnbound.push({ kind, id: r.id, path: r.path, status: 'approved', expect: r.sha256 }); info.push(rw + ': installed, bound to no authored moment (' + r.unbound + ')'); }
       else art.push({ kind, id: r.id, path: r.path, status: 'approved', expect: r.sha256, conditional: f.file });
     });
@@ -578,6 +579,23 @@ function convert(input, opts) {
         return o;
       }).filter(Boolean);
     });
+    // Presentation-only INSPECT (public docs/145, docs/152 section 5): a Focus A node's approved square image,
+    // opened in the inspector window without a rules step. Title and text quote the node itself.
+    Object.keys(J.inspect || {}).forEach((nk) => {
+      const iw = w + ' inspect ' + nk, v = J.inspect[nk], m = /^([a-z0-9_-]+):([a-z0-9_-]+)$/.exec(nk);
+      const node = m && outChapters[m[1]] && outChapters[m[1]].nodes[m[2]];
+      if (!node || node.mode !== 'focus') return err(iw, 'must name a Focus A node of this build');
+      onlyKeys(iw, v, ['ref', 'label', 'glyph', 'title', 'textRun']);
+      const r = refs[v.ref];
+      if (!r || r.surface !== 'inspect' || r.unbound) return err(iw, 'needs a bound inspect reference');
+      const runs = Array.isArray(node.text) ? node.text : [node.text];
+      const run = runs[v.textRun];
+      const text = typeof run === 'string' ? run : obj(run) ? (run.desc || run.say || run.act) : null;
+      if (typeof text !== 'string' || (obj(run) && has(run, 'if'))) return err(iw, 'textRun must name an unconditional run of the node');
+      if (typeof v.title !== 'string' || text.indexOf(v.title) === -1) return err(iw, 'title must quote the node text');
+      used[v.ref] = true;
+      (story_inspect[nk] = { path: r.path, label: v.label, glyph: v.glyph, title: v.title, text });
+    });
     Object.keys(refs).forEach((id) => { if (!refs[id].unbound && !used[id]) err(w, 'reference ' + id + ' is neither shown by a state nor declared unbound (nothing orphaned)'); });
   });
 
@@ -599,6 +617,7 @@ function convert(input, opts) {
   if (Object.keys(sceneStates).length) story.assets.sceneStates = sceneStates;
   if (textLed.length) story.assets.textLedScenes = textLed.slice().sort();
   if (Object.keys(artStates).length) story.assets.artStates = artStates;
+  if (Object.keys(story_inspect).length) story.assets.inspectViews = story_inspect;
   if (marksSet.length) story.marks = marksSet.slice().sort();
   if (nullArt) warnings.push('story: some art is missing, so this build uses the fixture profile (labelled DEV PLACEHOLDERS)');
   // Death screens (game issue #27): an approved death screen with no assetPath is bound by the same provenance

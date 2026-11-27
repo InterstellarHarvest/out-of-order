@@ -7,13 +7,13 @@
     "channel": "preview",
     "story": "the-acceptable-error",
     "storySchema": "cyoa-story-v2",
-    "contentHash": "b78af8d5f2a5276df294d31bc818cf4aa7a8c4ce4a6e554f86170148ed83ee6d",
-    "version": 192458638,
+    "contentHash": "f36c40e5e9f14f3cd78add2471370e539bce5fc5b7f3bb9b7a0fa492d004a92c",
+    "version": 255247375,
     "sources": [
       {
         "path": "art/grand_bellevue.conditional-art.json",
-        "sha256": "280c1dc518f545b31cc4a63f54443e4b31c53d73ca6112aa309e1fdbcfadc848",
-        "gitBlob": "ebf1f7e3ffe230395b9a8cd9cb242be2256f91eb"
+        "sha256": "daea2818a91857048e23559ca4cab10a568c1cd47a5ebe309a0aa6529be68afb",
+        "gitBlob": "a9faf810a593c9e310d3da95b0f92f60fd4a00e7"
       },
       {
         "path": "art/grand_bellevue.provenance.json",
@@ -338,6 +338,14 @@
         "path": "art/focus/house_of_tomorrow/album_page_3.png",
         "status": "integrated",
         "sha256": "579c0b2e14589e7c3ada53ddf1c5bc984f209170c48619b18336e883b97616ad"
+      },
+      {
+        "kind": "inspect-reference",
+        "id": "bridal_panel_inspect_locked",
+        "path": "art/focus/grand_bellevue/bridal_privacy_panel/inspect/locked.png",
+        "status": "approved",
+        "sha256": "b571f3215be27ab7e86bdb67530a86d33e20ed6a0638842f88227fdbc06ec0e3",
+        "conditional": "art/grand_bellevue.conditional-art.json"
       },
       {
         "kind": "item-inspect",
@@ -1836,7 +1844,7 @@
   var STORY = {
     "schema": "cyoa-story-v2",
     "id": "the-acceptable-error",
-    "version": 192458638,
+    "version": 255247375,
     "profile": "production",
     "save": true,
     "start": "prologue-00",
@@ -3312,6 +3320,15 @@
             }
           }
         ]
+      },
+      "inspectViews": {
+        "chapter-04:hotel_bridal_door_focus": {
+          "path": "art/focus/grand_bellevue/bridal_privacy_panel/inspect/locked.png",
+          "label": "INSPECT",
+          "glyph": "inspect",
+          "title": "BRIDAL PRIVACY SYSTEM",
+          "text": "There is no handle or keyhole. A polished brass panel holds a camera and a small screen: BRIDAL PRIVACY SYSTEM. OCCUPANT AUTHORIZATION: BRIDE ONLY. VISUAL IDENTIFICATION: ENABLED. PRE-WEDDING GROOM EXCLUSION: ENABLED."
+        }
       }
     },
     "chapters": {
