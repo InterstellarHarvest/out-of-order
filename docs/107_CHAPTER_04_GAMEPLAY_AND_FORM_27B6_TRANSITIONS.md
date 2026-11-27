@@ -15,6 +15,14 @@
 4. Prologue title "The Last Good Day [working title]": strip the trailing [ … ] note.
 5. The transition lab branch is the implementation source. Reuse its art, logic, layering and timing, and list every deviation for approval (section 6).
 
+**Nate's review-gate rulings (2026-11-26).** He accepted the implementation direction for continued review. **This is not authorization to merge or deploy.**
+1. **Form 27B-6:** all six deviations in section 6 are accepted. The approved printer art, timing, animation, typography and layering are kept; no visual redesign.
+2. **Main menu:** full menu integration stays deferred. The approved menu stays on its own review branch (`review/out-of-order-menu-intake`). Menu → Prologue keeps playing over the approved menu painting whenever a new game starts. Nothing of the menu system is merged under issue #27.
+3. **Display names:** the 21 Chapter 4 names in section 4 are accepted exactly as listed.
+4. **Unreachable art:** the four never-shown images stay, with their fingerprints and provenance. No invented routes, narrative changes or forced visual states. Section 4.1 records the check that their unreachability follows from the authored routes.
+5. **Locked choices:** greyed REQUIRES / NOT IN INVENTORY cards are deferred to a separate gameplay/UI task. Current visibility behavior stays. The requirement is recorded in section 9.
+6. **Gate:** both PRs stay draft. Merge only after Nate's merge approval, in the order above.
+
 ## 1. Storyboard integration branch (public)
 
 Every change below is a minimal text edit. Formatting elsewhere is byte-identical.
@@ -61,7 +69,7 @@ Pre-existing: `qa-ch3-artwork-briefs` fails on untouched `7618d81` too. It is no
 - All 7 Chapter 3 endings enter Chapter 4 at `hotel_entry_dispatch`. They keep inventory, item marks, flags and checks, record `ch3_exit_route`, and are offered exactly their own arrival variant. `validate_ch03` checks this on every catalogued route.
 - The pass is granted only at `unauthorized_presenter`. The four appointment routes gain exactly it.
 - Its art: slot `art/items/pavilion/pavilion_temporary_staff_pass_slot.png` (96×96 RGBA, `662ecb2c…b59b5`) and inspect `…_inspect.png` (565×451 RGB, `527e17af…e41`), both byte-exact.
-- From `presenter_help_end` and `backstage_exit`, the two SHOW cards and five downstream nodes are reachable (walk and review starts).
+- From `presenter_help_end` and `backstage_exit`, the pass's three Chapter 4 cards and five downstream nodes are reachable (walk and review starts). The three cards: SHOW on the pass at `hotel_auction_chair_lot31`, and the pass-gated actions `collection_show_staff_pass` and `boiler_show_staff_pass`. Re-checked at the review gate: the rules engine offers all three on both pass routes and none on the other five endings.
 
 ## 4. Art
 
@@ -69,7 +77,7 @@ Pre-existing: `qa-ch3-artwork-briefs` fails on untouched `7618d81` too. It is no
   - Breakdown: 16 scenes, 23 portraits, 8 closer backgrounds, 8 Focus A, 4 item views, 4 fatal aftermaths.
   - They are bound pending integration through `art/grand_bellevue.provenance.json` and the staff-pass provenance. Storyboard records stay `approved` with `assetPath` null until the reconciliation (`sync.js publish`).
 - **The 4 reuse keys** resolve to their sources' files.
-- **21 cast names** were added to `story/runtime-settings.json`. **These need Nate's sign-off:**
+- **21 cast names** were added to `story/runtime-settings.json`. **Accepted by Nate as listed (2026-11-26):**
 
   | Key | Name | Key | Name |
   |---|---|---|---|
@@ -119,6 +127,12 @@ How it works:
 - **NEW-08 manual slack.** `hotel_bridal_gown_motor` is a Narrative B node with no Focus A aperture, and an open lining must never persist.
 - B2-24 open at `hotel_chair_stapler_stealth` (narrative) has the same limitation; it does show at the Focus node.
 
+**Review-gate check (2026-11-26, Nate ruling 4).** Each image is retained unshown. No choice or interaction is missing:
+- **NEW-07 provisional (Focus A and INSPECT).** `ch4_provisional_bride_registered` is set only in `hotel_bridal_autofit_survived`. Its only card continues to `hotel_seashell_room`. From there only 9 nodes can be reached even with every condition ignored, and none is a bridal-room node. docs/145 itself asks to preserve the art "for the corresponding later authorization condition" without authoring a new state transition. All five door choices and INSPECT are present.
+- **B2-25 recovered.** `hotel_collection_ring_focus` has one entry, `collection_inspect_chair_ring`, guarded by `notFlag ch4_wedding_ring_retrieved`. It cannot be reached from `hotel_collection_ring_in_pocket` even with every condition ignored. The two recovery nodes docs/152 §4 names are authored `mode: dialogue` (porter portrait).
+- **NEW-08 manual slack.** docs/152 §4 places it inside `hotel_bridal_gown_motor`, "before the lining is replaced". That node is authored `mode: narrative` and ends "You carefully replace the lining." The close-up can be revisited afterwards, but the lining is closed again and docs/152 says "Never persist an open-lining state", so the master image is correct there.
+- **One discrepancy, recorded but not acted on:** for B2-25 recovered and NEW-08, docs/152 §4 maps a Focus A image to a node whose authored mode has no Focus A window. Showing them would need either a node-mode change on the storyboard (a canon change) or a new engine surface for a Focus image inside a dialogue or narrative node. Neither is in scope, and ruling 4 keeps both unshown.
+
 ## 5. Bridal-door INSPECT (docs/145, docs/152 §5)
 
 - `hotel_bridal_door_focus` offers INSPECT, using the approved magnifier glyph, in the first utility slot.
@@ -142,7 +156,7 @@ How it works:
   - A reload mid-transition lands in the new chapter without replay, because the step was already committed once.
 - **Rows.** Only the encountered chapters, from canonical titles and numbers. Rulings 3 and 4 apply.
 
-**Deviations from the approved lab, for Nate's approval:**
+**Deviations from the approved lab (all six accepted by Nate, 2026-11-26):**
 1. **Stage.** The lab's 1024-wide preview became the 1920×1080 stage. The lab's absolute pixel offsets scale by stage width / 1024, as it already scaled paperY and feedDepth.
 2. **Backdrops.** The outgoing and incoming backdrops are the game's real frames, frozen (`G.captureStage`), instead of the lab's review painting and schematic next scene. For Menu → Prologue the outgoing backdrop is the approved menu painting itself, which is the lab's own default.
 3. **Fifth box.** The fifth and later rows (Chapter 4 onward) sit on an exact second copy of the sheet below the first (ruling 2).
@@ -152,7 +166,7 @@ How it works:
 
 **Main menu.** The game has no main menu: its engine integration is deferred on `review/out-of-order-menu-intake`. Full menu integration (buttons, CONTINUE / NEW GAME, settings, credits) is a separate scope.
 - The smallest solution, implemented for review: Menu → Prologue plays when a **new game** begins (no autosave, or `?new`), over the approved painting, after the new game is set up and saved.
-- **Ruling requested:** keep this until the menu is integrated, or integrate the approved menu (art and interaction contract) first?
+- **Ruling (Nate, 2026-11-26):** keep this. Full menu integration stays deferred and separate from issue #27.
 
 **Side-by-side evidence.** At matched moments of Prologue → Chapter 1, the in-game printer and the lab render the same printer, paper, ink and typing. The only difference is the backdrop (deviation 2).
 
@@ -191,7 +205,36 @@ Pins moved deliberately, each with a reason in the test:
 
 ## 9. Known limitations and open items
 
-- **Display names** (section 4) and **main-menu boundary** (section 6) need Nate's rulings.
-- **Three references and the provisional INSPECT image** never show (section 4.1).
-- **Locked cards.** The docs/123 enginePresentationRequirement says to show unavailable item and exhausted cards as locked with REQUIRES / NOT IN INVENTORY. It is **not implemented**: it changes the approved card UI in every chapter and is not in issue #27's scope. Unavailable choices stay hidden, as in Chapters 1–3.
+- **Display names** and the **main-menu boundary** were ruled on by Nate (see the top of this document).
+- **Three references and the provisional INSPECT image** never show. They are retained by ruling, and the check is in section 4.1.
+- **OUTSTANDING REQUIREMENT: locked cards (deferred by Nate, 2026-11-26, to a separate gameplay/UI task).**
+  - The docs/123 enginePresentationRequirement says to show unavailable item cards and exhausted cards as locked, labelled REQUIRES / NOT IN INVENTORY.
+  - It is **not implemented**, because it changes the approved card UI in every chapter.
+  - Issue #27 keeps the current behavior: unavailable choices stay hidden, as in Chapters 1–3.
+  - Any future task must cover all chapters and needs its own approval of the locked-card look.
+- **Main menu:** full engine integration is deferred. The approved menu stays on `review/out-of-order-menu-intake`.
 - **Reconciliation.** After merge, `sync.js publish` raises the Chapter 4 records to `integrated` and the bindings can be dropped. Same as Chapter 3.
+
+## 10. Final review checklist (merge-approval gate, 2026-11-26)
+
+Re-checked on the pushed head after Nate's review-gate rulings. Since commit `31d00da`, only this document has changed.
+
+| Requirement | Status | Evidence |
+|---|---|---|
+| Both PRs preserved as drafts, neither merged | ✅ | game #28, storyboard #46 (draft) |
+| No public game build deployed | ✅ | nothing deployed; review is local only |
+| Printer assets intact | ✅ | `form-27b6-blank-v01.png` `3c1c2df4…`, `printer-slot-v01.png` `7ee55842…`, menu painting `22083a03…` = lab branch `ae63c2c` blobs |
+| Printer behavior intact | ✅ | `run_ch04_qa` 42/42 (Chromium + Firefox); review page crossed Ch3 → 4 with one print, Escape skip |
+| Chapter 4 art and narrative preserved | ✅ | `import.js --verify` OK (content `f36c40e5e9f1`); `sync.js verify --online` OK @ `0aa53dd` |
+| Chapter 3 → 4 bridge | ✅ | `validate_ch03` 453/453 (all 7 endings: CONTINUE → `hotel_entry_dispatch`, state kept, `ch3_exit_route` set) |
+| Temporary Staff Pass | ✅ | granted only at the appointment; its three Chapter 4 cards on both pass routes and on no other (section 3) |
+| Local QA evidence retained | ✅ | section 7 and the PR; screenshots under `game/qa/*_screenshots/` (not committed) |
+| `/tools/review/index.html` | ✅ | 19 starts load; pass and no-pass starts reach Chapter 4 in Chromium with no page errors |
+
+**Unresolved, by ruling (no action under issue #27):**
+- Locked REQUIRES / NOT IN INVENTORY cards: separate gameplay/UI task (section 9).
+- Main-menu engine integration: separate task (section 6).
+- Four approved images stay unshown. The art-map / node-mode discrepancy for B2-25 recovered and NEW-08 is recorded in section 4.1.
+- Known pre-existing failures, untouched: the M2 Firefox reception-fixture flake (docs/105 baseline) and the storyboard's `qa-ch3-artwork-briefs` (fails on `7618d81`, not in CI).
+
+**After merge approval, in this order:** merge storyboard #46 (normal merge) → re-pin the game to the resulting storyboard `main` commit (`sync.js pull --rev <sha>`, then `import.js --verify` and `sync.js verify --online`) → merge game #28 (normal merge) → `sync.js publish` reconciliation.
