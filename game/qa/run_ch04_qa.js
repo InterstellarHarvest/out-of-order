@@ -50,6 +50,8 @@ const server = http.createServer((req, res) => {
   await new Promise((r) => server.listen(0, '127.0.0.1', r));
   const BASE = 'http://127.0.0.1:' + server.address().port;
   const KEY = 'cyoa-save:' + box.REVIEW_STARTS.story;
+  const SEED = '/__qa_seed__';
+  const INFLIGHT = new WeakMap();
   for (const name of ['chromium', 'firefox']) {
     const browser = await pw[name].launch();
     const errs = [];
@@ -58,10 +60,32 @@ const server = http.createServer((req, res) => {
       const page = await ctx.newPage();
       page.on('pageerror', (e) => errs.push(e.message));
       page.on('console', (m) => { if (m.type() === 'error') errs.push(m.text()); });
+      // Test infrastructure only: count this page's in-flight image requests, and serve a same-origin seed page
+      // that does not start the game (see load()).
+      INFLIGHT.set(page, 0);
+      page.on('request', (r) => { if (r.resourceType() === 'image') INFLIGHT.set(page, INFLIGHT.get(page) + 1); });
+      const ended = (r) => { if (r.resourceType() === 'image') INFLIGHT.set(page, INFLIGHT.get(page) - 1); };
+      page.on('requestfinished', ended);
+      page.on('requestfailed', ended);
+      await page.route(BASE + SEED, (r) => r.fulfill({ contentType: 'text/html; charset=utf-8', body: '<!doctype html><meta charset="utf-8"><title>seed</title>' }));
       return { ctx, page };
     };
+    // Firefox logs an image download cut off by navigation as "Image corrupt or truncated" (a console error). The
+    // printer's 2.5 MB paper can still be downloading after a skip, or mid-printer, when the test leaves the page; on
+    // a slow runner that failed the console check (PR #30 CI). So the test never leaves or reloads a page while an
+    // image is still downloading. The game is unchanged and every assertion stands.
+    const imagesIdle = async (page) => {
+      const t = Date.now();
+      while (INFLIGHT.get(page) > 0) {
+        if (Date.now() - t > 30000) throw new Error('images still downloading after 30 s (' + INFLIGHT.get(page) + ')');
+        await page.waitForTimeout(50);
+      }
+    };
     const load = async (page, id, query) => {
-      await page.goto(BASE + '/game/index.html?nosave');
+      await imagesIdle(page);
+      // The save is written from the seed page: /game/index.html?nosave would start a new game, whose Menu -> Prologue
+      // printer begins downloading its paper only for the next navigation to cut it off.
+      await page.goto(BASE + SEED);
       await page.evaluate(([k, v]) => { localStorage.clear(); if (v) localStorage.setItem(k, v); }, [KEY, id ? START[id].save : null]);
       await page.goto(BASE + '/game/index.html' + (query || ''));
       await page.waitForFunction(() => ['true', 'error'].includes(document.body.dataset.ready), null, { timeout: 60000 });
@@ -119,13 +143,19 @@ const server = http.createServer((req, res) => {
     const r0 = await st(page);
     await page.keyboard.press('Enter');
     await page.waitForFunction(() => !!document.getElementById('printTransition'), null, { timeout: 15000 });
+    const tPrint = Date.now();
     await page.waitForTimeout(2500);
+    await imagesIdle(page);
+    // The reload must interrupt a printer still playing: open, not yet complete.
+    const atReload = await page.evaluate(() => ({ open: !!document.getElementById('printTransition') && !!window.CYOA_GAME.chapterTransition.current(), printer: document.body.dataset.printer || null }));
+    atReload.secondsIn = (Date.now() - tPrint) / 1000;
     await page.reload();
     await page.waitForFunction(() => ['true', 'error'].includes(document.body.dataset.ready), null, { timeout: 60000 });
     const sawPrinter = await page.evaluate(() => !!document.getElementById('printTransition'));
     await settle(page);
     const r1 = await st(page);
-    check(B, 'reload', 'a reload mid-printer lands in Chapter 4 with its text: no replay, no second step', !sawPrinter && r1.count === 0 && r1.chapter === 'chapter-04' && r1.steps === r0.steps + 1, { r0, r1, sawPrinter });
+    check(B, 'reload', 'a reload mid-printer lands in Chapter 4 with its text: no replay, no second step', atReload.open && atReload.printer === 'playing' && atReload.secondsIn < 9.68
+      && !sawPrinter && r1.count === 0 && r1.chapter === 'chapter-04' && r1.steps === r0.steps + 1, { atReload, r0, r1, sawPrinter });
 
     // newgame --------------------------------------------------------------------------------------------
     await load(page, null, '?new');
