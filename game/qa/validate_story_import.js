@@ -9,7 +9,7 @@ const fs = require('fs');
 // Game issue #27 reconciliation (docs/107 section 11): the 61 Chapter 4 + Temporary Staff Pass story images (63 + 2,
 // less the 4 death screens, which reach the popup through the death runtime) are built from their canonical production
 // paths with no pending binding: `approved` at step A, `integrated` once the build is published (sync.js publish).
-const CH4_STATUS = 'approved';
+const CH4_STATUS = 'integrated';
 const ch4Art = (a) => /grand_bellevue|pavilion_temporary_staff_pass/.test(a.path) && !a.conditional && a.status !== 'reused'; // the 4 C3 reuse keys stay reused
 const os = require('os');
 const path = require('path');
@@ -134,7 +134,7 @@ const ROUTE_TO_RECEPTION = ['head_to_restroom', 'drone_show_form', 'sign_notice'
   // integration-status reconciliation (section 11: game build abaf917 published by sync.js publish).
   const pavilionArt = (a) => /pavilion_reboot\//.test(a.path);
   check(g, 'every art file is recorded with its artwork status and sha256 (28 integrated Prologue + 30 integrated House + 45 integrated Biology Park + 29 integrated Pavilion images, 61 Chapter 4 + Staff Pass images ' + CH4_STATUS + ' at their production paths, 26 conditional references, 9 reused, nothing bound pending integration)', b.ok
-    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a) && !pavilionArt(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
+    && b.meta.art.filter((a) => a.status === 'integrated' && !houseArt(a) && !parkArt(a) && !pavilionArt(a) && !ch4Art(a)).length === 28 && b.meta.art.filter((a) => a.status === 'integrated' && houseArt(a)).length === 30
     && b.meta.art.filter((a) => a.status === 'integrated' && parkArt(a)).length === 45
     && b.meta.art.filter((a) => a.status === 'integrated' && pavilionArt(a)).length === 29 && b.meta.art.filter(pavilionArt).length === 29
     // Game issue #27: Chapter 4 + Staff Pass, reconciled (docs/107 section 11): 61 story images at their production paths

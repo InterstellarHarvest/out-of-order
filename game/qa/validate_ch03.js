@@ -166,7 +166,7 @@ const REG_STATUS = 'integrated';
 const PASS_PROV = J('art/items/pavilion/pavilion_temporary_staff_pass.provenance.json');
 const CH4_PROV = J('art/grand_bellevue.provenance.json');
 // Status of the reconciled Chapter 4 / Staff Pass records: approved at their paths (step A), integrated once published.
-const CH4_REG_STATUS = 'approved';
+const CH4_REG_STATUS = 'integrated';
 check('registry', 'story/runtime-settings.json has no pending art binding; the Pavilion, Staff Pass and Chapter 4 provenance files record the reconciliation',
   !('pendingArtBindings' in SETTINGS) && [PROV, PASS_PROV, CH4_PROV].every((p) => /^RECONCILED/.test(p.binding || '')), SETTINGS.pendingArtBindings);
 const firstSha = (rec) => { const m = /SHA-256[^0-9a-f]{0,3}([0-9a-f]{64})/.exec(String(rec.notes || '')); return m && m[1]; };
